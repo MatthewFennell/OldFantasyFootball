@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, FormGroup, Form, Label } from 'reactstrap';
-import { register, login, getUser, getButtonMonthInfo } from '../../Services/UserService';
+import { register, login, getUser } from '../../Services/UserService';
 import { RegistrationDetails } from '../../Models/Interfaces/RegistrationDetails';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
@@ -98,9 +98,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
                 username: response.username,
                 balance: response.balance
               });
-            })
-            .then(() => {
-              getButtonMonthInfo().then(response => this.props.setButtonMonthInfo(response));
             })
             .then(() => {
               this.props.history.push('/balance');

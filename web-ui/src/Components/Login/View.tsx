@@ -48,10 +48,7 @@ class Login extends React.Component<UserProps & RouterProps> {
           {this._renderAnimatedWrapper(
             'bubble-largest',
             <Bubble className="bubble-largest bubble-green">
-              <LoginForm
-                setAccount={this.props.setAccount}
-                setButtonMonthInfo={this.props.setButtonMonthInfo}
-              />
+              <LoginForm setAccount={this.props.setAccount} />
             </Bubble>
           )}
         </div>

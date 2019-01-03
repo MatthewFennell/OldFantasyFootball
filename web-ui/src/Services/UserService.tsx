@@ -165,6 +165,7 @@ export const deleteNote = (id: string): Promise<Response> => {
 };
 
 export const login = (data: Credentials): Promise<Tokens> => {
+  console.log('hey');
   return fetch('/api/token', {
     method: 'POST',
     body: JSON.stringify(data),

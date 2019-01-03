@@ -3,17 +3,14 @@ import * as _ from 'lodash';
 import Bubble from '../Reusable/Bubble';
 import BubbleAnimationWrapper from '../Reusable/BubbleAnimationWrapper';
 import TextScottCash from '../Reusable/TextScottCash';
-import { MonthButtonInfo } from '../../Models/Interfaces/MonthButtonInfo';
 import RegisterForm from './RegisterForm';
 import { clearSessionStorage } from '../../Services/CredentialInputService';
 import '../../Style/RegisterForm.css';
 import { Account } from '../../Models/Interfaces/Account';
 
 interface RegisterProps {
-  resetTransactions: () => void;
   resetAccount: () => void;
   setAccount: (account: Account) => void;
-  setButtonMonthInfo: (buttonMonthInfo: Array<MonthButtonInfo>) => void;
   location: any;
   history: any;
 }
@@ -21,7 +18,6 @@ interface RegisterProps {
 class Register extends React.Component<RegisterProps, {}> {
   constructor(props: RegisterProps) {
     super(props);
-    this.props.resetTransactions();
     this.props.resetAccount();
     clearSessionStorage();
   }
@@ -59,10 +55,7 @@ class Register extends React.Component<RegisterProps, {}> {
         {this._renderAnimatedWrapper(
           'bubble-largest',
           <Bubble className="bubble-largest bubble-blue">
-            <RegisterForm
-              setAccount={this.props.setAccount}
-              setButtonMonthInfo={this.props.setButtonMonthInfo}
-            />
+            <RegisterForm setAccount={this.props.setAccount} />
           </Bubble>
         )}
       </div>
