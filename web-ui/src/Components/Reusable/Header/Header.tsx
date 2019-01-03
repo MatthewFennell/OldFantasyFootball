@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Row, Col } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
-import RowMonths from '../../../Containers/RowMonths';
 import { getUser } from '../../../Services/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
 import ButtonPageSelector from './ButtonPageSelector';
@@ -95,7 +94,6 @@ class Header extends React.Component<Props> {
             </div>
           </Col>
         </Row>
-        <RowMonths />
       </div>
     );
   }
