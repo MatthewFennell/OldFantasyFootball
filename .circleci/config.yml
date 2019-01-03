@@ -9,6 +9,7 @@ jobs:
           MYSQL_DATABASE: gradapp
           MYSQL_USER: gradapp
           MYSQL_PASSWORD: passwd
+          JWT_SECRET: sdkjnsdknsgdlksnglkgnsadgnaskngdsakgndakdngkasndgkasndgkjsadngksndgksngadkgsn
     steps:
         # Checkout git project
       - checkout:
