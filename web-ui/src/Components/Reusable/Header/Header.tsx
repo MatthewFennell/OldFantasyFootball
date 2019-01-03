@@ -67,7 +67,7 @@ class Header extends React.Component<Props> {
                 selected={true}
                 select={() => this._onTransactionsSelect()}
                 imgSrc="Transactions.png"
-                text="Transactions"
+                text="My Team"
               />
               <ButtonPageSelector
                 id="categories"
@@ -75,7 +75,7 @@ class Header extends React.Component<Props> {
                 selected={false}
                 select={() => this._onCategoriesSelect()}
                 imgSrc="Categories.png"
-                text="Categories"
+                text="My Leagues"
               />
               <ButtonPageSelector
                 id="settings"
