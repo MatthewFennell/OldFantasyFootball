@@ -1,20 +1,46 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
-import org.joda.time.DateTime;
+import org.hibernate.annotations.Type;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(indexes = {
+        @Index(name = "idx_team_name", columnList = "name", unique = true),
+        @Index(name = "idx_team_goalsFor", columnList = "goalsFor")})
 public class Team {
-    private ApplicationUser user;
-    private DateTime date;
-    private ArrayList<Player> players;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Integer wins;
+
+    @Column(nullable = false)
+    private Integer draws;
+
+    @Column(nullable = false)
+    private Integer losses;
+
+    @Column(nullable = false)
+    private Integer goalsFor;
+
+    @Column(nullable = false)
+    private Integer goalsAgainst;
+
+    @Id
+    @Column
+    @Type(type = "uuid-char")
     private UUID id;
 
-    public Team(ApplicationUser user, DateTime date, ArrayList<Player> players) {
-        this.user = user;
-        this.date = date;
-        this.players = players;
+    public Team(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
+        this.name = name;
+        this.wins = wins;
+        this.draws = draws;
+        this.losses = losses;
+        this.goalsFor = goalsFor;
+        this.goalsAgainst = goalsAgainst;
         id = UUID.randomUUID();
     }
 
@@ -22,27 +48,51 @@ public class Team {
         return id;
     }
 
-    public ApplicationUser getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(ApplicationUser user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public DateTime getDate() {
-        return date;
+    public Integer getWins() {
+        return wins;
     }
 
-    public void setDate(DateTime date) {
-        this.date = date;
+    public void setWins(Integer wins) {
+        this.wins = wins;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public Integer getDraws() {
+        return draws;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
+    public void setDraws(Integer draws) {
+        this.draws = draws;
+    }
+
+    public Integer getLosses() {
+        return losses;
+    }
+
+    public void setLosses(Integer losses) {
+        this.losses = losses;
+    }
+
+    public Integer getGoalsFor() {
+        return goalsFor;
+    }
+
+    public void setGoalsFor(Integer goalsFor) {
+        this.goalsFor = goalsFor;
+    }
+
+    public Integer getGoalsAgainst() {
+        return goalsAgainst;
+    }
+
+    public void setGoalsAgainst(Integer goalsAgainst) {
+        this.goalsAgainst = goalsAgainst;
     }
 }

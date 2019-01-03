@@ -1,19 +1,42 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(indexes = {})
 public class PlayerPoints {
 
+    @Column(nullable = false)
     private Integer numberOfGoals;
+
+    @Column(nullable = false)
     private Integer numberOfAssists;
+
+    @Column(nullable = false)
     private Integer minutesPlayed;
+
+    @Column(nullable = false)
     private boolean manOfTheMatch;
+
+    @Column(nullable = false)
     private Integer yellowCards;
+
+    @Column(nullable = false)
     private boolean redCard;
+
+    @Column(nullable = false)
     private boolean cleanSheet;
+
+    @Column(nullable = false)
     private DateTime date;
+
+    @Id
+    @Column
+    @Type(type = "uuid-char")
     private UUID id;
 
     public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, DateTime date) {
