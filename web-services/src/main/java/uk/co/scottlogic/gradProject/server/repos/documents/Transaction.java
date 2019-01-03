@@ -13,8 +13,6 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(indexes = {@Index(name = "idx_transaction_customer", columnList = "customer"),
-        @Index(name = "idx_transaction_category", columnList = "category"),
-        @Index(name = "idx_transaction_payee", columnList = "payee"),
         @Index(name = "idx_transaction_date", columnList = "date")})
 public class Transaction {
 
