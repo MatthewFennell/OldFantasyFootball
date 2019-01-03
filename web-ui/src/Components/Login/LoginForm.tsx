@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Form, FormGroup, Label, Button } from 'reactstrap';
-import { login, getUser, getButtonMonthInfo } from '../../Services/UserService';
+import { login, getUser } from '../../Services/UserService';
 import { Credentials } from '../../Models/Interfaces/Credentials';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
@@ -68,8 +68,6 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, St
                 balance: response.balance
               });
             })
-            .then(() => getButtonMonthInfo())
-            .then(response => this.props.setButtonMonthInfo(response))
             .then(() => {
               this.props.history.push('/balance');
             })

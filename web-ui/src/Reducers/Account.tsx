@@ -1,10 +1,5 @@
 import { ActionTypes, Action as AccountAction } from '../Actions/AccountActions';
-import {
-  ActionTypes as TransactionActionTypes,
-  Action as TransactionAction
-} from '../Actions/TransactionActions';
-
-type Action = AccountAction | TransactionAction;
+type Action = AccountAction;
 
 // Define our State interface for the current reducer
 export interface State {
@@ -64,19 +59,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 
     case ActionTypes.RESET_ACCOUNT: {
       return initialState;
-    }
-
-    case TransactionActionTypes.LATEST_TRANSACTIONS_SUCCESS: {
-      const balanceChange = action.payload.latestTransactions.reduce(
-        (balance: number, transaction) => {
-          return balance + transaction.amount;
-        },
-        0
-      );
-      return {
-        ...state,
-        balance: state.balance + balanceChange
-      };
     }
 
     default:
