@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { MonthButtonInfo } from '../../../Models/Interfaces/MonthButtonInfo';
 import Transaction from '../../../Models/Types/Transaction';
-import { addTransactionsAbove, addTransactionsBelow } from '../../../Services/UserService';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import * as BufferSizes from '../../Transactions/TransactionBufferSize';
 
 interface ButtonMonthProps {
   transactionsPerPage: number;
@@ -42,33 +40,6 @@ class ButtonMonth extends React.Component<
     let date = new Date(this.props.year, this.props.month, 1).toISOString();
     date = date.replace(':', '%3A');
     date = date.replace('+', '%2B');
-    let transactionsAbove: Array<Transaction>;
-    let transactionsBelow: Array<Transaction>;
-    addTransactionsAbove(date, this.props.transactionsPerPage * BufferSizes.amountToAddAbove)
-      .then(response => {
-        transactionsAbove = response;
-      })
-      .then(() =>
-        addTransactionsBelow(date, this.props.transactionsPerPage * BufferSizes.amountToAddBelow)
-      )
-      .then(response => {
-        transactionsBelow = response;
-      })
-      .then(() => {
-        this.props.setTransactions(transactionsAbove.concat(transactionsBelow));
-      })
-      .then(() => {
-        this.props.history.push('#' + this._determineDestination());
-        if (this._determineDestination() !== null) {
-          let month = document.getElementById(this._determineDestination());
-          var top = month!.getBoundingClientRect().top;
-          window.scrollBy(0, top - 121);
-          month!.classList.add('selectedMonth');
-        }
-      })
-      .then(() => {
-        this.props.setFetchingTransactions(this.props.fetchingTransactions - 1);
-      });
   };
 
   _determineClasses = (): string => {
