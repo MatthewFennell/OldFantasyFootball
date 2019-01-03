@@ -13,128 +13,96 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(indexes = {@Index(name = "idx_transaction_customer", columnList = "customer"),
-    @Index(name = "idx_transaction_category", columnList = "category"),
-    @Index(name = "idx_transaction_payee", columnList = "payee"),
-    @Index(name = "idx_transaction_date", columnList = "date")})
+        @Index(name = "idx_transaction_category", columnList = "category"),
+        @Index(name = "idx_transaction_payee", columnList = "payee"),
+        @Index(name = "idx_transaction_date", columnList = "date")})
 public class Transaction {
 
-  @Id
-  @Type(type = "uuid-char")
-  private UUID id;
+    @Id
+    @Type(type = "uuid-char")
+    private UUID id;
 
-  @ManyToOne
-  @JoinColumn(name = "customer")
-  private ApplicationUser customer;
+    @ManyToOne
+    @JoinColumn(name = "customer")
+    private ApplicationUser customer;
 
-  @ManyToOne
-  @JoinColumn(name = "category")
-  private Category category;
+    private long amount;
 
-  @ManyToOne
-  @JoinColumn(name = "payee")
-  private Payee payee;
+    // The note
+    private String description;
 
-  private long amount;
+    private Date date;
 
-  // The note
-  private String description;
+    // True = Cleared, false = pending
+    private boolean state;
 
-  private Date date;
+    public Transaction(ApplicationUser customer, long amount, String description) {
+        this.customer = customer;
+        this.amount = amount;
+        this.description = description;
+        this.date = new Date();
+        id = UUID.randomUUID();
+    }
 
-  // True = Cleared, false = pending
-  private boolean state;
+    public Transaction() {
+    }
 
-  public Transaction(ApplicationUser customer, long amount, String description, Category category,
-      Payee payee) {
-    this.customer = customer;
-    this.amount = amount;
-    this.description = description;
-    this.category = category;
-    this.payee = payee;
-    this.date = new Date();
-    id = UUID.randomUUID();
-  }
+    public int getMonth() {
+        return new DateTime(this.date).getMonthOfYear();
+    }
 
-  public Transaction() {
-  }
+    public int getYear() {
+        return new DateTime(this.date).getYear();
+    }
 
-  public int getMonth() {
-    return new DateTime(this.date).getMonthOfYear();
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public int getYear() {
-    return new DateTime(this.date).getYear();
-  }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-  public Category getCategory() {
-    return category;
-  }
+    public ApplicationUser getCustomer() {
+        return customer;
+    }
 
-  public void setCategory(Category category) {
-    this.category = category;
-  }
+    public void setCustomer(ApplicationUser customer) {
+        this.customer = customer;
+    }
 
-  public UUID getId() {
-    return id;
-  }
+    public boolean isState() {
+        return state;
+    }
 
-  public void setId(UUID id) {
-    this.id = id;
-  }
+    public void setState(boolean state) {
+        this.state = state;
+    }
 
-  public ApplicationUser getCustomer() {
-    return customer;
-  }
+    public long getAmount() {
+        return amount;
+    }
 
-  public void setCustomer(ApplicationUser customer) {
-    this.customer = customer;
-  }
+    public void setAmount(long amount) {
+        this.amount = amount;
+    }
 
-  public Payee getPayee() {
-    return payee;
-  }
+    public String getDescription() {
+        return description;
+    }
 
-  public void setPayee(Payee payee) {
-    this.payee = payee;
-  }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-  public boolean isState() {
-    return state;
-  }
+    public Date getDate() {
+        return date;
+    }
 
-  public void setState(boolean state) {
-    this.state = state;
-  }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-  public long getAmount() {
-    return amount;
-  }
 
-  public void setAmount(long amount) {
-    this.amount = amount;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Date getDate() {
-    return date;
-  }
-
-  public void setDate(Date date) {
-    this.date = date;
-  }
-
-  @Override
-  public String toString() {
-    return ("Transaction data - " + "Customer:" + customer.getUsername() + ", amount:" + amount
-        + ", description:" + description + ", payee = " + payee.getName() + ", date = " + date
-        + ", state = " + state);
-  }
 
 }
