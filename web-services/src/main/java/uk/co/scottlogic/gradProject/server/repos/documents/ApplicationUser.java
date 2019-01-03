@@ -53,8 +53,6 @@ public class ApplicationUser implements UserDetails, Serializable {
   @Column(nullable = false)
   private Date credentialsExpiry;
 
-  private String displayName;
-
   private String nickname;
 
   @Column(nullable = false)
@@ -70,7 +68,13 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   private boolean enabled = true;
 
-  private long balance;
+  private Integer totalPoints;
+
+  private double remainingBudget;
+
+  private String teamName;
+
+  private Integer remainingTransfers;
 
   @Column
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -97,7 +101,8 @@ public class ApplicationUser implements UserDetails, Serializable {
     setUsername(username);
     savePassword(password);
     id = UUID.randomUUID();
-    this.balance = 1000;
+    this.totalPoints = 0;
+    this.remainingBudget = 100.0;
     setFirstName(firstname);
     setSurname(surname);
     setEmail(email);
@@ -235,6 +240,26 @@ public class ApplicationUser implements UserDetails, Serializable {
     this.surname = surname;
   }
 
+  public String getTeamName(){
+      return teamName;
+  }
+
+  public void setTeamName(String teamName){
+    this.teamName = teamName;
+  }
+
+  public Integer getRemainingTransfers(){
+    return remainingTransfers;
+  }
+
+  public void setRemainingTransfers(Integer remainingTransfers){
+    this.remainingTransfers = remainingTransfers;
+  }
+
+  public void changeRemainingTransfers(Integer change){
+    this.remainingTransfers += change;
+  }
+
   @Override
   public boolean isAccountNonExpired() {
     return new Date().before(accountExpiry);
@@ -255,28 +280,32 @@ public class ApplicationUser implements UserDetails, Serializable {
     return enabled;
   }
 
+  public double getRemainingBudget(){
+    return remainingBudget;
+  }
+
+  public void changeRemainingBudget(double change){
+    this.remainingBudget += change;
+  }
+
+  public void setRemainingBudget(double remainingBudget){
+    this.remainingBudget = remainingBudget;
+  }
+
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
 
-  public long getBalance() {
-    return balance;
+  public long getTotalPoints() {
+    return totalPoints;
   }
 
-  public void setBalance(long balance) {
-    this.balance = balance;
+  public void setTotalPoints(Integer totalPoints) {
+    this.totalPoints = totalPoints;
   }
 
-  public void changeBalance(long change) {
-    balance += change;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
+  public void changeTotalPoints(Integer totalPoints) {
+    totalPoints += totalPoints;
   }
 
   public String getNickname() {

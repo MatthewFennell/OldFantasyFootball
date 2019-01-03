@@ -22,9 +22,7 @@ public class UserReturnDTO {
 
   private Set<GrantedAuthority> authoritySet;
 
-  private double balance;
-
-  private String displayName;
+  private double remainingBudget;
 
   private String nickname;
 
@@ -42,8 +40,7 @@ public class UserReturnDTO {
     this.locked = !user.isAccountNonLocked();
     this.enabled = user.isEnabled();
     this.authoritySet = new HashSet(user.getAuthorities());
-    this.balance = user.getBalance();
-    this.displayName = user.getDisplayName();
+    this.remainingBudget = user.getRemainingBudget();
     this.nickname = user.getNickname();
     this.firstName = user.getFirstName();
     this.surname = user.getSurname();
@@ -62,12 +59,12 @@ public class UserReturnDTO {
     return email;
   }
 
-  public double getBalance() {
-    return balance;
+  public double getRemainingBudget() {
+    return remainingBudget;
   }
 
-  public void setBalance(double balance) {
-    this.balance = balance;
+  public void setRemainingBudget(double remainingBudget) {
+    this.remainingBudget = remainingBudget;
   }
 
   public Set<GrantedAuthority> getAuthoritySet() {
@@ -96,10 +93,6 @@ public class UserReturnDTO {
 
   public boolean isLocked() {
     return locked;
-  }
-
-  public String getDisplayName() {
-    return displayName;
   }
 
   public String getNickname() {

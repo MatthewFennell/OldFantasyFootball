@@ -321,23 +321,13 @@ public class ApplicationUserTest {
     assertFalse(user.isEnabled());
   }
 
-  @Test
-  public void checkBalanceUpdates() {
-    ApplicationUser user = new ApplicationUser();
-    user.setBalance(100);
-    assertEquals(100, user.getBalance());
-    user.changeBalance(150);
-    assertEquals(250, user.getBalance());
-  }
 
   @Test
   public void checkDisplayNameAndNickname() {
     ApplicationUser user = new ApplicationUser();
     String displayName = "display name";
     String nickname = "nickname";
-    user.setDisplayName(displayName);
     user.setNickname(nickname);
-    assertEquals(displayName, user.getDisplayName());
     assertEquals(nickname, user.getNickname());
   }
 
