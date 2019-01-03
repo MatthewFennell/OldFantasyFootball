@@ -12,7 +12,11 @@ public class TeamManager {
     @Autowired
     public TeamManager(TeamRepo teamRepo) {
         this.teamRepo = teamRepo;
-        System.out.println("hello");
+//        makeTeam("A", 10, 0, 1, 50, 3);
+//        makeTeam("B", 8, 2,1, 45,5);
+//        makeTeam("C", 6, 5, 4, 35, 15);
+//        makeTeam("D", 4, 4, 3, 30, 20);
+//        makeTeam("E", 2, 7, 2, 25, 25);
     }
 
 

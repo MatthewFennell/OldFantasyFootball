@@ -7,15 +7,20 @@ import java.util.UUID;
 
 @Entity
 @Table(indexes = {
-        @Index(name = "idx_player_price", columnList = "price")})
+        @Index(name = "idx_player_price", columnList = "price"),
+        @Index(name = "idx_player_team", columnList = "team")})
 public class Player {
 
     @ManyToOne
     @JoinColumn(name = "team")
     private Team activeTeam;
 
+    public enum Position {
+        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
+    }
+
     @Column(nullable = false)
-    private String position;
+    private Position position;
 
     @Column(nullable = false)
     private double price;
@@ -31,13 +36,17 @@ public class Player {
     @Column(nullable = false)
     private String surname;
 
-    public Player(Team activeTeam, String position, double price, String firstName, String surname) {
+    public Player(Team activeTeam, Position position, double price, String firstName, String surname) {
         this.activeTeam = activeTeam;
         this.position = position;
         this.price = price;
         id = UUID.randomUUID();
         setFirstName(firstName);
         setSurname(surname);
+    }
+
+    public Player() {
+
     }
 
     public UUID getId() {
@@ -52,11 +61,11 @@ public class Player {
         this.activeTeam = activeTeam;
     }
 
-    public String getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 

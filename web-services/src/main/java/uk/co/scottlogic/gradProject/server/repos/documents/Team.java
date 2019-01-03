@@ -44,6 +44,10 @@ public class Team {
         id = UUID.randomUUID();
     }
 
+    public Team() {
+
+    }
+
     public UUID getId() {
         return id;
     }
