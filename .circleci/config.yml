@@ -1,0 +1,229 @@
+version: 2
+jobs:
+  build_web-services:
+    working_directory: ~/grad-bank-app/web-services
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: circleci/openjdk:11-jdk-node-browsers # the primary container, where your job's commands are run
+      - image: circleci/mariadb:10.3.10-bionic
+        environment:
+          MYSQL_DATABASE: gradapp
+          MYSQL_USER: gradapp
+          MYSQL_PASSWORD: passwd
+    steps:
+        # Checkout git project
+      - checkout:
+          path: ~/grad-bank-app
+        # Clean
+      - run:
+          name: Gradle clean
+          command: gradle clean
+      ### Build
+      - run:
+          name: Gradle build
+          command: gradle build
+      - run:
+          name: Build Jar
+          command: gradle bootJar
+      - persist_to_workspace:
+          root: ~/grad-bank-app/web-services
+          paths:
+            - Dockerfile
+            - build/libs
+            - build/resources
+      ### Prepare to run jar
+      - run:
+          name: Prepare to run Jar
+          working_directory: ~/grad-bank-app/web-services/build/libs
+          command: |
+            cp ~/grad-bank-app/web-services/src/main/resources/application.properties ./
+            sed -i '/server.ssl.key-store:/c\server.ssl.key-store: ssl.jks' application.properties
+            sed -i '/server.ssl.keyAlias:/c\server.ssl.keyAlias: gradApp' application.properties
+            sed -i '/server.ssl.key-store-password:/c\server.ssl.key-store-password: tempCert' application.properties
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+      - run:
+          name: Run Jar for testing
+          working_directory: ~/grad-bank-app/web-services/build/libs
+          command: java -jar *.jar
+          background: true
+      ### Gradle clean, Run Unit tests, and check Code Coverage
+      - run:
+          name: Gradle test
+          command: gradle check
+        # Store Unit test results
+      - store_artifacts:
+          path: build/reports
+          destination: build_reports
+      - store_test_results:
+          path: build/test-results
+      ### Mocha-Chai testing
+      - restore_cache:
+          key: node_modules-{{ checksum "~/grad-bank-app/web-services/mocha-chai_testing/package.json" }}
+      - run:
+          name: Prepare npm modules
+          working_directory: ~/grad-bank-app/web-services/mocha-chai_testing
+          command: npm install
+      - save_cache:
+          key: node_modules-{{ checksum "~/grad-bank-app/web-services/mocha-chai_testing/package.json" }}
+          paths:
+            - ~/grad-bank-app/web-services/mocha-chai_testing/node_modules
+      - run:
+          name: Run Mocha-Chai Tests
+          working_directory: ~/grad-bank-app/web-services/mocha-chai_testing
+          command: npm run mocha:ci test/api/**
+      - store_artifacts:
+          path: ~/grad-bank-app/web-services/mocha-chai_testing/mochawesome-report
+          destination: api_test_reports
+      - store_test_results:
+          path: ~/grad-bank-app/web-services/mocha-chai_testing/mochawesome-report
+      - run:
+          name: Kill Server
+          command: killall java
+          when: always
+
+  build_web-ui:
+    working_directory: ~/grad-bank-app/web-ui
+    docker: # use the docker executor type; machine and macos executors are also supported
+      - image: circleci/node:10.11.0-browsers # the primary container, where your job's commands are run
+      - image: circleci/python:3.6.6-jessie-node-browsers # the primary container, where your job's commands are run
+    steps:
+      - checkout:
+          path: ~/grad-bank-app
+      ### Jest testing
+      - restore_cache:
+          key: node_modules-{{ checksum "~/grad-bank-app/web-ui/package-lock.json" }}
+      - run:
+          name: Prepare npm modules
+          command: npm ci
+      - run:
+          name: Compile SCSS files to CSS
+          command: npm run-script build-css
+      - run:
+          name: Make a build
+          command: npm run-script build
+      - save_cache:
+          key: node_modules-{{ checksum "~/grad-bank-app/web-ui/package-lock.json" }}
+          paths:
+            - ~/grad-bank-app/web-ui/node_modules
+      - persist_to_workspace:
+          root: ~/grad-bank-app/web-ui
+          paths:
+            - ./.dockerignore
+            - ./Dockerfile
+            - ./build
+            - ./server
+      - run:
+          name: Run ESlint checks
+          command: npm run lint-report
+      - run:
+          name: "JavaScript Test Suite"
+          command: npm run test:all -- --ci --testResultsProcessor="jest-junit"
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/js-test-results.xml"
+      - store_artifacts:
+          path: reports
+          destination: reports
+      - store_test_results:
+          path: reports
+
+  deploy_web-ui:
+    working_directory: ~/web-ui
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-client-repository
+    steps:
+      - attach_workspace:
+          at: ~/web-ui
+      - setup_remote_docker
+      - run:
+          name: "Docker build"
+          command: "docker build -t grad-bank-app-web-ui:latest ."
+          docker_layer_caching: true
+      - run:
+          name: Install the AWS CLI
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install awscli
+      - run:
+          name: Build Docker image
+          working_directory: ~/web-ui
+          command: docker build -t $APPLICATION_NAME:$CIRCLE_BUILD_NUM .
+      - run:
+          name: Push docker image to AWS
+          command: |
+            . venv/bin/activate
+            eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:$CIRCLE_BUILD_NUM
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:$CIRCLE_SHA1
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:latest
+            docker push $REGISTRY:latest
+            docker push $REGISTRY:$CIRCLE_BUILD_NUM
+            docker push $REGISTRY:$CIRCLE_SHA1
+            aws ecs update-service --service GradBankApp-Client-Service-DEV --cluster GradBankApp-Cluster-DEV --force-new-deployment --region $AWS_DEFAULT_REGION
+          environment:
+            AWS_DEFAULT_REGION: eu-west-2
+            AWS_DEFAULT_OUTPUT: text
+            REGISTRY: 032044580362.dkr.ecr.eu-west-2.amazonaws.com/gradbankapp-client-repository
+            REGISTRY_ID: 032044580362
+
+  deploy_web-services:
+    working_directory: ~/web-services
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-api-repository
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/web-services
+      - run:
+          name: Install the AWS CLI
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install awscli
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker image
+          working_directory: ~/web-services
+          command: docker build -t $APPLICATION_NAME:$CIRCLE_BUILD_NUM .
+      - run:
+          name: Push docker image to AWS
+          command: |
+            . venv/bin/activate
+            eval $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:$CIRCLE_BUILD_NUM
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:$CIRCLE_SHA1
+            docker tag $APPLICATION_NAME:$CIRCLE_BUILD_NUM $REGISTRY:latest
+            docker push $REGISTRY:latest
+            docker push $REGISTRY:$CIRCLE_BUILD_NUM
+            docker push $REGISTRY:$CIRCLE_SHA1
+            aws ecs update-service --service GradBankApp-API-Service-DEV --cluster GradBankApp-Cluster-DEV --force-new-deployment --region $AWS_DEFAULT_REGION
+          environment:
+            AWS_DEFAULT_REGION: eu-west-2
+            AWS_DEFAULT_OUTPUT: text
+            REGISTRY: 032044580362.dkr.ecr.eu-west-2.amazonaws.com/gradbankapp-api-repository
+            REGISTRY_ID: 032044580362
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build_web-services
+      - build_web-ui
+      - deploy_web-ui:
+          requires:
+            - build_web-ui
+          filters:
+            branches:
+              only: develop
+      - deploy_web-services:
+          requires:
+            - build_web-services
+          filters:
+            branches:
+              only: develop
