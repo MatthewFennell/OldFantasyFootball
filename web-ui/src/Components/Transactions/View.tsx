@@ -19,6 +19,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   render() {
     return (
       <div id="outer-account-balance">
+        HI THERE
         <div />
       </div>
     );
