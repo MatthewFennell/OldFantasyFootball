@@ -1,13 +1,33 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
+@Table(indexes = {
+        @Index(name = "idx_player_price", columnList = "price")})
 public class Player {
+
+    @Column(nullable = false)
     private String activeTeam;
+
+    @Column(nullable = false)
     private String position;
+
+    @Column(nullable = false)
     private double price;
+
+    @Id
+    @Column
+    @Type(type = "uuid-char")
     private UUID id;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String surname;
 
     public Player(String activeTeam, String position, double price, String firstName, String surname) {
