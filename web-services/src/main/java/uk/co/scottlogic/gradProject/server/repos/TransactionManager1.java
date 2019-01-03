@@ -19,7 +19,6 @@ public class TransactionManager1 {
   @Autowired
   public TransactionManager1(ApplicationUserRepo applicationUserRepo) {
     this.applicationUserRepo = applicationUserRepo;
-
   }
 
 

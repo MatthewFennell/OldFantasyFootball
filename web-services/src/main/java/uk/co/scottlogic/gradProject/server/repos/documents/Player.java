@@ -10,8 +10,9 @@ import java.util.UUID;
         @Index(name = "idx_player_price", columnList = "price")})
 public class Player {
 
-    @Column(nullable = false)
-    private String activeTeam;
+    @ManyToOne
+    @JoinColumn(name = "team")
+    private Team activeTeam;
 
     @Column(nullable = false)
     private String position;
@@ -30,7 +31,7 @@ public class Player {
     @Column(nullable = false)
     private String surname;
 
-    public Player(String activeTeam, String position, double price, String firstName, String surname) {
+    public Player(Team activeTeam, String position, double price, String firstName, String surname) {
         this.activeTeam = activeTeam;
         this.position = position;
         this.price = price;
@@ -43,11 +44,11 @@ public class Player {
         return id;
     }
 
-    public String getActiveTeam() {
+    public Team getActiveTeam() {
         return activeTeam;
     }
 
-    public void setActiveTeam(String activeTeam) {
+    public void setActiveTeam(Team activeTeam) {
         this.activeTeam = activeTeam;
     }
 
