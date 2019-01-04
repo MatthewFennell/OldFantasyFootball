@@ -47,7 +47,7 @@ public class WeeklyTeamManager {
         }
     }
 
-    private double getValueOfSquad(ApplicationUser) {
+    private double getValueOfSquad(ApplicationUser user) {
         return 0;
     }
 }
