@@ -47,11 +47,11 @@ public class PlayerManager {
 //            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
 //        }
 
-        Optional<Player> player = playerRepo.findByFirstName("Kevin");
-        if (player.isPresent()){
-            Player p = player.get();
-            addPointsToPlayer(p, new Date(), 10, 5, false, 90, 0, false, false);
-        }
+//        Optional<Player> player = playerRepo.findByFirstName("Kevin");
+//        if (player.isPresent()){
+//            Player p = player.get();
+//            addPointsToPlayer(p, new Date(), 10, 5, false, 90, 0, false, false);
+//        }
     }
 
 
