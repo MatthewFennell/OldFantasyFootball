@@ -6,8 +6,8 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class WeeklyTeamManager {
@@ -38,10 +38,19 @@ public class WeeklyTeamManager {
 
     }
 
-    // Adds to the first weekly team it finds
-    private void addPlayerToSquad(ApplicationUser user, Player player){
+    public List<Player> getActiveTeam(ApplicationUser user) {
         List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()){
+        if (!teams.isEmpty()) {
+            return teams.get(0).getPlayers();
+        } else {
+            throw new IllegalArgumentException("You have no team!");
+        }
+    }
+
+    // Adds to the first weekly team it finds
+    private void addPlayerToSquad(ApplicationUser user, Player player) {
+        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+        if (!teams.isEmpty()) {
             UsersWeeklyTeam team = teams.get(0);
             team.getPlayers().add(player);
             weeklyTeamRepo.save(team);
@@ -49,9 +58,9 @@ public class WeeklyTeamManager {
         }
     }
 
-    private void removePlayerFromSquad(ApplicationUser user, Player player){
+    private void removePlayerFromSquad(ApplicationUser user, Player player) {
         List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()){
+        if (!teams.isEmpty()) {
             UsersWeeklyTeam team = teams.get(0);
             team.getPlayers().remove(player);
             weeklyTeamRepo.save(team);
@@ -62,17 +71,17 @@ public class WeeklyTeamManager {
     private double getValueOfActiveSquad(ApplicationUser user) {
         double totalValue = 0.0;
         List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()){
+        if (!teams.isEmpty()) {
             UsersWeeklyTeam activeTeam = teams.get(0);
             List<Player> players = activeTeam.getPlayers();
-            for (Player p : players){
+            for (Player p : players) {
                 totalValue += p.getPrice();
             }
         }
         return totalValue;
     }
 
-    private ArrayList<Integer> getNumberOfEachPositionInActiveTeam(ApplicationUser user){
+    private ArrayList<Integer> getNumberOfEachPositionInActiveTeam(ApplicationUser user) {
         ArrayList<Integer> quantityPerPosition = new ArrayList<>();
         quantityPerPosition.add(0);     // GOALKEEPERS
         quantityPerPosition.add(0);     // DEFENDERS
@@ -83,18 +92,15 @@ public class WeeklyTeamManager {
         if (!teams.isEmpty()) {
             UsersWeeklyTeam activeTeam = teams.get(0);
             List<Player> players = activeTeam.getPlayers();
-            for (Player p : players){
-                if (p.getPosition() == Player.Position.GOALKEEPER){
-                    quantityPerPosition.set(0, quantityPerPosition.get(0)+1);
-                }
-                else if (p.getPosition() == Player.Position.DEFENDER){
-                    quantityPerPosition.set(1, quantityPerPosition.get(1)+1);
-                }
-                else if (p.getPosition() == Player.Position.MIDFIELDER){
-                    quantityPerPosition.set(2, quantityPerPosition.get(2)+1);
-                }
-                else if (p.getPosition() == Player.Position.ATTACKER){
-                    quantityPerPosition.set(3, quantityPerPosition.get(3)+1);
+            for (Player p : players) {
+                if (p.getPosition() == Player.Position.GOALKEEPER) {
+                    quantityPerPosition.set(0, quantityPerPosition.get(0) + 1);
+                } else if (p.getPosition() == Player.Position.DEFENDER) {
+                    quantityPerPosition.set(1, quantityPerPosition.get(1) + 1);
+                } else if (p.getPosition() == Player.Position.MIDFIELDER) {
+                    quantityPerPosition.set(2, quantityPerPosition.get(2) + 1);
+                } else if (p.getPosition() == Player.Position.ATTACKER) {
+                    quantityPerPosition.set(3, quantityPerPosition.get(3) + 1);
                 }
             }
         }

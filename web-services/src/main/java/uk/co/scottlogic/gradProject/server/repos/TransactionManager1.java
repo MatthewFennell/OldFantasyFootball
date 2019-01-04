@@ -8,20 +8,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransactionManager1 {
 
-  private static final Logger log = LoggerFactory.getLogger(TransactionManager1.class);
+    private static final Logger log = LoggerFactory.getLogger(TransactionManager1.class);
 
-  private ApplicationUserRepo applicationUserRepo;
+    private ApplicationUserRepo applicationUserRepo;
 
-  // Methods on transactions
-  private TransactionRepo transactionRepo;
-
-
-  @Autowired
-  public TransactionManager1(ApplicationUserRepo applicationUserRepo) {
-    this.applicationUserRepo = applicationUserRepo;
-  }
+    // Methods on transactions
+    private TransactionRepo transactionRepo;
 
 
+    @Autowired
+    public TransactionManager1(ApplicationUserRepo applicationUserRepo) {
+        this.applicationUserRepo = applicationUserRepo;
+    }
 
 
 }

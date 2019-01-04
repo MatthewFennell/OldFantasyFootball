@@ -14,25 +14,16 @@ public class Player {
     @OneToOne
     @JoinColumn(name = "college_team")
     private CollegeTeam activeTeam;
-
-    public enum Position {
-        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
-    }
-
     @Column(nullable = false)
     private Position position;
-
     @Column(nullable = false)
     private double price;
-
     @Id
     @Column
     @Type(type = "uuid-char")
     private UUID id;
-
     @Column(nullable = false)
     private String firstName;
-
     @Column(nullable = false)
     private String surname;
 
@@ -93,16 +84,16 @@ public class Player {
         this.surname = surname;
     }
 
-    public boolean equals(Object obj){
-        if (obj == this){
+    public boolean equals(Object obj) {
+        if (obj == this) {
             return true;
         }
-        if (obj.getClass() == Player.class){
-            Player comparison = (Player)obj;
-            if (comparison.getPrice() == this.getPrice()){
-                if (comparison.getSurname().equals(this.getSurname())){
-                    if (comparison.getFirstName().equals(this.getFirstName())){
-                        if (comparison.getPosition() == this.getPosition()){
+        if (obj.getClass() == Player.class) {
+            Player comparison = (Player) obj;
+            if (comparison.getPrice() == this.getPrice()) {
+                if (comparison.getSurname().equals(this.getSurname())) {
+                    if (comparison.getFirstName().equals(this.getFirstName())) {
+                        if (comparison.getPosition() == this.getPosition()) {
                             return true;
                         }
                     }
@@ -110,5 +101,9 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public enum Position {
+        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
     }
 }

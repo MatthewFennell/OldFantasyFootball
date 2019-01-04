@@ -1,19 +1,15 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
-import java.util.Date;
-import java.util.UUID;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import javax.persistence.*;
+import java.util.Date;
+import java.util.UUID;
+
 @Entity
 @Table(indexes = {@Index(name = "idx_transaction_customer", columnList = "customer"),
-                  @Index(name = "idx_transaction_date", columnList = "date")})
+        @Index(name = "idx_transaction_date", columnList = "date")})
 public class Transaction {
 
     @Id
@@ -100,7 +96,6 @@ public class Transaction {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
 
 }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../Style/Transactions.css';
+import ActiveTeam from '../../Containers/ActiveTeam';
 
 interface TransactionsProps {}
 
@@ -18,8 +18,8 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 
   render() {
     return (
-      <div id="outer-account-balance">
-        HI THERE
+      <div id="my-team">
+        <ActiveTeam />
         <div />
       </div>
     );

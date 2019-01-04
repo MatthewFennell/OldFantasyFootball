@@ -56,7 +56,7 @@ public class PlayerPoints {
         this.player = player;
     }
 
-    private PlayerPoints(){
+    private PlayerPoints() {
 
     }
 
