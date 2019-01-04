@@ -1,6 +1,7 @@
 import { ActionTypes, Action as ActiveTeamAction } from '../Actions/ActiveTeamActions';
-type Action = ActiveTeamAction;
 import { Player } from '../Models/Interfaces/Player';
+
+type Action = ActiveTeamAction;
 
 // Define our State interface for the current reducer
 export interface State {
