@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 
 @Repository
-public interface TeamRepo extends CrudRepository<CollegeTeam, UUID> {
+public interface CollegeTeamRepo extends CrudRepository<CollegeTeam, UUID> {
 
     public List<CollegeTeam> findByName(String name);
 

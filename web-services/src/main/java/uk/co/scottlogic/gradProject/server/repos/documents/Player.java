@@ -8,11 +8,11 @@ import java.util.UUID;
 @Entity
 @Table(indexes = {
         @Index(name = "idx_player_price", columnList = "price"),
-        @Index(name = "idx_player_team", columnList = "team")})
+        @Index(name = "idx_player_team", columnList = "college_team")})
 public class Player {
 
     @OneToOne
-    @JoinColumn(name = "team")
+    @JoinColumn(name = "college_team")
     private CollegeTeam activeTeam;
 
     public enum Position {

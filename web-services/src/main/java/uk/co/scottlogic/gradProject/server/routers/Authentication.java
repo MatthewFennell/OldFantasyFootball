@@ -126,6 +126,8 @@ public class Authentication {
         user.addAuthority(new UserAuthority("ROLE_ADMIN"));
       }
       applicationUserRepo.save(user);
+      UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>());
+      weeklyTeamRepo.save(team);
       response.setStatus(201);
       return new UserReturnDTO(user);
     } catch (DataIntegrityViolationException e) {
