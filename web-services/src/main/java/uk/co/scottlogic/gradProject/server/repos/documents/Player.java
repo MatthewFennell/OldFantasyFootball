@@ -11,9 +11,9 @@ import java.util.UUID;
         @Index(name = "idx_player_team", columnList = "team")})
 public class Player {
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "team")
-    private Team activeTeam;
+    private CollegeTeam activeTeam;
 
     public enum Position {
         GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
@@ -36,7 +36,7 @@ public class Player {
     @Column(nullable = false)
     private String surname;
 
-    public Player(Team activeTeam, Position position, double price, String firstName, String surname) {
+    public Player(CollegeTeam activeTeam, Position position, double price, String firstName, String surname) {
         this.activeTeam = activeTeam;
         this.position = position;
         this.price = price;
@@ -53,11 +53,11 @@ public class Player {
         return id;
     }
 
-    public Team getActiveTeam() {
+    public CollegeTeam getActiveTeam() {
         return activeTeam;
     }
 
-    public void setActiveTeam(Team activeTeam) {
+    public void setActiveTeam(CollegeTeam activeTeam) {
         this.activeTeam = activeTeam;
     }
 

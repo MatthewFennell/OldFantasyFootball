@@ -1,21 +1,44 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+@Entity
+@Table()
 public class UsersWeeklyTeam {
+
+
+    @OneToOne
+    @JoinColumn(name = "customer")
     private ApplicationUser user;
-    private DateTime date;
-    private ArrayList<Player> players;
+
+    @Column(nullable = false)
+    private Date date;
+
+    @ManyToMany
+    @JoinColumn(name = "players")
+    @Column
+    private List<Player> players;
+
+    @Id
+    @Column
+    @Type(type = "uuid-char")
     private UUID id;
 
-    public UsersWeeklyTeam(ApplicationUser user, DateTime date, ArrayList<Player> players) {
+    public UsersWeeklyTeam(ApplicationUser user, Date date, List<Player> players) {
         this.user = user;
         this.date = date;
         this.players = players;
         id = UUID.randomUUID();
+    }
+
+    private UsersWeeklyTeam(){
+
     }
 
     public UUID getId() {
@@ -30,19 +53,19 @@ public class UsersWeeklyTeam {
         this.user = user;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 }

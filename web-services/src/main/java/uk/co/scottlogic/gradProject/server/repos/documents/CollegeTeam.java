@@ -9,7 +9,7 @@ import java.util.UUID;
 @Table(indexes = {
         @Index(name = "idx_team_name", columnList = "name", unique = true),
         @Index(name = "idx_team_goalsFor", columnList = "goalsFor")})
-public class Team {
+public class CollegeTeam {
 
     @Column(nullable = false)
     private String name;
@@ -34,7 +34,7 @@ public class Team {
     @Type(type = "uuid-char")
     private UUID id;
 
-    public Team(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
+    public CollegeTeam(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
         this.name = name;
         this.wins = wins;
         this.draws = draws;
@@ -44,7 +44,7 @@ public class Team {
         id = UUID.randomUUID();
     }
 
-    public Team() {
+    public CollegeTeam() {
 
     }
 

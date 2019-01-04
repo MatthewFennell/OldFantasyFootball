@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import javax.servlet.http.HttpServletResponse;
+
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
 import uk.co.scottlogic.gradProject.server.auth.TokenPair;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
+import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
+import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.LoginDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TokenReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -36,11 +45,14 @@ public class Authentication {
 
   private ApplicationUserRepo applicationUserRepo;
 
+  private WeeklyTeamRepo weeklyTeamRepo;
+
   @Autowired
   public Authentication(ApplicationUserRepo applicationUserRepo,
-      JwtTokenProvider jwtTokenProvider) {
+      JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo) {
     this.applicationUserRepo = applicationUserRepo;
     this.jwtTokenProvider = jwtTokenProvider;
+    this.weeklyTeamRepo = weeklyTeamRepo;
   }
 
   @ApiOperation(value = "Login: Fetches a token pair for the user, either pass refresh token or "
