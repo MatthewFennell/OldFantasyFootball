@@ -92,4 +92,23 @@ public class Player {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+    public boolean equals(Object obj){
+        if (obj == this){
+            return true;
+        }
+        if (obj.getClass() == Player.class){
+            Player comparison = (Player)obj;
+            if (comparison.getPrice() == this.getPrice()){
+                if (comparison.getSurname().equals(this.getSurname())){
+                    if (comparison.getFirstName().equals(this.getFirstName())){
+                        if (comparison.getPosition() == this.getPosition()){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

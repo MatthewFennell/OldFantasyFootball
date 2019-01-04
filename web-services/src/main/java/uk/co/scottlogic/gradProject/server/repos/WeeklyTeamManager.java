@@ -6,10 +6,8 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 public class WeeklyTeamManager {
@@ -29,12 +27,15 @@ public class WeeklyTeamManager {
         this.teamRepo = teamRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
 
-//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-//        if (user.isPresent()){
-//            ApplicationUser u = user.get();
-//            Optional<Player> player = playeRepo.findByFirstName("Paco");
-//            player.ifPresent(player1 -> addPlayerToSquad(u, player1));
-//        }
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+        if (user.isPresent()){
+            ApplicationUser u = user.get();
+            Optional<Player> player = playeRepo.findByFirstName("Phil");
+            player.ifPresent(player1 -> removePlayerFromSquad(u, player1));
+            ArrayList<Integer> positions = getNumberOfEachPositionInActiveTeam(u);
+            System.out.println("squad = " + positions);
+        }
+
     }
 
     // Adds to the first weekly team it finds
@@ -44,10 +45,59 @@ public class WeeklyTeamManager {
             UsersWeeklyTeam team = teams.get(0);
             team.getPlayers().add(player);
             weeklyTeamRepo.save(team);
+            System.out.println("Added player " + player.getFirstName() + " to user " + user.getFirstName());
         }
     }
 
-    private double getValueOfSquad(ApplicationUser user) {
-        return 0;
+    private void removePlayerFromSquad(ApplicationUser user, Player player){
+        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+        if (!teams.isEmpty()){
+            UsersWeeklyTeam team = teams.get(0);
+            team.getPlayers().remove(player);
+            weeklyTeamRepo.save(team);
+            System.out.println("Removed player " + player.getFirstName() + " from user " + user.getFirstName());
+        }
+    }
+
+    private double getValueOfActiveSquad(ApplicationUser user) {
+        double totalValue = 0.0;
+        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+        if (!teams.isEmpty()){
+            UsersWeeklyTeam activeTeam = teams.get(0);
+            List<Player> players = activeTeam.getPlayers();
+            for (Player p : players){
+                totalValue += p.getPrice();
+            }
+        }
+        return totalValue;
+    }
+
+    private ArrayList<Integer> getNumberOfEachPositionInActiveTeam(ApplicationUser user){
+        ArrayList<Integer> quantityPerPosition = new ArrayList<>();
+        quantityPerPosition.add(0);     // GOALKEEPERS
+        quantityPerPosition.add(0);     // DEFENDERS
+        quantityPerPosition.add(0);     // MIDFIELDERS
+        quantityPerPosition.add(0);     // ATTACKERS
+
+        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+        if (!teams.isEmpty()) {
+            UsersWeeklyTeam activeTeam = teams.get(0);
+            List<Player> players = activeTeam.getPlayers();
+            for (Player p : players){
+                if (p.getPosition() == Player.Position.GOALKEEPER){
+                    quantityPerPosition.set(0, quantityPerPosition.get(0)+1);
+                }
+                else if (p.getPosition() == Player.Position.DEFENDER){
+                    quantityPerPosition.set(1, quantityPerPosition.get(1)+1);
+                }
+                else if (p.getPosition() == Player.Position.MIDFIELDER){
+                    quantityPerPosition.set(2, quantityPerPosition.get(2)+1);
+                }
+                else if (p.getPosition() == Player.Position.ATTACKER){
+                    quantityPerPosition.set(3, quantityPerPosition.get(3)+1);
+                }
+            }
+        }
+        return quantityPerPosition;
     }
 }
