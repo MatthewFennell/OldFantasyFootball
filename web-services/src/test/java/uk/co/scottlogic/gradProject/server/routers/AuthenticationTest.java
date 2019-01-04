@@ -36,6 +36,7 @@ public class AuthenticationTest {
   @Mock
   private JwtTokenProvider jwtTokenProvider;
 
+  @Mock
   private WeeklyTeamRepo weeklyTeamRepo;
 
   private Authentication authentication;
