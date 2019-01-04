@@ -25,7 +25,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 
     case ActionTypes.SET_TEAM: {
       const activeTeam = action.payload.activeTeam;
-      console.log('active team = ' + JSON.stringify(action));
       return {
         ...state,
         activeTeam

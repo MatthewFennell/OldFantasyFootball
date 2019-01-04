@@ -61,6 +61,4 @@ public class ApplicationUserManager {
             applicationUserRepo.save(u);
         }
     }
-
-
 }
