@@ -4,23 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
+import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PlayerManager {
 
-    private TeamRepo teamRepo;
+    private CollegeTeamRepo teamRepo;
 
     private PlayerRepo playerRepo;
 
+    private PlayerPointsRepo playerPointsRepo;
+
     @Autowired
-    public PlayerManager(TeamRepo teamRepo, PlayerRepo playerRepo) {
+    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo, PlayerPointsRepo playerPointsRepo) {
         this.teamRepo = teamRepo;
         this.playerRepo = playerRepo;
-
-
+        this.playerPointsRepo = playerPointsRepo;
 
 //        List<CollegeTeam> team = teamRepo.findByName("A");
 //        if (!team.isEmpty()){
@@ -43,6 +46,12 @@ public class PlayerManager {
 //            makePlayer(team.get(0), Player.Position.DEFENDER, 9.5, "Herbie", "");
 //            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
 //        }
+
+//        Optional<Player> player = playerRepo.findByFirstName("Kevin");
+//        if (player.isPresent()){
+//            Player p = player.get();
+//            addPointsToPlayer(p, new Date(), 10, 5, false, 90, 0, false, false);
+//        }
     }
 
 
@@ -55,6 +64,10 @@ public class PlayerManager {
         else{
             throw new IllegalArgumentException("Invalid Team ID");
         }
+    }
+
+    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch){
+        playerPointsRepo.save(new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player));
     }
 
 }

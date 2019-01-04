@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 
 @Service
-public class TeamManager {
+public class CollegeTeamManager {
 
-    private TeamRepo teamRepo;
+    private CollegeTeamRepo teamRepo;
 
     @Autowired
-    public TeamManager(TeamRepo teamRepo) {
+    public CollegeTeamManager(CollegeTeamRepo teamRepo) {
         this.teamRepo = teamRepo;
 //        makeTeam("A", 10, 0, 1, 50, 3);
 //        makeTeam("B", 8, 2,1, 45,5);

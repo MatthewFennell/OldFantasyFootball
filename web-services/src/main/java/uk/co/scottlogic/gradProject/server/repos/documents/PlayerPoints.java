@@ -1,9 +1,9 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -32,14 +32,18 @@ public class PlayerPoints {
     private boolean cleanSheet;
 
     @Column(nullable = false)
-    private DateTime date;
+    private Date date;
+
+    @ManyToOne
+    @JoinColumn
+    private Player player;
 
     @Id
     @Column
     @Type(type = "uuid-char")
     private UUID id;
 
-    public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, DateTime date) {
+    public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, Date date, Player player) {
         this.numberOfGoals = goals;
         this.numberOfAssists = assists;
         this.minutesPlayed = mins;
@@ -49,10 +53,23 @@ public class PlayerPoints {
         this.cleanSheet = clean;
         this.date = date;
         id = UUID.randomUUID();
+        this.player = player;
+    }
+
+    private PlayerPoints(){
+
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public Integer getNumberOfGoals() {
@@ -111,11 +128,11 @@ public class PlayerPoints {
         this.cleanSheet = cleanSheet;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }

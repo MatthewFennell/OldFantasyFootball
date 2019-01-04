@@ -9,12 +9,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table()
+@Table(indexes = {
+        @Index(name = "idx_team_date", columnList = "date")})
 public class UsersWeeklyTeam {
 
 
     @OneToOne
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "user")
     private ApplicationUser user;
 
     @Column(nullable = false)
@@ -67,5 +68,9 @@ public class UsersWeeklyTeam {
 
     public void setPlayers(List<Player> players) {
         this.players = players;
+    }
+
+    public void addPlayer(Player player){
+        players.add(player);
     }
 }
