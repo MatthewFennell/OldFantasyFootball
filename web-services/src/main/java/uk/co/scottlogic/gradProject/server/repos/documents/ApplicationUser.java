@@ -7,24 +7,11 @@ import static uk.co.scottlogic.gradProject.server.misc.Regex.SURNAME_PATTERN;
 import static uk.co.scottlogic.gradProject.server.misc.Regex.USERNAME_PATTERN;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import java.util.*;
+import javax.persistence.*;
+
 import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -76,6 +63,10 @@ public class ApplicationUser implements UserDetails, Serializable {
 
   private Integer remainingTransfers;
 
+//  @OneToOne
+//  @JoinColumn(name = "activeTeam")
+//  private UsersWeeklyTeam activeTeam;
+
   @Column
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
   @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
@@ -106,7 +97,16 @@ public class ApplicationUser implements UserDetails, Serializable {
     setFirstName(firstname);
     setSurname(surname);
     setEmail(email);
+//    this.activeTeam = new UsersWeeklyTeam(this, new DateTime(), new ArrayList<>());
   }
+
+//  public UsersWeeklyTeam getActiveTeam() {
+//    return activeTeam;
+//  }
+//
+//  public void setActiveTeam(UsersWeeklyTeam activeTeam) {
+//    this.activeTeam = activeTeam;
+//  }
 
   public Collection<RefreshToken> getActiveTokens() {
     return activeTokens;

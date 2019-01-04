@@ -2,7 +2,7 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.repos.documents.Team;
+import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 
 @Service
 public class TeamManager {
@@ -21,7 +21,7 @@ public class TeamManager {
 
 
     public void makeTeam(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst){
-        Team team = new Team(name, wins, draws, losses, goalsFor, goalsAgainst);
+        CollegeTeam team = new CollegeTeam(name, wins, draws, losses, goalsFor, goalsAgainst);
         teamRepo.save(team);
     }
 }
