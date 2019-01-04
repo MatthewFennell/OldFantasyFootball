@@ -27,14 +27,14 @@ public class WeeklyTeamManager {
         this.teamRepo = teamRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
 
-        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-        if (user.isPresent()){
-            ApplicationUser u = user.get();
-            Optional<Player> player = playeRepo.findByFirstName("Phil");
-            player.ifPresent(player1 -> removePlayerFromSquad(u, player1));
-            ArrayList<Integer> positions = getNumberOfEachPositionInActiveTeam(u);
-            System.out.println("squad = " + positions);
-        }
+//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+//        if (user.isPresent()){
+//            ApplicationUser u = user.get();
+//            Optional<Player> player = playeRepo.findByFirstName("Phil");
+//            player.ifPresent(player1 -> removePlayerFromSquad(u, player1));
+//            ArrayList<Integer> positions = getNumberOfEachPositionInActiveTeam(u);
+//            System.out.println("squad = " + positions);
+//        }
 
     }
 
