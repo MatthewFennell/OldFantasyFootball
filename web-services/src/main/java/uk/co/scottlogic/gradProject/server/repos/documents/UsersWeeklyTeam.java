@@ -1,7 +1,6 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -38,7 +37,7 @@ public class UsersWeeklyTeam {
         id = UUID.randomUUID();
     }
 
-    private UsersWeeklyTeam(){
+    private UsersWeeklyTeam() {
 
     }
 
@@ -70,7 +69,7 @@ public class UsersWeeklyTeam {
         this.players = players;
     }
 
-    public void addPlayer(Player player){
+    public void addPlayer(Player player) {
         players.add(player);
     }
 

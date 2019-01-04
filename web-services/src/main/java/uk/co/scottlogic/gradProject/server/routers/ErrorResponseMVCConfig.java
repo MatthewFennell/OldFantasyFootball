@@ -8,12 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ErrorResponseMVCConfig implements WebMvcConfigurer {
 
-  @Autowired
-  private ErrorResponseInterceptor errorResponseInterceptor;
+    @Autowired
+    private ErrorResponseInterceptor errorResponseInterceptor;
 
-  @Override
-  public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(errorResponseInterceptor)
-      .addPathPatterns("/api/**");
-  }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(errorResponseInterceptor)
+                .addPathPatterns("/api/**");
+    }
 }

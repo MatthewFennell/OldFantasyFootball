@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import javax.servlet.http.HttpServletResponse;
-
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ import uk.co.scottlogic.gradProject.server.auth.TokenPair;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.LoginDTO;
@@ -29,126 +26,126 @@ import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TokenReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @Api(value = "Authentication", description = "Operations pertaining to User details (For "
-    + "authentication see token)")
+        + "authentication see token)")
 public class Authentication {
 
-  private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(Token.class);
 
-  private JwtTokenProvider jwtTokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
 
-  private ApplicationUserRepo applicationUserRepo;
+    private ApplicationUserRepo applicationUserRepo;
 
-  private WeeklyTeamRepo weeklyTeamRepo;
+    private WeeklyTeamRepo weeklyTeamRepo;
 
-  @Autowired
-  public Authentication(ApplicationUserRepo applicationUserRepo,
-      JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo) {
-    this.applicationUserRepo = applicationUserRepo;
-    this.jwtTokenProvider = jwtTokenProvider;
-    this.weeklyTeamRepo = weeklyTeamRepo;
-  }
-
-  @ApiOperation(value = "Login: Fetches a token pair for the user, either pass refresh token or "
-      + "basic credentials")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it",
-          response = void.class),
-      @ApiResponse(code = 201, message = "Successful login/refresh", response =
-          TokenReturnDTO.class),
-      @ApiResponse(code = 403, message = "Forbidden - Login failed")})
-  @PostMapping(value = "/token", produces = "application/json", consumes = "application/json")
-  public TokenReturnDTO login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
-    try {
-      switch (loginDTO.isValid()) {
-        case CORRECT:
-          break;
-        case FIELD_ERROR:
-          response.sendError(400, "Request Format Invalid."); //
-          return null;
-        case USERNAME_ERROR:
-          response.sendError(403, "Username Invalid Format."); //
-          return null;
-        case PASSWORD_ERROR:
-          response.sendError(403, "Password Invalid Format."); //
-          return null;
-      }
-      if (loginDTO.isRefresh()) {
-        TokenPair returnable = jwtTokenProvider.refresh(loginDTO.getRefresh());
-        if (returnable == null) {
-          response.setStatus(403); //
-          return null;
-        }
-        response.setStatus(201); //
-        return new TokenReturnDTO(returnable);
-      } else {
-        TokenPair returnable = jwtTokenProvider.login(loginDTO.getUsername(),
-            loginDTO.getPassword());
-        if (returnable == null) {
-          response.setStatus(403); //
-          return null;
-        }
-        response.setStatus(201); //
-        return new TokenReturnDTO(returnable);
-      }
-    } catch (AuthenticationCredentialsNotFoundException E) {
-      response.setStatus(403);
-      return null;
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println(e.getClass());
-      response.setStatus(500);
-      return null;
+    @Autowired
+    public Authentication(ApplicationUserRepo applicationUserRepo,
+                          JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo) {
+        this.applicationUserRepo = applicationUserRepo;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.weeklyTeamRepo = weeklyTeamRepo;
     }
-  }
 
-  @ApiOperation(value = "Registers a new user")
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-      @ApiResponse(code = 201, message = "User successfully registered"),
-      @ApiResponse(code = 400, message = "Invalid parameters"),
-      @ApiResponse(code = 401, message = "Invalid username / password"),
-      @ApiResponse(code = 409, message = "User exists")})
-  @PostMapping(value = "/user")
-  public UserReturnDTO register(@RequestBody RegisterDTO registerDTO,
-      HttpServletResponse response) {
-    try {
-      ApplicationUser user = new ApplicationUser(registerDTO);
-      UserAuthority userRole = new UserAuthority("ROLE_USER");
-      user.addAuthority(userRole);
-      if (applicationUserRepo.count() == 0) {
-        user.addAuthority(new UserAuthority("ROLE_ADMIN"));
-      }
-      applicationUserRepo.save(user);
-      UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>());
-      Date date = new DateTime().minusMonths(5).toDate();
-      UsersWeeklyTeam team1 = new UsersWeeklyTeam(user, date, new ArrayList<>());
-      weeklyTeamRepo.save(team);
-      weeklyTeamRepo.save(team1);
-      response.setStatus(201);
-      return new UserReturnDTO(user);
-    } catch (DataIntegrityViolationException e) {
-      try {
-        response.sendError(409, e.getMessage());
-      } catch (Exception f) {
-        response.setStatus(409);
-      }
-    } catch (IllegalArgumentException e) {
-      try {
-        response.sendError(400, e.getMessage());
-      } catch (Exception f) {
-        response.setStatus(400);
-      }
-    } catch (AuthenticationCredentialsNotFoundException e) {
-      response.setStatus(401);
+    @ApiOperation(value = "Login: Fetches a token pair for the user, either pass refresh token or "
+            + "basic credentials")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it",
+                    response = void.class),
+            @ApiResponse(code = 201, message = "Successful login/refresh", response =
+                    TokenReturnDTO.class),
+            @ApiResponse(code = 403, message = "Forbidden - Login failed")})
+    @PostMapping(value = "/token", produces = "application/json", consumes = "application/json")
+    public TokenReturnDTO login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
+        try {
+            switch (loginDTO.isValid()) {
+                case CORRECT:
+                    break;
+                case FIELD_ERROR:
+                    response.sendError(400, "Request Format Invalid."); //
+                    return null;
+                case USERNAME_ERROR:
+                    response.sendError(403, "Username Invalid Format."); //
+                    return null;
+                case PASSWORD_ERROR:
+                    response.sendError(403, "Password Invalid Format."); //
+                    return null;
+            }
+            if (loginDTO.isRefresh()) {
+                TokenPair returnable = jwtTokenProvider.refresh(loginDTO.getRefresh());
+                if (returnable == null) {
+                    response.setStatus(403); //
+                    return null;
+                }
+                response.setStatus(201); //
+                return new TokenReturnDTO(returnable);
+            } else {
+                TokenPair returnable = jwtTokenProvider.login(loginDTO.getUsername(),
+                        loginDTO.getPassword());
+                if (returnable == null) {
+                    response.setStatus(403); //
+                    return null;
+                }
+                response.setStatus(201); //
+                return new TokenReturnDTO(returnable);
+            }
+        } catch (AuthenticationCredentialsNotFoundException E) {
+            response.setStatus(403);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getClass());
+            response.setStatus(500);
+            return null;
+        }
     }
-    return null;
-  }
+
+    @ApiOperation(value = "Registers a new user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "User successfully registered"),
+            @ApiResponse(code = 400, message = "Invalid parameters"),
+            @ApiResponse(code = 401, message = "Invalid username / password"),
+            @ApiResponse(code = 409, message = "User exists")})
+    @PostMapping(value = "/user")
+    public UserReturnDTO register(@RequestBody RegisterDTO registerDTO,
+                                  HttpServletResponse response) {
+        try {
+            ApplicationUser user = new ApplicationUser(registerDTO);
+            UserAuthority userRole = new UserAuthority("ROLE_USER");
+            user.addAuthority(userRole);
+            if (applicationUserRepo.count() == 0) {
+                user.addAuthority(new UserAuthority("ROLE_ADMIN"));
+            }
+            applicationUserRepo.save(user);
+            UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>());
+            Date date = new DateTime().minusMonths(5).toDate();
+            UsersWeeklyTeam team1 = new UsersWeeklyTeam(user, date, new ArrayList<>());
+            weeklyTeamRepo.save(team);
+            weeklyTeamRepo.save(team1);
+            response.setStatus(201);
+            return new UserReturnDTO(user);
+        } catch (DataIntegrityViolationException e) {
+            try {
+                response.sendError(409, e.getMessage());
+            } catch (Exception f) {
+                response.setStatus(409);
+            }
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                response.setStatus(400);
+            }
+        } catch (AuthenticationCredentialsNotFoundException e) {
+            response.setStatus(401);
+        }
+        return null;
+    }
 
 }

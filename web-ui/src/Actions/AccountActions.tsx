@@ -9,6 +9,7 @@ export enum ActionTypes {
   SET_ACCOUNT = 'SET_ACCOUNT',
   RESET_ACCOUNT = 'RESET_ACCOUNT'
 }
+
 export interface SetBalance {
   type: ActionTypes.SET_BALANCE;
   payload: { balance: number };

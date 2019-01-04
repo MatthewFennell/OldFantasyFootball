@@ -1,104 +1,99 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
-import static uk.co.scottlogic.gradProject.server.misc.Regex.EMAIL_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.FIRST_NAME_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.PASSWORD_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.SURNAME_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.USERNAME_PATTERN;
-
-import java.io.Serializable;
-import java.util.*;
-import javax.persistence.*;
-
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
+
+import static uk.co.scottlogic.gradProject.server.misc.Regex.*;
+
 @Entity
 @Table(indexes = {
-    @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
-    @Index(name = "idx_applicationuser_email", columnList = "email", unique = true)})
+        @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
+        @Index(name = "idx_applicationuser_email", columnList = "email", unique = true)})
 public class ApplicationUser implements UserDetails, Serializable {
 
-  @Id
-  @Column
-  @Type(type = "uuid-char")
-  private UUID id;
+    @Id
+    @Column
+    @Type(type = "uuid-char")
+    private UUID id;
 
-  @Column(nullable = false)
-  private String username;
+    @Column(nullable = false)
+    private String username;
 
-  @Column(nullable = false)
-  private String password;
+    @Column(nullable = false)
+    private String password;
 
-  @Column(nullable = false)
-  private Date accountExpiry;
+    @Column(nullable = false)
+    private Date accountExpiry;
 
-  @Column(nullable = false)
-  private Date credentialsExpiry;
+    @Column(nullable = false)
+    private Date credentialsExpiry;
 
-  private String nickname;
+    private String nickname;
 
-  @Column(nullable = false)
-  private String email;
+    @Column(nullable = false)
+    private String email;
 
-  @Column(nullable = false)
-  private String firstName;
+    @Column(nullable = false)
+    private String firstName;
 
-  @Column(nullable = false)
-  private String surname;
+    @Column(nullable = false)
+    private String surname;
 
-  private boolean locked = false;
+    private boolean locked = false;
 
-  private boolean enabled = true;
+    private boolean enabled = true;
 
-  private Integer totalPoints;
+    private Integer totalPoints;
 
-  private double remainingBudget;
+    private double remainingBudget;
 
-  private String teamName;
+    private String teamName;
 
-  private Integer remainingTransfers;
+    private Integer remainingTransfers;
 
 //  @OneToOne
 //  @JoinColumn(name = "activeTeam")
 //  private UsersWeeklyTeam activeTeam;
 
-  @Column
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-  @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
-      , referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "userauthority_id",
-      referencedColumnName = "role"))
-  private Set<UserAuthority> authorityList = new HashSet<>();
+    @Column
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
+            , referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "userauthority_id",
+            referencedColumnName = "role"))
+    private Set<UserAuthority> authorityList = new HashSet<>();
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
-  private Collection<RefreshToken> activeTokens;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
+    private Collection<RefreshToken> activeTokens;
 
-  public ApplicationUser() {
-  }
+    public ApplicationUser() {
+    }
 
-  public ApplicationUser(RegisterDTO dto) {
-    this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname(), dto.getEmail());
-  }
+    public ApplicationUser(RegisterDTO dto) {
+        this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname(), dto.getEmail());
+    }
 
-  public ApplicationUser(String username, String password, String firstname, String surname, String email) {
-    Calendar expiry = Calendar.getInstance();
-    expiry.add(Calendar.YEAR, 1000);
-    accountExpiry = expiry.getTime();
-    credentialsExpiry = expiry.getTime();
-    setUsername(username);
-    savePassword(password);
-    id = UUID.randomUUID();
-    this.totalPoints = 0;
-    this.remainingBudget = 100.0;
-    setFirstName(firstname);
-    setSurname(surname);
-    setEmail(email);
+    public ApplicationUser(String username, String password, String firstname, String surname, String email) {
+        Calendar expiry = Calendar.getInstance();
+        expiry.add(Calendar.YEAR, 1000);
+        accountExpiry = expiry.getTime();
+        credentialsExpiry = expiry.getTime();
+        setUsername(username);
+        savePassword(password);
+        id = UUID.randomUUID();
+        this.totalPoints = 0;
+        this.remainingBudget = 100.0;
+        setFirstName(firstname);
+        setSurname(surname);
+        setEmail(email);
 //    this.activeTeam = new UsersWeeklyTeam(this, new DateTime(), new ArrayList<>());
-  }
+    }
 
 //  public UsersWeeklyTeam getActiveTeam() {
 //    return activeTeam;
@@ -108,212 +103,212 @@ public class ApplicationUser implements UserDetails, Serializable {
 //    this.activeTeam = activeTeam;
 //  }
 
-  public Collection<RefreshToken> getActiveTokens() {
-    return activeTokens;
-  }
-
-  public void setActiveTokens(Collection<RefreshToken> activeTokens) {
-    this.activeTokens = activeTokens;
-  }
-
-  public boolean isLocked() {
-    return locked;
-  }
-
-  public void setLocked(boolean locked) {
-    this.locked = locked;
-  }
-
-  public Date getAccountExpiry() {
-    return accountExpiry;
-  }
-
-  public void setAccountExpiry(Date accountExpiry) {
-    this.accountExpiry = accountExpiry;
-  }
-
-  public Date getCredentialsExpiry() {
-    return credentialsExpiry;
-  }
-
-  public void setCredentialsExpiry(Date credentialsExpiry) {
-    this.credentialsExpiry = credentialsExpiry;
-  }
-
-  public Set<UserAuthority> getAuthorityList() {
-    return authorityList;
-  }
-
-  public void setAuthorityList(Set<UserAuthority> auths) {
-    this.authorityList = new HashSet<>(auths);
-  }
-
-  public void addAuthority(UserAuthority authority) {
-    authorityList.add(authority);
-  }
-
-  public void delAuthority(GrantedAuthority authority) {
-    if (authorityList.contains(authority)) {
-      this.authorityList.remove(authority);
+    public Collection<RefreshToken> getActiveTokens() {
+        return activeTokens;
     }
-  }
 
-  @Override
-  public Set<? extends GrantedAuthority> getAuthorities() {
-    return new HashSet(authorityList);
-  }
-
-  public UUID getUuid() {
-    return id;
-  }
-
-  public String getId() {
-    return id.toString();
-  }
-
-  protected void setId(String id) {
-    this.id = UUID.fromString(id);
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getPassword() {
-    return password;
-  }
-
-  void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void savePassword(String password) {
-    if (!password.matches(PASSWORD_PATTERN)) {
-      throw new IllegalArgumentException("password");
+    public void setActiveTokens(Collection<RefreshToken> activeTokens) {
+        this.activeTokens = activeTokens;
     }
-    this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
-  }
 
-  @Override
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    if (!username.matches(USERNAME_PATTERN)) {
-      throw new IllegalArgumentException();
+    public boolean isLocked() {
+        return locked;
     }
-    this.username = username;
-  }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    if (!email.matches(EMAIL_PATTERN)) {
-      throw new IllegalArgumentException();
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
-    this.email = email;
-  }
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    if (!firstName.matches(FIRST_NAME_PATTERN)) {
-      throw new IllegalArgumentException("firstname");
+    public Date getAccountExpiry() {
+        return accountExpiry;
     }
-    this.firstName = firstName;
-  }
 
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    if (!surname.matches(SURNAME_PATTERN)) {
-      throw new IllegalArgumentException("surname");
+    public void setAccountExpiry(Date accountExpiry) {
+        this.accountExpiry = accountExpiry;
     }
-    this.surname = surname;
-  }
 
-  public String getTeamName(){
-      return teamName;
-  }
+    public Date getCredentialsExpiry() {
+        return credentialsExpiry;
+    }
 
-  public void setTeamName(String teamName){
-    this.teamName = teamName;
-  }
+    public void setCredentialsExpiry(Date credentialsExpiry) {
+        this.credentialsExpiry = credentialsExpiry;
+    }
 
-  public Integer getRemainingTransfers(){
-    return remainingTransfers;
-  }
+    public Set<UserAuthority> getAuthorityList() {
+        return authorityList;
+    }
 
-  public void setRemainingTransfers(Integer remainingTransfers){
-    this.remainingTransfers = remainingTransfers;
-  }
+    public void setAuthorityList(Set<UserAuthority> auths) {
+        this.authorityList = new HashSet<>(auths);
+    }
 
-  public void changeRemainingTransfers(Integer change){
-    this.remainingTransfers += change;
-  }
+    public void addAuthority(UserAuthority authority) {
+        authorityList.add(authority);
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return new Date().before(accountExpiry);
-  }
+    public void delAuthority(GrantedAuthority authority) {
+        if (authorityList.contains(authority)) {
+            this.authorityList.remove(authority);
+        }
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return !locked;
-  }
+    @Override
+    public Set<? extends GrantedAuthority> getAuthorities() {
+        return new HashSet(authorityList);
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return new Date().before(credentialsExpiry);
-  }
+    public UUID getUuid() {
+        return id;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return enabled;
-  }
+    public String getId() {
+        return id.toString();
+    }
 
-  public double getRemainingBudget(){
-    return remainingBudget;
-  }
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-  public void changeRemainingBudget(double change){
-    this.remainingBudget += change;
-  }
+    protected void setId(String id) {
+        this.id = UUID.fromString(id);
+    }
 
-  public void setRemainingBudget(double remainingBudget){
-    this.remainingBudget = remainingBudget;
-  }
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+    void setPassword(String password) {
+        this.password = password;
+    }
 
-  public long getTotalPoints() {
-    return totalPoints;
-  }
+    public void savePassword(String password) {
+        if (!password.matches(PASSWORD_PATTERN)) {
+            throw new IllegalArgumentException("password");
+        }
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+    }
 
-  public void setTotalPoints(Integer totalPoints) {
-    this.totalPoints = totalPoints;
-  }
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
-  public void changeTotalPoints(Integer totalPoints) {
-    totalPoints += totalPoints;
-  }
+    public void setUsername(String username) {
+        if (!username.matches(USERNAME_PATTERN)) {
+            throw new IllegalArgumentException();
+        }
+        this.username = username;
+    }
 
-  public String getNickname() {
-    return nickname;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
+    public void setEmail(String email) {
+        if (!email.matches(EMAIL_PATTERN)) {
+            throw new IllegalArgumentException();
+        }
+        this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        if (!firstName.matches(FIRST_NAME_PATTERN)) {
+            throw new IllegalArgumentException("firstname");
+        }
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        if (!surname.matches(SURNAME_PATTERN)) {
+            throw new IllegalArgumentException("surname");
+        }
+        this.surname = surname;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public Integer getRemainingTransfers() {
+        return remainingTransfers;
+    }
+
+    public void setRemainingTransfers(Integer remainingTransfers) {
+        this.remainingTransfers = remainingTransfers;
+    }
+
+    public void changeRemainingTransfers(Integer change) {
+        this.remainingTransfers += change;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return new Date().before(accountExpiry);
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return new Date().before(credentialsExpiry);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public double getRemainingBudget() {
+        return remainingBudget;
+    }
+
+    public void setRemainingBudget(double remainingBudget) {
+        this.remainingBudget = remainingBudget;
+    }
+
+    public void changeRemainingBudget(double change) {
+        this.remainingBudget += change;
+    }
+
+    public long getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(Integer totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public void changeTotalPoints(Integer totalPoints) {
+        totalPoints += totalPoints;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
 }

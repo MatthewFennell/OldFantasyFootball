@@ -12,19 +12,19 @@ import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 @RestController
 @RequestMapping("/api")
 @Api(value = "token management", description = "Operations pertaining to Token management. "
-    + "For authentication and token renewal see Authentication. ")
+        + "For authentication and token renewal see Authentication. ")
 public class Token {
 
-  private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(Token.class);
 
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-  private ApplicationUserRepo applicationUserRepo;
+    private ApplicationUserRepo applicationUserRepo;
 
-  @Autowired
-  public Token(ApplicationUserRepo applicationUserRepo) {
-    this.applicationUserRepo = applicationUserRepo;
-  }
+    @Autowired
+    public Token(ApplicationUserRepo applicationUserRepo) {
+        this.applicationUserRepo = applicationUserRepo;
+    }
 
 }

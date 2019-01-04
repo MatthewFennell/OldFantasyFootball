@@ -6,15 +6,15 @@ import org.springframework.stereotype.Service;
 @Service
 public final class RepoManager {
 
-  private static ApplicationUserRepo applicationUserRepo;
+    private static ApplicationUserRepo applicationUserRepo;
 
-  @Autowired
-  public RepoManager(ApplicationUserRepo applicationUserRepo) {
-    RepoManager.applicationUserRepo = applicationUserRepo;
-  }
+    @Autowired
+    public RepoManager(ApplicationUserRepo applicationUserRepo) {
+        RepoManager.applicationUserRepo = applicationUserRepo;
+    }
 
-  public static ApplicationUserRepo getApplicationUserRepo() {
-    return applicationUserRepo;
-  }
+    public static ApplicationUserRepo getApplicationUserRepo() {
+        return applicationUserRepo;
+    }
 
 }

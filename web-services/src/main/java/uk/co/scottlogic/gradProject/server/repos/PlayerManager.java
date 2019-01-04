@@ -2,12 +2,11 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
+import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -55,18 +54,17 @@ public class PlayerManager {
     }
 
 
-    private void makePlayer(CollegeTeam activeTeam, Player.Position position, double price, String firstName, String surname){
+    private void makePlayer(CollegeTeam activeTeam, Player.Position position, double price, String firstName, String surname) {
         Optional<CollegeTeam> team = teamRepo.findById(activeTeam.getId());
-        if (team.isPresent()){
+        if (team.isPresent()) {
             Player player = new Player(team.get(), position, price, firstName, surname);
             playerRepo.save(player);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Invalid Team ID");
         }
     }
 
-    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch){
+    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch) {
         playerPointsRepo.save(new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player));
     }
 

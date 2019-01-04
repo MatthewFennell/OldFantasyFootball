@@ -1,5 +1,6 @@
 import { Credentials } from '../Models/Interfaces/Credentials';
 import { Account } from '../Models/Interfaces/Account';
+import { Player } from '../Models/Interfaces/Player';
 import { RegistrationDetails } from '../Models/Interfaces/RegistrationDetails';
 import { Tokens } from '../Models/Interfaces/Tokens';
 import { getBearerHeader } from './CredentialInputService';
@@ -47,6 +48,17 @@ export const login = (data: Credentials): Promise<Tokens> => {
         throw new Error(response.status.toString());
       }
     } else if (response.status === 201) {
+      return response.json();
+    }
+  });
+};
+
+export const getActiveTeam = (): Promise<{ activeTeam: Player[] }> => {
+  return fetch('/api/activeTeam/players', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
       return response.json();
     }
   });

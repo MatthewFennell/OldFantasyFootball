@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServerCommandLineRunner implements CommandLineRunner {
 
-  @Autowired
-  public ServerCommandLineRunner() {
-  }
+    @Autowired
+    public ServerCommandLineRunner() {
+    }
 
-  @Override
-  public void run(String... args) throws Exception {
-  }
+    @Override
+    public void run(String... args) throws Exception {
+    }
 
 }
 
