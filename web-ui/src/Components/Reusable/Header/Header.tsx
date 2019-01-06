@@ -2,32 +2,37 @@ import * as React from 'react';
 import { Row, Col } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
+import ButtonPageSelector from './ButtonPageSelector';
 import { getUser } from '../../../Services/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
-import ButtonPageSelector from './ButtonPageSelector';
 
 interface Props {
+  setPageBeingViewed: (page: string) => void;
   setAccount: (account: Account) => void;
   firstname: string;
   surname: string;
 }
 class Header extends React.Component<Props> {
-  private transactionsRef: React.RefObject<HTMLDivElement>;
-  private categoriesRef: React.RefObject<HTMLDivElement>;
+  private transfersRef: React.RefObject<HTMLDivElement>;
+  private leagueRef: React.RefObject<HTMLDivElement>;
   private settingsRef: React.RefObject<HTMLDivElement>;
+  private teamRef: React.RefObject<HTMLDivElement>;
+  private _onTeamSelect: () => void;
   private _onSettingsSelect: () => void;
-  private _onCategoriesSelect: () => void;
-  private _onTransactionsSelect: () => void;
+  private _onLeagueSelect: () => void;
+  private _onTransfersSelect: () => void;
 
   constructor(props: Props) {
     super(props);
 
-    this.transactionsRef = React.createRef<HTMLDivElement>();
-    this.categoriesRef = React.createRef<HTMLDivElement>();
+    this.transfersRef = React.createRef<HTMLDivElement>();
+    this.leagueRef = React.createRef<HTMLDivElement>();
     this.settingsRef = React.createRef<HTMLDivElement>();
-    this._onSettingsSelect = () => this._select(this.settingsRef);
-    this._onCategoriesSelect = () => this._select(this.categoriesRef);
-    this._onTransactionsSelect = () => this._select(this.transactionsRef);
+    this.teamRef = React.createRef<HTMLDivElement>();
+    this._onTeamSelect = () => this._select(this.teamRef, 'Team');
+    this._onSettingsSelect = () => this._select(this.settingsRef, 'Transfers');
+    this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
+    this._onTransfersSelect = () => this._select(this.transfersRef, 'Settings');
   }
 
   componentDidMount() {
@@ -44,11 +49,14 @@ class Header extends React.Component<Props> {
       }
     });
   }
-  _select = (target: React.RefObject<HTMLDivElement>) => {
-    this.transactionsRef.current!.classList.remove('selected');
-    this.categoriesRef.current!.classList.remove('selected');
+
+  _select = (target: React.RefObject<HTMLDivElement>, name: string) => {
+    this.teamRef.current!.classList.remove('selected');
+    this.transfersRef.current!.classList.remove('selected');
+    this.leagueRef.current!.classList.remove('selected');
     this.settingsRef.current!.classList.remove('selected');
     target.current!.classList.add('selected');
+    this.props.setPageBeingViewed(name);
   };
 
   render() {
@@ -62,26 +70,34 @@ class Header extends React.Component<Props> {
             <div id="midOptions">
               <ButtonPageSelector
                 id="transactions"
-                setRef={() => this.transactionsRef}
+                setRef={() => this.teamRef}
                 selected={true}
-                select={() => this._onTransactionsSelect()}
-                imgSrc="Transactions.png"
-                text="My Team"
+                select={() => this._onTeamSelect()}
+                imgSrc="Home.png"
+                text="Team"
               />
               <ButtonPageSelector
                 id="categories"
-                setRef={() => this.categoriesRef}
+                setRef={() => this.transfersRef}
                 selected={false}
-                select={() => this._onCategoriesSelect()}
-                imgSrc="Categories.png"
-                text="My Leagues"
+                select={() => this._onTransfersSelect()}
+                imgSrc="Max.png"
+                text="Transfers"
+              />
+              <ButtonPageSelector
+                id="settings"
+                setRef={() => this.leagueRef}
+                selected={false}
+                select={() => this._onLeagueSelect()}
+                imgSrc="Rupert.png"
+                text="Leagues"
               />
               <ButtonPageSelector
                 id="settings"
                 setRef={() => this.settingsRef}
                 selected={false}
                 select={() => this._onSettingsSelect()}
-                imgSrc="Settings.png"
+                imgSrc="Windy.png"
                 text="Settings"
               />
             </div>
@@ -89,7 +105,7 @@ class Header extends React.Component<Props> {
           <Col lg="2">
             <div id="account">
               <div id="avatar" />
-              <h5 id="name">{this.props.firstname + ' ' + this.props.surname}</h5>
+              <h5 id="name">{'Firstname' + ' ' + 'Surname'}</h5>
               <i className="fa fa-caret-down cursor-pointer" aria-hidden="true" />
             </div>
           </Col>
