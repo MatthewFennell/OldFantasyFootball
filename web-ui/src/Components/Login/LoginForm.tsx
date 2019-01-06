@@ -69,7 +69,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, St
               });
             })
             .then(() => {
-              this.props.history.push('/balance');
+              this.props.history.push('/team');
             })
             .catch(error => {
               this.setState({ error: LoginService.formatError(error.toString()) });

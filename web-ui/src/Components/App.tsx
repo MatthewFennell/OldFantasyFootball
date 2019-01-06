@@ -17,7 +17,7 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            component={() => (isLoggedIn ? <Redirect to="/balance" /> : <Redirect to="/login" />)}
+            component={() => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />)}
           />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />

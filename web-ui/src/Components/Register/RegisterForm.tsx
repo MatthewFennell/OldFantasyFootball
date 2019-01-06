@@ -100,7 +100,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
               });
             })
             .then(() => {
-              this.props.history.push('/balance');
+              this.props.history.push('/team');
             })
             .catch(error => {
               this.setState({ error: RegisterService.formatError(error.toString()) });

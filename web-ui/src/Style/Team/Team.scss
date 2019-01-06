@@ -1,0 +1,34 @@
+.outer-rows {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    .row-1-info {
+        background-color: green;
+        flex-grow: 1;
+    }
+
+    .row-2-stats{
+        background-color: red;
+        flex-grow: 1;
+    }
+
+    .row-3-squad{
+        background-color: yellow;
+        flex-grow: 10;
+    }
+
+    .row-4-bench{
+        background-color: orange;
+        flex-grow: 1;
+    }
+  }
+  
+  .outer-rows > div {
+    width: 100%;
+    margin: 10px;
+    text-align: center;
+    line-height: 75px;
+    font-size: 30px;   
+    
+  }

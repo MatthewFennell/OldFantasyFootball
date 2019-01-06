@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ActiveTeam from '../../Containers/ActiveTeam';
+import '../../Style/Team/Team.css';
 
 interface TransactionsProps {}
 
@@ -18,9 +18,11 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 
   render() {
     return (
-      <div id="my-team">
-        <ActiveTeam />
-        <div />
+      <div className="outer-rows">
+        <div className="row-1-info">Total points / Week N</div>
+        <div className="row-2-stats">Average points / Player with most / User with most</div>
+        <div className="row-3-squad">Squad</div>
+        <div className="row-4-bench">Bench</div>
       </div>
     );
   }

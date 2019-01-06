@@ -54,7 +54,7 @@ class Login extends React.Component<UserProps & RouterProps> {
         </div>
       );
     } else {
-      return <SplashScreen redirect={'/balance'} />;
+      return <SplashScreen redirect={'/team'} />;
     }
   }
 }
