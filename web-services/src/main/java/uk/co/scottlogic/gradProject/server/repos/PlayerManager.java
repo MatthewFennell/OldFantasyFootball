@@ -9,6 +9,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PlayerManager {
@@ -48,11 +49,16 @@ public class PlayerManager {
 //            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
 //        }
 
-//        Optional<Player> player = playerRepo.findByFirstName("Kevin");
+//        Optional<Player> player = playerRepo.findByFirstName("Eduardo");
 //        if (player.isPresent()){
 //            Player p = player.get();
-//            addPointsToPlayer(p, new Date(), 10, 5, false, 90, 0, false, false);
+//            addPointsToPlayer(p, new Date(), 3, 10, false, 90, 1, false, false);
+//
 //        }
+        Optional<Player> player = playerRepo.findByFirstName("Eduardo");
+        if (player.isPresent()) {
+            System.out.println("Score for Eduardo is " + findPointsForPlayerInWeek(player.get(), new Date()));
+        }
     }
 
 
@@ -68,6 +74,17 @@ public class PlayerManager {
 
     private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch) {
         playerPointsRepo.save(new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player));
+    }
+
+    private double findPointsForPlayerInWeek(Player player, Date date){
+        List<PlayerPoints> playerPoints = playerPointsRepo.findByPlayer(player);
+
+        if (!playerPoints.isEmpty()){
+            return playerPoints.get(0).calculateScore();
+        }
+        else{
+            return 0;
+        }
     }
 
 }

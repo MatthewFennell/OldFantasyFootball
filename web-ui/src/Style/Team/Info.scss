@@ -3,6 +3,8 @@
     flex-wrap: nowrap;
     justify-content: center;
     height: 100%;
+    margin-left: 10vw;
+    margin-right: 10vw;
   }
   
   .info-columns > div {
@@ -10,6 +12,6 @@
     width: 30%;
     margin: 10px;
     text-align: center;
-    line-height: 75px;
-    font-size: 30px;
+    line-height: 55px;
+    font-size: 18px;
   }

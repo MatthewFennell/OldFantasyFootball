@@ -135,4 +135,36 @@ public class PlayerPoints {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public double calculateScore(){
+        double total = 0;
+        if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER){
+            total += numberOfGoals*6;
+            if (cleanSheet){
+                total += 4;
+            }
+        }
+        else if (player.getPosition() == Player.Position.MIDFIELDER){
+            total += numberOfGoals*5;
+        }
+        else if (player.getPosition() == Player.Position.ATTACKER){
+            total += numberOfGoals*4;
+        }
+        total += numberOfAssists *3;
+
+        if (minutesPlayed > 60){
+            total += 2;
+        }
+        else if (minutesPlayed > 0){
+            total += 1;
+        }
+        total -= yellowCards;
+        if (redCard){
+            total -= 3;
+        }
+        if (manOfTheMatch){
+            total += 3;
+        }
+        return total;
+    }
 }

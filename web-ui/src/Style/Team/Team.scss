@@ -4,18 +4,18 @@
     height: 100vh;
 
     .row-1-info {
-        background-color: green;
+        background-color: coral;
         flex-grow: 1;
         // height: 100%;
     }
 
     .row-2-stats{
-        background-color: red;
+        background-color: lightblue;
         flex-grow: 1;
     }
 
     .row-3-squad{
-        background-color: yellow;
+        background-color: grey;
         flex-grow: 10;
         height: 70%;
         // height: 50vh;
