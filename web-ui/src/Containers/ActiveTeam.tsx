@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { addPlayer, setTeam } from '../Actions/ActiveTeamActions';
-import ActiveTeam from '../Components/Transactions/ActiveTeam';
+import ActiveTeam from '../Components/Team/ActiveTeam';
 import { State } from '../Reducers/root';
 import { getActiveTeam } from '../Selectors/ActiveTeamSelector';
 

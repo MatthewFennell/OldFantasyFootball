@@ -1,19 +1,37 @@
 import * as React from 'react';
-import Transactions from '../Containers/Transactions';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Team from '../Containers/Team';
+// import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SplashScreen from './Reusable/SplashScreen';
+import Transfers from '../Containers/Transfers';
+import Leagues from '../Containers/Leagues';
+import Settings from '../Containers/Settings';
 
-class CategoryTemplate extends React.Component<RouteComponentProps, {}> {
+interface CategoryTemplateProps {
+  pageBeingViewed: string;
+}
+
+class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
   public render() {
     let header = document.getElementById('header');
     if (header != null) {
       header.hidden = false;
     }
     if (sessionStorage.access !== undefined) {
-      return <Transactions />;
+      let pageBeingViewed = this.props.pageBeingViewed;
+      if (pageBeingViewed === 'Team') {
+        return <Team />;
+      } else if (pageBeingViewed === 'Transfers') {
+        return <Transfers />;
+      } else if (pageBeingViewed === 'Leagues') {
+        return <Leagues />;
+      } else if (pageBeingViewed === 'Settings') {
+        return <Settings />;
+      } else {
+        return <Team />;
+      }
     } else {
       return <SplashScreen redirect={'/login'} />;
     }
   }
 }
-export default withRouter(CategoryTemplate);
+export default CategoryTemplate;
