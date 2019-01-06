@@ -9,6 +9,7 @@ export interface State {
   username: string;
   email: string;
   balance: number;
+  pageBeingViewed: string;
 }
 
 // Define our initialState
@@ -18,7 +19,8 @@ export const initialState: State = {
   surname: '',
   email: '',
   username: '',
-  balance: 0
+  balance: 0,
+  pageBeingViewed: 'Team'
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -54,6 +56,13 @@ export const reducer = (state: State = initialState, action: Action) => {
         username,
         email,
         balance
+      };
+    }
+
+    case ActionTypes.SET_PAGE_BEING_VIEWED: {
+      return {
+        ...state,
+        pageBeingViewed: action.payload.pageToView
       };
     }
 
