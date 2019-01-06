@@ -3,7 +3,7 @@ import '../../Style/TextScottCash.css';
 import { Route } from 'react-router-dom';
 import '../../Style/App.css';
 import CategoryTemplate from '../../Containers/CategoryTemplate';
-import Team from '../../Containers/Team';
+import Team from '../../Containers/Team/Team';
 import Transfers from '../../Containers/Transfers';
 import Leagues from '../../Containers/Leagues';
 import Settings from '../../Containers/Settings';

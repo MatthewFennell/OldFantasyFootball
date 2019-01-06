@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Team from '../Containers/Team';
+import Team from '../Containers/Team/Team';
 // import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers';

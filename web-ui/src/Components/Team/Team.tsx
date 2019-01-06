@@ -1,5 +1,7 @@
 import * as React from 'react';
 import '../../Style/Team/Team.css';
+import Info from '../../Containers/Team/Info';
+import Stats from '../../Containers/Team/Stats';
 
 interface TransactionsProps {}
 
@@ -19,8 +21,12 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   render() {
     return (
       <div className="outer-rows">
-        <div className="row-1-info">Total points / Week N</div>
-        <div className="row-2-stats">Average points / Player with most / User with most</div>
+        <div className="row-1-info">
+          <Info />
+        </div>
+        <div className="row-2-stats">
+          <Stats />
+        </div>
         <div className="row-3-squad">Squad</div>
         <div className="row-4-bench">Bench</div>
       </div>
