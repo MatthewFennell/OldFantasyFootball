@@ -6,8 +6,8 @@ class Info extends React.Component<{}, {}> {
     return (
       <div className="info-columns">
         <div className="total-points">Total Points: 50</div>
-        <div>Empty</div>
         <div className="current-week-dropdown">Week 20</div>
+        <div className="week-points">Week points : 20</div>
       </div>
     );
   }
