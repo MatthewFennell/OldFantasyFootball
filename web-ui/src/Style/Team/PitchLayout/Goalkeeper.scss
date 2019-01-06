@@ -1,0 +1,16 @@
+.goalkeeper-columns {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    height: 100%;
+    margin-top: 3%;
+  }
+  
+  .goalkeeper-columns > div {
+    background-color: lightgreen;
+    width: 15%;
+    margin: 10px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 16px;
+  }

@@ -1,0 +1,18 @@
+.defenders-columns {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    height: 100%;
+    margin-top: 5%;
+  }
+  
+  .defenders-columns > div {
+    background-color: lightgreen;
+    width: 13%;
+    // margin: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 16px;
+  }

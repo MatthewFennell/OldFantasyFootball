@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface PlayerPointsRepo extends CrudRepository<PlayerPoints, UUID> {
 
-    public List<Player> findByPlayer(Player player);
+
+    public List<PlayerPoints> findByPlayer(Player player);
 
 }
