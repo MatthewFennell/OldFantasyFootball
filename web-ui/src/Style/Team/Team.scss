@@ -1,11 +1,12 @@
 .outer-rows {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    // height: 100vh;
 
     .row-1-info {
         background-color: green;
         flex-grow: 1;
+        height: 100%;
     }
 
     .row-2-stats{
