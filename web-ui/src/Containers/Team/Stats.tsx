@@ -1,10 +1,16 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Stats from '../../Components/Team/Stats';
+import { getTotalPoints } from '../../Selectors/StatsSelector';
+import { setTotalPoints } from '../../Actions/StatsActions';
 
-const mapStateToProps = (state: State) => ({});
+const mapStateToProps = (state: State) => ({
+  totalPoints: getTotalPoints(state)
+});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  setTotalPoints
+};
 
 export default connect<any, any, any>(
   mapStateToProps as any,
