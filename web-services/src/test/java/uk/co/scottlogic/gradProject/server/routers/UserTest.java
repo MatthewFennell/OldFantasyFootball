@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
+import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
+import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 
@@ -29,9 +31,16 @@ public class UserTest {
 
     private User userController;
 
+    @Mock
+    private WeeklyTeamRepo weeklyTeamRepo;
+
+    @Mock
+    private WeeklyTeamManager weeklyTeamManager;
+
+
     @Before
     public void setUp() {
-        applicationUserManager = new ApplicationUserManager(applicationUserRepo);
+        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager);
         userController = new User(applicationUserRepo, applicationUserManager);
     }
 

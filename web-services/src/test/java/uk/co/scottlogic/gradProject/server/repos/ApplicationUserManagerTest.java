@@ -23,11 +23,17 @@ public class ApplicationUserManagerTest {
     @Mock
     private ApplicationUserRepo applicationUserRepo;
 
+    @Mock
+    private WeeklyTeamRepo weeklyTeamRepo;
+
+    @Mock
+    private WeeklyTeamManager weeklyTeamManager;
+
     private ApplicationUserManager applicationUserManager;
 
     @Before
     public void setUp() {
-        applicationUserManager = new ApplicationUserManager(applicationUserRepo);
+        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager);
     }
 
     @Test
