@@ -3,8 +3,10 @@ package uk.co.scottlogic.gradProject.server.repos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -12,9 +14,26 @@ public class ApplicationUserManager {
 
     private ApplicationUserRepo applicationUserRepo;
 
+    private WeeklyTeamRepo weeklyTeamRepo;
+
+    private WeeklyTeamManager weeklyTeamManager;
+
     @Autowired
-    public ApplicationUserManager(ApplicationUserRepo applicationUserRepo) {
+    public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo, WeeklyTeamManager weeklyTeamManager) {
         this.applicationUserRepo = applicationUserRepo;
+        this.weeklyTeamRepo = weeklyTeamRepo;
+        this.weeklyTeamManager = weeklyTeamManager;
+
+//        ApplicationUser user = findUserWithLargestTotalPoints();
+//        System.out.println("username = " + user.getFirstName());
+
+//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+//        if (user.isPresent()) {
+//            Integer totalScore = findTotalPoints(user.get());
+//            System.out.println("total score = " + totalScore);
+//
+//        }
+
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {
@@ -60,5 +79,17 @@ public class ApplicationUserManager {
             u.setTeamName(teamName);
             applicationUserRepo.save(u);
         }
+    }
+
+    public Integer findTotalPoints(ApplicationUser user){
+        return user.getTotalPoints();
+    }
+
+    public ApplicationUser findUserWithLargestTotalPoints(){
+        return applicationUserRepo.findUserWithMostPoints();
+    }
+
+    public ApplicationUser findUserWithMostPointsInWeek(Integer week){
+        return weeklyTeamManager.findWeeklyTeamWithMostPoints(week).getUser();
     }
 }

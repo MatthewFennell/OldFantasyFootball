@@ -20,6 +20,12 @@ public class UsersWeeklyTeam {
     @Column(nullable = false)
     private Date date;
 
+    @Column(nullable = false)
+    private Integer week;
+
+    @Column(nullable = false)
+    private Integer points;
+
     @ManyToMany
     @JoinColumn(name = "players")
     @Column
@@ -30,15 +36,37 @@ public class UsersWeeklyTeam {
     @Type(type = "uuid-char")
     private UUID id;
 
-    public UsersWeeklyTeam(ApplicationUser user, Date date, List<Player> players) {
+    public UsersWeeklyTeam(ApplicationUser user, Date date, List<Player> players, Integer week) {
         this.user = user;
         this.date = date;
         this.players = players;
+        this.week = week;
         id = UUID.randomUUID();
+        this.points = 0;
     }
 
     private UsersWeeklyTeam() {
 
+    }
+
+    public void changePoints(Integer change){
+        this.points += change;
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
     }
 
     public UUID getId() {

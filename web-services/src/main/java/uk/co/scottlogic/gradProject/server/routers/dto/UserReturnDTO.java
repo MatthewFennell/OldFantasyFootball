@@ -33,6 +33,8 @@ public class UserReturnDTO {
 
     private String email;
 
+    private Integer totalPoints;
+
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
         this.username = user.getUsername();
@@ -46,6 +48,16 @@ public class UserReturnDTO {
         this.firstName = user.getFirstName();
         this.surname = user.getSurname();
         this.email = user.getEmail();
+        this.totalPoints = user.getTotalPoints();
+    }
+
+
+    public Integer getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(Integer totalPoints) {
+        this.totalPoints = totalPoints;
     }
 
     public String getFirstName() {

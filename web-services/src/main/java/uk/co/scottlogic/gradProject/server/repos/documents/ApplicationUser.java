@@ -15,7 +15,8 @@ import static uk.co.scottlogic.gradProject.server.misc.Regex.*;
 @Entity
 @Table(indexes = {
         @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
-        @Index(name = "idx_applicationuser_email", columnList = "email", unique = true)})
+        @Index(name = "idx_applicationuser_email", columnList = "email", unique = true),
+        @Index(name = "idx_applicationuser_total_points", columnList = "totalPoints")})
 public class ApplicationUser implements UserDetails, Serializable {
 
     @Id
@@ -46,21 +47,18 @@ public class ApplicationUser implements UserDetails, Serializable {
     @Column(nullable = false)
     private String surname;
 
+    @Column(nullable = false)
+    private Integer totalPoints;
+
     private boolean locked = false;
 
     private boolean enabled = true;
-
-    private Integer totalPoints;
 
     private double remainingBudget;
 
     private String teamName;
 
     private Integer remainingTransfers;
-
-//  @OneToOne
-//  @JoinColumn(name = "activeTeam")
-//  private UsersWeeklyTeam activeTeam;
 
     @Column
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -92,16 +90,9 @@ public class ApplicationUser implements UserDetails, Serializable {
         setFirstName(firstname);
         setSurname(surname);
         setEmail(email);
-//    this.activeTeam = new UsersWeeklyTeam(this, new DateTime(), new ArrayList<>());
+        this.totalPoints = 0;
     }
 
-//  public UsersWeeklyTeam getActiveTeam() {
-//    return activeTeam;
-//  }
-//
-//  public void setActiveTeam(UsersWeeklyTeam activeTeam) {
-//    this.activeTeam = activeTeam;
-//  }
 
     public Collection<RefreshToken> getActiveTokens() {
         return activeTokens;
@@ -291,7 +282,7 @@ public class ApplicationUser implements UserDetails, Serializable {
         this.remainingBudget += change;
     }
 
-    public long getTotalPoints() {
+    public Integer getTotalPoints() {
         return totalPoints;
     }
 
@@ -300,7 +291,7 @@ public class ApplicationUser implements UserDetails, Serializable {
     }
 
     public void changeTotalPoints(Integer totalPoints) {
-        totalPoints += totalPoints;
+        this.totalPoints += totalPoints;
     }
 
     public String getNickname() {

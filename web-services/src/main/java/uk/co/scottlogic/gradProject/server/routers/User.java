@@ -120,4 +120,54 @@ public class User {
             response.setStatus(500);
         }
     }
+
+    @ApiOperation(value = Icons.key
+            + " Gets the total points of the user", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Points obtained correctly"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
+                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+    @GetMapping("/user/totalPoints")
+    @PreAuthorize("hasRole('USER')")
+    public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+        try {
+            return applicationUserManager.findTotalPoints(user);
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            ExceptionLogger.logException(e);
+            response.setStatus(500);
+        }
+        return -1;
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Returns the user with the most points", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User obtained correctly"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
+                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+    @GetMapping("/user/mostPoints")
+    @PreAuthorize("hasRole('USER')")
+    public UserReturnDTO userWithMostPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+        try {
+            return new UserReturnDTO(applicationUserManager.findUserWithLargestTotalPoints());
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            ExceptionLogger.logException(e);
+            response.setStatus(500);
+        }
+        return null;
+    }
 }

@@ -60,8 +60,7 @@ public class WeeklyTeamController {
     public List<Player> getActiveTeamPlayers(@AuthenticationPrincipal ApplicationUser user,
                                              HttpServletResponse response) {
         try {
-            System.out.println("returned a team of length " + weeklyTeamManager.getActiveTeam(user).size());
-            return weeklyTeamManager.getActiveTeam(user);
+            return null;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
         }
