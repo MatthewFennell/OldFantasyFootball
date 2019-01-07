@@ -44,7 +44,8 @@ class Header extends React.Component<Props> {
           surname: response.surname,
           email: response.email,
           username: response.username,
-          balance: response.balance
+          balance: response.balance,
+          totalPoints: response.totalPoints
         });
       }
     });

@@ -64,6 +64,28 @@ export const getActiveTeam = (): Promise<{ activeTeam: Player[] }> => {
   });
 };
 
+export const getTotalPoints = (): Promise<{ totalPoints: number }> => {
+  return fetch('/api/points/user/total', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getAveragePoints = (week: number): Promise<{ balance: number }> => {
+  return fetch('/api/user/current', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
 export const getBalance = (): Promise<{ balance: number }> => {
   return fetch('/api/user/current', {
     method: 'GET',

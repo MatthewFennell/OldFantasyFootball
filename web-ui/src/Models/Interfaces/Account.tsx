@@ -5,4 +5,5 @@ export interface Account {
   email: string;
   username: string;
   balance: string;
+  totalPoints: number;
 }

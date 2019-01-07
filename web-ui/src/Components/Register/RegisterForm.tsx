@@ -96,7 +96,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
                 surname: response.surname,
                 email: response.email,
                 username: response.username,
-                balance: response.balance
+                balance: response.balance,
+                totalPoints: response.totalPoints
               });
             })
             .then(() => {
