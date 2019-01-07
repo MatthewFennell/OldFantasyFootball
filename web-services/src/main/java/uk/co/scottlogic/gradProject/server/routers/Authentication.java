@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,10 +123,7 @@ public class Authentication {
             }
             applicationUserRepo.save(user);
             UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), 0);
-            Date date = new DateTime().minusMonths(5).toDate();
-            UsersWeeklyTeam team1 = new UsersWeeklyTeam(user, date, new ArrayList<>(), 0);
             weeklyTeamRepo.save(team);
-            weeklyTeamRepo.save(team1);
             response.setStatus(201);
             return new UserReturnDTO(user);
         } catch (DataIntegrityViolationException e) {

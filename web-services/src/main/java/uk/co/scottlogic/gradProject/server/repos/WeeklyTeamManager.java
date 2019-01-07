@@ -9,6 +9,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class WeeklyTeamManager {
@@ -31,43 +32,51 @@ public class WeeklyTeamManager {
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
 
-//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-//        if (user.isPresent()) {
-//            List<UsersWeeklyTeam> weeklyTeam = weeklyTeamRepo.findByUser(user.get());
-//            if (!weeklyTeam.isEmpty()){
-//                UsersWeeklyTeam team = weeklyTeam.get(0);
-//                System.out.println("Weekly team size = " + team.getPlayers().size());
-//                System.out.println("Value of weekly team = " + findPointsOfWeeklyTeam(team));
-//            }
-//        }
-
 //        addPlayersToWeeklyTeam();
 
     }
 
-
     // Adds to the first weekly team it finds
-    private void addPlayerToWeeklyTeam(ApplicationUser user, Player player) {
-        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()) {
-            UsersWeeklyTeam team = teams.get(0);
-            team.getPlayers().add(player);
-            weeklyTeamRepo.save(team);
-            System.out.println("Added player " + player.getFirstName() + " to user " + user.getFirstName());
+    public void addPlayerToWeeklyTeam(ApplicationUser user, String id) {
+        Optional<Player> player = playerRepo.findById(UUID.fromString(id));
+
+        if (player.isPresent()) {
+            Player p = player.get();
+            List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+            if (!teams.isEmpty()) {
+                UsersWeeklyTeam team = teams.get(0);
+                team.getPlayers().add(p);
+                weeklyTeamRepo.save(team);
+                System.out.println("Added player " + p.getFirstName() + " to user " + user.getFirstName());
+            }
+        } else {
+            throw new IllegalArgumentException("Player does not exist");
         }
     }
 
-    private void removePlayerFromWeeklyTeam(ApplicationUser user, Player player) {
-        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()) {
-            UsersWeeklyTeam team = teams.get(0);
-            team.getPlayers().remove(player);
-            weeklyTeamRepo.save(team);
-            System.out.println("Removed player " + player.getFirstName() + " from user " + user.getFirstName());
+    public Integer getTotalNumberOfWeeks(){
+        return weeklyTeamRepo.findNumberOfWeeks();
+    }
+
+    public void removePlayerFromWeeklyTeam(ApplicationUser user, String id) {
+
+        Optional<Player> player = playerRepo.findById(UUID.fromString(id));
+
+        if (player.isPresent()) {
+            Player p = player.get();
+            List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+            if (!teams.isEmpty()) {
+                UsersWeeklyTeam team = teams.get(0);
+                team.getPlayers().remove(p);
+                weeklyTeamRepo.save(team);
+                System.out.println("Removed player " + p.getFirstName() + " from user " + user.getFirstName());
+            }
+        } else {
+            throw new IllegalArgumentException("Player does not exist");
         }
     }
 
-    public UsersWeeklyTeam findWeeklyTeamWithMostPoints(Integer week){
+    public List<UsersWeeklyTeam> findWeeklyTeamWithMostPoints(Integer week) {
         return weeklyTeamRepo.findUserWithMostPoints(week);
     }
 
@@ -110,80 +119,76 @@ public class WeeklyTeamManager {
         return quantityPerPosition;
     }
 
-    public Integer findPointsOfWeeklyTeam(UsersWeeklyTeam team){
+    public Integer findPointsOfWeeklyTeam(UsersWeeklyTeam team) {
         return team.getPoints();
     }
 
-    public double findAveragePointsOfAllTeamsInWeek(Integer week){
+    public double findAveragePointsOfAllTeamsInWeek(Integer week) {
         return weeklyTeamRepo.findAveragePointsInWeek(week);
     }
 
-    public void addPlayersToWeeklyTeam(){
+    public void addPlayersToWeeklyTeam() {
         Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-        if (user.isPresent()){
+        if (user.isPresent()) {
             ApplicationUser u = user.get();
-            Optional<Player> player = playerRepo.findByFirstName("Ollie");            ;
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            Optional<Player> player = playerRepo.findByFirstName("Ollie");
+            ;
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Eloka");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Herbie");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Eduardo");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
-
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
 
             player = playerRepo.findByFirstName("John");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Phil");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Chris");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("David");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
-
-
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
 
             player = playerRepo.findByFirstName("Bernado");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Kevin");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Paul");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Paco");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
-
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
 
             player = playerRepo.findByFirstName("Marcus");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Romelu");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Dom");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Ed");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
-
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
 
             player = playerRepo.findByFirstName("Joe");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Stevie");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1));
+            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
         }
     }
 }

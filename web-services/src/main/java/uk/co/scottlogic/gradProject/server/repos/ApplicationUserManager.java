@@ -6,8 +6,10 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ApplicationUserManager {
@@ -23,16 +25,6 @@ public class ApplicationUserManager {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
-
-//        ApplicationUser user = findUserWithLargestTotalPoints();
-//        System.out.println("username = " + user.getFirstName());
-
-//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-//        if (user.isPresent()) {
-//            Integer totalScore = findTotalPoints(user.get());
-//            System.out.println("total score = " + totalScore);
-//
-//        }
 
     }
 
@@ -81,15 +73,31 @@ public class ApplicationUserManager {
         }
     }
 
-    public Integer findTotalPoints(ApplicationUser user){
+    public Integer findTotalPoints(ApplicationUser user) {
         return user.getTotalPoints();
     }
 
-    public ApplicationUser findUserWithLargestTotalPoints(){
+    public List<ApplicationUser> findUsersWithLargestTotalPoints() {
         return applicationUserRepo.findUserWithMostPoints();
     }
 
-    public ApplicationUser findUserWithMostPointsInWeek(Integer week){
-        return weeklyTeamManager.findWeeklyTeamWithMostPoints(week).getUser();
+    public Integer findPointsInWeek(String user_id, Integer week) {
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(user_id));
+        if (user.isPresent()) {
+            return weeklyTeamRepo.findPointsInWeekByUser(user.get(), week);
+        } else {
+            throw new IllegalArgumentException("User does not exist");
+        }
+    }
+
+    public List<ApplicationUser> findUsersWithMostPointsInWeek(Integer week) {
+        List<ApplicationUser> topScoringUsers = new ArrayList<>();
+
+        List<UsersWeeklyTeam> teams = weeklyTeamManager.findWeeklyTeamWithMostPoints(week);
+
+        for (UsersWeeklyTeam uwt : teams) {
+            topScoringUsers.add(uwt.getUser());
+        }
+        return topScoringUsers;
     }
 }

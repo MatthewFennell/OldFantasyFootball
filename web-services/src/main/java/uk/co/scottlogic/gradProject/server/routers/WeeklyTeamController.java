@@ -4,67 +4,91 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
+import uk.co.scottlogic.gradProject.server.routers.dto.AddPlayerToWeeklyTeamDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.GetAveragePointsDTO;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @RestController
-@EnableScheduling
 @RequestMapping("/api")
-@Api(value = "weeklyTeam", description = "Operations pertaining to retrieving weekly team info "
-        + "from the database")
+@Api(value = "Authentication", description = "Operations pertaining to Weekly teams")
 public class WeeklyTeamController {
 
-    private static final Logger log = LoggerFactory.getLogger(User.class);
-
-    private static final long ASSUMED_LOGOUT_AFTER_INACTIVE_TIME = 15 * 60 * 1000L;
-
-    private PlayerRepo playerRepo;
-
-    private CollegeTeamRepo teamRepo;
-
-    private ApplicationUserRepo applicationUserRepo;
-
-    private WeeklyTeamRepo weeklyTeamRepo;
+    private static final Logger log = LoggerFactory.getLogger(Token.class);
 
     private WeeklyTeamManager weeklyTeamManager;
 
     @Autowired
-    public WeeklyTeamController(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo, CollegeTeamRepo teamRepo, WeeklyTeamRepo weeklyTeamRepo, WeeklyTeamManager weeklyTeamManager) {
-        this.applicationUserRepo = applicationUserRepo;
-        this.playerRepo = playeRepo;
-        this.teamRepo = teamRepo;
-        this.weeklyTeamRepo = weeklyTeamRepo;
+    public WeeklyTeamController(WeeklyTeamManager weeklyTeamManager) {
+
         this.weeklyTeamManager = weeklyTeamManager;
     }
 
+    @ApiOperation(value = Icons.key + " Adds a player to a team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "Note successfully set"),
+            @ApiResponse(code = 404, message = "Note not found"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/weeklyteam/addplayer")
+    @PreAuthorize("hasRole('USER')")
+    public void addPlayerToWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
+                                      @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
+
+        try {
+            weeklyTeamManager.addPlayerToWeeklyTeam(user, addPlayerToWeeklyTeamDTO.getId());
+        } catch (IllegalArgumentException e) {
+            response.setStatus(403);
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Removes a player from the team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "Note successfully set"),
+            @ApiResponse(code = 404, message = "Note not found"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/weeklyteam/removeplayer")
+    @PreAuthorize("hasRole('USER')")
+    public void removePlayerFromWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
+                                           @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
+
+        try {
+            weeklyTeamManager.removePlayerFromWeeklyTeam(user, addPlayerToWeeklyTeamDTO.getId());
+        } catch (IllegalArgumentException e) {
+            response.setStatus(403);
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+    }
+
     @ApiOperation(value = Icons.key
-            + " Gets all player in the active team", notes = "Requires User role",
-            authorizations = {
-                    @Authorization(value = "jwtAuth")})
-    @GetMapping("/activeTeam/players")
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully returned"),
-            @ApiResponse(code = 400, message = "Invalid date"),
+            + " Gets the total number of weeks that have been played",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/weeklyteam/numberOfWeeks")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid date / category"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<Player> getActiveTeamPlayers(@AuthenticationPrincipal ApplicationUser user,
-                                             HttpServletResponse response) {
+    public Integer getNumberOfWeeks(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
-            return null;
-        } catch (IllegalArgumentException e) {
-            response.setStatus(400);
+            return weeklyTeamManager.getTotalNumberOfWeeks();
+        } catch (Exception e) {
+            response.setStatus(403);
         }
-        return null;
+        return 0;
     }
 
 }
