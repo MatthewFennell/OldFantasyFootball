@@ -3,7 +3,6 @@ package uk.co.scottlogic.gradProject.server.repos;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 
 import java.util.List;
@@ -20,5 +19,5 @@ public interface ApplicationUserRepo extends CrudRepository<ApplicationUser, UUI
     public Optional<ApplicationUser> findByEmail(String email);
 
     @Query(value = "FROM ApplicationUser WHERE totalPoints = (SELECT MAX(totalPoints) FROM ApplicationUser)")
-    public ApplicationUser findUserWithMostPoints();
+    public List<ApplicationUser> findUserWithMostPoints();
 }

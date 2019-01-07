@@ -13,13 +13,13 @@ public class UserReturnDTO {
 
     private String username;
 
-    private boolean accountExpired;
+//    private boolean accountExpired;
 
-    private boolean credentialsExpired;
+//    private boolean credentialsExpired;
 
-    private boolean locked;
+//    private boolean locked;
 
-    private boolean enabled;
+//    private boolean enabled;
 
     private Set<GrantedAuthority> authoritySet;
 
@@ -35,13 +35,15 @@ public class UserReturnDTO {
 
     private Integer totalPoints;
 
+    private String teamName;
+
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
         this.username = user.getUsername();
-        this.accountExpired = !user.isAccountNonExpired();
-        this.credentialsExpired = !user.isCredentialsNonExpired();
-        this.locked = !user.isAccountNonLocked();
-        this.enabled = user.isEnabled();
+//        this.accountExpired = !user.isAccountNonExpired();
+//        this.credentialsExpired = !user.isCredentialsNonExpired();
+//        this.locked = !user.isAccountNonLocked();
+//        this.enabled = user.isEnabled();
         this.authoritySet = new HashSet(user.getAuthorities());
         this.remainingBudget = user.getRemainingBudget();
         this.nickname = user.getNickname();
@@ -49,8 +51,16 @@ public class UserReturnDTO {
         this.surname = user.getSurname();
         this.email = user.getEmail();
         this.totalPoints = user.getTotalPoints();
+        this.teamName = user.getTeamName();
     }
 
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
 
     public Integer getTotalPoints() {
         return totalPoints;
@@ -92,21 +102,21 @@ public class UserReturnDTO {
         return username;
     }
 
-    public boolean isAccountExpired() {
-        return accountExpired;
-    }
-
-    public boolean isCredentialsExpired() {
-        return credentialsExpired;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
+//    public boolean isAccountExpired() {
+//        return accountExpired;
+//    }
+//
+//    public boolean isCredentialsExpired() {
+//        return credentialsExpired;
+//    }
+//
+//    public boolean isEnabled() {
+//        return enabled;
+//    }
+//
+//    public boolean isLocked() {
+//        return locked;
+//    }
 
     public String getNickname() {
         return nickname;

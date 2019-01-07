@@ -13,11 +13,14 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.routers.dto.GetUsersPointsInWeekDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -26,9 +29,6 @@ import java.io.IOException;
 public class User {
 
     private static final Logger log = LoggerFactory.getLogger(User.class);
-
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
 
     private ApplicationUserRepo applicationUserRepo;
 
@@ -41,18 +41,6 @@ public class User {
         this.applicationUserManager = applicationUserManager;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Deletes Current user", notes = "Requires User role", authorizations = {
-            @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {@ApiResponse(code = 204, message = "User Successfully deleted"),
-            @ApiResponse(code = 403, message = "Not permitted to do that")})
-    @DeleteMapping("/user/current")
-    @PreAuthorize("hasRole('USER')")
-    public void deleteCurrent(@AuthenticationPrincipal ApplicationUser user,
-                              HttpServletResponse response) {
-        applicationUserRepo.delete(user);
-        response.setStatus(204);
-    }
 
     @ApiOperation(value = Icons.key
             + " Gets all user details", notes = "Requires User role", response = UserReturnDTO.class,
@@ -96,6 +84,32 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
+            + " Set the users team name", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Team Name Successfully Set"),
+            @ApiResponse(code = 400, message = "Team name property not valid"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
+                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+    @PatchMapping("/user/teamName")
+    @PreAuthorize("hasRole('USER')")
+    public void patchTeamName(@AuthenticationPrincipal ApplicationUser user,
+                              String teamName, HttpServletResponse response) {
+        try {
+            applicationUserManager.setTeamName(user, teamName);
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            ExceptionLogger.logException(e);
+            response.setStatus(500);
+        }
+    }
+
+    @ApiOperation(value = Icons.key
             + " Patches current user detail", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})
@@ -122,52 +136,15 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
-            + " Gets the total points of the user", notes = "Requires User role", response = void.class,
-            authorizations = {
-                    @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Points obtained correctly"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
-                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @GetMapping("/user/totalPoints")
+            + " Deletes Current user", notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 204, message = "User Successfully deleted"),
+            @ApiResponse(code = 403, message = "Not permitted to do that")})
+    @DeleteMapping("/user/current")
     @PreAuthorize("hasRole('USER')")
-    public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
-        try {
-            return applicationUserManager.findTotalPoints(user);
-        } catch (IllegalArgumentException e) {
-            try {
-                response.sendError(400, e.getMessage());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            ExceptionLogger.logException(e);
-            response.setStatus(500);
-        }
-        return -1;
-    }
-
-    @ApiOperation(value = Icons.key
-            + " Returns the user with the most points", notes = "Requires User role", response = void.class,
-            authorizations = {
-                    @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "User obtained correctly"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
-                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @GetMapping("/user/mostPoints")
-    @PreAuthorize("hasRole('USER')")
-    public UserReturnDTO userWithMostPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
-        try {
-            return new UserReturnDTO(applicationUserManager.findUserWithLargestTotalPoints());
-        } catch (IllegalArgumentException e) {
-            try {
-                response.sendError(400, e.getMessage());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            ExceptionLogger.logException(e);
-            response.setStatus(500);
-        }
-        return null;
+    public void deleteCurrent(@AuthenticationPrincipal ApplicationUser user,
+                              HttpServletResponse response) {
+        applicationUserRepo.delete(user);
+        response.setStatus(204);
     }
 }

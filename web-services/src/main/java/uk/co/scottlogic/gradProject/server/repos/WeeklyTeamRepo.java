@@ -24,12 +24,15 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
     public Optional<UsersWeeklyTeam> findByUserByWeek(ApplicationUser user, Integer week);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE week = ?1 AND points = (SELECT MAX(points) FROM UsersWeeklyTeam)")
-    public UsersWeeklyTeam findUserWithMostPoints(Integer week);
+    public List<UsersWeeklyTeam> findUserWithMostPoints(Integer week);
 
     @Query(value = "SELECT week FROM UsersWeeklyTeam WHERE week = (SELECT MAX(week) FROM UsersWeeklyTeam)")
     public Integer findNumberOfWeeks();
 
     @Query(value = "SELECT avg(points) FROM UsersWeeklyTeam WHERE week = ?1")
     public double findAveragePointsInWeek(Integer week);
+
+    @Query(value = "SELECT points FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2 ")
+    public Integer findPointsInWeekByUser(ApplicationUser user, Integer week);
 
 }
