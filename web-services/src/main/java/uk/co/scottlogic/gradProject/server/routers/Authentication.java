@@ -123,9 +123,9 @@ public class Authentication {
                 user.addAuthority(new UserAuthority("ROLE_ADMIN"));
             }
             applicationUserRepo.save(user);
-            UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>());
+            UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), 0);
             Date date = new DateTime().minusMonths(5).toDate();
-            UsersWeeklyTeam team1 = new UsersWeeklyTeam(user, date, new ArrayList<>());
+            UsersWeeklyTeam team1 = new UsersWeeklyTeam(user, date, new ArrayList<>(), 0);
             weeklyTeamRepo.save(team);
             weeklyTeamRepo.save(team1);
             response.setStatus(201);

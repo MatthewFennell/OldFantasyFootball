@@ -34,6 +34,9 @@ public class PlayerPoints {
     @Column(nullable = false)
     private Date date;
 
+    @Column(nullable = false)
+    private Integer week;
+
     @ManyToOne
     @JoinColumn
     private Player player;
@@ -43,7 +46,10 @@ public class PlayerPoints {
     @Type(type = "uuid-char")
     private UUID id;
 
-    public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, Date date, Player player) {
+    @Column(nullable = false)
+    private Integer points;
+
+    public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, Date date, Player player, Integer week) {
         this.numberOfGoals = goals;
         this.numberOfAssists = assists;
         this.minutesPlayed = mins;
@@ -54,10 +60,28 @@ public class PlayerPoints {
         this.date = date;
         id = UUID.randomUUID();
         this.player = player;
+        this.week = week;
+        this.points = calculateScore();
     }
 
     private PlayerPoints() {
 
+    }
+
+    public Integer getPoints() {
+        return points;
+    }
+
+    public void setPoints(Integer points) {
+        this.points = points;
+    }
+
+    public Integer getWeek() {
+        return week;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
     }
 
     public UUID getId() {
@@ -136,8 +160,8 @@ public class PlayerPoints {
         this.date = date;
     }
 
-    public double calculateScore(){
-        double total = 0;
+    public Integer calculateScore(){
+        Integer total = 0;
         if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER){
             total += numberOfGoals*6;
             if (cleanSheet){

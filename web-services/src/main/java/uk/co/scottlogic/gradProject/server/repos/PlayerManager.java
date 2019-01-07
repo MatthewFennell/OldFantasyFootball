@@ -2,14 +2,10 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.zip.CheckedOutputStream;
 
 @Service
 public class PlayerManager {
@@ -20,45 +16,19 @@ public class PlayerManager {
 
     private PlayerPointsRepo playerPointsRepo;
 
+    private WeeklyTeamRepo weeklyTeamRepo;
+
+    private ApplicationUserRepo applicationUserRepo;
+
     @Autowired
-    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo, PlayerPointsRepo playerPointsRepo) {
+    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo, PlayerPointsRepo playerPointsRepo, WeeklyTeamRepo weeklyTeamRepo, ApplicationUserRepo applicationUserRepo) {
         this.teamRepo = teamRepo;
         this.playerRepo = playerRepo;
         this.playerPointsRepo = playerPointsRepo;
-
-
-//        List<CollegeTeam> team = teamRepo.findByName("A");
-//        if (!team.isEmpty()){
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 7.2, "John", "Terry");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.5, "David", "Silva");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
-//            makePlayer(team.get(0), Player.Position.ATTACKER, 8.8, "Paco", "");
-//            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Marcus", "Rashford");
-//            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
-//            makePlayer(team.get(0), Player.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 8.5, "Ed", "Main");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 7.5, "Joe", "Sutton");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 6.5, "Stevie", "");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
-//            makePlayer(team.get(0), Player.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
-//            makePlayer(team.get(0), Player.Position.DEFENDER, 9.5, "Herbie", "");
-//            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
-//        }
-
-//        Optional<Player> player = playerRepo.findByFirstName("Eduardo");
-//        if (player.isPresent()){
-//            Player p = player.get();
-//            addPointsToPlayer(p, new Date(), 3, 10, false, 90, 1, false, false);
-//
-//        }
-        Optional<Player> player = playerRepo.findByFirstName("Eduardo");
-        if (player.isPresent()) {
-            System.out.println("Score for Eduardo is " + findPointsForPlayerInWeek(player.get(), new Date()));
-        }
+        this.weeklyTeamRepo = weeklyTeamRepo;
+        this.applicationUserRepo = applicationUserRepo;
+//        makePlayers();
+//        addPointsToPlayers();
     }
 
 
@@ -72,19 +42,204 @@ public class PlayerManager {
         }
     }
 
-    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch) {
-        playerPointsRepo.save(new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player));
+    // When adding points to a player
+    // Add points to all the weekly teams they belong to for the correct week
+    // Update the users total score as well
+    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
+        PlayerPoints newPlayerPoints = new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player, week);
+        playerPointsRepo.save(newPlayerPoints);
+        Integer score = newPlayerPoints.calculateScore();
+
+        player.changeScore(score);
+        player.changeGoals(goals);
+        player.changeAssists(assists);
+        playerRepo.save(player);
+        List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(player);
+        for (UsersWeeklyTeam uwt : weeklyTeams){
+
+            // Increase the weekly team score
+            uwt.changePoints(score);
+            weeklyTeamRepo.save(uwt);
+
+            // Increase the users total score
+            ApplicationUser user = uwt.getUser();
+            user.changeTotalPoints(score);
+            applicationUserRepo.save(user);
+        }
     }
 
-    private double findPointsForPlayerInWeek(Player player, Date date){
-        List<PlayerPoints> playerPoints = playerPointsRepo.findByPlayer(player);
+    private Integer findPointsForPlayerInWeek(Player player, Integer week){
+        Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
 
-        if (!playerPoints.isEmpty()){
-            return playerPoints.get(0).calculateScore();
+        if (playerPoints.isPresent()){
+            return playerPoints.get().getPoints();
         }
         else{
             return 0;
         }
+    }
+
+    private PlayerPoints findPlayerWithMostPointsInWeek(Integer week){
+        return playerPointsRepo.findPlayerWithMostPoints(week);
+    }
+
+    public List<Player> filterPlayers(CollegeTeam team, Player.Position position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+
+        if (position == Player.Position.GOALKEEPER){
+            return findGoalkeepers(team, minPrice, maxPrice, name, sorting);
+        }
+        else if (position == Player.Position.DEFENDER){
+            return findDefenders(team, minPrice, maxPrice, name, sorting);
+        }
+        else if (position == Player.Position.MIDFIELDER){
+            return findMidfielders(team, minPrice, maxPrice, name, sorting);
+        }
+        else if (position == Player.Position.ATTACKER){
+            return findAttackers(team, minPrice, maxPrice, name, sorting);
+        } else{
+            return findAllPositions(team, minPrice, maxPrice, name, sorting);
+        }
+    }
+
+    private List<Player> findGoalkeepers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        return filter(team, 0, minPrice, maxPrice, name, sorting);
+    }
+
+    private List<Player> findDefenders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        return filter(team, 1, minPrice, maxPrice, name, sorting);
+    }
+
+    private List<Player> findMidfielders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        return filter(team, 2, minPrice, maxPrice, name, sorting);
+    }
+
+    private List<Player> findAttackers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        return filter(team, 3, minPrice, maxPrice, name, sorting);
+    }
+
+    private List<Player> findAllPositions(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        return filter(team, null, minPrice, maxPrice, name, sorting);
+    }
+
+    private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+
+        String searchName = name;
+
+        // Search for everything if the input is null
+        if (name == null){
+            searchName = "%";
+        }
+        // Now searches for anything that contains 'searchName'
+        else {
+            searchName = "%" + searchName + "%";
+        }
+
+        // Order by price by default
+        if (sorting == SORT_BY.GOALS){
+            return playerRepo.filterPlayersSortByGoals(team, position, minPrice, maxPrice, searchName);
+        }
+        else if (sorting == SORT_BY.ASSISTS) {
+            return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
+        }
+        else if (sorting == SORT_BY.TOTAL_SCORE) {
+            return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
+        }
+        else {
+            return playerRepo.filterPlayersSortByPrice(team, position, minPrice, maxPrice, searchName);
+        }
+    }
+
+    public void addPointsToPlayers(){
+        Optional<Player> player1 = playerRepo.findByFirstName("John");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 7, 6, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Phil");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 2, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Chris");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 7, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("David");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 9, 2, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Bernado");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 6, 3, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Kevin");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Paul");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Paco");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 4, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Marcus");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 7, 8, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Romelu");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Dom");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 2, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Ed");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 6, 3, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Joe");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 0, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Stevie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 7, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Ollie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 3, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Eloka");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 7, 4, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Herbie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Eduardo");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 1, false, 90, 0, false, false, 0));
+
+    }
+
+    public void makePlayers(){
+                List<CollegeTeam> team = teamRepo.findByName("A");
+        if (!team.isEmpty()){
+            makePlayer(team.get(0), Player.Position.DEFENDER, 7.2, "John", "Terry");
+            makePlayer(team.get(0), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
+            makePlayer(team.get(0), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.5, "David", "Silva");
+
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
+            makePlayer(team.get(0), Player.Position.ATTACKER, 8.8, "Paco", "");
+
+            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Marcus", "Rashford");
+            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
+            makePlayer(team.get(0), Player.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
+            makePlayer(team.get(0), Player.Position.DEFENDER, 8.5, "Ed", "Main");
+
+            makePlayer(team.get(0), Player.Position.DEFENDER, 7.5, "Joe", "Sutton");
+            makePlayer(team.get(0), Player.Position.DEFENDER, 6.5, "Stevie", "");
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
+            makePlayer(team.get(0), Player.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
+
+            makePlayer(team.get(0), Player.Position.DEFENDER, 9.5, "Herbie", "");
+            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
+        }
+    }
+
+    public enum SORT_BY {
+        TOTAL_SCORE, GOALS, ASSISTS, PRICE
     }
 
 }
