@@ -16,9 +16,9 @@ export interface State {
 export const initialState: State = {
   weekBeingViewed: 0,
   weeklyPointsCache: {} as { weeks: { id: number; points: number } },
-  averageWeeklyPointsCache: {} as { average_weeks: { id: number; points: number } },
-  topWeeklyPlayersCache: {} as { top_players: { id: number; player: WeeklyPlayer } },
-  topWeeklyUsersCache: {} as { top_users: { id: number; user: TopWeeklyUser } }
+  averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
+  topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: WeeklyPlayer } },
+  topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } }
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -35,7 +35,7 @@ export const reducer = (state: State = initialState, action: Action) => {
         ...state,
         weeklyPointsCache: {
           ...state.weeklyPointsCache,
-          [action.payload.week_id]: action.payload.week
+          [action.payload.weekId]: action.payload.week
         }
       };
     }
@@ -45,7 +45,7 @@ export const reducer = (state: State = initialState, action: Action) => {
         ...state,
         averageWeeklyPointsCache: {
           ...state.averageWeeklyPointsCache,
-          [action.payload.week_id]: action.payload.average_weekly_points
+          [action.payload.weekId]: action.payload.averageWeeklyPoints
         }
       };
     }
@@ -55,7 +55,7 @@ export const reducer = (state: State = initialState, action: Action) => {
         ...state,
         topWeeklyPlayersCache: {
           ...state.topWeeklyPlayersCache,
-          [action.payload.week_id]: action.payload.player
+          [action.payload.weekId]: action.payload.player
         }
       };
     }
@@ -65,7 +65,7 @@ export const reducer = (state: State = initialState, action: Action) => {
         ...state,
         topWeeklyUsersCache: {
           ...state.topWeeklyUsersCache,
-          [action.payload.week_id]: action.payload.user
+          [action.payload.weekId]: action.payload.user
         }
       };
     }

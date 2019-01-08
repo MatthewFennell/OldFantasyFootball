@@ -16,22 +16,22 @@ export interface SetWeekBeingViewed {
 
 export interface AddToWeeklyPointsCache {
   type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE;
-  payload: { week_id: number; week: number };
+  payload: { weekId: number; week: number };
 }
 
 export interface AddToAverageWeeklyPointsCache {
   type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE;
-  payload: { week_id: number; average_weekly_points: number };
+  payload: { weekId: number; averageWeeklyPoints: number };
 }
 
 export interface AddToTopWeeklyPlayersCache {
   type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE;
-  payload: { week_id: number; player: WeeklyPlayer };
+  payload: { weekId: number; player: WeeklyPlayer };
 }
 
 export interface AddToTopWeeklyUsersCache {
   type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE;
-  payload: { week_id: number; user: TopWeeklyUser };
+  payload: { weekId: number; user: TopWeeklyUser };
 }
 
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
@@ -43,40 +43,40 @@ export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
   };
 };
 
-export const addToWeeklyPointsCache = (week_id: number, week: number): AddToWeeklyPointsCache => {
+export const addToWeeklyPointsCache = (weekId: number, week: number): AddToWeeklyPointsCache => {
   return {
     type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE,
-    payload: { week_id, week }
+    payload: { weekId, week }
   };
 };
 
 export const addToTopWeeklyPlayersCache = (
-  week_id: number,
+  weekId: number,
   player: WeeklyPlayer
 ): AddToTopWeeklyPlayersCache => {
   return {
     type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE,
-    payload: { week_id, player }
+    payload: { weekId, player }
   };
 };
 
 export const addToAverageWeeklyPointsCache = (
-  week_id: number,
-  average_weekly_points: number
+  weekId: number,
+  averageWeeklyPoints: number
 ): AddToAverageWeeklyPointsCache => {
   return {
     type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE,
-    payload: { week_id, average_weekly_points }
+    payload: { weekId, averageWeeklyPoints }
   };
 };
 
 export const addToTopWeeklyUsersCache = (
-  week_id: number,
+  weekId: number,
   user: TopWeeklyUser
 ): AddToTopWeeklyUsersCache => {
   return {
     type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE,
-    payload: { week_id, user }
+    payload: { weekId, user }
   };
 };
 
