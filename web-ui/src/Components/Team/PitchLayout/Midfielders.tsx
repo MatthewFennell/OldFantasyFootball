@@ -7,16 +7,16 @@ class Midfielders extends React.Component<{}, {}> {
     return (
       <div className="midfielders-columns">
         <div className="first-midfielder">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={213} />
         </div>
         <div className="second-midfielder">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={2453} />
         </div>
         <div className="second-midfielder">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={213} />
         </div>
         <div className="second-midfielder">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={232} />
         </div>
       </div>
     );

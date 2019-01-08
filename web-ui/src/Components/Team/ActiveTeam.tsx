@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { getActiveTeam } from '../../Services/UserService';
 import { Table, Col, Row } from 'reactstrap';
 import ActiveTeamTableBody from './ActiveTeamTableBody';
 
 interface ActiveTeamProps {
-  activeTeam: WeeklyPlayer[];
+  activeTeam: TopWeeklyPlayer[];
   setTeam: (activeTeam: any) => void;
 }
 

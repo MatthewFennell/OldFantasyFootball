@@ -7,10 +7,10 @@ class Attackers extends React.Component<{}, {}> {
     return (
       <div className="attackers-columns">
         <div className="first-attacker">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
         <div className="second-attacker">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
       </div>
     );

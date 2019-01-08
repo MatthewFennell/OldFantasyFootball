@@ -5,7 +5,9 @@ import Midfielders from '../../../Containers/Team/PitchLayout/Midfielders';
 import Defenders from '../../../Containers/Team/PitchLayout/Defenders';
 import Goalkeeper from '../../../Containers/Team/PitchLayout/Goalkeeper';
 
-class Pitch extends React.Component<{}, {}> {
+interface PitchProps {}
+
+class Pitch extends React.Component<PitchProps,k {}> {
   render() {
     return (
       <div className="pitch-with-players">
