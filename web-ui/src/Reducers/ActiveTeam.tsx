@@ -1,11 +1,11 @@
 import { ActionTypes, Action as ActiveTeamAction } from '../Actions/ActiveTeamActions';
-import { Player } from '../Models/Interfaces/Player';
+import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
 
 type Action = ActiveTeamAction;
 
 // Define our State interface for the current reducer
 export interface State {
-  activeTeam: Array<Player>;
+  activeTeam: Array<WeeklyPlayer>;
 }
 
 // Define our initialState

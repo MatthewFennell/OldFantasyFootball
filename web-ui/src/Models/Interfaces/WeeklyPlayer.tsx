@@ -1,10 +1,13 @@
 import { CollegeTeam } from './CollegeTeam';
 
-export interface Player {
+export interface WeeklyPlayer {
   id: string;
   firstName: string;
   surname: string;
-  price: Number;
+  price: number;
   position: String;
   team: CollegeTeam;
+  points: number;
+  goals: number;
+  assists: number;
 }

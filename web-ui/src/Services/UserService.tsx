@@ -1,9 +1,10 @@
 import { Credentials } from '../Models/Interfaces/Credentials';
 import { Account } from '../Models/Interfaces/Account';
-import { Player } from '../Models/Interfaces/Player';
+import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
 import { RegistrationDetails } from '../Models/Interfaces/RegistrationDetails';
 import { Tokens } from '../Models/Interfaces/Tokens';
 import { getBearerHeader } from './CredentialInputService';
+import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -53,7 +54,7 @@ export const login = (data: Credentials): Promise<Tokens> => {
   });
 };
 
-export const getActiveTeam = (): Promise<{ activeTeam: Player[] }> => {
+export const getActiveTeam = (): Promise<{ activeTeam: WeeklyPlayer[] }> => {
   return fetch('/api/activeTeam/players', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
@@ -99,6 +100,28 @@ export const getAveragePoints = (week: number): Promise<number> => {
 
 export const getPointsForUserInWeek = (week: number): Promise<number> => {
   return fetch('/api/points/user/week/' + week, {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getPlayersWithMostPointsInWeek = (week: number): Promise<WeeklyPlayer> => {
+  return fetch('/api/player/points/week/' + week + '/most/', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getUsersWithMostPointsInWeek = (week: number): Promise<TopWeeklyUser> => {
+  return fetch('/api/points/user/week/' + week + '/most', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
   }).then(response => {

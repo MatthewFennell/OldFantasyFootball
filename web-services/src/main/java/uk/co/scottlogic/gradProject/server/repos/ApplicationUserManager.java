@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 
 import java.util.ArrayList;
@@ -90,13 +91,13 @@ public class ApplicationUserManager {
         }
     }
 
-    public List<ApplicationUser> findUsersWithMostPointsInWeek(Integer week) {
-        List<ApplicationUser> topScoringUsers = new ArrayList<>();
+    public List<TopWeeklyUserReturnDTO> findUsersWithMostPointsInWeek(Integer week) {
+        List<TopWeeklyUserReturnDTO> topScoringUsers = new ArrayList<>();
 
         List<UsersWeeklyTeam> teams = weeklyTeamManager.findWeeklyTeamWithMostPoints(week);
 
         for (UsersWeeklyTeam uwt : teams) {
-            topScoringUsers.add(uwt.getUser());
+            topScoringUsers.add(new TopWeeklyUserReturnDTO(uwt));
         }
         return topScoringUsers;
     }
