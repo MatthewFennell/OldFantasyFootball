@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Stats from '../../Components/Team/Stats';
-import { getTotalPoints } from '../../Selectors/StatsSelector';
-import { setTotalPoints } from '../../Actions/StatsActions';
+import { getAveragePoints } from '../../Selectors/StatsSelector';
+import { setAveragePoints } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
-  totalPoints: getTotalPoints(state)
+  averagePoints: getAveragePoints(state)
 });
 
 const mapDispatchToProps = {
-  setTotalPoints
+  setAveragePoints
 };
 
 export default connect<any, any, any>(

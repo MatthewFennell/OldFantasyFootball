@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../Style/Team/Team.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
-import Pitch from '../../Containers/Team/PitchLayout/Pitch';
+// import Pitch from '../../Containers/Team/PitchLayout/Pitch';
 
 interface TransactionsProps {}
 
@@ -28,10 +28,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         <div className="row-2-stats">
           <Stats />
         </div>
-        <div className="row-3-squad">
+        {/* <div className="row-3-squad">
           <Pitch />
         </div>
-        <div className="row-4-bench">Bench</div>
+        <div className="row-4-bench">Bench</div> */}
       </div>
     );
   }

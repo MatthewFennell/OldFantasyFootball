@@ -8,7 +8,8 @@ export enum ActionTypes {
   SET_EMAIL = 'SET_EMAIL',
   SET_ACCOUNT = 'SET_ACCOUNT',
   RESET_ACCOUNT = 'RESET_ACCOUNT',
-  SET_PAGE_BEING_VIEWED = 'SET_PAGE_BEING_VIEWED'
+  SET_PAGE_BEING_VIEWED = 'SET_PAGE_BEING_VIEWED',
+  SET_TOTAL_POINTS = 'SET_TOTAL_POINTS'
 }
 
 export interface SetBalance {
@@ -51,6 +52,11 @@ export interface SetAccount {
 export interface SetPageBeingViewed {
   type: ActionTypes.SET_PAGE_BEING_VIEWED;
   payload: { pageToView: string };
+}
+
+export interface SetTotalPoints {
+  type: ActionTypes.SET_TOTAL_POINTS;
+  payload: { totalPoints: number };
 }
 
 export const setBalance = (balance: number): SetBalance => {
@@ -118,6 +124,15 @@ export const setPageBeingViewed = (pageToView: string): SetPageBeingViewed => {
   };
 };
 
+export const setTotalPoints = (totalPoints: number): SetTotalPoints => {
+  return {
+    type: ActionTypes.SET_TOTAL_POINTS,
+    payload: {
+      totalPoints
+    }
+  };
+};
+
 export type Action =
   | SetBalance
   | SetFirstName
@@ -126,4 +141,5 @@ export type Action =
   | SetUsername
   | SetAccount
   | ResetAccount
-  | SetPageBeingViewed;
+  | SetPageBeingViewed
+  | SetTotalPoints;

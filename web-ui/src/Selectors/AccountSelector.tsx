@@ -12,3 +12,6 @@ export const getSurname = createSelector([getSurnameState], s => s.surname);
 
 const getPageBeingViewedState = (state: State) => state.account;
 export const getPageBeingViewed = createSelector([getPageBeingViewedState], p => p.pageBeingViewed);
+
+const getTotalPointsState = (state: State) => state.account;
+export const getTotalPoints = createSelector([getTotalPointsState], p => p.totalPoints);

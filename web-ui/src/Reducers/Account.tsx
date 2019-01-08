@@ -11,6 +11,7 @@ export interface State {
   balance: number;
   pageBeingViewed: string;
   totalPoints: number;
+  weekBeingViewed: number;
 }
 
 // Define our initialState
@@ -22,7 +23,8 @@ export const initialState: State = {
   username: '',
   balance: 0,
   pageBeingViewed: 'Team',
-  totalPoints: 0
+  totalPoints: 0,
+  weekBeingViewed: 0
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -36,16 +38,9 @@ export const reducer = (state: State = initialState, action: Action) => {
     }
 
     case ActionTypes.SET_FIRSTNAME: {
-      const { id, surname, username, email, balance, totalPoints } = state;
-      const firstName = action.payload.firstName;
       return {
-        id,
-        firstName,
-        surname,
-        username,
-        email,
-        balance,
-        totalPoints
+        ...state,
+        firstName: action.payload.firstName
       };
     }
 
@@ -75,6 +70,13 @@ export const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         pageBeingViewed: action.payload.pageToView
+      };
+    }
+
+    case ActionTypes.SET_TOTAL_POINTS: {
+      return {
+        ...state,
+        totalPoints: action.payload.totalPoints
       };
     }
 
