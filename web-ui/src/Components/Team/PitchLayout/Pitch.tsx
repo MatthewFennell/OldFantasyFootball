@@ -7,7 +7,7 @@ import Goalkeeper from '../../../Containers/Team/PitchLayout/Goalkeeper';
 
 interface PitchProps {}
 
-class Pitch extends React.Component<PitchProps,k {}> {
+class Pitch extends React.Component<PitchProps, {}> {
   render() {
     return (
       <div className="pitch-with-players">
