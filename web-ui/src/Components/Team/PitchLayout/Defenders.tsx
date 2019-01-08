@@ -7,16 +7,16 @@ class Defenders extends React.Component<{}, {}> {
     return (
       <div className="defenders-columns">
         <div className="first-defender">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
         <div className="second-defender">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
         <div className="second-defender">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
         <div className="second-defender">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
       </div>
     );

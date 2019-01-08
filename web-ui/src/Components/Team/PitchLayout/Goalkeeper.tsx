@@ -7,7 +7,7 @@ class Goalkeeper extends React.Component<{}, {}> {
     return (
       <div className="goalkeeper-columns">
         <div className="goalkeeper">
-          <Player />
+          <Player firstName="Sergio" surname="Aguero" points={23} />
         </div>
       </div>
     );

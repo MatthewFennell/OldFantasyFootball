@@ -2,15 +2,18 @@ import * as React from 'react';
 import '../../Style/Team/Team.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
+import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
 import {
   getNumberOfWeeks,
   getPointsForUserInWeek,
   getAveragePoints,
   getPlayersWithMostPointsInWeek,
-  getUsersWithMostPointsInWeek
+  getUsersWithMostPointsInWeek,
+  getTeamForUserInWeek
 } from '../../Services/UserService';
+import Pitch from './PitchLayout/Pitch';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -24,10 +27,13 @@ interface TransactionsProps {
   addToWeeklyPointsCache: (id: number, points: number) => void;
 
   topWeeklyPlayerCache: any;
-  addToTopWeeklyPlayersCache: (id: number, player: WeeklyPlayer) => void;
+  addToTopWeeklyPlayersCache: (id: number, player: TopWeeklyPlayer) => void;
 
   topWeeklyUsersCache: any;
   addToTopWeeklyUsersCache: (id: number, player: TopWeeklyUser) => void;
+
+  activeTeam: WeeklyPlayer[];
+  setTeam: (team: WeeklyPlayer[]) => void;
 }
 
 interface TransactionsState {}
@@ -40,10 +46,19 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   }
 
   componentDidMount() {
+    getTeamForUserInWeek(0).then(response => {
+      console.log('response = ' + JSON.stringify(response));
+      this.props.setTeam(response);
+    });
+
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
       // Automatically start viewing the latest
       this.props.setWeekBeingViewed(currentWeek);
+
+      getTeamForUserInWeek(currentWeek).then(activeTeam => {
+        this.props.setTeam(activeTeam);
+      });
 
       // Hold a cache of [Week -> Average Weekly Points]
       // If not cached, add to it
@@ -71,7 +86,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       // Top weekly user cache
       if (this.props.topWeeklyUsersCache[currentWeek] === undefined) {
         getUsersWithMostPointsInWeek(currentWeek).then(userMostPoints => {
-          this.props.addToTopWeeklyUsersCache(5, userMostPoints);
+          this.props.addToTopWeeklyUsersCache(currentWeek, userMostPoints);
         });
       }
     });
@@ -88,10 +103,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         <div className="row-2-stats">
           <Stats />
         </div>
-        {/* <div className="row-3-squad">
+        <div className="row-3-squad">
           <Pitch />
         </div>
-        <div className="row-4-bench">Bench</div> */}
+        <div className="row-4-bench">Bench</div>
       </div>
     );
   }

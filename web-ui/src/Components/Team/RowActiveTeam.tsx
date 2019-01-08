@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 
 interface RowActiveTeamProps {
-  element: WeeklyPlayer;
+  element: TopWeeklyPlayer;
 }
 
 class RowActiveTeam extends React.Component<RowActiveTeamProps> {

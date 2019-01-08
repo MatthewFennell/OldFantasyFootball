@@ -12,13 +12,11 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
-import uk.co.scottlogic.gradProject.server.routers.dto.AddPlayerToWeeklyTeamDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.GetAveragePointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -30,12 +28,13 @@ public class PlayerController {
 
     private PlayerManager playerManager;
 
-
+    private WeeklyTeamManager weeklyTeamManager;
 
     @Autowired
-    public PlayerController(PlayerManager playerManager) {
+    public PlayerController(PlayerManager playerManager, WeeklyTeamManager weeklyTeamManager) {
 
         this.playerManager = playerManager;
+        this.weeklyTeamManager = weeklyTeamManager;
     }
 
     @ApiOperation(value = Icons.key
@@ -58,6 +57,28 @@ public class PlayerController {
             response.setStatus(403);
         }
         return null;
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Find all players for the user in a given week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player/week/{week-id}/team")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<WeeklyPlayerReturnDTO> getAllPlayersForUserInWeek(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("week-id") Integer week) {
+        try {
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            return weeklyTeamManager.findAllPlayersInWeeklyTeam(user, week);
+        } catch (Exception e) {
+            response.setStatus(403);
+        }
+        return Collections.emptyList();
     }
 
 }

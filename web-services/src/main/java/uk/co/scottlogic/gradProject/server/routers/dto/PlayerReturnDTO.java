@@ -31,6 +31,15 @@ public class PlayerReturnDTO {
         this.price = playerPoints.getPlayer().getPrice();
     }
 
+    public PlayerReturnDTO(Player player, Integer points){
+        this.firstName = player.getFirstName();
+        this.surname = player.getSurname();
+        this.team = player.getActiveTeam();
+        this.id = player.getId();
+        this.points = points;
+        this.position = player.getPosition();
+    }
+
     public PlayerReturnDTO() {
 
     }

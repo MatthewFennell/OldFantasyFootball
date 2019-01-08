@@ -5,11 +5,10 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class WeeklyTeamManager {
@@ -24,13 +23,24 @@ public class WeeklyTeamManager {
 
     private PlayerPointsRepo playerPointsRepo;
 
+    private PlayerManager playerManager;
+
     @Autowired
-    public WeeklyTeamManager(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo, CollegeTeamRepo teamRepo, WeeklyTeamRepo weeklyTeamRepo, PlayerPointsRepo playerPointsRepo) {
+    public WeeklyTeamManager(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo,
+                             CollegeTeamRepo teamRepo, WeeklyTeamRepo weeklyTeamRepo,
+                             PlayerPointsRepo playerPointsRepo, PlayerManager playerManager) {
         this.applicationUserRepo = applicationUserRepo;
         this.playerRepo = playeRepo;
         this.teamRepo = teamRepo;
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
+        this.playerManager = playerManager;
+
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+
+        if (user.isPresent()){
+            findAllPlayersInWeeklyTeam(user.get(), 0);
+        }
 
 //        addPlayersToWeeklyTeam();
 
@@ -125,6 +135,24 @@ public class WeeklyTeamManager {
 
     public double findAveragePointsOfAllTeamsInWeek(Integer week) {
         return weeklyTeamRepo.findAveragePointsInWeek(week);
+    }
+
+    // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
+    public List<WeeklyPlayerReturnDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week){
+        Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
+        List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
+
+        if (team.isPresent()){
+            List<Player> players = team.get().getPlayers();
+            for (Player p : players){
+                playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
+            }
+        }
+        else{
+            throw new IllegalArgumentException("No weekly team for that user and date");
+        }
+        playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));
+        return playersToReturn;
     }
 
     public void addPlayersToWeeklyTeam() {

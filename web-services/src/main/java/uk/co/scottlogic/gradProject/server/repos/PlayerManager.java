@@ -68,7 +68,7 @@ public class PlayerManager {
         }
     }
 
-    private Integer findPointsForPlayerInWeek(Player player, Integer week){
+    public Integer findPointsForPlayerInWeek(Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
 
         if (playerPoints.isPresent()){
