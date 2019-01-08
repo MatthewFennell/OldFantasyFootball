@@ -1,30 +1,52 @@
 import * as React from 'react';
 import '../../Style/Team/Stats.css';
-import { getAveragePoints } from '../../Services/UserService';
 
 interface StatsProps {
-  setAveragePoints: (totalPoints: number) => void;
-  averagePoints: number;
+  averageWeeklyPointsCache: any;
+  topWeeklyPlayerCache: any;
+  weekBeingViewed: number;
+  topWeeklyUsersCache: any;
 }
 
-interface StatsState {
-  totalPoints: number;
-}
+interface StatsState {}
 
 class Stats extends React.Component<StatsProps, StatsState> {
-  componentDidMount() {
-    getAveragePoints(0).then(response => {
-      console.log('response = ' + JSON.stringify(response));
-      this.props.setAveragePoints(response);
-    });
-  }
+  componentDidMount() {}
 
+  // Only load the player name when it's been added to the cache
   render() {
+    const {
+      averageWeeklyPointsCache,
+      weekBeingViewed,
+      topWeeklyPlayerCache,
+      topWeeklyUsersCache
+    } = this.props;
+
     return (
       <div className="stats-columns">
-        <div className="average-points">Average Points: {this.props.averagePoints}</div>
-        <div className="user-most-points">Player with most points = Bob</div>
-        <div className="player-most-points">User with most points = Niall</div>
+        <div className="average-points">
+          Average Points: {averageWeeklyPointsCache[weekBeingViewed]}
+        </div>
+
+        {topWeeklyPlayerCache[weekBeingViewed] !== undefined ? (
+          <div className="player-most-points">
+            Player of the Week : {topWeeklyPlayerCache[weekBeingViewed].firstName}{' '}
+            {topWeeklyPlayerCache[weekBeingViewed].surname} (
+            {topWeeklyPlayerCache[weekBeingViewed].points} points)
+          </div>
+        ) : (
+          <div className="player-most-points">Player with most points :</div>
+        )}
+
+        {topWeeklyUsersCache[weekBeingViewed] !== undefined ? (
+          <div className="user-most-points">
+            Team of the Week : {topWeeklyUsersCache[weekBeingViewed].firstName}{' '}
+            {topWeeklyUsersCache[weekBeingViewed].surname} (
+            {topWeeklyUsersCache[weekBeingViewed].points} points )
+          </div>
+        ) : (
+          <div className="user-most-points">Player with most points :</div>
+        )}
       </div>
     );
   }

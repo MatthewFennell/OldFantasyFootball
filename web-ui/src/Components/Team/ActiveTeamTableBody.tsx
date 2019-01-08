@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Player } from '../../Models/Interfaces/Player';
+import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
 import RowActiveTeam from './RowActiveTeam';
 
 interface ActiveTeamProps {
-  activeTeam: Player[];
+  activeTeam: WeeklyPlayer[];
 }
 
 class ActiveTeamTableBody extends React.Component<ActiveTeamProps> {

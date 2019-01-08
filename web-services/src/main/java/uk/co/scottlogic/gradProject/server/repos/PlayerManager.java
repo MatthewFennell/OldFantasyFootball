@@ -79,7 +79,7 @@ public class PlayerManager {
         }
     }
 
-    private PlayerPoints findPlayerWithMostPointsInWeek(Integer week){
+    public List<PlayerPoints> findPlayerWithMostPointsInWeek(Integer week){
         return playerPointsRepo.findPlayerWithMostPoints(week);
     }
 

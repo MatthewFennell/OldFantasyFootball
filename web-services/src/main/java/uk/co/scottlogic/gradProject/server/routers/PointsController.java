@@ -11,10 +11,7 @@ import uk.co.scottlogic.gradProject.server.misc.ExceptionLogger;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.AddPlayerToWeeklyTeamDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.GetAveragePointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.GetUsersPointsInWeekDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,33 +38,25 @@ public class PointsController {
     }
 
     @ApiOperation(value = Icons.key
-            + " Returns the user(s) with the most points in a given week", notes = "Requires User role", response = void.class,
-            authorizations = {
-                    @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "User obtained correctly"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
-                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @GetMapping("/points/everybody/week/most")
+            + " Find the user with the most points in a week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/points/user/week/{week-id}/most")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<UserReturnDTO> usersWithMostPointsInGivenWeek(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response, Integer week) {
+    public TopWeeklyUserReturnDTO getUserWithMostPointsINWeek(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("week-id") Integer week) {
         try {
-            List<UserReturnDTO> topScoringDTOs = new ArrayList<>();
-            List<ApplicationUser> topScoringUsers = applicationUserManager.findUsersWithMostPointsInWeek(week);
-            for (ApplicationUser u : topScoringUsers) {
-                topScoringDTOs.add(new UserReturnDTO(u));
-            }
-            return topScoringDTOs;
-        } catch (IllegalArgumentException e) {
-            try {
-                response.sendError(400, e.getMessage());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            ExceptionLogger.logException(e);
-            response.setStatus(500);
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            return applicationUserManager.findUsersWithMostPointsInWeek(week).get(0);
+        } catch (Exception e) {
+            response.setStatus(403);
         }
-        return Collections.emptyList();
+        return null;
     }
 
     @ApiOperation(value = Icons.key

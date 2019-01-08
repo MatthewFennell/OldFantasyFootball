@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to Weekly teams")
+@Api(value = "Authentication", description = "Operations pertaining to week based info")
 public class WeeksController {
 
     private static final Logger log = LoggerFactory.getLogger(Token.class);

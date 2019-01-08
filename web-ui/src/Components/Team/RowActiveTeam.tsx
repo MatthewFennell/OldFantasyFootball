@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Player } from '../../Models/Interfaces/Player';
+import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
 
 interface RowActiveTeamProps {
-  element: Player;
+  element: WeeklyPlayer;
 }
 
 class RowActiveTeam extends React.Component<RowActiveTeamProps> {

@@ -1,4 +1,4 @@
-import { Player } from '../Models/Interfaces/Player';
+import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
 
 export enum ActionTypes {
   ADD_PLAYER = 'ADD_PLAYER',
@@ -7,15 +7,15 @@ export enum ActionTypes {
 
 export interface AddPlayer {
   type: ActionTypes.ADD_PLAYER;
-  payload: { player: Player };
+  payload: { player: WeeklyPlayer };
 }
 
 export interface SetTeam {
   type: ActionTypes.SET_TEAM;
-  payload: { activeTeam: Player[] };
+  payload: { activeTeam: WeeklyPlayer[] };
 }
 
-export const addPlayer = (player: Player): AddPlayer => {
+export const addPlayer = (player: WeeklyPlayer): AddPlayer => {
   return {
     type: ActionTypes.ADD_PLAYER,
     payload: {
@@ -24,7 +24,7 @@ export const addPlayer = (player: Player): AddPlayer => {
   };
 };
 
-export const setTeam = (activeTeam: Player[]): SetTeam => {
+export const setTeam = (activeTeam: WeeklyPlayer[]): SetTeam => {
   return {
     type: ActionTypes.SET_TEAM,
     payload: {

@@ -1,16 +1,21 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Stats from '../../Components/Team/Stats';
-import { getAveragePoints } from '../../Selectors/StatsSelector';
-import { setAveragePoints } from '../../Actions/StatsActions';
+import {
+  getAverageWeeklyPointsCache,
+  getWeekBeingViewed,
+  getTopWeeklyPlayerCache,
+  getTopWeeklyUserCache
+} from '../../Selectors/StatsSelector';
 
 const mapStateToProps = (state: State) => ({
-  averagePoints: getAveragePoints(state)
+  averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
+  weekBeingViewed: getWeekBeingViewed(state),
+  topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
+  topWeeklyUsersCache: getTopWeeklyUserCache(state)
 });
 
-const mapDispatchToProps = {
-  setAveragePoints
-};
+const mapDispatchToProps = {};
 
 export default connect<any, any, any>(
   mapStateToProps as any,
