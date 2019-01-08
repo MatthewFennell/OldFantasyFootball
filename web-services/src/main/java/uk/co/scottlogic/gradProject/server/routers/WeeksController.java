@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/api")
 @Api(value = "Authentication", description = "Operations pertaining to Weekly teams")
-public class WeeklyTeamController {
+public class WeeksController {
 
     private static final Logger log = LoggerFactory.getLogger(Token.class);
 
     private WeeklyTeamManager weeklyTeamManager;
 
     @Autowired
-    public WeeklyTeamController(WeeklyTeamManager weeklyTeamManager) {
+    public WeeksController(WeeklyTeamManager weeklyTeamManager) {
 
         this.weeklyTeamManager = weeklyTeamManager;
     }
@@ -37,7 +37,7 @@ public class WeeklyTeamController {
             @ApiResponse(code = 201, message = "Note successfully set"),
             @ApiResponse(code = 404, message = "Note not found"),
             @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/weeklyteam/addplayer")
+    @PostMapping(value = "/weeks/addPlayer")
     @PreAuthorize("hasRole('USER')")
     public void addPlayerToWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
                                       @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
@@ -58,7 +58,7 @@ public class WeeklyTeamController {
             @ApiResponse(code = 201, message = "Note successfully set"),
             @ApiResponse(code = 404, message = "Note not found"),
             @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/weeklyteam/removeplayer")
+    @PostMapping(value = "/weeks/removePlayer")
     @PreAuthorize("hasRole('USER')")
     public void removePlayerFromWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
                                            @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
@@ -76,7 +76,7 @@ public class WeeklyTeamController {
             + " Gets the total number of weeks that have been played",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/weeklyteam/numberOfWeeks")
+    @GetMapping("/weeks/total")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Invalid date / category"),
             @ApiResponse(code = 500, message = "Server Error")})

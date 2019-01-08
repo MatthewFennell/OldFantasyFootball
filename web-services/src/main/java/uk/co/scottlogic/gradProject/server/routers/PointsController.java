@@ -128,16 +128,16 @@ public class PointsController {
             + " Gets the number of points a user obtained in a week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/points/user/week")
+    @GetMapping("/points/user/week/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Invalid date / category"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public double getAveragePointsForWeek(
+    public double getUserPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
-            GetUsersPointsInWeekDTO dto) {
+            @PathVariable("id") Integer week) {
         try {
-            return applicationUserManager.findPointsInWeek(dto.getId(), dto.getWeek());
+            return applicationUserManager.findPointsInWeek(user.getId(), week);
         } catch (Exception e) {
             response.setStatus(403);
         }
@@ -148,16 +148,16 @@ public class PointsController {
             + " Gets the average points for the week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/points/everybody/week/average")
+    @GetMapping("/points/everybody/week/{week-id}/average")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Invalid date / category"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public double getAveragePointsForWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
-            GetAveragePointsDTO dto) {
+            @PathVariable("week-id") Integer week) {
         try {
-            return weeklyTeamManager.findAveragePointsOfAllTeamsInWeek(dto.getWeek());
+            return weeklyTeamManager.findAveragePointsOfAllTeamsInWeek(week);
         } catch (Exception e) {
             response.setStatus(403);
         }
