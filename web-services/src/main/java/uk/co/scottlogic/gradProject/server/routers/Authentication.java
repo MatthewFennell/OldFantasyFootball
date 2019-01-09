@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
 import uk.co.scottlogic.gradProject.server.auth.TokenPair;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
+import uk.co.scottlogic.gradProject.server.repos.LeagueRepo;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.LoginDTO;
@@ -27,7 +29,9 @@ import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -43,12 +47,16 @@ public class Authentication {
 
     private WeeklyTeamRepo weeklyTeamRepo;
 
+    private LeagueRepo leagueRepo;
+
     @Autowired
     public Authentication(ApplicationUserRepo applicationUserRepo,
-                          JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo) {
+                          JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo,
+                          LeagueRepo leagueRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.jwtTokenProvider = jwtTokenProvider;
         this.weeklyTeamRepo = weeklyTeamRepo;
+        this.leagueRepo = leagueRepo;
     }
 
     @ApiOperation(value = "Login: Fetches a token pair for the user, either pass refresh token or "
@@ -120,8 +128,25 @@ public class Authentication {
             user.addAuthority(userRole);
             if (applicationUserRepo.count() == 0) {
                 user.addAuthority(new UserAuthority("ROLE_ADMIN"));
+
             }
             applicationUserRepo.save(user);
+
+            // Make the first user the admin of the original league
+            if (applicationUserRepo.count() == 1){
+                League league = new League(user, "original", new ArrayList<>(), 0, "Initial");
+                league.addParticipant(user);
+                leagueRepo.save(league);
+            }
+            else {
+                // Add every user to the original league
+                Optional<League> league = leagueRepo.findByLeagueName("original");
+                if (league.isPresent()){
+                    League l = league.get();
+                    l.addParticipant(user);
+                    leagueRepo.save(l);
+                }
+            }
             UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), 0);
             weeklyTeamRepo.save(team);
             response.setStatus(201);

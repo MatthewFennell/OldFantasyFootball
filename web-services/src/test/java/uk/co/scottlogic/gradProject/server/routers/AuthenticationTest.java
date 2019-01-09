@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
+import uk.co.scottlogic.gradProject.server.repos.LeagueRepo;
 import uk.co.scottlogic.gradProject.server.repos.RefreshTokenRepo;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
 import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
@@ -39,13 +40,16 @@ public class AuthenticationTest {
     @Mock
     private WeeklyTeamRepo weeklyTeamRepo;
 
+    @Mock
+    private LeagueRepo leagueRepo;
+
     private Authentication authentication;
 
     @Before
     public void setUp() throws Exception {
         jwtTokenProvider = new JwtTokenProvider(host, secret_str, applicationUserRepo,
                 refreshTokenRepo);
-        authentication = new Authentication(applicationUserRepo, jwtTokenProvider, weeklyTeamRepo);
+        authentication = new Authentication(applicationUserRepo, jwtTokenProvider, weeklyTeamRepo, leagueRepo);
     }
 
     @Test
