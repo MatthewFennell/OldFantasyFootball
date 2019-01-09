@@ -6,6 +6,7 @@ import { RegistrationDetails } from '../Models/Interfaces/RegistrationDetails';
 import { Tokens } from '../Models/Interfaces/Tokens';
 import { getBearerHeader } from './CredentialInputService';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
+import { LeaguePositions } from '../Models/Interfaces/LeaguePositions';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -57,6 +58,17 @@ export const login = (data: Credentials): Promise<Tokens> => {
 
 export const getActiveTeam = (): Promise<{ activeTeam: TopWeeklyPlayer[] }> => {
   return fetch('/api/activeTeam/players', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
+  return fetch('/api/league/user/all', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
   }).then(response => {
