@@ -8,7 +8,8 @@ import {
   getWeeklyPointsCache,
   getAverageWeeklyPointsCache,
   getTopWeeklyPlayerCache,
-  getTopWeeklyUserCache
+  getTopWeeklyUserCache,
+  getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 import { setTotalPoints } from '../../Actions/AccountActions';
 import {
@@ -16,7 +17,8 @@ import {
   addToWeeklyPointsCache,
   addToAverageWeeklyPointsCache,
   addToTopWeeklyPlayersCache,
-  addToTopWeeklyUsersCache
+  addToTopWeeklyUsersCache,
+  setTotalNumberOfWeeks
 } from '../../Actions/StatsActions';
 
 import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
@@ -29,7 +31,8 @@ const mapStateToProps = (state: State) => ({
   topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
   topWeeklyUsersCache: getTopWeeklyUserCache(state),
   activeTeam: getActiveTeam(state),
-  weeklyTeamCache: getWeeklyTeamCache(state)
+  weeklyTeamCache: getWeeklyTeamCache(state),
+  totalNumberOfWeeks: getTotalNumberOfWeeks(state)
 });
 
 const mapDispatchToProps = {
@@ -40,7 +43,8 @@ const mapDispatchToProps = {
   addToTopWeeklyPlayersCache,
   addToTopWeeklyUsersCache,
   setTeam,
-  addToWeeklyTeamCache
+  addToWeeklyTeamCache,
+  setTotalNumberOfWeeks
 };
 
 export default connect<any, any, any>(

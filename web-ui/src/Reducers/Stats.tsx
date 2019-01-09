@@ -10,6 +10,7 @@ export interface State {
   averageWeeklyPointsCache: {};
   topWeeklyPlayersCache: {};
   topWeeklyUsersCache: {};
+  totalNumberOfWeeks: 0;
 }
 
 // Define our initialState
@@ -18,7 +19,8 @@ export const initialState: State = {
   weeklyPointsCache: {} as { weeks: { id: number; points: number } },
   averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
   topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: TopWeeklyPlayer } },
-  topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } }
+  topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
+  totalNumberOfWeeks: 0
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -67,6 +69,13 @@ export const reducer = (state: State = initialState, action: Action) => {
           ...state.topWeeklyUsersCache,
           [action.payload.weekId]: action.payload.user
         }
+      };
+    }
+
+    case ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS: {
+      return {
+        ...state,
+        totalNumberOfWeeks: action.payload.numberOfWeeks
       };
     }
 
