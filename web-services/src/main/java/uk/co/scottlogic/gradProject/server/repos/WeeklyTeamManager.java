@@ -36,11 +36,12 @@ public class WeeklyTeamManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
 
-        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-
-        if (user.isPresent()){
-            findAllPlayersInWeeklyTeam(user.get(), 0);
-        }
+//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+//
+//        if (user.isPresent()){
+//            UsersWeeklyTeam team = new UsersWeeklyTeam(user.get(), new Date(), new ArrayList<>(), 0);
+//            weeklyTeamRepo.save(team);
+//        }
 
 //        addPlayersToWeeklyTeam();
 
@@ -54,7 +55,8 @@ public class WeeklyTeamManager {
             Player p = player.get();
             List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
             if (!teams.isEmpty()) {
-                UsersWeeklyTeam team = teams.get(0);
+                UsersWeeklyTeam team = teams.get(1);
+                System.out.println("week = " + team.getWeek());
                 team.getPlayers().add(p);
                 weeklyTeamRepo.save(team);
                 System.out.println("Added player " + p.getFirstName() + " to user " + user.getFirstName());

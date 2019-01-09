@@ -6,11 +6,13 @@ type Action = ActiveTeamAction;
 // Define our State interface for the current reducer
 export interface State {
   activeTeam: Array<WeeklyPlayer>;
+  weeklyTeamCache: {};
 }
 
 // Define our initialState
 export const initialState: State = {
-  activeTeam: []
+  activeTeam: [],
+  weeklyTeamCache: {} as { weeklyTeam: { id: number; team: WeeklyPlayer[] } }
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -28,6 +30,16 @@ export const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         activeTeam
+      };
+    }
+
+    case ActionTypes.ADD_TO_WEEKLY_TEAM_CACHE: {
+      return {
+        ...state,
+        weeklyTeamCache: {
+          ...state.weeklyTeamCache,
+          [action.payload.weekId]: action.payload.team
+        }
       };
     }
 

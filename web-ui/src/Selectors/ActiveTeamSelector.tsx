@@ -3,3 +3,6 @@ import { createSelector } from 'reselect';
 
 const getActiveTeamState = (state: State) => state.activeTeam;
 export const getActiveTeam = createSelector([getActiveTeamState], a => a.activeTeam);
+
+const getWeeklyTeamCacheState = (state: State) => state.activeTeam;
+export const getWeeklyTeamCache = createSelector([getWeeklyTeamCacheState], a => a.weeklyTeamCache);
