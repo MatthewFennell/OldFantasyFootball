@@ -7,10 +7,7 @@ import org.mockito.Mock;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
-import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
-import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
-import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
+import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 
@@ -37,10 +34,13 @@ public class UserTest {
     @Mock
     private WeeklyTeamManager weeklyTeamManager;
 
+    @Mock
+    private LeagueRepo leagueRepo;
+
 
     @Before
     public void setUp() {
-        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager);
+        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager, leagueRepo);
         userController = new User(applicationUserRepo, applicationUserManager);
     }
 
