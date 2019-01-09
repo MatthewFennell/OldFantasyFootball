@@ -4,24 +4,46 @@ import Attackers from '../../../Containers/Team/PitchLayout/Attackers';
 import Midfielders from '../../../Containers/Team/PitchLayout/Midfielders';
 import Defenders from '../../../Containers/Team/PitchLayout/Defenders';
 import Goalkeeper from '../../../Containers/Team/PitchLayout/Goalkeeper';
+import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
 
-interface PitchProps {}
+interface PitchProps {
+  activeWeeklyTeam: WeeklyPlayer[];
+}
 
 class Pitch extends React.Component<PitchProps, {}> {
   render() {
+    let goalKeeper: WeeklyPlayer[] = [];
+    let defenders: WeeklyPlayer[] = [];
+    let midfielders: WeeklyPlayer[] = [];
+    let attackers: WeeklyPlayer[] = [];
+
+    if (this.props.activeWeeklyTeam !== undefined) {
+      this.props.activeWeeklyTeam.forEach(element => {
+        if (element.position === 'GOALKEEPER') {
+          goalKeeper.push(element);
+        } else if (element.position === 'DEFENDER') {
+          defenders.push(element);
+        } else if (element.position === 'MIDFIELDER') {
+          midfielders.push(element);
+        } else if (element.position === 'ATTACKER') {
+          attackers.push(element);
+        }
+      });
+    }
+
     return (
       <div className="pitch-with-players">
         <div className="attackers">
-          <Attackers />
+          <Attackers attackers={attackers} />
         </div>
         <div className="midfielders">
-          <Midfielders />
+          <Midfielders midfielders={midfielders} />
         </div>
         <div className="defenders">
-          <Defenders />
+          <Defenders defenders={defenders} />
         </div>
         <div className="goalkeeper">
-          <Goalkeeper />
+          <Goalkeeper goalkeepers={goalKeeper} />
         </div>
       </div>
     );

@@ -122,7 +122,7 @@ export const getPointsForUserInWeek = (week: number): Promise<number> => {
 };
 
 export const getPlayersWithMostPointsInWeek = (week: number): Promise<TopWeeklyPlayer> => {
-  return fetch('/api/player/points/week/' + week + '/most/', {
+  return fetch('/api/player/points/week/' + week + '/most', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
   }).then(response => {

@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
 
     // The first element in the returned list is the most recent date
-    @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 ORDER BY date DESC")
+    @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 ORDER BY week DESC")
     public List<UsersWeeklyTeam> findByUser(ApplicationUser user);
 
     public List<UsersWeeklyTeam> findByPlayers(Player player);
