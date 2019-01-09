@@ -10,7 +10,7 @@ class LeagueTableBody extends React.Component<LeagueTableBodyProps> {
   render() {
     return (
       <tbody className="my-active-leagues">
-        {this.props.leagues.map((datum) => (
+        {this.props.leagues.map(datum => (
           <LeagueRow key={datum.leagueName} element={datum} />
         ))}
       </tbody>
