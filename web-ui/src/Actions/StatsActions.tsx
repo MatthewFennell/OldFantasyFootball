@@ -6,7 +6,8 @@ export enum ActionTypes {
   ADD_TO_WEEKLY_POINTS_CACHE = 'ADD_TO_WEEKLY_POINTS_CACHE',
   ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE = 'ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE',
   ADD_TO_TOP_WEEKLY_PLAYERS_CACHE = 'ADD_TO_TOP_WEEKLY_PLAYERS_CACHE',
-  ADD_TO_TOP_WEEKLY_USERS_CACHE = 'ADD_TO_TOP_WEEKLY_USERS_CACHE'
+  ADD_TO_TOP_WEEKLY_USERS_CACHE = 'ADD_TO_TOP_WEEKLY_USERS_CACHE',
+  SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;'
 }
 
 export interface SetWeekBeingViewed {
@@ -32,6 +33,11 @@ export interface AddToTopWeeklyPlayersCache {
 export interface AddToTopWeeklyUsersCache {
   type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE;
   payload: { weekId: number; user: TopWeeklyUser };
+}
+
+export interface SetTotalNumberOfWeeks {
+  type: ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS;
+  payload: { numberOfWeeks: number };
 }
 
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
@@ -80,9 +86,17 @@ export const addToTopWeeklyUsersCache = (
   };
 };
 
+export const setTotalNumberOfWeeks = (numberOfWeeks: number): SetTotalNumberOfWeeks => {
+  return {
+    type: ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS,
+    payload: { numberOfWeeks }
+  };
+};
+
 export type Action =
   | SetWeekBeingViewed
   | AddToWeeklyPointsCache
   | AddToAverageWeeklyPointsCache
   | AddToTopWeeklyPlayersCache
-  | AddToTopWeeklyUsersCache;
+  | AddToTopWeeklyUsersCache
+  | SetTotalNumberOfWeeks;

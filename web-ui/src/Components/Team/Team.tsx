@@ -14,7 +14,7 @@ import {
   getUsersWithMostPointsInWeek,
   getTeamForUserInWeek
 } from '../../Services/UserService';
-import Pitch from './PitchLayout/Pitch';
+// import Pitch from './PitchLayout/Pitch';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -38,6 +38,8 @@ interface TransactionsProps {
 
   weeklyTeamCache: any;
   addToWeeklyTeamCache: (id: number, team: WeeklyPlayer[]) => void;
+
+  setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
 }
 
 interface TransactionsState {}
@@ -54,7 +56,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
     getNumberOfWeeks().then(currentWeek => {
       // Automatically start viewing the latest
       this.props.setWeekBeingViewed(currentWeek);
-
+      this.props.setTotalNumberOfWeeks(currentWeek);
       this._generateCache(currentWeek);
     });
   }
@@ -119,9 +121,9 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         <div className="row-2-stats">
           <Stats />
         </div>
-        <div className="row-3-squad">
+        {/* <div className="row-3-squad">
           <Pitch activeWeeklyTeam={this.props.activeTeam} />
-        </div>
+        </div> */}
         <div className="row-4-bench">Bench</div>
         <Button
           id="btnLogin"

@@ -1,17 +1,71 @@
 .info-columns {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    height: 100%;
-    margin-left: 10vw;
-    margin-right: 10vw;
-  }
-  
-  .info-columns > div {
-    background-color: #f1f1f1;
-    width: 30%;
-    margin: 10px;
-    text-align: center;
-    line-height: 55px;
-    font-size: 18px;
-  }
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  height: 100%;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.info-columns>div {
+  background-color: #f1f1f1;
+  width: 30%;
+  margin: 10px;
+  text-align: center;
+  line-height: 55px;
+  font-size: 18px;
+}
+
+div.dropdown {
+  // line-height: 25px;// margin-top: 12.5px;
+}
+
+.week-menu-toggle {
+  color: black; // Color of the small triangle to generate the dropdown
+  outline: 0;
+  align-content: center;
+  padding: 0px;
+  margin: 0px;
+  background: none;
+}
+
+.week-menu-toggle:focus {
+  color: green;
+}
+
+// Color when the dropdown triangle is hovered on
+.week-menu-toggle:hover {
+  color: green;
+}
+
+// The hover colour of the div
+.menu-items:hover {
+  background: orange;
+}
+
+// Colour of the text when false
+.week-menu-item-false {
+  color: pink;
+  border: 0;
+  outline: 0;
+  background: none;
+  font-weight: normal;
+}
+
+// Colour of the text when true
+.week-menu-item-true {
+  color: red;
+  border: 0;
+  outline: 0;
+  background: none;
+  font-weight: normal;
+}
+
+.week-menu {
+  min-width: 0px;
+}
+
+.week-change-error {
+  font-weight: bold;
+  min-height: 24px;
+}

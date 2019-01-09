@@ -27,3 +27,9 @@ export const getTopWeeklyUserCache = createSelector(
   [getTopWeeklyUserCacheState],
   p => p.topWeeklyUsersCache
 );
+
+const getTotalNumberOfWeeksState = (state: State) => state.stats;
+export const getTotalNumberOfWeeks = createSelector(
+  [getTotalNumberOfWeeksState],
+  p => p.totalNumberOfWeeks
+);
