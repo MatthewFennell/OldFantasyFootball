@@ -1,17 +1,15 @@
-.flex-container {
+.outer-league-rows {
+  margin-top: 10vh;
   display: flex;
   flex-direction: column;
   background-color: DodgerBlue;
-  justify-content: center;
+  width: 100%;
 }
 
-.flex-container>div {
+.outer-league-rows>div {
   background-color: #f1f1f1;
-  margin: 10px;
-  text-align: center;
-  line-height: 75px;
+  margin: 10px; // line-height: 75px;
   font-size: 30px;
-  justify-content: center;
 }
 
 .flex-container-two {
@@ -22,10 +20,31 @@
 }
 
 .flex-container-two>div {
-  background-color: #f1f1f1;
-  width: 100px;
+  background-color: #f1f1f1; // width: 100px;
   margin: 10px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
+}
+
+div.league-table {
+  tbody.my-active-leagues {
+    width: 100%;
+    tr.league {
+      td.league-name {
+        color: green;
+        width: 70%;
+      }
+      td.position {
+        margin-left: 30px;
+        color: red;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+#customer-container {
+  margin-top: 0px;
 }

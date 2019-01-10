@@ -1,4 +1,5 @@
 import { Credentials } from '../Models/Interfaces/Credentials';
+import { CreateLeague } from '../Models/Interfaces/CreateLeague';
 import { Account } from '../Models/Interfaces/Account';
 import { TopWeeklyPlayer } from '../Models/Interfaces/TopWeeklyPlayer';
 import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
@@ -76,6 +77,52 @@ export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
       return response.json();
     }
   });
+};
+
+export const createLeague = (data: CreateLeague): Promise<any> => {
+  console.log('Sending ' + JSON.stringify(data));
+  return fetch('/api/league/make', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Login Unsuccessful');
+        } else if (response.status === 500) {
+          throw new Error('Internal server error');
+        } else {
+          throw new Error(response.status.toString());
+        }
+      } else if (response.status === 201) {
+        return response.json();
+      }
+    })
+    .catch(error => console.error(error));
+};
+
+export const joinLeague = (code: string): Promise<LeaguePositions> => {
+  console.log('Sending ' + JSON.stringify(code));
+  return fetch('/api/league/join', {
+    method: 'POST',
+    body: code,
+    headers: { Authorization: getBearerHeader() }
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Login Unsuccessful');
+        } else if (response.status === 500) {
+          throw new Error('Internal server error');
+        } else {
+          throw new Error(response.status.toString());
+        }
+      } else if (response.status === 200) {
+        return response.json();
+      }
+    })
+    .catch(error => console.error(error));
 };
 
 export const getTeamForUserInWeek = (week: number): Promise<WeeklyPlayer[]> => {
