@@ -107,7 +107,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   componentWillUnmount() {}
 
   _onClick() {
-    console.log('clicked)');
     this.props.setWeekBeingViewed(0);
     this._generateCache(0);
   }

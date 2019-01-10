@@ -3,10 +3,18 @@ import '../../Style/League/League.css';
 import { getLeaguesAndPositions } from '../../Services/UserService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
+import { Button } from 'reactstrap';
+import { Row, Col } from 'react-bootstrap';
+import { Container } from 'reactstrap';
+import CreateLeague from './CreateLeague';
+import JoinLeague from './JoinLeague';
 
 interface LeagueProps {
   leagueCache: any;
   addToLeagueCache: (leagueName: string, position: number) => void;
+
+  leaguePageBeingViewed: string;
+  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
 }
 
 class Leagues extends React.Component<LeagueProps, {}> {
@@ -23,6 +31,16 @@ class Leagues extends React.Component<LeagueProps, {}> {
     });
   }
 
+  _onClickCreateLeague() {
+    console.log('clicked');
+    this.props.setLeaguePageBeingViewed('create-league');
+  }
+
+  _onClickJoinLeague() {
+    console.log('clicked');
+    this.props.setLeaguePageBeingViewed('join-league');
+  }
+
   render() {
     // Gets all of the leagues
     let leagues: LeaguePositions[] = [];
@@ -32,22 +50,77 @@ class Leagues extends React.Component<LeagueProps, {}> {
       leagues.push(p);
     }
 
-    return (
-      <div className="flex-container">
-        <div className="my-leagues">
-          My Leagues
-          <div>
-            <LeagueTableBody leagues={leagues} />
-          </div>
-        </div>
+    const offSet = this.props.leaguePageBeingViewed === 'home' ? 1 : 0;
+    const width = this.props.leaguePageBeingViewed === 'home' ? 10 : 6;
 
-        <div>
-          <div className="flex-container-two">
-            <div className="create league">1</div>
-            <div className="join-league">2</div>
-          </div>
-        </div>
-      </div>
+    const renderCreateLeague = () => (
+      <Col xs={6} md={6} lg={6} className="league-info-screen">
+        <CreateLeague />
+      </Col>
+    );
+
+    const renderJoinLeague = () => (
+      <Col xs={6} md={6} lg={6} className="league-info-screen">
+        <JoinLeague />
+      </Col>
+    );
+
+    return (
+      <Container>
+        <Row>
+          <Col
+            xs={width}
+            xsOffset={offSet}
+            md={width}
+            mdOffset={offSet}
+            lg={width}
+            lgOffset={offSet}
+          >
+            <div className="outer-league-rows">
+              <div className="my-leagues">
+                My Leagues
+                <div className="league-table">
+                  <LeagueTableBody leagues={leagues} />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex-container-two">
+                  <div className="create league">
+                    <div className="create-league-button">
+                      <Button
+                        id="btnCreateLeague"
+                        type="submit"
+                        className="btn btn-default btn-round-lg btn-lg first"
+                        onClick={(e: any) => this._onClickCreateLeague()}
+                      >
+                        Create league
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="join-league">
+                    <div className="join-league-button">
+                      <Button
+                        id="btnJoinLeague"
+                        type="submit"
+                        className="btn btn-default btn-round-lg btn-lg first"
+                        onClick={(e: any) => this._onClickJoinLeague()}
+                      >
+                        Join league
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+          {this.props.leaguePageBeingViewed === 'create-league'
+            ? renderCreateLeague()
+            : this.props.leaguePageBeingViewed === 'join-league'
+              ? renderJoinLeague()
+              : null}
+        </Row>
+      </Container>
     );
   }
 }
