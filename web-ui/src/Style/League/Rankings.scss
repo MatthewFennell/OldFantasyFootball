@@ -1,0 +1,23 @@
+.league-info-screen {
+  background-color: darkgray;
+  margin-top: 10vh;
+  tbody.league-rankings {
+    background-color: lightgray;
+    color: red;
+    text-align: center;
+    tr {
+      width: 100%;
+      td {
+        width: 30vw;
+        color: green;
+      }
+      td.points,
+      td.position {
+        text-align: center;
+      }
+    }
+    tr.user:hover {
+      background-color: yellow;
+    }
+  }
+}

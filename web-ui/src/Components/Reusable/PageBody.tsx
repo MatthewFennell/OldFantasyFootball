@@ -5,7 +5,7 @@ import '../../Style/App.css';
 import CategoryTemplate from '../../Containers/CategoryTemplate';
 import Team from '../../Containers/Team/Team';
 import Transfers from '../../Containers/Transfers';
-import Leagues from '../../Containers/Leagues';
+import Leagues from '../../Containers/League/Leagues';
 import Settings from '../../Containers/Settings';
 
 interface PageBodyProps {

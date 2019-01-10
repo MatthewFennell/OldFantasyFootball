@@ -3,7 +3,7 @@ import Team from '../Containers/Team/Team';
 // import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers';
-import Leagues from '../Containers/Leagues';
+import Leagues from '../Containers/League/Leagues';
 import Settings from '../Containers/Settings';
 
 interface CategoryTemplateProps {

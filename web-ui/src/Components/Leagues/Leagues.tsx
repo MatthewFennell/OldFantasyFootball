@@ -1,12 +1,14 @@
 import * as React from 'react';
 import '../../Style/League/League.css';
-import { getLeaguesAndPositions } from '../../Services/UserService';
+import { getLeaguesAndPositions, getPositionsOfUsersInLeague } from '../../Services/UserService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
 import { Button, Container } from 'reactstrap';
 import { Row, Col } from 'react-bootstrap';
 import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
+import RankingsTableBody from './RankingsTableBody';
+import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 
 interface LeagueProps {
   leagueCache: any;
@@ -14,9 +16,17 @@ interface LeagueProps {
 
   leaguePageBeingViewed: string;
   setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
+
+  leagueRankings: UserLeaguePosition[];
+  setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
 }
 
 class Leagues extends React.Component<LeagueProps, {}> {
+  constructor(props: LeagueProps) {
+    super(props);
+    this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
+  }
+
   componentDidMount() {
     getLeaguesAndPositions().then(leagueAndPositionsArray => {
       for (let x = 0; x < leagueAndPositionsArray.length; x++) {
@@ -27,6 +37,13 @@ class Leagues extends React.Component<LeagueProps, {}> {
           );
         }
       }
+    });
+  }
+
+  _setLeagueBeingViewed(leagueToView: string) {
+    this.props.setLeaguePageBeingViewed(leagueToView);
+    getPositionsOfUsersInLeague(leagueToView).then(leagueRankings => {
+      this.props.setLeagueRankings(leagueRankings);
     });
   }
 
@@ -41,6 +58,8 @@ class Leagues extends React.Component<LeagueProps, {}> {
   }
 
   render() {
+    let setLeagueBeingViewed = this._setLeagueBeingViewed;
+
     // Gets all of the leagues
     let leagues: LeaguePositions[] = [];
     var keys = Object.keys(this.props.leagueCache);
@@ -64,6 +83,12 @@ class Leagues extends React.Component<LeagueProps, {}> {
       </Col>
     );
 
+    const renderLeagueRankings = () => (
+      <Col xs={6} md={6} lg={6} className="league-info-screen">
+        <RankingsTableBody leagueRankings={this.props.leagueRankings} />
+      </Col>
+    );
+
     return (
       <Container>
         <Row>
@@ -79,7 +104,7 @@ class Leagues extends React.Component<LeagueProps, {}> {
               <div className="my-leagues">
                 My Leagues
                 <div className="league-table">
-                  <LeagueTableBody leagues={leagues} />
+                  <LeagueTableBody leagues={leagues} setLeagueBeingViewed={setLeagueBeingViewed} />
                 </div>
               </div>
 
@@ -117,7 +142,9 @@ class Leagues extends React.Component<LeagueProps, {}> {
             ? renderCreateLeague()
             : this.props.leaguePageBeingViewed === 'join-league'
               ? renderJoinLeague()
-              : null}
+              : this.props.leaguePageBeingViewed !== ''
+                ? renderLeagueRankings()
+                : null}
         </Row>
       </Container>
     );

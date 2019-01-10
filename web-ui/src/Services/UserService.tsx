@@ -8,6 +8,7 @@ import { Tokens } from '../Models/Interfaces/Tokens';
 import { getBearerHeader } from './CredentialInputService';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { LeaguePositions } from '../Models/Interfaces/LeaguePositions';
+import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -123,6 +124,17 @@ export const joinLeague = (code: string): Promise<LeaguePositions> => {
       }
     })
     .catch(error => console.error(error));
+};
+
+export const getPositionsOfUsersInLeague = (leagueName: string): Promise<UserLeaguePosition[]> => {
+  return fetch('/api/league/name/' + leagueName + '/ranking', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
 };
 
 export const getTeamForUserInWeek = (week: number): Promise<WeeklyPlayer[]> => {
