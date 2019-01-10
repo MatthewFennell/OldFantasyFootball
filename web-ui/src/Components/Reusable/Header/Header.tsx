@@ -30,9 +30,9 @@ class Header extends React.Component<Props> {
     this.settingsRef = React.createRef<HTMLDivElement>();
     this.teamRef = React.createRef<HTMLDivElement>();
     this._onTeamSelect = () => this._select(this.teamRef, 'Team');
-    this._onSettingsSelect = () => this._select(this.settingsRef, 'Transfers');
+    this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
     this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
-    this._onTransfersSelect = () => this._select(this.transfersRef, 'Settings');
+    this._onTransfersSelect = () => this._select(this.transfersRef, 'Transfers');
   }
 
   componentDidMount() {

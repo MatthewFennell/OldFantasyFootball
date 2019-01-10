@@ -3,6 +3,7 @@ import { reducer as account, State as AccountState } from './Account';
 import { reducer as activeTeam, State as activeTeamState } from './ActiveTeam';
 import { reducer as stats, State as statsState } from './Stats';
 import { reducer as league, State as leagueState } from './League';
+import { reducer as transfers, State as transfersState } from './Transfers';
 import { reducer as formReducer, FormReducer } from 'redux-form';
 
 export interface State {
@@ -11,6 +12,7 @@ export interface State {
   activeTeam: activeTeamState;
   stats: statsState;
   league: leagueState;
+  transfers: transfersState;
 }
 
 const rootReducer = combineReducers<State>({
@@ -18,6 +20,7 @@ const rootReducer = combineReducers<State>({
   activeTeam,
   stats,
   league,
+  transfers,
   form: formReducer
 } as any);
 export default rootReducer;
