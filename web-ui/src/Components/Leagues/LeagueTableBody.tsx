@@ -4,6 +4,7 @@ import LeagueRow from './LeagueRow';
 
 interface LeagueTableBodyProps {
   leagues: LeaguePositions[];
+  setLeagueBeingViewed: (leagueBeingViewed: string) => void;
 }
 
 class LeagueTableBody extends React.Component<LeagueTableBodyProps> {
@@ -15,7 +16,11 @@ class LeagueTableBody extends React.Component<LeagueTableBodyProps> {
           <td className="position">{'Position'}</td>
         </tr>
         {this.props.leagues.map(datum => (
-          <LeagueRow key={datum.leagueName} element={datum} />
+          <LeagueRow
+            key={datum.leagueName}
+            element={datum}
+            setLeagueBeingViewed={this.props.setLeagueBeingViewed}
+          />
         ))}
       </tbody>
     );

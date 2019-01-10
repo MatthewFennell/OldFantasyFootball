@@ -48,3 +48,9 @@ div.league-table {
 #customer-container {
   margin-top: 0px;
 }
+
+tr.league:hover {
+  td {
+    background-color: yellow;
+  }
+}
