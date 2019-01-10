@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
-import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import java.util.*;
 
@@ -52,6 +49,22 @@ public class LeagueManager {
         List<ApplicationUser> participants = league.getParticipants();
         participants.sort(Comparator.comparing(ApplicationUser::getTotalPoints).reversed());
         return participants;
+    }
+
+    public List<UserInLeagueReturnDTO> findUsersInLeagueAndPositions(String leagueName){
+        Optional<League> league = leagueRepo.findByLeagueName(leagueName);
+        List<UserInLeagueReturnDTO> usersAndPositions = new ArrayList<>();
+        if (league.isPresent()){
+            List<ApplicationUser> usersInLeague = findUsersInLeague(league.get());
+            Integer position = 0;
+            for (ApplicationUser u : usersInLeague){
+                position += 1;
+                usersAndPositions.add(new UserInLeagueReturnDTO(u, position));
+            }
+            return usersAndPositions;
+        } else{
+            throw new IllegalArgumentException("League does not exist with that league name");
+        }
     }
 
     // Need to stop the same player joining a league multiple times

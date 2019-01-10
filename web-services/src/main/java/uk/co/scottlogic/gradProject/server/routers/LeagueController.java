@@ -98,4 +98,24 @@ public class LeagueController {
         return Collections.emptyList();
     }
 
+    @ApiOperation(value = Icons.key
+            + " Gets the users and their positions in a league",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/league/name/{league-name}/ranking")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<UserInLeagueReturnDTO> getPositionsOfUsersInLeague(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("league-name") String leagueName) {
+        try {
+            return leagueManager.findUsersInLeagueAndPositions(leagueName);
+        } catch (Exception e) {
+            response.setStatus(403);
+        }
+        return null;
+    }
+
 }
