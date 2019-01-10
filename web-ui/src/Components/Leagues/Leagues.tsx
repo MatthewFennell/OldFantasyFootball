@@ -3,9 +3,8 @@ import '../../Style/League/League.css';
 import { getLeaguesAndPositions } from '../../Services/UserService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
-import { Button } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import { Row, Col } from 'react-bootstrap';
-import { Container } from 'reactstrap';
 import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
 
