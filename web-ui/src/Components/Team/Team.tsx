@@ -14,7 +14,7 @@ import {
   getUsersWithMostPointsInWeek,
   getTeamForUserInWeek
 } from '../../Services/UserService';
-// import Pitch from './PitchLayout/Pitch';
+import Pitch from './PitchLayout/Pitch';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -120,9 +120,9 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         <div className="row-2-stats">
           <Stats />
         </div>
-        {/* <div className="row-3-squad">
+        <div className="row-3-squad">
           <Pitch activeWeeklyTeam={this.props.activeTeam} />
-        </div> */}
+        </div>
         <div className="row-4-bench">Bench</div>
         <Button
           id="btnLogin"

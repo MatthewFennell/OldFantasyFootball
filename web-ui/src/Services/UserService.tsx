@@ -248,3 +248,14 @@ export const deleteUser = (): Promise<void> => {
     }
   });
 };
+
+export const getRemainingBudgetAndTransfers = (): Promise<number[]> => {
+  return fetch('/api/user/remainingBudget/remainingTransfers', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
