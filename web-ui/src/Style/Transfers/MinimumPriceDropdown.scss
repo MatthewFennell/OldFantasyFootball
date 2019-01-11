@@ -1,0 +1,40 @@
+.minimum-price-dropdown {
+  .minimum-price-menu-toggle {
+    color: black; // Color of the small triangle to generate the dropdown
+    outline: 0;
+    align-content: center;
+    padding: 0px;
+    margin: 0px;
+    background: none;
+  }
+  .minimum-price-menu-toggle:focus {
+    color: green;
+  } // Color when the dropdown triangle is hovered on
+  .minimum-price-toggle:hover {
+    color: green;
+  } // The hover colour of the div
+  .minimum-price:hover {
+    background: orange;
+  } // Colour of the text when false
+  .minimum-price-menu-item-false {
+    color: pink;
+    border: 0;
+    outline: 0;
+    background: none;
+    font-weight: normal;
+  } // Colour of the text when true
+  .minimum-price-menu-item-true {
+    color: red;
+    border: 0;
+    outline: 0;
+    background: none;
+    font-weight: normal;
+  }
+  .minimum-price-menu {
+    min-width: 0px;
+  }
+  .minimum-price-change-error {
+    font-weight: bold;
+    min-height: 24px;
+  }
+}

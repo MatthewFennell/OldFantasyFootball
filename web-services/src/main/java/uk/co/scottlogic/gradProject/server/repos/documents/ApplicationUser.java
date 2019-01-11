@@ -91,6 +91,7 @@ public class ApplicationUser implements UserDetails, Serializable {
         setSurname(surname);
         setEmail(email);
         this.totalPoints = 0;
+        this.remainingTransfers = 0;
     }
 
 

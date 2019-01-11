@@ -1,0 +1,30 @@
+div.transfer-filter-rows {
+  display: flex;
+  flex-direction: column;
+  background-color: green;
+  .transfer-form-row-one {
+    display: flex;
+    background-color: blue;
+    justify-content: center;
+  }
+  .transfer-form-row-one>div {
+    background-color: red;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+    width: 100%;
+  }
+  .transfer-form-row-two {
+    display: flex;
+    background-color: green;
+    justify-content: center;
+  }
+  .transfer-form-row-two>div {
+    background-color: orange;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+    width: 100%;
+  }
+}
+
