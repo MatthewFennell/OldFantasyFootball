@@ -5,6 +5,7 @@ import TeamDropDown from './TeamDropdown';
 import SortByDropdown from './SortByDropdown';
 import MinimumPriceDropdown from './MinimumPriceDropdown';
 import MaximumPriceDropdown from './MaximumPriceDropdown';
+import SearchByName from './SearchByName';
 
 interface TransfersFormProps {}
 
@@ -14,6 +15,7 @@ interface TransfersFormState {
   sortByValue: string;
   minimumPriceValue: string;
   maximumPriceValue: string;
+  searchByNameValue: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -24,12 +26,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleSortByChange = this._handleSortByChange.bind(this);
     this._handleMinimumPriceChange = this._handleMinimumPriceChange.bind(this);
     this._handleMaximumPriceChange = this._handleMaximumPriceChange.bind(this);
+    this._handleSearchByNameValue = this._handleSearchByNameValue.bind(this);
     this.state = {
       positionValue: 'All',
       teamValue: 'A',
       sortByValue: 'Points',
       minimumPriceValue: 'No limit',
-      maximumPriceValue: 'No limit'
+      maximumPriceValue: 'No limit',
+      searchByNameValue: ''
     };
   }
 
@@ -58,12 +62,18 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     console.log('Top tier state maximum price set to ' + maximumPrice);
   }
 
+  _handleSearchByNameValue(searchByName: string) {
+    this.setState({ searchByNameValue: searchByName });
+    console.log('Top tier state search by name set to ' + searchByName);
+  }
+
   render() {
     let positionChange = this._handlePositionChange;
     let teamChange = this._handleTeamChange;
     let sortByChange = this._handleSortByChange;
     let minimumPriceChange = this._handleMinimumPriceChange;
     let maximumPriceChange = this._handleMaximumPriceChange;
+    let searchByName = this._handleSearchByNameValue;
 
     return (
       <div className="transfer-filter-rows">
@@ -85,7 +95,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           <div>
             <MaximumPriceDropdown setMaximumPrice={maximumPriceChange} />
           </div>
-          <div>3</div>
+          <div>
+            <SearchByName setSearchByName={searchByName} />
+          </div>
         </div>
       </div>
     );
