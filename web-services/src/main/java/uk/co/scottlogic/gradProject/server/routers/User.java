@@ -20,6 +20,7 @@ import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -81,6 +82,27 @@ public class User {
             ExceptionLogger.logException(e);
         }
         return null;
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Gets current users remaining balance", notes = "Requires User role", response =
+            UserReturnDTO.class, authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
+    @GetMapping("/user/remainingBudget/remainingTransfers")
+    @PreAuthorize("hasRole('USER')")
+    public List<Double> getRemainingBudgetAndTransfers(@AuthenticationPrincipal ApplicationUser user,
+                                    HttpServletResponse response) {
+        try {
+            List<Double> results = new ArrayList<>();
+            results.add(user.getRemainingBudget());
+            results.add((double)user.getRemainingTransfers());
+            return results;
+        } catch (Exception e) {
+            ExceptionLogger.logException(e);
+        }
+        return Collections.emptyList();
     }
 
     @ApiOperation(value = Icons.key

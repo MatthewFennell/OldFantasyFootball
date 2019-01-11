@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
 import { getRemainingBudgetAndTransfers } from '../../Services/UserService';
+import TransfersForm from './TransfersForm';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -12,7 +13,6 @@ interface TransfersProps {
 
 class Transfers extends React.Component<TransfersProps, {}> {
   componentDidMount() {
-    console.log('yo');
     // TO:DO Convert this to a DTO server side (not indexing by just 1 and 0)
     getRemainingBudgetAndTransfers().then(remainingBudget => {
       this.props.setRemainingBudget(remainingBudget[0]);
@@ -26,14 +26,16 @@ class Transfers extends React.Component<TransfersProps, {}> {
         <div className="left-rows">
           <div className="transfer-info-row">
             <div>Budget: £{this.props.remainingBudget} mil</div>
-            <div>Remaining Transfers {this.props.remainingTransfers}</div>
+            <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             <div>Transfer Deadline</div>
           </div>
           <div>2</div>
         </div>
         <div className="right-rows">
           <div className="flex-container">
-            <div>1</div>
+            <div>
+              <TransfersForm />
+            </div>
             <div>2</div>
           </div>
         </div>
