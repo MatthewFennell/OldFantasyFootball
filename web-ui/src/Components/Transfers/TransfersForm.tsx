@@ -6,6 +6,8 @@ import SortByDropdown from './SortByDropdown';
 import MinimumPriceDropdown from './MinimumPriceDropdown';
 import MaximumPriceDropdown from './MaximumPriceDropdown';
 import SearchByName from './SearchByName';
+import { filterPlayers } from '../../Services/UserService';
+import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 
 interface TransfersFormProps {}
 
@@ -27,43 +29,78 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleMinimumPriceChange = this._handleMinimumPriceChange.bind(this);
     this._handleMaximumPriceChange = this._handleMaximumPriceChange.bind(this);
     this._handleSearchByNameValue = this._handleSearchByNameValue.bind(this);
+    this._getResults = this._getResults.bind(this);
     this.state = {
-      positionValue: 'All',
+      positionValue: 'ALL',
       teamValue: 'A',
-      sortByValue: 'Points',
+      sortByValue: 'TOTAL_POINTS',
       minimumPriceValue: 'No limit',
       maximumPriceValue: 'No limit',
       searchByNameValue: ''
     };
   }
 
+  _getResults() {
+    let minPrice: number =
+      this.state.minimumPriceValue === 'No limit' ? 0 : Number(this.state.minimumPriceValue);
+    let maxPrice: number =
+      this.state.maximumPriceValue === 'No limit' ? 0 : Number(this.state.maximumPriceValue);
+
+    // Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
+    let position: string =
+      this.state.positionValue === 'All'
+        ? 'ALL'
+        : this.state.positionValue.toUpperCase().substr(0, this.state.positionValue.length - 1);
+
+    // Formats the correct response
+    let sortBy: string =
+      this.state.sortByValue === 'Total score'
+        ? 'TOTAL_SCORE'
+        : this.state.sortByValue.toUpperCase();
+
+    let data: FilterPlayers = {
+      position: position,
+      team: this.state.teamValue,
+      sort_by: this.state.sortByValue.toUpperCase(),
+      minimum: minPrice,
+      maximum: maxPrice,
+      name: sortBy
+    };
+
+    console.log('Data = ' + JSON.stringify(data));
+
+    filterPlayers(data).then(response => {
+      console.log('response = ' + JSON.stringify(response));
+    });
+  }
+
   _handlePositionChange(position: string) {
-    this.setState({ positionValue: position });
+    this.setState({ positionValue: position }, this._getResults);
     console.log('Top tier position state set to ' + position);
   }
 
   _handleTeamChange(team: string) {
-    this.setState({ teamValue: team });
+    this.setState({ teamValue: team }, this._getResults);
     console.log('Top tier state team set to ' + team);
   }
 
   _handleSortByChange(sortBy: string) {
-    this.setState({ sortByValue: sortBy });
+    this.setState({ sortByValue: sortBy }, this._getResults);
     console.log('Top tier state SortBy set to ' + sortBy);
   }
 
   _handleMinimumPriceChange(minimumPrice: string) {
-    this.setState({ minimumPriceValue: minimumPrice });
+    this.setState({ minimumPriceValue: minimumPrice }, this._getResults);
     console.log('Top tier state minimum price set to ' + minimumPrice);
   }
 
   _handleMaximumPriceChange(maximumPrice: string) {
-    this.setState({ maximumPriceValue: maximumPrice });
+    this.setState({ maximumPriceValue: maximumPrice }, this._getResults);
     console.log('Top tier state maximum price set to ' + maximumPrice);
   }
 
   _handleSearchByNameValue(searchByName: string) {
-    this.setState({ searchByNameValue: searchByName });
+    this.setState({ searchByNameValue: searchByName }, this._getResults);
     console.log('Top tier state search by name set to ' + searchByName);
   }
 

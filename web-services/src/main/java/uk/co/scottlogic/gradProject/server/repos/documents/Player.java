@@ -154,6 +154,6 @@ public class Player {
     }
 
     public enum Position {
-        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
+        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER, ALL
     }
 }

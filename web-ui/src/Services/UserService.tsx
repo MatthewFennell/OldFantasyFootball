@@ -9,6 +9,7 @@ import { getBearerHeader } from './CredentialInputService';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { LeaguePositions } from '../Models/Interfaces/LeaguePositions';
 import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
+import { FilterPlayers } from '../Models/Interfaces/FilterPlayers';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -83,6 +84,29 @@ export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
 export const createLeague = (data: CreateLeague): Promise<any> => {
   console.log('Sending ' + JSON.stringify(data));
   return fetch('/api/league/make', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
+  })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 403) {
+          throw new Error('Login Unsuccessful');
+        } else if (response.status === 500) {
+          throw new Error('Internal server error');
+        } else {
+          throw new Error(response.status.toString());
+        }
+      } else if (response.status === 201) {
+        return response.json();
+      }
+    })
+    .catch(error => console.error(error));
+};
+
+export const filterPlayers = (data: FilterPlayers): Promise<any> => {
+  console.log('Sending ' + JSON.stringify(data));
+  return fetch('/api/players/filter', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }

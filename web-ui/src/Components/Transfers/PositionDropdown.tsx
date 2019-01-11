@@ -34,7 +34,7 @@ class PositionDropdown extends React.Component<PositionDropdownProps, PositionDr
 
   render() {
     let positions: string[] = ['Goalkeepers', 'Defenders', 'Midfielders', 'Attackers', 'All'];
-    const positionOptions = positions.map(position => (
+    const positionOptions = positions.map((position, index) => (
       <p className="menu-items">
         <DropdownItem
           className={'position-menu-item-' + (position === this.state.positionValue)}

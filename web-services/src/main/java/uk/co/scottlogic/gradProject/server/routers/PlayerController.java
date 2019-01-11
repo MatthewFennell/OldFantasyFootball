@@ -4,6 +4,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import uk.co.scottlogic.gradProject.server.misc.ExceptionLogger;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
@@ -79,6 +81,35 @@ public class PlayerController {
             response.setStatus(403);
         }
         return Collections.emptyList();
+    }
+
+    @ApiOperation(value = Icons.key + " Filter players accordingly ", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "Category successfully added"),
+            @ApiResponse(code = 400, message = "Must provide valid category name"),
+            @ApiResponse(code = 403, message = "Insufficient privileges"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/players/filter")
+    public List<Player> filterPlayers(@AuthenticationPrincipal ApplicationUser user,
+                           @RequestBody InputFilterPlayersDTO dto, HttpServletResponse response) {
+        try {
+            System.out.println("sort by = " + dto.getSort_by());
+            System.out.println("max = " + dto.getMaximum());
+            System.out.println("min = " + dto.getMinimum());
+            System.out.println("name = " + dto.getName());
+            System.out.println("team = " + dto.getTeam());
+            System.out.println("position = " + dto.getPosition());
+            System.out.println("positions value = " + Player.Position.valueOf(dto.getPosition()));
+            System.out.println("sort by value = " + PlayerManager.SORT_BY.valueOf(dto.getSort_by()));
+            return playerManager.filterPlayers(dto.getTeam(), Player.Position.valueOf(dto.getPosition()), dto.getMinimum(), dto.getMaximum(), dto.getName(), PlayerManager.SORT_BY.valueOf(dto.getSort_by()));
+        } catch (DuplicateKeyException e) {
+            response.setStatus(409);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+        }
+        return null;
     }
 
 }
