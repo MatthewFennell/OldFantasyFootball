@@ -118,7 +118,7 @@ export const filterPlayers = (data: FilterPlayers): Promise<any[]> => {
       '/team/' +
       data.team +
       '/sort/' +
-      data.sort_by,
+      data.sortBy,
     {
       method: 'GET',
       headers: { Authorization: getBearerHeader() }

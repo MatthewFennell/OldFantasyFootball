@@ -64,7 +64,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     let data: FilterPlayers = {
       position: position,
       team: this.state.teamValue,
-      sort_by: sortBy,
+      sortBy: sortBy,
       minimum: minPrice,
       maximum: maxPrice,
       name: searchName

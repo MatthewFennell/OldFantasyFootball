@@ -101,34 +101,28 @@ public class PlayerManager {
         System.out.println("END -----------------");
         System.out.println();
 
-
-
-        List<Player> filteredPlayers = new ArrayList<>();
-
         if (team.equals("All teams")){
             if (position.equals(Player.Position.ALL)){
-                filteredPlayers = filter(null, null, min, max, name, sortBy);
+                return filter(null, null, min, max, name, sortBy);
             }
             else {
-                filteredPlayers = filter(null, position.ordinal(), min, max, name, sortBy);
+                return filter(null, position.ordinal(), min, max, name, sortBy);
             }
         }
         else {
             Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
             if (collegeTeam.isPresent()){
                 if (position != Player.Position.ALL) {
-                    filteredPlayers = filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
+                    return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
                 }
                 else {
-                    filteredPlayers = filter(collegeTeam.get(), null, min, max, name, sortBy);
+                    return filter(collegeTeam.get(), null, min, max, name, sortBy);
                 }
             }
             else {
                 throw new IllegalArgumentException("College team does not exist");
             }
         }
-        System.out.println("response length = " + filteredPlayers.size());
-        return filteredPlayers;
     }
 
     private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){

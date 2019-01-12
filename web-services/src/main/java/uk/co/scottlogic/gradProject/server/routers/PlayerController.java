@@ -117,7 +117,7 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "Invalid date / category"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<Player> filterPlayerssAll(
+    public List<FilteredPlayerDTO> filterPlayerssAll(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("max") Integer max,
             @PathVariable("min") Integer min,
@@ -135,7 +135,12 @@ public class PlayerController {
             System.out.println("position = " + position);
             System.out.println("team = " + team);
             System.out.println("sort = " + sort);
-            return playerManager.formatFilter(team, position, min, max, name, sort);
+            List<Player> filteredPlayers =  playerManager.formatFilter(team, position, min, max, name, sort);
+            List<FilteredPlayerDTO> responses = new ArrayList<>();
+            for (Player p : filteredPlayers){
+                responses.add(new FilteredPlayerDTO(p));
+            }
+            return responses;
         } catch (Exception e) {
             response.setStatus(403);
         }
