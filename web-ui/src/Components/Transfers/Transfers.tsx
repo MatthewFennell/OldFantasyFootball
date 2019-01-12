@@ -33,7 +33,7 @@ class Transfers extends React.Component<TransfersProps, {}> {
       <div className="outer-transfer-columns">
         <div className="left-rows">
           <div className="transfer-info-row">
-            <div>Remaining Budget: £{this.props.remainingBudget} mil</div>
+            <div>Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil</div>
             <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             <div>Transfer Deadline</div>
           </div>

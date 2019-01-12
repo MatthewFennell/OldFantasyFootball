@@ -43,6 +43,14 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    // Removes the index
+    case ActionTypes.REMOVE_INDEX: {
+      return {
+        ...state,
+        activeTeam: state.activeTeam.filter((item, index) => action.payload.indexToRemove !== index)
+      };
+    }
+
     default:
       return state;
   }
