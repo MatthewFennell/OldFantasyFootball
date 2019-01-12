@@ -4,4 +4,5 @@ export interface WeeklyPlayer {
   surname: string;
   position: String;
   points: number;
+  price: number;
 }

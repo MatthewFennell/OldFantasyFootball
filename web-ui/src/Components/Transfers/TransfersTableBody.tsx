@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
-import TransfersRow from './TransfersRow';
+import TransfersRow from '../../Containers/Transfers/TransfersRow';
 import '../../Style/Transfers/TransfersFilter.css';
 
 interface TransfersTableBodyProps {

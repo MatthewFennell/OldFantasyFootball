@@ -1,11 +1,13 @@
 import * as React from 'react';
 import '../../Style/Team/Team.css';
+import '../../Style/Team/PitchLayout/Pitch.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
 import { Button } from 'reactstrap';
 import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+// import '../../../Style/Team/PitchLayout/Pitch.css';
 import {
   getNumberOfWeeks,
   getPointsForUserInWeek,
@@ -121,7 +123,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
           <Stats />
         </div>
         <div className="row-3-squad">
-          <Pitch activeWeeklyTeam={this.props.activeTeam} />
+          <Pitch transfer={false} activeWeeklyTeam={this.props.activeTeam} />
         </div>
         <div className="row-4-bench">Bench</div>
         <Button

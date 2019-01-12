@@ -288,3 +288,23 @@ export const getRemainingBudgetAndTransfers = (): Promise<number[]> => {
     }
   });
 };
+
+export const updateTeam = (newTeam: WeeklyPlayer[]): Promise<void> => {
+  return fetch('/api/week/update', {
+    method: 'POST',
+    headers: { Authorization: getBearerHeader(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(newTeam)
+  }).then(response => {
+    if (!response.ok) {
+      if (response.status === 403) {
+        throw new Error('Authentication error. Please refresh the page and try again.');
+      } else if (response.status === 500) {
+        throw new Error('Internal server error. If problems persist, please contact support.');
+      }
+    } else if (response.status === 200) {
+      return response.json();
+    }
+
+    throw new Error('Oops, an error occurred. Please try again.');
+  });
+};

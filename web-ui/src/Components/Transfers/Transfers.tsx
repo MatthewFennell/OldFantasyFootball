@@ -4,6 +4,9 @@ import { getRemainingBudgetAndTransfers } from '../../Services/UserService';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
+import Pitch from '../Team/PitchLayout/Pitch';
+import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import '../../Style/Transfers/PitchValue.css';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -13,6 +16,7 @@ interface TransfersProps {
   setRemainingTransfers: (remainingTransfers: number) => void;
 
   filteredPlayers: FilteredPlayer[];
+  activeTeam: WeeklyPlayer[];
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
@@ -29,11 +33,14 @@ class Transfers extends React.Component<TransfersProps, {}> {
       <div className="outer-transfer-columns">
         <div className="left-rows">
           <div className="transfer-info-row">
-            <div>Budget: £{this.props.remainingBudget} mil</div>
+            <div>Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil</div>
             <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             <div>Transfer Deadline</div>
           </div>
-          <div>2</div>
+          <div className="save-changes">SAVE CHANGES</div>
+          <div className="pitch-value">
+            <Pitch transfer={true} activeWeeklyTeam={this.props.activeTeam} />
+          </div>
         </div>
         <div className="right-rows">
           <div className="flex-container">
