@@ -1,7 +1,9 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
 import { getRemainingBudgetAndTransfers } from '../../Services/UserService';
-import TransfersForm from './TransfersForm';
+import TransfersForm from '../../Containers/Transfers/TransfersForm';
+import TransfersTableBody from './TransfersTableBody';
+import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -9,6 +11,8 @@ interface TransfersProps {
 
   remainingTransfers: number;
   setRemainingTransfers: (remainingTransfers: number) => void;
+
+  filteredPlayers: FilteredPlayer[];
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
@@ -36,7 +40,11 @@ class Transfers extends React.Component<TransfersProps, {}> {
             <div>
               <TransfersForm />
             </div>
-            <div>2</div>
+            <div>
+              <div className="transfers-table">
+                <TransfersTableBody filteredPlayers={this.props.filteredPlayers} />
+              </div>
+            </div>
           </div>
         </div>
       </div>

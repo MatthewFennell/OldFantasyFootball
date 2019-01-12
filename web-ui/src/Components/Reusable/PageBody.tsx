@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import '../../Style/App.css';
 import CategoryTemplate from '../../Containers/CategoryTemplate';
 import Team from '../../Containers/Team/Team';
-import Transfers from '../../Containers/Transfers';
+import Transfers from '../../Containers/Transfers/Transfers';
 import Leagues from '../../Containers/League/Leagues';
 import Settings from '../../Containers/Settings';
 

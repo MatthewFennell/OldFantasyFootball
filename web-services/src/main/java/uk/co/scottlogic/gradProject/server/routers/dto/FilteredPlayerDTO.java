@@ -8,22 +8,34 @@ public class FilteredPlayerDTO {
     private String surname;
     private Player.Position position;
     private String team;
+    private double price;
     private Integer totalScore;
     private Integer totalGoals;
     private Integer totalAssists;
+
 
     public FilteredPlayerDTO(Player player){
         this.firstName = player.getFirstName();
         this.surname = player.getSurname();
         this.position = player.getPosition();
         this.team = player.getActiveTeam().getName();
+        this.price = player.getPrice();
         this.totalScore = player.getTotalScore();
         this.totalGoals = player.getTotalGoals();
         this.totalAssists = player.getTotalAssists();
+
     }
 
     public FilteredPlayerDTO(){
 
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getFirstName() {

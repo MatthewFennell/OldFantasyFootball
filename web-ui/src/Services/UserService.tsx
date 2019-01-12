@@ -10,6 +10,7 @@ import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { LeaguePositions } from '../Models/Interfaces/LeaguePositions';
 import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
 import { FilterPlayers } from '../Models/Interfaces/FilterPlayers';
+import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -104,7 +105,7 @@ export const createLeague = (data: CreateLeague): Promise<any> => {
     .catch(error => console.error(error));
 };
 
-export const filterPlayers = (data: FilterPlayers): Promise<any[]> => {
+export const filterPlayers = (data: FilterPlayers): Promise<FilteredPlayer[]> => {
   console.log('sending data ' + JSON.stringify(data));
   return fetch(
     '/api/player/max/' +

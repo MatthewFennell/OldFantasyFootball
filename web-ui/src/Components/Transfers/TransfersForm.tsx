@@ -8,8 +8,12 @@ import MaximumPriceDropdown from './MaximumPriceDropdown';
 import SearchByName from './SearchByName';
 import { filterPlayers } from '../../Services/UserService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
+import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 
-interface TransfersFormProps {}
+interface TransfersFormProps {
+  setFilteredPlayers: (filteredTeam: FilteredPlayer[]) => void;
+  filteredPlayers: FilteredPlayer[];
+}
 
 interface TransfersFormState {
   positionValue: string;
@@ -74,6 +78,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
     filterPlayers(data).then(response => {
       console.log('response = ' + JSON.stringify(response));
+      this.props.setFilteredPlayers(response);
     });
   }
 

@@ -1,0 +1,27 @@
+div.transfers-table {
+    tbody.my-active-transfers {
+      width: 100%;
+      font-size: 24px;
+      tr.transfers {
+        td{
+            width: 10%;
+        }
+        td.position {
+        //   margin-left: 30px;
+          color: red;
+        //   width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+  
+  #customer-container {
+    margin-top: 0px;
+  }
+  
+  tr.transfers:hover {
+    td {
+      background-color: blue;
+    }
+  }
