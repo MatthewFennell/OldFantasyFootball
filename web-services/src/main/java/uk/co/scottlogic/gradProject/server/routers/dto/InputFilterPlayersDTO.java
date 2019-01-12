@@ -1,14 +1,17 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
+import uk.co.scottlogic.gradProject.server.repos.PlayerManager;
+import uk.co.scottlogic.gradProject.server.repos.documents.Player;
+
 public class InputFilterPlayersDTO {
-    private String position;
+    private Player.Position position;
     private String team;
-    private String sort_by;
+    private PlayerManager.SORT_BY sort_by;
     private Integer minimum;
     private Integer maximum;
     private String name;
 
-    public InputFilterPlayersDTO(String position, String team, String sort_by, Integer minimum, Integer maximum, String name) {
+    public InputFilterPlayersDTO(Player.Position position, String team, PlayerManager.SORT_BY sort_by, Integer minimum, Integer maximum, String name) {
         this.position = position;
         this.team = team;
         this.sort_by = sort_by;
@@ -17,11 +20,11 @@ public class InputFilterPlayersDTO {
         this.name = name;
     }
 
-    public String getPosition() {
+    public Player.Position getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Player.Position position) {
         this.position = position;
     }
 
@@ -33,11 +36,11 @@ public class InputFilterPlayersDTO {
         this.team = team;
     }
 
-    public String getSort_by() {
+    public PlayerManager.SORT_BY getSort_by() {
         return sort_by;
     }
 
-    public void setSort_by(String sort_by) {
+    public void setSort_by(PlayerManager.SORT_BY sort_by) {
         this.sort_by = sort_by;
     }
 

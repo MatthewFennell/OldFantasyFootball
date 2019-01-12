@@ -76,6 +76,7 @@ public class PlayerController {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
+            response.setStatus(200);
             return weeklyTeamManager.findAllPlayersInWeeklyTeam(user, week);
         } catch (Exception e) {
             response.setStatus(403);
@@ -95,19 +96,48 @@ public class PlayerController {
     public List<Player> filterPlayers(@AuthenticationPrincipal ApplicationUser user,
                            @RequestBody InputFilterPlayersDTO dto, HttpServletResponse response) {
         try {
-            System.out.println("sort by = " + dto.getSort_by());
-            System.out.println("max = " + dto.getMaximum());
-            System.out.println("min = " + dto.getMinimum());
-            System.out.println("name = " + dto.getName());
-            System.out.println("team = " + dto.getTeam());
-            System.out.println("position = " + dto.getPosition());
-            System.out.println("positions value = " + Player.Position.valueOf(dto.getPosition()));
-            System.out.println("sort by value = " + PlayerManager.SORT_BY.valueOf(dto.getSort_by()));
-            return playerManager.filterPlayers(dto.getTeam(), Player.Position.valueOf(dto.getPosition()), dto.getMinimum(), dto.getMaximum(), dto.getName(), PlayerManager.SORT_BY.valueOf(dto.getSort_by()));
+
+            List<Player> players = playerManager.formatFilter(dto.getTeam(), dto.getPosition(), dto.getMinimum(), dto.getMaximum(), dto.getName(), dto.getSort_by());
+            return players;
         } catch (DuplicateKeyException e) {
             response.setStatus(409);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
+        }
+        return null;
+    }
+
+
+    @ApiOperation(value = Icons.key
+            + " Find the player with the most points in a week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player/max/{max}/min/{min}/name/{name}/position/{position}/team/{team}/sort/{sort}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<Player> filterPlayerssAll(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("max") Integer max,
+            @PathVariable("min") Integer min,
+            @PathVariable("name") String name,
+            @PathVariable("position") Player.Position position,
+            @PathVariable("team") String team,
+            @PathVariable("sort") PlayerManager.SORT_BY sort
+            ) {
+        try {
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            System.out.println("max = " + max);
+            System.out.println("min = " + min);
+            System.out.println("name = " + name);
+            System.out.println("position = " + position);
+            System.out.println("team = " + team);
+            System.out.println("sort = " + sort);
+            return playerManager.formatFilter(team, position, min, max, name, sort);
+        } catch (Exception e) {
+            response.setStatus(403);
         }
         return null;
     }

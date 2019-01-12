@@ -1,5 +1,6 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
@@ -29,6 +30,11 @@ public class PlayerManager {
         this.applicationUserRepo = applicationUserRepo;
 //        makePlayers();
 //        addPointsToPlayersWeek0();
+        List<Player>  players = formatFilter("All teams", Player.Position.ALL, 0, 100, "", SORT_BY.PRICE);
+        System.out.println("players length = " + players.size());
+
+        List<Player>  dudes = filter(null, null, 0, 100, "", SORT_BY.PRICE);
+        System.out.println("players length = " + dudes.size());
     }
 
 
@@ -83,46 +89,46 @@ public class PlayerManager {
         return playerPointsRepo.findPlayerWithMostPoints(week);
     }
 
+    public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy){
 
-    public List<Player> filterPlayers(String collegeTeam, Player.Position position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+        System.out.println("INPUTS ------------------");
+        System.out.println("team = " + team);
+        System.out.println("position = " + position);
+        System.out.println("min = " + min);
+        System.out.println("max = " + max);
+        System.out.println("name = " + name);
+        System.out.println("sort by = " + sortBy);
+        System.out.println("END -----------------");
+        System.out.println();
 
-        Optional<CollegeTeam> team = teamRepo.findByName(collegeTeam);
-        if (!team.isEmpty()) {
-            if (position == Player.Position.GOALKEEPER) {
-                return findGoalkeepers(team.get(), minPrice, maxPrice, name, sorting);
-            } else if (position == Player.Position.DEFENDER) {
-                return findDefenders(team.get(), minPrice, maxPrice, name, sorting);
-            } else if (position == Player.Position.MIDFIELDER) {
-                return findMidfielders(team.get(), minPrice, maxPrice, name, sorting);
-            } else if (position == Player.Position.ATTACKER) {
-                return findAttackers(team.get(), minPrice, maxPrice, name, sorting);
-            } else {
-                return findAllPositions(team.get(), minPrice, maxPrice, name, sorting);
+
+
+        List<Player> filteredPlayers = new ArrayList<>();
+
+        if (team.equals("All teams")){
+            if (position.equals(Player.Position.ALL)){
+                filteredPlayers = filter(null, null, min, max, name, sortBy);
+            }
+            else {
+                filteredPlayers = filter(null, position.ordinal(), min, max, name, sortBy);
             }
         }
         else {
-            throw new IllegalArgumentException("Team does not exist");
+            Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
+            if (collegeTeam.isPresent()){
+                if (position != Player.Position.ALL) {
+                    filteredPlayers = filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
+                }
+                else {
+                    filteredPlayers = filter(collegeTeam.get(), null, min, max, name, sortBy);
+                }
+            }
+            else {
+                throw new IllegalArgumentException("College team does not exist");
+            }
         }
-    }
-
-    private List<Player> findGoalkeepers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 0, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findDefenders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 1, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findMidfielders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 2, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findAttackers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 3, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findAllPositions(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, null, minPrice, maxPrice, name, sorting);
+        System.out.println("response length = " + filteredPlayers.size());
+        return filteredPlayers;
     }
 
     private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
@@ -130,13 +136,15 @@ public class PlayerManager {
         String searchName = name;
 
         // Search for everything if the input is null
-        if (name == null){
+        if (name.equals("null")){
             searchName = "%";
         }
         // Now searches for anything that contains 'searchName'
         else {
             searchName = "%" + searchName + "%";
         }
+
+        System.out.println("hiya");
 
         // Order by price by default
         if (sorting == SORT_BY.GOALS){

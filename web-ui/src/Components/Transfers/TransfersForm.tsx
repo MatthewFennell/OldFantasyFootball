@@ -31,7 +31,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleSearchByNameValue = this._handleSearchByNameValue.bind(this);
     this._getResults = this._getResults.bind(this);
     this.state = {
-      positionValue: 'ALL',
+      positionValue: 'All',
       teamValue: 'A',
       sortByValue: 'TOTAL_POINTS',
       minimumPriceValue: 'No limit',
@@ -44,7 +44,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     let minPrice: number =
       this.state.minimumPriceValue === 'No limit' ? 0 : Number(this.state.minimumPriceValue);
     let maxPrice: number =
-      this.state.maximumPriceValue === 'No limit' ? 0 : Number(this.state.maximumPriceValue);
+      this.state.maximumPriceValue === 'No limit' ? 100 : Number(this.state.maximumPriceValue);
 
     // Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
     let position: string =
@@ -55,16 +55,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // Formats the correct response
     let sortBy: string =
       this.state.sortByValue === 'Total score'
-        ? 'TOTAL_SCORE'
+        ? 'TOTAL_POINTS'
         : this.state.sortByValue.toUpperCase();
+
+    let searchName: string =
+      this.state.searchByNameValue.length === 0 ? 'null' : this.state.searchByNameValue;
 
     let data: FilterPlayers = {
       position: position,
       team: this.state.teamValue,
-      sort_by: this.state.sortByValue.toUpperCase(),
+      sort_by: sortBy,
       minimum: minPrice,
       maximum: maxPrice,
-      name: sortBy
+      name: searchName
     };
 
     console.log('Data = ' + JSON.stringify(data));

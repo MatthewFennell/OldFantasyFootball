@@ -104,27 +104,31 @@ export const createLeague = (data: CreateLeague): Promise<any> => {
     .catch(error => console.error(error));
 };
 
-export const filterPlayers = (data: FilterPlayers): Promise<any> => {
-  console.log('Sending ' + JSON.stringify(data));
-  return fetch('/api/players/filter', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
-  })
-    .then(response => {
-      if (!response.ok) {
-        if (response.status === 403) {
-          throw new Error('Login Unsuccessful');
-        } else if (response.status === 500) {
-          throw new Error('Internal server error');
-        } else {
-          throw new Error(response.status.toString());
-        }
-      } else if (response.status === 201) {
-        return response.json();
-      }
-    })
-    .catch(error => console.error(error));
+export const filterPlayers = (data: FilterPlayers): Promise<any[]> => {
+  console.log('sending data ' + JSON.stringify(data));
+  return fetch(
+    '/api/player/max/' +
+      data.maximum +
+      '/min/' +
+      data.minimum +
+      '/name/' +
+      data.name +
+      '/position/' +
+      data.position +
+      '/team/' +
+      data.team +
+      '/sort/' +
+      data.sort_by,
+    {
+      method: 'GET',
+      headers: { Authorization: getBearerHeader() }
+    }
+  ).then(response => {
+    console.log('Response = ' + JSON.stringify(response));
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
 };
 
 export const joinLeague = (code: string): Promise<LeaguePositions> => {
