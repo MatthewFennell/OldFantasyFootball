@@ -9,3 +9,6 @@ export const getRemainingTransfers = createSelector(
   [getRemainingTransfersState],
   a => a.remainingTransfers
 );
+
+const getFilteredPlayersState = (state: State) => state.transfers;
+export const getFilteredPlayers = createSelector([getFilteredPlayersState], a => a.filteredPlayers);

@@ -40,7 +40,7 @@ class SearchByName extends React.Component<PositionDropdownProps, State> {
           <div id="login-input-fields">
             <FormGroup>
               <Label for="searchByValue" className="unselectable">
-                League name
+                Player name
               </Label>
               <Field
                 type="text"
