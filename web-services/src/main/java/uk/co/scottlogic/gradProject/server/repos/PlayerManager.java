@@ -30,11 +30,7 @@ public class PlayerManager {
         this.applicationUserRepo = applicationUserRepo;
 //        makePlayers();
 //        addPointsToPlayersWeek0();
-        List<Player>  players = formatFilter("All teams", Player.Position.ALL, 0, 100, "", SORT_BY.PRICE);
-        System.out.println("players length = " + players.size());
 
-        List<Player>  dudes = filter(null, null, 0, 100, "", SORT_BY.PRICE);
-        System.out.println("players length = " + dudes.size());
     }
 
 
@@ -76,7 +72,7 @@ public class PlayerManager {
 
     public Integer findPointsForPlayerInWeek(Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-
+        System.out.println("made it here");
         if (playerPoints.isPresent()){
             return playerPoints.get().getPoints();
         }
@@ -90,16 +86,6 @@ public class PlayerManager {
     }
 
     public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy){
-
-        System.out.println("INPUTS ------------------");
-        System.out.println("team = " + team);
-        System.out.println("position = " + position);
-        System.out.println("min = " + min);
-        System.out.println("max = " + max);
-        System.out.println("name = " + name);
-        System.out.println("sort by = " + sortBy);
-        System.out.println("END -----------------");
-        System.out.println();
 
         if (team.equals("All teams")){
             if (position.equals(Player.Position.ALL)){

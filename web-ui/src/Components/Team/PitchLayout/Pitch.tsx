@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../../Style/Team/PitchLayout/Pitch.css';
+// import '../../../Style/Team/PitchLayout/Pitch.css';
 import Attackers from '../../../Containers/Team/PitchLayout/Attackers';
 import Midfielders from '../../../Containers/Team/PitchLayout/Midfielders';
 import Defenders from '../../../Containers/Team/PitchLayout/Defenders';
@@ -8,6 +8,7 @@ import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
 
 interface PitchProps {
   activeWeeklyTeam: WeeklyPlayer[];
+  transfer: boolean;
 }
 
 class Pitch extends React.Component<PitchProps, {}> {
@@ -34,16 +35,16 @@ class Pitch extends React.Component<PitchProps, {}> {
     return (
       <div className="pitch-with-players">
         <div className="attackers">
-          <Attackers attackers={attackers} />
+          <Attackers attackers={attackers} transfer={this.props.transfer} />
         </div>
         <div className="midfielders">
-          <Midfielders midfielders={midfielders} />
+          <Midfielders midfielders={midfielders} transfer={this.props.transfer} />
         </div>
         <div className="defenders">
-          <Defenders defenders={defenders} />
+          <Defenders defenders={defenders} transfer={this.props.transfer} />
         </div>
         <div className="goalkeeper">
-          <Goalkeeper goalkeepers={goalKeeper} />
+          <Goalkeeper goalkeepers={goalKeeper} transfer={this.props.transfer} />
         </div>
       </div>
     );

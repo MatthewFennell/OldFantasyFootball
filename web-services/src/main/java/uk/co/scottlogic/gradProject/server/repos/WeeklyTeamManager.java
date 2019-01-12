@@ -55,7 +55,7 @@ public class WeeklyTeamManager {
             Player p = player.get();
             List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
             if (!teams.isEmpty()) {
-                UsersWeeklyTeam team = teams.get(1);
+                UsersWeeklyTeam team = teams.get(0);
                 System.out.println("week = " + team.getWeek());
                 team.getPlayers().add(p);
                 weeklyTeamRepo.save(team);
@@ -145,14 +145,18 @@ public class WeeklyTeamManager {
         List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()){
+            System.out.println("team exists");
             List<Player> players = team.get().getPlayers();
+            System.out.println("number of players = " + players.size());
             for (Player p : players){
+                System.out.println("adding a player");
                 playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         }
         else{
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
+        System.out.println("length = " + playersToReturn.size());
         playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));
         return playersToReturn;
     }
@@ -162,7 +166,7 @@ public class WeeklyTeamManager {
         if (user.isPresent()) {
             ApplicationUser u = user.get();
             Optional<Player> player = playerRepo.findByFirstName("Ollie");
-            ;
+
             player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
 
             player = playerRepo.findByFirstName("Eloka");

@@ -11,6 +11,7 @@ public class WeeklyPlayerReturnDTO {
     private String surname;
     private Player.Position position;
     private Integer points;
+    private double price;
 
     public WeeklyPlayerReturnDTO(Player player, Integer points){
         this.id = player.getId();
@@ -18,6 +19,19 @@ public class WeeklyPlayerReturnDTO {
         this.surname = player.getSurname();
         this.position = player.getPosition();
         this.points = points;
+        this.price = player.getPrice();
+    }
+
+    public WeeklyPlayerReturnDTO() {
+
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public UUID getId() {

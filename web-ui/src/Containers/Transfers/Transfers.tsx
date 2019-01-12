@@ -7,11 +7,13 @@ import {
   getRemainingTransfers,
   getFilteredPlayers
 } from '../../Selectors/TransfersSelector';
+import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 
 const mapStateToProps = (state: State) => ({
   remainingBudget: getRemainingBudget(state),
   remainingTransfers: getRemainingTransfers(state),
-  filteredPlayers: getFilteredPlayers(state)
+  filteredPlayers: getFilteredPlayers(state),
+  activeTeam: getActiveTeam(state)
 });
 
 const mapDispatchToProps = {

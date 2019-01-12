@@ -5,6 +5,7 @@ import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
 
 interface DefenderProps {
   defenders: WeeklyPlayer[];
+  transfer: boolean;
 }
 
 class Defenders extends React.Component<DefenderProps, {}> {
@@ -17,6 +18,8 @@ class Defenders extends React.Component<DefenderProps, {}> {
               firstName={this.props.defenders[0].firstName}
               surname={this.props.defenders[0].surname}
               points={this.props.defenders[0].points}
+              price={this.props.defenders[0].price}
+              transfer={this.props.transfer}
             />
           </div>
           <div className="second-defender">
@@ -24,6 +27,8 @@ class Defenders extends React.Component<DefenderProps, {}> {
               firstName={this.props.defenders[1].firstName}
               surname={this.props.defenders[1].surname}
               points={this.props.defenders[1].points}
+              price={this.props.defenders[1].price}
+              transfer={this.props.transfer}
             />
           </div>
           <div className="third-defender">
@@ -31,6 +36,8 @@ class Defenders extends React.Component<DefenderProps, {}> {
               firstName={this.props.defenders[2].firstName}
               surname={this.props.defenders[2].surname}
               points={this.props.defenders[2].points}
+              price={this.props.defenders[2].price}
+              transfer={this.props.transfer}
             />
           </div>
           <div className="fourth-defender">
@@ -38,6 +45,8 @@ class Defenders extends React.Component<DefenderProps, {}> {
               firstName={this.props.defenders[3].firstName}
               surname={this.props.defenders[3].surname}
               points={this.props.defenders[3].points}
+              price={this.props.defenders[3].price}
+              transfer={this.props.transfer}
             />
           </div>
         </div>
@@ -46,16 +55,16 @@ class Defenders extends React.Component<DefenderProps, {}> {
       return (
         <div className="defenders-columns">
           <div className="first-defender">
-            <Player firstName="" surname="" points={0} />
+            <Player firstName="" surname="" points={0} price={0} transfer={false} />
           </div>
           <div className="second-defender">
-            <Player firstName="" surname="" points={0} />
+            <Player firstName="" surname="" points={0} price={0} transfer={false} />
           </div>
           <div className="third-defender">
-            <Player firstName="" surname="" points={0} />
+            <Player firstName="" surname="" points={0} price={0} transfer={false} />
           </div>
           <div className="fourth-defender">
-            <Player firstName="" surname="" points={0} />
+            <Player firstName="" surname="" points={0} price={0} transfer={false} />
           </div>
         </div>
       );
