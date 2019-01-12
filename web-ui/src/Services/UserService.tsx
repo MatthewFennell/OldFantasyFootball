@@ -9,6 +9,7 @@ import { getBearerHeader } from './CredentialInputService';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { LeaguePositions } from '../Models/Interfaces/LeaguePositions';
 import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
+import { FilterPlayers } from '../Models/Interfaces/FilterPlayers';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
   return fetch('/api/user', {
@@ -101,6 +102,33 @@ export const createLeague = (data: CreateLeague): Promise<any> => {
       }
     })
     .catch(error => console.error(error));
+};
+
+export const filterPlayers = (data: FilterPlayers): Promise<any[]> => {
+  console.log('sending data ' + JSON.stringify(data));
+  return fetch(
+    '/api/player/max/' +
+      data.maximum +
+      '/min/' +
+      data.minimum +
+      '/name/' +
+      data.name +
+      '/position/' +
+      data.position +
+      '/team/' +
+      data.team +
+      '/sort/' +
+      data.sortBy,
+    {
+      method: 'GET',
+      headers: { Authorization: getBearerHeader() }
+    }
+  ).then(response => {
+    console.log('Response = ' + JSON.stringify(response));
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
 };
 
 export const joinLeague = (code: string): Promise<LeaguePositions> => {

@@ -38,20 +38,16 @@ class MaximumPriceDropdown extends React.Component<
   render() {
     let maximumPrices: string[] = [
       '5.0',
-      '5.5',
       '6.0',
-      '6.5',
       '7.0',
-      '7.5',
       '8.0',
-      '8.5',
       '9.0',
-      '9.5',
       '10.0',
-      '10.5',
       '11.0',
-      '11.5',
       '12.0',
+      '13.0',
+      '14.0',
+
       'No limit'
     ];
     const maximumPriceOptions = maximumPrices.map(maximumPrice => (

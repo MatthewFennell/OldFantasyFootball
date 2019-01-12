@@ -17,7 +17,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
     this._toggleTeam = this._toggleTeam.bind(this);
     this.state = {
       teamDropDownOpen: false,
-      teamValue: 'All'
+      teamValue: 'All teams'
     };
   }
 
@@ -33,7 +33,23 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
   }
 
   render() {
-    let teams: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
+    let teams: string[] = [
+      'All teams',
+      'A',
+      'B',
+      'C',
+      'D',
+      'E',
+      'F',
+      'G',
+      'H',
+      'I',
+      'J',
+      'K',
+      'L',
+      'M',
+      'N'
+    ];
     const teamOptions = teams.map(team => (
       <p className="menu-items">
         <DropdownItem

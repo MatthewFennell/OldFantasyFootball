@@ -1,5 +1,6 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
@@ -29,6 +30,11 @@ public class PlayerManager {
         this.applicationUserRepo = applicationUserRepo;
 //        makePlayers();
 //        addPointsToPlayersWeek0();
+        List<Player>  players = formatFilter("All teams", Player.Position.ALL, 0, 100, "", SORT_BY.PRICE);
+        System.out.println("players length = " + players.size());
+
+        List<Player>  dudes = filter(null, null, 0, 100, "", SORT_BY.PRICE);
+        System.out.println("players length = " + dudes.size());
     }
 
 
@@ -83,42 +89,40 @@ public class PlayerManager {
         return playerPointsRepo.findPlayerWithMostPoints(week);
     }
 
-    public List<Player> filterPlayers(CollegeTeam team, Player.Position position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+    public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy){
 
-        if (position == Player.Position.GOALKEEPER){
-            return findGoalkeepers(team, minPrice, maxPrice, name, sorting);
+        System.out.println("INPUTS ------------------");
+        System.out.println("team = " + team);
+        System.out.println("position = " + position);
+        System.out.println("min = " + min);
+        System.out.println("max = " + max);
+        System.out.println("name = " + name);
+        System.out.println("sort by = " + sortBy);
+        System.out.println("END -----------------");
+        System.out.println();
+
+        if (team.equals("All teams")){
+            if (position.equals(Player.Position.ALL)){
+                return filter(null, null, min, max, name, sortBy);
+            }
+            else {
+                return filter(null, position.ordinal(), min, max, name, sortBy);
+            }
         }
-        else if (position == Player.Position.DEFENDER){
-            return findDefenders(team, minPrice, maxPrice, name, sorting);
+        else {
+            Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
+            if (collegeTeam.isPresent()){
+                if (position != Player.Position.ALL) {
+                    return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
+                }
+                else {
+                    return filter(collegeTeam.get(), null, min, max, name, sortBy);
+                }
+            }
+            else {
+                throw new IllegalArgumentException("College team does not exist");
+            }
         }
-        else if (position == Player.Position.MIDFIELDER){
-            return findMidfielders(team, minPrice, maxPrice, name, sorting);
-        }
-        else if (position == Player.Position.ATTACKER){
-            return findAttackers(team, minPrice, maxPrice, name, sorting);
-        } else{
-            return findAllPositions(team, minPrice, maxPrice, name, sorting);
-        }
-    }
-
-    private List<Player> findGoalkeepers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 0, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findDefenders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 1, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findMidfielders(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 2, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findAttackers(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, 3, minPrice, maxPrice, name, sorting);
-    }
-
-    private List<Player> findAllPositions(CollegeTeam team, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
-        return filter(team, null, minPrice, maxPrice, name, sorting);
     }
 
     private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
@@ -126,13 +130,15 @@ public class PlayerManager {
         String searchName = name;
 
         // Search for everything if the input is null
-        if (name == null){
+        if (name.equals("null")){
             searchName = "%";
         }
         // Now searches for anything that contains 'searchName'
         else {
             searchName = "%" + searchName + "%";
         }
+
+        System.out.println("hiya");
 
         // Order by price by default
         if (sorting == SORT_BY.GOALS){
@@ -141,7 +147,7 @@ public class PlayerManager {
         else if (sorting == SORT_BY.ASSISTS) {
             return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
         }
-        else if (sorting == SORT_BY.TOTAL_SCORE) {
+        else if (sorting == SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
         }
         else {
@@ -211,35 +217,35 @@ public class PlayerManager {
     }
 
     public void makePlayers(){
-                List<CollegeTeam> team = teamRepo.findByName("A");
+                Optional<CollegeTeam> team = teamRepo.findByName("A");
         if (!team.isEmpty()){
-            makePlayer(team.get(0), Player.Position.DEFENDER, 7.2, "John", "Terry");
-            makePlayer(team.get(0), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
-            makePlayer(team.get(0), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.5, "David", "Silva");
+            makePlayer(team.get(), Player.Position.DEFENDER, 7.2, "John", "Terry");
+            makePlayer(team.get(), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
+            makePlayer(team.get(), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 8.5, "David", "Silva");
 
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
-            makePlayer(team.get(0), Player.Position.ATTACKER, 8.8, "Paco", "");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
+            makePlayer(team.get(), Player.Position.ATTACKER, 8.8, "Paco", "");
 
-            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Marcus", "Rashford");
-            makePlayer(team.get(0), Player.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
-            makePlayer(team.get(0), Player.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
-            makePlayer(team.get(0), Player.Position.DEFENDER, 8.5, "Ed", "Main");
+            makePlayer(team.get(), Player.Position.ATTACKER, 10.2, "Marcus", "Rashford");
+            makePlayer(team.get(), Player.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
+            makePlayer(team.get(), Player.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
+            makePlayer(team.get(), Player.Position.DEFENDER, 8.5, "Ed", "Main");
 
-            makePlayer(team.get(0), Player.Position.DEFENDER, 7.5, "Joe", "Sutton");
-            makePlayer(team.get(0), Player.Position.DEFENDER, 6.5, "Stevie", "");
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
-            makePlayer(team.get(0), Player.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
+            makePlayer(team.get(), Player.Position.DEFENDER, 7.5, "Joe", "Sutton");
+            makePlayer(team.get(), Player.Position.DEFENDER, 6.5, "Stevie", "");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
+            makePlayer(team.get(), Player.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
 
-            makePlayer(team.get(0), Player.Position.DEFENDER, 9.5, "Herbie", "");
-            makePlayer(team.get(0), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
+            makePlayer(team.get(), Player.Position.DEFENDER, 9.5, "Herbie", "");
+            makePlayer(team.get(), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
         }
     }
 
     public enum SORT_BY {
-        TOTAL_SCORE, GOALS, ASSISTS, PRICE
+        TOTAL_POINTS, GOALS, ASSISTS, PRICE
     }
 
 }

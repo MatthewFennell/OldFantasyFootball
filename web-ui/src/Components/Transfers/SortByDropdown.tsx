@@ -17,7 +17,7 @@ class SortByDropdown extends React.Component<SortByDropdownProps, SortByDropdown
     this._toggleSortBy = this._toggleSortBy.bind(this);
     this.state = {
       sortByDropDownOpen: false,
-      sortByValue: 'Total points'
+      sortByValue: 'Total score'
     };
   }
 
@@ -33,7 +33,7 @@ class SortByDropdown extends React.Component<SortByDropdownProps, SortByDropdown
   }
 
   render() {
-    let sortBys: string[] = ['Total points', 'Goals', 'Assists', 'Price'];
+    let sortBys: string[] = ['Total score', 'Goals', 'Assists', 'Price'];
     const sortByOptions = sortBys.map(sortBy => (
       <p className="menu-items">
         <DropdownItem
