@@ -37,6 +37,7 @@ class Transfers extends React.Component<TransfersProps, {}> {
             <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             <div>Transfer Deadline</div>
           </div>
+          <div className="save-changes">SAVE CHANGES</div>
           <div className="pitch-value">
             <Pitch transfer={true} activeWeeklyTeam={this.props.activeTeam} />
           </div>

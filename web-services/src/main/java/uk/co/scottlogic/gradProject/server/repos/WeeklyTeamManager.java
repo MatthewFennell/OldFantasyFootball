@@ -6,6 +6,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.UpdateTeamPlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
 
 import java.util.*;
@@ -90,6 +91,10 @@ public class WeeklyTeamManager {
 
     public List<UsersWeeklyTeam> findWeeklyTeamWithMostPoints(Integer week) {
         return weeklyTeamRepo.findUserWithMostPoints(week);
+    }
+
+    public boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> newTeam){
+        return true;
     }
 
     private double getValueOfActiveSquad(ApplicationUser user) {
