@@ -9,6 +9,10 @@ interface TransferRowProps {
 
   remainingBudget: number;
   setRemainingBudget: (remainingBudget: number) => void;
+
+  addToPlayerBeingAdded: (playerToAdd: WeeklyPlayer) => void;
+  removeFromPlayersBeingRemoved: (index: number) => void;
+  playersBeingRemoved: WeeklyPlayer[];
 }
 
 class TransferRow extends React.Component<TransferRowProps> {
@@ -35,6 +39,24 @@ class TransferRow extends React.Component<TransferRowProps> {
     };
     if (this.canAdd(player)) {
       this.props.addPlayer(player);
+
+      let removed: boolean = false;
+      this.props.playersBeingRemoved.forEach((element, index) => {
+        if (
+          element.firstName === firstName &&
+          element.surname === surname &&
+          element.price === price
+        ) {
+          removed = true;
+          this.props.removeFromPlayersBeingRemoved(index);
+        } else {
+        }
+      });
+
+      if (!removed) {
+        this.props.addToPlayerBeingAdded(player);
+      }
+
       this.props.setRemainingBudget(this.props.remainingBudget - player.price);
     }
   };

@@ -1,9 +1,14 @@
 import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
+import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
 
 export enum ActionTypes {
   SET_REMAINING_BUDGET = 'SET_REMAINING_BUDGET',
   SET_REMAINING_TRANSFERS = 'SET_REMAINING_TRANSFERS',
-  SET_FILTERED_PLAYERS = 'SET_FILTERED_PLAYERS'
+  SET_FILTERED_PLAYERS = 'SET_FILTERED_PLAYERS',
+  ADD_TO_PLAYERS_BEING_ADDED = 'ADD_TO_PLAYERS_BEING_ADDED',
+  REMOVE_FROM_PLAYERS_BEING_ADDED = 'REMOVE_FROM_PLAYERS_BEING_ADDED',
+  ADD_TO_PLAYERS_BEING_REMOVED = 'ADD_TO_PLAYERS_BEING_REMOVED',
+  REMOVE_FROM_PLAYERS_BEING_REMOVED = 'REMOVE_FROM_PLAYERS_BEING_REMOVED'
 }
 
 export interface SetRemainingBudget {
@@ -19,6 +24,26 @@ export interface SetRemainingTransfers {
 export interface SetFilteredPlayers {
   type: ActionTypes.SET_FILTERED_PLAYERS;
   payload: { filteredPlayers: FilteredPlayer[] };
+}
+
+export interface AddToPlayersBeingAdded {
+  type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED;
+  payload: { playerBeingAdded: WeeklyPlayer };
+}
+
+export interface RemoveFromPlayersBeingAdded {
+  type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_ADDED;
+  payload: { indexToRemove: number };
+}
+
+export interface AddToPlayersBeingRemoved {
+  type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED;
+  payload: { playerBeingAdded: WeeklyPlayer };
+}
+
+export interface RemoveFromPlayersBeingRemoved {
+  type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_REMOVED;
+  payload: { indexToRemove: number };
 }
 
 export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
@@ -42,4 +67,43 @@ export const setFilteredPlayers = (filteredPlayers: FilteredPlayer[]): SetFilter
   };
 };
 
-export type Action = SetRemainingBudget | SetRemainingTransfers | SetFilteredPlayers;
+export const addToPlayerBeingAdded = (playerBeingAdded: WeeklyPlayer): AddToPlayersBeingAdded => {
+  return {
+    type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED,
+    payload: { playerBeingAdded }
+  };
+};
+
+export const removeFromPlayersBeingAdded = (indexToRemove: number): RemoveFromPlayersBeingAdded => {
+  return {
+    type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_ADDED,
+    payload: { indexToRemove }
+  };
+};
+
+export const addToPlayerBeingRemoved = (
+  playerBeingAdded: WeeklyPlayer
+): AddToPlayersBeingRemoved => {
+  return {
+    type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED,
+    payload: { playerBeingAdded }
+  };
+};
+
+export const removeFromPlayersBeingRemoved = (
+  indexToRemove: number
+): RemoveFromPlayersBeingRemoved => {
+  return {
+    type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_REMOVED,
+    payload: { indexToRemove }
+  };
+};
+
+export type Action =
+  | SetRemainingBudget
+  | SetRemainingTransfers
+  | SetFilteredPlayers
+  | AddToPlayersBeingAdded
+  | RemoveFromPlayersBeingAdded
+  | AddToPlayersBeingRemoved
+  | RemoveFromPlayersBeingRemoved;
