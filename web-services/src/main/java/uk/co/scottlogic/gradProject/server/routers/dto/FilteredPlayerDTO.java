@@ -14,7 +14,7 @@ public class FilteredPlayerDTO {
     private Integer totalAssists;
 
 
-    public FilteredPlayerDTO(Player player){
+    public FilteredPlayerDTO(Player player) {
         this.firstName = player.getFirstName();
         this.surname = player.getSurname();
         this.position = player.getPosition();
@@ -26,7 +26,7 @@ public class FilteredPlayerDTO {
 
     }
 
-    public FilteredPlayerDTO(){
+    public FilteredPlayerDTO() {
 
     }
 

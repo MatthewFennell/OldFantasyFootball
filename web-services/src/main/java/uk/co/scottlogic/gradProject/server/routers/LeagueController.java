@@ -44,9 +44,9 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
     public void makeLeague(@AuthenticationPrincipal ApplicationUser user,
-                                    @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
+                           @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
-                leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek(), dto.getCodeToJoin());
+            leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek(), dto.getCodeToJoin());
         } catch (DuplicateKeyException e) {
             response.setStatus(409);
         } catch (IllegalArgumentException e) {
@@ -64,15 +64,14 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/join")
     public void addPlayerToLeague(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody String code, HttpServletResponse response) {
+                                  @RequestBody String code, HttpServletResponse response) {
         try {
             leagueManager.addPlayerToLeague(user, code);
         } catch (DuplicateKeyException e) {
             response.setStatus(409);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             response.setStatus(400);
         }
     }
@@ -87,7 +86,7 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<LeagueReturnDTO> getLeaguesByUser(
-            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response){
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria

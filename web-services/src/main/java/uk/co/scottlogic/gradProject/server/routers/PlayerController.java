@@ -54,7 +54,7 @@ public class PlayerController {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
-            return new PlayerReturnDTO (playerManager.findPlayerWithMostPointsInWeek(week).get(0));
+            return new PlayerReturnDTO(playerManager.findPlayerWithMostPointsInWeek(week).get(0));
         } catch (Exception e) {
             response.setStatus(403);
         }
@@ -94,7 +94,7 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/players/filter")
     public List<Player> filterPlayers(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody InputFilterPlayersDTO dto, HttpServletResponse response) {
+                                      @RequestBody InputFilterPlayersDTO dto, HttpServletResponse response) {
         try {
 
             List<Player> players = playerManager.formatFilter(dto.getTeam(), dto.getPosition(), dto.getMinimum(), dto.getMaximum(), dto.getName(), dto.getSort_by());
@@ -125,13 +125,13 @@ public class PlayerController {
             @PathVariable("position") Player.Position position,
             @PathVariable("team") String team,
             @PathVariable("sort") PlayerManager.SORT_BY sort
-            ) {
+    ) {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
-            List<Player> filteredPlayers =  playerManager.formatFilter(team, position, min, max, name, sort);
+            List<Player> filteredPlayers = playerManager.formatFilter(team, position, min, max, name, sort);
             List<FilteredPlayerDTO> responses = new ArrayList<>();
-            for (Player p : filteredPlayers){
+            for (Player p : filteredPlayers) {
                 responses.add(new FilteredPlayerDTO(p));
             }
             return responses;

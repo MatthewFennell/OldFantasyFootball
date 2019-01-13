@@ -49,7 +49,7 @@ public class UsersWeeklyTeam {
 
     }
 
-    public void changePoints(Integer change){
+    public void changePoints(Integer change) {
         this.points += change;
     }
 
@@ -101,7 +101,7 @@ public class UsersWeeklyTeam {
         players.add(player);
     }
 
-    public void removePlayer(Player player){
+    public void removePlayer(Player player) {
         players.remove(player);
     }
 

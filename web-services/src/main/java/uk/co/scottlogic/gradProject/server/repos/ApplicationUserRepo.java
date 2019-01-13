@@ -12,12 +12,11 @@ import java.util.UUID;
 @Repository
 public interface ApplicationUserRepo extends CrudRepository<ApplicationUser, UUID> {
 
-    public boolean existsByUsername(String username);
 
-    public Optional<ApplicationUser> findByUsername(String username);
+    Optional<ApplicationUser> findByUsername(String username);
 
-    public Optional<ApplicationUser> findByEmail(String email);
+    Optional<ApplicationUser> findByEmail(String email);
 
     @Query(value = "FROM ApplicationUser WHERE totalPoints = (SELECT MAX(totalPoints) FROM ApplicationUser)")
-    public List<ApplicationUser> findUserWithMostPoints();
+    List<ApplicationUser> findUserWithMostPoints();
 }

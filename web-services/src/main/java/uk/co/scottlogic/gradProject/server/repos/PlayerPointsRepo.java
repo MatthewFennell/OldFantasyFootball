@@ -14,11 +14,10 @@ import java.util.UUID;
 @Repository
 public interface PlayerPointsRepo extends CrudRepository<PlayerPoints, UUID> {
 
-    public List<PlayerPoints> findByPlayer(Player player);
 
     @Query(value = "FROM PlayerPoints WHERE player = ?1 AND week = ?2")
-    public Optional<PlayerPoints> findByPlayerByWeek(Player player, Integer week);
+    Optional<PlayerPoints> findByPlayerByWeek(Player player, Integer week);
 
     @Query(value = "FROM PlayerPoints WHERE week = ?1 and points = (SELECT MAX(points) FROM PlayerPoints WHERE week = ?1 )")
-    public List<PlayerPoints> findPlayerWithMostPoints(Integer week);
+    List<PlayerPoints> findPlayerWithMostPoints(Integer week);
 }

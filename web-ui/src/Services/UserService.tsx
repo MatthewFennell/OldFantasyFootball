@@ -298,7 +298,24 @@ export const updateTeam = (data: UpdatePlayers): Promise<void> => {
   }).then(response => {
     if (!response.ok) {
       if (response.status === 403) {
-        throw new Error('Login Unsuccessful');
+        return response.json().then(json => {
+          if (response.ok) {
+            return json;
+          } else {
+            return Promise.reject(json.message);
+          }
+        });
+
+        // let msg: string = '';
+        // response
+        //   .json()
+        //   .then(response => {
+        //     msg = response.message.toString();
+        //     console.log('correct error = ' + msg.toString());
+        //     throw new Error('User with this ' + msg + ' already exists.');
+        //   })
+        //   .catch(error => {console.log("error = " + error)});
+        // throw new Error('User with this ' + msg + ' already exists.');
       } else if (response.status === 500) {
         throw new Error('Internal server error');
       } else {

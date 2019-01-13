@@ -11,7 +11,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
   render() {
     return (
       <tbody className="my-active-transfers">
-        <tr className="transfers" key={'header'}>
+        <tr className="transfers-header" key={'header'}>
           <td className="name">{'Name'}</td>
           <td className="position">{'Position'}</td>
           <td className="team">{'Team'}</td>

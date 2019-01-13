@@ -13,7 +13,7 @@ public class WeeklyPlayerReturnDTO {
     private Integer points;
     private double price;
 
-    public WeeklyPlayerReturnDTO(Player player, Integer points){
+    public WeeklyPlayerReturnDTO(Player player, Integer points) {
         this.id = player.getId();
         this.firstName = player.getFirstName();
         this.surname = player.getSurname();

@@ -78,15 +78,15 @@ public class Player {
         this.totalAssists = totalAssists;
     }
 
-    public void changeScore(Integer change){
+    public void changeScore(Integer change) {
         this.totalScore += change;
     }
 
-    public void changeGoals(Integer change){
+    public void changeGoals(Integer change) {
         this.totalGoals += change;
     }
 
-    public void changeAssists(Integer change){
+    public void changeAssists(Integer change) {
         this.totalAssists += change;
     }
 

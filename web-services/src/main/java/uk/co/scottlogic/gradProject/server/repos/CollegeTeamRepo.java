@@ -11,6 +11,6 @@ import java.util.UUID;
 @Repository
 public interface CollegeTeamRepo extends CrudRepository<CollegeTeam, UUID> {
 
-    public Optional<CollegeTeam> findByName(String name);
+    Optional<CollegeTeam> findByName(String name);
 
 }

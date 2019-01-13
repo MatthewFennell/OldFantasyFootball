@@ -160,33 +160,30 @@ public class PlayerPoints {
         this.date = date;
     }
 
-    public Integer calculateScore(){
+    public Integer calculateScore() {
         Integer total = 0;
-        if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER){
-            total += numberOfGoals*6;
-            if (cleanSheet){
+        if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER) {
+            total += numberOfGoals * 6;
+            if (cleanSheet) {
                 total += 4;
             }
+        } else if (player.getPosition() == Player.Position.MIDFIELDER) {
+            total += numberOfGoals * 5;
+        } else if (player.getPosition() == Player.Position.ATTACKER) {
+            total += numberOfGoals * 4;
         }
-        else if (player.getPosition() == Player.Position.MIDFIELDER){
-            total += numberOfGoals*5;
-        }
-        else if (player.getPosition() == Player.Position.ATTACKER){
-            total += numberOfGoals*4;
-        }
-        total += numberOfAssists *3;
+        total += numberOfAssists * 3;
 
-        if (minutesPlayed > 60){
+        if (minutesPlayed > 60) {
             total += 2;
-        }
-        else if (minutesPlayed > 0){
+        } else if (minutesPlayed > 0) {
             total += 1;
         }
         total -= yellowCards;
-        if (redCard){
+        if (redCard) {
             total -= 3;
         }
-        if (manOfTheMatch){
+        if (manOfTheMatch) {
             total += 3;
         }
         return total;

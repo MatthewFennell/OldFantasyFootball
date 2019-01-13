@@ -93,11 +93,11 @@ public class User {
     @GetMapping("/user/remainingBudget/remainingTransfers")
     @PreAuthorize("hasRole('USER')")
     public List<Double> getRemainingBudgetAndTransfers(@AuthenticationPrincipal ApplicationUser user,
-                                    HttpServletResponse response) {
+                                                       HttpServletResponse response) {
         try {
             List<Double> results = new ArrayList<>();
             results.add(user.getRemainingBudget());
-            results.add((double)user.getRemainingTransfers());
+            results.add((double) user.getRemainingTransfers());
             return results;
         } catch (Exception e) {
             ExceptionLogger.logException(e);

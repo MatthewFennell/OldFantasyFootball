@@ -32,7 +32,7 @@ public class PointsController {
     private ApplicationUserManager applicationUserManager;
 
     @Autowired
-    public PointsController( WeeklyTeamManager weeklyTeamManager, ApplicationUserManager applicationUserManager) {
+    public PointsController(WeeklyTeamManager weeklyTeamManager, ApplicationUserManager applicationUserManager) {
         this.weeklyTeamManager = weeklyTeamManager;
         this.applicationUserManager = applicationUserManager;
     }
