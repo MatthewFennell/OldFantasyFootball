@@ -129,12 +129,6 @@ public class PlayerController {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
-            System.out.println("max = " + max);
-            System.out.println("min = " + min);
-            System.out.println("name = " + name);
-            System.out.println("position = " + position);
-            System.out.println("team = " + team);
-            System.out.println("sort = " + sort);
             List<Player> filteredPlayers =  playerManager.formatFilter(team, position, min, max, name, sort);
             List<FilteredPlayerDTO> responses = new ArrayList<>();
             for (Player p : filteredPlayers){

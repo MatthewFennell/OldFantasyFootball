@@ -26,6 +26,8 @@ public class WeeklyTeamManager {
 
     private PlayerManager playerManager;
 
+    private Integer maxPerTeam;
+
     @Autowired
     public WeeklyTeamManager(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo,
                              CollegeTeamRepo teamRepo, WeeklyTeamRepo weeklyTeamRepo,
@@ -36,6 +38,7 @@ public class WeeklyTeamManager {
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
+        this.maxPerTeam = 11;
 
 //        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
 //
@@ -46,6 +49,15 @@ public class WeeklyTeamManager {
 
 //        addPlayersToWeeklyTeam();
 
+    }
+
+
+    public Integer getMaxPerTeam() {
+        return maxPerTeam;
+    }
+
+    public void setMaxPerTeam(Integer maxPerTeam) {
+        this.maxPerTeam = maxPerTeam;
     }
 
     // Adds to the first weekly team it finds
@@ -93,11 +105,99 @@ public class WeeklyTeamManager {
         return weeklyTeamRepo.findUserWithMostPoints(week);
     }
 
-    public boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> newTeam){
+    public boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
+
+        UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
+
+        if (activeTeam.getPlayers().size() == 0){
+            System.out.println("making initial team");
+            System.out.println("Attempting to add " + playersBeingAdded.size() + " players");
+            if (playersBeingAdded.size() != 11){
+                System.out.println("must provide 11 players");
+                return false;
+            }
+            else {
+                System.out.println("Attempting to create entire squad");
+                List<Player> playersToAdd = new ArrayList<>();
+
+
+
+                double totalSum = 0;
+                Map<UUID, Integer> numberInEachTeam = new HashMap<>();
+                Map<UUID, Integer> playersAdded = new HashMap<>();
+
+                for (UpdateTeamPlayerDTO player : playersBeingAdded){
+
+                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+                    if (p.isPresent()){
+                        Player currentPlayer = p.get();
+                        UUID playerId = currentPlayer.getId();
+                        UUID teamId = currentPlayer.getActiveTeam().getId();
+                        totalSum += currentPlayer.getPrice();
+                        if (totalSum > 100){
+                            System.out.println("too expensive");
+                            return false;
+                        }
+                        if (playersAdded.containsKey(playerId)){
+                            System.out.println("player already added");
+                            return false;
+                        }
+                        else {
+                            playersAdded.put(playerId, 1);
+                        }
+
+                        if (numberInEachTeam.containsKey(teamId)){
+                            if (numberInEachTeam.get(teamId).equals(maxPerTeam)){
+                                System.out.println("too many from one team");
+                                return false;
+                            }
+                            else {
+                                numberInEachTeam.put(teamId, numberInEachTeam.get(teamId) + 1);
+                            }
+                        }
+                        else{
+                            numberInEachTeam.put(teamId, 1);
+                        }
+
+                    }
+
+                    else {
+                        System.out.println("player " + player.getFirstName() + " apparently doesn't exist");
+                        return false;
+                    }
+                }
+            }
+        }
+        else {
+            System.out.println("they already have a team");
+            return false;
+        }
+
         return true;
     }
 
-    private double getValueOfActiveSquad(ApplicationUser user) {
+    public boolean updateTeam(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved) {
+
+        if (checkIfUpdateValid(user, playersBeingAdded, playersBeingRemoved)){
+            UsersWeeklyTeam weeklyTeam = weeklyTeamRepo.findByUser(user).get(0);
+            for (UpdateTeamPlayerDTO player : playersBeingAdded){
+
+                Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+                if (p.isPresent()) {
+                    System.out.println("adding player to weekly team");
+                    weeklyTeam.addPlayer(p.get());
+                }
+            }
+            weeklyTeamRepo.save(weeklyTeam);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+        private double getValueOfActiveSquad(ApplicationUser user) {
         double totalValue = 0.0;
         List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
         if (!teams.isEmpty()) {
@@ -150,18 +250,14 @@ public class WeeklyTeamManager {
         List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()){
-            System.out.println("team exists");
             List<Player> players = team.get().getPlayers();
-            System.out.println("number of players = " + players.size());
             for (Player p : players){
-                System.out.println("adding a player");
                 playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         }
         else{
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
-        System.out.println("length = " + playersToReturn.size());
         playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));
         return playersToReturn;
     }
