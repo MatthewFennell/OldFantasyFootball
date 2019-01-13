@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.AddPlayerToWeeklyTeamDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.GetAveragePointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UpdateTeamPlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -85,19 +82,29 @@ public class WeeksController {
     @PostMapping(value = "/weeks/update")
     @PreAuthorize("hasRole('USER')")
     public boolean updateTeam(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody List<UpdateTeamPlayerDTO> newTeam, HttpServletResponse response) {
+                           @RequestBody TransferDTO dto,
+            HttpServletResponse response) {
 
         try {
-            for (UpdateTeamPlayerDTO dto : newTeam){
-                System.out.println("player name = " + dto.getFirstName());
+            System.out.println("PLAYERS BEING ADDED");
+            List<UpdateTeamPlayerDTO> added = dto.getPlayersBeingAdded();
+            List<UpdateTeamPlayerDTO> removed = dto.getPlayersBeingRemoved();
+            for (UpdateTeamPlayerDTO dt : added){
+                System.out.println("player = " + dt.getFirstName());
             }
-            return weeklyTeamManager.checkIfUpdateValid(user, newTeam);
+            System.out.println();
+            System.out.println("PLAYERS BEING REMOVED");
+            for (UpdateTeamPlayerDTO dt : removed){
+                System.out.println("player = " + dt.getFirstName());
+            }
+            return weeklyTeamManager.updateTeam(user, dto.getPlayersBeingAdded(), dto.getPlayersBeingRemoved());
+//            return weeklyTeamManager.checkIfUpdateValid(user, newTeam);
         } catch (IllegalArgumentException e) {
             response.setStatus(403);
         } catch (Exception e) {
             response.setStatus(409);
         }
-        return false;
+       return false;
     }
 
     @ApiOperation(value = Icons.key

@@ -72,7 +72,6 @@ public class PlayerManager {
 
     public Integer findPointsForPlayerInWeek(Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-        System.out.println("made it here");
         if (playerPoints.isPresent()){
             return playerPoints.get().getPoints();
         }

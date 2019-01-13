@@ -15,6 +15,9 @@ public interface PlayerRepo extends CrudRepository<Player, UUID> {
 
     public Optional<Player> findByFirstName(String firstName);
 
+    @Query(value = "FROM Player WHERE firstName = ?1 AND surname = ?2")
+    public Optional<Player> findByFirstNameBySurname(String firstName, String surname);
+
     public List<Player> findByPosition(Player.Position position);
 
     @Query(value = "FROM Player WHERE price >= ?1 AND price <= ?2 ORDER BY price DESC")

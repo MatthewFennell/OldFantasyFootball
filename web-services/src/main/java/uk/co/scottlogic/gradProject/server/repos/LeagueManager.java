@@ -28,13 +28,13 @@ public class LeagueManager {
         this.weeklyTeamManager = weeklyTeamManager;
         this.leagueRepo = leagueRepo;
 
-        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-        if (user.isPresent()){
-            List<LeagueReturnDTO> response = findLeaguesPlayerIsIn(user.get());
-            for (LeagueReturnDTO dto : response){
-                System.out.println("League name = " + dto.getLeagueName() + ", position = " + dto.getPosition());
-            }
-        }
+//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+//        if (user.isPresent()){
+//            List<LeagueReturnDTO> response = findLeaguesPlayerIsIn(user.get());
+//            for (LeagueReturnDTO dto : response){
+//                System.out.println("League name = " + dto.getLeagueName() + ", position = " + dto.getPosition());
+//            }
+//        }
     }
 
     public void createLeague(ApplicationUser owner, String leagueName, Integer startWeek, String codeToJoin){
