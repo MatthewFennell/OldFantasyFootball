@@ -5,7 +5,9 @@ import { setRemainingBudget, setRemainingTransfers } from '../../Actions/Transfe
 import {
   getRemainingBudget,
   getRemainingTransfers,
-  getFilteredPlayers
+  getFilteredPlayers,
+  getPlayersBeingAdded,
+  getPlayersBeingRemoved
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 
@@ -13,7 +15,9 @@ const mapStateToProps = (state: State) => ({
   remainingBudget: getRemainingBudget(state),
   remainingTransfers: getRemainingTransfers(state),
   filteredPlayers: getFilteredPlayers(state),
-  activeTeam: getActiveTeam(state)
+  activeTeam: getActiveTeam(state),
+  playersBeingAdded: getPlayersBeingAdded(state),
+  playersBeingRemoved: getPlayersBeingRemoved(state)
 });
 
 const mapDispatchToProps = {

@@ -1,12 +1,14 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
-import { getRemainingBudgetAndTransfers } from '../../Services/UserService';
+import { getRemainingBudgetAndTransfers, updateTeam } from '../../Services/UserService';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 import Pitch from '../Team/PitchLayout/Pitch';
 import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
 import '../../Style/Transfers/PitchValue.css';
+import { Button } from 'reactstrap';
+import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -17,6 +19,9 @@ interface TransfersProps {
 
   filteredPlayers: FilteredPlayer[];
   activeTeam: WeeklyPlayer[];
+
+  playersBeingAdded: WeeklyPlayer[];
+  playersBeingRemoved: WeeklyPlayer[];
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
@@ -25,6 +30,21 @@ class Transfers extends React.Component<TransfersProps, {}> {
     getRemainingBudgetAndTransfers().then(remainingBudget => {
       this.props.setRemainingBudget(remainingBudget[0]);
       this.props.setRemainingTransfers(remainingBudget[1]);
+    });
+  }
+
+  _updateTeam() {
+    console.log('Players to add = ' + JSON.stringify(this.props.playersBeingAdded));
+    console.log('');
+    console.log('Players to remove = ' + JSON.stringify(this.props.playersBeingRemoved));
+
+    let data: UpdatePlayers = {
+      playersBeingAdded: this.props.playersBeingAdded,
+      playersBeingRemoved: this.props.playersBeingRemoved
+    };
+
+    updateTeam(data).then(response => {
+      console.log('Valid transfer request = ' + response);
     });
   }
 
@@ -37,7 +57,16 @@ class Transfers extends React.Component<TransfersProps, {}> {
             <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             <div>Transfer Deadline</div>
           </div>
-          <div className="save-changes">SAVE CHANGES</div>
+          <div className="save-changes">
+            <Button
+              id="btnLogin"
+              type="submit"
+              className="btn btn-default btn-round-lg btn-lg first"
+              onClick={(e: any) => this._updateTeam()}
+            >
+              SAVE TEAM
+            </Button>
+          </div>
           <div className="pitch-value">
             <Pitch transfer={true} activeWeeklyTeam={this.props.activeTeam} />
           </div>

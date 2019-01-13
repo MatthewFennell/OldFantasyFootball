@@ -16,6 +16,10 @@ interface PlayerProps {
 
   setRemainingBudget: (remainingBudget: number) => void;
   remainingBudget: number;
+
+  playersBeingAdded: WeeklyPlayer[];
+  addToPlayerBeingRemoved: (playerBeingAdded: WeeklyPlayer) => void;
+  removeFromPlayersBeingAdded: (index: number) => void;
 }
 
 class Player extends React.Component<PlayerProps, {}> {
@@ -28,6 +32,33 @@ class Player extends React.Component<PlayerProps, {}> {
     console.log('clicked on player ' + this.props.firstName);
     const { firstName, surname, price } = this.props;
     this._removePlayerFromActiveTeam(firstName, surname, price);
+    let player: WeeklyPlayer = {
+      id: 'dunno',
+      firstName,
+      surname,
+      position: 'unknown',
+      points: -5,
+      price: price
+    };
+
+    let removed: boolean = false;
+    this.props.playersBeingAdded.forEach((element, index) => {
+      if (
+        element.firstName === firstName &&
+        element.surname === surname &&
+        element.price === price
+      ) {
+        console.log('hey)');
+        removed = true;
+        this.props.removeFromPlayersBeingAdded(index);
+      } else {
+        console.log('nop');
+      }
+    });
+
+    if (!removed) {
+      this.props.addToPlayerBeingRemoved(player);
+    }
     this.props.setRemainingBudget(this.props.remainingBudget + price);
   }
 
