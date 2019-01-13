@@ -105,7 +105,44 @@ public class WeeklyTeamManager {
         return weeklyTeamRepo.findUserWithMostPoints(week);
     }
 
-    public boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
+    private boolean checkTeamIsValid(List<Player> players){
+        double totalCost = 0;
+        Map<UUID, Integer> numberInEachTeam = new HashMap<>();
+        Map<UUID, Integer> playersAdded = new HashMap<>();
+
+        for (Player p : players){
+            totalCost += p.getPrice();
+            if (totalCost > 100){
+                return false;
+            }
+            UUID playerId = p.getId();
+            UUID teamId = p.getActiveTeam().getId();
+            if (playersAdded.containsKey(playerId)){
+                System.out.println("player already added");
+                return false;
+            }
+            else {
+                playersAdded.put(playerId, 1);
+            }
+
+            if (numberInEachTeam.containsKey(teamId)){
+                if (numberInEachTeam.get(teamId).equals(maxPerTeam)){
+                    System.out.println("too many from one team");
+                    return false;
+                }
+                else {
+                    numberInEachTeam.put(teamId, numberInEachTeam.get(teamId) + 1);
+                }
+            }
+            else{
+                numberInEachTeam.put(teamId, 1);
+            }
+
+        }
+        return true;
+    }
+
+    private boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
 
         UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
 
@@ -118,10 +155,6 @@ public class WeeklyTeamManager {
             }
             else {
                 System.out.println("Attempting to create entire squad");
-                List<Player> playersToAdd = new ArrayList<>();
-
-
-
                 double totalSum = 0;
                 Map<UUID, Integer> numberInEachTeam = new HashMap<>();
                 Map<UUID, Integer> playersAdded = new HashMap<>();
@@ -158,7 +191,6 @@ public class WeeklyTeamManager {
                         else{
                             numberInEachTeam.put(teamId, 1);
                         }
-
                     }
 
                     else {
@@ -170,6 +202,33 @@ public class WeeklyTeamManager {
         }
         else {
             System.out.println("they already have a team");
+            if (playersBeingAdded.size() == playersBeingRemoved.size()){
+                System.out.println("the lists are the correct size");
+                UsersWeeklyTeam team = weeklyTeamRepo.findByUser(user).get(0);
+                List<Player> players = team.getPlayers();
+                for (UpdateTeamPlayerDTO player: playersBeingRemoved){
+                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+                    if (p.isPresent()){
+                        players.remove(p.get());
+                    }
+                    else {
+                        System.out.println("player does not exist");
+                    }
+                }
+                for (UpdateTeamPlayerDTO player : playersBeingAdded){
+                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+                    if (p.isPresent()){
+                        players.add(p.get());
+                    }
+                    else {
+                        System.out.println("player does not exist");
+                    }
+                }
+            return checkTeamIsValid(players);
+            }
+            else {
+                System.out.println("Must be adding the same number of players as those being removed");
+            }
             return false;
         }
 
@@ -186,6 +245,14 @@ public class WeeklyTeamManager {
                 if (p.isPresent()) {
                     System.out.println("adding player to weekly team");
                     weeklyTeam.addPlayer(p.get());
+                }
+            }
+
+            for (UpdateTeamPlayerDTO player : playersBeingRemoved){
+                Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+                if (p.isPresent()) {
+                    System.out.println("removing player from weekly team");
+                    weeklyTeam.removePlayer(p.get());
                 }
             }
             weeklyTeamRepo.save(weeklyTeam);

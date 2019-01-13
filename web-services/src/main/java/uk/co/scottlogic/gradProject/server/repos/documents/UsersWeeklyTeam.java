@@ -101,4 +101,8 @@ public class UsersWeeklyTeam {
         players.add(player);
     }
 
+    public void removePlayer(Player player){
+        players.remove(player);
+    }
+
 }
