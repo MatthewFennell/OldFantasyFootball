@@ -6,7 +6,7 @@ import SortByDropdown from './SortByDropdown';
 import MinimumPriceDropdown from './MinimumPriceDropdown';
 import MaximumPriceDropdown from './MaximumPriceDropdown';
 import SearchByName from './SearchByName';
-import { filterPlayers } from '../../Services/UserService';
+import { filterPlayers } from '../../Services/Player/PlayerService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 

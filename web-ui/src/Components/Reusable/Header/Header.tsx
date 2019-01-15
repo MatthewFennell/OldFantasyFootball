@@ -3,7 +3,7 @@ import { Row, Col } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
 import ButtonPageSelector from './ButtonPageSelector';
-import { getUser } from '../../../Services/UserService';
+import { getUser } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
 
 interface Props {

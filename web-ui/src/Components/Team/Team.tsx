@@ -6,15 +6,18 @@ import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
-import {
-  getNumberOfWeeks,
-  getPointsForUserInWeek,
-  getAveragePoints,
-  getPlayersWithMostPointsInWeek,
-  getUsersWithMostPointsInWeek,
-  getTeamForUserInWeek
-} from '../../Services/UserService';
+// import '../../../Style/Team/PitchLayout/Pitch.css';
+import { getNumberOfWeeks } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
+import {
+  getTeamForUserInWeek,
+  getPlayersWithMostPointsInWeek
+} from '../../Services/Player/PlayerService';
+import {
+  getAveragePoints,
+  getPointsForUserInWeek,
+  getUsersWithMostPointsInWeek
+} from '../../Services/Points/PointsService';
 
 interface TransactionsProps {
   totalPoints: number;

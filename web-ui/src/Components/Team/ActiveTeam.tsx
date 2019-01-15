@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
-import { getActiveTeam } from '../../Services/UserService';
 import { Table, Col, Row } from 'reactstrap';
 import ActiveTeamTableBody from './ActiveTeamTableBody';
 
@@ -17,12 +16,7 @@ class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
     this.state = {};
   }
 
-  componentDidMount() {
-    getActiveTeam().then(response => {
-      console.log('setting the team');
-      this.props.setTeam(response);
-    });
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {}
 
