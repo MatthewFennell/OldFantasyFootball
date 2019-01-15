@@ -12,7 +12,7 @@ public class TopWeeklyUserReturnDTO {
     private String id;
     private String teamName;
 
-    public TopWeeklyUserReturnDTO(UsersWeeklyTeam team){
+    public TopWeeklyUserReturnDTO(UsersWeeklyTeam team) {
         this.firstName = team.getUser().getFirstName();
         this.surname = team.getUser().getSurname();
         this.points = team.getPoints();

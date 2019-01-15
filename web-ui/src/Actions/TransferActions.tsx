@@ -8,7 +8,8 @@ export enum ActionTypes {
   ADD_TO_PLAYERS_BEING_ADDED = 'ADD_TO_PLAYERS_BEING_ADDED',
   REMOVE_FROM_PLAYERS_BEING_ADDED = 'REMOVE_FROM_PLAYERS_BEING_ADDED',
   ADD_TO_PLAYERS_BEING_REMOVED = 'ADD_TO_PLAYERS_BEING_REMOVED',
-  REMOVE_FROM_PLAYERS_BEING_REMOVED = 'REMOVE_FROM_PLAYERS_BEING_REMOVED'
+  REMOVE_FROM_PLAYERS_BEING_REMOVED = 'REMOVE_FROM_PLAYERS_BEING_REMOVED',
+  CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED'
 }
 
 export interface SetRemainingBudget {
@@ -46,6 +47,11 @@ export interface RemoveFromPlayersBeingRemoved {
   payload: { indexToRemove: number };
 }
 
+export interface ClearPlayersBeingAddedAndRemoved {
+  type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED;
+  payload: {};
+}
+
 export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
   return {
     type: ActionTypes.SET_REMAINING_BUDGET,
@@ -81,6 +87,13 @@ export const removeFromPlayersBeingAdded = (indexToRemove: number): RemoveFromPl
   };
 };
 
+export const clearPlayersBeingAddedAndRemoved = (): ClearPlayersBeingAddedAndRemoved => {
+  return {
+    type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED,
+    payload: {}
+  };
+};
+
 export const addToPlayerBeingRemoved = (
   playerBeingAdded: WeeklyPlayer
 ): AddToPlayersBeingRemoved => {
@@ -106,4 +119,5 @@ export type Action =
   | AddToPlayersBeingAdded
   | RemoveFromPlayersBeingAdded
   | AddToPlayersBeingRemoved
-  | RemoveFromPlayersBeingRemoved;
+  | RemoveFromPlayersBeingRemoved
+  | ClearPlayersBeingAddedAndRemoved;

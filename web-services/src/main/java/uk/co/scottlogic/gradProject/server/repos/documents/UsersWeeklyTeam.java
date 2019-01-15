@@ -49,7 +49,7 @@ public class UsersWeeklyTeam {
 
     }
 
-    public void changePoints(Integer change){
+    public void changePoints(Integer change) {
         this.points += change;
     }
 
@@ -101,8 +101,19 @@ public class UsersWeeklyTeam {
         players.add(player);
     }
 
-    public void removePlayer(Player player){
-        players.remove(player);
+    public void removePlayer(Player player) {
+//        this.players.remove(player);
+        System.out.println("ATTEMPTING TO REMOVE PLAYER " + player.getFirstName() + "," + player.getSurname());
+        System.out.println("size before removal = " + this.players.size());
+        for (int x = 0; x < this.players.size(); x++){
+            System.out.println("CURRENTLY COMPARING " + this.players.get(x).getFirstName());
+            if (this.players.get(x).getFirstName().equals(player.getFirstName()) && this.players.get(x).getSurname().equals(player.getSurname())){
+                System.out.println("player " + player.getFirstName() + " removed");
+                this.players.remove(x);
+                break;
+            }
+        }
+        System.out.println("size after removal 2gdsgsd = " + this.players.size());
     }
 
 }

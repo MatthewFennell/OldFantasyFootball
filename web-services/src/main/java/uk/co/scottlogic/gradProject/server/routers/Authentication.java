@@ -133,15 +133,14 @@ public class Authentication {
             applicationUserRepo.save(user);
 
             // Make the first user the admin of the original league
-            if (applicationUserRepo.count() == 1){
+            if (applicationUserRepo.count() == 1) {
                 League league = new League(user, "original", new ArrayList<>(), 0, "Initial");
                 league.addParticipant(user);
                 leagueRepo.save(league);
-            }
-            else {
+            } else {
                 // Add every user to the original league
                 Optional<League> league = leagueRepo.findByLeagueName("original");
-                if (league.isPresent()){
+                if (league.isPresent()) {
                     League l = league.get();
                     l.addParticipant(user);
                     leagueRepo.save(l);

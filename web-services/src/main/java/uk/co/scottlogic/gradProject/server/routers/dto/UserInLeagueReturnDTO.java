@@ -9,7 +9,7 @@ public class UserInLeagueReturnDTO {
     private Integer points;
     private Integer position;
 
-    public UserInLeagueReturnDTO(ApplicationUser user, Integer position){
+    public UserInLeagueReturnDTO(ApplicationUser user, Integer position) {
         this.firstName = user.getFirstName();
         this.surname = user.getSurname();
         this.points = user.getTotalPoints();

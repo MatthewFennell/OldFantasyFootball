@@ -26,85 +26,35 @@ public class WeeksController {
 
     @Autowired
     public WeeksController(WeeklyTeamManager weeklyTeamManager) {
-
         this.weeklyTeamManager = weeklyTeamManager;
-    }
-
-    @ApiOperation(value = Icons.key + " Adds a player to a team", authorizations = {
-            @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "Note successfully set"),
-            @ApiResponse(code = 404, message = "Note not found"),
-            @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/weeks/addPlayer")
-    @PreAuthorize("hasRole('USER')")
-    public void addPlayerToWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
-                                      @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
-
-        try {
-            weeklyTeamManager.addPlayerToWeeklyTeam(user, addPlayerToWeeklyTeamDTO.getId());
-        } catch (IllegalArgumentException e) {
-            response.setStatus(403);
-        } catch (Exception e) {
-            response.setStatus(409);
-        }
-    }
-
-    @ApiOperation(value = Icons.key + " Removes a player from the team", authorizations = {
-            @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "Note successfully set"),
-            @ApiResponse(code = 404, message = "Note not found"),
-            @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/weeks/removePlayer")
-    @PreAuthorize("hasRole('USER')")
-    public void removePlayerFromWeeklyTeam(@AuthenticationPrincipal ApplicationUser user,
-                                           @RequestBody AddPlayerToWeeklyTeamDTO addPlayerToWeeklyTeamDTO, HttpServletResponse response) {
-
-        try {
-            weeklyTeamManager.removePlayerFromWeeklyTeam(user, addPlayerToWeeklyTeamDTO.getId());
-        } catch (IllegalArgumentException e) {
-            response.setStatus(403);
-        } catch (Exception e) {
-            response.setStatus(409);
-        }
     }
 
     @ApiOperation(value = Icons.key + " Attempt to update a team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "Note successfully set"),
-            @ApiResponse(code = 404, message = "Note not found"),
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/weeks/update")
     @PreAuthorize("hasRole('USER')")
     public boolean updateTeam(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody TransferDTO dto,
-            HttpServletResponse response) {
+                              @RequestBody TransferDTO dto,
+                              HttpServletResponse response) {
 
         try {
-            System.out.println("PLAYERS BEING ADDED");
-            List<UpdateTeamPlayerDTO> added = dto.getPlayersBeingAdded();
-            List<UpdateTeamPlayerDTO> removed = dto.getPlayersBeingRemoved();
-            for (UpdateTeamPlayerDTO dt : added){
-                System.out.println("player = " + dt.getFirstName());
-            }
-            System.out.println();
-            System.out.println("PLAYERS BEING REMOVED");
-            for (UpdateTeamPlayerDTO dt : removed){
-                System.out.println("player = " + dt.getFirstName());
-            }
-            return weeklyTeamManager.updateTeam(user, dto.getPlayersBeingAdded(), dto.getPlayersBeingRemoved());
-//            return weeklyTeamManager.checkIfUpdateValid(user, newTeam);
+            response.setStatus(200);
+            return weeklyTeamManager.update(user, dto.getPlayersBeingAdded(), dto.getPlayersBeingRemoved());
         } catch (IllegalArgumentException e) {
-            response.setStatus(403);
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
         } catch (Exception e) {
             response.setStatus(409);
         }
-       return false;
+        return false;
     }
 
     @ApiOperation(value = Icons.key
@@ -113,17 +63,19 @@ public class WeeksController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/weeks/total")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public Integer getNumberOfWeeks(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
+            response.setStatus(200);
             return weeklyTeamManager.getTotalNumberOfWeeks();
         } catch (Exception e) {
-            response.setStatus(403);
+            log.debug(e.getMessage());
+            response.setStatus(400);
         }
         return 0;
     }
-
 }

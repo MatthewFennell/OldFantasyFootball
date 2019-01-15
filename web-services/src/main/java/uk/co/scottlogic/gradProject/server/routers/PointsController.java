@@ -32,7 +32,7 @@ public class PointsController {
     private ApplicationUserManager applicationUserManager;
 
     @Autowired
-    public PointsController( WeeklyTeamManager weeklyTeamManager, ApplicationUserManager applicationUserManager) {
+    public PointsController(WeeklyTeamManager weeklyTeamManager, ApplicationUserManager applicationUserManager) {
         this.weeklyTeamManager = weeklyTeamManager;
         this.applicationUserManager = applicationUserManager;
     }
@@ -43,7 +43,7 @@ public class PointsController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/points/user/week/{week-id}/most")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "Unknown error"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public TopWeeklyUserReturnDTO getUserWithMostPointsINWeek(
@@ -52,9 +52,10 @@ public class PointsController {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
+            response.setStatus(200);
             return applicationUserManager.findUsersWithMostPointsInWeek(week).get(0);
         } catch (Exception e) {
-            response.setStatus(403);
+            response.setStatus(400);
         }
         return null;
     }
@@ -65,8 +66,7 @@ public class PointsController {
                     @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User obtained correctly"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
-                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+            @ApiResponse(code = 500, message = "Server Error")})
     @GetMapping("/points/year/everybody/most")
     @PreAuthorize("hasRole('USER')")
     public List<UserReturnDTO> userWithMostPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
@@ -76,6 +76,7 @@ public class PointsController {
             for (ApplicationUser u : topScoringUsers) {
                 topScoringDTOs.add(new UserReturnDTO(u));
             }
+            response.setStatus(200);
             return topScoringDTOs;
         } catch (IllegalArgumentException e) {
             try {
@@ -95,11 +96,11 @@ public class PointsController {
                     @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Points obtained correctly"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
-                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+            @ApiResponse(code = 500, message = "Server Error")})
     @GetMapping("/points/user/total")
     public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
+            response.setStatus(200);
             return applicationUserManager.findTotalPoints(user);
         } catch (IllegalArgumentException e) {
             try {
@@ -107,7 +108,8 @@ public class PointsController {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-            ExceptionLogger.logException(e);
+        }
+        catch (Exception e) {
             response.setStatus(500);
         }
         return -1;
@@ -119,16 +121,23 @@ public class PointsController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/points/user/week/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "Invalid week"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public double getUserPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("id") Integer week) {
         try {
-            return applicationUserManager.findPointsInWeek(user.getId(), week);
-        } catch (Exception e) {
-            response.setStatus(403);
+            response.setStatus(200);
+            return applicationUserManager.findPointsInWeek(user, week);
+        }
+        catch (IllegalArgumentException e){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        }
+        catch (Exception e) {
+            response.setStatus(500);
         }
         return 0;
     }
@@ -139,16 +148,23 @@ public class PointsController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/points/everybody/week/{week-id}/average")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public double getAveragePointsForWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
+            response.setStatus(200);
             return weeklyTeamManager.findAveragePointsOfAllTeamsInWeek(week);
         } catch (Exception e) {
-            response.setStatus(403);
+            try {
+                response.sendError(400, e.getMessage());
+            }
+            catch (Exception f){
+                log.debug(f.getMessage());
+            }
         }
         return 0;
     }

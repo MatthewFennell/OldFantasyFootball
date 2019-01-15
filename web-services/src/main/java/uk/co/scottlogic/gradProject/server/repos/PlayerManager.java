@@ -57,7 +57,7 @@ public class PlayerManager {
         player.changeAssists(assists);
         playerRepo.save(player);
         List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(player);
-        for (UsersWeeklyTeam uwt : weeklyTeams){
+        for (UsersWeeklyTeam uwt : weeklyTeams) {
 
             // Increase the weekly team score
             uwt.changePoints(score);
@@ -70,52 +70,52 @@ public class PlayerManager {
         }
     }
 
-    public Integer findPointsForPlayerInWeek(Player player, Integer week){
+    // Possibly just need this to return 0 if the player doesn't exist
+    public Integer findPointsForPlayerInWeek(Player player, Integer week) {
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-        if (playerPoints.isPresent()){
+        if (playerPoints.isPresent()) {
             return playerPoints.get().getPoints();
         }
-        else{
+        else if (week == 0) {
             return 0;
+        }
+        else {
+            throw new IllegalArgumentException("Player doesn't exist");
         }
     }
 
-    public List<PlayerPoints> findPlayerWithMostPointsInWeek(Integer week){
+    public List<PlayerPoints> findPlayerWithMostPointsInWeek(Integer week) {
         return playerPointsRepo.findPlayerWithMostPoints(week);
     }
 
-    public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy){
+    public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy) {
 
-        if (team.equals("All teams")){
-            if (position.equals(Player.Position.ALL)){
+        if (team.equals("All teams")) {
+            if (position.equals(Player.Position.ALL)) {
                 return filter(null, null, min, max, name, sortBy);
-            }
-            else {
+            } else {
                 return filter(null, position.ordinal(), min, max, name, sortBy);
             }
-        }
-        else {
+        } else {
             Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
-            if (collegeTeam.isPresent()){
+            if (collegeTeam.isPresent()) {
                 if (position != Player.Position.ALL) {
                     return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
-                }
-                else {
+                } else {
                     return filter(collegeTeam.get(), null, min, max, name, sortBy);
                 }
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("College team does not exist");
             }
         }
     }
 
-    private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting){
+    private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting) {
 
         String searchName = name;
 
         // Search for everything if the input is null
-        if (name.equals("null")){
+        if (name.equals("null")) {
             searchName = "%";
         }
         // Now searches for anything that contains 'searchName'
@@ -123,24 +123,19 @@ public class PlayerManager {
             searchName = "%" + searchName + "%";
         }
 
-        System.out.println("hiya");
-
         // Order by price by default
-        if (sorting == SORT_BY.GOALS){
+        if (sorting == SORT_BY.GOALS) {
             return playerRepo.filterPlayersSortByGoals(team, position, minPrice, maxPrice, searchName);
-        }
-        else if (sorting == SORT_BY.ASSISTS) {
+        } else if (sorting == SORT_BY.ASSISTS) {
             return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
-        }
-        else if (sorting == SORT_BY.TOTAL_POINTS) {
+        } else if (sorting == SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
-        }
-        else {
+        } else {
             return playerRepo.filterPlayersSortByPrice(team, position, minPrice, maxPrice, searchName);
         }
     }
 
-    public void addPointsToPlayersWeek0(){
+    public void addPointsToPlayersWeek0() {
         Optional<Player> player1 = playerRepo.findByFirstName("John");
         player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 6, false, 90, 0, false, false, 0));
 
@@ -201,9 +196,9 @@ public class PlayerManager {
 
     }
 
-    public void makePlayers(){
-                Optional<CollegeTeam> team = teamRepo.findByName("A");
-        if (!team.isEmpty()){
+    public void makePlayers() {
+        Optional<CollegeTeam> team = teamRepo.findByName("A");
+        if (!team.isEmpty()) {
             makePlayer(team.get(), Player.Position.DEFENDER, 7.2, "John", "Terry");
             makePlayer(team.get(), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
             makePlayer(team.get(), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");

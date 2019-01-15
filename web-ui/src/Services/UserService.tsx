@@ -205,7 +205,21 @@ export const getAveragePoints = (week: number): Promise<number> => {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
   }).then(response => {
-    if (response.status === 200) {
+    if (!response.ok) {
+      if (response.status === 400) {
+        return response.json().then(json => {
+          if (response.ok) {
+            return json;
+          } else {
+            return Promise.reject(json.message);
+          }
+        });
+      } else if (response.status === 500) {
+        throw new Error('Internal server error');
+      } else {
+        throw new Error(response.status.toString());
+      }
+    } else if (response.status === 200) {
       return response.json();
     }
   });
@@ -297,8 +311,14 @@ export const updateTeam = (data: UpdatePlayers): Promise<void> => {
     headers: { Authorization: getBearerHeader(), 'Content-Type': 'application/json' }
   }).then(response => {
     if (!response.ok) {
-      if (response.status === 403) {
-        throw new Error('Login Unsuccessful');
+      if (response.status === 400) {
+        return response.json().then(json => {
+          if (response.ok) {
+            return json;
+          } else {
+            return Promise.reject(json.message);
+          }
+        });
       } else if (response.status === 500) {
         throw new Error('Internal server error');
       } else {

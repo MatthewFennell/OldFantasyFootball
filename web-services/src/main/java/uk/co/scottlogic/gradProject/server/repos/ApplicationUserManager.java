@@ -86,13 +86,8 @@ public class ApplicationUserManager {
         return applicationUserRepo.findUserWithMostPoints();
     }
 
-    public Integer findPointsInWeek(String user_id, Integer week) {
-        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(user_id));
-        if (user.isPresent()) {
-            return weeklyTeamRepo.findPointsInWeekByUser(user.get(), week);
-        } else {
-            throw new IllegalArgumentException("User does not exist");
-        }
+    public Integer findPointsInWeek(ApplicationUser user, Integer week) {
+            return weeklyTeamRepo.findPointsInWeekByUser(user, week);
     }
 
     public List<TopWeeklyUserReturnDTO> findUsersWithMostPointsInWeek(Integer week) {

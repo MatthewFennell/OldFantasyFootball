@@ -2,7 +2,7 @@ div.transfers-table {
     tbody.my-active-transfers {
       width: 100%;
       font-size: 24px;
-      tr.transfers {
+      tr.transfers, tr.transfers-header {
         td{
             width: 10%;
         }

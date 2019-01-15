@@ -19,7 +19,7 @@ public class PlayerReturnDTO {
     private Integer assists;
 
 
-    public PlayerReturnDTO(PlayerPoints playerPoints){
+    public PlayerReturnDTO(PlayerPoints playerPoints) {
         this.firstName = playerPoints.getPlayer().getFirstName();
         this.surname = playerPoints.getPlayer().getSurname();
         this.points = playerPoints.getPoints();
@@ -31,7 +31,7 @@ public class PlayerReturnDTO {
         this.price = playerPoints.getPlayer().getPrice();
     }
 
-    public PlayerReturnDTO(Player player, Integer points){
+    public PlayerReturnDTO(Player player, Integer points) {
         this.firstName = player.getFirstName();
         this.surname = player.getSurname();
         this.team = player.getActiveTeam();

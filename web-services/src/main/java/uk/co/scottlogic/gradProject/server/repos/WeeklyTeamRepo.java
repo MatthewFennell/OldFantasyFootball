@@ -16,23 +16,23 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
 
     // The first element in the returned list is the most recent date
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 ORDER BY week DESC")
-    public List<UsersWeeklyTeam> findByUser(ApplicationUser user);
+    List<UsersWeeklyTeam> findByUser(ApplicationUser user);
 
-    public List<UsersWeeklyTeam> findByPlayers(Player player);
+    List<UsersWeeklyTeam> findByPlayers(Player player);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2")
-    public Optional<UsersWeeklyTeam> findByUserByWeek(ApplicationUser user, Integer week);
+    Optional<UsersWeeklyTeam> findByUserByWeek(ApplicationUser user, Integer week);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE week = ?1 AND points = (SELECT MAX(points) FROM UsersWeeklyTeam)")
-    public List<UsersWeeklyTeam> findUserWithMostPoints(Integer week);
+    List<UsersWeeklyTeam> findUserWithMostPoints(Integer week);
 
     @Query(value = "SELECT week FROM UsersWeeklyTeam WHERE week = (SELECT MAX(week) FROM UsersWeeklyTeam)")
-    public Integer findNumberOfWeeks();
+    Integer findNumberOfWeeks();
 
     @Query(value = "SELECT avg(points) FROM UsersWeeklyTeam WHERE week = ?1")
-    public double findAveragePointsInWeek(Integer week);
+    double findAveragePointsInWeek(Integer week);
 
     @Query(value = "SELECT points FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2 ")
-    public Integer findPointsInWeekByUser(ApplicationUser user, Integer week);
+    Integer findPointsInWeekByUser(ApplicationUser user, Integer week);
 
 }

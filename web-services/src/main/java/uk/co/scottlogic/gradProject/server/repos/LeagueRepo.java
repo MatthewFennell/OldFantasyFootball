@@ -12,8 +12,8 @@ import java.util.UUID;
 @Repository
 public interface LeagueRepo extends CrudRepository<League, UUID> {
 
-    public Optional<League> findByLeagueName(String leagueName);
+    Optional<League> findByLeagueName(String leagueName);
 
-    public Optional<League> findByCodeToJoin(String codeToJoin);
+    Optional<League> findByCodeToJoin(String codeToJoin);
 
-    }
+}

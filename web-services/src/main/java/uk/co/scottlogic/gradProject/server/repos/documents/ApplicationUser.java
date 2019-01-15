@@ -158,12 +158,12 @@ public class ApplicationUser implements UserDetails, Serializable {
         return id.toString();
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     protected void setId(String id) {
         this.id = UUID.fromString(id);
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override

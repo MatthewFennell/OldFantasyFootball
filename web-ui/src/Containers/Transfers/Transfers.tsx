@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { setRemainingBudget, setRemainingTransfers } from '../../Actions/TransferActions';
+import {
+  setRemainingBudget,
+  setRemainingTransfers,
+  clearPlayersBeingAddedAndRemoved
+} from '../../Actions/TransferActions';
 import {
   getRemainingBudget,
   getRemainingTransfers,
@@ -22,7 +26,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
   setRemainingBudget,
-  setRemainingTransfers
+  setRemainingTransfers,
+  clearPlayersBeingAddedAndRemoved
 };
 
 export default connect<any, any, any>(

@@ -60,7 +60,7 @@ public class League {
         this.leagueName = leagueName;
     }
 
-    public void changePoints(Integer change){
+    public void changePoints(Integer change) {
         this.points += change;
     }
 
@@ -84,6 +84,10 @@ public class League {
         return participants;
     }
 
+    public void setParticipants(List<ApplicationUser> participants) {
+        this.participants = participants;
+    }
+
     public Integer getPoints() {
         return points;
     }
@@ -102,10 +106,6 @@ public class League {
 
     public UUID getId() {
         return id;
-    }
-
-    public void setParticipants(List<ApplicationUser> participants) {
-        this.participants = participants;
     }
 
     public void addParticipant(ApplicationUser participant) {

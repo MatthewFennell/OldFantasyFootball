@@ -38,19 +38,28 @@ public class LeagueController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "Category successfully added"),
-            @ApiResponse(code = 400, message = "Must provide valid category name"),
-            @ApiResponse(code = 403, message = "Insufficient privileges"),
+            @ApiResponse(code = 201, message = "League successfully created"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
     public void makeLeague(@AuthenticationPrincipal ApplicationUser user,
-                                    @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
+                           @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
-                leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek(), dto.getCodeToJoin());
-        } catch (DuplicateKeyException e) {
-            response.setStatus(409);
-        } catch (IllegalArgumentException e) {
+            response.setStatus(201);
+            leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek(), dto.getCodeToJoin());
+        }
+        catch (IllegalArgumentException e ){
             response.setStatus(400);
+            log.debug(e.getMessage());
+        }
+        catch (DuplicateKeyException e) {
+            response.setStatus(409);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
         }
     }
 
@@ -58,22 +67,21 @@ public class LeagueController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "Category successfully added"),
-            @ApiResponse(code = 400, message = "Must provide valid category name"),
-            @ApiResponse(code = 403, message = "Insufficient privileges"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/join")
     public void addPlayerToLeague(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody String code, HttpServletResponse response) {
+                                  @RequestBody String code, HttpServletResponse response) {
         try {
+            response.setStatus(200);
             leagueManager.addPlayerToLeague(user, code);
-        } catch (DuplicateKeyException e) {
-            response.setStatus(409);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-        }
-        catch (Exception e){
-            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
         }
     }
 
@@ -83,17 +91,16 @@ public class LeagueController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/user/all")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<LeagueReturnDTO> getLeaguesByUser(
-            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response){
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
-            // Currently just returns the randomly first selected
-            // Should go back later and make it choose the top on some criteria
             return leagueManager.findLeaguesPlayerIsIn(user);
         } catch (Exception e) {
-            response.setStatus(403);
+            response.setStatus(400);
         }
         return Collections.emptyList();
     }
@@ -104,7 +111,7 @@ public class LeagueController {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/name/{league-name}/ranking")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
-            @ApiResponse(code = 400, message = "Invalid date / category"),
+            @ApiResponse(code = 400, message = "League does not exist with that league name"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<UserInLeagueReturnDTO> getPositionsOfUsersInLeague(
@@ -112,8 +119,13 @@ public class LeagueController {
             @PathVariable("league-name") String leagueName) {
         try {
             return leagueManager.findUsersInLeagueAndPositions(leagueName);
-        } catch (Exception e) {
-            response.setStatus(403);
+        }
+        catch (IllegalArgumentException e){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        }
+        catch (Exception e) {
+            response.setStatus(500);
         }
         return null;
     }
