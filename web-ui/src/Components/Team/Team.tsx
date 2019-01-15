@@ -6,8 +6,6 @@ import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
-<<<<<<< HEAD
-=======
 // import '../../../Style/Team/PitchLayout/Pitch.css';
 import { getNumberOfWeeks } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
@@ -15,7 +13,6 @@ import {
   getTeamForUserInWeek,
   getPlayersWithMostPointsInWeek
 } from '../../Services/Player/PlayerService';
->>>>>>> Tidied up user service folders
 import {
   getAveragePoints,
   getPointsForUserInWeek,
