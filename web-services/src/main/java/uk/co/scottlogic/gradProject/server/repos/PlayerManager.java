@@ -1,12 +1,12 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
 
-import java.util.*;
-import java.util.zip.CheckedOutputStream;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlayerManager {
@@ -29,7 +29,7 @@ public class PlayerManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
 //        makePlayers();
-        addPointsToPlayersWeek0();
+//        addPointsToPlayersWeek0();
 
     }
 
@@ -72,14 +72,19 @@ public class PlayerManager {
 
     // Possibly just need this to return 0 if the player doesn't exist
     public Integer findPointsForPlayerInWeek(Player player, Integer week) {
+        System.out.println("searching for player " + player.getFirstName() + " In week " + week);
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
+        System.out.println("found player points");
         if (playerPoints.isPresent()) {
+            System.out.println("present");
             return playerPoints.get().getPoints();
         }
         else if (week == 0) {
+            System.out.println("returned for 0");
             return 0;
         }
         else {
+            System.out.println("dafuq");
             throw new IllegalArgumentException("Player doesn't exist");
         }
     }

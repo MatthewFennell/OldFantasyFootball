@@ -4,10 +4,10 @@ import java.util.List;
 
 public class TransferDTO {
 
-    private List<UpdateTeamPlayerDTO> playersBeingAdded;
-    private List<UpdateTeamPlayerDTO> playersBeingRemoved;
+    private List<PlayerDTO> playersBeingAdded;
+    private List<PlayerDTO> playersBeingRemoved;
 
-    public TransferDTO(List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved) {
+    public TransferDTO(List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
         this.playersBeingAdded = playersBeingAdded;
         this.playersBeingRemoved = playersBeingRemoved;
     }
@@ -15,19 +15,19 @@ public class TransferDTO {
     public TransferDTO() {
     }
 
-    public List<UpdateTeamPlayerDTO> getPlayersBeingAdded() {
+    public List<PlayerDTO> getPlayersBeingAdded() {
         return playersBeingAdded;
     }
 
-    public void setPlayersBeingAdded(List<UpdateTeamPlayerDTO> playersBeingAdded) {
+    public void setPlayersBeingAdded(List<PlayerDTO> playersBeingAdded) {
         this.playersBeingAdded = playersBeingAdded;
     }
 
-    public List<UpdateTeamPlayerDTO> getPlayersBeingRemoved() {
+    public List<PlayerDTO> getPlayersBeingRemoved() {
         return playersBeingRemoved;
     }
 
-    public void setPlayersBeingRemoved(List<UpdateTeamPlayerDTO> playersBeingRemoved) {
+    public void setPlayersBeingRemoved(List<PlayerDTO> playersBeingRemoved) {
         this.playersBeingRemoved = playersBeingRemoved;
     }
 }

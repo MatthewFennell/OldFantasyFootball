@@ -6,7 +6,6 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UpdateTeamPlayerDTO;
 
 import java.util.*;
 
@@ -162,7 +161,7 @@ public class WeeklyTeamManager {
         return true;
     }
 
-    public boolean update(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
+    public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
         if (weeklyTeamRepo.findByUser(user).isEmpty()){
             throw new IllegalArgumentException("User does not have a weekly team");
@@ -181,7 +180,7 @@ public class WeeklyTeamManager {
 
         List<Player> players = activeTeam.getPlayers();
 
-        for (UpdateTeamPlayerDTO player : playersBeingAdded){
+        for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
             if (p.isPresent()) {
                 players.add(p.get());
@@ -191,7 +190,7 @@ public class WeeklyTeamManager {
             }
         }
 
-        for (UpdateTeamPlayerDTO player : playersBeingRemoved) {
+        for (PlayerDTO player : playersBeingRemoved) {
             Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
             if (p.isPresent()) {
                 players.remove(p.get());
@@ -231,6 +230,7 @@ public class WeeklyTeamManager {
             System.out.println("team not present");
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
+        System.out.println("heya");
         playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
         return playersToReturn;
     }

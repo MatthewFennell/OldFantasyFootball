@@ -13,14 +13,6 @@ public class UserReturnDTO {
 
     private String username;
 
-//    private boolean accountExpired;
-
-//    private boolean credentialsExpired;
-
-//    private boolean locked;
-
-//    private boolean enabled;
-
     private Set<GrantedAuthority> authoritySet;
 
     private double remainingBudget;
@@ -40,10 +32,6 @@ public class UserReturnDTO {
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
         this.username = user.getUsername();
-//        this.accountExpired = !user.isAccountNonExpired();
-//        this.credentialsExpired = !user.isCredentialsNonExpired();
-//        this.locked = !user.isAccountNonLocked();
-//        this.enabled = user.isEnabled();
         this.authoritySet = new HashSet(user.getAuthorities());
         this.remainingBudget = user.getRemainingBudget();
         this.nickname = user.getNickname();
@@ -82,14 +70,6 @@ public class UserReturnDTO {
         return email;
     }
 
-    public double getRemainingBudget() {
-        return remainingBudget;
-    }
-
-    public void setRemainingBudget(double remainingBudget) {
-        this.remainingBudget = remainingBudget;
-    }
-
     public Set<GrantedAuthority> getAuthoritySet() {
         return authoritySet;
     }
@@ -101,22 +81,6 @@ public class UserReturnDTO {
     public String getUsername() {
         return username;
     }
-
-//    public boolean isAccountExpired() {
-//        return accountExpired;
-//    }
-//
-//    public boolean isCredentialsExpired() {
-//        return credentialsExpired;
-//    }
-//
-//    public boolean isEnabled() {
-//        return enabled;
-//    }
-//
-//    public boolean isLocked() {
-//        return locked;
-//    }
 
     public String getNickname() {
         return nickname;
