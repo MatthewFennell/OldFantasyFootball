@@ -1,4 +1,5 @@
-import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+// import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {
   ADD_PLAYER = 'ADD_PLAYER',
@@ -9,17 +10,17 @@ export enum ActionTypes {
 
 export interface AddPlayer {
   type: ActionTypes.ADD_PLAYER;
-  payload: { player: WeeklyPlayer };
+  payload: { player: PlayerDTO };
 }
 
 export interface SetTeam {
   type: ActionTypes.SET_TEAM;
-  payload: { activeTeam: WeeklyPlayer[] };
+  payload: { activeTeam: PlayerDTO[] };
 }
 
 export interface AddToWeeklyTeamCache {
   type: ActionTypes.ADD_TO_WEEKLY_TEAM_CACHE;
-  payload: { weekId: number; team: WeeklyPlayer[] };
+  payload: { weekId: number; team: PlayerDTO[] };
 }
 
 export interface RemoveIndex {
@@ -27,7 +28,7 @@ export interface RemoveIndex {
   payload: { indexToRemove: number };
 }
 
-export const addPlayer = (player: WeeklyPlayer): AddPlayer => {
+export const addPlayer = (player: PlayerDTO): AddPlayer => {
   return {
     type: ActionTypes.ADD_PLAYER,
     payload: {
@@ -36,7 +37,7 @@ export const addPlayer = (player: WeeklyPlayer): AddPlayer => {
   };
 };
 
-export const setTeam = (activeTeam: WeeklyPlayer[]): SetTeam => {
+export const setTeam = (activeTeam: PlayerDTO[]): SetTeam => {
   return {
     type: ActionTypes.SET_TEAM,
     payload: {
@@ -54,10 +55,7 @@ export const removeIndex = (indexToRemove: number): RemoveIndex => {
   };
 };
 
-export const addToWeeklyTeamCache = (
-  weekId: number,
-  team: WeeklyPlayer[]
-): AddToWeeklyTeamCache => {
+export const addToWeeklyTeamCache = (weekId: number, team: PlayerDTO[]): AddToWeeklyTeamCache => {
   return {
     type: ActionTypes.ADD_TO_WEEKLY_TEAM_CACHE,
     payload: { weekId, team }

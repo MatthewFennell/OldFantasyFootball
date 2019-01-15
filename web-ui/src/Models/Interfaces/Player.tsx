@@ -1,15 +1,13 @@
-export interface Player {
+export interface PlayerDTO {
   id: string;
   firstName: string;
   surname: string;
   position: string;
-  points: string;
-  price: string;
-  weeklyGoals: string;
-  weeklyAssists: string;
-  weeklyPoints: string;
-  totalScore: string;
-  totalGoals: string;
-  totalAssists: string;
+  points: number;
+  price: number;
+  weeklyPoints?: number;
+  totalScore: number;
+  totalGoals: number;
+  totalAssists: number;
   collegeTeam: string;
 }

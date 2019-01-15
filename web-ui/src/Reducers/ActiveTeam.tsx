@@ -1,18 +1,19 @@
 import { ActionTypes, Action as ActiveTeamAction } from '../Actions/ActiveTeamActions';
-import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+// import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 
 type Action = ActiveTeamAction;
 
 // Define our State interface for the current reducer
 export interface State {
-  activeTeam: Array<WeeklyPlayer>;
+  activeTeam: PlayerDTO[];
   weeklyTeamCache: {};
 }
 
 // Define our initialState
 export const initialState: State = {
   activeTeam: [],
-  weeklyTeamCache: {} as { weeklyTeam: { id: number; team: WeeklyPlayer[] } }
+  weeklyTeamCache: {} as { weeklyTeam: { id: number; team: PlayerDTO[] } }
 };
 
 export const reducer = (state: State = initialState, action: Action) => {

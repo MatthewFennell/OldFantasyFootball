@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 import RowActiveTeam from './RowActiveTeam';
 
 interface ActiveTeamProps {
-  activeTeam: TopWeeklyPlayer[];
+  activeTeam: PlayerDTO[];
 }
 
 class ActiveTeamTableBody extends React.Component<ActiveTeamProps> {

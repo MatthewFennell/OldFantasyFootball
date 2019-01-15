@@ -1,10 +1,10 @@
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Attackers.css';
 import Player from '../../../Containers/Player';
-import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface AttackerProps {
-  attackers: WeeklyPlayer[];
+  attackers: PlayerDTO[];
   transfer: boolean;
 }
 

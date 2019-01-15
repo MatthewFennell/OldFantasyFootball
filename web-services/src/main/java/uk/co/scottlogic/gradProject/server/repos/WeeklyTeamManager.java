@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UpdateTeamPlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 
 import java.util.*;
 
@@ -163,7 +161,7 @@ public class WeeklyTeamManager {
         return true;
     }
 
-    public boolean update(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
+    public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
         if (weeklyTeamRepo.findByUser(user).isEmpty()){
             throw new IllegalArgumentException("User does not have a weekly team");
@@ -182,7 +180,7 @@ public class WeeklyTeamManager {
 
         List<Player> players = activeTeam.getPlayers();
 
-        for (UpdateTeamPlayerDTO player : playersBeingAdded){
+        for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
             if (p.isPresent()) {
                 players.add(p.get());
@@ -192,7 +190,7 @@ public class WeeklyTeamManager {
             }
         }
 
-        for (UpdateTeamPlayerDTO player : playersBeingRemoved) {
+        for (PlayerDTO player : playersBeingRemoved) {
             Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
             if (p.isPresent()) {
                 players.remove(p.get());
@@ -216,23 +214,24 @@ public class WeeklyTeamManager {
     }
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
-    public List<WeeklyPlayerReturnDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
+    public List<PlayerDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
         System.out.println("user = " + user.getFirstName());
         System.out.println("week = " + week);
         Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
-        List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
+        List<PlayerDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()) {
             List<Player> players = team.get().getPlayers();
             System.out.println("number of players = " + players.size());
             for (Player p : players) {
-                playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
+                playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         } else {
             System.out.println("team not present");
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
-        playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));
+        System.out.println("heya");
+        playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
         return playersToReturn;
     }
 

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Goalkeeper.css';
 import Player from '../../../Containers/Player';
-import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface GoalkeeperProps {
-  goalkeepers: WeeklyPlayer[];
+  goalkeepers: PlayerDTO[];
   transfer: boolean;
 }
 

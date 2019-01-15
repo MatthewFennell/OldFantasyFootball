@@ -15,9 +15,7 @@ import uk.co.scottlogic.gradProject.server.repos.PlayerManager;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.routers.dto.FilteredPlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -49,14 +47,14 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "Unknown error"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public PlayerReturnDTO getUserPointsInWeek(
+    public PlayerDTO getUserPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
-            return new PlayerReturnDTO(playerManager.findPlayerWithMostPointsInWeek(week).get(0));
+            return new PlayerDTO(playerManager.findPlayerWithMostPointsInWeek(week).get(0));
         } catch (Exception e) {
             response.setStatus(400);
         }
@@ -72,7 +70,7 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "No weekly team for that user and date"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<WeeklyPlayerReturnDTO> getAllPlayersForUserInWeek(
+    public List<PlayerDTO> getAllPlayersForUserInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
@@ -98,7 +96,7 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "College team does not exist"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<FilteredPlayerDTO> filterPlayerssAll(
+    public List<PlayerDTO> filterPlayerssAll(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("max") Integer max,
             @PathVariable("min") Integer min,
@@ -112,9 +110,9 @@ public class PlayerController {
             // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
             List<Player> filteredPlayers = playerManager.formatFilter(team, position, min, max, name, sort);
-            List<FilteredPlayerDTO> responses = new ArrayList<>();
+            List<PlayerDTO> responses = new ArrayList<>();
             for (Player p : filteredPlayers) {
-                responses.add(new FilteredPlayerDTO(p));
+                responses.add(new PlayerDTO(p));
             }
             return responses;
         } catch (IllegalArgumentException e) {
