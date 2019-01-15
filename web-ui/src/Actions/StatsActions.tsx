@@ -1,4 +1,4 @@
-import { TopWeeklyPlayer } from '../Models/Interfaces/TopWeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 
 export enum ActionTypes {
@@ -27,7 +27,7 @@ export interface AddToAverageWeeklyPointsCache {
 
 export interface AddToTopWeeklyPlayersCache {
   type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE;
-  payload: { weekId: number; player: TopWeeklyPlayer };
+  payload: { weekId: number; player: PlayerDTO };
 }
 
 export interface AddToTopWeeklyUsersCache {
@@ -58,7 +58,7 @@ export const addToWeeklyPointsCache = (weekId: number, week: number): AddToWeekl
 
 export const addToTopWeeklyPlayersCache = (
   weekId: number,
-  player: TopWeeklyPlayer
+  player: PlayerDTO
 ): AddToTopWeeklyPlayersCache => {
   return {
     type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE,

@@ -3,9 +3,8 @@ import '../../Style/Team/Team.css';
 import '../../Style/Team/PitchLayout/Pitch.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
-import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 // import '../../../Style/Team/PitchLayout/Pitch.css';
 import { getNumberOfWeeks } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
@@ -31,16 +30,16 @@ interface TransactionsProps {
   addToWeeklyPointsCache: (id: number, points: number) => void;
 
   topWeeklyPlayerCache: any;
-  addToTopWeeklyPlayersCache: (id: number, player: TopWeeklyPlayer) => void;
+  addToTopWeeklyPlayersCache: (id: number, player: PlayerDTO) => void;
 
   topWeeklyUsersCache: any;
   addToTopWeeklyUsersCache: (id: number, player: TopWeeklyUser) => void;
 
-  activeTeam: WeeklyPlayer[];
-  setTeam: (team: WeeklyPlayer[]) => void;
+  activeTeam: PlayerDTO[];
+  setTeam: (team: PlayerDTO[]) => void;
 
   weeklyTeamCache: any;
-  addToWeeklyTeamCache: (id: number, team: WeeklyPlayer[]) => void;
+  addToWeeklyTeamCache: (id: number, team: PlayerDTO[]) => void;
 
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
 }

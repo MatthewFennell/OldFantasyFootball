@@ -5,7 +5,7 @@ import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 import Pitch from '../Team/PitchLayout/Pitch';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
@@ -21,10 +21,10 @@ interface TransfersProps {
   clearPlayersBeingAddedAndRemoved: () => void;
 
   filteredPlayers: FilteredPlayer[];
-  activeTeam: WeeklyPlayer[];
+  activeTeam: PlayerDTO[];
 
-  playersBeingAdded: WeeklyPlayer[];
-  playersBeingRemoved: WeeklyPlayer[];
+  playersBeingAdded: PlayerDTO[];
+  playersBeingRemoved: PlayerDTO[];
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {

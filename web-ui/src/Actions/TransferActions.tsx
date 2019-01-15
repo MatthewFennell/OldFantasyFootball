@@ -1,5 +1,5 @@
 import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
-import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {
   SET_REMAINING_BUDGET = 'SET_REMAINING_BUDGET',
@@ -29,7 +29,7 @@ export interface SetFilteredPlayers {
 
 export interface AddToPlayersBeingAdded {
   type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED;
-  payload: { playerBeingAdded: WeeklyPlayer };
+  payload: { playerBeingAdded: PlayerDTO };
 }
 
 export interface RemoveFromPlayersBeingAdded {
@@ -39,7 +39,7 @@ export interface RemoveFromPlayersBeingAdded {
 
 export interface AddToPlayersBeingRemoved {
   type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED;
-  payload: { playerBeingAdded: WeeklyPlayer };
+  payload: { playerBeingAdded: PlayerDTO };
 }
 
 export interface RemoveFromPlayersBeingRemoved {
@@ -73,7 +73,7 @@ export const setFilteredPlayers = (filteredPlayers: FilteredPlayer[]): SetFilter
   };
 };
 
-export const addToPlayerBeingAdded = (playerBeingAdded: WeeklyPlayer): AddToPlayersBeingAdded => {
+export const addToPlayerBeingAdded = (playerBeingAdded: PlayerDTO): AddToPlayersBeingAdded => {
   return {
     type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED,
     payload: { playerBeingAdded }
@@ -94,9 +94,7 @@ export const clearPlayersBeingAddedAndRemoved = (): ClearPlayersBeingAddedAndRem
   };
 };
 
-export const addToPlayerBeingRemoved = (
-  playerBeingAdded: WeeklyPlayer
-): AddToPlayersBeingRemoved => {
+export const addToPlayerBeingRemoved = (playerBeingAdded: PlayerDTO): AddToPlayersBeingRemoved => {
   return {
     type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED,
     payload: { playerBeingAdded }

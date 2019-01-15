@@ -1,6 +1,6 @@
-import { WeeklyPlayer } from '../Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../Interfaces/Player';
 
 export interface UpdatePlayers {
-  playersBeingAdded: WeeklyPlayer[];
-  playersBeingRemoved: WeeklyPlayer[];
+  playersBeingAdded: PlayerDTO[];
+  playersBeingRemoved: PlayerDTO[];
 }

@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { Table, Col, Row } from 'reactstrap';
 import ActiveTeamTableBody from './ActiveTeamTableBody';
 
 interface ActiveTeamProps {
-  activeTeam: TopWeeklyPlayer[];
+  activeTeam: PlayerDTO[];
   setTeam: (activeTeam: any) => void;
 }
 

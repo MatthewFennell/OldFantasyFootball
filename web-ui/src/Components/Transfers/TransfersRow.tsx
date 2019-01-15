@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TransferRowProps {
   element: FilteredPlayer;
-  activeTeam: WeeklyPlayer[];
-  addPlayer: (player: WeeklyPlayer) => void;
+  activeTeam: PlayerDTO[];
+  addPlayer: (player: PlayerDTO) => void;
 
   remainingBudget: number;
   setRemainingBudget: (remainingBudget: number) => void;
 
-  addToPlayerBeingAdded: (playerToAdd: WeeklyPlayer) => void;
+  addToPlayerBeingAdded: (playerToAdd: PlayerDTO) => void;
   removeFromPlayersBeingRemoved: (index: number) => void;
-  playersBeingRemoved: WeeklyPlayer[];
+  playersBeingRemoved: PlayerDTO[];
 }
 
 class TransferRow extends React.Component<TransferRowProps> {
@@ -29,7 +29,7 @@ class TransferRow extends React.Component<TransferRowProps> {
     price: number
   ) => {
     console.log('clicked row of league ' + firstName);
-    let player: WeeklyPlayer = {
+    let player: PlayerDTO = {
       id: 'dunno',
       firstName,
       surname,
@@ -56,12 +56,13 @@ class TransferRow extends React.Component<TransferRowProps> {
       if (!removed) {
         this.props.addToPlayerBeingAdded(player);
       }
-
-      this.props.setRemainingBudget(this.props.remainingBudget - player.price);
+      if (player.price !== undefined) {
+        this.props.setRemainingBudget(this.props.remainingBudget - player.price);
+      }
     }
   };
 
-  canAdd(player: WeeklyPlayer): boolean {
+  canAdd(player: PlayerDTO): boolean {
     let numberInThatPosition: number = 0;
     let playerExists: boolean = false;
     this.props.activeTeam.forEach(element => {
@@ -83,7 +84,7 @@ class TransferRow extends React.Component<TransferRowProps> {
     if (playerExists) {
       return false;
     }
-    if (player.price > this.props.remainingBudget) {
+    if (player.price !== undefined && player.price > this.props.remainingBudget) {
       console.log('You do not have enough $$$');
       return false;
     }

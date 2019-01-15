@@ -1,6 +1,6 @@
 import { ActionTypes, Action as AccountAction } from '../Actions/TransferActions';
 import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
-import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 type Action = AccountAction;
 
 // Define our State interface for the current reducer
@@ -8,8 +8,8 @@ export interface State {
   remainingBudget: number;
   remainingTransfers: number;
   filteredPlayers: FilteredPlayer[];
-  playersBeingAdded: WeeklyPlayer[];
-  playersBeingRemoved: WeeklyPlayer[];
+  playersBeingAdded: PlayerDTO[];
+  playersBeingRemoved: PlayerDTO[];
 }
 
 // Define our initialState

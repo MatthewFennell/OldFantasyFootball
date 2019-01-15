@@ -4,19 +4,19 @@ import Attackers from '../../../Containers/Team/PitchLayout/Attackers';
 import Midfielders from '../../../Containers/Team/PitchLayout/Midfielders';
 import Defenders from '../../../Containers/Team/PitchLayout/Defenders';
 import Goalkeeper from '../../../Containers/Team/PitchLayout/Goalkeeper';
-import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface PitchProps {
-  activeWeeklyTeam: WeeklyPlayer[];
+  activeWeeklyTeam: PlayerDTO[];
   transfer: boolean;
 }
 
 class Pitch extends React.Component<PitchProps, {}> {
   render() {
-    let goalKeeper: WeeklyPlayer[] = [];
-    let defenders: WeeklyPlayer[] = [];
-    let midfielders: WeeklyPlayer[] = [];
-    let attackers: WeeklyPlayer[] = [];
+    let goalKeeper: PlayerDTO[] = [];
+    let defenders: PlayerDTO[] = [];
+    let midfielders: PlayerDTO[] = [];
+    let attackers: PlayerDTO[] = [];
 
     if (this.props.activeWeeklyTeam !== undefined) {
       this.props.activeWeeklyTeam.forEach(element => {

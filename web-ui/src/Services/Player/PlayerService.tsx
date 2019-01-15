@@ -1,10 +1,9 @@
-import { TopWeeklyPlayer } from '../../Models/Interfaces/TopWeeklyPlayer';
-import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { getBearerHeader } from '.././CredentialInputService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 
-export const getTeamForUserInWeek = (week: number): Promise<WeeklyPlayer[]> => {
+export const getTeamForUserInWeek = (week: number): Promise<PlayerDTO[]> => {
   return fetch('/api/player/week/' + week + '/team', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
@@ -15,7 +14,7 @@ export const getTeamForUserInWeek = (week: number): Promise<WeeklyPlayer[]> => {
   });
 };
 
-export const getPlayersWithMostPointsInWeek = (week: number): Promise<TopWeeklyPlayer> => {
+export const getPlayersWithMostPointsInWeek = (week: number): Promise<PlayerDTO> => {
   return fetch('/api/player/points/week/' + week + '/most', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }

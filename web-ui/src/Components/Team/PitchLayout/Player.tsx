@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Player.css';
-import { WeeklyPlayer } from '../../../Models/Interfaces/WeeklyPlayer';
+import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface PlayerProps {
   firstName: string;
@@ -10,15 +10,15 @@ interface PlayerProps {
   transfer: boolean;
   emptyPlayer: boolean;
 
-  activeTeam: WeeklyPlayer[];
-  setTeam: (team: WeeklyPlayer[]) => void;
+  activeTeam: PlayerDTO[];
+  setTeam: (team: PlayerDTO[]) => void;
   removeIndex: (indexToRemove: number) => void;
 
   setRemainingBudget: (remainingBudget: number) => void;
   remainingBudget: number;
 
-  playersBeingAdded: WeeklyPlayer[];
-  addToPlayerBeingRemoved: (playerBeingAdded: WeeklyPlayer) => void;
+  playersBeingAdded: PlayerDTO[];
+  addToPlayerBeingRemoved: (playerBeingAdded: PlayerDTO) => void;
   removeFromPlayersBeingAdded: (index: number) => void;
 }
 
@@ -33,7 +33,7 @@ class Player extends React.Component<PlayerProps, {}> {
       console.log('clicked on player ' + this.props.firstName);
       const { firstName, surname, price } = this.props;
       this._removePlayerFromActiveTeam(firstName, surname, price);
-      let player: WeeklyPlayer = {
+      let player: PlayerDTO = {
         id: 'dunno',
         firstName,
         surname,

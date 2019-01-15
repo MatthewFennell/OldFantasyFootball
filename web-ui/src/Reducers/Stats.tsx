@@ -1,5 +1,5 @@
 import { ActionTypes, Action as StatsAction } from '../Actions/StatsActions';
-import { TopWeeklyPlayer } from '../Models/Interfaces/TopWeeklyPlayer';
+import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 type Action = StatsAction;
 
@@ -18,7 +18,7 @@ export const initialState: State = {
   weekBeingViewed: 0,
   weeklyPointsCache: {} as { weeks: { id: number; points: number } },
   averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
-  topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: TopWeeklyPlayer } },
+  topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
   topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
   totalNumberOfWeeks: 0
 };
