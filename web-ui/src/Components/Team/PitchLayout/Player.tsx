@@ -53,11 +53,9 @@ class Player extends React.Component<PlayerProps, {}> {
           element.surname === surname &&
           element.price === price
         ) {
-          console.log('hey)');
           removed = true;
           this.props.removeFromPlayersBeingAdded(index);
         } else {
-          console.log('nop');
         }
       });
 
