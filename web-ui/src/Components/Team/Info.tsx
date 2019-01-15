@@ -1,10 +1,5 @@
 import * as React from 'react';
 import '../../Style/Team/Info.css';
-// import {
-//   getNumberOfWeeks,
-//   getPointsForUserInWeek,
-//   getAveragePoints
-// } from '../../Services/UserService';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 interface StatsProps {

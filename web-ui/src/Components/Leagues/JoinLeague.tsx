@@ -4,7 +4,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 // import * as LoginService from '../../Services/CredentialInputService';
-import { joinLeague } from '../../Services/UserService';
+import { joinLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
 
 interface State {

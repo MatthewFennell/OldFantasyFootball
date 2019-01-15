@@ -1,6 +1,6 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
-import { getRemainingBudgetAndTransfers, updateTeam } from '../../Services/UserService';
+import { getRemainingBudgetAndTransfers } from '../../Services/User/UserService';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
 import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
@@ -9,6 +9,7 @@ import { WeeklyPlayer } from '../../Models/Interfaces/WeeklyPlayer';
 import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
+import { updateTeam } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;

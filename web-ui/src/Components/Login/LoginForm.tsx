@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Form, FormGroup, Label, Button } from 'reactstrap';
-import { login, getUser } from '../../Services/UserService';
+import { login, getUser } from '../../Services/User/UserService';
 import { Credentials } from '../../Models/Interfaces/Credentials';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';

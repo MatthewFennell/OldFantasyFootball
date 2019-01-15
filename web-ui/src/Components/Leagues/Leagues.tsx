@@ -1,6 +1,9 @@
 import * as React from 'react';
 import '../../Style/League/League.css';
-import { getLeaguesAndPositions, getPositionsOfUsersInLeague } from '../../Services/UserService';
+import {
+  getLeaguesAndPositions,
+  getPositionsOfUsersInLeague
+} from '../../Services/League/LeagueService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
 import { Button, Container } from 'reactstrap';
