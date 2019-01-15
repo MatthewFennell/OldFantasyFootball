@@ -1,5 +1,5 @@
 export interface PlayerDTO {
-  id?: string;
+  id: string;
   firstName: string;
   surname: string;
   position: string;
@@ -7,7 +7,7 @@ export interface PlayerDTO {
   price: number;
   weeklyPoints?: number;
   totalScore: number;
-  totalGoals?: number;
-  totalAssists?: number;
-  collegeTeam?: string;
+  totalGoals: number;
+  totalAssists: number;
+  collegeTeam: string;
 }

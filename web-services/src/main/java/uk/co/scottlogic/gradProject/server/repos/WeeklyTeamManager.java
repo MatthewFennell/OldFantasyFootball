@@ -5,9 +5,8 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UpdateTeamPlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.WeeklyPlayerReturnDTO;
 
 import java.util.*;
 
@@ -216,23 +215,23 @@ public class WeeklyTeamManager {
     }
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
-    public List<WeeklyPlayerReturnDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
+    public List<PlayerDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
         System.out.println("user = " + user.getFirstName());
         System.out.println("week = " + week);
         Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
-        List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
+        List<PlayerDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()) {
             List<Player> players = team.get().getPlayers();
             System.out.println("number of players = " + players.size());
             for (Player p : players) {
-                playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
+                playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         } else {
             System.out.println("team not present");
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
-        playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));
+        playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
         return playersToReturn;
     }
 

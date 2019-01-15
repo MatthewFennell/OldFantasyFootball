@@ -35,7 +35,10 @@ class TransferRow extends React.Component<TransferRowProps> {
       position,
       points,
       price,
-      totalScore: 0
+      totalScore: 0,
+      totalGoals: 0,
+      totalAssists: 0,
+      collegeTeam: 'Z'
     };
     if (this.canAdd(player)) {
       this.props.addPlayer(player);

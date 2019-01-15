@@ -29,7 +29,7 @@ public class PlayerManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
 //        makePlayers();
-//        addPointsToPlayersWeek0();
+        addPointsToPlayersWeek0();
 
     }
 

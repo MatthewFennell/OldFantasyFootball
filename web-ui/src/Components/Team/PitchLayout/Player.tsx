@@ -40,7 +40,10 @@ class Player extends React.Component<PlayerProps, {}> {
         position: 'unknown',
         points: -5,
         price: price,
-        totalScore: 0
+        totalScore: 0,
+        totalGoals: 0,
+        totalAssists: 0,
+        collegeTeam: 'Z'
       };
 
       let removed: boolean = false;
