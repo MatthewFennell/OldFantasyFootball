@@ -17,6 +17,8 @@ interface TransfersProps {
   remainingTransfers: number;
   setRemainingTransfers: (remainingTransfers: number) => void;
 
+  clearPlayersBeingAddedAndRemoved: () => void;
+
   filteredPlayers: FilteredPlayer[];
   activeTeam: WeeklyPlayer[];
 
@@ -42,6 +44,7 @@ class Transfers extends React.Component<TransfersProps, {}> {
     updateTeam(data)
       .then(response => {
         console.log('Valid transfer request = ' + JSON.stringify(response));
+        this.props.clearPlayersBeingAddedAndRemoved();
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));

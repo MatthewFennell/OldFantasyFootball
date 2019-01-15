@@ -70,12 +70,17 @@ public class PlayerManager {
         }
     }
 
+    // Possibly just need this to return 0 if the player doesn't exist
     public Integer findPointsForPlayerInWeek(Player player, Integer week) {
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
         if (playerPoints.isPresent()) {
             return playerPoints.get().getPoints();
-        } else {
+        }
+        else if (week == 0) {
             return 0;
+        }
+        else {
+            throw new IllegalArgumentException("Player doesn't exist");
         }
     }
 
@@ -117,8 +122,6 @@ public class PlayerManager {
         else {
             searchName = "%" + searchName + "%";
         }
-
-        System.out.println("hiya");
 
         // Order by price by default
         if (sorting == SORT_BY.GOALS) {

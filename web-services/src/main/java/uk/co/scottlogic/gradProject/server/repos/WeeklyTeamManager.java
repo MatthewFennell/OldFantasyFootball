@@ -40,9 +40,29 @@ public class WeeklyTeamManager {
         this.playerManager = playerManager;
         this.maxPerTeam = 11;
 
-//        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-//
+
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
+
 //        if (user.isPresent()){
+//            UsersWeeklyTeam team = weeklyTeamRepo.findByUser(user.get()).get(0);
+//            List<Player> players = team.getPlayers();
+//            System.out.println("players size = " + players.size());
+//            for (Player p : players){
+//                System.out.println("name = " + p.getFirstName());
+//            }
+//            Optional<Player> p = playeRepo.findByFirstNameBySurname("Phil", "Jones");
+//            if (p.isPresent()){
+//                System.out.println("size before = " + players.size());
+//                for (int x = 0; x < players.size(); x++){
+//                    if (players.get(x).getFirstName().equals("Phil")){
+//                        players.remove(x);
+//                        break;
+//                    }
+//                }
+//                System.out.println("size after = " + players.size());
+//            }
+
+
 //            UsersWeeklyTeam team = new UsersWeeklyTeam(user.get(), new Date(), new ArrayList<>(), 0);
 //            weeklyTeamRepo.save(team);
 //        }
@@ -108,6 +128,7 @@ public class WeeklyTeamManager {
         return weeklyTeamRepo.findUserWithMostPoints(week);
     }
 
+    // Given a list of players, check that it is a valid squad
     private boolean checkTeamIsValid(List<Player> players) {
         double totalCost = 0;
         Map<UUID, Integer> numberInEachTeam = new HashMap<>();
@@ -142,157 +163,52 @@ public class WeeklyTeamManager {
         return true;
     }
 
-    private boolean checkIfUpdateValid(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved) {
+    public boolean update(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved){
 
         if (weeklyTeamRepo.findByUser(user).isEmpty()){
             throw new IllegalArgumentException("User does not have a weekly team");
         }
+
+        if (playersBeingAdded.size() == 0){
+            throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
+        }
+
         UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
 
-        if (activeTeam.getPlayers().size() == 0) {
-            if (playersBeingAdded.size() != 11) {
-                throw new IllegalArgumentException("Must provide all 11 players");
+        if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != 11){
+            System.out.println("incorrect team size");
+            throw new IllegalArgumentException("Invalid team size");
+        }
+
+        List<Player> players = activeTeam.getPlayers();
+
+        for (UpdateTeamPlayerDTO player : playersBeingAdded){
+            Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+            if (p.isPresent()) {
+                players.add(p.get());
+                System.out.println("added player " + p.get().getFirstName());
             } else {
-                double totalSum = 0;
-                Map<UUID, Integer> numberInEachTeam = new HashMap<>();
-                Map<UUID, Integer> playersAdded = new HashMap<>();
-
-                for (UpdateTeamPlayerDTO player : playersBeingAdded) {
-
-                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
-                    if (p.isPresent()) {
-                        Player currentPlayer = p.get();
-                        UUID playerId = currentPlayer.getId();
-                        UUID teamId = currentPlayer.getActiveTeam().getId();
-                        totalSum += currentPlayer.getPrice();
-                        if (totalSum > 100) {
-                            System.out.println("too expensive");
-                            throw new IllegalArgumentException("Price exceeds budget");
-                        }
-                        if (playersAdded.containsKey(playerId)) {
-                            System.out.println("player already added");
-                            throw new IllegalArgumentException("Cannot add the same player twice");
-                        } else {
-                            playersAdded.put(playerId, 1);
-                        }
-
-                        if (numberInEachTeam.containsKey(teamId)) {
-                            if (numberInEachTeam.get(teamId).equals(maxPerTeam)) {
-                                System.out.println("too many from one team");
-                                throw new IllegalArgumentException("Cannot have that many players from a single team");
-                            } else {
-                                numberInEachTeam.put(teamId, numberInEachTeam.get(teamId) + 1);
-                            }
-                        } else {
-                            numberInEachTeam.put(teamId, 1);
-                        }
-                    } else {
-                        System.out.println("player " + player.getFirstName() + " apparently doesn't exist");
-                        throw new IllegalArgumentException("Player does not exist");
-                    }
-                }
-            }
-        } else {
-            if (playersBeingAdded.size() == playersBeingRemoved.size()) {
-                UsersWeeklyTeam team = weeklyTeamRepo.findByUser(user).get(0);
-                List<Player> players = team.getPlayers();
-                for (UpdateTeamPlayerDTO player : playersBeingRemoved) {
-                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
-                    if (p.isPresent()) {
-                        players.remove(p.get());
-                    } else {
-                        throw new IllegalArgumentException("Player being removed does not exist");
-                    }
-                }
-                for (UpdateTeamPlayerDTO player : playersBeingAdded) {
-                    Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
-                    if (p.isPresent()) {
-                        players.add(p.get());
-                    } else {
-                        throw new IllegalArgumentException("Player being added does not exist");
-                    }
-                }
-                return checkTeamIsValid(players);
-            } else {
-                throw new IllegalArgumentException("Must add the same number of players as being removed");
+                throw new IllegalArgumentException("Player being added does not exist");
             }
         }
-        return true;
-    }
 
-    public boolean updateTeam(ApplicationUser user, List<UpdateTeamPlayerDTO> playersBeingAdded, List<UpdateTeamPlayerDTO> playersBeingRemoved) {
-
-        if (checkIfUpdateValid(user, playersBeingAdded, playersBeingRemoved)) {
-            UsersWeeklyTeam weeklyTeam = weeklyTeamRepo.findByUser(user).get(0);
-            for (UpdateTeamPlayerDTO player : playersBeingAdded) {
-
-                Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
-                if (p.isPresent()) {
-                    weeklyTeam.addPlayer(p.get());
-                }
-                else {
-                    throw new IllegalArgumentException("Player does not exist");
-                }
+        for (UpdateTeamPlayerDTO player : playersBeingRemoved) {
+            Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+            if (p.isPresent()) {
+                players.remove(p.get());
+                System.out.println("removed player " + p.get().getFirstName());
+            } else {
+                throw new IllegalArgumentException("Player being removed does not exist");
             }
-
-            for (UpdateTeamPlayerDTO player : playersBeingRemoved) {
-                Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
-                if (p.isPresent()) {
-                    weeklyTeam.removePlayer(p.get());
-                }
-                else {
-                    throw new IllegalArgumentException("Player does not exist");
-                }
-            }
-            weeklyTeamRepo.save(weeklyTeam);
+        }
+        // Only save if the transfer is valid
+        if (checkTeamIsValid(players)){
+            weeklyTeamRepo.save(activeTeam);
             return true;
-        } else {
+        }
+        else {
             return false;
         }
-    }
-
-
-    private double getValueOfActiveSquad(ApplicationUser user) {
-        double totalValue = 0.0;
-        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()) {
-            UsersWeeklyTeam activeTeam = teams.get(0);
-            List<Player> players = activeTeam.getPlayers();
-            for (Player p : players) {
-                totalValue += p.getPrice();
-            }
-        }
-        return totalValue;
-    }
-
-    private ArrayList<Integer> getNumberOfEachPositionInActiveTeam(ApplicationUser user) {
-        ArrayList<Integer> quantityPerPosition = new ArrayList<>();
-        quantityPerPosition.add(0);     // GOALKEEPERS
-        quantityPerPosition.add(0);     // DEFENDERS
-        quantityPerPosition.add(0);     // MIDFIELDERS
-        quantityPerPosition.add(0);     // ATTACKERS
-
-        List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-        if (!teams.isEmpty()) {
-            UsersWeeklyTeam activeTeam = teams.get(0);
-            List<Player> players = activeTeam.getPlayers();
-            for (Player p : players) {
-                if (p.getPosition() == Player.Position.GOALKEEPER) {
-                    quantityPerPosition.set(0, quantityPerPosition.get(0) + 1);
-                } else if (p.getPosition() == Player.Position.DEFENDER) {
-                    quantityPerPosition.set(1, quantityPerPosition.get(1) + 1);
-                } else if (p.getPosition() == Player.Position.MIDFIELDER) {
-                    quantityPerPosition.set(2, quantityPerPosition.get(2) + 1);
-                } else if (p.getPosition() == Player.Position.ATTACKER) {
-                    quantityPerPosition.set(3, quantityPerPosition.get(3) + 1);
-                }
-            }
-        }
-        return quantityPerPosition;
-    }
-
-    public Integer findPointsOfWeeklyTeam(UsersWeeklyTeam team) {
-        return team.getPoints();
     }
 
     public double findAveragePointsOfAllTeamsInWeek(Integer week) {
@@ -301,15 +217,19 @@ public class WeeklyTeamManager {
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
     public List<WeeklyPlayerReturnDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
+        System.out.println("user = " + user.getFirstName());
+        System.out.println("week = " + week);
         Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
         List<WeeklyPlayerReturnDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()) {
             List<Player> players = team.get().getPlayers();
+            System.out.println("number of players = " + players.size());
             for (Player p : players) {
                 playersToReturn.add(new WeeklyPlayerReturnDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         } else {
+            System.out.println("team not present");
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
         playersToReturn.sort(Comparator.comparing(WeeklyPlayerReturnDTO::getPosition));

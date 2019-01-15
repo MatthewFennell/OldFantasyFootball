@@ -19,6 +19,7 @@ class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
 
   componentDidMount() {
     getActiveTeam().then(response => {
+      console.log('setting the team');
       this.props.setTeam(response);
     });
   }

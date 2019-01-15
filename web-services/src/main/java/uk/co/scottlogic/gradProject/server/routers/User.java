@@ -85,7 +85,7 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
-            + " Gets current users remaining balance", notes = "Requires User role", response =
+            + " Gets current users remaining balance and transfers", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -98,6 +98,7 @@ public class User {
             List<Double> results = new ArrayList<>();
             results.add(user.getRemainingBudget());
             results.add((double) user.getRemainingTransfers());
+            response.setStatus(200);
             return results;
         } catch (Exception e) {
             ExceptionLogger.logException(e);

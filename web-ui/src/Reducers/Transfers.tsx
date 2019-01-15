@@ -57,6 +57,14 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    case ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED: {
+      return {
+        ...state,
+        playersBeingAdded: [],
+        playersBeingRemoved: []
+      };
+    }
+
     case ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED: {
       const playerToAdd = action.payload.playerBeingAdded;
       return {

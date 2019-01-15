@@ -98,7 +98,7 @@ public class LeagueManager {
 
         for (League l : allLeagues) {
             List<ApplicationUser> participants = findUsersInLeague(l);
-            Integer position = 0;
+            int position = 0;
             for (ApplicationUser u : participants) {
                 position += 1;
                 if (u.getId().equals(user.getId())) {
@@ -108,7 +108,6 @@ public class LeagueManager {
             }
         }
         return returnDTOS;
-
     }
 
 }
