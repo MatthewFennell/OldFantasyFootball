@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 import TransfersRow from '../../Containers/Transfers/TransfersRow';
 import '../../Style/Transfers/TransfersFilter.css';
 
 interface TransfersTableBodyProps {
-  filteredPlayers: FilteredPlayer[];
+  filteredPlayers: PlayerDTO[];
 }
 
 class TransfersTableBody extends React.Component<TransfersTableBodyProps> {

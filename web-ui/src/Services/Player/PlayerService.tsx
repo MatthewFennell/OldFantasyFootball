@@ -1,7 +1,6 @@
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { getBearerHeader } from '.././CredentialInputService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
-import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 
 export const getTeamForUserInWeek = (week: number): Promise<PlayerDTO[]> => {
   return fetch('/api/player/week/' + week + '/team', {
@@ -25,7 +24,7 @@ export const getPlayersWithMostPointsInWeek = (week: number): Promise<PlayerDTO>
   });
 };
 
-export const filterPlayers = (data: FilterPlayers): Promise<FilteredPlayer[]> => {
+export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
   console.log('sending data ' + JSON.stringify(data));
   return fetch(
     '/api/player/max/' +

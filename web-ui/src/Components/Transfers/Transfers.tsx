@@ -3,7 +3,6 @@ import '../../Style/Transfers/Transfers.css';
 import { getRemainingBudgetAndTransfers } from '../../Services/User/UserService';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
-import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 import Pitch from '../Team/PitchLayout/Pitch';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
@@ -20,7 +19,7 @@ interface TransfersProps {
 
   clearPlayersBeingAddedAndRemoved: () => void;
 
-  filteredPlayers: FilteredPlayer[];
+  filteredPlayers: PlayerDTO[];
   activeTeam: PlayerDTO[];
 
   playersBeingAdded: PlayerDTO[];

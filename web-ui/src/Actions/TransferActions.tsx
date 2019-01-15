@@ -1,4 +1,3 @@
-import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {
@@ -24,7 +23,7 @@ export interface SetRemainingTransfers {
 
 export interface SetFilteredPlayers {
   type: ActionTypes.SET_FILTERED_PLAYERS;
-  payload: { filteredPlayers: FilteredPlayer[] };
+  payload: { filteredPlayers: PlayerDTO[] };
 }
 
 export interface AddToPlayersBeingAdded {
@@ -66,7 +65,7 @@ export const setRemainingTransfers = (remainingTransfers: number): SetRemainingT
   };
 };
 
-export const setFilteredPlayers = (filteredPlayers: FilteredPlayer[]): SetFilteredPlayers => {
+export const setFilteredPlayers = (filteredPlayers: PlayerDTO[]): SetFilteredPlayers => {
   return {
     type: ActionTypes.SET_FILTERED_PLAYERS,
     payload: { filteredPlayers }

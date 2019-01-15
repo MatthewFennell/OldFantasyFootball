@@ -8,11 +8,11 @@ import MaximumPriceDropdown from './MaximumPriceDropdown';
 import SearchByName from './SearchByName';
 import { filterPlayers } from '../../Services/Player/PlayerService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
-import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TransfersFormProps {
-  setFilteredPlayers: (filteredTeam: FilteredPlayer[]) => void;
-  filteredPlayers: FilteredPlayer[];
+  setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
+  filteredPlayers: PlayerDTO[];
 }
 
 interface TransfersFormState {

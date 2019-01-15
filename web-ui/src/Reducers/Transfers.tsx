@@ -1,5 +1,4 @@
 import { ActionTypes, Action as AccountAction } from '../Actions/TransferActions';
-import { FilteredPlayer } from '../Models/Interfaces/FilteredPlayer';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 type Action = AccountAction;
 
@@ -7,7 +6,7 @@ type Action = AccountAction;
 export interface State {
   remainingBudget: number;
   remainingTransfers: number;
-  filteredPlayers: FilteredPlayer[];
+  filteredPlayers: PlayerDTO[];
   playersBeingAdded: PlayerDTO[];
   playersBeingRemoved: PlayerDTO[];
 }

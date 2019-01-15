@@ -39,7 +39,8 @@ class Player extends React.Component<PlayerProps, {}> {
         surname,
         position: 'unknown',
         points: -5,
-        price: price
+        price: price,
+        totalScore: 0
       };
 
       let removed: boolean = false;

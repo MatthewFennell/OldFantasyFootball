@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { FilteredPlayer } from '../../Models/Interfaces/FilteredPlayer';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TransferRowProps {
-  element: FilteredPlayer;
+  element: PlayerDTO;
   activeTeam: PlayerDTO[];
   addPlayer: (player: PlayerDTO) => void;
 
@@ -35,7 +34,8 @@ class TransferRow extends React.Component<TransferRowProps> {
       surname,
       position,
       points,
-      price
+      price,
+      totalScore: 0
     };
     if (this.canAdd(player)) {
       this.props.addPlayer(player);
@@ -119,8 +119,8 @@ class TransferRow extends React.Component<TransferRowProps> {
       firstName,
       surname,
       position,
-      team,
       price,
+      collegeTeam,
       totalGoals,
       totalAssists,
       totalScore
@@ -133,7 +133,7 @@ class TransferRow extends React.Component<TransferRowProps> {
       >
         <td className="name">{firstName + ' ' + surname}</td>
         <td className="position">{position[0] + position.substring(1).toLowerCase()}</td>
-        <td className="team">{team}</td>
+        <td className="team">{collegeTeam}</td>
         <td className="price">{price}</td>
         <td className="goals">{totalGoals}</td>
         <td className="assists">{totalAssists}</td>
