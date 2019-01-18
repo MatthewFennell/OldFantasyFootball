@@ -8,8 +8,8 @@ import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
 import { Button, Container } from 'reactstrap';
 import { Row, Col } from 'react-bootstrap';
-import CreateLeague from './CreateLeague';
-import JoinLeague from './JoinLeague';
+import CreateLeague from '../../Containers/League/CreateLeague';
+import JoinLeague from '../../Containers/League/JoinLeague';
 import RankingsTableBody from './RankingsTableBody';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 
@@ -145,7 +145,7 @@ class Leagues extends React.Component<LeagueProps, {}> {
             ? renderCreateLeague()
             : this.props.leaguePageBeingViewed === 'join-league'
               ? renderJoinLeague()
-              : this.props.leaguePageBeingViewed !== ''
+              : this.props.leaguePageBeingViewed !== 'home'
                 ? renderLeagueRankings()
                 : null}
         </Row>

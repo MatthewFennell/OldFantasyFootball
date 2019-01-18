@@ -7,14 +7,21 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { createLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-create.css';
 
-interface State {
+interface CreateGroupState {
   leagueName: string;
   codeToJoin: string;
   error: string;
 }
 
-class CreateGroup extends React.Component<RoutedFormProps<RouteComponentProps>, State> {
-  constructor(props: RoutedFormProps<RouteComponentProps>) {
+interface CreateGroupProps {
+  addToLeagueCache: (leagueName: string, position: number) => void;
+}
+
+class CreateGroup extends React.Component<
+  RoutedFormProps<RouteComponentProps> & CreateGroupProps,
+  CreateGroupState
+> {
+  constructor(props: RoutedFormProps<RouteComponentProps> & CreateGroupProps) {
     super(props);
     this.state = {
       leagueName: '',
@@ -27,7 +34,7 @@ class CreateGroup extends React.Component<RoutedFormProps<RouteComponentProps>, 
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<CreateGroupState, keyof CreateGroupState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {
@@ -59,6 +66,7 @@ class CreateGroup extends React.Component<RoutedFormProps<RouteComponentProps>, 
           createLeague(data).then(response => {
             console.log('response = ' + JSON.stringify(response));
             // TO:DO Add newly created league to props
+            this.props.addToLeagueCache(this.state.leagueName, 1);
           });
         }
         break;
