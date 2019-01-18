@@ -83,28 +83,6 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
-            + " Gets current users remaining balance and transfers", notes = "Requires User role", response =
-            UserReturnDTO.class, authorizations = {
-            @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
-    @GetMapping("/user/remainingBudget/remainingTransfers")
-    @PreAuthorize("hasRole('USER')")
-    public List<Double> getRemainingBudgetAndTransfers(@AuthenticationPrincipal ApplicationUser user,
-                                                       HttpServletResponse response) {
-        try {
-            List<Double> results = new ArrayList<>();
-            results.add(user.getRemainingBudget());
-            results.add((double) user.getRemainingTransfers());
-            response.setStatus(200);
-            return results;
-        } catch (Exception e) {
-            ExceptionLogger.logException(e);
-        }
-        return Collections.emptyList();
-    }
-
-    @ApiOperation(value = Icons.key
             + " Set the users team name", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})

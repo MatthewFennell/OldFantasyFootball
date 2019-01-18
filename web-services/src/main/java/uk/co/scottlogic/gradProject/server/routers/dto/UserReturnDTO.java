@@ -29,6 +29,8 @@ public class UserReturnDTO {
 
     private String teamName;
 
+    private Integer remainingTransfers;
+
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
         this.username = user.getUsername();
@@ -40,6 +42,24 @@ public class UserReturnDTO {
         this.email = user.getEmail();
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
+        this.remainingBudget = user.getRemainingBudget();
+        this.remainingTransfers = user.getRemainingTransfers();
+    }
+
+    public double getRemainingBudget() {
+        return remainingBudget;
+    }
+
+    public void setRemainingBudget(double remainingBudget) {
+        this.remainingBudget = remainingBudget;
+    }
+
+    public Integer getRemainingTransfers() {
+        return remainingTransfers;
+    }
+
+    public void setRemainingTransfers(Integer remainingTransfers) {
+        this.remainingTransfers = remainingTransfers;
     }
 
     public String getTeamName() {

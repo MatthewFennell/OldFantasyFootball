@@ -10,7 +10,7 @@ class ActiveTeamTableBody extends React.Component<ActiveTeamProps> {
   render() {
     return (
       <tbody className="my-active-team">
-        {this.props.activeTeam.map((datum, index) => (
+        {this.props.activeTeam.map(datum => (
           <RowActiveTeam key={datum.id} element={datum} />
         ))}
       </tbody>

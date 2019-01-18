@@ -74,42 +74,33 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       name: searchName
     };
 
-    console.log('Data = ' + JSON.stringify(data));
-
     filterPlayers(data).then(response => {
-      console.log('response = ' + JSON.stringify(response));
       this.props.setFilteredPlayers(response);
     });
   }
 
   _handlePositionChange(position: string) {
     this.setState({ positionValue: position }, this._getResults);
-    console.log('Top tier position state set to ' + position);
   }
 
   _handleTeamChange(team: string) {
     this.setState({ teamValue: team }, this._getResults);
-    console.log('Top tier state team set to ' + team);
   }
 
   _handleSortByChange(sortBy: string) {
     this.setState({ sortByValue: sortBy }, this._getResults);
-    console.log('Top tier state SortBy set to ' + sortBy);
   }
 
   _handleMinimumPriceChange(minimumPrice: string) {
     this.setState({ minimumPriceValue: minimumPrice }, this._getResults);
-    console.log('Top tier state minimum price set to ' + minimumPrice);
   }
 
   _handleMaximumPriceChange(maximumPrice: string) {
     this.setState({ maximumPriceValue: maximumPrice }, this._getResults);
-    console.log('Top tier state maximum price set to ' + maximumPrice);
   }
 
   _handleSearchByNameValue(searchByName: string) {
     this.setState({ searchByNameValue: searchByName }, this._getResults);
-    console.log('Top tier state search by name set to ' + searchByName);
   }
 
   render() {

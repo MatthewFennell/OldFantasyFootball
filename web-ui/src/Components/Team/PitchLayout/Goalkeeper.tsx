@@ -15,22 +15,12 @@ class Goalkeeper extends React.Component<GoalkeeperProps, {}> {
         <div className="goalkeeper">
           {this.props.goalkeepers.length >= 1 ? (
             <Player
-              firstName={this.props.goalkeepers[0].firstName}
-              surname={this.props.goalkeepers[0].surname}
-              points={this.props.goalkeepers[0].points}
-              price={this.props.goalkeepers[0].price}
               transfer={this.props.transfer}
               emptyPlayer={false}
+              player={this.props.goalkeepers[0]}
             />
           ) : (
-            <Player
-              firstName={''}
-              surname={''}
-              points={0}
-              price={0}
-              transfer={false}
-              emptyPlayer={true}
-            />
+            <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
       </div>

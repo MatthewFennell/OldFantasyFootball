@@ -29,15 +29,12 @@ public class ApplicationUserManagerTest {
     @Mock
     private WeeklyTeamManager weeklyTeamManager;
 
-    @Mock
-    private LeagueRepo leagueRepo;
-
     private ApplicationUserManager applicationUserManager;
 
     @Before
     public void setUp() {
         applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo,
-                weeklyTeamManager, leagueRepo);
+                weeklyTeamManager);
     }
 
     @Test

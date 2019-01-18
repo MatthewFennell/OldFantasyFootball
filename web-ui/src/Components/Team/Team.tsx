@@ -5,7 +5,6 @@ import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-// import '../../../Style/Team/PitchLayout/Pitch.css';
 import { getNumberOfWeeks } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
@@ -47,12 +46,6 @@ interface TransactionsProps {
 interface TransactionsState {}
 
 class Transactions extends React.Component<TransactionsProps, TransactionsState> {
-  constructor(props: TransactionsProps) {
-    super(props);
-    // Overestimate the max rows per page (better to load too many than too few)
-    this.state = {};
-  }
-
   componentDidMount() {
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
@@ -105,8 +98,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       });
     }
   }
-
-  componentWillUnmount() {}
 
   _onClick() {
     this.props.setWeekBeingViewed(0);

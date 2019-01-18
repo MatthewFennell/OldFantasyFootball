@@ -3,7 +3,6 @@ package uk.co.scottlogic.gradProject.server.repos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
@@ -11,7 +10,6 @@ import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ApplicationUserManager {
@@ -22,15 +20,13 @@ public class ApplicationUserManager {
 
     private WeeklyTeamManager weeklyTeamManager;
 
-    private LeagueRepo leagueRepo;
 
     @Autowired
     public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo,
-                                  WeeklyTeamManager weeklyTeamManager, LeagueRepo leagueRepo) {
+                                  WeeklyTeamManager weeklyTeamManager) {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
-        this.leagueRepo = leagueRepo;
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {

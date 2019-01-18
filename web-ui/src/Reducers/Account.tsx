@@ -8,10 +8,11 @@ export interface State {
   surname: string;
   username: string;
   email: string;
-  balance: number;
   pageBeingViewed: string;
   totalPoints: number;
   weekBeingViewed: number;
+  remainingTransfers: number;
+  remainingBudget: number;
 }
 
 // Define our initialState
@@ -21,22 +22,15 @@ export const initialState: State = {
   surname: '',
   email: '',
   username: '',
-  balance: 0,
   pageBeingViewed: 'Team',
   totalPoints: 0,
-  weekBeingViewed: 0
+  weekBeingViewed: 0,
+  remainingTransfers: 0,
+  remainingBudget: 0
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
-    case ActionTypes.SET_BALANCE: {
-      const balance = action.payload.balance;
-      return {
-        ...state,
-        balance
-      };
-    }
-
     case ActionTypes.SET_FIRSTNAME: {
       return {
         ...state,
@@ -51,8 +45,9 @@ export const reducer = (state: State = initialState, action: Action) => {
         surname,
         username,
         email,
-        balance,
-        totalPoints
+        totalPoints,
+        remainingBudget,
+        remainingTransfers
       } = action.payload.account;
 
       return {
@@ -61,8 +56,9 @@ export const reducer = (state: State = initialState, action: Action) => {
         surname,
         username,
         email,
-        balance,
-        totalPoints
+        totalPoints,
+        remainingBudget,
+        remainingTransfers
       };
     }
 

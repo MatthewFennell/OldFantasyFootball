@@ -1,10 +1,7 @@
 import * as React from 'react';
 import { Form, FormGroup, Label } from 'reactstrap';
-// import { withRouter } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
-// import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
-// import * as LoginService from '../../Services/CredentialInputService';
 import '../../Style/Transfers/SearchByName.css';
 
 interface State {

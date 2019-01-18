@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
-import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import java.util.*;
@@ -45,7 +44,7 @@ public class LeagueManager {
 
     // Sorts them by total points (doesn't look at points since week started!!!!)
     // Top points is first
-    public List<ApplicationUser> findUsersInLeague(League league) {
+    private List<ApplicationUser> findUsersInLeague(League league) {
         List<ApplicationUser> participants = league.getParticipants();
         participants.sort(Comparator.comparing(ApplicationUser::getTotalPoints).reversed());
         return participants;
@@ -56,7 +55,7 @@ public class LeagueManager {
         List<UserInLeagueReturnDTO> usersAndPositions = new ArrayList<>();
         if (league.isPresent()) {
             List<ApplicationUser> usersInLeague = findUsersInLeague(league.get());
-            Integer position = 0;
+            int position = 0;
             for (ApplicationUser u : usersInLeague) {
                 position += 1;
                 usersAndPositions.add(new UserInLeagueReturnDTO(u, position));

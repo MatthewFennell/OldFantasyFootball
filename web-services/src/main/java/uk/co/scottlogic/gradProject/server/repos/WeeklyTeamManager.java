@@ -181,7 +181,7 @@ public class WeeklyTeamManager {
         List<Player> players = activeTeam.getPlayers();
 
         for (PlayerDTO player : playersBeingAdded) {
-            Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+            Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
                 players.add(p.get());
                 System.out.println("added player " + p.get().getFirstName());
@@ -191,7 +191,7 @@ public class WeeklyTeamManager {
         }
 
         for (PlayerDTO player : playersBeingRemoved) {
-            Optional<Player> p = playerRepo.findByFirstNameBySurname(player.getFirstName(), player.getSurname());
+            Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
                 players.remove(p.get());
                 System.out.println("removed player " + p.get().getFirstName());

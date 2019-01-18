@@ -34,13 +34,9 @@ public class UserTest {
     @Mock
     private WeeklyTeamManager weeklyTeamManager;
 
-    @Mock
-    private LeagueRepo leagueRepo;
-
-
     @Before
     public void setUp() {
-        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager, leagueRepo);
+        applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager);
         userController = new User(applicationUserRepo, applicationUserManager);
     }
 

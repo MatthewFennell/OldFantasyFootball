@@ -16,10 +16,6 @@ class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
     this.state = {};
   }
 
-  componentDidMount() {}
-
-  componentWillUnmount() {}
-
   _activeTeamJSX = () => {
     return (
       <Table responsive>
