@@ -2,6 +2,7 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
@@ -68,21 +69,50 @@ public class LeagueManager {
 
     // Need to stop the same player joining a league multiple times
     // Need to make the code for joining obscure
-    public void addPlayerToLeague(ApplicationUser user, String code) {
+    public LeagueReturnDTO addPlayerToLeague(ApplicationUser user, String code) {
 
         Optional<League> league = leagueRepo.findByCodeToJoin(code);
         if (league.isPresent()) {
             League l = league.get();
+            if (userExistsInLeague(user, l)){
+                System.out.println("ALREADY IN LEAGUE");
+                throw new IllegalArgumentException("You are already in that league");
+            }
             String leagueCode = l.getCodeToJoin();
             if (leagueCode.equals(code)) {
                 l.addParticipant(user);
                 leagueRepo.save(l);
+                int position = findPositionOfUserInLeague(user, l);
+                return new LeagueReturnDTO(l.getLeagueName(), position);
             } else {
                 throw new IllegalArgumentException("Invalid code for league");  // Never happens?
             }
         } else {
             throw new IllegalArgumentException("Invalid code for league");
         }
+    }
+
+    private boolean userExistsInLeague(ApplicationUser user, League league){
+
+        List<ApplicationUser> usersInLeague = findUsersInLeague(league);
+        for (ApplicationUser u : usersInLeague){
+            if (u.getId().equals(user.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Integer findPositionOfUserInLeague(ApplicationUser user, League league){
+        List<ApplicationUser> usersInLeague = findUsersInLeague(league);
+        int position = 0;
+        for (ApplicationUser u : usersInLeague) {
+            position += 1;
+            if (u.getId().equals( user.getId())){
+                return position;
+            }
+        }
+        throw new IllegalArgumentException("User not in league?");
     }
 
     // Change this to binary search

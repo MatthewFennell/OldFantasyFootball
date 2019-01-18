@@ -3,17 +3,23 @@ import { Form, FormGroup, Label, Button } from 'reactstrap';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
-// import * as LoginService from '../../Services/CredentialInputService';
 import { joinLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
 
-interface State {
+interface JoinLeagueState {
   codeToJoin: string;
   error: string;
 }
 
-class JoinLeague extends React.Component<RoutedFormProps<RouteComponentProps>, State> {
-  constructor(props: RoutedFormProps<RouteComponentProps>) {
+interface JoinLeagueProps {
+  addToLeagueCache: (leagueName: string, position: number) => void;
+}
+
+class JoinLeague extends React.Component<
+  RoutedFormProps<RouteComponentProps> & JoinLeagueProps,
+  JoinLeagueState
+> {
+  constructor(props: RoutedFormProps<RouteComponentProps> & JoinLeagueProps) {
     super(props);
     this.state = {
       codeToJoin: '',
@@ -25,7 +31,7 @@ class JoinLeague extends React.Component<RoutedFormProps<RouteComponentProps>, S
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<JoinLeagueState, keyof JoinLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {
@@ -49,10 +55,15 @@ class JoinLeague extends React.Component<RoutedFormProps<RouteComponentProps>, S
         console.log('join league button pressed');
         const err = this._validate();
         if (!err) {
-          joinLeague(this.state.codeToJoin).then(response => {
-            console.log('response = ' + JSON.stringify(response));
-            // TO:DO Add newly created league to props
-          });
+          joinLeague(this.state.codeToJoin)
+            .then(response => {
+              console.log('response = ' + JSON.stringify(response));
+              // TO:DO Add newly created league to props
+              this.props.addToLeagueCache(response.leagueName, response.position);
+            })
+            .catch(error => {
+              console.log('error = ' + JSON.stringify(error));
+            });
         }
         break;
       default:

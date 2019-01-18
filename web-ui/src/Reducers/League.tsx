@@ -42,6 +42,13 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    case ActionTypes.ADD_TO_LEAGUE_RANKINGS: {
+      return {
+        ...state,
+        leagueRankings: state.leagueRankings.concat(action.payload.user)
+      };
+    }
+
     default:
       return state;
   }

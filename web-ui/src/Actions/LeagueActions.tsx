@@ -3,7 +3,8 @@ import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
 export enum ActionTypes {
   ADD_TO_LEAGUE_CACHE = 'ADD_TO_LEAGUE_CACHE',
   SET_LEAGUE_PAGE_BEING_VIEWED = 'SET_LEAGUE_PAGE_BEING_VIEWED',
-  SET_LEAGUE_RANKINGS = 'SET_LEAGUE_RANKINGS'
+  SET_LEAGUE_RANKINGS = 'SET_LEAGUE_RANKINGS',
+  ADD_TO_LEAGUE_RANKINGS = 'ADD_TO_LEAGUE_RANKINGS'
 }
 
 export interface AddToLeagueCache {
@@ -19,6 +20,11 @@ export interface SetLeaguePageBeingViewed {
 export interface SetLeagueRankings {
   type: ActionTypes.SET_LEAGUE_RANKINGS;
   payload: { leagueRankings: UserLeaguePosition[] };
+}
+
+export interface AddToLeagueRankings {
+  type: ActionTypes.ADD_TO_LEAGUE_RANKINGS;
+  payload: { user: UserLeaguePosition };
 }
 
 export const addToLeagueCache = (leagueName: string, position: number): AddToLeagueCache => {
@@ -44,4 +50,15 @@ export const setLeagueRankings = (leagueRankings: UserLeaguePosition[]): SetLeag
   };
 };
 
-export type Action = AddToLeagueCache | SetLeaguePageBeingViewed | SetLeagueRankings;
+export const addToLeagueRankings = (user: UserLeaguePosition): AddToLeagueRankings => {
+  return {
+    type: ActionTypes.ADD_TO_LEAGUE_RANKINGS,
+    payload: { user }
+  };
+};
+
+export type Action =
+  | AddToLeagueCache
+  | SetLeaguePageBeingViewed
+  | SetLeagueRankings
+  | AddToLeagueRankings;
