@@ -27,8 +27,6 @@ class Info extends React.Component<StatsProps, InfoState> {
     };
   }
 
-  componentDidMount() {}
-
   _handleWeekChange(week: number) {
     this.props.setWeekBeingViewed(week);
   }
@@ -73,8 +71,6 @@ class Info extends React.Component<StatsProps, InfoState> {
             <DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
           </Dropdown>
         </div>
-
-        {/* <div className="current-week-dropdown">Week {weekBeingViewed}</div> */}
         <div className="week-points">Week points : {weeklyPointsCache[weekBeingViewed]}</div>
       </div>
     );

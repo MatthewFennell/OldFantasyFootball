@@ -20,39 +20,15 @@ class TransferRow extends React.Component<TransferRowProps> {
     this.canAdd = this.canAdd.bind(this);
   }
 
-  handleRowClick = (
-    firstName: string,
-    surname: string,
-    position: string,
-    points: number,
-    price: number
-  ) => {
-    console.log('clicked row of league ' + firstName);
-    let player: PlayerDTO = {
-      id: 'dunno',
-      firstName,
-      surname,
-      position,
-      points,
-      price,
-      totalScore: 0,
-      totalGoals: 0,
-      totalAssists: 0,
-      collegeTeam: 'Z'
-    };
+  handleRowClick = (player: PlayerDTO) => {
     if (this.canAdd(player)) {
       this.props.addPlayer(player);
 
       let removed: boolean = false;
       this.props.playersBeingRemoved.forEach((element, index) => {
-        if (
-          element.firstName === firstName &&
-          element.surname === surname &&
-          element.price === price
-        ) {
+        if (element.id === player.id) {
           removed = true;
           this.props.removeFromPlayersBeingRemoved(index);
-        } else {
         }
       });
 
@@ -72,11 +48,7 @@ class TransferRow extends React.Component<TransferRowProps> {
       if (element.position === player.position) {
         numberInThatPosition += 1;
       }
-      if (
-        element.firstName === player.firstName &&
-        element.surname === player.surname &&
-        element.price === player.price
-      ) {
+      if (element.id === player.id) {
         console.log('Cannot add the same player twice');
         playerExists = true;
       }
@@ -113,7 +85,6 @@ class TransferRow extends React.Component<TransferRowProps> {
         return false;
       }
     }
-
     return true;
   }
 
@@ -126,13 +97,13 @@ class TransferRow extends React.Component<TransferRowProps> {
       collegeTeam,
       totalGoals,
       totalAssists,
-      totalScore
+      points
     } = this.props.element;
     return (
       <tr
         className="transfers"
         key={firstName + surname}
-        onClick={() => this.handleRowClick(firstName, surname, position, totalScore, price)}
+        onClick={() => this.handleRowClick(this.props.element)}
       >
         <td className="name">{firstName + ' ' + surname}</td>
         <td className="position">{position[0] + position.substring(1).toLowerCase()}</td>
@@ -140,7 +111,7 @@ class TransferRow extends React.Component<TransferRowProps> {
         <td className="price">{price}</td>
         <td className="goals">{totalGoals}</td>
         <td className="assists">{totalAssists}</td>
-        <td className="score">{totalScore}</td>
+        <td className="score">{points}</td>
       </tr>
     );
   };

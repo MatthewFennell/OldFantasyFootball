@@ -1,9 +1,6 @@
 import { State } from '../Reducers/root';
 import { createSelector } from 'reselect';
 
-const getBalanceState = (state: State) => state.account;
-export const getBalance = createSelector([getBalanceState], a => a.balance);
-
 const getFirstNameState = (state: State) => state.account;
 export const getFirstName = createSelector([getFirstNameState], s => s.firstName);
 
@@ -15,3 +12,12 @@ export const getPageBeingViewed = createSelector([getPageBeingViewedState], p =>
 
 const getTotalPointsState = (state: State) => state.account;
 export const getTotalPoints = createSelector([getTotalPointsState], p => p.totalPoints);
+
+const getRemainingTransfersState = (state: State) => state.account;
+export const getRemainingTransfers = createSelector(
+  [getRemainingTransfersState],
+  p => p.remainingTransfers
+);
+
+const getRemainingBudgetState = (state: State) => state.account;
+export const getRemainingBudget = createSelector([getRemainingBudgetState], p => p.remainingBudget);

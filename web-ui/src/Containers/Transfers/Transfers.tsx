@@ -1,19 +1,14 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
+import { clearPlayersBeingAddedAndRemoved } from '../../Actions/TransferActions';
 import {
-  setRemainingBudget,
-  setRemainingTransfers,
-  clearPlayersBeingAddedAndRemoved
-} from '../../Actions/TransferActions';
-import {
-  getRemainingBudget,
-  getRemainingTransfers,
   getFilteredPlayers,
   getPlayersBeingAdded,
   getPlayersBeingRemoved
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
+import { getRemainingBudget, getRemainingTransfers } from '../../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
   remainingBudget: getRemainingBudget(state),
@@ -25,8 +20,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-  setRemainingBudget,
-  setRemainingTransfers,
   clearPlayersBeingAddedAndRemoved
 };
 

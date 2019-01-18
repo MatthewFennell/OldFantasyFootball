@@ -3,12 +3,9 @@ import '../../../Style/Team/PitchLayout/Player.css';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface PlayerProps {
-  firstName: string;
-  surname: string;
-  points: number;
-  price: number;
   transfer: boolean;
   emptyPlayer: boolean;
+  player: PlayerDTO;
 
   activeTeam: PlayerDTO[];
   setTeam: (team: PlayerDTO[]) => void;
@@ -30,61 +27,33 @@ class Player extends React.Component<PlayerProps, {}> {
 
   _onClick() {
     if (this.props.transfer) {
-      console.log('clicked on player ' + this.props.firstName);
-      const { firstName, surname, price } = this.props;
-      this._removePlayerFromActiveTeam(firstName, surname, price);
-      let player: PlayerDTO = {
-        id: 'dunno',
-        firstName,
-        surname,
-        position: 'unknown',
-        points: -5,
-        price: price,
-        totalScore: 0,
-        totalGoals: 0,
-        totalAssists: 0,
-        collegeTeam: 'Z'
-      };
+      const { price, id } = this.props.player;
+      this._removePlayerFromActiveTeam(id);
 
       let removed: boolean = false;
       this.props.playersBeingAdded.forEach((element, index) => {
-        if (
-          element.firstName === firstName &&
-          element.surname === surname &&
-          element.price === price
-        ) {
+        if (element.id === id) {
           removed = true;
           this.props.removeFromPlayersBeingAdded(index);
-        } else {
         }
       });
 
       if (!removed) {
-        this.props.addToPlayerBeingRemoved(player);
+        this.props.addToPlayerBeingRemoved(this.props.player);
       }
       this.props.setRemainingBudget(this.props.remainingBudget + price);
     }
   }
 
-  _removePlayerFromActiveTeam(firstName: string, surname: string, price: number) {
-    console.log('Trying to remove player ' + firstName + ', ' + surname + ', ' + price);
+  _removePlayerFromActiveTeam(id: string) {
     this.props.activeTeam.forEach((element, index) => {
-      if (
-        element.firstName === firstName &&
-        element.surname === surname &&
-        element.price === price
-      ) {
-        console.log('hey)');
+      if (element.id === id) {
         this.props.removeIndex(index);
-      } else {
-        console.log('nop');
       }
     });
   }
 
   render() {
-    const { firstName, surname, points, price } = this.props;
-
     if (this.props.emptyPlayer) {
       return (
         <div>
@@ -94,6 +63,7 @@ class Player extends React.Component<PlayerProps, {}> {
         </div>
       );
     } else {
+      const { firstName, surname, points, price } = this.props.player;
       return (
         <div className="player" onClick={this._onClick}>
           <p className="name">

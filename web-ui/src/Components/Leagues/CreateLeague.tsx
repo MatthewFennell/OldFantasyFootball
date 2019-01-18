@@ -4,7 +4,6 @@ import { CreateLeague } from '../../Models/Interfaces/CreateLeague';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
-// import * as LoginService from '../../Services/CredentialInputService';
 import { createLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-create.css';
 

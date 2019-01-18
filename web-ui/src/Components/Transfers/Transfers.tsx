@@ -1,6 +1,5 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
-import { getRemainingBudgetAndTransfers } from '../../Services/User/UserService';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from './TransfersTableBody';
 import Pitch from '../Team/PitchLayout/Pitch';
@@ -12,10 +11,8 @@ import { updateTeam } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;
-  setRemainingBudget: (remainingBudget: number) => void;
 
   remainingTransfers: number;
-  setRemainingTransfers: (remainingTransfers: number) => void;
 
   clearPlayersBeingAddedAndRemoved: () => void;
 
@@ -27,14 +24,6 @@ interface TransfersProps {
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
-  componentDidMount() {
-    // TO:DO Convert this to a DTO server side (not indexing by just 1 and 0)
-    getRemainingBudgetAndTransfers().then(remainingBudget => {
-      this.props.setRemainingBudget(remainingBudget[0]);
-      this.props.setRemainingTransfers(remainingBudget[1]);
-    });
-  }
-
   _updateTeam() {
     let data: UpdatePlayers = {
       playersBeingAdded: this.props.playersBeingAdded,
