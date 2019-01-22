@@ -48,7 +48,7 @@ public class League {
         setLeagueName(leagueName);
     }
 
-    private League() {
+    public League() {
 
     }
 
