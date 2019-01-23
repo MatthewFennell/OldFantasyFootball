@@ -64,7 +64,7 @@ public class PlayerPoints {
         this.points = calculateScore();
     }
 
-    private PlayerPoints() {
+    public PlayerPoints() {
 
     }
 
@@ -81,6 +81,9 @@ public class PlayerPoints {
     }
 
     public void setWeek(Integer week) {
+        if (week < 0){
+            throw new IllegalArgumentException("Week cannot be negative");
+        }
         this.week = week;
     }
 
@@ -101,6 +104,9 @@ public class PlayerPoints {
     }
 
     public void setNumberOfGoals(Integer numberOfGoals) {
+        if (numberOfGoals < 0){
+            throw new IllegalArgumentException("Number of goals cannot be negative");
+        }
         this.numberOfGoals = numberOfGoals;
     }
 
@@ -109,6 +115,9 @@ public class PlayerPoints {
     }
 
     public void setNumberOfAssists(Integer numberOfAssists) {
+        if (numberOfAssists < 0){
+            throw new IllegalArgumentException("Number of assists cannot be negative");
+        }
         this.numberOfAssists = numberOfAssists;
     }
 
@@ -117,6 +126,9 @@ public class PlayerPoints {
     }
 
     public void setMinutesPlayed(Integer minutesPlayed) {
+        if (minutesPlayed < 0){
+            throw new IllegalArgumentException("Minutes played cannot be negative");
+        }
         this.minutesPlayed = minutesPlayed;
     }
 
@@ -133,6 +145,12 @@ public class PlayerPoints {
     }
 
     public void setYellowCards(Integer yellowCards) {
+        if (yellowCards < 0){
+            throw new IllegalArgumentException("Yellow cards cannot be negative");
+        }
+        if (yellowCards > 2){
+            throw new IllegalArgumentException("Cannot get more than 2 yellow cards");
+        }
         this.yellowCards = yellowCards;
     }
 

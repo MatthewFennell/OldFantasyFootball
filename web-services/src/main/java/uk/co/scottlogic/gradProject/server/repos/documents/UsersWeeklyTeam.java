@@ -45,7 +45,7 @@ public class UsersWeeklyTeam {
         this.points = 0;
     }
 
-    private UsersWeeklyTeam() {
+    public UsersWeeklyTeam() {
 
     }
 
@@ -66,6 +66,9 @@ public class UsersWeeklyTeam {
     }
 
     public void setWeek(Integer week) {
+        if (week < 0){
+            throw new IllegalArgumentException("Week cannot be negative");
+        }
         this.week = week;
     }
 

@@ -62,6 +62,10 @@ public class Player {
         this.totalScore = totalScore;
     }
 
+    public void changeScore(Integer change) {
+        this.totalScore += change;
+    }
+
     public Integer getTotalGoals() {
         return totalGoals;
     }
@@ -76,10 +80,6 @@ public class Player {
 
     public void setTotalAssists(Integer totalAssists) {
         this.totalAssists = totalAssists;
-    }
-
-    public void changeScore(Integer change) {
-        this.totalScore += change;
     }
 
     public void changeGoals(Integer change) {

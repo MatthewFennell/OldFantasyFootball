@@ -58,4 +58,33 @@ public class PlayerTest {
         player.setTotalAssists(assists);
         assertEquals(assists, player.getTotalAssists());
     }
+
+    @Test
+    public void settingAndGettingCollegeTeam() {
+        Player player = new Player();
+        CollegeTeam team = new CollegeTeam();
+        player.setActiveTeam(team);
+        assertEquals(team, player.getActiveTeam());
+    }
+
+    @Test
+    public void settingAndGettingTotalScore() {
+        Player player = new Player();
+        Integer score = 105;
+        player.setTotalScore(score);
+        assertEquals(score, player.getTotalScore());
+    }
+
+    @Test
+    public void changingScore() {
+        Player player = new Player(null, null, 0, null, null);
+        Integer changePositive = 10;
+        player.changeScore(changePositive);
+        assertEquals(changePositive, player.getTotalScore());
+
+        Integer changeScoreNegative = -20;
+        Integer expected = changePositive + changeScoreNegative;
+        player.changeScore(changeScoreNegative);
+        assertEquals(expected, player.getTotalScore());
+    }
 }

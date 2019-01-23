@@ -47,6 +47,13 @@ public class LeagueTest {
         assertEquals(startWeek, league.getStartWeek());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void settingWinsFailsWhenNegative() {
+        Integer startWeek = -5;
+        League league = new League();
+        league.setStartWeek(startWeek);
+    }
+
     @Test
     public void addParticipant() {
         ArrayList<ApplicationUser> users = new ArrayList<>();

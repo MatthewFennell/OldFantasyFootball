@@ -65,6 +65,9 @@ public class CollegeTeam {
     }
 
     public void setWins(Integer wins) {
+        if (wins < 0){
+            throw new IllegalArgumentException("Number of wins cannot be negative");
+        }
         this.wins = wins;
     }
 
@@ -73,6 +76,9 @@ public class CollegeTeam {
     }
 
     public void setDraws(Integer draws) {
+        if (draws < 0){
+            throw new IllegalArgumentException("Number of draws cannot be negative");
+        }
         this.draws = draws;
     }
 
@@ -81,6 +87,9 @@ public class CollegeTeam {
     }
 
     public void setLosses(Integer losses) {
+        if (losses < 0){
+            throw new IllegalArgumentException("Number of losses cannot be negative");
+        }
         this.losses = losses;
     }
 
@@ -89,6 +98,9 @@ public class CollegeTeam {
     }
 
     public void setGoalsFor(Integer goalsFor) {
+        if (goalsFor < 0){
+            throw new IllegalArgumentException("Number of goals for cannot be negative");
+        }
         this.goalsFor = goalsFor;
     }
 
@@ -97,6 +109,9 @@ public class CollegeTeam {
     }
 
     public void setGoalsAgainst(Integer goalsAgainst) {
+        if (goalsAgainst < 0){
+            throw new IllegalArgumentException("Number of goals against for cannot be negative");
+        }
         this.goalsAgainst = goalsAgainst;
     }
 }
