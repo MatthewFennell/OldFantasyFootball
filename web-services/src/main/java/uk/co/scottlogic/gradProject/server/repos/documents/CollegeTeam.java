@@ -36,11 +36,11 @@ public class CollegeTeam {
 
     public CollegeTeam(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
         this.name = name;
-        this.wins = wins;
-        this.draws = draws;
-        this.losses = losses;
-        this.goalsFor = goalsFor;
-        this.goalsAgainst = goalsAgainst;
+        setWins(wins);
+        setDraws(draws);
+        setLosses(losses);
+        setGoalsFor(goalsFor);
+        setGoalsAgainst(goalsAgainst);
         id = UUID.randomUUID();
     }
 

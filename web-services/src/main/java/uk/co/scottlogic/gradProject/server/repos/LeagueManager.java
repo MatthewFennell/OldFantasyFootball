@@ -38,6 +38,18 @@ public class LeagueManager {
     }
 
     public void createLeague(ApplicationUser owner, String leagueName, Integer startWeek, String codeToJoin) {
+
+        Iterable<League> userLeagues = leagueRepo.findAll();
+
+        List<League> allLeagues = new ArrayList<>();
+        userLeagues.forEach(allLeagues::add);
+        for (League league : allLeagues){
+            if (league.getLeagueName().equals(leagueName)){
+                throw new IllegalArgumentException("League with that name already exists");
+            }
+        }
+
+
         League league = new League(owner, leagueName, new ArrayList<>(), startWeek, codeToJoin);
         league.addParticipant(owner);
         leagueRepo.save(league);
@@ -45,7 +57,7 @@ public class LeagueManager {
 
     // Sorts them by total points (doesn't look at points since week started!!!!)
     // Top points is first
-    private List<ApplicationUser> findUsersInLeague(League league) {
+    public List<ApplicationUser> findUsersInLeague(League league) {
         List<ApplicationUser> participants = league.getParticipants();
         participants.sort(Comparator.comparing(ApplicationUser::getTotalPoints).reversed());
         return participants;
@@ -92,8 +104,9 @@ public class LeagueManager {
         }
     }
 
-    private boolean userExistsInLeague(ApplicationUser user, League league){
+    public boolean userExistsInLeague(ApplicationUser user, League league){
 
+        // Should make this not use the sorting method
         List<ApplicationUser> usersInLeague = findUsersInLeague(league);
         for (ApplicationUser u : usersInLeague){
             if (u.getId().equals(user.getId())){
@@ -103,7 +116,7 @@ public class LeagueManager {
         return false;
     }
 
-    private Integer findPositionOfUserInLeague(ApplicationUser user, League league){
+    public Integer findPositionOfUserInLeague(ApplicationUser user, League league){
         List<ApplicationUser> usersInLeague = findUsersInLeague(league);
         int position = 0;
         for (ApplicationUser u : usersInLeague) {

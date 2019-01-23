@@ -41,7 +41,7 @@ public class League {
     public League(ApplicationUser owner, String leagueName, List<ApplicationUser> participants, Integer startWeek, String codeToJoin) {
         this.owner = owner;
         this.participants = participants;
-        this.startWeek = startWeek;
+        setStartWeek(startWeek);
         id = UUID.randomUUID();
         this.points = 0;
         setCodeToJoin(codeToJoin);
