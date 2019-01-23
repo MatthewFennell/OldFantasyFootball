@@ -26,6 +26,14 @@ public class WeeklyTeamManager {
 
     private Integer maxPerTeam;
 
+    private Integer maxGoalkeepers;
+
+    private Integer maxDefenders;
+
+    private Integer maxMidfielders;
+
+    private Integer maxAttackers;
+
     @Autowired
     public WeeklyTeamManager(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo,
                              CollegeTeamRepo teamRepo, WeeklyTeamRepo weeklyTeamRepo,
@@ -37,7 +45,10 @@ public class WeeklyTeamManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
         this.maxPerTeam = 11;
-
+        this.maxGoalkeepers = 2;
+        this.maxDefenders = 5;
+        this.maxMidfielders = 5;
+        this.maxAttackers = 3;
 
         Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
 
@@ -127,8 +138,14 @@ public class WeeklyTeamManager {
     }
 
     // Given a list of players, check that it is a valid squad
-    private boolean checkTeamIsValid(List<Player> players) {
+    public boolean checkTeamIsValid(List<Player> players) {
         double totalCost = 0;
+
+        Integer numberOfGoalkeepers = 0;
+        Integer numberOfDefenders = 0;
+        Integer numberOfMidfielders = 0;
+        Integer numberOfAttackers = 0;
+
         Map<UUID, Integer> numberInEachTeam = new HashMap<>();
         Map<UUID, Integer> playersAdded = new HashMap<>();
 
@@ -137,6 +154,35 @@ public class WeeklyTeamManager {
             if (totalCost > 100) {
                 return false;
             }
+
+            if (p.getPosition().equals(Player.Position.GOALKEEPER)){
+                numberOfGoalkeepers += 1;
+                if (numberOfGoalkeepers.equals(this.maxGoalkeepers)){
+                    return false;
+                }
+            }
+            else if (p.getPosition().equals(Player.Position.DEFENDER)){
+                numberOfDefenders += 1;
+                if (numberOfDefenders.equals(this.maxDefenders)){
+                    return false;
+                }
+            }
+            else if (p.getPosition().equals(Player.Position.MIDFIELDER)){
+                numberOfMidfielders += 1;
+                if (numberOfMidfielders.equals(this.maxMidfielders)){
+                    return false;
+                }
+            }
+            else if (p.getPosition().equals(Player.Position.ATTACKER)){
+                numberOfAttackers += 1;
+                if (numberOfAttackers.equals(this.maxAttackers)){
+                    return false;
+                }
+            }
+            
+
+
+
             UUID playerId = p.getId();
             UUID teamId = p.getActiveTeam().getId();
             if (playersAdded.containsKey(playerId)) {
@@ -167,7 +213,7 @@ public class WeeklyTeamManager {
             throw new IllegalArgumentException("User does not have a weekly team");
         }
 
-        if (playersBeingAdded.size() == 0){
+        if (playersBeingAdded.isEmpty()){
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
 
@@ -179,11 +225,14 @@ public class WeeklyTeamManager {
         }
 
         List<Player> players = activeTeam.getPlayers();
+        System.out.println("size = " + players.size());
 
         for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
+                System.out.println("player present - " + p.get().getFirstName());
                 players.add(p.get());
+                System.out.println("player added");
                 System.out.println("added player " + p.get().getFirstName());
             } else {
                 throw new IllegalArgumentException("Player being added does not exist");
@@ -215,23 +264,21 @@ public class WeeklyTeamManager {
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
     public List<PlayerDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
-        System.out.println("user = " + user.getFirstName());
-        System.out.println("week = " + week);
         Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
         List<PlayerDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()) {
             List<Player> players = team.get().getPlayers();
-            System.out.println("number of players = " + players.size());
             for (Player p : players) {
+                System.out.println("p goals = " + p.getTotalGoals());
                 playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         } else {
             System.out.println("team not present");
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
-        System.out.println("heya");
         playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
+        
         return playersToReturn;
     }
 

@@ -12,6 +12,17 @@ public class CollegeTeamTest {
     }
 
     @Test
+    public void constructorTest() {
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        assertEquals("name", collegeTeam.getName());
+        assertEquals(Integer.valueOf(5), collegeTeam.getWins());
+        assertEquals(Integer.valueOf(4), collegeTeam.getDraws());
+        assertEquals(Integer.valueOf(3), collegeTeam.getLosses());
+        assertEquals(Integer.valueOf(2), collegeTeam.getGoalsFor());
+        assertEquals(Integer.valueOf(1), collegeTeam.getGoalsAgainst());
+    }
+
+    @Test
     public void settingAndGettingName() {
         CollegeTeam collegeTeam = new CollegeTeam();
         String name = "A";

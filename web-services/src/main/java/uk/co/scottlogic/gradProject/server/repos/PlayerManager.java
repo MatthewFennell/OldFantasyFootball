@@ -34,7 +34,7 @@ public class PlayerManager {
     }
 
 
-    private void makePlayer(CollegeTeam activeTeam, Player.Position position, double price, String firstName, String surname) {
+    public void makePlayer(CollegeTeam activeTeam, Player.Position position, double price, String firstName, String surname) {
         Optional<CollegeTeam> team = teamRepo.findById(activeTeam.getId());
         if (team.isPresent()) {
             Player player = new Player(team.get(), position, price, firstName, surname);
@@ -47,7 +47,7 @@ public class PlayerManager {
     // When adding points to a player
     // Add points to all the weekly teams they belong to for the correct week
     // Update the users total score as well
-    private void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
+    public void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
         PlayerPoints newPlayerPoints = new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player, week);
         playerPointsRepo.save(newPlayerPoints);
         Integer score = newPlayerPoints.calculateScore();
@@ -56,6 +56,7 @@ public class PlayerManager {
         player.changeGoals(goals);
         player.changeAssists(assists);
         playerRepo.save(player);
+        // Shouldn't this also filter by week? -> Only update the week that the points are being added to
         List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(player);
         for (UsersWeeklyTeam uwt : weeklyTeams) {
 
@@ -72,19 +73,16 @@ public class PlayerManager {
 
     // Possibly just need this to return 0 if the player doesn't exist
     public Integer findPointsForPlayerInWeek(Player player, Integer week) {
-        System.out.println("searching for player " + player.getFirstName() + " In week " + week);
+        System.out.println("here");
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-        System.out.println("found player points");
         if (playerPoints.isPresent()) {
-            System.out.println("present");
+            System.out.println("here = " + playerPoints.get().getPoints());
             return playerPoints.get().getPoints();
         }
         else if (week == 0) {
-            System.out.println("returned for 0");
             return 0;
         }
         else {
-            System.out.println("dafuq");
             throw new IllegalArgumentException("Player doesn't exist");
         }
     }
@@ -94,7 +92,6 @@ public class PlayerManager {
     }
 
     public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy) {
-
         if (team.equals("All teams")) {
             if (position.equals(Player.Position.ALL)) {
                 return filter(null, null, min, max, name, sortBy);
@@ -107,6 +104,8 @@ public class PlayerManager {
                 if (position != Player.Position.ALL) {
                     return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
                 } else {
+                    
+                    
                     return filter(collegeTeam.get(), null, min, max, name, sortBy);
                 }
             } else {
@@ -115,8 +114,7 @@ public class PlayerManager {
         }
     }
 
-    private List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting) {
-
+    public List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting) {
         String searchName = name;
 
         // Search for everything if the input is null
@@ -127,7 +125,6 @@ public class PlayerManager {
         else {
             searchName = "%" + searchName + "%";
         }
-
         // Order by price by default
         if (sorting == SORT_BY.GOALS) {
             return playerRepo.filterPlayersSortByGoals(team, position, minPrice, maxPrice, searchName);
