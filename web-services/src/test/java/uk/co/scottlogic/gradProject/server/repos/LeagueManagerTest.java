@@ -80,7 +80,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findUsersInLeagueWithPosition(){
+    public void findUsersInLeagueWithPosition() {
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
         ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
@@ -139,7 +139,7 @@ public class LeagueManagerTest {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(leagueRepo.findByCodeToJoin("code")).thenReturn(Optional.of(league));
-        LeagueReturnDTO dto =  leagueManager.addPlayerToLeague(u1, "code");
+        LeagueReturnDTO dto = leagueManager.addPlayerToLeague(u1, "code");
         List<ApplicationUser> users = league.getParticipants();
         assertEquals(1, users.size());
         assertEquals(Integer.valueOf(1), dto.getPosition());
@@ -180,21 +180,21 @@ public class LeagueManagerTest {
         u5.setTotalPoints(100);
 
         when(leagueRepo.findByCodeToJoin("code")).thenReturn(Optional.of(league));
-        LeagueReturnDTO dto =  leagueManager.addPlayerToLeague(u5, "code");
+        LeagueReturnDTO dto = leagueManager.addPlayerToLeague(u5, "code");
         List<ApplicationUser> users = league.getParticipants();
         assertEquals(5, users.size());
         assertEquals(Integer.valueOf(3), dto.getPosition());
     }
 
     @Test
-    public void userDoesNotExistInLeague(){
+    public void userDoesNotExistInLeague() {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         assertFalse(leagueManager.userExistsInLeague(u1, league));
     }
 
     @Test
-    public void userDoesExistInLeague(){
+    public void userDoesExistInLeague() {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         league.addParticipant(u1);
@@ -202,7 +202,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findPositionOfUserInLeagueCorrectly(){
+    public void findPositionOfUserInLeagueCorrectly() {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
@@ -220,7 +220,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findSingleLeagueUserIsIn(){
+    public void findSingleLeagueUserIsIn() {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         league.addParticipant(u1);
@@ -231,7 +231,7 @@ public class LeagueManagerTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void makingLeagueWithNameThatAlreadyExists(){
+    public void makingLeagueWithNameThatAlreadyExists() {
         League league = new League(null, "league", new ArrayList<>(), 0, "code");
         Iterable<League> list = Collections.singletonList(league);
         when(leagueRepo.findAll()).thenReturn(list);
@@ -240,7 +240,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findMultipleLeaguesUserIsIn(){
+    public void findMultipleLeaguesUserIsIn() {
         League league_one = new League(null, "league_one", new ArrayList<>(), 0, "code_one");
         League league_two = new League(null, "league_two", new ArrayList<>(), 0, "code_two");
         League league_three = new League(null, "league_three", new ArrayList<>(), 0, "code_three");
@@ -255,7 +255,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findLeagueWhereMultipleUsersInIt(){
+    public void findLeagueWhereMultipleUsersInIt() {
         League league = new League(null, "league_one", new ArrayList<>(), 0, "code_one");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
@@ -274,7 +274,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void findMultipleLeaguesWhereMultipleUsersInIt(){
+    public void findMultipleLeaguesWhereMultipleUsersInIt() {
         League league_one = new League(null, "league_one", new ArrayList<>(), 0, "code_one");
         League league_two = new League(null, "league_one", new ArrayList<>(), 0, "code_one");
         League league_three = new League(null, "league_one", new ArrayList<>(), 0, "code_one");

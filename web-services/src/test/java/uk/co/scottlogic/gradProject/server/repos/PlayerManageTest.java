@@ -44,38 +44,38 @@ public class PlayerManageTest {
     }
 
     @Test
-    public void makePlayerForValidTeam(){
+    public void makePlayerForValidTeam() {
         CollegeTeam collegeTeam = new CollegeTeam();
         when(teamRepo.findById(any())).thenReturn(Optional.of(collegeTeam));
         playerManager.makePlayer(collegeTeam, Enums.Position.DEFENDER, 0, "firstname", "surname");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void makePlayerForInvalidTeam(){
+    public void makePlayerForInvalidTeam() {
         when(teamRepo.findById(any())).thenReturn(Optional.empty());
         playerManager.makePlayer(new CollegeTeam(), Enums.Position.DEFENDER, 0, "firstname", "surname");
     }
 
     @Test
-    public void addingPointsToPlayerChangesTheirWeeklyScore(){
+    public void addingPointsToPlayerChangesTheirWeeklyScore() {
         // TO:DO
     }
 
     @Test
-    public void findPointsForPlayerInAWeek(){
+    public void findPointsForPlayerInAWeek() {
         Integer goals = 5;
         Integer assists = 3;
         Integer mins = 0;
         CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
-        PlayerPoints playerPoints = new PlayerPoints(goals,assists, mins, false, 0, false, false, new Date(), player, 0);
+        PlayerPoints playerPoints = new PlayerPoints(goals, assists, mins, false, 0, false, false, new Date(), player, 0);
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
-        Integer score = goals*4 + assists*3;
+        Integer score = goals * 4 + assists * 3;
         assertEquals(score, playerManager.findPointsForPlayerInWeek(player, 0));
     }
 
     @Test
-    public void filterGoalkeepersReturnsOnlyKeepers(){
+    public void filterGoalkeepersReturnsOnlyKeepers() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
 

@@ -83,7 +83,7 @@ public class ApplicationUserManager {
     }
 
     public Integer findPointsInWeek(ApplicationUser user, Integer week) {
-            return weeklyTeamRepo.findPointsInWeekByUser(user, week);
+        return weeklyTeamRepo.findPointsInWeekByUser(user, week);
     }
 
     public List<TopWeeklyUserReturnDTO> findUsersWithMostPointsInWeek(Integer week) {

@@ -2,8 +2,8 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
 
 import java.util.Date;
 import java.util.List;
@@ -79,11 +79,9 @@ public class PlayerManager {
         if (playerPoints.isPresent()) {
             System.out.println("here = " + playerPoints.get().getPoints());
             return playerPoints.get().getPoints();
-        }
-        else if (week == 0) {
+        } else if (week == 0) {
             return 0;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Player doesn't exist");
         }
     }
@@ -228,7 +226,6 @@ public class PlayerManager {
             makePlayer(team.get(), Enums.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
         }
     }
-
 
 
 }

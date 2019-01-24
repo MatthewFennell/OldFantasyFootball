@@ -8,9 +8,7 @@ import uk.co.scottlogic.gradProject.server.misc.Enums;
 import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PlayerPointsTest {
 
@@ -166,7 +164,7 @@ public class PlayerPointsTest {
         Player player = new Player();
         player.setPosition(Enums.Position.GOALKEEPER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
-        Integer numberOfPoints = goals*goalkeeperMultiplier;
+        Integer numberOfPoints = goals * goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 
@@ -177,7 +175,7 @@ public class PlayerPointsTest {
         Player player = new Player();
         player.setPosition(Enums.Position.DEFENDER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
-        Integer numberOfPoints = goals*defenderMultiplier;
+        Integer numberOfPoints = goals * defenderMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 
@@ -188,7 +186,7 @@ public class PlayerPointsTest {
         Player player = new Player();
         player.setPosition(Enums.Position.MIDFIELDER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
-        Integer numberOfPoints = goals*goalkeeperMultiplier;
+        Integer numberOfPoints = goals * goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 
@@ -199,7 +197,7 @@ public class PlayerPointsTest {
         Player player = new Player();
         player.setPosition(Enums.Position.ATTACKER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
-        Integer numberOfPoints = goals*goalkeeperMultiplier;
+        Integer numberOfPoints = goals * goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 
@@ -209,7 +207,7 @@ public class PlayerPointsTest {
         Integer assistMultiplier = 3;
         Player player = new Player();
         PlayerPoints playerPoints = new PlayerPoints(0, assists, 0, false, 0, false, false, null, player, 0);
-        Integer numberOfPoints = assists*assistMultiplier;
+        Integer numberOfPoints = assists * assistMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 
@@ -218,7 +216,7 @@ public class PlayerPointsTest {
         Integer yellowCards = 2;
         Player player = new Player();
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, yellowCards, false, false, null, player, 0);
-        Integer numberOfPoints = yellowCards*-1;
+        Integer numberOfPoints = yellowCards * -1;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
     }
 

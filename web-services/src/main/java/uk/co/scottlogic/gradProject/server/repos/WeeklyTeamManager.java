@@ -125,8 +125,7 @@ public class WeeklyTeamManager {
                 team.getPlayers().remove(p);
                 weeklyTeamRepo.save(team);
                 System.out.println("Removed player " + p.getFirstName() + " from user " + user.getFirstName());
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException("Player does not have a weekly team");
             }
         } else {
@@ -153,30 +152,29 @@ public class WeeklyTeamManager {
         for (Player p : players) {
             totalCost += p.getPrice();
             if (totalCost > 100) {
+                System.out.println("too expensive");
                 return false;
             }
 
-            if (p.getPosition().equals(Enums.Position.GOALKEEPER)){
+            if (p.getPosition().equals(Enums.Position.GOALKEEPER)) {
                 numberOfGoalkeepers += 1;
-                if (numberOfGoalkeepers.equals(this.maxGoalkeepers)){
+                if (numberOfGoalkeepers > this.maxGoalkeepers) {
                     return false;
                 }
-            }
-            else if (p.getPosition().equals(Enums.Position.DEFENDER)){
+            } else if (p.getPosition().equals(Enums.Position.DEFENDER)) {
                 numberOfDefenders += 1;
-                if (numberOfDefenders.equals(this.maxDefenders)){
+                if (numberOfDefenders > this.maxDefenders) {
                     return false;
                 }
-            }
-            else if (p.getPosition().equals(Enums.Position.MIDFIELDER)){
+            } else if (p.getPosition().equals(Enums.Position.MIDFIELDER)) {
                 numberOfMidfielders += 1;
-                if (numberOfMidfielders.equals(this.maxMidfielders)){
+                if (numberOfMidfielders > this.maxMidfielders) {
                     return false;
                 }
-            }
-            else if (p.getPosition().equals(Enums.Position.ATTACKER)){
+            } else if (p.getPosition().equals(Enums.Position.ATTACKER)) {
                 numberOfAttackers += 1;
-                if (numberOfAttackers.equals(this.maxAttackers)){
+                if (numberOfAttackers > this.maxAttackers) {
+                    System.out.println("too many attackers");
                     return false;
                 }
             }
@@ -208,17 +206,17 @@ public class WeeklyTeamManager {
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
-        if (weeklyTeamRepo.findByUser(user).isEmpty()){
+        if (weeklyTeamRepo.findByUser(user).isEmpty()) {
             throw new IllegalArgumentException("User does not have a weekly team");
         }
 
-        if (playersBeingAdded.isEmpty()){
+        if (playersBeingAdded.isEmpty()) {
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
 
         UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
 
-        if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != 11){
+        if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != 11) {
             System.out.println("incorrect team size");
             throw new IllegalArgumentException("Invalid team size");
         }
@@ -249,11 +247,10 @@ public class WeeklyTeamManager {
             }
         }
         // Only save if the transfer is valid
-        if (checkTeamIsValid(players)){
+        if (checkTeamIsValid(players)) {
             weeklyTeamRepo.save(activeTeam);
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -278,7 +275,7 @@ public class WeeklyTeamManager {
             throw new IllegalArgumentException("No weekly team for that user and date");
         }
         playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
-        
+
         return playersToReturn;
     }
 

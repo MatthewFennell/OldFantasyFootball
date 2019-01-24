@@ -314,7 +314,7 @@ public class ApplicationUserTest {
         double budgetChange = 5;
         user.setRemainingBudget(initialBudget);
         user.changeRemainingBudget(budgetChange);
-        assertEquals(initialBudget+budgetChange, user.getRemainingBudget(), 0.01);
+        assertEquals(initialBudget + budgetChange, user.getRemainingBudget(), 0.01);
     }
 
     @Test
@@ -324,7 +324,7 @@ public class ApplicationUserTest {
         Integer pointsChange = 5;
         user.setTotalPoints(initialPoints);
         user.changeTotalPoints(pointsChange);
-        assertEquals(Integer.valueOf(initialPoints+pointsChange), user.getTotalPoints());
+        assertEquals(Integer.valueOf(initialPoints + pointsChange), user.getTotalPoints());
     }
 
     @Test

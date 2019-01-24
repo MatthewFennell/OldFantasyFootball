@@ -2,12 +2,15 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
-import uk.co.scottlogic.gradProject.server.routers.dto.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LeagueManager {
@@ -43,8 +46,8 @@ public class LeagueManager {
 
         List<League> allLeagues = new ArrayList<>();
         userLeagues.forEach(allLeagues::add);
-        for (League league : allLeagues){
-            if (league.getLeagueName().equals(leagueName)){
+        for (League league : allLeagues) {
+            if (league.getLeagueName().equals(leagueName)) {
                 throw new IllegalArgumentException("League with that name already exists");
             }
         }
@@ -86,7 +89,7 @@ public class LeagueManager {
         Optional<League> league = leagueRepo.findByCodeToJoin(code);
         if (league.isPresent()) {
             League l = league.get();
-            if (userExistsInLeague(user, l)){
+            if (userExistsInLeague(user, l)) {
                 System.out.println("ALREADY IN LEAGUE");
                 throw new IllegalArgumentException("You are already in that league");
             }
@@ -104,24 +107,24 @@ public class LeagueManager {
         }
     }
 
-    public boolean userExistsInLeague(ApplicationUser user, League league){
+    public boolean userExistsInLeague(ApplicationUser user, League league) {
 
         // Should make this not use the sorting method
         List<ApplicationUser> usersInLeague = findUsersInLeague(league);
-        for (ApplicationUser u : usersInLeague){
-            if (u.getId().equals(user.getId())){
+        for (ApplicationUser u : usersInLeague) {
+            if (u.getId().equals(user.getId())) {
                 return true;
             }
         }
         return false;
     }
 
-    public Integer findPositionOfUserInLeague(ApplicationUser user, League league){
+    public Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
         List<ApplicationUser> usersInLeague = findUsersInLeague(league);
         int position = 0;
         for (ApplicationUser u : usersInLeague) {
             position += 1;
-            if (u.getId().equals( user.getId())){
+            if (u.getId().equals(user.getId())) {
                 return position;
             }
         }
