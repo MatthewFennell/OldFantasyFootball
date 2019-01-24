@@ -179,8 +179,6 @@ public class WeeklyTeamManager {
                     return false;
                 }
             }
-            
-
 
 
             UUID playerId = p.getId();
@@ -224,8 +222,9 @@ public class WeeklyTeamManager {
             throw new IllegalArgumentException("Invalid team size");
         }
 
-        List<Player> players = activeTeam.getPlayers();
+        ArrayList<Player> players = new ArrayList<>(activeTeam.getPlayers());
         System.out.println("size = " + players.size());
+
 
         for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));

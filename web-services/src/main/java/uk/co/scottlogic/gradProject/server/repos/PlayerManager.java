@@ -57,7 +57,7 @@ public class PlayerManager {
         player.changeAssists(assists);
         playerRepo.save(player);
         // Shouldn't this also filter by week? -> Only update the week that the points are being added to
-        List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(player);
+        List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayer(player);
         for (UsersWeeklyTeam uwt : weeklyTeams) {
 
             // Increase the weekly team score
@@ -104,8 +104,6 @@ public class PlayerManager {
                 if (position != Player.Position.ALL) {
                     return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
                 } else {
-                    
-                    
                     return filter(collegeTeam.get(), null, min, max, name, sortBy);
                 }
             } else {
@@ -116,7 +114,6 @@ public class PlayerManager {
 
     public List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting) {
         String searchName = name;
-
         // Search for everything if the input is null
         if (name.equals("null")) {
             searchName = "%";
@@ -133,6 +130,11 @@ public class PlayerManager {
         } else if (sorting == SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
         } else {
+            System.out.println("team = " + team.getName());
+            System.out.println("position = " + position);
+            System.out.println("min = " + minPrice);
+            System.out.println("max = " + maxPrice);
+            System.out.println("search = " + searchName);
             return playerRepo.filterPlayersSortByPrice(team, position, minPrice, maxPrice, searchName);
         }
     }
@@ -231,3 +233,4 @@ public class PlayerManager {
     }
 
 }
+

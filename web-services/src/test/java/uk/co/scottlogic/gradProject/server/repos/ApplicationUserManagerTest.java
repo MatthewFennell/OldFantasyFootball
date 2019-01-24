@@ -1,20 +1,20 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
-
-import java.util.Optional;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration
@@ -26,13 +26,14 @@ public class ApplicationUserManagerTest {
     @Mock
     private WeeklyTeamRepo weeklyTeamRepo;
 
-    @Mock
     private WeeklyTeamManager weeklyTeamManager;
 
     private ApplicationUserManager applicationUserManager;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, null, null, weeklyTeamRepo, null, null);
         applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo,
                 weeklyTeamManager);
     }

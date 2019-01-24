@@ -83,8 +83,12 @@ public class PlayerManageTest {
         Player p2 = new Player(collegeTeam, Player.Position.GOALKEEPER, 15, "firstname_one", "surname_two");
         players.add(p2);
         players.add(p1);
-        when(playerRepo.filterPlayersSortByPrice(collegeTeam, any(), any(), any(), any())).thenReturn(players);
-        List<Player> returnedPlayers = playerManager.formatFilter("college_team", Player.Position.GOALKEEPER, 0, 10, "", null);
+
+        Integer min = 0;
+        Integer max = 10;
+
+        when(playerRepo.filterPlayersSortByPrice(collegeTeam, 0, min, max, "%%")).thenReturn(players);
+        List<Player> returnedPlayers = playerManager.formatFilter("college_team", Player.Position.GOALKEEPER, min, max, "", null);
         assertEquals(p2, returnedPlayers.get(0));
         assertEquals(p1, returnedPlayers.get(1));
     }
