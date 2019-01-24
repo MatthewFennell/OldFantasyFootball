@@ -2,6 +2,7 @@ package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
@@ -155,25 +156,25 @@ public class WeeklyTeamManager {
                 return false;
             }
 
-            if (p.getPosition().equals(Player.Position.GOALKEEPER)){
+            if (p.getPosition().equals(Enums.Position.GOALKEEPER)){
                 numberOfGoalkeepers += 1;
                 if (numberOfGoalkeepers.equals(this.maxGoalkeepers)){
                     return false;
                 }
             }
-            else if (p.getPosition().equals(Player.Position.DEFENDER)){
+            else if (p.getPosition().equals(Enums.Position.DEFENDER)){
                 numberOfDefenders += 1;
                 if (numberOfDefenders.equals(this.maxDefenders)){
                     return false;
                 }
             }
-            else if (p.getPosition().equals(Player.Position.MIDFIELDER)){
+            else if (p.getPosition().equals(Enums.Position.MIDFIELDER)){
                 numberOfMidfielders += 1;
                 if (numberOfMidfielders.equals(this.maxMidfielders)){
                     return false;
                 }
             }
-            else if (p.getPosition().equals(Player.Position.ATTACKER)){
+            else if (p.getPosition().equals(Enums.Position.ATTACKER)){
                 numberOfAttackers += 1;
                 if (numberOfAttackers.equals(this.maxAttackers)){
                     return false;

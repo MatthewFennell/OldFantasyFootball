@@ -3,6 +3,7 @@ package uk.co.scottlogic.gradProject.server.repos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +35,7 @@ public class PlayerManager {
     }
 
 
-    public void makePlayer(CollegeTeam activeTeam, Player.Position position, double price, String firstName, String surname) {
+    public void makePlayer(CollegeTeam activeTeam, Enums.Position position, double price, String firstName, String surname) {
         Optional<CollegeTeam> team = teamRepo.findById(activeTeam.getId());
         if (team.isPresent()) {
             Player player = new Player(team.get(), position, price, firstName, surname);
@@ -91,9 +92,9 @@ public class PlayerManager {
         return playerPointsRepo.findPlayerWithMostPoints(week);
     }
 
-    public List<Player> formatFilter(String team, Player.Position position, Integer min, Integer max, String name, SORT_BY sortBy) {
+    public List<Player> formatFilter(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy) {
         if (team.equals("All teams")) {
-            if (position.equals(Player.Position.ALL)) {
+            if (position.equals(Enums.Position.ALL)) {
                 return filter(null, null, min, max, name, sortBy);
             } else {
                 return filter(null, position.ordinal(), min, max, name, sortBy);
@@ -101,7 +102,7 @@ public class PlayerManager {
         } else {
             Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
             if (collegeTeam.isPresent()) {
-                if (position != Player.Position.ALL) {
+                if (position != Enums.Position.ALL) {
                     return filter(collegeTeam.get(), position.ordinal(), min, max, name, sortBy);
                 } else {
                     return filter(collegeTeam.get(), null, min, max, name, sortBy);
@@ -112,7 +113,7 @@ public class PlayerManager {
         }
     }
 
-    public List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, SORT_BY sorting) {
+    public List<Player> filter(CollegeTeam team, Integer position, Integer minPrice, Integer maxPrice, String name, Enums.SORT_BY sorting) {
         String searchName = name;
         // Search for everything if the input is null
         if (name.equals("null")) {
@@ -123,11 +124,11 @@ public class PlayerManager {
             searchName = "%" + searchName + "%";
         }
         // Order by price by default
-        if (sorting == SORT_BY.GOALS) {
+        if (sorting == Enums.SORT_BY.GOALS) {
             return playerRepo.filterPlayersSortByGoals(team, position, minPrice, maxPrice, searchName);
-        } else if (sorting == SORT_BY.ASSISTS) {
+        } else if (sorting == Enums.SORT_BY.ASSISTS) {
             return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
-        } else if (sorting == SORT_BY.TOTAL_POINTS) {
+        } else if (sorting == Enums.SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
         } else {
             System.out.println("team = " + team.getName());
@@ -203,34 +204,32 @@ public class PlayerManager {
     public void makePlayers() {
         Optional<CollegeTeam> team = teamRepo.findByName("A");
         if (!team.isEmpty()) {
-            makePlayer(team.get(), Player.Position.DEFENDER, 7.2, "John", "Terry");
-            makePlayer(team.get(), Player.Position.DEFENDER, 5.4, "Phil", "Jones");
-            makePlayer(team.get(), Player.Position.DEFENDER, 5.7, "Chris", "Smalling");
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 8.5, "David", "Silva");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 7.2, "John", "Terry");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 5.4, "Phil", "Jones");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 5.7, "Chris", "Smalling");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.5, "David", "Silva");
 
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
-            makePlayer(team.get(), Player.Position.ATTACKER, 8.8, "Paco", "");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 8.8, "Paco", "");
 
-            makePlayer(team.get(), Player.Position.ATTACKER, 10.2, "Marcus", "Rashford");
-            makePlayer(team.get(), Player.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
-            makePlayer(team.get(), Player.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
-            makePlayer(team.get(), Player.Position.DEFENDER, 8.5, "Ed", "Main");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Marcus", "Rashford");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
+            makePlayer(team.get(), Enums.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 8.5, "Ed", "Main");
 
-            makePlayer(team.get(), Player.Position.DEFENDER, 7.5, "Joe", "Sutton");
-            makePlayer(team.get(), Player.Position.DEFENDER, 6.5, "Stevie", "");
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
-            makePlayer(team.get(), Player.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 7.5, "Joe", "Sutton");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 6.5, "Stevie", "");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
 
-            makePlayer(team.get(), Player.Position.DEFENDER, 9.5, "Herbie", "");
-            makePlayer(team.get(), Player.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 9.5, "Herbie", "");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
         }
     }
 
-    public enum SORT_BY {
-        TOTAL_POINTS, GOALS, ASSISTS, PRICE
-    }
+
 
 }
 

@@ -2,6 +2,7 @@ package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +39,7 @@ public class PlayerTest {
     @Test
     public void settingAndGettingPosition() {
         Player player = new Player();
-        Player.Position position = Player.Position.MIDFIELDER;
+        Enums.Position position = Enums.Position.MIDFIELDER;
         player.setPosition(position);
         assertEquals(position, player.getPosition());
     }

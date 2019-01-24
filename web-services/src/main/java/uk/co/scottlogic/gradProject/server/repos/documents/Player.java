@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 @Entity
 @Table(indexes = {
@@ -16,7 +17,7 @@ public class Player {
     private CollegeTeam activeTeam;
 
     @Column(nullable = false)
-    private Position position;
+    private Enums.Position position;
 
     @Column(nullable = false)
     private double price;
@@ -38,7 +39,7 @@ public class Player {
 
     private Integer totalAssists;
 
-    public Player(CollegeTeam activeTeam, Position position, double price, String firstName, String surname) {
+    public Player(CollegeTeam activeTeam, Enums.Position position, double price, String firstName, String surname) {
         this.activeTeam = activeTeam;
         this.position = position;
         this.price = price;
@@ -102,11 +103,11 @@ public class Player {
         this.activeTeam = activeTeam;
     }
 
-    public Position getPosition() {
+    public Enums.Position getPosition() {
         return position;
     }
 
-    public void setPosition(Position position) {
+    public void setPosition(Enums.Position position) {
         this.position = position;
     }
 
@@ -153,7 +154,5 @@ public class Player {
         return false;
     }
 
-    public enum Position {
-        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER, ALL
-    }
+
 }

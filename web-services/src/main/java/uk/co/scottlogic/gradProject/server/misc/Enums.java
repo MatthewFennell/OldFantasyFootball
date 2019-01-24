@@ -6,4 +6,8 @@ public class Enums {
         TOTAL_POINTS, GOALS, ASSISTS, PRICE
     }
 
+    public enum Position {
+        GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER, ALL
+    }
+
 }

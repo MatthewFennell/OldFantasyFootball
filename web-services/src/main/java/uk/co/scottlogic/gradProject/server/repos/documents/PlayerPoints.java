@@ -1,6 +1,7 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -180,14 +181,14 @@ public class PlayerPoints {
 
     public Integer calculateScore() {
         Integer total = 0;
-        if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER) {
+        if (player.getPosition() == Enums.Position.DEFENDER || player.getPosition() == Enums.Position.GOALKEEPER) {
             total += numberOfGoals * 6;
             if (cleanSheet) {
                 total += 4;
             }
-        } else if (player.getPosition() == Player.Position.MIDFIELDER) {
+        } else if (player.getPosition() == Enums.Position.MIDFIELDER) {
             total += numberOfGoals * 5;
-        } else if (player.getPosition() == Player.Position.ATTACKER) {
+        } else if (player.getPosition() == Enums.Position.ATTACKER) {
             total += numberOfGoals * 4;
         }
         total += numberOfAssists * 3;

@@ -3,6 +3,7 @@ package uk.co.scottlogic.gradProject.server.repos.documents;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import java.util.Date;
 
@@ -154,7 +155,7 @@ public class PlayerPointsTest {
         Integer goals = 2;
         Integer goalkeeperMultiplier = 6;
         Player player = new Player();
-        player.setPosition(Player.Position.GOALKEEPER);
+        player.setPosition(Enums.Position.GOALKEEPER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
         Integer numberOfPoints = goals*goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
@@ -165,7 +166,7 @@ public class PlayerPointsTest {
         Integer goals = 2;
         Integer defenderMultiplier = 6;
         Player player = new Player();
-        player.setPosition(Player.Position.DEFENDER);
+        player.setPosition(Enums.Position.DEFENDER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
         Integer numberOfPoints = goals*defenderMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
@@ -176,7 +177,7 @@ public class PlayerPointsTest {
         Integer goals = 2;
         Integer goalkeeperMultiplier = 5;
         Player player = new Player();
-        player.setPosition(Player.Position.MIDFIELDER);
+        player.setPosition(Enums.Position.MIDFIELDER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
         Integer numberOfPoints = goals*goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
@@ -187,7 +188,7 @@ public class PlayerPointsTest {
         Integer goals = 2;
         Integer goalkeeperMultiplier = 4;
         Player player = new Player();
-        player.setPosition(Player.Position.ATTACKER);
+        player.setPosition(Enums.Position.ATTACKER);
         PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
         Integer numberOfPoints = goals*goalkeeperMultiplier;
         assertEquals(numberOfPoints, playerPoints.calculateScore());
@@ -232,7 +233,7 @@ public class PlayerPointsTest {
     public void goalkeeperGetsFourPointsForCleanSheet() {
         Integer goalKeeperCleanSheetMultiplier = 4;
         Player player = new Player();
-        player.setPosition(Player.Position.GOALKEEPER);
+        player.setPosition(Enums.Position.GOALKEEPER);
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
         assertEquals(goalKeeperCleanSheetMultiplier, playerPoints.calculateScore());
     }
@@ -241,7 +242,7 @@ public class PlayerPointsTest {
     public void defenderGetsFourPointsForCleanSheet() {
         Integer defenderCleanSheetMultiplier = 4;
         Player player = new Player();
-        player.setPosition(Player.Position.DEFENDER);
+        player.setPosition(Enums.Position.DEFENDER);
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
         assertEquals(defenderCleanSheetMultiplier, playerPoints.calculateScore());
     }
@@ -250,7 +251,7 @@ public class PlayerPointsTest {
     public void midfielderGetsZeroPointsForCleanSheet() {
         Integer midfielderCleanSheetMultiplier = 0;
         Player player = new Player();
-        player.setPosition(Player.Position.MIDFIELDER);
+        player.setPosition(Enums.Position.MIDFIELDER);
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
         assertEquals(midfielderCleanSheetMultiplier, playerPoints.calculateScore());
     }
@@ -259,7 +260,7 @@ public class PlayerPointsTest {
     public void attackerGetsZeroPointsForCleanSheet() {
         Integer attackerCleanSheetMultiplier = 0;
         Player player = new Player();
-        player.setPosition(Player.Position.ATTACKER);
+        player.setPosition(Enums.Position.ATTACKER);
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
         assertEquals(attackerCleanSheetMultiplier, playerPoints.calculateScore());
     }

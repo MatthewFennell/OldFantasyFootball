@@ -16,6 +16,7 @@ import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -96,14 +97,14 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "College team does not exist"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public List<PlayerDTO> filterPlayerssAll(
+    public List<PlayerDTO> filterPlayersAll(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("max") Integer max,
             @PathVariable("min") Integer min,
             @PathVariable("name") String name,
-            @PathVariable("position") Player.Position position,
+            @PathVariable("position") Enums.Position position,
             @PathVariable("team") String team,
-            @PathVariable("sort") PlayerManager.SORT_BY sort
+            @PathVariable("sort") Enums.SORT_BY sort
     ) {
         try {
             // Currently just returns the randomly first selected

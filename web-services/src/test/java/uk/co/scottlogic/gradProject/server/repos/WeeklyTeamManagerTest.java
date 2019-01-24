@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 
@@ -52,7 +53,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addPlayerToTeam(){
-        Player player = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 10, "firstname", "surname");
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
 
 
@@ -73,9 +74,9 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void removePlayerFromTeam(){
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 10, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 10, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 10, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         List<Player> originalPlayers = new ArrayList<>();
         List<Player> playersAfterRemove = new ArrayList<>();
@@ -104,8 +105,8 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenPriceOver100(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 50, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 50.1, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 50, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 50.1, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
@@ -114,7 +115,7 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenSamePlayerInItTwice(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 50, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 50, "firstname", "surname");
         players.add(player_one);
         players.add(player_one);
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
@@ -123,18 +124,18 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenTooManyPlayersFromSameCollegeTeam(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten= new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_twelve = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten= new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_twelve = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
 
         players.add(player_one);
         players.add(player_two);
@@ -154,8 +155,8 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenTooManyGoalkeepers(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
@@ -164,12 +165,12 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenTooManyDefenders(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
         players.add(player_three);
@@ -182,12 +183,12 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenTooManyMidfielders(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
         players.add(player_three);
@@ -200,10 +201,10 @@ public class WeeklyTeamManagerTest {
     @Test
     public void teamIsInvalidWhenTooManyAttackers(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
         players.add(player_three);
@@ -214,17 +215,17 @@ public class WeeklyTeamManagerTest {
     @Test
     public void normalTeamIsValid(){
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten= new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten= new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
 
         players.add(player_one);
         players.add(player_two);
@@ -244,8 +245,8 @@ public class WeeklyTeamManagerTest {
     public void findPlayersInWeeklyTeamCorrectly(){
         CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(collegeTeam, Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(collegeTeam, Player.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
         players.add(player_one);
         players.add(player_two);
 
@@ -287,17 +288,17 @@ public class WeeklyTeamManagerTest {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
 
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten= new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten= new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
 
         players.add(player_one);
         players.add(player_two);
@@ -325,17 +326,17 @@ public class WeeklyTeamManagerTest {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
 
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten= new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten= new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
 
         players.add(player_one);
         players.add(player_two);
@@ -364,17 +365,17 @@ public class WeeklyTeamManagerTest {
         weeklyTeam.setPlayers(Collections.emptyList());
 
         List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Player.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Player.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Player.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten= new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Player.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten= new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
 
         players.add(player_one);
         players.add(player_two);
