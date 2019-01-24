@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,6 +18,14 @@ public class UsersWeeklyTeamTest {
         Integer points = 1005;
         weeklyTeam.setPoints(points);
         assertEquals(points, weeklyTeam.getPoints());
+    }
+
+    @Test
+    public void settingAndGettingID() {
+        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        UUID id = UUID.randomUUID();
+        weeklyTeam.setId(id);
+        assertEquals(id, weeklyTeam.getId());
     }
 
     @Test

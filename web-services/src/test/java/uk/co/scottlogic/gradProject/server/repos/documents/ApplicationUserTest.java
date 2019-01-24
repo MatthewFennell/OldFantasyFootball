@@ -123,42 +123,42 @@ public class ApplicationUserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyUsernameShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("", "123456", "a", "a", "a@a.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyFirstNameShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("123", "123456", "", "a", "a@a.com");
+        new ApplicationUser("123", "123456", "", "a", "a@a.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptySurnameShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("123", "123456", "a", "", "a@a.com");
+        new ApplicationUser("123", "123456", "a", "", "a@a.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void apostropheInUsernameShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("bob'", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("bob'", "123456", "a", "a", "a@a.com");
     }
 
     @Test
     public void underscoreInUsernameShouldMakeAUser() {
-        ApplicationUser user = new ApplicationUser("bob_", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("bob_", "123456", "a", "a", "a@a.com");
     }
 
     @Test
     public void hyphenInUsernameShouldMakeAUser() {
-        ApplicationUser user = new ApplicationUser("billy-", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("billy-", "123456", "a", "a", "a@a.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emojiInUsernameShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("🖤", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("🖤", "123456", "a", "a", "a@a.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyPasswordShouldNotMakeAUser() {
-        ApplicationUser user = new ApplicationUser("user'", "", "a", "a", "a@a.com");
+        new ApplicationUser("user'", "", "a", "a", "a@a.com");
     }
 
     @Test
@@ -175,7 +175,7 @@ public class ApplicationUserTest {
 
     @Test
     public void emptyUserCreation() throws Exception {
-        ApplicationUser a = new ApplicationUser();
+        new ApplicationUser();
     }
 
     @Test
@@ -276,6 +276,74 @@ public class ApplicationUserTest {
     }
 
     @Test
+    public void settingAndGettingTeamName() {
+        ApplicationUser user = new ApplicationUser();
+        String teamName = "team name";
+        user.setTeamName(teamName);
+        assertEquals(teamName, user.getTeamName());
+    }
+
+    @Test
+    public void settingAndGettingRemainingTransfers() {
+        ApplicationUser user = new ApplicationUser();
+        Integer remainingTransfers = 10;
+        user.setRemainingTransfers(remainingTransfers);
+        assertEquals(remainingTransfers, user.getRemainingTransfers());
+    }
+
+    @Test
+    public void changeRemainingTransfers() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        Integer increaseTransfers = 10;
+        user.changeRemainingTransfers(increaseTransfers);
+        assertEquals(increaseTransfers, user.getRemainingTransfers());
+    }
+
+    @Test
+    public void getAndSetRemainingBudget() {
+        ApplicationUser user = new ApplicationUser();
+        double budget = 10;
+        user.setRemainingBudget(budget);
+        assertEquals(budget, user.getRemainingBudget(), 0.01);
+    }
+
+    @Test
+    public void changeRemainingBudget() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        double initialBudget = 10;
+        double budgetChange = 5;
+        user.setRemainingBudget(initialBudget);
+        user.changeRemainingBudget(budgetChange);
+        assertEquals(initialBudget+budgetChange, user.getRemainingBudget(), 0.01);
+    }
+
+    @Test
+    public void changeTotalPoints() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        Integer initialPoints = 10;
+        Integer pointsChange = 5;
+        user.setTotalPoints(initialPoints);
+        user.changeTotalPoints(pointsChange);
+        assertEquals(Integer.valueOf(initialPoints+pointsChange), user.getTotalPoints());
+    }
+
+    @Test
+    public void getAndSetPassword() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        String password = "password";
+        user.setPassword(password);
+        assertEquals(password, user.getPassword());
+    }
+
+    @Test
+    public void getAndSetID() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        String id = UUID.randomUUID().toString();
+        user.setId(id);
+        assertEquals(id, user.getId());
+    }
+
+    @Test
     public void isAccountExpired() {
         ApplicationUser user = new ApplicationUser();
         Date date = new DateTime(new Date()).minusMonths(5).toDate();
@@ -319,7 +387,6 @@ public class ApplicationUserTest {
     @Test
     public void checkDisplayNameAndNickname() {
         ApplicationUser user = new ApplicationUser();
-        String displayName = "display name";
         String nickname = "nickname";
         user.setNickname(nickname);
         assertEquals(nickname, user.getNickname());

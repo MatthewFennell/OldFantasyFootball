@@ -6,6 +6,7 @@ import org.junit.Test;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import java.util.Date;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,6 +24,14 @@ public class PlayerPointsTest {
         Integer points = 1005;
         playerPoints.setPoints(points);
         assertEquals(points, playerPoints.getPoints());
+    }
+
+    @Test
+    public void settingAndGettingID() {
+        PlayerPoints playerPoints = new PlayerPoints();
+        UUID id = UUID.randomUUID();
+        playerPoints.setId(id);
+        assertEquals(id, playerPoints.getId());
     }
 
     @Test

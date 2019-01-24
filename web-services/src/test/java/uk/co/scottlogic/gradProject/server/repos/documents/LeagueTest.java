@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -48,11 +49,46 @@ public class LeagueTest {
         assertEquals(startWeek, league.getStartWeek());
     }
 
+    @Test
+    public void getAndSetID() {
+        UUID id = UUID.randomUUID();
+        League league = new League(null, null, null, 0, null);
+        league.setId(id);
+        assertEquals(id, league.getId());
+    }
+
+    @Test
+    public void getAndSetPoints() {
+        Integer points = 10;
+        League league = new League(null, null, null, 0, null);
+        league.setPoints(points);
+        assertEquals(points, league.getPoints());
+    }
+
+    @Test
+    public void changePoints() {
+        Integer points = 10;
+        League league = new League(null, null, null, 0, null);
+        league.setPoints(points);
+        league.changePoints(10);
+        assertEquals(Integer.valueOf(20), league.getPoints());
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void settingWinsFailsWhenNegative() {
         Integer startWeek = -5;
         League league = new League();
         league.setStartWeek(startWeek);
+    }
+
+    @Test
+    public void setOwnerChangesTheOwner() {
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        Integer startWeek = 15;
+        League league = new League(u1, null, null, startWeek, null);
+        league.setOwner(u2);
+        assertEquals(u2, league.getOwner());
     }
 
     @Test

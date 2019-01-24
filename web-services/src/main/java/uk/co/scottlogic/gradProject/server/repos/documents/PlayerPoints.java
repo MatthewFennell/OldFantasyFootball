@@ -88,6 +88,10 @@ public class PlayerPoints {
         this.week = week;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }
