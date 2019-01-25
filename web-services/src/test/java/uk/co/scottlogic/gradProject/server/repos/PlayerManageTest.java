@@ -58,7 +58,13 @@ public class PlayerManageTest {
 
     @Test
     public void addingPointsToPlayerChangesTheirWeeklyScore() {
-        // TO:DO
+        Integer goals = 5;
+        Integer assists = 4;
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+        Integer score = goals*4 + assists*3;
+        playerManager.addPointsToPlayer(player, new Date(), goals, assists, false, 0, 0, false, false ,0);
+        assertEquals(score, player.getTotalScore());
     }
 
     @Test
@@ -72,6 +78,29 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
         Integer score = goals * 4 + assists * 3;
         assertEquals(score, playerManager.findPointsForPlayerInWeek(player, 0));
+    }
+
+    @Test
+    public void findPlayerWithMostPointsReturnsCorrectType() {
+        List<PlayerPoints> playerPoints = new ArrayList<>();
+        playerPoints.add(new PlayerPoints());
+        when(playerPointsRepo.findPlayerWithMostPoints(any())).thenReturn(playerPoints);
+        assertEquals(playerPoints, playerManager.findPlayerWithMostPointsInWeek(0));
+    }
+
+    @Test
+    public void findPointsForPlayerInAWeekReturnsZeroIfPlayerDoesNotExistAndWeekZero() {
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+        when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
+        assertEquals(Integer.valueOf(0), playerManager.findPointsForPlayerInWeek(player, 0));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findPointsForPlayerInAWeekThrowsExceptionIfPlayerDoesNotExistAndNotWeekZero() {
+        Player player = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
+        when(playerPointsRepo.findByPlayerByWeek(player, 1)).thenReturn(Optional.empty());
+        playerManager.findPointsForPlayerInWeek(player, 1);
     }
 
     @Test
