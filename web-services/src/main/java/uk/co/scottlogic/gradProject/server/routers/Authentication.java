@@ -105,8 +105,7 @@ public class Authentication {
             response.setStatus(403);
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getClass());
+            log.debug(e.getMessage());
             response.setStatus(500);
             return null;
         }

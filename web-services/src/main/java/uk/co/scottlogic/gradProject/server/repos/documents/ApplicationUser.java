@@ -4,6 +4,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
 
 import javax.persistence.*;
@@ -86,7 +87,7 @@ public class ApplicationUser implements UserDetails, Serializable {
         savePassword(password);
         id = UUID.randomUUID();
         this.totalPoints = 0;
-        this.remainingBudget = 100.0;
+        this.remainingBudget = Constants.INITIAL_BUDGET;
         setFirstName(firstname);
         setSurname(surname);
         setEmail(email);

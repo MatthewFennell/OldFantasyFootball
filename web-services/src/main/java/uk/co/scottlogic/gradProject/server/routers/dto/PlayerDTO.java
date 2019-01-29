@@ -16,6 +16,7 @@ public class PlayerDTO {
     private String collegeTeam;
 
     public PlayerDTO(Player p){
+        System.out.println("a");
         this.id = p.getId().toString();
         this.firstName = p.getFirstName();
         this.surname = p.getSurname();
@@ -28,6 +29,7 @@ public class PlayerDTO {
     }
 
     public PlayerDTO(PlayerPoints playerPoints) {
+        System.out.println("dfgsd");
         this.firstName = playerPoints.getPlayer().getFirstName();
         this.surname = playerPoints.getPlayer().getSurname();
         this.points = playerPoints.getPoints();
@@ -41,6 +43,7 @@ public class PlayerDTO {
     }
 
     public PlayerDTO(Player p, Integer points){
+        System.out.println("SLDGKNGDSL");
         this.id = p.getId().toString();
         this.firstName = p.getFirstName();
         this.surname = p.getSurname();

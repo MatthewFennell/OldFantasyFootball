@@ -39,7 +39,7 @@ public class LeagueController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
             @ApiResponse(code = 201, message = "League successfully created"),
-            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
@@ -123,6 +123,7 @@ public class LeagueController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("league-name") String leagueName) {
         try {
+            response.setStatus(200);
             return leagueManager.findUsersInLeagueAndPositions(leagueName);
         }
         catch (IllegalArgumentException e){

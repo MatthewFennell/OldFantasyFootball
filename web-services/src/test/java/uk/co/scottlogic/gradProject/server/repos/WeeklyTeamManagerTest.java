@@ -43,13 +43,6 @@ public class WeeklyTeamManagerTest {
     }
 
     @Test
-    public void maxPerTeam() {
-        assertEquals(Integer.valueOf(11), weeklyTeamManager.getMaxPerTeam());
-        weeklyTeamManager.setMaxPerTeam(5);
-        assertEquals(Integer.valueOf(5), weeklyTeamManager.getMaxPerTeam());
-    }
-
-    @Test
     public void getNumberOfWeeks() {
         Integer numberOfWeeks = 10;
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(numberOfWeeks);
@@ -92,7 +85,7 @@ public class WeeklyTeamManagerTest {
     }
 
     @Test
-    public void removePlayerFromTeam() {
+    public void removePlayerFromTeamWorksCorrectlyWhenPlayerExists() {
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         Player player_three = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");

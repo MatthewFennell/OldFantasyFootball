@@ -4,10 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
-import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,9 +61,71 @@ public class PlayerManageTest {
         Integer assists = 4;
         CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
-        Integer score = goals*4 + assists*3;
-        playerManager.addPointsToPlayer(player, new Date(), goals, assists, false, 0, 0, false, false ,0);
+        Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
+        playerManager.addPointsToPlayer(player, new Date(), goals, assists, false, 0, 0, false, false, 0);
         assertEquals(score, player.getTotalScore());
+    }
+
+    @Test
+    public void addingPointsToPlayerAddsPointsToWeeklyTeamsTheyAreIn() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+
+        List<Player> playersInWeeklyTeam = new ArrayList<>();
+        List<UsersWeeklyTeam> teams = new ArrayList<>();
+        playersInWeeklyTeam.add(player);
+
+        UsersWeeklyTeam weeklyTeam_one = new UsersWeeklyTeam(user, new Date(), playersInWeeklyTeam, 0);
+        UsersWeeklyTeam weeklyTeam_two = new UsersWeeklyTeam(user, new Date(), playersInWeeklyTeam, 0);
+
+        teams.add(weeklyTeam_one);
+        teams.add(weeklyTeam_two);
+        when(weeklyTeamRepo.findByPlayer(player)).thenReturn(teams);
+        Integer goals = 5;
+        Integer assists = 1;
+        Integer expectedScore = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
+        playerManager.addPointsToPlayer(player, new Date(), goals, assists, false, 0, 0, false, false, 0);
+
+        assertEquals(expectedScore, weeklyTeam_one.getPoints());
+        assertEquals(expectedScore, weeklyTeam_two.getPoints());
+    }
+
+    @Test
+    public void addingPointsToPlayerChangesTheirWeeklyScoreObject() {
+        Integer goals = 5;
+        Integer assists = 4;
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+        Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
+        PlayerPoints playerPoints = new PlayerPoints(goals,assists, 0, false, 0, false, false, new Date(), player, 0);
+        playerManager.addPointsToPlayer(playerPoints);
+        assertEquals(score, player.getTotalScore());
+    }
+
+    @Test
+    public void addingPointsToPlayerAddsPointsToWeeklyTeamsTheyAreInObject() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+
+        List<Player> playersInWeeklyTeam = new ArrayList<>();
+        List<UsersWeeklyTeam> teams = new ArrayList<>();
+        playersInWeeklyTeam.add(player);
+
+        UsersWeeklyTeam weeklyTeam_one = new UsersWeeklyTeam(user, new Date(), playersInWeeklyTeam, 0);
+        UsersWeeklyTeam weeklyTeam_two = new UsersWeeklyTeam(user, new Date(), playersInWeeklyTeam, 0);
+
+        teams.add(weeklyTeam_one);
+        teams.add(weeklyTeam_two);
+        when(weeklyTeamRepo.findByPlayer(player)).thenReturn(teams);
+        Integer goals = 5;
+        Integer assists = 1;
+        Integer expectedScore = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
+        PlayerPoints playerPoints = new PlayerPoints(goals,assists, 0, false, 0, false, false, new Date(), player, 0);
+        playerManager.addPointsToPlayer(playerPoints);
+        assertEquals(expectedScore, weeklyTeam_one.getPoints());
+        assertEquals(expectedScore, weeklyTeam_two.getPoints());
     }
 
     @Test
@@ -76,7 +137,7 @@ public class PlayerManageTest {
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         PlayerPoints playerPoints = new PlayerPoints(goals, assists, mins, false, 0, false, false, new Date(), player, 0);
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
-        Integer score = goals * 4 + assists * 3;
+        Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
         assertEquals(score, playerManager.findPointsForPlayerInWeek(player, 0));
     }
 
@@ -121,5 +182,123 @@ public class PlayerManageTest {
         List<Player> returnedPlayers = playerManager.formatFilter("college_team", Enums.Position.GOALKEEPER, min, max, "", null);
         assertEquals(p2, returnedPlayers.get(0));
         assertEquals(p1, returnedPlayers.get(1));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throwsExceptionIfCollegeTeamDoesNotExist() {
+        when(teamRepo.findByName(any())).thenReturn(Optional.empty());
+        playerManager.formatFilter("college_team", Enums.Position.GOALKEEPER, 0, 0, "", null);
+    }
+
+    @Test
+    public void goalkeeperGetsSixPointsForEachGoal() {
+        Integer goals = 2;
+        Integer goalkeeperMultiplier = 6;
+        Player player = new Player();
+        player.setPosition(Enums.Position.GOALKEEPER);
+        PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
+        Integer numberOfPoints = goals * goalkeeperMultiplier;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void defenderGetsSixPointsForEachGoal() {
+        Integer goals = 2;
+        Integer defenderMultiplier = Constants.POINTS_PER_DEFENDER_GOAL;
+        Player player = new Player();
+        player.setPosition(Enums.Position.DEFENDER);
+        PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
+        Integer numberOfPoints = goals * defenderMultiplier;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void midfielderGetsFivePointsForEachGoal() {
+        Integer goals = 2;
+        Player player = new Player();
+        player.setPosition(Enums.Position.MIDFIELDER);
+        PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
+        Integer numberOfPoints = goals * Constants.POINTS_PER_MIDFIELDER_GOAL;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void attackerGetsFourPointsForEachGoal() {
+        Integer goals = 2;
+        Player player = new Player();
+        player.setPosition(Enums.Position.ATTACKER);
+        PlayerPoints playerPoints = new PlayerPoints(goals, 0, 0, false, 0, false, false, null, player, 0);
+        Integer numberOfPoints = goals * Constants.POINTS_PER_ATTACKER_GOAL;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void playerGetsThreePointsPerAssist() {
+        Integer assists = 5;
+        Player player = new Player();
+        PlayerPoints playerPoints = new PlayerPoints(0, assists, 0, false, 0, false, false, null, player, 0);
+        Integer numberOfPoints = assists * Constants.POINTS_PER_ASSIST;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void loseOnePointPerYellowCard() {
+        Integer yellowCards = 2;
+        Player player = new Player();
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, yellowCards, false, false, null, player, 0);
+        Integer numberOfPoints = yellowCards * Constants.POINTS_PER_YELLOW_CARD;
+        assertEquals(numberOfPoints, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void loseThreePointsForRedCard() {
+        Integer recCardPenalty = Constants.POINTS_PER_RED_CARD;
+        Player player = new Player();
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, true, false, null, player, 0);
+        assertEquals(recCardPenalty, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void getThreePointsForManOfTheMatch() {
+        Integer manOfTheMatchBonus = Constants.MAN_OF_THE_MATCH_BONUS;
+        Player player = new Player();
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, true, 0, false, false, null, player, 0);
+        assertEquals(manOfTheMatchBonus, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void goalkeeperGetsFourPointsForCleanSheet() {
+        Integer goalKeeperCleanSheetMultiplier = Constants.POINTS_PER_CLEAN_SHEET;
+        Player player = new Player();
+        player.setPosition(Enums.Position.GOALKEEPER);
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
+        assertEquals(goalKeeperCleanSheetMultiplier, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void defenderGetsFourPointsForCleanSheet() {
+        Integer defenderCleanSheetMultiplier = Constants.POINTS_PER_CLEAN_SHEET;
+        Player player = new Player();
+        player.setPosition(Enums.Position.DEFENDER);
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
+        assertEquals(defenderCleanSheetMultiplier, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void midfielderGetsZeroPointsForCleanSheet() {
+        Integer midfielderCleanSheetMultiplier = 0;
+        Player player = new Player();
+        player.setPosition(Enums.Position.MIDFIELDER);
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
+        assertEquals(midfielderCleanSheetMultiplier, playerManager.calculateScore(playerPoints));
+    }
+
+    @Test
+    public void attackerGetsZeroPointsForCleanSheet() {
+        Integer attackerCleanSheetMultiplier = 0;
+        Player player = new Player();
+        player.setPosition(Enums.Position.ATTACKER);
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, true, null, player, 0);
+        assertEquals(attackerCleanSheetMultiplier, playerManager.calculateScore(playerPoints));
     }
 }

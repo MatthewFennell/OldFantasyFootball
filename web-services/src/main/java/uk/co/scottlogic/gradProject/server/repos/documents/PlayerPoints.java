@@ -1,6 +1,7 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.persistence.*;
@@ -186,28 +187,28 @@ public class PlayerPoints {
     public Integer calculateScore() {
         Integer total = 0;
         if (player.getPosition() == Enums.Position.DEFENDER || player.getPosition() == Enums.Position.GOALKEEPER) {
-            total += numberOfGoals * 6;
+            total += numberOfGoals * Constants.POINTS_PER_DEFENDER_GOAL;
             if (cleanSheet) {
-                total += 4;
+                total += Constants.POINTS_PER_CLEAN_SHEET;
             }
         } else if (player.getPosition() == Enums.Position.MIDFIELDER) {
-            total += numberOfGoals * 5;
+            total += numberOfGoals * Constants.POINTS_PER_MIDFIELDER_GOAL;
         } else if (player.getPosition() == Enums.Position.ATTACKER) {
-            total += numberOfGoals * 4;
+            total += numberOfGoals * Constants.POINTS_PER_ATTACKER_GOAL;
         }
-        total += numberOfAssists * 3;
+        total += numberOfAssists * Constants.POINTS_PER_ASSIST;
 
         if (minutesPlayed > 60) {
             total += 2;
         } else if (minutesPlayed > 0) {
             total += 1;
         }
-        total -= yellowCards;
+        total += yellowCards * Constants.POINTS_PER_YELLOW_CARD;
         if (redCard) {
-            total -= 3;
+            total += Constants.POINTS_PER_RED_CARD;
         }
         if (manOfTheMatch) {
-            total += 3;
+            total += Constants.MAN_OF_THE_MATCH_BONUS;
         }
         return total;
     }

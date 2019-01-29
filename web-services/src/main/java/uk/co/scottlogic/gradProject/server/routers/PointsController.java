@@ -46,7 +46,7 @@ public class PointsController {
             @ApiResponse(code = 400, message = "Unknown error"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public TopWeeklyUserReturnDTO getUserWithMostPointsINWeek(
+    public TopWeeklyUserReturnDTO getUserWithMostPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
@@ -71,6 +71,7 @@ public class PointsController {
     @PreAuthorize("hasRole('USER')")
     public List<UserReturnDTO> userWithMostPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
+            // TO:DO -> Move to a repo manager
             List<UserReturnDTO> topScoringDTOs = new ArrayList<>();
             List<ApplicationUser> topScoringUsers = applicationUserManager.findUsersWithLargestTotalPoints();
             for (ApplicationUser u : topScoringUsers) {

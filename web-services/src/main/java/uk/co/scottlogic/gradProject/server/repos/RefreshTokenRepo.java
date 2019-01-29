@@ -12,8 +12,5 @@ import java.util.UUID;
 @Repository
 public interface RefreshTokenRepo extends CrudRepository<RefreshToken, UUID> {
 
-    List<RefreshToken> findByExpiryLessThan(Date expiry);
-
-    List<RefreshToken> findByUser(ApplicationUser user);
 
 }

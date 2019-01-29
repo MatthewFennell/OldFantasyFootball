@@ -19,15 +19,6 @@ import static org.mockito.Mockito.when;
 public class LeagueManagerTest {
 
     @Mock
-    private ApplicationUserRepo applicationUserRepo;
-
-    @Mock
-    private WeeklyTeamRepo weeklyTeamRepo;
-
-    @Mock
-    private WeeklyTeamManager weeklyTeamManager;
-
-    @Mock
     private LeagueRepo leagueRepo;
 
     private LeagueManager leagueManager;
@@ -35,7 +26,7 @@ public class LeagueManagerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        leagueManager = new LeagueManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager, leagueRepo);
+        leagueManager = new LeagueManager(leagueRepo);
     }
 
     @Test

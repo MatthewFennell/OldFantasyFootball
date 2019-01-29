@@ -75,8 +75,6 @@ public class PlayerController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
-            // Currently just returns the randomly first selected
-            // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
             return weeklyTeamManager.findAllPlayersInWeeklyTeam(user, week);
         } catch (IllegalArgumentException e) {
@@ -117,6 +115,7 @@ public class PlayerController {
             }
             return responses;
         } catch (IllegalArgumentException e) {
+            response.setStatus(400);
             log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
