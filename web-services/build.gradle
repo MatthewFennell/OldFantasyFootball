@@ -9,7 +9,7 @@ buildscript {
 }
 
 
-group 'uk.co.scottlogic.gradProject'
+group 'uk.co.pampoomio.fennell'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
