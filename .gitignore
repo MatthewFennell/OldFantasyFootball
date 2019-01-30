@@ -1,6 +1,9 @@
 .idea
 .vscode
 
+# Password file
+db_password.txt
+
 # Logs
 logs
 *.log
