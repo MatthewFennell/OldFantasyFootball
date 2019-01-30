@@ -28,16 +28,11 @@ public class LeagueManager {
 
     public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
 
-        Iterable<League> userLeagues = leagueRepo.findAll();
 
-        List<League> allLeagues = new ArrayList<>();
-        userLeagues.forEach(allLeagues::add);
-        for (League league : allLeagues) {
-            if (league.getLeagueName().equals(leagueName)) {
-                throw new IllegalArgumentException("League with that name already exists");
-            }
+        Optional<League> duplicate = leagueRepo.findByLeagueName(leagueName);
+        if (duplicate.isPresent()){
+            throw new IllegalArgumentException("A league with that name already exists");
         }
-
         League league = new League(owner, leagueName, new ArrayList<>(), startWeek);
         league.addParticipant(owner);
         leagueRepo.save(league);
