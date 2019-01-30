@@ -37,7 +37,6 @@ public class PlayerDTO {
         this.totalGoals = playerPoints.getNumberOfGoals();
         this.totalAssists = playerPoints.getNumberOfAssists();
         this.price = playerPoints.getPlayer().getPrice();
-        this.weeklyPoints = playerPoints.calculateScore();
     }
 
     public PlayerDTO(Player p, Integer points){

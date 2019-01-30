@@ -29,7 +29,6 @@ import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
@@ -105,8 +104,7 @@ public class Authentication {
             response.setStatus(403);
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getClass());
+            log.debug(e.getMessage());
             response.setStatus(500);
             return null;
         }

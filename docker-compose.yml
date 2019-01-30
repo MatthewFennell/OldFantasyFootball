@@ -1,0 +1,42 @@
+version: "3.1"
+
+services:
+  ui:
+    container_name: web-ui
+    build:
+      context: web-ui/
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      PROXY: http://server:8080
+    depends_on:
+      - db
+      - server
+
+  db:
+    container_name: database
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/lib/mariadb/data
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: fantasy
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: fantasy
+    ports:
+      - 3307:3306
+  server:
+    container_name: web-server
+    build:
+      context: web-services/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/fantasy
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_USERNAME: fantasy

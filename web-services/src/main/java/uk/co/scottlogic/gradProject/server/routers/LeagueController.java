@@ -8,15 +8,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import uk.co.scottlogic.gradProject.server.misc.ExceptionLogger;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +36,7 @@ public class LeagueController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
             @ApiResponse(code = 201, message = "League successfully created"),
-            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
@@ -123,6 +120,7 @@ public class LeagueController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("league-name") String leagueName) {
         try {
+            response.setStatus(200);
             return leagueManager.findUsersInLeagueAndPositions(leagueName);
         }
         catch (IllegalArgumentException e){

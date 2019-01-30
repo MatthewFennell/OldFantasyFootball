@@ -11,15 +11,15 @@ import static org.junit.Assert.*;
 public class RefreshTokenTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test
-    public void refreshTokenCreation() throws Exception {
+    public void refreshTokenCreation() {
         Date date = new Date();
         ApplicationUser user = new ApplicationUser();
         UUID id = UUID.randomUUID();
-        RefreshToken rt = new RefreshToken(id, user, date);
+        new RefreshToken(id, user, date);
     }
 
     @Test

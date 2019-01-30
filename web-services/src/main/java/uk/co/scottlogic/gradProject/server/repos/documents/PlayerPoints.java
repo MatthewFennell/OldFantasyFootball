@@ -61,10 +61,9 @@ public class PlayerPoints {
         id = UUID.randomUUID();
         this.player = player;
         this.week = week;
-        this.points = calculateScore();
     }
 
-    private PlayerPoints() {
+    public PlayerPoints() {
 
     }
 
@@ -81,7 +80,14 @@ public class PlayerPoints {
     }
 
     public void setWeek(Integer week) {
+        if (week < 0){
+            throw new IllegalArgumentException("Week cannot be negative");
+        }
         this.week = week;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getId() {
@@ -101,6 +107,9 @@ public class PlayerPoints {
     }
 
     public void setNumberOfGoals(Integer numberOfGoals) {
+        if (numberOfGoals < 0){
+            throw new IllegalArgumentException("Number of goals cannot be negative");
+        }
         this.numberOfGoals = numberOfGoals;
     }
 
@@ -109,6 +118,9 @@ public class PlayerPoints {
     }
 
     public void setNumberOfAssists(Integer numberOfAssists) {
+        if (numberOfAssists < 0){
+            throw new IllegalArgumentException("Number of assists cannot be negative");
+        }
         this.numberOfAssists = numberOfAssists;
     }
 
@@ -117,6 +129,9 @@ public class PlayerPoints {
     }
 
     public void setMinutesPlayed(Integer minutesPlayed) {
+        if (minutesPlayed < 0){
+            throw new IllegalArgumentException("Minutes played cannot be negative");
+        }
         this.minutesPlayed = minutesPlayed;
     }
 
@@ -133,6 +148,12 @@ public class PlayerPoints {
     }
 
     public void setYellowCards(Integer yellowCards) {
+        if (yellowCards < 0){
+            throw new IllegalArgumentException("Yellow cards cannot be negative");
+        }
+        if (yellowCards > 2){
+            throw new IllegalArgumentException("Cannot get more than 2 yellow cards");
+        }
         this.yellowCards = yellowCards;
     }
 
@@ -160,32 +181,4 @@ public class PlayerPoints {
         this.date = date;
     }
 
-    public Integer calculateScore() {
-        Integer total = 0;
-        if (player.getPosition() == Player.Position.DEFENDER || player.getPosition() == Player.Position.GOALKEEPER) {
-            total += numberOfGoals * 6;
-            if (cleanSheet) {
-                total += 4;
-            }
-        } else if (player.getPosition() == Player.Position.MIDFIELDER) {
-            total += numberOfGoals * 5;
-        } else if (player.getPosition() == Player.Position.ATTACKER) {
-            total += numberOfGoals * 4;
-        }
-        total += numberOfAssists * 3;
-
-        if (minutesPlayed > 60) {
-            total += 2;
-        } else if (minutesPlayed > 0) {
-            total += 1;
-        }
-        total -= yellowCards;
-        if (redCard) {
-            total -= 3;
-        }
-        if (manOfTheMatch) {
-            total += 3;
-        }
-        return total;
-    }
 }

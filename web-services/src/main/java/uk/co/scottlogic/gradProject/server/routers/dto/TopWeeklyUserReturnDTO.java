@@ -2,8 +2,6 @@ package uk.co.scottlogic.gradProject.server.routers.dto;
 
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 
-import java.util.UUID;
-
 public class TopWeeklyUserReturnDTO {
 
     private String firstName;
@@ -18,6 +16,10 @@ public class TopWeeklyUserReturnDTO {
         this.points = team.getPoints();
         this.id = team.getUser().getId();
         this.teamName = team.getUser().getTeamName();
+    }
+
+    public TopWeeklyUserReturnDTO(){
+
     }
 
     public String getFirstName() {

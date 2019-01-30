@@ -17,9 +17,6 @@ import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

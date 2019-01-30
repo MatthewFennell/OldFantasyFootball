@@ -12,14 +12,14 @@ import static org.junit.Assert.assertNotEquals;
 public class UserAuthorityTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test
-    public void userAuthorityCreation() throws Exception {
-        UserAuthority userAuthority = new UserAuthority();
+    public void userAuthorityCreation() {
+        new UserAuthority();
         String description = "description";
-        UserAuthority userAuthority1 = new UserAuthority(description);
+        new UserAuthority(description);
     }
 
     @Test

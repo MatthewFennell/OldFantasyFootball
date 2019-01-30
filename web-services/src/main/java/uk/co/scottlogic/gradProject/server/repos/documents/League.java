@@ -3,7 +3,6 @@ package uk.co.scottlogic.gradProject.server.repos.documents;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,14 +40,14 @@ public class League {
     public League(ApplicationUser owner, String leagueName, List<ApplicationUser> participants, Integer startWeek, String codeToJoin) {
         this.owner = owner;
         this.participants = participants;
-        this.startWeek = startWeek;
+        setStartWeek(startWeek);
         id = UUID.randomUUID();
         this.points = 0;
         setCodeToJoin(codeToJoin);
         setLeagueName(leagueName);
     }
 
-    private League() {
+    public League() {
 
     }
 
@@ -101,11 +100,18 @@ public class League {
     }
 
     public void setStartWeek(Integer startWeek) {
+        if (startWeek < 0){
+            throw new IllegalArgumentException("Start week cannot be negative");
+        }
         this.startWeek = startWeek;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void addParticipant(ApplicationUser participant) {

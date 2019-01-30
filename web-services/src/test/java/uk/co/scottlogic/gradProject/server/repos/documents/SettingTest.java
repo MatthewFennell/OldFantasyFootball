@@ -11,16 +11,16 @@ import static org.junit.Assert.*;
 public class SettingTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test
-    public void settingCreation() throws Exception {
+    public void settingCreation() {
         String option = "option";
         Integer object = 5;
-        Setting setting = new Setting(option, object);
-        Setting setting1 = new Setting(option);
-        Setting setting2 = new Setting();
+        new Setting(option, object);
+        new Setting(option);
+        new Setting();
     }
 
     @Test
@@ -31,7 +31,6 @@ public class SettingTest {
         assertEquals(option, setting.getOption());
         assertEquals(object, setting.getValue());
         String newOption = "new option";
-        Integer newObject = 10;
         setting.setOption(newOption);
         assertEquals(newOption, setting.getOption());
         Integer newNewObject = 20;
