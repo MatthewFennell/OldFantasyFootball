@@ -21,12 +21,10 @@ services:
     volumes:
       - /var/lib/mariadb/data
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: fantasy
-      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_PASSWORD: password
       MYSQL_DATABASE: fantasy
-    secrets:
-      - db_password
     ports:
       - 3307:3306
   server:
@@ -40,9 +38,5 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/fantasy
-      SPRING_DATASOURCE_PASSWORD_FILE: /run/secrets/db_password
+      SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATASOURCE_USERNAME: fantasy
-
-secrets:
-  db_password:
-    file: db_password.txt
