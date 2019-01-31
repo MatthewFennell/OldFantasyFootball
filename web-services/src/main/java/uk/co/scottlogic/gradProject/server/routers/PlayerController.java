@@ -87,7 +87,7 @@ public class PlayerController {
     }
 
     @ApiOperation(value = Icons.key
-            + " Find the player with the most points in a week",
+            + " Find players based on some criteria",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/max/{max}/min/{min}/name/{name}/position/{position}/team/{team}/sort/{sort}")
