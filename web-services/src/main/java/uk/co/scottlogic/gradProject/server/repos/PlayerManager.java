@@ -246,33 +246,33 @@ public class PlayerManager {
 //
 //    }
 
-//    public void makePlayers() {
-//        Optional<CollegeTeam> team = teamRepo.findByName("A");
-//        if (!team.isEmpty()) {
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 7.2, "John", "Terry");
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 5.4, "Phil", "Jones");
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 5.7, "Chris", "Smalling");
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.5, "David", "Silva");
-//
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
-//            makePlayer(team.get(), Enums.Position.ATTACKER, 8.8, "Paco", "");
-//
-//            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Marcus", "Rashford");
-//            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
-//            makePlayer(team.get(), Enums.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 8.5, "Ed", "Main");
-//
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 7.5, "Joe", "Sutton");
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 6.5, "Stevie", "");
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
-//            makePlayer(team.get(), Enums.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
-//
-//            makePlayer(team.get(), Enums.Position.DEFENDER, 9.5, "Herbie", "");
-//            makePlayer(team.get(), Enums.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
-//        }
-//    }
+    public void makePlayers() {
+        Optional<CollegeTeam> team = teamRepo.findByName("A");
+        if (!team.isEmpty()) {
+            makePlayer(team.get(), Enums.Position.DEFENDER, 7.2, "John", "Terry");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 5.4, "Phil", "Jones");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 5.7, "Chris", "Smalling");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.5, "David", "Silva");
+
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 8.8, "Paco", "");
+
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Marcus", "Rashford");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
+            makePlayer(team.get(), Enums.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 8.5, "Ed", "Main");
+
+            makePlayer(team.get(), Enums.Position.DEFENDER, 7.5, "Joe", "Sutton");
+            makePlayer(team.get(), Enums.Position.DEFENDER, 6.5, "Stevie", "");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
+            makePlayer(team.get(), Enums.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
+
+            makePlayer(team.get(), Enums.Position.DEFENDER, 9.5, "Herbie", "");
+            makePlayer(team.get(), Enums.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
+        }
+    }
 
 
 }
