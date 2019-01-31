@@ -28,7 +28,7 @@ import java.util.List;
 @Api(value = "Authentication", description = "Operations pertaining to Players")
 public class PlayerController {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
 
     private PlayerManager playerManager;
     private WeeklyTeamManager weeklyTeamManager;

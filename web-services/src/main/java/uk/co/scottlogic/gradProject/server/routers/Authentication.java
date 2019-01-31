@@ -4,8 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -37,8 +35,6 @@ import java.util.Optional;
 @Api(value = "Authentication", description = "Operations pertaining to User details (For "
         + "authentication see token)")
 public class Authentication {
-
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
 
     private JwtTokenProvider jwtTokenProvider;
 
@@ -104,7 +100,6 @@ public class Authentication {
             response.setStatus(403);
             return null;
         } catch (Exception e) {
-            log.debug(e.getMessage());
             response.setStatus(500);
             return null;
         }
@@ -132,7 +127,7 @@ public class Authentication {
 
             // Make the first user the admin of the original league
             if (applicationUserRepo.count() == 1) {
-                League league = new League(user, "original", new ArrayList<>(), 0, "Initial");
+                League league = new League(user, "original", new ArrayList<>(), 0);
                 league.addParticipant(user);
                 leagueRepo.save(league);
             } else {

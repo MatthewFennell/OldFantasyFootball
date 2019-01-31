@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
-import uk.co.scottlogic.gradProject.server.routers.Token;
 import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
@@ -18,7 +17,7 @@ import java.util.Optional;
 @Service
 public class LeagueManager {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(LeagueManager.class);
 
     private LeagueRepo leagueRepo;
 
@@ -27,7 +26,7 @@ public class LeagueManager {
         this.leagueRepo = leagueRepo;
     }
 
-    public void createLeague(ApplicationUser owner, String leagueName, Integer startWeek, String codeToJoin) {
+    public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
 
         Iterable<League> userLeagues = leagueRepo.findAll();
 
@@ -39,9 +38,10 @@ public class LeagueManager {
             }
         }
 
-        League league = new League(owner, leagueName, new ArrayList<>(), startWeek, codeToJoin);
+        League league = new League(owner, leagueName, new ArrayList<>(), startWeek);
         league.addParticipant(owner);
         leagueRepo.save(league);
+        return league.getId().toString();
     }
 
     // Sorts them by total points (doesn't look at points since week started!!!!)

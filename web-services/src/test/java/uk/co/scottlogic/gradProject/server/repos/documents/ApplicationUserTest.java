@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import uk.co.scottlogic.gradProject.server.misc.StringGenerator;
 
-import javax.management.InstanceAlreadyExistsException;
 import java.util.*;
 
 import static org.assertj.core.api.Java6Assertions.fail;
@@ -16,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class ApplicationUserTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @Test
-    public void userNameOnlyAllowsValidChars() throws InstanceAlreadyExistsException {
+    public void userNameOnlyAllowsValidChars() {
         String[] invalidUsernames = new String[]{"", "1\"", "r'", "ge54_-$", "🖤"};
         for (String username : invalidUsernames) {
             try {
-                ApplicationUser a = new ApplicationUser(username, "123456", "a", "a", "a@a.com");
+                new ApplicationUser(username, "123456", "a", "a", "a@a.com");
             } catch (IllegalArgumentException e) {
                 continue;
             }
@@ -33,11 +32,11 @@ public class ApplicationUserTest {
     }
 
     @Test
-    public void passwordOnlyAllowsValidChars() throws InstanceAlreadyExistsException {
+    public void passwordOnlyAllowsValidChars() {
         String[] invalidPasswords = new String[]{"", "1", "11111", "a111111", "111a111", "111111a"};
         for (String password : invalidPasswords) {
             try {
-                ApplicationUser a = new ApplicationUser("user", password, "a", "a", "a@a.com");
+                new ApplicationUser("user", password, "a", "a", "a@a.com");
             } catch (IllegalArgumentException e) {
                 continue;
             }
@@ -50,7 +49,7 @@ public class ApplicationUserTest {
         String[] invalidUsernames = new String[]{"User1", "admin_1", "user_-.2"};
         for (String username : invalidUsernames) {
             try {
-                ApplicationUser a = new ApplicationUser(username, "123456", "a", "a", "a@a.com");
+                new ApplicationUser(username, "123456", "a", "a", "a@a.com");
             } catch (Exception e) {
                 Assert.fail("Creating user \"" + username + "\" threw error:\n" + e.getMessage());
             }
@@ -59,12 +58,12 @@ public class ApplicationUserTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void creatingUserWithEmailWithoutAtSymbolShouldFail() {
-        ApplicationUser a = new ApplicationUser("user", "123456", "a", "a", "aa.com");
+        new ApplicationUser("user", "123456", "a", "a", "aa.com");
     }
 
     @Test
     public void standardEmailShouldPass() {
-        ApplicationUser a = new ApplicationUser("user", "123456", "a", "a", "user@test.com");
+        new ApplicationUser("user", "123456", "a", "a", "user@test.com");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -82,7 +81,7 @@ public class ApplicationUserTest {
     @Test(expected = IllegalArgumentException.class)
     public void makingUserWithPasswordGreaterThan6DigitsThrowsError() {
         String password = "1234567";
-        ApplicationUser user = new ApplicationUser("user", password, "a", "a", "user@test.com");
+        new ApplicationUser("user", password, "a", "a", "user@test.com");
     }
 
     @Test(expected = Exception.class)
@@ -166,15 +165,16 @@ public class ApplicationUserTest {
         String[] invalidPasswords = new String[]{"1", "12", "123", "1234", "12345"};
         for (String password : invalidPasswords) {
             try {
-                ApplicationUser a = new ApplicationUser("user", password, "a", "a", "a@a.com");
+                new ApplicationUser("user", password, "a", "a", "a@a.com");
                 fail("Invalid password did not throw error: " + password);
             } catch (IllegalArgumentException e) {
+                e.getMessage();
             }
         }
     }
 
     @Test
-    public void emptyUserCreation() throws Exception {
+    public void emptyUserCreation() {
         new ApplicationUser();
     }
 
@@ -281,22 +281,6 @@ public class ApplicationUserTest {
         String teamName = "team name";
         user.setTeamName(teamName);
         assertEquals(teamName, user.getTeamName());
-    }
-
-    @Test
-    public void settingAndGettingRemainingTransfers() {
-        ApplicationUser user = new ApplicationUser();
-        Integer remainingTransfers = 10;
-        user.setRemainingTransfers(remainingTransfers);
-        assertEquals(remainingTransfers, user.getRemainingTransfers());
-    }
-
-    @Test
-    public void changeRemainingTransfers() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        Integer increaseTransfers = 10;
-        user.changeRemainingTransfers(increaseTransfers);
-        assertEquals(increaseTransfers, user.getRemainingTransfers());
     }
 
     @Test

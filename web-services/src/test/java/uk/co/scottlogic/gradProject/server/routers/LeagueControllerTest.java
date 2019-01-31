@@ -37,7 +37,7 @@ public class LeagueControllerTest {
     public void creatingALeagueReturns201() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", "code", 0);
+        MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", 0);
         leagueController.makeLeague(user, makeLeagueDTO, response);
         assertEquals(201, response.getStatus());
     }
@@ -46,11 +46,11 @@ public class LeagueControllerTest {
     public void creatingTwoLeaguesWithSameNameReturns400() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", "code", 0);
+        MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", 0);
 
         List<League> leagues = new ArrayList<>();
-        leagues.add(new League(user, "league name", null, 0, "code"));
-        leagues.add(new League(user, "league name", null, 0, "code"));
+        leagues.add(new League(user, "league name", null, 0));
+        leagues.add(new League(user, "league name", null, 0));
 
         when(leagueRepo.findAll()).thenReturn(leagues);
 
@@ -64,9 +64,9 @@ public class LeagueControllerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
         List<ApplicationUser> usersInLeague = new ArrayList<>();
-        League league = new League(user, "league name", usersInLeague, 0, "code");
-        when(leagueRepo.findByCodeToJoin("code")).thenReturn(Optional.of(league));
-        leagueController.addPlayerToLeague(user, "code", response);
+        League league = new League(user, "league name", usersInLeague, 0);
+        when(leagueRepo.findByCodeToJoin(league.getId().toString())).thenReturn(Optional.of(league));
+        leagueController.addPlayerToLeague(user, league.getId().toString(), response);
         assertEquals(200, response.getStatus());
     }
 
@@ -76,7 +76,7 @@ public class LeagueControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         List<ApplicationUser> usersInLeague = new ArrayList<>();
         usersInLeague.add(user);
-        League league = new League(user, "league name", usersInLeague, 0, "code");
+        League league = new League(user, "league name", usersInLeague, 0);
         when(leagueRepo.findByCodeToJoin("code")).thenReturn(Optional.of(league));
         leagueController.addPlayerToLeague(user, "code", response);
         assertEquals(400, response.getStatus());
@@ -95,7 +95,7 @@ public class LeagueControllerTest {
     public void findAllUsersInSpecificLeagueAndTheirPositionsReturns200() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        League league = new League(user, "league name", new ArrayList<>(), 0, "code");
+        League league = new League(user, "league name", new ArrayList<>(), 0);
         when(leagueRepo.findByLeagueName("league name")).thenReturn(Optional.of(league));
         leagueController.getPositionsOfUsersInLeague(user, response, "league name");
         assertEquals(200, response.getStatus());

@@ -43,7 +43,6 @@ public class UserReturnDTO {
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
         this.remainingBudget = user.getRemainingBudget();
-        this.remainingTransfers = user.getRemainingTransfers();
     }
 
     public double getRemainingBudget() {
@@ -52,14 +51,6 @@ public class UserReturnDTO {
 
     public void setRemainingBudget(double remainingBudget) {
         this.remainingBudget = remainingBudget;
-    }
-
-    public Integer getRemainingTransfers() {
-        return remainingTransfers;
-    }
-
-    public void setRemainingTransfers(Integer remainingTransfers) {
-        this.remainingTransfers = remainingTransfers;
     }
 
     public String getTeamName() {

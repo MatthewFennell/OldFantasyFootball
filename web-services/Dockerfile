@@ -7,4 +7,6 @@ COPY ./build/libs/Grad-bank-app-*.jar app.jar
 COPY ./build/resources/main/application.properties resources/application.properties
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/grad-bank-app/app.jar"]
+# ENTRYPOINT ["java", "-jar", "/grad-bank-app/app.jar"]
+
+ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xss512k", "-XX:MaxRAM=512m", "-jar", "/grad-bank-app/app.jar"]
