@@ -24,7 +24,7 @@ import java.util.List;
 @Api(value = "Authentication", description = "Operations pertaining to gathering points")
 public class PointsController {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(PointsController.class);
 
     private WeeklyTeamManager weeklyTeamManager;
 

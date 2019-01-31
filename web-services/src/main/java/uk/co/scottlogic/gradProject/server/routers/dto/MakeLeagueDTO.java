@@ -3,12 +3,10 @@ package uk.co.scottlogic.gradProject.server.routers.dto;
 public class MakeLeagueDTO {
 
     private String leagueName;
-    private String codeToJoin;
     private Integer startWeek;
 
-    public MakeLeagueDTO(String leagueName, String codeToJoin, Integer startWeek) {
+    public MakeLeagueDTO(String leagueName, Integer startWeek) {
         this.leagueName = leagueName;
-        this.codeToJoin = codeToJoin;
         this.startWeek = startWeek;
     }
 
@@ -20,13 +18,6 @@ public class MakeLeagueDTO {
         this.leagueName = leagueName;
     }
 
-    public String getCodeToJoin() {
-        return codeToJoin;
-    }
-
-    public void setCodeToJoin(String codeToJoin) {
-        this.codeToJoin = codeToJoin;
-    }
 
     public Integer getStartWeek() {
         return startWeek;

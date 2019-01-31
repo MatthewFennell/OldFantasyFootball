@@ -22,7 +22,7 @@ import java.util.List;
 @Api(value = "Authentication", description = "Operations pertaining to Players")
 public class LeagueController {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(LeagueController.class);
 
     private LeagueManager leagueManager;
 
@@ -41,11 +41,11 @@ public class LeagueController {
             @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
-    public void makeLeague(@AuthenticationPrincipal ApplicationUser user,
+    public String makeLeague(@AuthenticationPrincipal ApplicationUser user,
                            @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
-            leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek(), dto.getCodeToJoin());
+            return leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek());
         }
         catch (IllegalArgumentException e ){
             response.setStatus(400);
@@ -58,6 +58,7 @@ public class LeagueController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+        return null;
     }
 
     @ApiOperation(value = Icons.key + " Join a league ", authorizations = {

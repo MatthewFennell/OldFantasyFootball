@@ -37,13 +37,13 @@ public class League {
     @Type(type = "uuid-char")
     private UUID id;
 
-    public League(ApplicationUser owner, String leagueName, List<ApplicationUser> participants, Integer startWeek, String codeToJoin) {
+    public League(ApplicationUser owner, String leagueName, List<ApplicationUser> participants, Integer startWeek) {
         this.owner = owner;
         this.participants = participants;
         setStartWeek(startWeek);
         id = UUID.randomUUID();
         this.points = 0;
-        setCodeToJoin(codeToJoin);
+        setCodeToJoin(id.toString());
         setLeagueName(leagueName);
     }
 

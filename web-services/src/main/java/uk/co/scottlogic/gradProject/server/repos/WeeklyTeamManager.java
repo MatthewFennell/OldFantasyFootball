@@ -9,7 +9,6 @@ import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
-import uk.co.scottlogic.gradProject.server.routers.Token;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 
 import java.util.*;
@@ -17,7 +16,7 @@ import java.util.*;
 @Service
 public class WeeklyTeamManager {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(WeeklyTeamManager.class);
 
     private PlayerRepo playerRepo;
 
@@ -155,6 +154,10 @@ public class WeeklyTeamManager {
     }
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
+
+        if (!Constants.TRANSFER_MARKET_OPEN){
+            throw new IllegalArgumentException("Transfer market is closed");
+        }
 
         if (weeklyTeamRepo.findByUser(user).isEmpty()) {
             throw new IllegalArgumentException("User does not have a weekly team");

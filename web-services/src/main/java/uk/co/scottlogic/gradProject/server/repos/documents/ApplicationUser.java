@@ -59,8 +59,6 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     private String teamName;
 
-    private Integer remainingTransfers;
-
     @Column
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
@@ -92,7 +90,6 @@ public class ApplicationUser implements UserDetails, Serializable {
         setSurname(surname);
         setEmail(email);
         this.totalPoints = 0;
-        this.remainingTransfers = 0;
     }
 
 
@@ -236,17 +233,6 @@ public class ApplicationUser implements UserDetails, Serializable {
         this.teamName = teamName;
     }
 
-    public Integer getRemainingTransfers() {
-        return remainingTransfers;
-    }
-
-    public void setRemainingTransfers(Integer remainingTransfers) {
-        this.remainingTransfers = remainingTransfers;
-    }
-
-    public void changeRemainingTransfers(Integer change) {
-        this.remainingTransfers += change;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

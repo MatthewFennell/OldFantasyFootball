@@ -26,7 +26,7 @@ public class LeagueTest {
     @Test
     public void getOwner() {
         ApplicationUser owner = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        League league = new League(owner, "league_name", Collections.emptyList(), 0, "code");
+        League league = new League(owner, "league_name", Collections.emptyList(), 0);
         assertEquals(owner, league.getOwner());
     }
 
@@ -38,21 +38,21 @@ public class LeagueTest {
         users.add(new ApplicationUser("c", "123456", "c", "c", "c@c.com"));
         users.add(new ApplicationUser("d", "123456", "d", "d", "d@d.com"));
 
-        League league = new League(null, "league_name", users, 0, "code");
+        League league = new League(null, "league_name", users, 0);
         assertEquals(users, league.getParticipants());
     }
 
     @Test
     public void getAndSetStartWeek() {
         Integer startWeek = 15;
-        League league = new League(null, null, null, startWeek, null);
+        League league = new League(null, null, null, startWeek);
         assertEquals(startWeek, league.getStartWeek());
     }
 
     @Test
     public void getAndSetID() {
         UUID id = UUID.randomUUID();
-        League league = new League(null, null, null, 0, null);
+        League league = new League(null, null, null, 0);
         league.setId(id);
         assertEquals(id, league.getId());
     }
@@ -60,7 +60,7 @@ public class LeagueTest {
     @Test
     public void getAndSetPoints() {
         Integer points = 10;
-        League league = new League(null, null, null, 0, null);
+        League league = new League(null, null, null, 0);
         league.setPoints(points);
         assertEquals(points, league.getPoints());
     }
@@ -68,7 +68,7 @@ public class LeagueTest {
     @Test
     public void changePoints() {
         Integer points = 10;
-        League league = new League(null, null, null, 0, null);
+        League league = new League(null, null, null, 0);
         league.setPoints(points);
         league.changePoints(10);
         assertEquals(Integer.valueOf(20), league.getPoints());
@@ -86,7 +86,7 @@ public class LeagueTest {
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
         Integer startWeek = 15;
-        League league = new League(u1, null, null, startWeek, null);
+        League league = new League(u1, null, null, startWeek);
         league.setOwner(u2);
         assertEquals(u2, league.getOwner());
     }
@@ -101,7 +101,7 @@ public class LeagueTest {
 
         ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new", "new@new.com");
 
-        League league = new League(newUser, "league_name", users, 0, "code");
+        League league = new League(newUser, "league_name", users, 0);
         league.addParticipant(newUser);
         users.add(newUser);
         assertEquals(users, league.getParticipants());

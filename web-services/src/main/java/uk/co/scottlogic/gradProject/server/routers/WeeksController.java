@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "Authentication", description = "Operations pertaining to week based info")
 public class WeeksController {
 
-    private static final Logger log = LoggerFactory.getLogger(Token.class);
+    private static final Logger log = LoggerFactory.getLogger(WeeksController.class);
 
     private WeeklyTeamManager weeklyTeamManager;
 
