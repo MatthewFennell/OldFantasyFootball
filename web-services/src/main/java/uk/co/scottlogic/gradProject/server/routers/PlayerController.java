@@ -4,24 +4,20 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.PlayerManager;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
-import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -121,6 +117,89 @@ public class PlayerController {
             response.setStatus(500);
         }
         return null;
+    }
+
+    @ApiOperation(value = Icons.key + " Make a player ", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "League successfully created"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/make")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void makeLeague(@AuthenticationPrincipal ApplicationUser user,
+                             @RequestBody MakePlayerDTO dto, HttpServletResponse response) {
+        try {
+            response.setStatus(201);
+            playerManager.makePlayer(dto);
+        }
+        catch (IllegalArgumentException e ){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Add points to multiple players", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/points/add")
+    @PreAuthorize("hasRole('USER')")
+    public void addPointsToPlayers(@AuthenticationPrincipal ApplicationUser user,
+                                   @RequestBody AddMultiplePointsDTO dto,
+                                   HttpServletResponse response) {
+
+        try {
+            System.out.println("size = " + dto.getPointsToAdd().size());
+            System.out.println("parameters: goals = " + dto.getPointsToAdd().get(0).getGoals());
+            response.setStatus(201);
+            playerManager.addPointsToSeveralPlayers(dto);
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Edit points for a single player", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/points/edit")
+    @PreAuthorize("hasRole('USER')")
+    public void editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
+                                   @RequestBody PlayerPointsDTO dto,
+                                   HttpServletResponse response) {
+
+        try {
+            response.setStatus(201);
+            playerManager.editPoints(dto);
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
     }
 
 }

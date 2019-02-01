@@ -1,14 +1,20 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
+import org.aspectj.apache.bcel.util.Play;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PlayerManager {
@@ -34,6 +40,18 @@ public class PlayerManager {
 //        makePlayers();
 //        addPointsToPlayersWeek0();
 
+    }
+
+    public void makePlayer(MakePlayerDTO makePlayerDTO){
+        Optional<CollegeTeam> team = teamRepo.findByName(makePlayerDTO.getCollegeTeam());
+        if (team.isPresent()){
+            Enums.Position position = Enums.Position.values()[makePlayerDTO.getPosition()];
+            Player player = new Player(team.get(), position, makePlayerDTO.getPrice(), makePlayerDTO.getFirstName(), makePlayerDTO.getSurname());
+            playerRepo.save(player);
+        }
+        else {
+            throw new IllegalArgumentException("Invalid team");
+        }
     }
 
 
@@ -104,14 +122,78 @@ public class PlayerManager {
         return total;
     }
 
+    // Doesn't add points to players who already have had points added to them
+    public void addPointsToSeveralPlayers(AddMultiplePointsDTO points){
+
+        for (PlayerPointsDTO dto : points.getPointsToAdd()){
+            Optional<Player> player = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
+            if (player.isPresent()){
+                Optional<PlayerPoints> pPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
+                if (pPoints.isPresent()){
+                    throw new IllegalArgumentException("Player " + player.get().getFirstName() + " already has points assigned for week " + dto.getWeek());
+                }
+                PlayerPoints playerPoints = new PlayerPoints(dto, player.get());
+                addPointsToPlayer(playerPoints);
+            }
+            else {
+                throw new IllegalArgumentException("Player does not exist");
+            }
+        }
+    }
+
+    public void editPoints(PlayerPointsDTO dto){
+        Optional<Player> player = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
+        if (player.isPresent()){
+            Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
+            if (playerPoints.isPresent()){
+                System.out.println("goals = " + playerPoints.get().getNumberOfGoals());
+                Integer previousScore = calculateScore(playerPoints.get());
+
+                PlayerPoints newPlayerPoints = new PlayerPoints(dto, player.get());
+
+                Integer newScore = calculateScore(newPlayerPoints);
+
+                playerPoints.get().setPoints(newScore);
+                playerPoints.get().setValues(newPlayerPoints);
+                Integer differenceInScores = newScore - previousScore;
+
+                System.out.println("player goals before = " + player.get().getTotalGoals());
+                System.out.println("new goals = " + newPlayerPoints.getNumberOfGoals());
+                System.out.println("old goals = " + playerPoints.get().getNumberOfGoals());
+                player.get().changeGoals(newPlayerPoints.getNumberOfGoals() - playerPoints.get().getNumberOfGoals());
+                player.get().changeAssists(newPlayerPoints.getNumberOfAssists() - playerPoints.get().getNumberOfAssists());
+                player.get().changeScore(differenceInScores);
+                System.out.println("player goals after = " + player.get().getTotalGoals());
+                playerPointsRepo.save(playerPoints.get());
+                playerRepo.save(player.get());
+
+                List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.get().getPlayer());
+                for (UsersWeeklyTeam uwt : weeklyTeams){
+                    uwt.changePoints(differenceInScores);
+                    weeklyTeamRepo.save(uwt);
+
+                    ApplicationUser user = uwt.getUser();
+                    user.changeTotalPoints(differenceInScores);
+                    applicationUserRepo.save(user);
+                }
+            }
+            else {
+                throw new IllegalArgumentException("Player " + player.get().getFirstName() + " does not have points assigned for week " + dto.getWeek());
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Player does not exist");
+        }
+    }
+
     void addPointsToPlayer(PlayerPoints playerPoints){
-        playerPointsRepo.save(playerPoints);
         Integer score = calculateScore(playerPoints);
+        playerPoints.setPoints(score);
+        playerPointsRepo.save(playerPoints);
         playerPoints.getPlayer().changeScore(score);
         playerPoints.getPlayer().changeGoals(playerPoints.getNumberOfGoals());
         playerPoints.getPlayer().changeAssists(playerPoints.getNumberOfAssists());
         playerRepo.save(playerPoints.getPlayer());
-
         List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.getPlayer());
         for (UsersWeeklyTeam uwt : weeklyTeams) {
 
@@ -185,66 +267,66 @@ public class PlayerManager {
         }
     }
 //
-//    public void addPointsToPlayersWeek0() {
-//        Optional<Player> player1 = playerRepo.findByFirstName("John");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 6, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Phil");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 2, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Chris");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 1, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("David");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
-//
-//
-//        player1 = playerRepo.findByFirstName("Bernado");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 5, 3, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Kevin");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Paul");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 1, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Paco");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 4, false, 90, 0, false, false, 0));
-//
-//
-//        player1 = playerRepo.findByFirstName("Marcus");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 8, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Romelu");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Dom");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Ed");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 9, 3, false, 90, 0, false, false, 0));
-//
-//
-//        player1 = playerRepo.findByFirstName("Joe");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 10, 0, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Stevie");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 70, 1, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Ollie");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 21, 3, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Eloka");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 72, 4, false, 90, 0, false, false, 0));
-//
-//
-//        player1 = playerRepo.findByFirstName("Herbie");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 23, 5, false, 90, 0, false, false, 0));
-//
-//        player1 = playerRepo.findByFirstName("Eduardo");
-//        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 43, 1, false, 90, 0, false, false, 0));
-//
-//    }
+    public void addPointsToPlayersWeek0() {
+        Optional<Player> player1 = playerRepo.findByFirstName("John");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 6, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Phil");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 2, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Chris");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("David");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Bernado");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 5, 3, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Kevin");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Paul");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Paco");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 4, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Marcus");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 8, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Romelu");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Dom");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Ed");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 9, 3, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Joe");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 10, 0, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Stevie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 70, 1, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Ollie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 21, 3, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Eloka");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 72, 4, false, 90, 0, false, false, 0));
+
+
+        player1 = playerRepo.findByFirstName("Herbie");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 23, 5, false, 90, 0, false, false, 0));
+
+        player1 = playerRepo.findByFirstName("Eduardo");
+        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 43, 1, false, 90, 0, false, false, 0));
+
+    }
 
     public void makePlayers() {
         Optional<CollegeTeam> team = teamRepo.findByName("A");

@@ -66,3 +66,6 @@ services:
 # target = All instances in the network
 # ip range = 0.0.0.0/0
 # allow all ports
+
+# https://certbot.eff.org/lets-encrypt/debianstretch-other
+# http://man7.org/linux/man-pages/man5/crontab.5.html
