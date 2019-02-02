@@ -27,8 +27,6 @@ public class LeagueManager {
     }
 
     public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
-
-
         Optional<League> duplicate = leagueRepo.findByLeagueName(leagueName);
         if (duplicate.isPresent()){
             throw new IllegalArgumentException("A league with that name already exists");
