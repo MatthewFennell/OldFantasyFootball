@@ -67,7 +67,8 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, St
                 username: response.username,
                 totalPoints: response.totalPoints,
                 remainingBudget: response.remainingBudget,
-                remainingTransfers: response.remainingTransfers
+                remainingTransfers: response.remainingTransfers,
+                roles: response.roles
               });
             })
             .then(() => {

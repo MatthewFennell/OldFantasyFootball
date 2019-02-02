@@ -5,6 +5,7 @@ import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers/Transfers';
 import Leagues from '../Containers/League/Leagues';
 import Settings from '../Containers/Settings';
+import Admin from '../Components/Admin/Admin';
 
 interface CategoryTemplateProps {
   pageBeingViewed: string;
@@ -26,6 +27,8 @@ class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
         return <Leagues />;
       } else if (pageBeingViewed === 'Settings') {
         return <Settings />;
+      } else if (pageBeingViewed === 'Admin') {
+        return <Admin />;
       } else {
         return <Team />;
       }
