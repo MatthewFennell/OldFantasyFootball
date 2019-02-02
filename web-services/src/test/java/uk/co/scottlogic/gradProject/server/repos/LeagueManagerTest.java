@@ -226,6 +226,7 @@ public class LeagueManagerTest {
         League league = new League(null, "league", new ArrayList<>(), 0);
         Iterable<League> list = Collections.singletonList(league);
         when(leagueRepo.findAll()).thenReturn(list);
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league));
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         leagueManager.createLeague(u1, "league", 0);
     }

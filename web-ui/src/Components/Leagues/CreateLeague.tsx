@@ -63,11 +63,15 @@ class CreateGroup extends React.Component<
             codeToJoin: this.state.codeToJoin,
             startWeek: 0
           };
-          createLeague(data).then(response => {
-            console.log('response = ' + JSON.stringify(response));
-            // TO:DO Add newly created league to props
-            this.props.addToLeagueCache(this.state.leagueName, 1);
-          });
+          createLeague(data)
+            .then(response => {
+              console.log('response = ' + JSON.stringify(response));
+              // TO:DO Add newly created league to props
+              this.props.addToLeagueCache(this.state.leagueName, 1);
+            })
+            .catch(error => {
+              console.log('error = ' + JSON.stringify(error));
+            });
         }
         break;
       default:

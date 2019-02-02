@@ -53,6 +53,7 @@ public class LeagueControllerTest {
         leagues.add(new League(user, "league name", null, 0));
 
         when(leagueRepo.findAll()).thenReturn(leagues);
+        when(leagueRepo.findByLeagueName("league name")).thenReturn(Optional.of(new League()));
 
         leagueController.makeLeague(user, makeLeagueDTO, response);
         leagueController.makeLeague(user, makeLeagueDTO, response);

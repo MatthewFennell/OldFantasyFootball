@@ -36,9 +36,7 @@ public class LeagueController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
             @ApiResponse(code = 201, message = "League successfully created"),
-            @ApiResponse(code = 400, message = "League with that name already exists"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 400, message = "A league with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
     public String makeLeague(@AuthenticationPrincipal ApplicationUser user,
@@ -50,6 +48,11 @@ public class LeagueController {
         catch (IllegalArgumentException e ){
             response.setStatus(400);
             log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
         }
         catch (DuplicateKeyException e) {
             response.setStatus(409);

@@ -15,26 +15,29 @@ export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
 };
 
 export const createLeague = (data: CreateLeague): Promise<any> => {
-  console.log('Sending ' + JSON.stringify(data));
   return fetch('/api/league/make', {
     method: 'POST',
     body: JSON.stringify(data),
     headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
-  })
-    .then(response => {
-      if (!response.ok) {
-        if (response.status === 403) {
-          throw new Error('Login Unsuccessful');
-        } else if (response.status === 500) {
-          throw new Error('Internal server error');
-        } else {
-          throw new Error(response.status.toString());
-        }
-      } else if (response.status === 201) {
-        return response.json();
+  }).then(response => {
+    if (!response.ok) {
+      if (response.status === 400) {
+        return response.json().then(json => {
+          if (response.ok) {
+            return json;
+          } else {
+            return Promise.reject(json.message);
+          }
+        });
+      } else if (response.status === 500) {
+        throw new Error('Internal server error');
+      } else {
+        throw new Error(response.status.toString());
       }
-    })
-    .catch(error => console.error(error));
+    } else if (response.status === 201) {
+      return response.json();
+    }
+  });
 };
 
 export const joinLeague = (code: string): Promise<LeaguePositions> => {
