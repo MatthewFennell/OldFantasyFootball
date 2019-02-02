@@ -11,16 +11,19 @@ interface Props {
   setAccount: (account: Account) => void;
   firstname: string;
   surname: string;
+  roles: string[];
 }
 class Header extends React.Component<Props> {
   private transfersRef: React.RefObject<HTMLDivElement>;
   private leagueRef: React.RefObject<HTMLDivElement>;
   private settingsRef: React.RefObject<HTMLDivElement>;
   private teamRef: React.RefObject<HTMLDivElement>;
+  private adminRef: React.RefObject<HTMLDivElement>;
   private _onTeamSelect: () => void;
   private _onSettingsSelect: () => void;
   private _onLeagueSelect: () => void;
   private _onTransfersSelect: () => void;
+  private _onAdminSelect: () => void;
 
   constructor(props: Props) {
     super(props);
@@ -29,10 +32,21 @@ class Header extends React.Component<Props> {
     this.leagueRef = React.createRef<HTMLDivElement>();
     this.settingsRef = React.createRef<HTMLDivElement>();
     this.teamRef = React.createRef<HTMLDivElement>();
+    this.adminRef = React.createRef<HTMLDivElement>();
     this._onTeamSelect = () => this._select(this.teamRef, 'Team');
     this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
     this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
     this._onTransfersSelect = () => this._select(this.transfersRef, 'Transfers');
+    this._onAdminSelect = () => this._select(this.adminRef, 'Admin');
+  }
+
+  _isAdmin(): boolean {
+    for (let x = 0; x < this.props.roles.length; x++) {
+      if (this.props.roles[x] === 'ROLE_ADMIN') {
+        return true;
+      }
+    }
+    return false;
   }
 
   componentDidMount() {
@@ -46,7 +60,8 @@ class Header extends React.Component<Props> {
           username: response.username,
           totalPoints: response.totalPoints,
           remainingBudget: response.remainingBudget,
-          remainingTransfers: response.remainingTransfers
+          remainingTransfers: response.remainingTransfers,
+          roles: response.roles
         });
       }
     });
@@ -57,6 +72,7 @@ class Header extends React.Component<Props> {
     this.transfersRef.current!.classList.remove('selected');
     this.leagueRef.current!.classList.remove('selected');
     this.settingsRef.current!.classList.remove('selected');
+    this.adminRef.current!.classList.remove('selected');
     target.current!.classList.add('selected');
     this.props.setPageBeingViewed(name);
   };
@@ -102,6 +118,16 @@ class Header extends React.Component<Props> {
                 imgSrc="Windy.png"
                 text="Settings"
               />
+              {this._isAdmin() ? (
+                <ButtonPageSelector
+                  id="settings"
+                  setRef={() => this.adminRef}
+                  selected={false}
+                  select={() => this._onAdminSelect()}
+                  imgSrc="Windy.png"
+                  text="Admin"
+                />
+              ) : null}
             </div>
           </Col>
           <Col lg="2">
