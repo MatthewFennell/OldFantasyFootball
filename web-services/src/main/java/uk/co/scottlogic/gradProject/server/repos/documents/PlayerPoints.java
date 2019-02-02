@@ -1,6 +1,7 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -61,9 +62,38 @@ public class PlayerPoints {
         id = UUID.randomUUID();
         this.player = player;
         this.week = week;
+        this.points = 0;
+    }
+
+    public PlayerPoints(PlayerPointsDTO dto, Player player){
+        this.numberOfGoals = dto.getGoals();
+        this.numberOfAssists = dto.getAssists();
+        this.minutesPlayed = dto.getMins();
+        this.manOfTheMatch = dto.isMotm();
+        this.yellowCards = dto.getYellowCards();
+        this.redCard = dto.isRed();
+        this.cleanSheet = dto.isClean();
+        this.date = dto.getDate();
+        id = UUID.randomUUID();
+        this.player = player;
+        this.week = dto.getWeek();
+        this.points = 0;
     }
 
     public PlayerPoints() {
+
+    }
+
+    public void setValues(PlayerPoints playerPoints){
+        setNumberOfGoals(playerPoints.getNumberOfGoals());
+        setNumberOfAssists(playerPoints.getNumberOfAssists());
+        setMinutesPlayed(playerPoints.getMinutesPlayed());
+        setManOfTheMatch(playerPoints.isManOfTheMatch());
+        setYellowCards(playerPoints.getYellowCards());
+        setRedCard(playerPoints.isRedCard());
+        setCleanSheet(playerPoints.isCleanSheet());
+        setDate(playerPoints.getDate());
+        setPoints(playerPoints.getPoints());
 
     }
 

@@ -70,7 +70,6 @@ public class PointsController {
     @PreAuthorize("hasRole('USER')")
     public List<UserReturnDTO> userWithMostPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
-            // TO:DO -> Move to a repo manager
             List<UserReturnDTO> topScoringDTOs = new ArrayList<>();
             List<ApplicationUser> topScoringUsers = applicationUserManager.findUsersWithLargestTotalPoints();
             for (ApplicationUser u : topScoringUsers) {
@@ -82,7 +81,7 @@ public class PointsController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (IOException e1) {
-                e1.printStackTrace();
+                log.debug(e1.getMessage());
             }
             ExceptionLogger.logException(e);
             response.setStatus(500);
@@ -168,5 +167,7 @@ public class PointsController {
         }
         return 0;
     }
+
+
 
 }
