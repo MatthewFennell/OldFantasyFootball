@@ -2,10 +2,9 @@ package uk.co.scottlogic.gradProject.server.routers.dto;
 
 import org.springframework.security.core.GrantedAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class UserReturnDTO {
 
@@ -29,7 +28,7 @@ public class UserReturnDTO {
 
     private String teamName;
 
-    private Integer remainingTransfers;
+    private List<String> roles;
 
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
@@ -43,6 +42,23 @@ public class UserReturnDTO {
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
         this.remainingBudget = user.getRemainingBudget();
+        roles = new ArrayList<>();
+
+        for (UserAuthority ua : user.getAuthorityList()){
+            roles.add(ua.getRole());
+        }
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public void setAuthoritySet(Set<GrantedAuthority> authoritySet) {
+        this.authoritySet = authoritySet;
     }
 
     public double getRemainingBudget() {
