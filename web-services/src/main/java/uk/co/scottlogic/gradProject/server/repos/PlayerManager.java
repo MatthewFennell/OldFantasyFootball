@@ -146,7 +146,8 @@ public class PlayerManager {
         if (player.isPresent()){
             Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
             if (playerPoints.isPresent()){
-                System.out.println("goals = " + playerPoints.get().getNumberOfGoals());
+                Integer goalsBefore = playerPoints.get().getNumberOfGoals();
+                Integer goalsAssists = playerPoints.get().getNumberOfAssists();
                 Integer previousScore = calculateScore(playerPoints.get());
 
                 PlayerPoints newPlayerPoints = new PlayerPoints(dto, player.get());
@@ -157,13 +158,10 @@ public class PlayerManager {
                 playerPoints.get().setValues(newPlayerPoints);
                 Integer differenceInScores = newScore - previousScore;
 
-                System.out.println("player goals before = " + player.get().getTotalGoals());
-                System.out.println("new goals = " + newPlayerPoints.getNumberOfGoals());
-                System.out.println("old goals = " + playerPoints.get().getNumberOfGoals());
-                player.get().changeGoals(newPlayerPoints.getNumberOfGoals() - playerPoints.get().getNumberOfGoals());
-                player.get().changeAssists(newPlayerPoints.getNumberOfAssists() - playerPoints.get().getNumberOfAssists());
+                player.get().changeGoals(newPlayerPoints.getNumberOfGoals() - goalsBefore);
+                player.get().changeAssists(newPlayerPoints.getNumberOfAssists() - goalsAssists);
                 player.get().changeScore(differenceInScores);
-                System.out.println("player goals after = " + player.get().getTotalGoals());
+
                 playerPointsRepo.save(playerPoints.get());
                 playerRepo.save(player.get());
 
