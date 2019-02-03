@@ -4,9 +4,7 @@ import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
@@ -189,17 +187,42 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "Invalid transfer request"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/player/points/add")
+    @PostMapping(value = "/player/points/multiple/add")
     @PreAuthorize("hasRole('USER')")
     public void addPointsToPlayers(@AuthenticationPrincipal ApplicationUser user,
                                    @RequestBody AddMultiplePointsDTO dto,
                                    HttpServletResponse response) {
 
         try {
-            System.out.println("size = " + dto.getPointsToAdd().size());
-            System.out.println("parameters: goals = " + dto.getPointsToAdd().get(0).getGoals());
             response.setStatus(201);
             playerManager.addPointsToSeveralPlayers(dto);
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Add points to a single player", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/points/add")
+    @PreAuthorize("hasRole('USER')")
+    public void addPointsToSinglePlayer(@AuthenticationPrincipal ApplicationUser user,
+                                   @RequestBody PlayerPointsDTO dto,
+                                   HttpServletResponse response) {
+
+        try {
+            response.setStatus(201);
+            playerManager.addPointsToSinglePlayer(dto);
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());

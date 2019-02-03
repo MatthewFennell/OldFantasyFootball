@@ -7,11 +7,11 @@ interface State {
   minutesPlayed: string;
 }
 
-interface PositionDropdownProps {
+interface MinutesPlayedProps {
   minutesPlayed: (minutesPlayed: string) => void;
 }
-class MinutesPlayed extends React.Component<PositionDropdownProps, State> {
-  constructor(props: PositionDropdownProps) {
+class MinutesPlayed extends React.Component<MinutesPlayedProps, State> {
+  constructor(props: MinutesPlayedProps) {
     super(props);
     this.state = {
       minutesPlayed: ''
@@ -36,7 +36,7 @@ class MinutesPlayed extends React.Component<PositionDropdownProps, State> {
           <div id="login-input-fields">
             <FormGroup>
               <Label for="minutesPlayed" className="unselectable">
-                Number of Minutes Played
+                Minutes Played
               </Label>
               <Field
                 type="text"

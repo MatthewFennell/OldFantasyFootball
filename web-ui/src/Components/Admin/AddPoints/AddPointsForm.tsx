@@ -3,17 +3,24 @@ import { Button } from 'reactstrap';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
 import Week from './Week';
-// import Goals from './Goals';
+import Goals from './Goals';
 import Assists from './Assists';
 import MinutesPlayed from './MinutesPlayed';
-import Generic from './GenericInput';
+import ManOfTheMatch from './ManOfTheMatch';
+import RedCard from './RedCard';
+import CleanSheet from './CleanSheet';
+import YellowCards from './YellowCards';
+import { PlayerDTO } from '../../../Models/Interfaces/Player';
+import { AddPoints } from '../../../Models/Interfaces/AddPoints';
+import { addPlayerPoints } from '../../../Services/Player/PlayerService';
 
-interface TransfersFormProps {
+interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
   teamAddingPoints: string;
+  playersInFilteredTeam: PlayerDTO[];
 }
 
-interface TransfersFormState {
+interface AddPointsFormState {
   goals: string;
   assists: string;
   minutesPlayed: string;
@@ -23,10 +30,11 @@ interface TransfersFormState {
   redCard: boolean;
   playerID: string;
   week: string;
+  viewingDefender: boolean;
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-  constructor(props: TransfersFormProps) {
+class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
+  constructor(props: AddPointsFormProps) {
     super(props);
     this._handleGoals = this._handleGoals.bind(this);
     this._handleAssists = this._handleAssists.bind(this);
@@ -40,42 +48,45 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this.state = {
-      goals: '',
-      assists: '',
-      minutesPlayed: '',
+      goals: '0',
+      assists: '0',
+      minutesPlayed: '0',
       manOfTheMatch: false,
-      yellowCards: '',
+      yellowCards: '0',
       cleanSheet: false,
       redCard: false,
       playerID: '',
-      week: ''
+      week: '0',
+      viewingDefender: true
     };
   }
 
-  _getResults() {
-    // Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
-    // let position: string = this.state.positionValue
-    //   .toUpperCase()
-    //   .substr(0, this.state.positionValue.length - 1);
-    // let data: CreatePlayer = {
-    //   position: position,
-    //   collegeTeam: this.state.teamValue,
-    //   price: parseInt(this.state.priceValue),
-    //   firstName: this.state.firstNameValue,
-    //   surname: this.state.surnameValue
-    // };
-    // createPlayer(data).then(response => {
-    //   this.props.setFilteredPlayers(response);
-    // });
-  }
+  _getResults() {}
 
   _handleGoals(goals: string) {
     this.setState({ goals }, this._getResults);
-    console.log('setting goals to ' + goals);
   }
 
   _handlePlayerID(playerID: string) {
     this.setState({ playerID }, this._getResults);
+
+    let haveSet: boolean = false;
+
+    for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
+      if (playerID === this.props.playersInFilteredTeam[x].id) {
+        if (
+          this.props.playersInFilteredTeam[x].position === 'DEFENDER' ||
+          this.props.playersInFilteredTeam[x].position === 'GOALKEEPER'
+        ) {
+          haveSet = true;
+          this.setState({ viewingDefender: true });
+        }
+      }
+    }
+    if (!haveSet) {
+      this.setState({ viewingDefender: false });
+      this.setState({ cleanSheet: false });
+    }
   }
 
   _handleCollegeTeam(team: string) {
@@ -111,17 +122,21 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   _onSubmit() {
-    // let position: string = this.state.positionValue.toUpperCase();
-    // let data: CreatePlayer = {
-    //   position: position,
-    //   collegeTeam: this.state.teamValue,
-    //   price: parseInt(this.state.priceValue),
-    //   firstName: this.state.firstNameValue,
-    //   surname: this.state.surnameValue
-    // };
-    // createPlayer(data).catch(error => {
-    //   console.log('error = ' + JSON.stringify(error));
-    // });
+    let data: AddPoints = {
+      goals: this.state.goals,
+      assists: this.state.assists,
+      minutesPlayed: this.state.minutesPlayed,
+      manOfTheMatch: this.state.manOfTheMatch,
+      yellowCards: this.state.yellowCards,
+      cleanSheet: this.state.cleanSheet,
+      redCard: this.state.redCard,
+      playerID: this.state.playerID,
+      week: this.state.week
+    };
+
+    addPlayerPoints(data).catch(error => {
+      console.log('error = ' + JSON.stringify(error));
+    });
   }
 
   render() {
@@ -131,6 +146,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     let setGoals = this._handleGoals;
     let assists = this._handleAssists;
     let minutesPlayed = this._handleMinutesPlayed;
+    let manOfTheMatch = this._handleManOfTheMatch;
+    let redCard = this._handleRedCard;
+    let cleanSheet = this._handleCleanSheet;
+    let yellowCards = this._handleYellowCards;
 
     return (
       <div className="transfer-filter-rows">
@@ -147,7 +166,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         </div>
         <div className="transfer-form-row-two">
           <div>
-            <Generic inputFunction={setGoals} title={'Number of Goals'} />
+            <Goals goals={setGoals} />
           </div>
           <div>
             <Assists assists={assists} />
@@ -156,17 +175,32 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <MinutesPlayed minutesPlayed={minutesPlayed} />
           </div>
           <div>
-            <Button
-              className="btn btn-default btn-round-lg btn-lg second"
-              id="btnRegister"
-              onClick={() => this._onSubmit()}
-            >
-              Add Points
-            </Button>
+            <YellowCards yellowCards={yellowCards} />
           </div>
+          <div>
+            <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
+          </div>
+          <div>
+            <RedCard setRedCard={redCard} />
+          </div>
+
+          {this.state.viewingDefender ? (
+            <div>
+              <CleanSheet setCleanSheet={cleanSheet} />
+            </div>
+          ) : null}
+        </div>
+        <div>
+          <Button
+            className="btn btn-default btn-round-lg btn-lg second"
+            id="btnRegister"
+            onClick={() => this._onSubmit()}
+          >
+            Add Points
+          </Button>
         </div>
       </div>
     );
   }
 }
-export default TransfersForm;
+export default AddPointsForm;

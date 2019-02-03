@@ -3,15 +3,15 @@ import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-interface State {
+interface WeekState {
   week: string;
 }
 
-interface PositionDropdownProps {
+interface WeekProps {
   week: (week: string) => void;
 }
-class Week extends React.Component<PositionDropdownProps, State> {
-  constructor(props: PositionDropdownProps) {
+class Week extends React.Component<WeekProps, WeekState> {
+  constructor(props: WeekProps) {
     super(props);
     this.state = {
       week: ''
@@ -22,7 +22,7 @@ class Week extends React.Component<PositionDropdownProps, State> {
     this.props.week(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<WeekState, keyof WeekState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {

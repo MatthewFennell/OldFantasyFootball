@@ -3,27 +3,26 @@ import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-interface State {
-  genericValue: string;
+interface YellowCardState {
+  yellowCards: string;
 }
 
-interface PositionDropdownProps {
-  inputFunction: (genericValue: string) => void;
-  title: string;
+interface YellowCardProps {
+  yellowCards: (yellowCards: string) => void;
 }
-class Generic extends React.Component<PositionDropdownProps, State> {
-  constructor(props: PositionDropdownProps) {
+class YellowCards extends React.Component<YellowCardProps, YellowCardState> {
+  constructor(props: YellowCardProps) {
     super(props);
     this.state = {
-      genericValue: '0'
+      yellowCards: ''
     };
   }
 
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
-    this.props.inputFunction(eventTarget.value);
+    this.props.yellowCards(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<YellowCardState, keyof YellowCardState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {
@@ -36,13 +35,13 @@ class Generic extends React.Component<PositionDropdownProps, State> {
         <Form id="search-by-name-form">
           <div id="login-input-fields">
             <FormGroup>
-              <Label for="genericValue" className="unselectable">
-                {this.props.title}
+              <Label for="yellowCards" className="unselectable">
+                Yellow Cards
               </Label>
               <Field
                 type="text"
-                name="genericValue"
-                id="genericValue"
+                name="yellowCards"
+                id="yellowCards"
                 component="input"
                 onChange={e => this._handleInput(e!.target.name, e!.target)}
               />
@@ -57,5 +56,5 @@ class Generic extends React.Component<PositionDropdownProps, State> {
 export default withRouter(
   reduxForm<{}, any>({
     form: 'login'
-  })(Generic)
+  })(YellowCards)
 );

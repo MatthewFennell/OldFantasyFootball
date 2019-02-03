@@ -63,20 +63,23 @@ public class PlayerPoints {
         this.player = player;
         this.week = week;
         this.points = 0;
+        this.date = new Date();
     }
 
     public PlayerPoints(PlayerPointsDTO dto, Player player){
         this.numberOfGoals = dto.getGoals();
         this.numberOfAssists = dto.getAssists();
-        this.minutesPlayed = dto.getMins();
-        this.manOfTheMatch = dto.isMotm();
+        this.minutesPlayed = dto.getMinutesPlayed();
+        this.manOfTheMatch = dto.isManOfTheMatch();
         this.yellowCards = dto.getYellowCards();
-        this.redCard = dto.isRed();
-        this.cleanSheet = dto.isClean();
+        this.redCard = dto.isRedCard();
+        this.cleanSheet = dto.isCleanSheet();
+        this.minutesPlayed = dto.getMinutesPlayed();
         id = UUID.randomUUID();
         this.player = player;
         this.week = dto.getWeek();
         this.points = 0;
+        this.date = new Date();
     }
 
     public PlayerPoints() {

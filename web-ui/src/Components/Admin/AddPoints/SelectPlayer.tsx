@@ -3,66 +3,67 @@ import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap
 
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
-interface TeamDropdownProps {
+interface SelectPlayerProps {
   setPlayerID: (id: string) => void;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
 }
 
-interface TeamDropdownState {
-  teamDropDownOpen: boolean;
-  teamValue: string;
+interface SelectPlayerState {
+  selectPlayerOpen: boolean;
+  playerSelected: string;
 }
 
-class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState> {
-  constructor(props: TeamDropdownProps) {
+class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState> {
+  constructor(props: SelectPlayerProps) {
     super(props);
     this._toggleTeam = this._toggleTeam.bind(this);
     this.state = {
-      teamDropDownOpen: false,
-      teamValue: 'None selected'
+      selectPlayerOpen: false,
+      playerSelected: 'None selected'
     };
   }
 
   _toggleTeam() {
     this.setState(prevState => ({
-      teamDropDownOpen: !prevState.teamDropDownOpen
+      selectPlayerOpen: !prevState.selectPlayerOpen
     }));
   }
 
-  _handlePlayerIDChange(id: string) {
-    this.setState({ teamValue: id });
-    this.props.setPlayerID(id);
+  _handlePlayerIDChange(id: string[]) {
+    this.setState({ playerSelected: id[0] });
+    this.props.setPlayerID(id[1]);
   }
 
   render() {
     // TO:DO - fetch the teams from the server
-    let teams: string[] = [];
+    let teams: string[][] = [];
     for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
-      teams.push(
+      teams.push([
         this.props.playersInFilteredTeam[x].firstName +
           ' ' +
-          this.props.playersInFilteredTeam[x].surname
-      );
+          this.props.playersInFilteredTeam[x].surname,
+        this.props.playersInFilteredTeam[x].id
+      ]);
     }
 
     const teamOptions = teams.map(team => (
       <p className="menu-items">
         <DropdownItem
-          className={'team-menu-item-' + (team === this.state.teamValue)}
-          key={team}
-          value={team}
+          className={'team-menu-item-' + (team[0] === this.state.playerSelected)}
+          key={team[1]}
+          value={team[0]}
           onClick={() => this._handlePlayerIDChange(team)}
         >
-          {team}
+          {team[0]}
         </DropdownItem>
       </p>
     ));
 
     return (
       <div className="team-dropdown">
-        <Dropdown isOpen={this.state.teamDropDownOpen} toggle={this._toggleTeam}>
-          {'Player: '} {this.state.teamValue}
+        <Dropdown isOpen={this.state.selectPlayerOpen} toggle={this._toggleTeam}>
+          {'Player: '} {this.state.playerSelected}
           <DropdownToggle caret className="team-menu-toggle">
             {' '}
             {' ▼'}
@@ -73,4 +74,4 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
     );
   }
 }
-export default TeamDropdown;
+export default SelectPlayer;

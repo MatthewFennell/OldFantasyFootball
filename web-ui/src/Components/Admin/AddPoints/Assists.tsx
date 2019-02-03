@@ -3,15 +3,15 @@ import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-interface State {
+interface AssistsState {
   assists: string;
 }
 
-interface PositionDropdownProps {
+interface AssistProps {
   assists: (assists: string) => void;
 }
-class Assists extends React.Component<PositionDropdownProps, State> {
-  constructor(props: PositionDropdownProps) {
+class Assists extends React.Component<AssistProps, AssistsState> {
+  constructor(props: AssistProps) {
     super(props);
     this.state = {
       assists: ''
@@ -22,7 +22,7 @@ class Assists extends React.Component<PositionDropdownProps, State> {
     this.props.assists(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<AssistsState, keyof AssistsState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {
@@ -40,8 +40,8 @@ class Assists extends React.Component<PositionDropdownProps, State> {
               </Label>
               <Field
                 type="text"
-                name="goals"
-                id="goals"
+                name="assists"
+                id="assists"
                 component="input"
                 onChange={e => this._handleInput(e!.target.name, e!.target)}
               />
