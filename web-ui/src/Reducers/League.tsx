@@ -1,6 +1,6 @@
-import { ActionTypes, Action as StatsAction } from '../Actions/LeagueActions';
+import { ActionTypes, Action as LeagueAction } from '../Actions/LeagueActions';
 import { UserLeaguePosition } from '../Models/Interfaces/UserLeaguePosition';
-type Action = StatsAction;
+type Action = LeagueAction;
 
 // Define our State interface for the current reducer
 export interface State {
