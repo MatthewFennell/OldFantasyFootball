@@ -305,7 +305,7 @@ public class PlayerManageTest {
     @Test(expected = IllegalArgumentException.class)
     public void addingPointsToSeveralPlayersThrowsIllegalArgumentIfPlayerDoesNotExist() {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, new Date(), "id", 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, "id", 0);
         List<PlayerPointsDTO> playerPointsDTOS = new ArrayList<>();
         playerPointsDTOS.add(playerPointsDTO);
         AddMultiplePointsDTO dto = new AddMultiplePointsDTO(playerPointsDTOS);
@@ -318,7 +318,7 @@ public class PlayerManageTest {
         Integer goals = 10;
         Integer assists = 5;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(goals, assists, 90, false, 0, false, false, new Date(), player.getId().toString(), 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(goals, assists, 90, false, 0, false, false, player.getId().toString(), 0);
         List<PlayerPointsDTO> playerPointsDTOS = new ArrayList<>();
         playerPointsDTOS.add(playerPointsDTO);
         AddMultiplePointsDTO dto = new AddMultiplePointsDTO(playerPointsDTOS);
@@ -332,7 +332,7 @@ public class PlayerManageTest {
     @Test(expected = IllegalArgumentException.class)
     public void editingPointsOfPlayerWhoHasNoneInThatWeekThrowsIllegalArgument() {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, new Date(), "id", 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, "id", 0);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
         playerManager.editPoints(playerPointsDTO);
@@ -341,7 +341,7 @@ public class PlayerManageTest {
     @Test(expected = IllegalArgumentException.class)
     public void editingPointsOfPlayerWhoDoesNotExistThrowsIllegalArgument() {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, new Date(), "id", 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, 90, false, 0, false, false, "id", 0);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
         playerManager.editPoints(playerPointsDTO);
     }
@@ -351,7 +351,7 @@ public class PlayerManageTest {
 
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, new Date(), player.getId().toString(), 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, player.getId().toString(), 0);
         PlayerPoints playerPoints = new PlayerPoints(3, 2, 0, false, 0, false, false, new Date(), player, 0);
         playerManager.addPointsToPlayer(playerPoints);
 
