@@ -5,7 +5,7 @@ import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers/Transfers';
 import Leagues from '../Containers/League/Leagues';
 import Settings from '../Containers/Settings';
-import Admin from '../Components/Admin/Admin';
+import Admin from '../Containers/Admin/Admin';
 
 interface CategoryTemplateProps {
   pageBeingViewed: string;

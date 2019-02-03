@@ -139,7 +139,11 @@ public class PlayerController {
         catch (IllegalArgumentException e ){
             response.setStatus(400);
             log.debug(e.getMessage());
-
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
         } catch (Exception e) {
             response.setStatus(500);
             log.debug(e.getMessage());

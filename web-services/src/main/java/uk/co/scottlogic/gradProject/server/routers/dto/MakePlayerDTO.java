@@ -1,14 +1,16 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
+import uk.co.scottlogic.gradProject.server.misc.Enums;
+
 public class MakePlayerDTO {
 
     private String firstName;
     private String surname;
-    private Integer position;
+    private Enums.Position position;
     private String collegeTeam;
     private double price;
 
-    public MakePlayerDTO(String firstName, String surname, Integer position, String collegeTeam, double price) {
+    public MakePlayerDTO(String firstName, String surname, Enums.Position position, String collegeTeam, double price) {
         this.firstName = firstName;
         this.surname = surname;
         this.position = position;
@@ -36,11 +38,11 @@ public class MakePlayerDTO {
         this.surname = surname;
     }
 
-    public Integer getPosition() {
+    public Enums.Position getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(Enums.Position position) {
         this.position = position;
     }
 

@@ -1,15 +1,12 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
-import Admin from '../../Components/Admin/Admin';
-import { setAdminPageBeingViewed } from '../../Actions/AdminActions';
+import CreatePlayerForm from '../../Components/Admin/CreatePlayer/CreatePlayerForm';
 
 const mapStateToProps = (state: State) => ({});
 
-const mapDispatchToProps = {
-  setAdminPageBeingViewed
-};
+const mapDispatchToProps = {};
 
 export default connect<any, any, any>(
   mapStateToProps as any,
   mapDispatchToProps
-)(Admin);
+)(CreatePlayerForm);

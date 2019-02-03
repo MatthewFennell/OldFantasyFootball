@@ -1,11 +1,14 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
 import org.aspectj.apache.bcel.util.Play;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.routers.PointsController;
 import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @Service
 public class PlayerManager {
 
+    private static final Logger log = LoggerFactory.getLogger(PlayerManager.class);
 
     private CollegeTeamRepo teamRepo;
 
@@ -45,8 +49,7 @@ public class PlayerManager {
     public void makePlayer(MakePlayerDTO makePlayerDTO){
         Optional<CollegeTeam> team = teamRepo.findByName(makePlayerDTO.getCollegeTeam());
         if (team.isPresent()){
-            Enums.Position position = Enums.Position.values()[makePlayerDTO.getPosition()];
-            Player player = new Player(team.get(), position, makePlayerDTO.getPrice(), makePlayerDTO.getFirstName(), makePlayerDTO.getSurname());
+            Player player = new Player(team.get(), makePlayerDTO.getPosition(), makePlayerDTO.getPrice(), makePlayerDTO.getFirstName(), makePlayerDTO.getSurname());
             playerRepo.save(player);
         }
         else {
@@ -60,6 +63,7 @@ public class PlayerManager {
         if (team.isPresent()) {
             Player player = new Player(team.get(), position, price, firstName, surname);
             playerRepo.save(player);
+            log.debug("Made a player named " + player.getFirstName());
         } else {
             throw new IllegalArgumentException("Invalid Team ID");
         }

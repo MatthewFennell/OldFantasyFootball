@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import '../../Style/Transfers/TeamDropdown.css';
 
 interface TeamDropdownProps {
   setTeam: (team: string) => void;
@@ -17,7 +16,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
     this._toggleTeam = this._toggleTeam.bind(this);
     this.state = {
       teamDropDownOpen: false,
-      teamValue: 'All teams'
+      teamValue: 'A'
     };
   }
 
@@ -34,23 +33,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 
   render() {
     // TO:DO - fetch the teams from the server
-    let teams: string[] = [
-      'All teams',
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N'
-    ];
+    let teams: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
     const teamOptions = teams.map(team => (
       <p className="menu-items">
         <DropdownItem
