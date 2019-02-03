@@ -110,7 +110,6 @@ public class PlayerManager {
             total += playerPoints.getNumberOfGoals() * Constants.POINTS_PER_ATTACKER_GOAL;
         }
         total += playerPoints.getNumberOfAssists() * Constants.POINTS_PER_ASSIST;
-
         if (playerPoints.getMinutesPlayed() > 60) {
             total += 2;
         } else if (playerPoints.getMinutesPlayed() > 0) {
@@ -124,6 +123,17 @@ public class PlayerManager {
             total += Constants.MAN_OF_THE_MATCH_BONUS;
         }
         return total;
+    }
+
+    public List<Player> findPlayersByCollegeTeam(String team){
+        Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
+        if (collegeTeam.isPresent()){
+            return playerRepo.findByCollegeTeam(collegeTeam.get());
+        }
+        else {
+            throw new IllegalArgumentException("Team does not exist");
+        }
+
     }
 
     // Doesn't add points to players who already have had points added to them
@@ -142,6 +152,21 @@ public class PlayerManager {
             else {
                 throw new IllegalArgumentException("Player does not exist");
             }
+        }
+    }
+
+    public void addPointsToSinglePlayer(PlayerPointsDTO dto){
+        Optional<Player> player = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
+        if (player.isPresent()){
+            Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
+            if (playerPoints.isPresent()){
+                throw new IllegalArgumentException("Player " + player.get().getFirstName() + " already has points assigned for week " + dto.getWeek());
+            }
+            PlayerPoints pPoints = new PlayerPoints(dto, player.get());
+            addPointsToPlayer(pPoints);
+        }
+        else {
+            throw new IllegalArgumentException("Player does not exist");
         }
     }
 

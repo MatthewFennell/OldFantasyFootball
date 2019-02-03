@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createPlayer } from '../../../Services/Player/PlayerService';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { CreatePlayer } from '../../../Models/Interfaces/CreatePlayer';
 import FirstName from './FirstName';
 import Surname from './Surname';
@@ -9,10 +8,7 @@ import Price from './Price';
 import CollegeTeam from './CollegeTeam';
 import { Button } from 'reactstrap';
 
-interface TransfersFormProps {
-  setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
-  filteredPlayers: PlayerDTO[];
-}
+interface TransfersFormProps {}
 
 interface TransfersFormState {
   positionValue: string;
@@ -95,8 +91,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   render() {
     let positionChange = this._handlePositionChange;
     let teamChange = this._handleTeamChange;
-    // let sortByChange = this._handleSortByChange;
-    // let minimumPriceChange = this._handleMinimumPriceChange;
     let price = this._handlePrice;
     let firstName = this._handleFirstName;
     let surname = this._handleSurname;
