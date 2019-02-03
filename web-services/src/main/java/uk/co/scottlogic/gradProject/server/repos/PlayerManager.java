@@ -126,6 +126,17 @@ public class PlayerManager {
         return total;
     }
 
+    public List<Player> findPlayersByCollegeTeam(String team){
+        Optional<CollegeTeam> collegeTeam = teamRepo.findByName(team);
+        if (collegeTeam.isPresent()){
+            return playerRepo.findByCollegeTeam(collegeTeam.get());
+        }
+        else {
+            throw new IllegalArgumentException("Team does not exist");
+        }
+
+    }
+
     // Doesn't add points to players who already have had points added to them
     public void addPointsToSeveralPlayers(AddMultiplePointsDTO points){
 

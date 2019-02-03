@@ -51,6 +51,26 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
   });
 };
 
+export const findPlayersInCollegeTeam = (data: string): Promise<PlayerDTO[]> => {
+  console.log('sending data ' + JSON.stringify(data));
+  return fetch('/api/player/team/' + data, {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 400) {
+      return response.json().then(json => {
+        if (response.ok) {
+          return json;
+        } else {
+          return Promise.reject(json.message);
+        }
+      });
+    } else if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
 export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
   console.log('sending data ' + JSON.stringify(data));
   return fetch(

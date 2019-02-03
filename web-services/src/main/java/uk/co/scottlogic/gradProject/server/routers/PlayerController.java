@@ -119,6 +119,38 @@ public class PlayerController {
         return null;
     }
 
+    @ApiOperation(value = Icons.key
+            + " Find all players in a team",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player//team/{team}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<PlayerDTO> findPlayersByCollegeTeam(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("team") String team
+    ) {
+        try {
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            response.setStatus(200);
+            List<Player> filteredPlayers = playerManager.findPlayersByCollegeTeam(team);
+            List<PlayerDTO> responses = new ArrayList<>();
+            for (Player p : filteredPlayers) {
+                responses.add(new PlayerDTO(p));
+            }
+            return responses;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
+    }
+
     @ApiOperation(value = Icons.key + " Make a player ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {

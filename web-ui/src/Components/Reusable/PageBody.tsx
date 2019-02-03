@@ -30,11 +30,6 @@ class PageBody extends React.Component<PageBodyProps> {
   }
 
   render() {
-    console.log('Page being viewed = ' + this.props.pageBeingViewed);
-    console.log('Page being viewed = ' + this.props.pageBeingViewed);
-    console.log('Page being viewed = ' + this.props.pageBeingViewed);
-    console.log('Page being viewed = ' + this.props.pageBeingViewed);
-
     return <Route exact path="/team" component={CategoryTemplate} />;
   }
 }

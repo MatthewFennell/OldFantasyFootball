@@ -11,11 +11,10 @@ public class PlayerPointsDTO {
     private Integer yellowCards;
     private boolean red;
     private boolean clean;
-    private Date date;
     private String playerID;
     private Integer week;
 
-    public PlayerPointsDTO(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellowCards, boolean red, boolean clean, Date date, String playerID, Integer week) {
+    public PlayerPointsDTO(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellowCards, boolean red, boolean clean, String playerID, Integer week) {
         this.goals = goals;
         this.assists = assists;
         this.mins = mins;
@@ -23,7 +22,6 @@ public class PlayerPointsDTO {
         this.yellowCards = yellowCards;
         this.red = red;
         this.clean = clean;
-        this.date = date;
         this.playerID = playerID;
         this.week = week;
     }
@@ -58,10 +56,6 @@ public class PlayerPointsDTO {
 
     public boolean isClean() {
         return clean;
-    }
-
-    public Date getDate() {
-        return date;
     }
 
     public String getPlayerID() {

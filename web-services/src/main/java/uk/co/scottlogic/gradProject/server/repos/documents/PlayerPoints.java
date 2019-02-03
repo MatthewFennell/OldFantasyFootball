@@ -73,7 +73,6 @@ public class PlayerPoints {
         this.yellowCards = dto.getYellowCards();
         this.redCard = dto.isRed();
         this.cleanSheet = dto.isClean();
-        this.date = dto.getDate();
         id = UUID.randomUUID();
         this.player = player;
         this.week = dto.getWeek();
