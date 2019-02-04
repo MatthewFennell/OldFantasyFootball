@@ -1,7 +1,8 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
-public class PlayerPointsDTO {
+import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 
+public class PlayerPointsDTO {
     private Integer goals;
     private Integer assists;
     private Integer minutesPlayed;
@@ -22,6 +23,18 @@ public class PlayerPointsDTO {
         this.cleanSheet = clean;
         this.playerID = playerID;
         this.week = week;
+    }
+
+    public PlayerPointsDTO(PlayerPoints playerPoints){
+        this.goals = playerPoints.getNumberOfGoals();
+        this.assists = playerPoints.getNumberOfAssists();
+        this.minutesPlayed = playerPoints.getMinutesPlayed();
+        this.manOfTheMatch = playerPoints.isManOfTheMatch();
+        this.yellowCards = playerPoints.getYellowCards();
+        this.redCard = playerPoints.isRedCard();
+        this.cleanSheet = playerPoints.isCleanSheet();
+        this.playerID = playerPoints.getPlayer().getId().toString();
+        this.week = playerPoints.getWeek();
     }
 
     public void PlayerPointsDTO() {

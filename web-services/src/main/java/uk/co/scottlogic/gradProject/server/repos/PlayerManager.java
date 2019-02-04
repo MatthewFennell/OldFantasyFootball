@@ -242,6 +242,7 @@ public class PlayerManager {
         else {
             throw new IllegalArgumentException("Player does not exist");
         }
+        System.out.println("points edited");
     }
 
     public void addPointsToPlayer(PlayerPoints playerPoints){
@@ -263,6 +264,22 @@ public class PlayerManager {
             ApplicationUser user = uwt.getUser();
             user.changeTotalPoints(score);
             applicationUserRepo.save(user);
+        }
+    }
+
+    public PlayerPoints findStatsForPlayerInWeek(String playerID, Integer week){
+        Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
+        if (player.isPresent()){
+            Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), week);
+            if (playerPoints.isPresent()){
+                return playerPoints.get();
+            }
+            else {
+                throw new IllegalArgumentException("This player does not have any points for that week");
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Player does not exist");
         }
     }
 
