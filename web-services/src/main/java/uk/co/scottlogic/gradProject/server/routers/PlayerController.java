@@ -192,10 +192,11 @@ public class PlayerController {
     @PostMapping(value = "/player/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public void deletePlayer(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody String playerID, HttpServletResponse response) {
+                           @RequestBody String id, HttpServletResponse response) {
         try {
             response.setStatus(204);
-            playerManager.deletePlayer(playerID);
+            System.out.println("trying to delete " + id);
+            playerManager.deletePlayer(id);
         }
         catch (IllegalArgumentException e ){
             response.setStatus(400);
