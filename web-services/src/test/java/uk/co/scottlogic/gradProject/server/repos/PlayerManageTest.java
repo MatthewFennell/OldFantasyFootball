@@ -60,7 +60,7 @@ public class PlayerManageTest {
     public void addingPointsToPlayerChangesTheirWeeklyScore() {
         Integer goals = 5;
         Integer assists = 4;
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
         playerManager.addPointsToPlayer(player, new Date(), goals, assists, false, 0, 0, false, false, 0);
@@ -70,7 +70,7 @@ public class PlayerManageTest {
     @Test
     public void addingPointsToPlayerAddsPointsToWeeklyTeamsTheyAreIn() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
 
         List<Player> playersInWeeklyTeam = new ArrayList<>();
@@ -96,7 +96,7 @@ public class PlayerManageTest {
     public void addingPointsToPlayerChangesTheirWeeklyScoreObject() {
         Integer goals = 5;
         Integer assists = 4;
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
         PlayerPoints playerPoints = new PlayerPoints(goals,assists, 0, false, 0, false, false, new Date(), player, 0);
@@ -107,7 +107,7 @@ public class PlayerManageTest {
     @Test
     public void addingPointsToPlayerAddsPointsToWeeklyTeamsTheyAreInObject() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
 
         List<Player> playersInWeeklyTeam = new ArrayList<>();
@@ -134,7 +134,7 @@ public class PlayerManageTest {
         Integer goals = 5;
         Integer assists = 3;
         Integer mins = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         PlayerPoints playerPoints = new PlayerPoints(goals, assists, mins, false, 0, false, false, new Date(), player, 0);
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
@@ -152,7 +152,7 @@ public class PlayerManageTest {
 
     @Test
     public void findPointsForPlayerInAWeekReturnsZeroIfPlayerDoesNotExistAndWeekZero() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
         assertEquals(Integer.valueOf(0), playerManager.findPointsForPlayerInWeek(player, 0));
@@ -167,7 +167,7 @@ public class PlayerManageTest {
 
     @Test
     public void filterGoalkeepersReturnsOnlyKeepers() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
 
         List<Player> players = new ArrayList<>();
@@ -393,7 +393,7 @@ public class PlayerManageTest {
     @Test
     public void canMakePlayerWithDTO(){
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         when(teamRepo.findByName("A")).thenReturn(Optional.of(collegeTeam));
         playerManager.makePlayer(playerDTO);
     }
@@ -407,7 +407,7 @@ public class PlayerManageTest {
 
     @Test
     public void findingPlayersInCollegeTeamFindsThemCorrectly(){
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         List<Player> players = new ArrayList<>();
         players.add(player);
@@ -426,7 +426,7 @@ public class PlayerManageTest {
 
     @Test
     public void addingPointsToSinglePlayerPerformsCorrectlyIfTheyHaveNoPointsForThatWeekAlready(){
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
@@ -439,7 +439,7 @@ public class PlayerManageTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void addingPointsToSinglePlayerThrowsExceptionIfTheyAlreadyHavePoints(){
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);

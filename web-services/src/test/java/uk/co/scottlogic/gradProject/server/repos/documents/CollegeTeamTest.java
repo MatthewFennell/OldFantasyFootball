@@ -13,13 +13,13 @@ public class CollegeTeamTest {
 
     @Test
     public void constructorTest() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         assertEquals("name", collegeTeam.getName());
-        assertEquals(Integer.valueOf(5), collegeTeam.getWins());
-        assertEquals(Integer.valueOf(4), collegeTeam.getDraws());
-        assertEquals(Integer.valueOf(3), collegeTeam.getLosses());
-        assertEquals(Integer.valueOf(2), collegeTeam.getGoalsFor());
-        assertEquals(Integer.valueOf(1), collegeTeam.getGoalsAgainst());
+        assertEquals(Integer.valueOf(0), collegeTeam.getWins());
+        assertEquals(Integer.valueOf(0), collegeTeam.getDraws());
+        assertEquals(Integer.valueOf(0), collegeTeam.getLosses());
+        assertEquals(Integer.valueOf(0), collegeTeam.getGoalsFor());
+        assertEquals(Integer.valueOf(0), collegeTeam.getGoalsAgainst());
     }
 
     @Test
