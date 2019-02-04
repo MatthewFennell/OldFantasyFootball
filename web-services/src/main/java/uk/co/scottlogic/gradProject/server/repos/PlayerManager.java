@@ -14,10 +14,7 @@ import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class PlayerManager {
@@ -55,6 +52,38 @@ public class PlayerManager {
         else {
             throw new IllegalArgumentException("Invalid team");
         }
+    }
+
+    public void deletePlayer(String playerID){
+        Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
+        if (player.isPresent()){
+            if (playerExistsInWeeklyTeam(player.get())){
+                throw new IllegalArgumentException("That player is in a weekly team - can't delete them");
+            }
+            else {
+                playerRepo.delete(player.get());
+                System.out.println("deleted player " + player.get().getFirstName());
+
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Player does not exist");
+        }
+    }
+
+    private boolean playerExistsInWeeklyTeam(Player player){
+        Iterable<UsersWeeklyTeam> usersWeeklyTeams = weeklyTeamRepo.findAll();
+        List<UsersWeeklyTeam> allWeeklyTeams = new ArrayList<>();
+        usersWeeklyTeams.forEach(allWeeklyTeams::add);
+        for (UsersWeeklyTeam uwt : allWeeklyTeams){
+            List<Player> players = uwt.getPlayers();
+            for (Player p : players){
+                if (p.getId().equals(player.getId())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
@@ -156,8 +185,10 @@ public class PlayerManager {
     }
 
     public void addPointsToSinglePlayer(PlayerPointsDTO dto){
+
         Optional<Player> player = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
         if (player.isPresent()){
+
             Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
             if (playerPoints.isPresent()){
                 throw new IllegalArgumentException("Player " + player.get().getFirstName() + " already has points assigned for week " + dto.getWeek());
@@ -213,7 +244,7 @@ public class PlayerManager {
         }
     }
 
-    void addPointsToPlayer(PlayerPoints playerPoints){
+    public void addPointsToPlayer(PlayerPoints playerPoints){
         Integer score = calculateScore(playerPoints);
         playerPoints.setPoints(score);
         playerPointsRepo.save(playerPoints);

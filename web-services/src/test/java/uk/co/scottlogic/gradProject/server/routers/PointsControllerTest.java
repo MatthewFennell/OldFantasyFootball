@@ -13,10 +13,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 
@@ -114,6 +111,8 @@ public class PointsControllerTest {
         pointsController.getAveragePointsForWeek(user, response, 0);
         TestCase.assertEquals(200, response.getStatus());
     }
+
+
 
 }
 

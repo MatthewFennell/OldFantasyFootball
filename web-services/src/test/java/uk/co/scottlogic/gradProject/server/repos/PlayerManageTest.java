@@ -8,6 +8,7 @@ import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
 
@@ -348,7 +349,6 @@ public class PlayerManageTest {
 
     @Test
     public void editingPointsOfPlayerUpdatesTheirPointsObject() {
-
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, player.getId().toString(), 0);
@@ -358,8 +358,102 @@ public class PlayerManageTest {
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
         playerManager.editPoints(playerPointsDTO);
-        System.out.println("total goals = " + player.getTotalGoals());
         assertEquals(newGoals, player.getTotalGoals());
+    }
+
+    @Test
+    public void playerIsDeletedIfTheyAreNotInAnyWeeklyTeam(){
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
+        when(weeklyTeamRepo.findAll()).thenReturn(Collections.emptyList());
+        playerManager.deletePlayer(player.getId().toString());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void playerIsNotDeletedIfTheyAreInAnyWeeklyTeam(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        List<Player> players = new ArrayList<>();
+        players.add(player);
+        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(user, new Date(), players, 0);
+        List<UsersWeeklyTeam> teams = new ArrayList<>();
+        teams.add(weeklyTeam);
+        when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
+        when(weeklyTeamRepo.findAll()).thenReturn(teams);
+        playerManager.deletePlayer(player.getId().toString());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void deletePlayerThrowsExceptionIfTheyDoNotExist(){
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
+        playerManager.deletePlayer(player.getId().toString());
+    }
+
+    @Test
+    public void canMakePlayerWithDTO(){
+        MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
+        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        when(teamRepo.findByName("A")).thenReturn(Optional.of(collegeTeam));
+        playerManager.makePlayer(playerDTO);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void makingPlayerWithDTOThrowsExceptionIfCollegeTeamDoesNotExist(){
+        MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
+        when(teamRepo.findByName("A")).thenReturn(Optional.empty());
+        playerManager.makePlayer(playerDTO);
+    }
+
+    @Test
+    public void findingPlayersInCollegeTeamFindsThemCorrectly(){
+        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        List<Player> players = new ArrayList<>();
+        players.add(player);
+
+        when(teamRepo.findByName("A")).thenReturn(Optional.of(collegeTeam));
+        when(playerRepo.findByCollegeTeam(collegeTeam)).thenReturn(players);
+        playerManager.findPlayersByCollegeTeam("A");
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findingPlayersInCollegeTeamThrowsExceptionIfCollegeTeamDoesNotExist(){
+        when(teamRepo.findByName("A")).thenReturn(Optional.empty());
+        playerManager.findPlayersByCollegeTeam("A");
+    }
+
+    @Test
+    public void addingPointsToSinglePlayerPerformsCorrectlyIfTheyHaveNoPointsForThatWeekAlready(){
+        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        String id = UUID.randomUUID().toString();
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.empty());
+        playerManager.addPointsToSinglePlayer(playerPointsDTO);
+        assertEquals(Integer.valueOf(10), player.getTotalGoals());
+        assertEquals(Integer.valueOf(5), player.getTotalAssists());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addingPointsToSinglePlayerThrowsExceptionIfTheyAlreadyHavePoints(){
+        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        String id = UUID.randomUUID().toString();
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.of(new PlayerPoints()));
+        playerManager.addPointsToSinglePlayer(playerPointsDTO);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addingPointsToSinglePlayerThrowsExceptionIfThePlayerDoesNotExist(){
+        String id = UUID.randomUUID().toString();
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
+        playerManager.addPointsToSinglePlayer(playerPointsDTO);
     }
 
 }
