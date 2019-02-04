@@ -280,6 +280,9 @@ public class PlayerController {
 
         try {
             response.setStatus(201);
+            System.out.println("trying to edit points for " + dto.getPlayerID());
+            System.out.println("goals = " + dto.getGoals());
+            System.out.println("man of the match = " + dto.isManOfTheMatch());
             playerManager.editPoints(dto);
         } catch (IllegalArgumentException e) {
             try {
@@ -290,6 +293,31 @@ public class PlayerController {
         } catch (Exception e) {
             response.setStatus(409);
         }
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Find stats for a player in a given week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player/{player-id}/week/{week-id}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "No weekly team for that user and date"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public PlayerPointsDTO findStatsForPlayerInWeek(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("player-id") String id, @PathVariable("week-id") Integer week) {
+        try {
+            response.setStatus(200);
+            PlayerPoints playerPoints = playerManager.findStatsForPlayerInWeek(id, week);
+            return new PlayerPointsDTO(playerPoints);
+        } catch (IllegalArgumentException e) {
+            log.debug(e.getMessage());
+            response.setStatus(400);
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
     }
 
 }
