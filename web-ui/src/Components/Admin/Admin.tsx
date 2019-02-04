@@ -3,6 +3,8 @@ import '../../Style/Admin/Admin.css';
 import CreatePlayerForm from '../../Containers/Admin/CreatePlayerForm';
 import AddPointsForm from '../../Containers/Admin/AddPointsForm';
 import EditPointsForm from '../../Containers/Admin/EditPointsForm';
+import DeletePlayerForm from '../../Containers/Admin/DeletePlayerForm';
+import CreateCollegeTeam from '../Admin/CreateCollegeTeam/CreateCollegeTeam';
 
 interface AdminProps {
   setAdminPageBeingViewed: (adminPageBeingViewed: string) => void;
@@ -25,6 +27,10 @@ class Admin extends React.Component<AdminProps, {}> {
         <div className="left-rows">
           <div className="admin-info-row">
             <div onClick={() => this._setPageBeingViewed('create')}>Create Player</div>
+            <div onClick={() => this._setPageBeingViewed('delete-player')}>Delete Player</div>
+            <div onClick={() => this._setPageBeingViewed('create-college-team')}>
+              Create College Team
+            </div>
             <div onClick={() => this._setPageBeingViewed('add-points')}>Add Points to Players</div>
             <div onClick={() => this._setPageBeingViewed('edit-stats')}>Edit Player Stats</div>
           </div>
@@ -34,6 +40,10 @@ class Admin extends React.Component<AdminProps, {}> {
             <AddPointsForm />
           ) : this.props.adminPageBeingViewed === 'edit-stats' ? (
             <EditPointsForm />
+          ) : this.props.adminPageBeingViewed === 'delete-player' ? (
+            <DeletePlayerForm />
+          ) : this.props.adminPageBeingViewed === 'create-college-team' ? (
+            <CreateCollegeTeam />
           ) : null}
         </div>
       </div>
