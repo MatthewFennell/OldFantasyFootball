@@ -58,15 +58,16 @@ public class PlayerManager {
         Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
         if (player.isPresent()){
             if (playerExistsInWeeklyTeam(player.get())){
+                log.debug("Player " + player.get().getFirstName() + " is already in a team");
                 throw new IllegalArgumentException("That player is in a weekly team - can't delete them");
             }
             else {
                 playerRepo.delete(player.get());
                 System.out.println("deleted player " + player.get().getFirstName());
-
             }
         }
         else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }

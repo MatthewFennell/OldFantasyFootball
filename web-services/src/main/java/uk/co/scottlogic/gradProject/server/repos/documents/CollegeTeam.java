@@ -34,13 +34,13 @@ public class CollegeTeam {
     @Type(type = "uuid-char")
     private UUID id;
 
-    public CollegeTeam(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
+    public CollegeTeam(String name) {
         this.name = name;
-        setWins(wins);
-        setDraws(draws);
-        setLosses(losses);
-        setGoalsFor(goalsFor);
-        setGoalsAgainst(goalsAgainst);
+        setWins(0);
+        setDraws(0);
+        setLosses(0);
+        setGoalsFor(0);
+        setGoalsAgainst(0);
         id = UUID.randomUUID();
     }
 

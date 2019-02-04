@@ -20,8 +20,8 @@ public class CollegeTeamManager {
     }
 
 
-    private void makeTeam(String name, Integer wins, Integer draws, Integer losses, Integer goalsFor, Integer goalsAgainst) {
-        CollegeTeam team = new CollegeTeam(name, wins, draws, losses, goalsFor, goalsAgainst);
+    public void makeTeam(String name) {
+        CollegeTeam team = new CollegeTeam(name);
         teamRepo.save(team);
     }
 }

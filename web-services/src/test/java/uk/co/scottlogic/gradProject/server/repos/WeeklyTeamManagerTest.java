@@ -267,7 +267,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void multiplePlayersFromSameCollegeTeam() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
@@ -279,7 +279,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void teamInvalidWhenTooManyFromSingleTeam() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
@@ -311,7 +311,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void findPlayersInWeeklyTeamCorrectly() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");

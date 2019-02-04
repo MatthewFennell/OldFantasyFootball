@@ -51,7 +51,7 @@ public class PlayerControllerTest {
 
     @Test
     public void findingPlayerWithMostPointsInWeekReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         PlayerPoints playerPoints = new PlayerPoints(10, 5, 90, false, 0, false, false, new Date(), player, 0);
         List<PlayerPoints> points = new ArrayList<>();
@@ -77,7 +77,7 @@ public class PlayerControllerTest {
 
     @Test
     public void gettingAllPlayersForAUserInAGivenWeekReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         List<Player> players = new ArrayList<>();
         Player p1 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPoints playerPoints = new PlayerPoints(10, 5, 90, false, 0, false, false, new Date(), p1, 0);
@@ -105,7 +105,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersSortByPriceReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -116,7 +116,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersSortByGoalseReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -127,7 +127,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersSortByAssistsReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -138,7 +138,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersSortByTotalPointsReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -149,7 +149,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersGoalkeepersReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -160,7 +160,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersDefendersReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -171,7 +171,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersMidfieldersReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -182,7 +182,7 @@ public class PlayerControllerTest {
 
     @Test
     public void validFilteringOfPlayersAttackersReturns200() {
-        CollegeTeam collegeTeam = new CollegeTeam("college_team", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
@@ -223,7 +223,7 @@ public class PlayerControllerTest {
     @Test
     public void addPointsToSinglePlayerReturns201WhenSuccessful() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
@@ -248,7 +248,7 @@ public class PlayerControllerTest {
     @Test
     public void addPointsToSinglePlayerReturns400WhenTheyAlreadyHavePoints() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
@@ -307,7 +307,7 @@ public class PlayerControllerTest {
     public void findingPlayersByCollegeTeamReturns201WhenSuccessful() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         List<Player> players = new ArrayList<>();
         players.add(player);
@@ -333,7 +333,7 @@ public class PlayerControllerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
-        CollegeTeam collegeTeam = new CollegeTeam("A", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
         when(teamRepo.findByName("A")).thenReturn(Optional.of(collegeTeam));
         playerController.makePlayer(user, playerDTO, response);
         TestCase.assertEquals(201, response.getStatus());

@@ -54,7 +54,7 @@ public class PointsControllerTest {
     public void findingThePlayerWithTheMostPointsReturns200() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        CollegeTeam collegeTeam = new CollegeTeam("name", 5, 4, 3, 2, 1);
+        CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         List<Player> players = new ArrayList<>();
         players.add(player);
