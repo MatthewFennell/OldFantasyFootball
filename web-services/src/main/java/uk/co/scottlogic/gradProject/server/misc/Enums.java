@@ -10,4 +10,8 @@ public class Enums {
         GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER, ALL
     }
 
+    public enum Result {
+        WIN, DRAW, LOSS
+    }
+
 }

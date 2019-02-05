@@ -48,6 +48,26 @@ public class CollegeTeam {
 
     }
 
+    public void addWin(){
+        this.wins += 1;
+    }
+
+    public void addDraw(){
+        this.draws += 1;
+    }
+
+    public void addLoss(){
+        this.losses += 1;
+    }
+
+    public void addGoalsFor(Integer goalsFor){
+        this.goalsFor += goalsFor;
+    }
+
+    public void addGoalsAgainst(Integer goalsAgainst){
+        this.goalsAgainst += goalsAgainst;
+    }
+
     public UUID getId() {
         return id;
     }

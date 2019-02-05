@@ -456,4 +456,36 @@ public class PlayerManageTest {
         playerManager.addPointsToSinglePlayer(playerPointsDTO);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void findingStatsForPlayerInWeekThrowsExceptionIfPlayerDoesNotExist(){
+        String id = UUID.randomUUID().toString();
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
+        playerManager.findStatsForPlayerInWeek(id, 0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findingStatsForPlayerInWeekThrowsExceptionIfPlayerHasNoPointsThatWeek(){
+        CollegeTeam collegeTeam = new CollegeTeam("A");
+        String id = UUID.randomUUID().toString();
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
+        playerManager.findStatsForPlayerInWeek(id, 0);
+    }
+
+    @Test
+    public void findingStatsForPlayerInWeekReturnsSuccessfullyIfTheyHavePointsInThatWeek(){
+        Integer goals = 10;
+        Integer assists = 5;
+        CollegeTeam collegeTeam = new CollegeTeam("A");
+        String id = UUID.randomUUID().toString();
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        PlayerPoints playerPoints = new PlayerPoints(goals,assists, 0, false, 0, false, false, new Date(), player, 0);
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
+        PlayerPoints pp = playerManager.findStatsForPlayerInWeek(id, 0);
+        assertEquals(goals, pp.getNumberOfGoals());
+        assertEquals(assists, pp.getNumberOfAssists());
+    }
+
 }

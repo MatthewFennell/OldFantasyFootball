@@ -21,7 +21,6 @@ public class CollegeTeamController {
 
     private static final Logger log = LoggerFactory.getLogger(WeeksController.class);
 
-
     private CollegeTeamManager collegeTeamManager;
 
     @Autowired
@@ -29,7 +28,7 @@ public class CollegeTeamController {
         this.collegeTeamManager = collegeTeamManager;
     }
 
-    @ApiOperation(value = Icons.key + " Delete a player ", authorizations = {
+    @ApiOperation(value = Icons.key + " Make a college team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -45,6 +44,99 @@ public class CollegeTeamController {
         try {
             response.setStatus(200);
             collegeTeamManager.makeTeam(name);
+        }
+        catch (IllegalArgumentException e ){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Delete a college team ", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 204, message = "Player successfully deleted"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/college/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
+                                @RequestBody String name, HttpServletResponse response) {
+        try {
+            response.setStatus(204);
+            collegeTeamManager.deleteTeam(name);
+        }
+        catch (IllegalArgumentException e ){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Make a college team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 204, message = "Player successfully deleted"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/college/stats/add")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void addStatsToCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
+                                @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            collegeTeamManager.addStatsToCollegeTeam(dto);
+        }
+        catch (IllegalArgumentException e ){
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = Icons.key + " Edit a college team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 204, message = "Player successfully deleted"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/college/stats/edit")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void editCollegeTeamStats(@AuthenticationPrincipal ApplicationUser user,
+                                      @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            collegeTeamManager.editCollegeTeamStats(dto);
         }
         catch (IllegalArgumentException e ){
             response.setStatus(400);
