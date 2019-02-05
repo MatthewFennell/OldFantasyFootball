@@ -58,17 +58,14 @@ public class CollegeTeamManager {
             collegeTeam.get().addGoalsFor(dto.getGoalsFor());
             collegeTeam.get().addGoalsAgainst(dto.getGoalsAgainst());
 
-            if (dto.getResult().equals(Enums.Result.WIN)){
+            if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.WIN)){
                 collegeTeam.get().addWin();
             }
-            else if (dto.getResult().equals(Enums.Result.DRAW)){
+            else if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.DRAW)){
                 collegeTeam.get().addDraw();
             }
-            else if (dto.getResult().equals(Enums.Result.LOSS)){
+            else if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.LOSS)){
                 collegeTeam.get().addLoss();
-            }
-            else {
-                throw new IllegalArgumentException("Invalid result");
             }
 
             teamRepo.save(collegeTeam.get());

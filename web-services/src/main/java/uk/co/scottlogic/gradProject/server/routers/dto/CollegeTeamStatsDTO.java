@@ -7,13 +7,13 @@ public class CollegeTeamStatsDTO {
     private String collegeName;
     private Integer goalsFor;
     private Integer goalsAgainst;
-    private Enums.Result result;
+    private Enums.COLLEGE_MATCH_RESULT result;
 
     private Integer wins;
     private Integer draws;
     private Integer losses;
 
-    public CollegeTeamStatsDTO(String collegeName, Enums.Result result, Integer goalsFor, Integer goalsAgainst, Integer wins, Integer draws, Integer losses) {
+    public CollegeTeamStatsDTO(String collegeName, Enums.COLLEGE_MATCH_RESULT result, Integer goalsFor, Integer goalsAgainst, Integer wins, Integer draws, Integer losses) {
         this.collegeName = collegeName;
         this.goalsFor = goalsFor;
         this.goalsAgainst = goalsAgainst;
@@ -21,6 +21,10 @@ public class CollegeTeamStatsDTO {
         this.wins = wins;
         this.draws = draws;
         this.losses = losses;
+    }
+
+    public CollegeTeamStatsDTO() {
+
     }
 
     public Integer getWins() {
@@ -55,11 +59,11 @@ public class CollegeTeamStatsDTO {
         this.collegeName = collegeName;
     }
 
-    public Enums.Result getResult() {
+    public Enums.COLLEGE_MATCH_RESULT getResult() {
         return result;
     }
 
-    public void setResult(Enums.Result result) {
+    public void setResult(Enums.COLLEGE_MATCH_RESULT result) {
         this.result = result;
     }
 
