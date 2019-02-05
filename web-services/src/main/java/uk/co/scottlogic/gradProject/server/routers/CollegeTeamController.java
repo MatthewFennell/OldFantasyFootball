@@ -13,6 +13,8 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -150,5 +152,28 @@ public class CollegeTeamController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Find the player with the most points in a week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/college/all/sort/{sort-id}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<CollegeTeamDTO> getAllCollegeTeams(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("sort-id") String sortBy) {
+        try {
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            response.setStatus(200);
+            return collegeTeamManager.getAllCollegeTeams(sortBy);
+        } catch (Exception e) {
+            response.setStatus(400);
+        }
+        return Collections.emptyList();
     }
 }
