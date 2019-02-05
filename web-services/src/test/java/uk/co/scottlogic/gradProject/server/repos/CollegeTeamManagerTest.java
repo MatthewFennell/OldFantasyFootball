@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
+import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 
@@ -151,6 +152,160 @@ public class CollegeTeamManagerTest {
         assertEquals(losses, collegeTeam.getLosses());
         assertEquals(wins, collegeTeam.getWins());
         assertEquals(draws, collegeTeam.getDraws());
+    }
+
+    @Test
+    public void filteringCollegeTeamByPointsOrderedByPoints(){
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+        CollegeTeam collegeTeam_two = new CollegeTeam("B");
+        CollegeTeam collegeTeam_three = new CollegeTeam("C");
+        CollegeTeam collegeTeam_four = new CollegeTeam("D");
+
+        collegeTeam_one.setWins(10);
+        collegeTeam_two.setWins(20);
+        collegeTeam_three.setWins(15);
+        collegeTeam_four.setWins(13);
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+        returnedValue.add(collegeTeam_two);
+        returnedValue.add(collegeTeam_three);
+        returnedValue.add(collegeTeam_four);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+
+        List<CollegeTeamDTO> result = collegeTeamManager.getAllCollegeTeams("points");
+        assertEquals(4, result.size());
+        assertEquals(Integer.valueOf(20), result.get(0).getWins());
+        assertEquals(Integer.valueOf(15), result.get(1).getWins());
+        assertEquals(Integer.valueOf(13), result.get(2).getWins());
+        assertEquals(Integer.valueOf(10), result.get(3).getWins());
+    }
+
+    @Test
+    public void filteringCollegeTeamByPointsOrderedByGoalDifference(){
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+        CollegeTeam collegeTeam_two = new CollegeTeam("B");
+        CollegeTeam collegeTeam_three = new CollegeTeam("C");
+        CollegeTeam collegeTeam_four = new CollegeTeam("D");
+
+        collegeTeam_one.setWins(10);
+        collegeTeam_two.setWins(10);
+        collegeTeam_three.setWins(10);
+        collegeTeam_four.setWins(10);
+
+        collegeTeam_one.setGoalsFor(100);
+        collegeTeam_one.setGoalsAgainst(50);    // + 50
+
+        collegeTeam_two.setGoalsFor(30);
+        collegeTeam_two.setGoalsAgainst(10); // + 20
+
+        collegeTeam_three.setGoalsFor(50);
+        collegeTeam_three.setGoalsAgainst(20); // + 30
+
+        collegeTeam_four.setGoalsFor(50);
+        collegeTeam_four.setGoalsAgainst(10); // + 40
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+        returnedValue.add(collegeTeam_two);
+        returnedValue.add(collegeTeam_three);
+        returnedValue.add(collegeTeam_four);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+
+        List<CollegeTeamDTO> result = collegeTeamManager.getAllCollegeTeams("points");
+        assertEquals(4, result.size());
+        assertEquals("A", result.get(0).getName());
+        assertEquals("D", result.get(1).getName());
+        assertEquals("C", result.get(2).getName());
+        assertEquals("B", result.get(3).getName());
+    }
+
+    @Test
+    public void filteringCollegeTeamByPointsOrderedByGoalsFor(){
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+        CollegeTeam collegeTeam_two = new CollegeTeam("B");
+        CollegeTeam collegeTeam_three = new CollegeTeam("C");
+        CollegeTeam collegeTeam_four = new CollegeTeam("D");
+
+        collegeTeam_one.setWins(10);
+        collegeTeam_two.setWins(10);
+        collegeTeam_three.setWins(10);
+        collegeTeam_four.setWins(10);
+
+        collegeTeam_one.setGoalsFor(100);
+        collegeTeam_one.setGoalsAgainst(50);    // + 50
+
+        collegeTeam_two.setGoalsFor(50);
+        collegeTeam_two.setGoalsAgainst(0); // + 50
+
+        collegeTeam_three.setGoalsFor(70);
+        collegeTeam_three.setGoalsAgainst(20); // + 50
+
+        collegeTeam_four.setGoalsFor(900);
+        collegeTeam_four.setGoalsAgainst(850); // + 50
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+        returnedValue.add(collegeTeam_two);
+        returnedValue.add(collegeTeam_three);
+        returnedValue.add(collegeTeam_four);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+
+        List<CollegeTeamDTO> result = collegeTeamManager.getAllCollegeTeams("points");
+        assertEquals(4, result.size());
+        assertEquals("D", result.get(0).getName());
+        assertEquals("A", result.get(1).getName());
+        assertEquals("C", result.get(2).getName());
+        assertEquals("B", result.get(3).getName());
+    }
+
+    @Test
+    public void filteringCollegeTeamByPointsOrderedNameReversed(){
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+        CollegeTeam collegeTeam_two = new CollegeTeam("B");
+        CollegeTeam collegeTeam_three = new CollegeTeam("C");
+        CollegeTeam collegeTeam_four = new CollegeTeam("D");
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+        returnedValue.add(collegeTeam_two);
+        returnedValue.add(collegeTeam_three);
+        returnedValue.add(collegeTeam_four);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+
+        List<CollegeTeamDTO> result = collegeTeamManager.getAllCollegeTeams("points");
+        assertEquals(4, result.size());
+        assertEquals("D", result.get(0).getName());
+        assertEquals("C", result.get(1).getName());
+        assertEquals("B", result.get(2).getName());
+        assertEquals("A", result.get(3).getName());
+    }
+
+    @Test
+    public void filteringCollegeTeamAlphabetically(){
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+        CollegeTeam collegeTeam_two = new CollegeTeam("B");
+        CollegeTeam collegeTeam_three = new CollegeTeam("C");
+        CollegeTeam collegeTeam_four = new CollegeTeam("D");
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+        returnedValue.add(collegeTeam_two);
+        returnedValue.add(collegeTeam_three);
+        returnedValue.add(collegeTeam_four);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+
+        List<CollegeTeamDTO> result = collegeTeamManager.getAllCollegeTeams("");
+        assertEquals(4, result.size());
+        assertEquals("A", result.get(0).getName());
+        assertEquals("B", result.get(1).getName());
+        assertEquals("C", result.get(2).getName());
+        assertEquals("D", result.get(3).getName());
     }
 
 }

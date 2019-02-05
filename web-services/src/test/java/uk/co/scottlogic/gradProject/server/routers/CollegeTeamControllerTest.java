@@ -142,4 +142,20 @@ public class CollegeTeamControllerTest {
         assertEquals(400, response.getStatus());
     }
 
+    @Test
+    public void gettingAllCollegeTeamReturns200() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        CollegeTeam collegeTeam_one = new CollegeTeam("A");
+
+        collegeTeam_one.setWins(10);
+
+        List<CollegeTeam> returnedValue = new ArrayList<>();
+        returnedValue.add(collegeTeam_one);
+
+        when(teamRepo.findAll()).thenReturn(returnedValue);
+        collegeTeamController.getAllCollegeTeams(user, response, "");
+        assertEquals(200, response.getStatus());
+    }
+
 }
