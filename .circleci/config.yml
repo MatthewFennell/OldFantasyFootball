@@ -7,15 +7,26 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: PRINT AGAIN
-          command: ls
-      - run:
           name: Build web-ui docker image
           command: |
             cd web-ui
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
+
+  push_fantasy_server_docker_hub:
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build web-services docker image
+          command: |
+            cd web-services
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker build -t pampoomio/fantasy-back-end-server:latest .            
+            docker push pampoomio/fantasy-back-end-server:latest
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
@@ -129,5 +140,6 @@ workflows:
   build:
     jobs:
       - push_fantasy_ui_docker_hub
+      - push_fantasy_server_docker_hub
     #   - build_web-services
     #   - build_web-ui
