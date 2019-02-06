@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  deploy_fantasy_ui:
+  deploy_fantasy_ui_:
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
@@ -158,4 +158,4 @@ workflows:
             - build_web-services
       - deploy_fantasy_ui:
           requires:
-            - build_web_ui
+            - build_web-ui
