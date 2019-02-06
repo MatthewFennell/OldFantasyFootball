@@ -1,17 +1,16 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
-import net.bytebuddy.pool.TypePool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,18 +20,12 @@ public class CollegeTeamManager {
     private CollegeTeamRepo teamRepo;
     private PlayerRepo playerRepo;
 
+    private static final Logger log = LoggerFactory.getLogger(CollegeTeamManager.class);
+
     @Autowired
     public CollegeTeamManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo) {
         this.teamRepo = teamRepo;
         this.playerRepo = playerRepo;
-//        makeTeam("A", 10, 0, 1, 50, 3);
-//        makeTeam("B", 8, 2,1, 45,5);
-//        makeTeam("C", 6, 5, 4, 35, 15);
-//        makeTeam("D", 4, 4, 3, 30, 20);
-//        makeTeam("E", 2, 7, 2, 25, 25);
-
-        getAllCollegeTeams("points");
-        getAllCollegeTeams("not points");
     }
 
 
@@ -48,11 +41,13 @@ public class CollegeTeamManager {
             List<Player> players = playerRepo.findByCollegeTeam(collegeTeam.get());
 
             if (!players.isEmpty()){
+                log.debug("Can't delete a college team that has players associated with it");
                 throw new IllegalArgumentException("Can't delete a college team that has players associated with it");
             }
             teamRepo.delete(collegeTeam.get());
         }
         else {
+            log.debug("No college team exists by name ({})", name);
             throw new IllegalArgumentException("No college team with that name exists");
         }
     }
@@ -76,6 +71,7 @@ public class CollegeTeamManager {
             teamRepo.save(collegeTeam.get());
         }
         else {
+            log.debug("No college team exists by name ({})", dto.getCollegeName());
             throw new IllegalArgumentException("College team does not exist");
         }
     }
@@ -93,6 +89,7 @@ public class CollegeTeamManager {
             teamRepo.save(collegeTeam.get());
         }
         else {
+            log.debug("No college team exists by name ({})", dto.getCollegeName());
             throw new IllegalArgumentException("College team does not exist");
         }
     }
@@ -101,26 +98,26 @@ public class CollegeTeamManager {
     // Then goal difference
     // Then goals for
     // Then reverse alphabetically
-    private int compareByPoints(CollegeTeamDTO team_one, CollegeTeamDTO team_two){
-        if (team_one.getTotalScore() > team_two.getTotalScore()){
+    private int compareByPoints(CollegeTeamDTO teamOne, CollegeTeamDTO teamTwo){
+        if (teamOne.getTotalScore() > teamTwo.getTotalScore()){
             return -1;
         }
-        else if (team_one.getTotalScore() < team_two.getTotalScore()){
+        else if (teamOne.getTotalScore() < teamTwo.getTotalScore()){
             return 1;
         }
-        else if (team_one.getGoalsFor()-team_one.getGoalsAgainst() > team_two.getGoalsFor() - team_two.getGoalsAgainst()){
+        else if (teamOne.getGoalsFor()- teamOne.getGoalsAgainst() > teamTwo.getGoalsFor() - teamTwo.getGoalsAgainst()){
             return -1;
         }
-        else if (team_one.getGoalsFor()-team_one.getGoalsAgainst() < team_two.getGoalsFor()-team_two.getGoalsAgainst()){
+        else if (teamOne.getGoalsFor()- teamOne.getGoalsAgainst() < teamTwo.getGoalsFor()- teamTwo.getGoalsAgainst()){
             return 1;
         }
-        else if (team_one.getGoalsFor() > team_two.getGoalsFor()){
+        else if (teamOne.getGoalsFor() > teamTwo.getGoalsFor()){
             return -1;
         }
-        else if (team_one.getGoalsFor() < team_two.getGoalsFor()){
+        else if (teamOne.getGoalsFor() < teamTwo.getGoalsFor()){
             return 1;
         }
-        else if (team_one.getName().compareTo(team_two.getName()) > 0){
+        else if (teamOne.getName().compareTo(teamTwo.getName()) > 0){
             return -1;
         }
         else {

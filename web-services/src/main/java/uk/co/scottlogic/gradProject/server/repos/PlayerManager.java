@@ -1,6 +1,5 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
-import org.aspectj.apache.bcel.util.Play;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,8 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
-import uk.co.scottlogic.gradProject.server.routers.PointsController;
 import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
 
 import java.util.*;
@@ -38,9 +35,6 @@ public class PlayerManager {
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
-//        makePlayers();
-//        addPointsToPlayersWeek0();
-
     }
 
     public void makePlayer(MakePlayerDTO makePlayerDTO){
@@ -50,6 +44,7 @@ public class PlayerManager {
             playerRepo.save(player);
         }
         else {
+            log.debug("Invalid team");
             throw new IllegalArgumentException("Invalid team");
         }
     }
@@ -58,16 +53,16 @@ public class PlayerManager {
         Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
         if (player.isPresent()){
             if (playerExistsInWeeklyTeam(player.get())){
-                log.debug("Player " + player.get().getFirstName() + " is already in a team");
+                log.debug("Player ({}) is already in a team", player.get().getFirstName());
                 throw new IllegalArgumentException("That player is in a weekly team - can't delete them");
             }
             else {
                 playerRepo.delete(player.get());
-                System.out.println("deleted player " + player.get().getFirstName());
+                log.debug("Deleted player ({})", player.get().getFirstName());
             }
         }
         else {
-            log.debug("Player does not exist");
+            log.debug("Cannot delete player - player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
@@ -93,8 +88,9 @@ public class PlayerManager {
         if (team.isPresent()) {
             Player player = new Player(team.get(), position, price, firstName, surname);
             playerRepo.save(player);
-            log.debug("Made a player named " + player.getFirstName());
+            log.debug("Made a player named ({})",  player.getFirstName());
         } else {
+            log.debug("Cannot make a player with that team ID");
             throw new IllegalArgumentException("Invalid Team ID");
         }
     }
@@ -161,6 +157,7 @@ public class PlayerManager {
             return playerRepo.findByCollegeTeam(collegeTeam.get());
         }
         else {
+            log.debug("Team does not exist");
             throw new IllegalArgumentException("Team does not exist");
         }
 
@@ -174,12 +171,14 @@ public class PlayerManager {
             if (player.isPresent()){
                 Optional<PlayerPoints> pPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
                 if (pPoints.isPresent()){
+                    log.debug("Player ({}) already has points associated for week ({})", player.get().getFirstName(), dto.getWeek());
                     throw new IllegalArgumentException("Player " + player.get().getFirstName() + " already has points assigned for week " + dto.getWeek());
                 }
                 PlayerPoints playerPoints = new PlayerPoints(dto, player.get());
                 addPointsToPlayer(playerPoints);
             }
             else {
+                log.debug("Player does not exist");
                 throw new IllegalArgumentException("Player does not exist");
             }
         }
@@ -192,12 +191,14 @@ public class PlayerManager {
 
             Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
             if (playerPoints.isPresent()){
+                log.debug("Player ({}) already has points associated for week ({})", player.get().getFirstName(), dto.getWeek());
                 throw new IllegalArgumentException("Player " + player.get().getFirstName() + " already has points assigned for week " + dto.getWeek());
             }
             PlayerPoints pPoints = new PlayerPoints(dto, player.get());
             addPointsToPlayer(pPoints);
         }
         else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
@@ -237,13 +238,14 @@ public class PlayerManager {
                 }
             }
             else {
+                log.debug("Player ({}) already has points associated for week ({})", player.get().getFirstName(), dto.getWeek());
                 throw new IllegalArgumentException("Player " + player.get().getFirstName() + " does not have points assigned for week " + dto.getWeek());
             }
         }
         else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
-        System.out.println("points edited");
     }
 
     public void addPointsToPlayer(PlayerPoints playerPoints){
@@ -276,6 +278,7 @@ public class PlayerManager {
                 return playerPoints.get();
             }
             else {
+                log.debug("Player has no points for week ({})", week);
                 throw new IllegalArgumentException("This player does not have any points for that week");
             }
         }
@@ -292,12 +295,33 @@ public class PlayerManager {
         } else if (week == 0) {
             return 0;
         } else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player doesn't exist");
         }
     }
 
     public List<PlayerPoints> findPlayerWithMostPointsInWeek(Integer week) {
         return playerPointsRepo.findPlayerWithMostPoints(week);
+    }
+
+    // Should be careful here -> could cause some teams to become invalid
+    public void changePlayersCollegeTeam(String playerID, String collegeName){
+
+        Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
+        if (player.isPresent()){
+            Optional<CollegeTeam> collegeTeam = teamRepo.findByName(collegeName);
+            if (collegeTeam.isPresent()){
+                player.get().setActiveTeam(collegeTeam.get());
+            }
+            else {
+                log.debug("College team does not exist");
+                throw new IllegalArgumentException("College team does not exist");
+            }
+        }
+        else {
+            log.debug("Player does not exist");
+            throw new IllegalArgumentException("Player does not exist");
+        }
     }
 
     public List<Player> formatFilter(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy) {
@@ -316,6 +340,7 @@ public class PlayerManager {
                     return filter(collegeTeam.get(), null, min, max, name, sortBy);
                 }
             } else {
+                log.debug("College team ({}) does not exist", team);
                 throw new IllegalArgumentException("College team does not exist");
             }
         }

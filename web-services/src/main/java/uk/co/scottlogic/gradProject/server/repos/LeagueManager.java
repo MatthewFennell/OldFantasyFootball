@@ -68,7 +68,7 @@ public class LeagueManager {
         if (league.isPresent()) {
             League l = league.get();
             if (userExistsInLeague(user, l)) {
-                log.debug("There is already a user in the league");
+                log.debug("User ({}) ({}) is already in league ({})", user.getFirstName(), user.getSurname(), l.getLeagueName());
                 throw new IllegalArgumentException("You are already in that league");
             }
             String leagueCode = l.getCodeToJoin();
@@ -78,9 +78,11 @@ public class LeagueManager {
                 int position = findPositionOfUserInLeague(user, l);
                 return new LeagueReturnDTO(l.getLeagueName(), position);
             } else {
+                log.debug("Invalid code");
                 throw new IllegalArgumentException("Invalid code for league");  // Never happens?
             }
         } else {
+            log.debug("Invalid code for league");
             throw new IllegalArgumentException("Invalid code for league");
         }
     }
