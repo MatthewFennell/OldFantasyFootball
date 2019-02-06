@@ -1,5 +1,12 @@
 version: 2
 jobs:
+  docker_hub:
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    steps:
+      - run: |
+          docker login -u pampoomio -p $DOCKER_PASS
+
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
     docker: # use the docker executor type; machine and macos executors are also supported
@@ -10,7 +17,7 @@ jobs:
           MYSQL_USER: gradapp
           MYSQL_PASSWORD: passwd
     steps:
-        # Checkout git project
+      # Checkout git project
       - checkout:
           path: ~/grad-bank-app
         # Clean
@@ -105,7 +112,7 @@ jobs:
           path: reports
           destination: reports
       - store_test_results:
-          path: reports  
+          path: reports
 
 workflows:
   version: 2
