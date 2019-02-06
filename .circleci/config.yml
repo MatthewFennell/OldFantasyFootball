@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  docker_hub:
+  push_fantasy_ui_docker_hub:
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
@@ -13,7 +13,7 @@ jobs:
           name: Build web-ui docker image
           command: |
             cd web-ui
-            echo "$DOCKER_PASS" | docker login -u pampoomio --password-stdin
+            echo "$DOCKER_PASS" | docker login -u "{DOCKER_USER}" --password-stdin
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
 
@@ -128,6 +128,6 @@ workflows:
   version: 2
   build:
     jobs:
-      - docker_hub
+      - push_fantasy_ui_docker_hub
     #   - build_web-services
     #   - build_web-ui
