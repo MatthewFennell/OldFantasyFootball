@@ -13,7 +13,7 @@ jobs:
           name: Build web-ui docker image
           command: |
             cd web-ui
-            docker login -username pampoomio -password-stdin ${DOCKER_PASS}
+            echo "$DOCKER_PASS" | docker login -u pampoomio --password-stdin
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
 
