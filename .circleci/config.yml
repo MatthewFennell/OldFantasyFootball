@@ -24,6 +24,7 @@ jobs:
           name: Build web-services docker image
           command: |
             cd web-services
+            ls
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-back-end-server:latest .            
             docker push pampoomio/fantasy-back-end-server:latest
