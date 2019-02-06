@@ -4,6 +4,7 @@ jobs:
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
+      - checkout
       - run:
           name: PRINT AGAIN
           command: ls
