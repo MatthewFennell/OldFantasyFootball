@@ -10,6 +10,7 @@ jobs:
           name: Build web-ui docker image
           command: |
             cd web-ui
+            gradle build
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
