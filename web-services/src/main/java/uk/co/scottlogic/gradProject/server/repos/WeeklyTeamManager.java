@@ -35,12 +35,6 @@ public class WeeklyTeamManager {
         this.playerRepo = playeRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
-
-        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-
-
-//        addPlayersToWeeklyTeam();
-
     }
 
 
@@ -58,6 +52,7 @@ public class WeeklyTeamManager {
                 log.debug("Added player {} to user {}", p.getFirstName(), user.getFirstName());
             }
         } else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
@@ -79,9 +74,11 @@ public class WeeklyTeamManager {
                 weeklyTeamRepo.save(team);
                 log.debug("Removed player {} from user {}", p.getFirstName(), user.getFirstName());
             } else {
+                log.debug("Player ({}) ({}) does not have a weekly team", player.get().getFirstName(), player.get().getSurname());
                 throw new IllegalArgumentException("Player does not have a weekly team");
             }
         } else {
+            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
@@ -105,7 +102,7 @@ public class WeeklyTeamManager {
         for (Player p : players) {
             totalCost += p.getPrice();
             if (totalCost > Constants.INITIAL_BUDGET) {
-                log.debug("too expensive");
+                log.debug("Team too expensive");
                 return false;
             }
 
@@ -156,31 +153,35 @@ public class WeeklyTeamManager {
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
         if (!Constants.TRANSFER_MARKET_OPEN){
+            log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }
 
         if (weeklyTeamRepo.findByUser(user).isEmpty()) {
+            log.debug("User has no weekly team");
             throw new IllegalArgumentException("User does not have a weekly team");
         }
 
         if (playersBeingAdded.isEmpty()) {
+            log.debug("Must attempt to transfer at least 1 player");
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
 
         UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
 
         if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != Constants.MAX_TEAM_SIZE) {
+            log.debug("Invalid team size");
             throw new IllegalArgumentException("Invalid team size");
         }
 
         ArrayList<Player> players = new ArrayList<>(activeTeam.getPlayers());
-
 
         for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
                 players.add(p.get());
             } else {
+                log.debug("Player being added does not exist");
                 throw new IllegalArgumentException("Player being added does not exist");
             }
         }
@@ -190,6 +191,7 @@ public class WeeklyTeamManager {
             if (p.isPresent()) {
                 players.remove(p.get());
             } else {
+                log.debug("Player being removed does not exist");
                 throw new IllegalArgumentException("Player being removed does not exist");
             }
         }
@@ -218,7 +220,8 @@ public class WeeklyTeamManager {
                 playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
             }
         } else {
-            throw new IllegalArgumentException("No weekly team for that user and date");
+            log.debug("No weekly team for that user and week");
+            throw new IllegalArgumentException("No weekly team for that user and week");
         }
         playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
 

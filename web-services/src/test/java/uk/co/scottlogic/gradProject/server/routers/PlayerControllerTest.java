@@ -9,6 +9,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.ChangeCollegeTeamDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
@@ -349,5 +350,45 @@ public class PlayerControllerTest {
         TestCase.assertEquals(400, response.getStatus());
     }
 
+    @Test
+    public void changingPlayerCollegeTeamReturns200() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        String id = UUID.randomUUID().toString();
+        String name = "name";
+        ChangeCollegeTeamDTO collegeTeamDTO = new ChangeCollegeTeamDTO(id, name);
+        CollegeTeam collegeTeam = new CollegeTeam("A");
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(teamRepo.findByName(name)).thenReturn(Optional.of(collegeTeam));
+        playerController.changePlayersCollegeTeam(user, collegeTeamDTO, response);
+        TestCase.assertEquals(201, response.getStatus());
+    }
+
+    @Test
+    public void changingPlayerCollegeTeamReturns400WhenPlayerDoesNotExist() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        String id = UUID.randomUUID().toString();
+        String name = "name";
+        ChangeCollegeTeamDTO collegeTeamDTO = new ChangeCollegeTeamDTO(id, name);
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
+        playerController.changePlayersCollegeTeam(user, collegeTeamDTO, response);
+        TestCase.assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    public void changingPlayerCollegeTeamReturns400WhenCollegeTeamDoesNotExist() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        String id = UUID.randomUUID().toString();
+        String name = "name";
+        ChangeCollegeTeamDTO collegeTeamDTO = new ChangeCollegeTeamDTO(id, name);
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(teamRepo.findByName(name)).thenReturn(Optional.empty());
+        playerController.changePlayersCollegeTeam(user, collegeTeamDTO, response);
+        TestCase.assertEquals(400, response.getStatus());
+    }
 }
 

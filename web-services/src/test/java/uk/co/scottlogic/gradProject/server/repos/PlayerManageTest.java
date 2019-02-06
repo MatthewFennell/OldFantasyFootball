@@ -488,4 +488,34 @@ public class PlayerManageTest {
         assertEquals(assists, pp.getNumberOfAssists());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void changingPlayersCollegeTeamThrowsExceptionWhenPlayerDoesNotExist(){
+        String id = UUID.randomUUID().toString();
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
+        playerManager.changePlayersCollegeTeam(id, "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void changingPlayersCollegeTeamThrowsExceptionWhenCollegeTeamDoesNotExist(){
+        String id = UUID.randomUUID().toString();
+        String name = "name";
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(teamRepo.findByName(name)).thenReturn(Optional.empty());
+        playerManager.changePlayersCollegeTeam(id, name);
+    }
+
+    @Test
+    public void changingPlayersCollegeTeamThrowsUpdatesTeam(){
+        String id = UUID.randomUUID().toString();
+        String name = "name";
+        CollegeTeam collegeTeam = new CollegeTeam("A");
+        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+        when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
+        when(teamRepo.findByName(name)).thenReturn(Optional.of(collegeTeam));
+        playerManager.changePlayersCollegeTeam(id, name);
+        assertEquals(collegeTeam.getName(), player.getActiveTeam().getName());
+    }
+
+
 }
