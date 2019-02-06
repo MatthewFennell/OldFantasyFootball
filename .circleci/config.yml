@@ -8,6 +8,11 @@ jobs:
       - run:
           name: PRINT AGAIN
           command: ls
+      - run:
+          name: Build web-ui docker image
+          command: |
+            cd web-ui
+            docker build -t pampoomio/web-ui:latest .
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
