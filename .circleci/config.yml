@@ -14,21 +14,20 @@ jobs:
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
 
-  push_fantasy_server_docker_hub:
+  deploy_web-services:
+    working_directory: ~/fantasy-services
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
-      - checkout
-      - setup_remote_docker
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/fantasy-services
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Build web-services docker image
-          command: |
-            cd web-services
-            ls
-            gradle build
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker build -t pampoomio/fantasy-back-end-server:latest .            
-            docker push pampoomio/fantasy-back-end-server:latest
+          name: Build Docker image
+          working_directory: ~/fantasy-services
+          command: docker build -t testing .
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
@@ -141,7 +140,7 @@ workflows:
   version: 2
   build:
     jobs:
+      - deploy_web-services
       - push_fantasy_ui_docker_hub
-      - push_fantasy_server_docker_hub
     #   - build_web-services
     #   - build_web-ui
