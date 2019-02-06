@@ -9,8 +9,7 @@ jobs:
       - run:
           name: Build web-ui docker image
           command: |
-            cd web-ui
-            gradle build
+            cd web-ui            
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-web-ui:latest .            
             docker push pampoomio/fantasy-web-ui:latest
@@ -26,6 +25,7 @@ jobs:
           command: |
             cd web-services
             ls
+            gradle build
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-back-end-server:latest .            
             docker push pampoomio/fantasy-back-end-server:latest
