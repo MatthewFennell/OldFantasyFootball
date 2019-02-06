@@ -22,6 +22,9 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/fantasy-services
+      - run:
+          name: PRINT
+          command: ls
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
