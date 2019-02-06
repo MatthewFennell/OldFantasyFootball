@@ -15,13 +15,13 @@ jobs:
             docker push pampoomio/fantasy-web-ui:latest
 
   deploy_web-services:
-    working_directory: ~/fantasy-services
+    working_directory: ~/web-services
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: ~/fantasy-services
+          at: ~/web-services
       - run:
           name: PRINT
           command: ls
@@ -29,7 +29,7 @@ jobs:
           docker_layer_caching: true
       - run:
           name: Build Docker image
-          working_directory: ~/fantasy-services
+          working_directory: ~/web-services
           command: docker build -t testing .
 
   build_web-services:
@@ -144,6 +144,6 @@ workflows:
   build:
     jobs:
       - deploy_web-services
-      - push_fantasy_ui_docker_hub
+    #   - push_fantasy_ui_docker_hub
     #   - build_web-services
     #   - build_web-ui
