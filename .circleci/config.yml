@@ -4,8 +4,9 @@ jobs:
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
-      - run: |
-          echo "${DOCKER_PASS}" | docker login --username pampoomio --password-stdin
+      - run:
+          name: PRINT AGAIN
+          command: ls
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
