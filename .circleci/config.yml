@@ -156,6 +156,12 @@ workflows:
       - deploy_web-services:
           requires:
             - build_web-services
+          filters:
+            branches:
+              only: develop
       - deploy_fantasy_ui:
           requires:
             - build_web-ui
+          filters:
+            branches:
+              only: develop
