@@ -305,4 +305,57 @@ public class LeagueManagerTest {
         assertEquals(Integer.valueOf(3), dtoList.get(2).getPosition());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void leavingLeagueThatDoesNotExistThrowsException(){
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.empty());
+        leagueManager.leaveLeague(u1, "league");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void leavingLeagueThatThatTheUserIsNotInThrowsException(){
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+
+        List<ApplicationUser> users = new ArrayList<>();
+        users.add(u2);
+        users.add(u3);
+        users.add(u4);
+
+        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        league_one.setParticipants(users);
+
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
+        leagueManager.leaveLeague(u1, "league");
+    }
+
+    @Test
+    public void leavingLeagueThatThatTheUserIsInReducesItsLengthByOne(){
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+
+        List<ApplicationUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        users.add(u3);
+        users.add(u4);
+
+        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        league_one.setParticipants(users);
+
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
+        leagueManager.leaveLeague(u1, "league");
+        assertEquals(3, league_one.getParticipants().size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void leavingTheOriginalLeagueThrowsAnException(){
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        leagueManager.leaveLeague(u1, "original");
+    }
+
 }
