@@ -15,18 +15,27 @@ jobs:
             docker push pampoomio/fantasy-web-ui:latest
 
   deploy_web-services:
+    working_directory: ~/web-services
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-api-repository
     steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/web-services
       - run:
-          name: PRINT
-          command: ls
+          name: Install the AWS CLI
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install awscli
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
           name: Build Docker image
           working_directory: ~/web-services
-          command: docker build -t testing .
+          command: docker build -t $APPLICATION_NAME:$CIRCLE_BUILD_NUM .
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
