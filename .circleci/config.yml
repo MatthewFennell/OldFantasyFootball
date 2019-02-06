@@ -13,7 +13,7 @@ jobs:
           name: Build web-ui docker image
           command: |
             cd web-ui
-            docker build -t pampoomio/web-ui:latest .
+            docker build -t pampoomio/fantasy-web-ui:latest .
             docker push pampoomio/fantasy-web-ui:latest
 
   build_web-services:
