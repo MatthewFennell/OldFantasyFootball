@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  push_fantasy_ui_docker_hub:
+  deploy_fantasy_ui:
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
     steps:
@@ -97,7 +97,10 @@ jobs:
       - run:
           name: Build Docker image
           working_directory: ~/web-services
-          command: docker build -t $APPLICATION_NAME:$CIRCLE_BUILD_NUM .
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker build -t pampoomio/fantasy-back-end-server:latest .            
+            docker push pampoomio/fantasy-back-end-server:latest
 
   build_web-ui:
     working_directory: ~/grad-bank-app/web-ui
@@ -153,3 +156,6 @@ workflows:
       - deploy_web-services:
           requires:
             - build_web-services
+      - deploy_fantasy_ui:
+          requires:
+            - build_web_ui
