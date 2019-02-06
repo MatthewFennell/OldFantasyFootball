@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
@@ -43,6 +44,43 @@ public class LeagueManager {
         List<ApplicationUser> participants = league.getParticipants();
         participants.sort(Comparator.comparing(ApplicationUser::getTotalPoints).reversed());
         return participants;
+    }
+
+    public void leaveLeague(ApplicationUser user, String leagueName){
+
+        if (leagueName.equals("original")){
+            log.debug("({}) ({}) attempted to leave the original league", user.getFirstName(), user.getSurname());
+            throw new IllegalArgumentException("Can't leave this league");
+        }
+
+        Optional<League> league = leagueRepo.findByLeagueName(leagueName);
+
+
+
+        if (league.isPresent()){
+            boolean removed = false;
+            int index  = -1;
+            int correct = -1;
+            for (ApplicationUser u : league.get().getParticipants()){
+                index += 1;
+                if (u.getId().equals(user.getId())){
+                    correct = index;
+                    removed = true;
+                }
+            }
+            if (removed){
+                league.get().getParticipants().remove(correct);
+                leagueRepo.save(league.get());
+            }
+            else {
+                log.debug("User ({}) ({}) is not in a league by name ){})", user.getFirstName(), user.getSurname(), leagueName);
+                throw new IllegalArgumentException("User can't leave league because they are not in it");
+            }
+        }
+        else {
+            log.debug("League does not exist");
+            throw new IllegalArgumentException("League does not exist");
+        }
     }
 
     public List<UserInLeagueReturnDTO> findUsersInLeagueAndPositions(String leagueName) {

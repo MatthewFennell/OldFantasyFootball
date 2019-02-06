@@ -111,5 +111,65 @@ public class LeagueControllerTest {
         assertEquals(400, response.getStatus());
     }
 
+    @Test
+    public void leavingLeagueSuccessfullyReturns200() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+
+        List<ApplicationUser> users = new ArrayList<>();
+        users.add(u1);
+        users.add(u2);
+        users.add(u3);
+        users.add(u4);
+
+        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        league_one.setParticipants(users);
+
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
+        leagueController.leaveLeague(u1, "league", response);
+        assertEquals(200, response.getStatus());
+    }
+
+    @Test
+    public void leavingLeagueYouAreNotInReturns400() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+
+        List<ApplicationUser> users = new ArrayList<>();
+        users.add(u2);
+        users.add(u3);
+        users.add(u4);
+
+        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        league_one.setParticipants(users);
+
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
+        leagueController.leaveLeague(u1, "league", response);
+        assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    public void leavingLeagueThatDoesNotExistReturns400() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.empty());
+        leagueController.leaveLeague(u1, "league", response);
+        assertEquals(400, response.getStatus());
+    }
+
+    @Test
+    public void leavingOriginalLeagueThrows400() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        leagueController.leaveLeague(u1, "original", response);
+        assertEquals(400, response.getStatus());
+    }
+
 
 }
