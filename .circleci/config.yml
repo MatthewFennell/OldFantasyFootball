@@ -1,15 +1,35 @@
 version: 2
 jobs:
+  # deploy_fantasy_ui:
+  #   docker:
+  #     - image: circleci/python:3.6.6-jessie-browsers
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Build web-ui docker image
+  #         command: |
+  #           cd web-ui
+  #           echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  #           docker build -t pampoomio/fantasy-ui:latest .
+  #           docker push pampoomio/fantasy-ui:latest
+
   deploy_fantasy_ui:
+    working_directory: ~/web-ui
     docker:
       - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-ui-repository
     steps:
-      - checkout
-      - setup_remote_docker
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/web-ui
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
-          name: Build web-ui docker image
+          name: Build Docker image
+          working_directory: ~/web-ui
           command: |
-            cd web-ui            
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
             docker build -t pampoomio/fantasy-ui:latest .            
             docker push pampoomio/fantasy-ui:latest
@@ -65,7 +85,7 @@ jobs:
       # - run:
       #     name: Gradle test
       #     command: gradle check
-        # Store Unit test results
+      # Store Unit test results
       - store_artifacts:
           path: build/reports
           destination: reports
