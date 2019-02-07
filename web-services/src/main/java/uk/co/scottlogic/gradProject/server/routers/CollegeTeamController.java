@@ -30,7 +30,7 @@ public class CollegeTeamController {
         this.collegeTeamManager = collegeTeamManager;
     }
 
-    @ApiOperation(value = Icons.key + " Make a college team", authorizations = {
+    @ApiOperation(value = Icons.key + " Make a college team SCARY", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
