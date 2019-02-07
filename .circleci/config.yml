@@ -31,8 +31,8 @@ jobs:
           working_directory: ~/web-ui
           command: |
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker build -t pampoomio/fantasy-ui:latest .            
-            docker push pampoomio/fantasy-ui:latest
+            docker build -t pampoomio/fantasy-ui:$CIRCLE_BUILD_NUM .            
+            docker push pampoomio/fantasy-ui:$CIRCLE_BUILD_NUM
 
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
@@ -82,9 +82,9 @@ jobs:
           command: java -jar *.jar
           background: true
       ### Gradle clean, Run Unit tests, and check Code Coverage
-      # - run:
-      #     name: Gradle test
-      #     command: gradle check
+      - run:
+          name: Gradle test
+          command: gradle check
       # Store Unit test results
       - store_artifacts:
           path: build/reports
@@ -119,8 +119,8 @@ jobs:
           working_directory: ~/web-services
           command: |
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-            docker build -t pampoomio/fantasy-server:latest .            
-            docker push pampoomio/fantasy-server:latest
+            docker build -t pampoomio/fantasy-server:$CIRCLE_BUILD_NUM .            
+            docker push pampoomio/fantasy-server:$CIRCLE_BUILD_NUM
 
   build_web-ui:
     working_directory: ~/grad-bank-app/web-ui
