@@ -32,7 +32,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations UPDATED WAHOO pertaining to User details (For "
+@Api(value = "Authentication", description = "Operations UPDATED WAHOO - tagged with CIRCLE ci build NUMBER pertaining to User details (For "
         + "authentication see token)")
 public class Authentication {
 
