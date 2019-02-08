@@ -15,7 +15,7 @@ public class PlayerDTO {
     private Integer totalGoals;
     private String collegeTeam;
 
-    public PlayerDTO(Player p){
+    public PlayerDTO(Player p) {
         this.id = p.getId().toString();
         this.firstName = p.getFirstName();
         this.surname = p.getSurname();
@@ -39,7 +39,7 @@ public class PlayerDTO {
         this.price = playerPoints.getPlayer().getPrice();
     }
 
-    public PlayerDTO(Player p, Integer points){
+    public PlayerDTO(Player p, Integer points) {
         this.id = p.getId().toString();
         this.firstName = p.getFirstName();
         this.surname = p.getSurname();

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
@@ -32,7 +31,7 @@ public class LeagueManager {
 
     public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
         Optional<League> duplicate = leagueRepo.findByLeagueName(leagueName);
-        if (duplicate.isPresent()){
+        if (duplicate.isPresent()) {
             throw new IllegalArgumentException("A league with that name already exists");
         }
         League league = new League(owner, leagueName, new ArrayList<>(), startWeek);
@@ -44,10 +43,10 @@ public class LeagueManager {
     List<UserInLeagueReturnDTO> findUsersInLeague(League league) {
         List<ApplicationUser> participants = league.getParticipants();
         List<UserInLeagueReturnDTO> orderedUsers = new ArrayList<>();
-        for (ApplicationUser u : participants){
+        for (ApplicationUser u : participants) {
             List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByUserAfterWeek(u, league.getStartWeek());
             Integer userScore = 0;
-            for (UsersWeeklyTeam uwt : weeklyTeams){
+            for (UsersWeeklyTeam uwt : weeklyTeams) {
                 userScore += uwt.getPoints();
             }
             orderedUsers.add(new UserInLeagueReturnDTO(u, 0, userScore));
@@ -56,36 +55,34 @@ public class LeagueManager {
         return orderedUsers;
     }
 
-    public void leaveLeague(ApplicationUser user, String leagueName){
+    public void leaveLeague(ApplicationUser user, String leagueName) {
 
-        if (leagueName.equals("original")){
+        if (leagueName.equals("original")) {
             log.debug("({}) ({}) attempted to leave the original league", user.getFirstName(), user.getSurname());
             throw new IllegalArgumentException("Can't leave this league");
         }
 
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
 
-        if (league.isPresent()){
+        if (league.isPresent()) {
             boolean removed = false;
-            int index  = -1;
+            int index = -1;
             int correct = -1;
-            for (ApplicationUser u : league.get().getParticipants()){
+            for (ApplicationUser u : league.get().getParticipants()) {
                 index += 1;
-                if (u.getId().equals(user.getId())){
+                if (u.getId().equals(user.getId())) {
                     correct = index;
                     removed = true;
                 }
             }
-            if (removed){
+            if (removed) {
                 league.get().getParticipants().remove(correct);
                 leagueRepo.save(league.get());
-            }
-            else {
+            } else {
                 log.debug("User ({}) ({}) is not in a league by name ){})", user.getFirstName(), user.getSurname(), leagueName);
                 throw new IllegalArgumentException("User can't leave league because they are not in it");
             }
-        }
-        else {
+        } else {
             log.debug("League does not exist");
             throw new IllegalArgumentException("League does not exist");
         }
@@ -145,7 +142,7 @@ public class LeagueManager {
 
     Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
         List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
-        for (UserInLeagueReturnDTO u : usersInLeague){
+        for (UserInLeagueReturnDTO u : usersInLeague) {
             System.out.println("Points = " + u.getPoints());
             System.out.println("Name = " + u.getFirstName());
         }

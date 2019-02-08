@@ -37,7 +37,7 @@ public class CollegeTeamDTO {
     }
 
     public void setTotalScore() {
-        this.totalScore = this.wins*3 + this.draws;
+        this.totalScore = this.wins * 3 + this.draws;
     }
 
     public String getName() {

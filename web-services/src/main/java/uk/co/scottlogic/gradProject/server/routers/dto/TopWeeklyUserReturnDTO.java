@@ -18,7 +18,7 @@ public class TopWeeklyUserReturnDTO {
         this.teamName = team.getUser().getTeamName();
     }
 
-    public TopWeeklyUserReturnDTO(){
+    public TopWeeklyUserReturnDTO() {
 
     }
 

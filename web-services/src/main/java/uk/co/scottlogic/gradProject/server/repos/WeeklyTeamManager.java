@@ -152,7 +152,7 @@ public class WeeklyTeamManager {
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
-        if (!Constants.TRANSFER_MARKET_OPEN){
+        if (!Constants.TRANSFER_MARKET_OPEN) {
             log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }

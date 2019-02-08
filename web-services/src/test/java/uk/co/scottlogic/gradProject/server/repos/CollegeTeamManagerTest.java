@@ -37,7 +37,6 @@ public class CollegeTeamManagerTest {
     public void makingCollegeTeamWithNormalNameThrowsNoErrors(){
         String collegeTeamName = "college team name";
         collegeTeamManager.makeTeam(collegeTeamName);
-
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -1,10 +1,10 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.persistence.*;
 import java.util.UUID;
-import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 @Entity
 @Table(indexes = {

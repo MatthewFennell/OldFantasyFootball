@@ -9,9 +9,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
-import uk.co.scottlogic.gradProject.server.repos.*;
+import uk.co.scottlogic.gradProject.server.repos.LeagueManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.MakeLeagueDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
@@ -40,12 +42,11 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
     public String makeLeague(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
+                             @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
             return leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek());
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -53,8 +54,7 @@ public class LeagueController {
             } catch (Exception f) {
                 log.debug(f.getMessage());
             }
-        }
-        catch (DuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
             response.setStatus(409);
             log.debug(e.getMessage());
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/join")
     public LeagueReturnDTO addPlayerToLeague(@AuthenticationPrincipal ApplicationUser user,
-                                  @RequestBody String code, HttpServletResponse response) {
+                                             @RequestBody String code, HttpServletResponse response) {
         try {
             response.setStatus(200);
             return leagueManager.addPlayerToLeague(user, code);
@@ -100,7 +100,7 @@ public class LeagueController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/leave")
     public void leaveLeague(@AuthenticationPrincipal ApplicationUser user,
-                                             @RequestBody String name, HttpServletResponse response) {
+                            @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(200);
             leagueManager.leaveLeague(user, name);
@@ -152,12 +152,10 @@ public class LeagueController {
         try {
             response.setStatus(200);
             return leagueManager.findUsersInLeagueAndPositions(leagueName);
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
         }
         return null;

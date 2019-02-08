@@ -44,7 +44,7 @@ public class UserReturnDTO {
         this.remainingBudget = user.getRemainingBudget();
         roles = new ArrayList<>();
 
-        for (UserAuthority ua : user.getAuthorityList()){
+        for (UserAuthority ua : user.getAuthorityList()) {
             roles.add(ua.getRole());
         }
     }
@@ -55,10 +55,6 @@ public class UserReturnDTO {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }
-
-    public void setAuthoritySet(Set<GrantedAuthority> authoritySet) {
-        this.authoritySet = authoritySet;
     }
 
     public double getRemainingBudget() {
@@ -99,6 +95,10 @@ public class UserReturnDTO {
 
     public Set<GrantedAuthority> getAuthoritySet() {
         return authoritySet;
+    }
+
+    public void setAuthoritySet(Set<GrantedAuthority> authoritySet) {
+        this.authoritySet = authoritySet;
     }
 
     public UUID getId() {

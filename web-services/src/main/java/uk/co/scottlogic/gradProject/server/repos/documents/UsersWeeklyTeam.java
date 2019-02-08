@@ -66,7 +66,7 @@ public class UsersWeeklyTeam {
     }
 
     public void setWeek(Integer week) {
-        if (week < 0){
+        if (week < 0) {
             throw new IllegalArgumentException("Week cannot be negative");
         }
         this.week = week;
@@ -109,8 +109,8 @@ public class UsersWeeklyTeam {
     }
 
     public void removePlayer(Player player) {
-        for (int x = 0; x < this.players.size(); x++){
-            if (this.players.get(x).getFirstName().equals(player.getFirstName()) && this.players.get(x).getSurname().equals(player.getSurname())){
+        for (int x = 0; x < this.players.size(); x++) {
+            if (this.players.get(x).getFirstName().equals(player.getFirstName()) && this.players.get(x).getSurname().equals(player.getSurname())) {
                 this.players.remove(x);
                 break;
             }

@@ -48,23 +48,23 @@ public class CollegeTeam {
 
     }
 
-    public void addWin(){
+    public void addWin() {
         this.wins += 1;
     }
 
-    public void addDraw(){
+    public void addDraw() {
         this.draws += 1;
     }
 
-    public void addLoss(){
+    public void addLoss() {
         this.losses += 1;
     }
 
-    public void addGoalsFor(Integer goalsFor){
+    public void addGoalsFor(Integer goalsFor) {
         this.goalsFor += goalsFor;
     }
 
-    public void addGoalsAgainst(Integer goalsAgainst){
+    public void addGoalsAgainst(Integer goalsAgainst) {
         this.goalsAgainst += goalsAgainst;
     }
 
@@ -85,7 +85,7 @@ public class CollegeTeam {
     }
 
     public void setWins(Integer wins) {
-        if (wins < 0){
+        if (wins < 0) {
             throw new IllegalArgumentException("Number of wins cannot be negative");
         }
         this.wins = wins;
@@ -96,7 +96,7 @@ public class CollegeTeam {
     }
 
     public void setDraws(Integer draws) {
-        if (draws < 0){
+        if (draws < 0) {
             throw new IllegalArgumentException("Number of draws cannot be negative");
         }
         this.draws = draws;
@@ -107,7 +107,7 @@ public class CollegeTeam {
     }
 
     public void setLosses(Integer losses) {
-        if (losses < 0){
+        if (losses < 0) {
             throw new IllegalArgumentException("Number of losses cannot be negative");
         }
         this.losses = losses;
@@ -118,7 +118,7 @@ public class CollegeTeam {
     }
 
     public void setGoalsFor(Integer goalsFor) {
-        if (goalsFor < 0){
+        if (goalsFor < 0) {
             throw new IllegalArgumentException("Number of goals for cannot be negative");
         }
         this.goalsFor = goalsFor;
@@ -129,7 +129,7 @@ public class CollegeTeam {
     }
 
     public void setGoalsAgainst(Integer goalsAgainst) {
-        if (goalsAgainst < 0){
+        if (goalsAgainst < 0) {
             throw new IllegalArgumentException("Number of goals against for cannot be negative");
         }
         this.goalsAgainst = goalsAgainst;

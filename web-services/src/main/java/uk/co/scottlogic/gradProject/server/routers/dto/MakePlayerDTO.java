@@ -18,7 +18,7 @@ public class MakePlayerDTO {
         this.price = price;
     }
 
-    public MakePlayerDTO(){
+    public MakePlayerDTO() {
 
     }
 

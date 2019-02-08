@@ -7,15 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.PlayerManager;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
-import uk.co.scottlogic.gradProject.server.repos.documents.*;
+import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.Player;
+import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
-import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -161,12 +165,11 @@ public class PlayerController {
     @PostMapping(value = "/player/make")
     @PreAuthorize("hasRole('ADMIN')")
     public void makePlayer(@AuthenticationPrincipal ApplicationUser user,
-                             @RequestBody MakePlayerDTO dto, HttpServletResponse response) {
+                           @RequestBody MakePlayerDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
             playerManager.makePlayer(dto);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -196,8 +199,7 @@ public class PlayerController {
         try {
             response.setStatus(201);
             playerManager.changePlayersCollegeTeam(dto.getPlayerID(), dto.getCollegeName());
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -223,13 +225,12 @@ public class PlayerController {
     @PostMapping(value = "/player/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public void deletePlayer(@AuthenticationPrincipal ApplicationUser user,
-                           @RequestBody String id, HttpServletResponse response) {
+                             @RequestBody String id, HttpServletResponse response) {
         try {
             response.setStatus(204);
             System.out.println("trying to delete " + id);
             playerManager.deletePlayer(id);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -280,8 +281,8 @@ public class PlayerController {
     @PostMapping(value = "/player/points/add")
     @PreAuthorize("hasRole('USER')")
     public void addPointsToSinglePlayer(@AuthenticationPrincipal ApplicationUser user,
-                                   @RequestBody PlayerPointsDTO dto,
-                                   HttpServletResponse response) {
+                                        @RequestBody PlayerPointsDTO dto,
+                                        HttpServletResponse response) {
 
         try {
             response.setStatus(201);
@@ -307,8 +308,8 @@ public class PlayerController {
     @PostMapping(value = "/player/points/edit")
     @PreAuthorize("hasRole('USER')")
     public void editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
-                                   @RequestBody PlayerPointsDTO dto,
-                                   HttpServletResponse response) {
+                                    @RequestBody PlayerPointsDTO dto,
+                                    HttpServletResponse response) {
 
         try {
             response.setStatus(201);

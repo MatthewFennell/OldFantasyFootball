@@ -6,12 +6,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import uk.co.scottlogic.gradProject.server.misc.ExceptionLogger;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
-import uk.co.scottlogic.gradProject.server.repos.*;
+import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
+import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -107,8 +112,7 @@ public class PointsController {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
         }
         return -1;
@@ -130,12 +134,10 @@ public class PointsController {
         try {
             response.setStatus(200);
             return applicationUserManager.findPointsInWeek(user, week);
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             response.setStatus(500);
         }
         return 0;
@@ -160,16 +162,12 @@ public class PointsController {
         } catch (Exception e) {
             try {
                 response.sendError(400, e.getMessage());
-            }
-            catch (Exception f){
+            } catch (Exception f) {
                 log.debug(f.getMessage());
             }
         }
         return 0;
     }
-
-
-
 
 
 }

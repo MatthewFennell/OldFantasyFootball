@@ -100,7 +100,7 @@ public class League {
     }
 
     public void setStartWeek(Integer startWeek) {
-        if (startWeek < 0){
+        if (startWeek < 0) {
             throw new IllegalArgumentException("Start week cannot be negative");
         }
         this.startWeek = startWeek;

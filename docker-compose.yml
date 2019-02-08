@@ -68,3 +68,10 @@ services:
 
 # https://certbot.eff.org/lets-encrypt/debianstretch-other
 # http://man7.org/linux/man-pages/man5/crontab.5.html
+
+# run 'docker-compose stop' to bring the site down
+# then run 'docker ps --filter "status=exited"' to get the stopped containers
+# get the id for fantasy-ui and fantasy-server and run 'docker rm CONTAINER_ID'
+# then run 'docker images' to get all of the images
+# then for fantasy-ui and fantasy-server,  copy the image ID and run 'docker rmi IMAGE_ID' for both
+# running 'docker-compose up' should bring the site up with new images, whilst maintaining the database

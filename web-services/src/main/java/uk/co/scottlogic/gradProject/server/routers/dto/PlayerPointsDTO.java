@@ -25,7 +25,7 @@ public class PlayerPointsDTO {
         this.week = week;
     }
 
-    public PlayerPointsDTO(PlayerPoints playerPoints){
+    public PlayerPointsDTO(PlayerPoints playerPoints) {
         this.goals = playerPoints.getNumberOfGoals();
         this.assists = playerPoints.getNumberOfAssists();
         this.minutesPlayed = playerPoints.getMinutesPlayed();

@@ -12,13 +12,11 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api")

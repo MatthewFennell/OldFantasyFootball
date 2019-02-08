@@ -8,9 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
-import uk.co.scottlogic.gradProject.server.repos.*;
+import uk.co.scottlogic.gradProject.server.repos.CollegeTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
@@ -42,12 +43,11 @@ public class CollegeTeamController {
     @PostMapping(value = "/college/make")
     @PreAuthorize("hasRole('ADMIN')")
     public void makeCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
-                             @RequestBody String name, HttpServletResponse response) {
+                                @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(200);
             collegeTeamManager.makeTeam(name);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -73,12 +73,11 @@ public class CollegeTeamController {
     @PostMapping(value = "/college/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
-                                @RequestBody String name, HttpServletResponse response) {
+                                  @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(204);
             collegeTeamManager.deleteTeam(name);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -104,12 +103,11 @@ public class CollegeTeamController {
     @PostMapping(value = "/college/stats/add")
     @PreAuthorize("hasRole('ADMIN')")
     public void addStatsToCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
-                                @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
+                                      @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(200);
             collegeTeamManager.addStatsToCollegeTeam(dto);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
@@ -135,12 +133,11 @@ public class CollegeTeamController {
     @PostMapping(value = "/college/stats/edit")
     @PreAuthorize("hasRole('ADMIN')")
     public void editCollegeTeamStats(@AuthenticationPrincipal ApplicationUser user,
-                                      @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
+                                     @RequestBody CollegeTeamStatsDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(200);
             collegeTeamManager.editCollegeTeamStats(dto);
-        }
-        catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {

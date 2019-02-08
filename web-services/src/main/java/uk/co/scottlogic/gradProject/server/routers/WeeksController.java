@@ -8,9 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
-import uk.co.scottlogic.gradProject.server.repos.*;
+import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.*;
+import uk.co.scottlogic.gradProject.server.routers.dto.TransferDTO;
 
 import javax.servlet.http.HttpServletResponse;
 
