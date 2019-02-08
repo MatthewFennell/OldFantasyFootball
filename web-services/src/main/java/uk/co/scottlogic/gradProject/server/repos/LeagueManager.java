@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.Application;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
+import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
@@ -21,10 +22,12 @@ public class LeagueManager {
     private static final Logger log = LoggerFactory.getLogger(LeagueManager.class);
 
     private LeagueRepo leagueRepo;
+    private WeeklyTeamRepo weeklyTeamRepo;
 
     @Autowired
-    public LeagueManager(LeagueRepo leagueRepo) {
+    public LeagueManager(LeagueRepo leagueRepo, WeeklyTeamRepo weeklyTeamRepo) {
         this.leagueRepo = leagueRepo;
+        this.weeklyTeamRepo = weeklyTeamRepo;
     }
 
     public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
@@ -38,12 +41,19 @@ public class LeagueManager {
         return league.getId().toString();
     }
 
-    // Sorts them by total points (doesn't look at points since week started!!!!)
-    // Top points is first
-    List<ApplicationUser> findUsersInLeague(League league) {
+    List<UserInLeagueReturnDTO> findUsersInLeague(League league) {
         List<ApplicationUser> participants = league.getParticipants();
-        participants.sort(Comparator.comparing(ApplicationUser::getTotalPoints).reversed());
-        return participants;
+        List<UserInLeagueReturnDTO> orderedUsers = new ArrayList<>();
+        for (ApplicationUser u : participants){
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByUserAfterWeek(u, league.getStartWeek());
+            Integer userScore = 0;
+            for (UsersWeeklyTeam uwt : weeklyTeams){
+                userScore += uwt.getPoints();
+            }
+            orderedUsers.add(new UserInLeagueReturnDTO(u, 0, userScore));
+        }
+        orderedUsers.sort(Comparator.comparing(UserInLeagueReturnDTO::getPoints).reversed());
+        return orderedUsers;
     }
 
     public void leaveLeague(ApplicationUser user, String leagueName){
@@ -83,22 +93,20 @@ public class LeagueManager {
 
     public List<UserInLeagueReturnDTO> findUsersInLeagueAndPositions(String leagueName) {
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
-        List<UserInLeagueReturnDTO> usersAndPositions = new ArrayList<>();
         if (league.isPresent()) {
-            List<ApplicationUser> usersInLeague = findUsersInLeague(league.get());
+            List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league.get());
             int position = 0;
-            for (ApplicationUser u : usersInLeague) {
+            for (UserInLeagueReturnDTO u : usersInLeague) {
                 position += 1;
-                usersAndPositions.add(new UserInLeagueReturnDTO(u, position));
+                u.setPosition(position);
             }
-            return usersAndPositions;
+            return usersInLeague;
         } else {
             throw new IllegalArgumentException("League does not exist with that league name");
         }
     }
 
     // Need to stop the same player joining a league multiple times
-    // Need to make the code for joining obscure
     public LeagueReturnDTO addPlayerToLeague(ApplicationUser user, String code) {
         Optional<League> league = leagueRepo.findByCodeToJoin(code);
         if (league.isPresent()) {
@@ -126,9 +134,9 @@ public class LeagueManager {
     boolean userExistsInLeague(ApplicationUser user, League league) {
 
         // Should make this not use the sorting method
-        List<ApplicationUser> usersInLeague = findUsersInLeague(league);
-        for (ApplicationUser u : usersInLeague) {
-            if (u.getId().equals(user.getId())) {
+        List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
+        for (UserInLeagueReturnDTO u : usersInLeague) {
+            if (u.getUserID().equals(user.getId())) {
                 return true;
             }
         }
@@ -136,18 +144,22 @@ public class LeagueManager {
     }
 
     Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
-        List<ApplicationUser> usersInLeague = findUsersInLeague(league);
+        List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
+        for (UserInLeagueReturnDTO u : usersInLeague){
+            System.out.println("Points = " + u.getPoints());
+            System.out.println("Name = " + u.getFirstName());
+        }
         int position = 0;
-        for (ApplicationUser u : usersInLeague) {
+        for (UserInLeagueReturnDTO u : usersInLeague) {
             position += 1;
-            if (u.getId().equals(user.getId())) {
+            if (u.getUserID().equals(user.getId())) {
                 return position;
             }
         }
         throw new IllegalArgumentException("User not in league?");
     }
 
-    // Change this to binary search
+    // TO:DO
     // SURELY this can be improved
     public List<LeagueReturnDTO> findLeaguesPlayerIsIn(ApplicationUser user) {
 
@@ -158,11 +170,11 @@ public class LeagueManager {
         userLeagues.forEach(allLeagues::add);
 
         for (League l : allLeagues) {
-            List<ApplicationUser> participants = findUsersInLeague(l);
+            List<UserInLeagueReturnDTO> participants = findUsersInLeague(l);
             int position = 0;
-            for (ApplicationUser u : participants) {
+            for (UserInLeagueReturnDTO u : participants) {
                 position += 1;
-                if (u.getId().equals(user.getId())) {
+                if (u.getUserID().equals(user.getId())) {
                     returnDTOS.add(new LeagueReturnDTO(l.getLeagueName(), position));
                     break;
                 }

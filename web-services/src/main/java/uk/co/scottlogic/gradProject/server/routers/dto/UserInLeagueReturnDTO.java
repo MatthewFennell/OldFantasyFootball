@@ -4,19 +4,30 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 
 public class UserInLeagueReturnDTO {
 
+    private String userID;
     private String firstName;
     private String surname;
     private Integer points;
     private Integer position;
 
-    public UserInLeagueReturnDTO(ApplicationUser user, Integer position) {
+    public UserInLeagueReturnDTO(ApplicationUser user, Integer position, Integer points) {
+        this.userID = user.getId();
         this.firstName = user.getFirstName();
         this.surname = user.getSurname();
         this.points = user.getTotalPoints();
         this.position = position;
+        this.points = points;
     }
 
     public UserInLeagueReturnDTO() {
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getFirstName() {
