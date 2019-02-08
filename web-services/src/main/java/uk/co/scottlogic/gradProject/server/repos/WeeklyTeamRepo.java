@@ -18,7 +18,6 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 ORDER BY week DESC")
     List<UsersWeeklyTeam> findByUser(ApplicationUser user);
 
-
     List<UsersWeeklyTeam> findByPlayers(Player player);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2")

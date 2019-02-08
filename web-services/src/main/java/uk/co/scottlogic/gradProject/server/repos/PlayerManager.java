@@ -111,14 +111,16 @@ public class PlayerManager {
         List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(player);
         for (UsersWeeklyTeam uwt : weeklyTeams) {
 
-            // Increase the weekly team score
-            uwt.changePoints(score);
-            weeklyTeamRepo.save(uwt);
+            if (uwt.getWeek().equals(week)) {
+                // Increase the weekly team score
+                uwt.changePoints(score);
+                weeklyTeamRepo.save(uwt);
 
-            // Increase the users total score
-            ApplicationUser user = uwt.getUser();
-            user.changeTotalPoints(score);
-            applicationUserRepo.save(user);
+                // Increase the users total score
+                ApplicationUser user = uwt.getUser();
+                user.changeTotalPoints(score);
+                applicationUserRepo.save(user);
+            }
         }
     }
 
@@ -259,14 +261,16 @@ public class PlayerManager {
         List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.getPlayer());
         for (UsersWeeklyTeam uwt : weeklyTeams) {
 
-            // Increase the weekly team score
-            uwt.changePoints(score);
-            weeklyTeamRepo.save(uwt);
+            if (uwt.getWeek().equals(playerPoints.getWeek())) {
+                // Increase the weekly team score
+                uwt.changePoints(score);
+                weeklyTeamRepo.save(uwt);
 
-            // Increase the users total score
-            ApplicationUser user = uwt.getUser();
-            user.changeTotalPoints(score);
-            applicationUserRepo.save(user);
+                // Increase the users total score
+                ApplicationUser user = uwt.getUser();
+                user.changeTotalPoints(score);
+                applicationUserRepo.save(user);
+            }
         }
     }
 

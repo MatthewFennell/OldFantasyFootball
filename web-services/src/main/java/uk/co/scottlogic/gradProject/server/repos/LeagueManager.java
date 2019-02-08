@@ -55,8 +55,6 @@ public class LeagueManager {
 
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
 
-
-
         if (league.isPresent()){
             boolean removed = false;
             int index  = -1;

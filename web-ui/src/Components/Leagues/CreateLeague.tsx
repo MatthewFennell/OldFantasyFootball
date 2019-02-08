@@ -9,7 +9,6 @@ import '../../Style/League/League-create.css';
 
 interface CreateGroupState {
   leagueName: string;
-  codeToJoin: string;
   error: string;
 }
 
@@ -25,7 +24,6 @@ class CreateGroup extends React.Component<
     super(props);
     this.state = {
       leagueName: '',
-      codeToJoin: '',
       error: ''
     };
     this._onSubmit = this._onSubmit.bind(this);
@@ -55,12 +53,10 @@ class CreateGroup extends React.Component<
   _onSubmit = (event: string) => {
     switch (event) {
       case 'btnCreateLeague':
-        console.log('button pressed');
         const err = this._validate();
         if (!err) {
           const data: CreateLeague = {
             leagueName: this.state.leagueName,
-            codeToJoin: this.state.codeToJoin,
             startWeek: 0
           };
           createLeague(data)
@@ -96,18 +92,6 @@ class CreateGroup extends React.Component<
                 type="text"
                 name="leagueName"
                 id="leagueName"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="codeToJoin" className="unselectable">
-                Code to join league
-              </Label>
-              <Field
-                type="text"
-                name="codeToJoin"
-                id="codeToJoin"
                 component="input"
                 onChange={e => this._handleInput(e!.target.name, e!.target)}
               />
