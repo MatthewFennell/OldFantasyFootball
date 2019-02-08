@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeName from './CollegeName';
-import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
+import CollegeName from '../CreateCollegeTeam/CollegeName';
+import { deleteCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
 
 interface TransfersFormProps {}
 
@@ -29,7 +29,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // createPlayer(data).catch(error => {
     //   console.log('error = ' + JSON.stringify(error));
     // });
-    makeCollegeTeam(this.state.collegeNameValue).catch(error => {
+    deleteCollegeTeam(this.state.collegeNameValue).catch(error => {
       console.log('error message : ' + error);
     });
   }
@@ -51,7 +51,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
               id="btnRegister"
               onClick={() => this._onSubmit()}
             >
-              Create College Team
+              Delete College Team
             </Button>
           </div>
         </div>

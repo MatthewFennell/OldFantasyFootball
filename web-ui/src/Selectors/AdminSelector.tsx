@@ -18,3 +18,6 @@ export const getPlayersInFilteredTeam = createSelector(
   [getPlayersInFilteredTeamState],
   p => p.playersInFilteredTeam
 );
+
+const getAllCollegeTeamsState = (state: State) => state.admin;
+export const getAllCollegeTeams = createSelector([getAllCollegeTeamsState], p => p.allCollegeTeams);

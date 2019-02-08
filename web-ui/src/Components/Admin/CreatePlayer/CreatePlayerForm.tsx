@@ -5,7 +5,7 @@ import FirstName from './FirstName';
 import Surname from './Surname';
 import PositionsDropDown from './PositionsDropdown';
 import Price from './Price';
-import CollegeTeam from './CollegeTeam';
+import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
 
 interface TransfersFormProps {}
