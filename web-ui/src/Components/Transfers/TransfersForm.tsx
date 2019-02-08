@@ -9,10 +9,12 @@ import SearchByName from './SearchByName';
 import { filterPlayers } from '../../Services/Player/PlayerService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 
 interface TransfersFormProps {
   setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
   filteredPlayers: PlayerDTO[];
+  allCollegeTeams: CollegeTeam[];
 }
 
 interface TransfersFormState {
@@ -118,7 +120,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <PositionDropDown setPosition={positionChange} />
           </div>
           <div>
-            <TeamDropDown setTeam={teamChange} />
+            <TeamDropDown setTeam={teamChange} allCollegeTeams={this.props.allCollegeTeams}/>
           </div>
           <div>
             <SortByDropdown setSortBy={sortByChange} />
