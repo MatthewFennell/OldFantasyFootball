@@ -120,7 +120,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <PositionDropDown setPosition={positionChange} />
           </div>
           <div>
-            <TeamDropDown setTeam={teamChange} allCollegeTeams={this.props.allCollegeTeams}/>
+            <TeamDropDown setTeam={teamChange} allCollegeTeams={this.props.allCollegeTeams} />
           </div>
           <div>
             <SortByDropdown setSortBy={sortByChange} />
