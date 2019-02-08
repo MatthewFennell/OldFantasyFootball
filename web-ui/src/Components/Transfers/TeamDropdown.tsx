@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import '../../Style/Transfers/TeamDropdown.css';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 
 interface TeamDropdownProps {
   setTeam: (team: string) => void;
+  allCollegeTeams: CollegeTeam[];
 }
 
 interface TeamDropdownState {
@@ -33,33 +35,15 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
   }
 
   render() {
-    // TO:DO - fetch the teams from the server
-    let teams: string[] = [
-      'All teams',
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N'
-    ];
-    const teamOptions = teams.map(team => (
+    const teamOptions = this.props.allCollegeTeams.map(team => (
       <p className="menu-items">
         <DropdownItem
-          className={'team-menu-item-' + (team === this.state.teamValue)}
-          key={team}
-          value={team}
-          onClick={() => this._handleTeamChange(team)}
+          className={'team-menu-item-' + (team.name === this.state.teamValue)}
+          key={team.id}
+          value={team.name}
+          onClick={() => this._handleTeamChange(team.name)}
         >
-          {team}
+          {team.name}
         </DropdownItem>
       </p>
     ));

@@ -24,12 +24,15 @@ public class LeagueControllerTest {
     @Mock
     private LeagueRepo leagueRepo;
 
+    @Mock
+    private WeeklyTeamRepo weeklyTeamRepo;
+
     private LeagueController leagueController;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        LeagueManager leagueManager = new LeagueManager(leagueRepo);
+        LeagueManager leagueManager = new LeagueManager(leagueRepo, weeklyTeamRepo);
         leagueController = new LeagueController(leagueManager);
     }
 

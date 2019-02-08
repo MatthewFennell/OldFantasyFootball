@@ -1,12 +1,14 @@
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { findPlayersInCollegeTeam } from '../../../Services/Player/PlayerService';
+import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface TeamDropdownProps {
   setTeam: (team: string) => void;
   setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
+  allCollegeTeams: CollegeTeam[];
 }
 
 interface TeamDropdownState {
@@ -18,13 +20,24 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
   constructor(props: TeamDropdownProps) {
     super(props);
     this._toggleTeam = this._toggleTeam.bind(this);
-    this.state = {
-      teamDropDownOpen: false,
-      teamValue: 'A'
-    };
-    findPlayersInCollegeTeam('A').then(response => {
-      this.props.setPlayersInFilteredTeam(response);
-    });
+
+    if (this.props.allCollegeTeams.length > 0) {
+      this.state = {
+        teamDropDownOpen: false,
+        teamValue: this.props.allCollegeTeams[0].name
+      };
+      findPlayersInCollegeTeam(this.props.allCollegeTeams[0].name).then(response => {
+        this.props.setPlayersInFilteredTeam(response);
+      });
+    } else {
+      this.state = {
+        teamDropDownOpen: false,
+        teamValue: 'A'
+      };
+      findPlayersInCollegeTeam('A').then(response => {
+        this.props.setPlayersInFilteredTeam(response);
+      });
+    }
   }
 
   _toggleTeam() {
@@ -48,16 +61,16 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 
   render() {
     // TO:DO - fetch the teams from the server
-    let teams: string[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N'];
-    const teamOptions = teams.map(team => (
+
+    const teamOptions = this.props.allCollegeTeams.map(team => (
       <p className="menu-items">
         <DropdownItem
-          className={'team-menu-item-' + (team === this.state.teamValue)}
-          key={team}
+          className={'team-menu-item-' + (team.name === this.state.teamValue)}
+          key={team.name}
           value={team}
-          onClick={() => this._handleTeamChange(team)}
+          onClick={() => this._handleTeamChange(team.name)}
         >
-          {team}
+          {team.name}
         </DropdownItem>
       </p>
     ));

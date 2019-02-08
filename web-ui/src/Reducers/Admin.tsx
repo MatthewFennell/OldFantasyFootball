@@ -1,5 +1,6 @@
 import { ActionTypes, Action as AdminAction } from '../Actions/AdminActions';
 import { PlayerDTO } from '../Models/Interfaces/Player';
+import { CollegeTeam } from '../Models/Interfaces/CollegeTeam';
 type Action = AdminAction;
 
 // Define our State interface for the current reducer
@@ -7,13 +8,15 @@ export interface State {
   adminPageBeingViewed: string;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
+  allCollegeTeams: CollegeTeam[];
 }
 
 // Define our initialState
 export const initialState: State = {
   adminPageBeingViewed: 'home',
   teamAddingPoints: '',
-  playersInFilteredTeam: []
+  playersInFilteredTeam: [],
+  allCollegeTeams: []
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -36,6 +39,13 @@ export const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         teamAddingPoints: action.payload.team
+      };
+    }
+
+    case ActionTypes.SET_ALL_COLLEGE_TEAMS: {
+      return {
+        ...state,
+        allCollegeTeams: action.payload.teams
       };
     }
 

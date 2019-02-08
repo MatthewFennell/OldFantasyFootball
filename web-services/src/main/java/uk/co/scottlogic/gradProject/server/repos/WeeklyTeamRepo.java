@@ -18,11 +18,13 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 ORDER BY week DESC")
     List<UsersWeeklyTeam> findByUser(ApplicationUser user);
 
-
     List<UsersWeeklyTeam> findByPlayers(Player player);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2")
     Optional<UsersWeeklyTeam> findByUserByWeek(ApplicationUser user, Integer week);
+
+    @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 AND week >= ?2")
+    List<UsersWeeklyTeam> findByUserAfterWeek(ApplicationUser user, Integer week);
 
     @Query(value = "FROM UsersWeeklyTeam WHERE week = ?1 AND points = (SELECT MAX(points) FROM UsersWeeklyTeam)")
     List<UsersWeeklyTeam> findUserWithMostPoints(Integer week);

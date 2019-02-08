@@ -3,6 +3,8 @@ package uk.co.scottlogic.gradProject.server.routers.dto;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 
 public class CollegeTeamDTO {
+
+    private String id;
     private String name;
     private Integer wins;
     private Integer draws;
@@ -18,7 +20,16 @@ public class CollegeTeamDTO {
         this.losses = team.getLosses();
         this.goalsFor = team.getGoalsFor();
         this.goalsAgainst = team.getGoalsAgainst();
+        this.id = team.getId().toString();
         setTotalScore();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Integer getTotalScore() {
