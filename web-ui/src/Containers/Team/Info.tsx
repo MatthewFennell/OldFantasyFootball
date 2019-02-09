@@ -8,6 +8,8 @@ import {
   getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 
+import { setTeam } from '../../Actions/ActiveTeamActions';
+
 import { setWeekBeingViewed } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
@@ -18,7 +20,8 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-  setWeekBeingViewed
+  setWeekBeingViewed,
+  setTeam
 };
 
 export default connect<any, any, any>(

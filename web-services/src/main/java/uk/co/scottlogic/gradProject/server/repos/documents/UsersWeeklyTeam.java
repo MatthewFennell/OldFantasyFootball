@@ -40,6 +40,7 @@ public class UsersWeeklyTeam {
         this.user = user;
         this.date = date;
         this.players = players;
+        System.out.println("making a weekly team with " + players.size() + " players");
         this.week = week;
         id = UUID.randomUUID();
         this.points = 0;

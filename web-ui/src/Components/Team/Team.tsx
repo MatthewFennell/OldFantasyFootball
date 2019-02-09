@@ -52,6 +52,11 @@ interface TransactionsProps {
 interface TransactionsState {}
 
 class Transactions extends React.Component<TransactionsProps, TransactionsState> {
+  constructor(props: TransactionsProps) {
+    super(props);
+    this._generateCache = this._generateCache.bind(this);
+  }
+
   componentDidMount() {
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
@@ -59,6 +64,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       this.props.setWeekBeingViewed(currentWeek);
       this.props.setTotalNumberOfWeeks(currentWeek);
       this._generateCache(currentWeek);
+
+      for (let x = 0; x < currentWeek; x++) {
+        this._generateCache(x);
+      }
     });
 
     getTransferStatus().then(response => {
@@ -113,11 +122,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         this.props.addToTopWeeklyUsersCache(currentWeek, userMostPoints);
       });
     }
-  }
-
-  _onClick() {
-    this.props.setWeekBeingViewed(0);
-    this._generateCache(0);
   }
 
   render() {
