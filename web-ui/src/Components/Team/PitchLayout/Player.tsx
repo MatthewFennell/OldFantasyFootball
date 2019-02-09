@@ -26,6 +26,7 @@ class Player extends React.Component<PlayerProps, {}> {
   }
 
   _onClick() {
+    console.log('clicked');
     if (this.props.transfer) {
       const { price, id } = this.props.player;
       this._removePlayerFromActiveTeam(id);

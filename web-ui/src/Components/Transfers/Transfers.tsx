@@ -49,7 +49,6 @@ class Transfers extends React.Component<TransfersProps, {}> {
         <div className="left-rows">
           <div className="transfer-info-row">
             <div>Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil</div>
-            <div>Remaining Transfers: {this.props.remainingTransfers}</div>
             {this.props.transfersMarketOpen ? (
               <div>Transfer Market: Open</div>
             ) : (

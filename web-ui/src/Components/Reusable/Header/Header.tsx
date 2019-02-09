@@ -72,7 +72,9 @@ class Header extends React.Component<Props> {
     this.transfersRef.current!.classList.remove('selected');
     this.leagueRef.current!.classList.remove('selected');
     this.settingsRef.current!.classList.remove('selected');
-    this.adminRef.current!.classList.remove('selected');
+    if (this._isAdmin()) {
+      this.adminRef.current!.classList.remove('selected');
+    }
     target.current!.classList.add('selected');
     this.props.setPageBeingViewed(name);
   };

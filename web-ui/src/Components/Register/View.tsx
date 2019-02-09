@@ -11,6 +11,7 @@ import { Account } from '../../Models/Interfaces/Account';
 interface RegisterProps {
   resetAccount: () => void;
   setAccount: (account: Account) => void;
+  setRemainingBudget: (budget: number) => void;
   location: any;
   history: any;
 }
@@ -55,7 +56,10 @@ class Register extends React.Component<RegisterProps, {}> {
         {this._renderAnimatedWrapper(
           'bubble-largest',
           <Bubble className="bubble-largest bubble-blue">
-            <RegisterForm setAccount={this.props.setAccount} />
+            <RegisterForm
+              setAccount={this.props.setAccount}
+              setRemainingBudget={this.props.setRemainingBudget}
+            />
           </Bubble>
         )}
       </div>

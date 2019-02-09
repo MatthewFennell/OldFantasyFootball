@@ -2,11 +2,13 @@ import { connect } from 'react-redux';
 import { State } from '../Reducers/root';
 import Login from '../Components/Login/View';
 import { setAccount } from '../Actions/AccountActions';
+import { setRemainingBudget } from '../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = {
-  setAccount
+  setAccount,
+  setRemainingBudget
 };
 
 export default connect<any, any, any>(

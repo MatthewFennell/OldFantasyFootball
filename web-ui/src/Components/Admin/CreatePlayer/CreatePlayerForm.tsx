@@ -92,7 +92,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     let data: CreatePlayer = {
       position: position,
       collegeTeam: this.state.teamValue,
-      price: parseInt(this.state.priceValue),
+      price: parseFloat(this.state.priceValue),
       firstName: this.state.firstNameValue,
       surname: this.state.surnameValue
     };

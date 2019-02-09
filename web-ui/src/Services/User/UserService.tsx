@@ -63,6 +63,17 @@ export const getUser = (): Promise<Account> => {
   });
 };
 
+export const getRemainingBudget = (): Promise<number> => {
+  return fetch('/api/user/budget', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
 export const deleteUser = (): Promise<void> => {
   return fetch('/api/user/current', {
     method: 'DELETE',

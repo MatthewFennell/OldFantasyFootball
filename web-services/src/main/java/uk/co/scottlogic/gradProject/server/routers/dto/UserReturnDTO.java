@@ -41,7 +41,6 @@ public class UserReturnDTO {
         this.email = user.getEmail();
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
-        this.remainingBudget = user.getRemainingBudget();
         roles = new ArrayList<>();
 
         for (UserAuthority ua : user.getAuthorityList()) {

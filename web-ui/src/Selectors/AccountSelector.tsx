@@ -19,8 +19,5 @@ export const getRemainingTransfers = createSelector(
   p => p.remainingTransfers
 );
 
-const getRemainingBudgetState = (state: State) => state.account;
-export const getRemainingBudget = createSelector([getRemainingBudgetState], p => p.remainingBudget);
-
 const getRolesState = (state: State) => state.account;
 export const getRoles = createSelector([getRolesState], p => p.roles);
