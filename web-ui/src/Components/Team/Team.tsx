@@ -19,6 +19,8 @@ import {
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 
+import { getRemainingBudget } from '../../Services/User/UserService';
+
 interface TransactionsProps {
   totalPoints: number;
   weekBeingViewed: number;
@@ -47,6 +49,8 @@ interface TransactionsProps {
 
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
+
+  setRemainingBudget: (budget: number) => void;
 }
 
 interface TransactionsState {}
@@ -68,6 +72,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       for (let x = 0; x < currentWeek; x++) {
         this._generateCache(x);
       }
+
+      getRemainingBudget().then(response => {
+        this.props.setRemainingBudget(response);
+      });
     });
 
     getTransferStatus().then(response => {

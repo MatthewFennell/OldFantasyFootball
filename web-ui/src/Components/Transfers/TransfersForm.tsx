@@ -44,6 +44,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       maximumPriceValue: 'No limit',
       searchByNameValue: ''
     };
+
+    this._getResults();
   }
 
   _getResults() {

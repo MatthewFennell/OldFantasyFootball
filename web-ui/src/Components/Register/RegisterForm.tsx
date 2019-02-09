@@ -101,6 +101,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
                 remainingTransfers: response.remainingTransfers,
                 roles: response.roles
               });
+              this.props.setRemainingBudget(response.remainingBudget);
             })
             .then(() => {
               this.props.history.push('/team');

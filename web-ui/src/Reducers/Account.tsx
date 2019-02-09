@@ -12,7 +12,6 @@ export interface State {
   totalPoints: number;
   weekBeingViewed: number;
   remainingTransfers: number;
-  remainingBudget: number;
   roles: string[];
 }
 
@@ -27,7 +26,6 @@ export const initialState: State = {
   totalPoints: 0,
   weekBeingViewed: 0,
   remainingTransfers: 0,
-  remainingBudget: 0,
   roles: []
 };
 
@@ -48,7 +46,6 @@ export const reducer = (state: State = initialState, action: Action) => {
         username,
         email,
         totalPoints,
-        remainingBudget,
         remainingTransfers,
         roles
       } = action.payload.account;
@@ -60,7 +57,6 @@ export const reducer = (state: State = initialState, action: Action) => {
         username,
         email,
         totalPoints,
-        remainingBudget,
         remainingTransfers,
         roles
       };

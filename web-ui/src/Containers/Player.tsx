@@ -8,7 +8,8 @@ import {
   addToPlayerBeingRemoved,
   removeFromPlayersBeingAdded
 } from '../Actions/TransferActions';
-import { getRemainingBudget, getPlayersBeingAdded } from '../Selectors/TransfersSelector';
+import { getPlayersBeingAdded } from '../Selectors/TransfersSelector';
+import { getRemainingBudget } from '../Selectors/TransfersSelector';
 
 const mapStateToProps = (state: State) => ({
   activeTeam: getActiveTeam(state),

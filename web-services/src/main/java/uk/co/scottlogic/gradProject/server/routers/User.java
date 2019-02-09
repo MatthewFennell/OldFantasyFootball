@@ -80,6 +80,24 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
+            + " Gets users remaining budget", notes = "Requires User role", response =
+            UserReturnDTO.class, authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
+    @GetMapping("/user/budget")
+    @PreAuthorize("hasRole('USER')")
+    public double getRemainingBudget(@AuthenticationPrincipal ApplicationUser user,
+                                    HttpServletResponse response) {
+        try {
+            return user.getRemainingBudget();
+        } catch (Exception e) {
+            ExceptionLogger.logException(e);
+        }
+        return 0;
+    }
+
+    @ApiOperation(value = Icons.key
             + " Set the users team name", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})

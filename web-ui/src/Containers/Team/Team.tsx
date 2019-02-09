@@ -24,6 +24,8 @@ import {
   setTotalNumberOfWeeks
 } from '../../Actions/StatsActions';
 
+import { setRemainingBudget } from '../../Actions/TransferActions';
+
 import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
@@ -50,7 +52,8 @@ const mapDispatchToProps = {
   addToWeeklyTeamCache,
   setTotalNumberOfWeeks,
   setTransferMarket,
-  setAllCollegeTeams
+  setAllCollegeTeams,
+  setRemainingBudget
 };
 
 export default connect<any, any, any>(
