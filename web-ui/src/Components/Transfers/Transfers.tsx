@@ -7,8 +7,7 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
-import { updateTeam } from '../../Services/Weeks/WeeksService';
-import { getTransferStatus } from '../../Services/Weeks/WeeksService';
+import { updateTeam, getTransferStatus } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;
