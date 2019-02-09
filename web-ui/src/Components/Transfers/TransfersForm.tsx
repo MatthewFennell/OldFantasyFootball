@@ -38,7 +38,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._getResults = this._getResults.bind(this);
     this.state = {
       positionValue: 'All',
-      teamValue: 'A',
+      teamValue: 'All teams',
       sortByValue: 'TOTAL_POINTS',
       minimumPriceValue: 'No limit',
       maximumPriceValue: 'No limit',
@@ -77,7 +77,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
 
     filterPlayers(data).then(response => {
-      this.props.setFilteredPlayers(response);
+      if (response.length > 0) {
+        this.props.setFilteredPlayers(response);
+      }
     });
   }
 

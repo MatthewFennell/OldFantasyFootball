@@ -4,8 +4,9 @@ import '../../Style/Team/PitchLayout/Pitch.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-import { getNumberOfWeeks } from '../../Services/Weeks/WeeksService';
+import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
   getTeamForUserInWeek,
@@ -16,6 +17,7 @@ import {
   getPointsForUserInWeek,
   getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
+import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -41,6 +43,10 @@ interface TransactionsProps {
   addToWeeklyTeamCache: (id: number, team: PlayerDTO[]) => void;
 
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
+  setTransferMarket: (transferMarket: boolean) => void;
+
+  setAllCollegeTeams: (teams: CollegeTeam[]) => void;
+  allCollegeTeams: CollegeTeam[];
 }
 
 interface TransactionsState {}
@@ -54,6 +60,16 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       this.props.setTotalNumberOfWeeks(currentWeek);
       this._generateCache(currentWeek);
     });
+
+    getTransferStatus().then(response => {
+      this.props.setTransferMarket(response);
+    });
+
+    if (this.props.allCollegeTeams.length === 0) {
+      getCollegeTeams('alphabetical').then(response => {
+        this.props.setAllCollegeTeams(response);
+      });
+    }
   }
 
   _generateCache(currentWeek: number) {

@@ -48,6 +48,19 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
       </p>
     ));
 
+    teamOptions.unshift(
+      <p className="menu-items">
+        <DropdownItem
+          className={'team-menu-item-' + (this.state.teamValue === 'All teams')}
+          key={'All teams'}
+          value={'All teams'}
+          onClick={() => this._handleTeamChange('All teams')}
+        >
+          {'All teams'}
+        </DropdownItem>
+      </p>
+    );
+
     return (
       <div className="team-dropdown">
         <Dropdown isOpen={this.state.teamDropDownOpen} toggle={this._toggleTeam}>

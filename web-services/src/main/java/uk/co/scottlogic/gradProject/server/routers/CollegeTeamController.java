@@ -42,11 +42,11 @@ public class CollegeTeamController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/college/make")
     @PreAuthorize("hasRole('ADMIN')")
-    public void makeCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
+    public CollegeTeamDTO makeCollegeTeam(@AuthenticationPrincipal ApplicationUser user,
                                 @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(200);
-            collegeTeamManager.makeTeam(name);
+            return collegeTeamManager.makeTeam(name);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
@@ -59,6 +59,7 @@ public class CollegeTeamController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+        return null;
     }
 
     @ApiOperation(value = Icons.key + " Delete a college team ", authorizations = {

@@ -7,8 +7,11 @@ import PositionsDropDown from './PositionsDropdown';
 import Price from './Price';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
+import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 
-interface TransfersFormProps {}
+interface TransfersFormProps {
+  allCollegeTeams: CT[];
+}
 
 interface TransfersFormState {
   positionValue: string;
@@ -27,13 +30,23 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleFirstName = this._handleFirstName.bind(this);
     this._handlePrice = this._handlePrice.bind(this);
     this._getResults = this._getResults.bind(this);
-    this.state = {
-      positionValue: 'Goalkeeper',
-      teamValue: 'A',
-      firstNameValue: '',
-      surnameValue: '',
-      priceValue: ''
-    };
+    if (this.props.allCollegeTeams.length > 0) {
+      this.state = {
+        positionValue: 'Goalkeeper',
+        teamValue: this.props.allCollegeTeams[0].name,
+        firstNameValue: '',
+        surnameValue: '',
+        priceValue: ''
+      };
+    } else {
+      this.state = {
+        positionValue: 'Goalkeeper',
+        teamValue: 'A',
+        firstNameValue: '',
+        surnameValue: '',
+        priceValue: ''
+      };
+    }
   }
 
   _getResults() {

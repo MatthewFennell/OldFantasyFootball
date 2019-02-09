@@ -28,9 +28,10 @@ public class CollegeTeamManager {
     }
 
 
-    public void makeTeam(String name) {
+    public CollegeTeamDTO makeTeam(String name) {
         CollegeTeam team = new CollegeTeam(name);
         teamRepo.save(team);
+        return new CollegeTeamDTO(team);
     }
 
     public void deleteTeam(String name) {
