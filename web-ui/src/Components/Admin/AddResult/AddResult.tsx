@@ -158,7 +158,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
     if (this.state.goalsAgainst === '0') {
       for (let i = 0; i < 5; i++) {
-        defenders.push(<SelectPlayer setPlayerID={setPlayerIDCleanSheets} />);
+        defenders.push(<SelectPlayer setPlayerID={setPlayerIDCleanSheets} onlyDefenders={true} />);
       }
     }
 
