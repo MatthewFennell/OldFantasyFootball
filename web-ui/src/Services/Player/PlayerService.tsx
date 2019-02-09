@@ -4,6 +4,7 @@ import { CreatePlayer } from '../../Models/Interfaces/CreatePlayer';
 import { getBearerHeader } from '.././CredentialInputService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { AddPoints } from '../../Models/Interfaces/AddPoints';
+import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
 
 export const getTeamForUserInWeek = (week: number): Promise<PlayerDTO[]> => {
   return fetch('/api/player/week/' + week + '/team', {
@@ -192,6 +193,32 @@ export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
   ).then(response => {
     console.log('Response = ' + JSON.stringify(response));
     if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const submitResult = (data: SubmitResults): Promise<any> => {
+  return fetch('/api/player/result/submit', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
+  }).then(response => {
+    if (!response.ok) {
+      if (response.status === 400) {
+        return response.json().then(json => {
+          if (response.ok) {
+            return json;
+          } else {
+            return Promise.reject(json.message);
+          }
+        });
+      } else if (response.status === 500) {
+        throw new Error('Internal server error');
+      } else {
+        throw new Error(response.status.toString());
+      }
+    } else if (response.status === 200) {
       return response.json();
     }
   });

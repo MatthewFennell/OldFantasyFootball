@@ -118,6 +118,14 @@ public class PlayerPoints {
         this.week = week;
     }
 
+    public void addGoal(){
+        this.numberOfGoals += 1;
+    }
+
+    public void addAssist(){
+        this.numberOfAssists += 1;
+    }
+
     public UUID getId() {
         return id;
     }

@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { clearPlayersBeingAddedAndRemoved } from '../../Actions/TransferActions';
+import { clearPlayersBeingAddedAndRemoved, setTransferMarket } from '../../Actions/TransferActions';
 import {
   getFilteredPlayers,
   getPlayersBeingAdded,
-  getPlayersBeingRemoved
+  getPlayersBeingRemoved,
+  getTransferMarketOpen
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 import { getRemainingBudget, getRemainingTransfers } from '../../Selectors/AccountSelector';
@@ -16,11 +17,13 @@ const mapStateToProps = (state: State) => ({
   filteredPlayers: getFilteredPlayers(state),
   activeTeam: getActiveTeam(state),
   playersBeingAdded: getPlayersBeingAdded(state),
-  playersBeingRemoved: getPlayersBeingRemoved(state)
+  playersBeingRemoved: getPlayersBeingRemoved(state),
+  transfersMarketOpen: getTransferMarketOpen(state)
 });
 
 const mapDispatchToProps = {
-  clearPlayersBeingAddedAndRemoved
+  clearPlayersBeingAddedAndRemoved,
+  setTransferMarket
 };
 
 export default connect<any, any, any>(

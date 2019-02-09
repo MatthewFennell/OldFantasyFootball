@@ -10,6 +10,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.SubmitPointsDTO;
 
 import java.util.*;
 
@@ -79,6 +80,66 @@ public class PlayerManager {
         return false;
     }
 
+    public void submitResults(SubmitPointsDTO pointsDTO){
+        System.out.println("submitting results");
+        Optional<CollegeTeam> collegeTeam = teamRepo.findByName(pointsDTO.getTeamName());
+        if (collegeTeam.isPresent()){
+
+            if (pointsDTO.getGoalsFor().equals(pointsDTO.getGoalsAgainst())){
+                System.out.println("added a college draw");
+                collegeTeam.get().addDraw();
+            }
+            else if (pointsDTO.getGoalsFor() > pointsDTO.getGoalsAgainst()){
+                System.out.println("added a college win");
+                collegeTeam.get().addWin();
+            }
+            else {
+                System.out.println("added a college loss");
+                collegeTeam.get().addLoss();
+            }
+            System.out.println("added " + pointsDTO.getGoalsFor() + " goals for");
+            collegeTeam.get().addGoalsFor(pointsDTO.getGoalsFor());
+
+            System.out.println("added " + pointsDTO.getGoalsAgainst() + " goals against");
+            collegeTeam.get().addGoalsAgainst(pointsDTO.getGoalsAgainst());
+
+            for (String goalScorerID : pointsDTO.getGoalScorers()){
+                Optional<Player> player = playerRepo.findById(UUID.fromString(goalScorerID));
+                if (player.isPresent()){
+                    System.out.println("adding a goal to " + player.get().getFirstName() + "  " + player.get().getSurname());
+                    addGoalToPlayer(player.get(), pointsDTO.getWeek());
+                }
+                else {
+                    throw new IllegalArgumentException("No player exists for player id " + goalScorerID);
+                }
+            }
+
+            for (String assistsID : pointsDTO.getAssists()){
+                Optional<Player> player = playerRepo.findById(UUID.fromString(assistsID));
+                if (player.isPresent()){
+                    System.out.println("adding an assist to " + player.get().getFirstName() + "  " + player.get().getSurname());
+                    addAssistToPlayer(player.get(), pointsDTO.getWeek());
+                }
+                else {
+                    throw new IllegalArgumentException("No player exists for player id " + assistsID);
+                }
+            }
+
+            for (String cleanSheetID : pointsDTO.getCleanSheets()){
+                Optional<Player> player = playerRepo.findById(UUID.fromString(cleanSheetID));
+                if (player.isPresent()){
+                    System.out.println("adding a clean sheet to " + player.get().getFirstName() + "  " + player.get().getSurname());
+                    addCleanSheet(player.get(), pointsDTO.getWeek());
+                }
+                else {
+                    throw new IllegalArgumentException("No player exists for player id " + cleanSheetID);
+                }
+            }
+        }
+        else {
+            throw new IllegalArgumentException("College team ( " + pointsDTO.getTeamName() + " )  does not exist");
+        }
+    }
 
     void makePlayer(CollegeTeam activeTeam, Enums.Position position, double price, String firstName, String surname) {
         Optional<CollegeTeam> team = teamRepo.findById(activeTeam.getId());
@@ -196,6 +257,87 @@ public class PlayerManager {
         } else {
             log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
+        }
+    }
+
+    private void addGoalToPlayer(Player player, Integer week){
+        Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
+        if (playerPoints.isPresent()){
+            playerPoints.get().addGoal();
+            player.changeGoals(1);
+            playerPointsRepo.save(playerPoints.get());
+            playerRepo.save(player);
+            System.out.println("gave them a goal");
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.get().getPlayer());
+            for (UsersWeeklyTeam uwt : weeklyTeams) {
+                ApplicationUser user = uwt.getUser();
+                if (player.getPosition().equals(Enums.Position.ATTACKER)) {
+                    uwt.changePoints(Constants.POINTS_PER_ATTACKER_GOAL);
+                    user.changeTotalPoints(Constants.POINTS_PER_ATTACKER_GOAL);
+                }
+                else if (player.getPosition().equals(Enums.Position.MIDFIELDER)){
+                    uwt.changePoints(Constants.POINTS_PER_MIDFIELDER_GOAL);
+                    user.changeTotalPoints(Constants.POINTS_PER_MIDFIELDER_GOAL);
+                }
+                else {
+                    uwt.changePoints(Constants.POINTS_PER_DEFENDER_GOAL);
+                    user.changeTotalPoints(Constants.POINTS_PER_DEFENDER_GOAL);
+                }
+                weeklyTeamRepo.save(uwt);
+                applicationUserRepo.save(user);
+            }
+        }
+        else {
+            System.out.println("player had no points object - made a new one with 1 goal");
+            PlayerPoints playerPoints1 = new PlayerPoints(1, 0, 0, false, 0, false, false, new Date(), player, week);
+            playerPointsRepo.save(playerPoints1);
+        }
+        System.out.println("updated users and weekly teams with them in");
+    }
+
+    private void addAssistToPlayer(Player player, Integer week){
+        Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
+        if (playerPoints.isPresent()){
+            playerPoints.get().addAssist();
+            player.changeAssists(1);
+            playerPointsRepo.save(playerPoints.get());
+            playerRepo.save(player);
+
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.get().getPlayer());
+            for (UsersWeeklyTeam uwt : weeklyTeams) {
+                ApplicationUser user = uwt.getUser();
+                uwt.changePoints(Constants.POINTS_PER_ASSIST);
+                user.changeTotalPoints(Constants.POINTS_PER_ASSIST);
+                weeklyTeamRepo.save(uwt);
+                applicationUserRepo.save(user);
+            }
+        }
+        else {
+            System.out.println("player had no points object - made a new one with 1 assist");
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 1, 0, false, 0, false, false, new Date(), player, week);
+            playerPointsRepo.save(playerPoints1);
+        }
+    }
+
+    private void addCleanSheet(Player player, Integer week){
+        Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
+        if (playerPoints.isPresent()){
+            playerPoints.get().setCleanSheet(true);
+            playerPointsRepo.save(playerPoints.get());
+
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayers(playerPoints.get().getPlayer());
+            for (UsersWeeklyTeam uwt : weeklyTeams) {
+                ApplicationUser user = uwt.getUser();
+                uwt.changePoints(Constants.POINTS_PER_CLEAN_SHEET);
+                user.changeTotalPoints(Constants.POINTS_PER_CLEAN_SHEET);
+                weeklyTeamRepo.save(uwt);
+                applicationUserRepo.save(user);
+            }
+        }
+        else {
+            System.out.println("player had no points object - made a new one with a clean sheet");
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, true, new Date(), player, week);
+            playerPointsRepo.save(playerPoints1);
         }
     }
 
