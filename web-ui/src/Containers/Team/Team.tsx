@@ -3,6 +3,9 @@ import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
 import { getActiveTeam, getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
 import { getTotalPoints } from '../../Selectors/AccountSelector';
+import { setTransferMarket } from '../../Actions/TransferActions';
+import { setAllCollegeTeams } from '../../Actions/AdminActions';
+import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
   getWeekBeingViewed,
   getWeeklyPointsCache,
@@ -32,7 +35,8 @@ const mapStateToProps = (state: State) => ({
   topWeeklyUsersCache: getTopWeeklyUserCache(state),
   activeTeam: getActiveTeam(state),
   weeklyTeamCache: getWeeklyTeamCache(state),
-  totalNumberOfWeeks: getTotalNumberOfWeeks(state)
+  totalNumberOfWeeks: getTotalNumberOfWeeks(state),
+  allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {
@@ -44,7 +48,9 @@ const mapDispatchToProps = {
   addToTopWeeklyUsersCache,
   setTeam,
   addToWeeklyTeamCache,
-  setTotalNumberOfWeeks
+  setTotalNumberOfWeeks,
+  setTransferMarket,
+  setAllCollegeTeams
 };
 
 export default connect<any, any, any>(

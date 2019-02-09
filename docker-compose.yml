@@ -75,3 +75,5 @@ services:
 # then run 'docker images' to get all of the images
 # then for fantasy-ui and fantasy-server,  copy the image ID and run 'docker rmi IMAGE_ID' for both
 # running 'docker-compose up' should bring the site up with new images, whilst maintaining the database
+
+# delete all images - docker rmi $(docker images -q)

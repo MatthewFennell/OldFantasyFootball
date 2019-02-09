@@ -1,7 +1,7 @@
 import { getBearerHeader } from '../CredentialInputService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 
-export const makeCollegeTeam = (name: string): Promise<void> => {
+export const makeCollegeTeam = (name: string): Promise<CollegeTeam> => {
   return fetch('/api/college/make', {
     method: 'POST',
     body: name,

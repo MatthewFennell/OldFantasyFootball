@@ -2,8 +2,11 @@ import * as React from 'react';
 import { Button } from 'reactstrap';
 import CollegeName from './CollegeName';
 import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
+import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 
-interface TransfersFormProps {}
+interface TransfersFormProps {
+  addCollegeTeam: (team: CollegeTeam) => void;
+}
 
 interface TransfersFormState {
   collegeNameValue: string;
@@ -29,9 +32,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // createPlayer(data).catch(error => {
     //   console.log('error = ' + JSON.stringify(error));
     // });
-    makeCollegeTeam(this.state.collegeNameValue).catch(error => {
-      console.log('error message : ' + error);
-    });
+    makeCollegeTeam(this.state.collegeNameValue)
+      .then(response => {
+        this.props.addCollegeTeam(response);
+      })
+      .catch(error => {
+        console.log('error message : ' + error);
+      });
   }
 
   render() {

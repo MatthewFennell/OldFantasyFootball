@@ -7,7 +7,7 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
-import { updateTeam, getTransferStatus } from '../../Services/Weeks/WeeksService';
+import { updateTeam } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -27,13 +27,6 @@ interface TransfersProps {
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
-  constructor(props: TransfersProps) {
-    super(props);
-    getTransferStatus().then(response => {
-      this.props.setTransferMarket(response);
-    });
-  }
-
   _updateTeam() {
     let data: UpdatePlayers = {
       playersBeingAdded: this.props.playersBeingAdded,

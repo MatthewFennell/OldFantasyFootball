@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { clearPlayersBeingAddedAndRemoved, setTransferMarket } from '../../Actions/TransferActions';
+import { clearPlayersBeingAddedAndRemoved } from '../../Actions/TransferActions';
 import {
   getFilteredPlayers,
   getPlayersBeingAdded,
@@ -22,8 +22,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-  clearPlayersBeingAddedAndRemoved,
-  setTransferMarket
+  clearPlayersBeingAddedAndRemoved
 };
 
 export default connect<any, any, any>(

@@ -49,6 +49,14 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    case ActionTypes.ADD_COLLEGE_TEAM: {
+      const teamToAdd = action.payload.team;
+      return {
+        ...state,
+        allCollegeTeams: state.allCollegeTeams.concat(teamToAdd)
+      };
+    }
+
     default:
       return state;
   }

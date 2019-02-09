@@ -459,6 +459,7 @@ public class PlayerManager {
     }
 
     public List<Player> formatFilter(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy) {
+        System.out.println("received request - name = " + name);
         if (team.equals("All teams")) {
             if (position.equals(Enums.Position.ALL)) {
                 return filter(null, null, min, max, name, sortBy);
