@@ -9,6 +9,7 @@ export interface State {
   filteredPlayers: PlayerDTO[];
   playersBeingAdded: PlayerDTO[];
   playersBeingRemoved: PlayerDTO[];
+  transferMarketOpen: boolean;
 }
 
 // Define our initialState
@@ -17,7 +18,8 @@ export const initialState: State = {
   remainingTransfers: 0,
   filteredPlayers: [],
   playersBeingAdded: [],
-  playersBeingRemoved: []
+  playersBeingRemoved: [],
+  transferMarketOpen: false
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -77,6 +79,13 @@ export const reducer = (state: State = initialState, action: Action) => {
         playersBeingRemoved: state.playersBeingRemoved.filter(
           (item, index) => action.payload.indexToRemove !== index
         )
+      };
+    }
+
+    case ActionTypes.SET_TRANSFER_MARKET: {
+      return {
+        ...state,
+        transferMarketOpen: action.payload.transferMarketOpen
       };
     }
 

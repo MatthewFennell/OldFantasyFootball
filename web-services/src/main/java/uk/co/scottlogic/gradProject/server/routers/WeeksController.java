@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.SubmitPointsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TransferDTO;
 
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +60,28 @@ public class WeeksController {
     }
 
     @ApiOperation(value = Icons.key
+            + " Gets whether the transfer market is open",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/weeks/transfer/open")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public boolean transferMarketOpen(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            return Constants.TRANSFER_MARKET_OPEN;
+        } catch (Exception e) {
+            log.debug(e.getMessage());
+            response.setStatus(400);
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key
             + " Gets the total number of weeks that have been played",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
@@ -77,4 +102,6 @@ public class WeeksController {
         }
         return 0;
     }
+
+
 }

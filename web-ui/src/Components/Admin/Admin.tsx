@@ -8,6 +8,7 @@ import CreateCollegeTeam from '../Admin/CreateCollegeTeam/CreateCollegeTeam';
 import DeleteCollegeTeam from './DeleteCollegeTeam/DeleteCollegeTeam';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import AddResult from '../../Containers/Admin/AddResult';
 
 interface AdminProps {
   setAdminPageBeingViewed: (adminPageBeingViewed: string) => void;
@@ -48,6 +49,7 @@ class Admin extends React.Component<AdminProps, {}> {
             </div>
             <div onClick={() => this._setPageBeingViewed('add-points')}>Add Points to Players</div>
             <div onClick={() => this._setPageBeingViewed('edit-stats')}>Edit Player Stats</div>
+            <div onClick={() => this._setPageBeingViewed('add-result')}>Create Results</div>
           </div>
           {this.props.adminPageBeingViewed === 'create' ? (
             <CreatePlayerForm />
@@ -61,6 +63,8 @@ class Admin extends React.Component<AdminProps, {}> {
             <CreateCollegeTeam />
           ) : this.props.adminPageBeingViewed === 'delete-college-team' ? (
             <DeleteCollegeTeam />
+          ) : this.props.adminPageBeingViewed === 'add-result' ? (
+            <AddResult />
           ) : null}
         </div>
       </div>

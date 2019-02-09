@@ -8,7 +8,8 @@ export enum ActionTypes {
   REMOVE_FROM_PLAYERS_BEING_ADDED = 'REMOVE_FROM_PLAYERS_BEING_ADDED',
   ADD_TO_PLAYERS_BEING_REMOVED = 'ADD_TO_PLAYERS_BEING_REMOVED',
   REMOVE_FROM_PLAYERS_BEING_REMOVED = 'REMOVE_FROM_PLAYERS_BEING_REMOVED',
-  CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED'
+  CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED',
+  SET_TRANSFER_MARKET = 'SET_TRANSFER_MARKET'
 }
 
 export interface SetRemainingBudget {
@@ -49,6 +50,11 @@ export interface RemoveFromPlayersBeingRemoved {
 export interface ClearPlayersBeingAddedAndRemoved {
   type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED;
   payload: {};
+}
+
+export interface SetTransferMarket {
+  type: ActionTypes.SET_TRANSFER_MARKET;
+  payload: { transferMarketOpen: boolean };
 }
 
 export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
@@ -109,6 +115,13 @@ export const removeFromPlayersBeingRemoved = (
   };
 };
 
+export const setTransferMarket = (transferMarketOpen: boolean): SetTransferMarket => {
+  return {
+    type: ActionTypes.SET_TRANSFER_MARKET,
+    payload: { transferMarketOpen }
+  };
+};
+
 export type Action =
   | SetRemainingBudget
   | SetRemainingTransfers
@@ -117,4 +130,5 @@ export type Action =
   | RemoveFromPlayersBeingAdded
   | AddToPlayersBeingRemoved
   | RemoveFromPlayersBeingRemoved
-  | ClearPlayersBeingAddedAndRemoved;
+  | ClearPlayersBeingAddedAndRemoved
+  | SetTransferMarket;

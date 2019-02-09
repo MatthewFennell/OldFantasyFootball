@@ -8,6 +8,7 @@ import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 import { updateTeam } from '../../Services/Weeks/WeeksService';
+import { getTransferStatus } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -21,9 +22,19 @@ interface TransfersProps {
 
   playersBeingAdded: PlayerDTO[];
   playersBeingRemoved: PlayerDTO[];
+
+  setTransferMarket: (transferMarket: boolean) => void;
+  transfersMarketOpen: boolean;
 }
 
 class Transfers extends React.Component<TransfersProps, {}> {
+  constructor(props: TransfersProps) {
+    super(props);
+    getTransferStatus().then(response => {
+      this.props.setTransferMarket(response);
+    });
+  }
+
   _updateTeam() {
     let data: UpdatePlayers = {
       playersBeingAdded: this.props.playersBeingAdded,
@@ -47,7 +58,11 @@ class Transfers extends React.Component<TransfersProps, {}> {
           <div className="transfer-info-row">
             <div>Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil</div>
             <div>Remaining Transfers: {this.props.remainingTransfers}</div>
-            <div>Transfer Deadline</div>
+            {this.props.transfersMarketOpen ? (
+              <div>Transfer Market: Open</div>
+            ) : (
+              <div>Transfer Market: Closed</div>
+            )}
           </div>
           <div className="save-changes">
             <Button

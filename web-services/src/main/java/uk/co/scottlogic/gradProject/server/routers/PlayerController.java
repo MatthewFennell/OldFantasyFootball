@@ -353,4 +353,38 @@ public class PlayerController {
         return null;
     }
 
+    @ApiOperation(value = Icons.key + " Add points to multiple players", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/result/submit")
+    @PreAuthorize("hasRole('USER')")
+    public void submitResult(@AuthenticationPrincipal ApplicationUser user,
+                             @RequestBody SubmitPointsDTO dto,
+                             HttpServletResponse response) {
+        try {
+            response.setStatus(201);
+            System.out.println("Goals for = " + dto.getGoalsFor());
+            System.out.println("Goals against = " + dto.getGoalsAgainst());
+            System.out.println("Week = " + dto.getWeek());
+            System.out.println("goalscorers size = "  + dto.getGoalScorers().size());
+            System.out.println("assists size = " + dto.getAssists().size());
+            System.out.println("clean sheets size = " + dto.getCleanSheets());
+            System.out.println("team = " + dto.getTeamName());
+            playerManager.submitResults(dto);
+
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+    }
+
 }

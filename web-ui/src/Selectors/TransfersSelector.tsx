@@ -24,3 +24,9 @@ export const getPlayersBeingRemoved = createSelector(
   [getPlayersBeingRemovedState],
   a => a.playersBeingRemoved
 );
+
+const getTransferMarketOpenState = (state: State) => state.transfers;
+export const getTransferMarketOpen = createSelector(
+  [getTransferMarketOpenState],
+  a => a.transferMarketOpen
+);

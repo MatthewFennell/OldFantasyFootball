@@ -4,7 +4,7 @@ import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface SelectPlayerProps {
-  setPlayerID: (id: string) => void;
+  setPlayerID: (id: string, previousID: string) => void;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
 }
@@ -12,6 +12,7 @@ interface SelectPlayerProps {
 interface SelectPlayerState {
   selectPlayerOpen: boolean;
   playerSelected: string;
+  playerSelectedID: string;
 }
 
 class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState> {
@@ -20,7 +21,8 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
     this._toggleTeam = this._toggleTeam.bind(this);
     this.state = {
       selectPlayerOpen: false,
-      playerSelected: 'None selected'
+      playerSelected: 'None selected',
+      playerSelectedID: 'No-id'
     };
   }
 
@@ -31,8 +33,11 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
   }
 
   _handlePlayerIDChange(id: string[]) {
+    console.log('previous value was ' + this.state.playerSelectedID);
+    let previousValue = this.state.playerSelectedID;
     this.setState({ playerSelected: id[0] });
-    this.props.setPlayerID(id[1]);
+    this.setState({ playerSelectedID: id[1] });
+    this.props.setPlayerID(id[1], previousValue);
   }
 
   render() {
