@@ -7,6 +7,7 @@ interface SelectPlayerProps {
   setPlayerID: (id: string, previousID: string) => void;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
+  onlyDefenders: boolean;
 }
 
 interface SelectPlayerState {
@@ -44,12 +45,26 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
     // TO:DO - fetch the teams from the server
     let teams: string[][] = [];
     for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
-      teams.push([
-        this.props.playersInFilteredTeam[x].firstName +
-          ' ' +
-          this.props.playersInFilteredTeam[x].surname,
-        this.props.playersInFilteredTeam[x].id
-      ]);
+      if (this.props.onlyDefenders) {
+        if (
+          this.props.playersInFilteredTeam[x].position === 'DEFENDER' ||
+          this.props.playersInFilteredTeam[x].position === 'GOALKEEPER'
+        ) {
+          teams.push([
+            this.props.playersInFilteredTeam[x].firstName +
+              ' ' +
+              this.props.playersInFilteredTeam[x].surname,
+            this.props.playersInFilteredTeam[x].id
+          ]);
+        }
+      } else {
+        teams.push([
+          this.props.playersInFilteredTeam[x].firstName +
+            ' ' +
+            this.props.playersInFilteredTeam[x].surname,
+          this.props.playersInFilteredTeam[x].id
+        ]);
+      }
     }
 
     const teamOptions = teams.map(team => (

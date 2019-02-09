@@ -18,7 +18,6 @@ import {
   getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
-
 import { getRemainingBudget } from '../../Services/User/UserService';
 
 interface TransactionsProps {
@@ -73,6 +72,11 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         this._generateCache(x);
       }
 
+      getTeamForUserInWeek(currentWeek).then(activeTeam => {
+        console.log('setting team for week ' + currentWeek);
+        this.props.setTeam(activeTeam);
+      });
+
       getRemainingBudget().then(response => {
         this.props.setRemainingBudget(response);
       });
@@ -90,9 +94,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   }
 
   _generateCache(currentWeek: number) {
-    getTeamForUserInWeek(currentWeek).then(activeTeam => {
-      this.props.setTeam(activeTeam);
-    });
+    // getTeamForUserInWeek(currentWeek).then(activeTeam => {
+    //   console.log('setting team for week ' + currentWeek);
+    //   this.props.setTeam(activeTeam);
+    // });
 
     // Hold a cache of [Week -> Weekly Team]
     if (this.props.weeklyTeamCache[currentWeek] === undefined) {
