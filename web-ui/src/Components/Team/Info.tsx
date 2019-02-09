@@ -1,12 +1,16 @@
 import * as React from 'react';
 import '../../Style/Team/Info.css';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 
 interface StatsProps {
   totalPoints: number;
 
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
+
+  setTeam: (team: PlayerDTO[]) => void;
 
   weeklyPointsCache: any;
 
@@ -29,6 +33,10 @@ class Info extends React.Component<StatsProps, InfoState> {
 
   _handleWeekChange(week: number) {
     this.props.setWeekBeingViewed(week);
+    getTeamForUserInWeek(week).then(response => {
+      this.props.setTeam(response);
+    });
+    // this.props.generateCache(week);
   }
 
   _toggle() {

@@ -158,11 +158,12 @@ public class PlayerManageTest {
         assertEquals(Integer.valueOf(0), playerManager.findPointsForPlayerInWeek(player, 0));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void findPointsForPlayerInAWeekThrowsExceptionIfPlayerDoesNotExistAndNotWeekZero() {
+    @Test
+    public void findPointsForPlayerInAWeekReturns0IfPlayerDoesNotExistAndNotWeekZero() {
         Player player = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
         when(playerPointsRepo.findByPlayerByWeek(player, 1)).thenReturn(Optional.empty());
-        playerManager.findPointsForPlayerInWeek(player, 1);
+        Integer points = playerManager.findPointsForPlayerInWeek(player, 1);
+        assertEquals(Integer.valueOf(0), points);
     }
 
     @Test

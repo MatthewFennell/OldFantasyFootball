@@ -63,7 +63,7 @@ class Player extends React.Component<PlayerProps, {}> {
         </div>
       );
     } else {
-      const { firstName, surname, points, price } = this.props.player;
+      const { firstName, surname, weeklyPoints, price } = this.props.player;
       return (
         <div className="player" onClick={this._onClick}>
           <p className="name">
@@ -72,7 +72,7 @@ class Player extends React.Component<PlayerProps, {}> {
           {this.props.transfer ? (
             <p className="value">{'£' + price}</p>
           ) : (
-            <p className="points">{points + ' pts'}</p>
+            <p className="points">{weeklyPoints + ' pts'}</p>
           )}
         </div>
       );

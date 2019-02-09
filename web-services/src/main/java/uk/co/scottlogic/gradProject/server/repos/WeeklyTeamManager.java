@@ -61,6 +61,24 @@ public class WeeklyTeamManager {
         return weeklyTeamRepo.findNumberOfWeeks();
     }
 
+    public void makeNewWeek(){
+        Integer maxWeek = getTotalNumberOfWeeks();
+        Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
+        List<ApplicationUser> users = new ArrayList<>();
+        allUsers.forEach(users::add);
+        for (ApplicationUser user : users){
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findMostRecentWeeklyTeam(user);
+            if (weeklyTeams.isEmpty()){
+                System.out.println("user has no weekly teams");
+            }
+            else {
+                UsersWeeklyTeam mostRecent = weeklyTeams.get(0);
+                UsersWeeklyTeam newUWT = new UsersWeeklyTeam(user, new Date(), mostRecent.getPlayers(), maxWeek+1);
+                weeklyTeamRepo.save(newUWT);
+            }
+        }
+    }
+
     void removePlayerFromWeeklyTeam(ApplicationUser user, String id) {
 
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
@@ -197,6 +215,7 @@ public class WeeklyTeamManager {
         }
         // Only save if the transfer is valid
         if (checkTeamIsValid(players)) {
+            activeTeam.setPlayers(players);
             weeklyTeamRepo.save(activeTeam);
             return true;
         } else {
@@ -210,21 +229,23 @@ public class WeeklyTeamManager {
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
     public List<PlayerDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
+        System.out.println("searching for week " + week);
         Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
         List<PlayerDTO> playersToReturn = new ArrayList<>();
 
         if (team.isPresent()) {
-
+            System.out.println("team is present");
             List<Player> players = team.get().getPlayers();
             for (Player p : players) {
                 playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
+                System.out.println("added DTO");
             }
         } else {
             log.debug("No weekly team for that user and week");
             throw new IllegalArgumentException("No weekly team for that user and week");
         }
         playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
-
+        System.out.println("sorted them by position");
         return playersToReturn;
     }
 
