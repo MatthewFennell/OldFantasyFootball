@@ -404,8 +404,9 @@ public class PlayerManager {
         }
         else {
             System.out.println("player had no points object - made a new one with a clean sheet");
-            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, true, new Date(), player, week);
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
             playerPointsRepo.save(playerPoints1);
+            addCleanSheet(player, week);
         }
     }
 
