@@ -3,7 +3,6 @@ import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
 import { getActiveTeam, getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
 import { getTotalPoints } from '../../Selectors/AccountSelector';
-import { setTransferMarket } from '../../Actions/TransferActions';
 import { setAllCollegeTeams } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
@@ -24,7 +23,7 @@ import {
   setTotalNumberOfWeeks
 } from '../../Actions/StatsActions';
 
-import { setRemainingBudget } from '../../Actions/TransferActions';
+import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
 
 import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
 
