@@ -67,13 +67,13 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
       } else {
         throw new Error(response.status.toString());
       }
-    } else if (response.status === 200) {
+    } else if (response.status === 201) {
       return response.json();
     }
   });
 };
 
-export const deletePlayer = (id: string): Promise<void> => {
+export const deletePlayer = (id: string): Promise<boolean> => {
   return fetch('/api/player/delete', {
     method: 'POST',
     body: id,
@@ -99,7 +99,7 @@ export const deletePlayer = (id: string): Promise<void> => {
   });
 };
 
-export const addPlayerPoints = (data: AddPoints): Promise<any> => {
+export const addPlayerPoints = (data: AddPoints): Promise<boolean> => {
   return fetch('/api/player/points/add', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -119,13 +119,13 @@ export const addPlayerPoints = (data: AddPoints): Promise<any> => {
       } else {
         throw new Error(response.status.toString());
       }
-    } else if (response.status === 200) {
+    } else if (response.status === 201) {
       return response.json();
     }
   });
 };
 
-export const editPlayerPoints = (data: AddPoints): Promise<any> => {
+export const editPlayerPoints = (data: AddPoints): Promise<boolean> => {
   return fetch('/api/player/points/edit', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -218,7 +218,7 @@ export const submitResult = (data: SubmitResults): Promise<any> => {
       } else {
         throw new Error(response.status.toString());
       }
-    } else if (response.status === 200) {
+    } else if (response.status === 201) {
       return response.json();
     }
   });

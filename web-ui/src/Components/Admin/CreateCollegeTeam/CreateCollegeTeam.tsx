@@ -10,6 +10,8 @@ interface TransfersFormProps {
 
 interface TransfersFormState {
   collegeNameValue: string;
+  collegeTeamCreated: boolean;
+  previousCollegeTeamMade: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -18,7 +20,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._getResults = this._getResults.bind(this);
     this.state = {
-      collegeNameValue: ''
+      collegeNameValue: '',
+      collegeTeamCreated: false,
+      previousCollegeTeamMade: ''
     };
   }
 
@@ -35,6 +39,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     makeCollegeTeam(this.state.collegeNameValue)
       .then(response => {
         this.props.addCollegeTeam(response);
+        this.setState({ collegeTeamCreated: true });
+        this.setState({ previousCollegeTeamMade: this.state.collegeNameValue });
       })
       .catch(error => {
         console.log('error message : ' + error);
@@ -62,6 +68,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             </Button>
           </div>
         </div>
+        {this.state.collegeTeamCreated ? (
+          <div>College team created : {this.state.previousCollegeTeamMade} </div>
+        ) : null}
       </div>
     );
   }

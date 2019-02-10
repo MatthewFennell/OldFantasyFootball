@@ -34,6 +34,7 @@ interface EditPointsFormState {
   viewingDefender: boolean;
   playerName: string;
   playerStats: PlayerPoints;
+  pointsEdited: boolean;
 }
 
 class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsFormState> {
@@ -72,7 +73,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
         cleanSheet: false,
         playerID: 'nobody',
         week: 0
-      }
+      },
+      pointsEdited: false
     };
   }
 
@@ -181,9 +183,14 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
       week: this.state.week
     };
 
-    editPlayerPoints(data).catch(error => {
-      console.log('error = ' + JSON.stringify(error));
-    });
+    editPlayerPoints(data)
+      .then(response => {
+        console.log('response to editing player = ' + response);
+        this.setState({ pointsEdited: true });
+      })
+      .catch(error => {
+        console.log('error = ' + JSON.stringify(error));
+      });
   }
 
   render() {
@@ -319,6 +326,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
             Edit Points
           </Button>
         </div>
+        {this.state.pointsEdited ? <div>Points edited successfully! </div> : null}
       </div>
     );
   }

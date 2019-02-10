@@ -209,7 +209,7 @@ public class PlayerControllerTest {
         when(weeklyTeamRepo.findAll()).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.deletePlayer(user, player.getId().toString(), response);
-        TestCase.assertEquals(204, response.getStatus());
+        TestCase.assertEquals(200, response.getStatus());
     }
 
     @Test
