@@ -437,6 +437,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addingElevenPlayersIsValid() {
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setPlayers(Collections.emptyList());
 
@@ -480,12 +481,14 @@ public class WeeklyTeamManagerTest {
         playersToAdd.add(new PlayerDTO(player_ten));
         playersToAdd.add(new PlayerDTO(player_eleven));
 
-        assertTrue(weeklyTeamManager.update(null, playersToAdd, Collections.emptyList()));
+        assertTrue(weeklyTeamManager.update(u1, playersToAdd, Collections.emptyList()));
     }
 
     @Test
     public void addingElevenPlayersIsInvalidDueToPrice() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        weeklyTeam.setUser(user);
         weeklyTeam.setPlayers(Collections.emptyList());
 
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
@@ -575,7 +578,9 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addAndRemoveTwoPlayersToFullSquadIsValid() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        weeklyTeam.setUser(user);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -621,7 +626,7 @@ public class WeeklyTeamManagerTest {
         playersToRemove.add(new PlayerDTO(player_two));
         playersToRemove.add(new PlayerDTO(player_six));
 
-        weeklyTeamManager.update(null, playersToAdd, playersToRemove);
+        weeklyTeamManager.update(user, playersToAdd, playersToRemove);
     }
 
     @Test(expected = IllegalArgumentException.class)

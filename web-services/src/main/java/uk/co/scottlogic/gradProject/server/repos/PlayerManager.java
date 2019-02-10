@@ -37,47 +37,47 @@ public class PlayerManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
 
-        CollegeTeam collegeTeam = new CollegeTeam("A");
-        teamRepo.save(collegeTeam);
-
-        Player p = new Player(collegeTeam, Enums.Position.GOALKEEPER, 2, "fn0" ,"sn0");
-
-        Player p1 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn1" ,"sn1");
-        Player p2 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn2" ,"sn2");
-        Player p3 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn3" ,"sn3");
-        Player p4 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn4" ,"sn4");
-        Player p5 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn5" ,"sn5");
-        Player p6 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn6" ,"sn6");
-
-        Player p7 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn7" ,"sn7");
-        Player p8 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn8" ,"sn8");
-        Player p9 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn9" ,"sn8");
-        Player p10 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn10" ,"sn10");
-        Player p11 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn11" ,"sn11");
-        Player p12 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn12" ,"sn12");
-
-        Player p13 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn13" ,"sn13");
-        Player p14 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn14" ,"sn14");
-        Player p15 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn15" ,"sn15");
-        Player p16 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn16" ,"sn16");
-
-        playerRepo.save(p);
-        playerRepo.save(p1);
-        playerRepo.save(p2);
-        playerRepo.save(p3);
-        playerRepo.save(p4);
-        playerRepo.save(p5);
-        playerRepo.save(p6);
-        playerRepo.save(p7);
-        playerRepo.save(p8);
-        playerRepo.save(p9);
-        playerRepo.save(p10);
-        playerRepo.save(p11);
-        playerRepo.save(p12);
-        playerRepo.save(p13);
-        playerRepo.save(p14);
-        playerRepo.save(p15);
-        playerRepo.save(p16);
+//        CollegeTeam collegeTeam = new CollegeTeam("A");
+//        teamRepo.save(collegeTeam);
+//
+//        Player p = new Player(collegeTeam, Enums.Position.GOALKEEPER, 2, "fn0" ,"sn0");
+//
+//        Player p1 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn1" ,"sn1");
+//        Player p2 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn2" ,"sn2");
+//        Player p3 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn3" ,"sn3");
+//        Player p4 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn4" ,"sn4");
+//        Player p5 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn5" ,"sn5");
+//        Player p6 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn6" ,"sn6");
+//
+//        Player p7 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn7" ,"sn7");
+//        Player p8 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn8" ,"sn8");
+//        Player p9 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn9" ,"sn8");
+//        Player p10 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn10" ,"sn10");
+//        Player p11 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn11" ,"sn11");
+//        Player p12 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn12" ,"sn12");
+//
+//        Player p13 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn13" ,"sn13");
+//        Player p14 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn14" ,"sn14");
+//        Player p15 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn15" ,"sn15");
+//        Player p16 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn16" ,"sn16");
+//
+//        playerRepo.save(p);
+//        playerRepo.save(p1);
+//        playerRepo.save(p2);
+//        playerRepo.save(p3);
+//        playerRepo.save(p4);
+//        playerRepo.save(p5);
+//        playerRepo.save(p6);
+//        playerRepo.save(p7);
+//        playerRepo.save(p8);
+//        playerRepo.save(p9);
+//        playerRepo.save(p10);
+//        playerRepo.save(p11);
+//        playerRepo.save(p12);
+//        playerRepo.save(p13);
+//        playerRepo.save(p14);
+//        playerRepo.save(p15);
+//        playerRepo.save(p16);
 
     }
 

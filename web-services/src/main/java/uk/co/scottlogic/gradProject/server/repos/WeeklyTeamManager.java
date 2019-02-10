@@ -196,7 +196,6 @@ public class WeeklyTeamManager {
         }
 
         ArrayList<Player> players = new ArrayList<>(activeTeam.getPlayers());
-
         for (PlayerDTO player : playersBeingAdded) {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
@@ -207,7 +206,6 @@ public class WeeklyTeamManager {
                 throw new IllegalArgumentException("Player being added does not exist");
             }
         }
-
         for (PlayerDTO player : playersBeingRemoved) {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
