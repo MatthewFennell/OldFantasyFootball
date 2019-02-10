@@ -32,11 +32,9 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
     } else {
       this.state = {
         teamDropDownOpen: false,
-        teamValue: 'A'
+        teamValue: 'No team selected'
       };
-      findPlayersInCollegeTeam('A').then(response => {
-        this.props.setPlayersInFilteredTeam(response);
-      });
+      this.props.setPlayersInFilteredTeam([]);
     }
   }
 

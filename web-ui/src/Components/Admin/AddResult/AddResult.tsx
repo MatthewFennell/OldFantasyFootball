@@ -176,7 +176,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     }
 
     if (this.state.goalsAgainst === '0') {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 7; i++) {
         defenders.push(<SelectPlayer setPlayerID={setPlayerIDCleanSheets} onlyDefenders={true} />);
       }
     }
@@ -204,7 +204,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             Assists:
             {assists}
           </div>
-          {this.state.goalsAgainst === '0' ? <div>{defenders} </div> : null}
+          {this.state.goalsAgainst === '0' ? <div>Clean Sheets: {defenders} </div> : null}
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"

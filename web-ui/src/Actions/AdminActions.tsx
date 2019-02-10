@@ -6,7 +6,8 @@ export enum ActionTypes {
   SET_TEAM_ADDING_POINTS = 'SET_TEAM_ADDING_POINTS',
   SET_PLAYERS_IN_FILTERED_TEAM = 'SET_PLAYERS_IN_FILTERED_TEAM',
   SET_ALL_COLLEGE_TEAMS = 'SET_ALL_COLLEGE_TEAMS',
-  ADD_COLLEGE_TEAM = 'ADD_COLLEGE_TEAM'
+  ADD_COLLEGE_TEAM = 'ADD_COLLEGE_TEAM',
+  REMOVE_COLLEGE_TEAM = 'REMOVE_COLLEGE_TEAM'
 }
 
 export interface SetAdminPageBeingViewed {
@@ -32,6 +33,11 @@ export interface SetAllCollegeTeams {
 export interface AddCollegeTeam {
   type: ActionTypes.ADD_COLLEGE_TEAM;
   payload: { team: CollegeTeam };
+}
+
+export interface RemoveCollegeTeam {
+  type: ActionTypes.REMOVE_COLLEGE_TEAM;
+  payload: { teamName: String };
 }
 
 export const setAdminPageBeingViewed = (adminPageBeingViewed: string): SetAdminPageBeingViewed => {
@@ -69,9 +75,17 @@ export const addCollegeTeam = (team: CollegeTeam): AddCollegeTeam => {
   };
 };
 
+export const removeCollegeTeam = (teamName: string): RemoveCollegeTeam => {
+  return {
+    type: ActionTypes.REMOVE_COLLEGE_TEAM,
+    payload: { teamName }
+  };
+};
+
 export type Action =
   | SetAdminPageBeingViewed
   | SetTeamAddingPoints
   | SetPlayersInFilteredTeam
   | SetAllCollegeTeams
-  | AddCollegeTeam;
+  | AddCollegeTeam
+  | RemoveCollegeTeam;

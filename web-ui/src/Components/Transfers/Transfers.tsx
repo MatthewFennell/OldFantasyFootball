@@ -26,7 +26,21 @@ interface TransfersProps {
   transfersMarketOpen: boolean;
 }
 
-class Transfers extends React.Component<TransfersProps, {}> {
+interface TransfersState {
+  teamUpdated: boolean;
+  errorMessage: string;
+}
+
+class Transfers extends React.Component<TransfersProps, TransfersState> {
+  constructor(props: TransfersProps) {
+    super(props);
+    this._updateTeam = this._updateTeam.bind(this);
+    this.state = {
+      teamUpdated: false,
+      errorMessage: ''
+    };
+  }
+
   _updateTeam() {
     let data: UpdatePlayers = {
       playersBeingAdded: this.props.playersBeingAdded,
@@ -37,9 +51,13 @@ class Transfers extends React.Component<TransfersProps, {}> {
       .then(response => {
         console.log('Valid transfer request = ' + JSON.stringify(response));
         this.props.clearPlayersBeingAddedAndRemoved();
+        this.setState({ teamUpdated: true });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
+        this.setState({ errorMessage: error });
+        this.setState({ teamUpdated: false });
       });
   }
 
@@ -65,6 +83,10 @@ class Transfers extends React.Component<TransfersProps, {}> {
               SAVE TEAM
             </Button>
           </div>
+          {this.state.teamUpdated ? <div>Team updated successfully </div> : null}
+          {this.state.errorMessage.length > 0 ? (
+            <div>Error : {this.state.errorMessage} </div>
+          ) : null}
           <div className="pitch-value">
             <Pitch transfer={true} activeWeeklyTeam={this.props.activeTeam} />
           </div>
