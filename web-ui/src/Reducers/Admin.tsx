@@ -57,6 +57,14 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    case ActionTypes.REMOVE_COLLEGE_TEAM: {
+      const teamToRemove = action.payload.teamName;
+      return {
+        ...state,
+        allCollegeTeams: state.allCollegeTeams.filter(item => item.name !== teamToRemove)
+      };
+    }
+
     default:
       return state;
   }

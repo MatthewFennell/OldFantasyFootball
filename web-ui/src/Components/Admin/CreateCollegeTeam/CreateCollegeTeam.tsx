@@ -6,6 +6,7 @@ import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 
 interface TransfersFormProps {
   addCollegeTeam: (team: CollegeTeam) => void;
+  allCollegeTeams: CollegeTeam[];
 }
 
 interface TransfersFormState {
@@ -40,7 +41,16 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // });
     makeCollegeTeam(this.state.collegeNameValue)
       .then(response => {
-        this.props.addCollegeTeam(response);
+        let alreadyThere: boolean = false;
+
+        for (let x = 0; x < this.props.allCollegeTeams.length; x++) {
+          if (this.props.allCollegeTeams[x].name === this.state.collegeNameValue) {
+            alreadyThere = true;
+          }
+        }
+        if (!alreadyThere) {
+          this.props.addCollegeTeam(response);
+        }
         this.setState({ collegeTeamCreated: true });
         this.setState({ previousCollegeTeamMade: this.state.collegeNameValue });
         this.setState({ errorMessage: '' });

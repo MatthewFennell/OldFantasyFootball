@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeName from '../CreateCollegeTeam/CollegeName';
+// import CollegeName from '../CreateCollegeTeam/CollegeName';
 import { deleteCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
+import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
+import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 
-interface TransfersFormProps {}
+interface TransfersFormProps {
+  allCollegeTeams: CT[];
+  removeCollegeTeam: (teamName: string) => void;
+}
 
 interface TransfersFormState {
   collegeNameValue: string;
@@ -17,12 +22,22 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._getResults = this._getResults.bind(this);
-    this.state = {
-      collegeNameValue: '',
-      collegeTeamDeleted: false,
-      previousCollegeName: '',
-      errorMessage: ''
-    };
+
+    if (this.props.allCollegeTeams.length > 0) {
+      this.state = {
+        collegeNameValue: this.props.allCollegeTeams[0].name,
+        collegeTeamDeleted: false,
+        previousCollegeName: '',
+        errorMessage: ''
+      };
+    } else {
+      this.state = {
+        collegeNameValue: '',
+        collegeTeamDeleted: false,
+        previousCollegeName: '',
+        errorMessage: ''
+      };
+    }
   }
 
   _getResults() {}
@@ -41,6 +56,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         this.setState({ collegeTeamDeleted: true });
         this.setState({ previousCollegeName: this.state.collegeNameValue });
         this.setState({ errorMessage: '' });
+        this.props.removeCollegeTeam(this.state.collegeNameValue);
       })
       .catch(error => {
         console.log('error message : ' + error);
@@ -56,7 +72,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       <div className="transfer-filter-rows">
         <div className="transfer-form-row-one">
           <div className="position-dropdown">
-            <CollegeName collegeName={collegeName} />
+            <CollegeTeam setTeam={collegeName} />
           </div>
         </div>
         <div className="transfer-form-row-two">

@@ -170,6 +170,9 @@ public class WeeklyTeamManager {
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
 
+        double priceOfAdding = 0;
+        double priceOfRemoving = 0;
+
         if (!Constants.TRANSFER_MARKET_OPEN) {
             log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
@@ -198,6 +201,7 @@ public class WeeklyTeamManager {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
                 players.add(p.get());
+                priceOfAdding += p.get().getPrice();
             } else {
                 log.debug("Player being added does not exist");
                 throw new IllegalArgumentException("Player being added does not exist");
@@ -208,6 +212,7 @@ public class WeeklyTeamManager {
             Optional<Player> p = playerRepo.findById(UUID.fromString(player.getId()));
             if (p.isPresent()) {
                 players.remove(p.get());
+                priceOfRemoving += p.get().getPrice();
             } else {
                 log.debug("Player being removed does not exist");
                 throw new IllegalArgumentException("Player being removed does not exist");
@@ -215,6 +220,8 @@ public class WeeklyTeamManager {
         }
         // Only save if the transfer is valid
         if (checkTeamIsValid(players)) {
+            user.setRemainingBudget(user.getRemainingBudget()-priceOfAdding+priceOfRemoving);
+            applicationUserRepo.save(user);
             activeTeam.setPlayers(players);
             weeklyTeamRepo.save(activeTeam);
             return true;

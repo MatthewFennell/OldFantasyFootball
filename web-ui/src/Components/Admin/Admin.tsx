@@ -5,7 +5,7 @@ import AddPointsForm from '../../Containers/Admin/AddPointsForm';
 import EditPointsForm from '../../Containers/Admin/EditPointsForm';
 import DeletePlayerForm from '../../Containers/Admin/DeletePlayerForm';
 import CreateCollegeTeam from '../../Containers/Admin/CreateCollegeTeam';
-import DeleteCollegeTeam from './DeleteCollegeTeam/DeleteCollegeTeam';
+import DeleteCollegeTeam from '../../Containers/Admin/DeleteCollegeTeam';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import AddResult from '../../Containers/Admin/AddResult';
