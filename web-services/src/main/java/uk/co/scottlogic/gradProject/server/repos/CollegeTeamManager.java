@@ -10,6 +10,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,10 @@ public class CollegeTeamManager {
 
 
     public CollegeTeamDTO makeTeam(String name) {
+        Optional<CollegeTeam> collegeTeam = teamRepo.findByName(name);
+        if (collegeTeam.isPresent()){
+            throw new IllegalArgumentException("A college team already exists with name : " + name);
+        }
         CollegeTeam team = new CollegeTeam(name);
         teamRepo.save(team);
         return new CollegeTeamDTO(team);

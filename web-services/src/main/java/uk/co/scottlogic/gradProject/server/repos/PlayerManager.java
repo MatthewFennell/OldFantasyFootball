@@ -128,15 +128,15 @@ public class PlayerManager {
         }
     }
 
+    // TO:DO - Change max week per team
     public void submitResults(SubmitPointsDTO pointsDTO){
 
         Integer maxWeek = weeklyTeamRepo.findNumberOfWeeks();
         if (pointsDTO.getWeek() == maxWeek+1){
-            System.out.println("making a NEW WEEK");
             makeNewWeek(pointsDTO.getWeek());
         }
         else if (pointsDTO.getWeek() > maxWeek+1){
-            throw new IllegalArgumentException("Missing out a week of points");
+            throw new IllegalArgumentException("Missing out a week of points. The next week should");
         }
 
         System.out.println("submitting results");

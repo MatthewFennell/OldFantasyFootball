@@ -32,6 +32,7 @@ interface AddPointsFormState {
   week: string;
   viewingDefender: boolean;
   pointsAdded: boolean;
+  errorMessage: string;
 }
 
 class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
@@ -59,7 +60,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
       playerID: '',
       week: '0',
       viewingDefender: true,
-      pointsAdded: false
+      pointsAdded: false,
+      errorMessage: ''
     };
   }
 
@@ -140,9 +142,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
       .then(response => {
         console.log('response TO POINTS ADDED = ' + JSON.stringify(response));
         this.setState({ pointsAdded: true });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
+        this.setState({ errorMessage: error });
+        this.setState({ pointsAdded: false });
       });
   }
 
@@ -207,6 +212,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
           </Button>
         </div>
         {this.state.pointsAdded ? <div> Points added successfully </div> : null}
+        {this.state.errorMessage.length > 0 ? <div> Error : {this.state.errorMessage} </div> : null}
       </div>
     );
   }
