@@ -35,6 +35,7 @@ interface EditPointsFormState {
   playerName: string;
   playerStats: PlayerPoints;
   pointsEdited: boolean;
+  errorMessage: string;
 }
 
 class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsFormState> {
@@ -74,7 +75,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
         playerID: 'nobody',
         week: 0
       },
-      pointsEdited: false
+      pointsEdited: false,
+      errorMessage: ''
     };
   }
 
@@ -187,9 +189,12 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
       .then(response => {
         console.log('response to editing player = ' + response);
         this.setState({ pointsEdited: true });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
+        this.setState({ errorMessage: error });
+        this.setState({ pointsEdited: false });
       });
   }
 
@@ -327,6 +332,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
           </Button>
         </div>
         {this.state.pointsEdited ? <div>Points edited successfully! </div> : null}
+        {this.state.errorMessage ? <div>Error : {this.state.errorMessage} </div> : null}
       </div>
     );
   }

@@ -22,6 +22,7 @@ interface TransfersFormState {
   resultAdded: boolean;
   previousTeamName: string;
   previousWeek: string;
+  errorMessage: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -38,14 +39,15 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this.state = {
       goalsFor: '0',
       goalsAgainst: '-1',
-      week: '0',
+      week: '',
       playerIDGoals: [],
       playerIDAssists: [],
       playerIDCleanSheets: [],
       teamName: 'A',
       resultAdded: false,
       previousTeamName: '',
-      previousWeek: ''
+      previousWeek: '',
+      errorMessage: ''
     };
   }
 
@@ -123,6 +125,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   _handleWeek(week: string) {
+    console.log('set week to ' + week);
     this.setState({ week }, this._getResults);
   }
 
@@ -136,12 +139,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       cleanSheets: this.state.playerIDCleanSheets,
       teamName: this.state.teamName
     };
-    submitResult(data).then(response => {
-      console.log('response = ' + JSON.stringify(response));
-      this.setState({ resultAdded: true });
-      this.setState({ previousTeamName: this.state.teamName });
-      this.setState({ previousWeek: this.state.week });
-    });
+
+    if (this.state.week === '') {
+      this.setState({ errorMessage: 'Please provide a week' });
+      this.setState({ resultAdded: false });
+    } else {
+      submitResult(data).then(response => {
+        console.log('response = ' + JSON.stringify(response));
+        this.setState({ resultAdded: true });
+        this.setState({ previousTeamName: this.state.teamName });
+        this.setState({ previousWeek: this.state.week });
+        this.setState({ errorMessage: '' });
+      });
+    }
   }
 
   render() {
@@ -210,6 +220,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             Result added to team {this.state.previousTeamName} in week {this.state.previousWeek}
           </div>
         ) : null}
+
+        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage}</div> : null}
       </div>
     );
   }

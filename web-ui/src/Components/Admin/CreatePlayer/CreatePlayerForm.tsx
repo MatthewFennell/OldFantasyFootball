@@ -21,6 +21,7 @@ interface TransfersFormState {
   priceValue: string;
   playerCreated: boolean;
   previousValues: string[];
+  errorMessage: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -40,7 +41,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         surnameValue: '',
         priceValue: '',
         playerCreated: false,
-        previousValues: []
+        previousValues: [],
+        errorMessage: ''
       };
     } else {
       this.state = {
@@ -50,7 +52,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         surnameValue: '',
         priceValue: '',
         playerCreated: false,
-        previousValues: []
+        previousValues: [],
+        errorMessage: ''
       };
     }
   }
@@ -114,9 +117,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           this.state.positionValue
         ];
         this.setState({ previousValues: values });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
+        this.setState({ errorMessage: error });
+        this.setState({ playerCreated: false });
       });
   }
 
@@ -165,6 +171,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             {this.state.previousValues[3]} with position {this.state.previousValues[4]}
           </div>
         ) : null}
+
+        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage}</div> : null}
       </div>
     );
   }

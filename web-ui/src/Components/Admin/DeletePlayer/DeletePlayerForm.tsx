@@ -14,6 +14,7 @@ interface AddPointsFormProps {
 interface AddPointsFormState {
   playerID: string;
   playerDeleted: boolean;
+  errorMessage: string;
 }
 
 class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
@@ -24,7 +25,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this.state = {
       playerID: '',
-      playerDeleted: false
+      playerDeleted: false,
+      errorMessage: ''
     };
   }
 
@@ -44,9 +46,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
       .then(response => {
         console.log('response to deleting player = ' + response);
         this.setState({ playerDeleted: true });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
+        this.setState({ errorMessage: error });
+        this.setState({ playerDeleted: false });
       });
   }
 
@@ -75,6 +80,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
           </Button>
         </div>
         {this.state.playerDeleted ? <div> Player deleted successfully! </div> : null}
+        {this.state.errorMessage ? <div> Error : {this.state.errorMessage} </div> : null}
       </div>
     );
   }

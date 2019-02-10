@@ -9,6 +9,7 @@ interface TransfersFormState {
   collegeNameValue: string;
   collegeTeamDeleted: boolean;
   previousCollegeName: string;
+  errorMessage: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -19,7 +20,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this.state = {
       collegeNameValue: '',
       collegeTeamDeleted: false,
-      previousCollegeName: ''
+      previousCollegeName: '',
+      errorMessage: ''
     };
   }
 
@@ -38,9 +40,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         console.log('response to deleting college team = ' + response);
         this.setState({ collegeTeamDeleted: true });
         this.setState({ previousCollegeName: this.state.collegeNameValue });
+        this.setState({ errorMessage: '' });
       })
       .catch(error => {
         console.log('error message : ' + error);
+        this.setState({ errorMessage: error });
+        this.setState({ collegeTeamDeleted: false });
       });
   }
 
@@ -68,6 +73,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         {this.state.collegeTeamDeleted ? (
           <div>Deleted college team : {this.state.previousCollegeName} </div>
         ) : null}
+        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage} </div> : null}
       </div>
     );
   }
