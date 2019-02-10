@@ -19,6 +19,8 @@ interface TransfersFormState {
   firstNameValue: string;
   surnameValue: string;
   priceValue: string;
+  playerCreated: boolean;
+  previousValues: string[];
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -36,15 +38,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         teamValue: this.props.allCollegeTeams[0].name,
         firstNameValue: '',
         surnameValue: '',
-        priceValue: ''
+        priceValue: '',
+        playerCreated: false,
+        previousValues: []
       };
     } else {
       this.state = {
         positionValue: 'Goalkeeper',
-        teamValue: 'A',
+        teamValue: 'No player selected',
         firstNameValue: '',
         surnameValue: '',
-        priceValue: ''
+        priceValue: '',
+        playerCreated: false,
+        previousValues: []
       };
     }
   }
@@ -96,9 +102,22 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       firstName: this.state.firstNameValue,
       surname: this.state.surnameValue
     };
-    createPlayer(data).catch(error => {
-      console.log('error = ' + JSON.stringify(error));
-    });
+    createPlayer(data)
+      .then(response => {
+        console.log('response = ' + JSON.stringify(response));
+        this.setState({ playerCreated: true });
+        let values: string[] = [
+          this.state.firstNameValue,
+          this.state.surnameValue,
+          this.state.teamValue,
+          this.state.priceValue,
+          this.state.positionValue
+        ];
+        this.setState({ previousValues: values });
+      })
+      .catch(error => {
+        console.log('error = ' + JSON.stringify(error));
+      });
   }
 
   render() {
@@ -139,6 +158,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             </Button>
           </div>
         </div>
+        {this.state.playerCreated ? (
+          <div>
+            Player {this.state.previousValues[0]} {this.state.previousValues[1]}
+            successfully created for team {this.state.previousValues[2]} with price{' '}
+            {this.state.previousValues[3]} with position {this.state.previousValues[4]}
+          </div>
+        ) : null}
       </div>
     );
   }

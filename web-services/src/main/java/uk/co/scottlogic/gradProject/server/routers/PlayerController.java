@@ -164,11 +164,12 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/make")
     @PreAuthorize("hasRole('ADMIN')")
-    public void makePlayer(@AuthenticationPrincipal ApplicationUser user,
+    public boolean makePlayer(@AuthenticationPrincipal ApplicationUser user,
                            @RequestBody MakePlayerDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
             playerManager.makePlayer(dto);
+            return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
@@ -181,6 +182,7 @@ public class PlayerController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key + " Change a players college team ", authorizations = {
@@ -224,12 +226,13 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public void deletePlayer(@AuthenticationPrincipal ApplicationUser user,
+    public boolean deletePlayer(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody String id, HttpServletResponse response) {
         try {
-            response.setStatus(204);
+            response.setStatus(200);
             System.out.println("trying to delete " + id);
             playerManager.deletePlayer(id);
+            return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
@@ -242,6 +245,7 @@ public class PlayerController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key + " Add points to multiple players", authorizations = {
@@ -280,13 +284,15 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/add")
     @PreAuthorize("hasRole('USER')")
-    public void addPointsToSinglePlayer(@AuthenticationPrincipal ApplicationUser user,
+    public boolean addPointsToSinglePlayer(@AuthenticationPrincipal ApplicationUser user,
                                         @RequestBody PlayerPointsDTO dto,
                                         HttpServletResponse response) {
 
         try {
             response.setStatus(201);
             playerManager.addPointsToSinglePlayer(dto);
+            System.out.println("returning true");
+            return true;
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
@@ -296,6 +302,7 @@ public class PlayerController {
         } catch (Exception e) {
             response.setStatus(409);
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key + " Edit points for a single player", authorizations = {
@@ -307,7 +314,7 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/edit")
     @PreAuthorize("hasRole('USER')")
-    public void editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
+    public boolean editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
                                     @RequestBody PlayerPointsDTO dto,
                                     HttpServletResponse response) {
 
@@ -317,6 +324,7 @@ public class PlayerController {
             System.out.println("goals = " + dto.getGoals());
             System.out.println("man of the match = " + dto.isManOfTheMatch());
             playerManager.editPoints(dto);
+            return true;
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
@@ -326,6 +334,7 @@ public class PlayerController {
         } catch (Exception e) {
             response.setStatus(409);
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key
@@ -362,7 +371,7 @@ public class PlayerController {
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/result/submit")
     @PreAuthorize("hasRole('USER')")
-    public void submitResult(@AuthenticationPrincipal ApplicationUser user,
+    public boolean submitResult(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody SubmitPointsDTO dto,
                              HttpServletResponse response) {
         try {
@@ -375,6 +384,7 @@ public class PlayerController {
             System.out.println("clean sheets size = " + dto.getCleanSheets());
             System.out.println("team = " + dto.getTeamName());
             playerManager.submitResults(dto);
+            return true;
 
         } catch (IllegalArgumentException e) {
             try {
@@ -385,6 +395,7 @@ public class PlayerController {
         } catch (Exception e) {
             response.setStatus(409);
         }
+        return false;
     }
 
 }

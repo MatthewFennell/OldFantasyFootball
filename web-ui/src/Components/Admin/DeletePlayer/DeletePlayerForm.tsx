@@ -13,6 +13,7 @@ interface AddPointsFormProps {
 
 interface AddPointsFormState {
   playerID: string;
+  playerDeleted: boolean;
 }
 
 class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
@@ -21,6 +22,10 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._handlePlayerID = this._handlePlayerID.bind(this);
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
+    this.state = {
+      playerID: '',
+      playerDeleted: false
+    };
   }
 
   _getResults() {}
@@ -35,9 +40,14 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 
   _onSubmit() {
     console.log('This state = ' + JSON.stringify(this.state));
-    deletePlayer(this.state.playerID).catch(error => {
-      console.log('error = ' + JSON.stringify(error));
-    });
+    deletePlayer(this.state.playerID)
+      .then(response => {
+        console.log('response to deleting player = ' + response);
+        this.setState({ playerDeleted: true });
+      })
+      .catch(error => {
+        console.log('error = ' + JSON.stringify(error));
+      });
   }
 
   render() {
@@ -51,7 +61,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
             <CollegeTeam setTeam={setTeam} />
           </div>
           <div>
-            <SelectPlayer setPlayerID={setPlayerID} />
+            <SelectPlayer setPlayerID={setPlayerID} onlyDefendwrs={false} />
           </div>
         </div>
         <div className="transfer-form-row-two" />
@@ -64,6 +74,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
             Delete player
           </Button>
         </div>
+        {this.state.playerDeleted ? <div> Player deleted successfully! </div> : null}
       </div>
     );
   }

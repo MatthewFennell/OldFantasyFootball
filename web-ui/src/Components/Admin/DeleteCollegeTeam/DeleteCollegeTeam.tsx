@@ -7,6 +7,8 @@ interface TransfersFormProps {}
 
 interface TransfersFormState {
   collegeNameValue: string;
+  collegeTeamDeleted: boolean;
+  previousCollegeName: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -15,7 +17,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._getResults = this._getResults.bind(this);
     this.state = {
-      collegeNameValue: ''
+      collegeNameValue: '',
+      collegeTeamDeleted: false,
+      previousCollegeName: ''
     };
   }
 
@@ -29,9 +33,15 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // createPlayer(data).catch(error => {
     //   console.log('error = ' + JSON.stringify(error));
     // });
-    deleteCollegeTeam(this.state.collegeNameValue).catch(error => {
-      console.log('error message : ' + error);
-    });
+    deleteCollegeTeam(this.state.collegeNameValue)
+      .then(response => {
+        console.log('response to deleting college team = ' + response);
+        this.setState({ collegeTeamDeleted: true });
+        this.setState({ previousCollegeName: this.state.collegeNameValue });
+      })
+      .catch(error => {
+        console.log('error message : ' + error);
+      });
   }
 
   render() {
@@ -55,6 +65,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             </Button>
           </div>
         </div>
+        {this.state.collegeTeamDeleted ? (
+          <div>Deleted college team : {this.state.previousCollegeName} </div>
+        ) : null}
       </div>
     );
   }

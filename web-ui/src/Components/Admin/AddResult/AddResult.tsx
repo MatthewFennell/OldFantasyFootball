@@ -19,6 +19,9 @@ interface TransfersFormState {
   playerIDAssists: string[];
   playerIDCleanSheets: string[];
   teamName: string;
+  resultAdded: boolean;
+  previousTeamName: string;
+  previousWeek: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -39,7 +42,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       playerIDGoals: [],
       playerIDAssists: [],
       playerIDCleanSheets: [],
-      teamName: 'A'
+      teamName: 'A',
+      resultAdded: false,
+      previousTeamName: '',
+      previousWeek: ''
     };
   }
 
@@ -132,6 +138,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
     submitResult(data).then(response => {
       console.log('response = ' + JSON.stringify(response));
+      this.setState({ resultAdded: true });
+      this.setState({ previousTeamName: this.state.teamName });
+      this.setState({ previousWeek: this.state.week });
     });
   }
 
@@ -196,6 +205,11 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             </Button>
           </div>
         </div>
+        {this.state.resultAdded ? (
+          <div>
+            Result added to team {this.state.previousTeamName} in week {this.state.previousWeek}
+          </div>
+        ) : null}
       </div>
     );
   }
