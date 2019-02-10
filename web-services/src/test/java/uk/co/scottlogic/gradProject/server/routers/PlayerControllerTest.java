@@ -198,7 +198,7 @@ public class PlayerControllerTest {
         when(teamRepo.findByName(any())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.filterPlayersAll(user, response, 100, 0, "name", Enums.Position.ATTACKER, "team", Enums.SORT_BY.PRICE);
-        TestCase.assertEquals(400, response.getStatus());
+        TestCase.assertEquals(200, response.getStatus());
     }
 
     @Test

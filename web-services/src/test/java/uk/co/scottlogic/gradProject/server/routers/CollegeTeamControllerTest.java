@@ -60,7 +60,7 @@ public class CollegeTeamControllerTest {
         List<Player> players = new ArrayList<>();
         when(playerRepo.findByCollegeTeam(collegeTeam)).thenReturn(players);
         collegeTeamController.deleteCollegeTeam(user, collegeTeamName, response);
-        assertEquals(204, response.getStatus());
+        assertEquals(201, response.getStatus());
     }
 
     @Test
