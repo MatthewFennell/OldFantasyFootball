@@ -10,13 +10,10 @@ import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
-import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.MakeLeagueDTO;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,7 +90,7 @@ public class CollegeTeamControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
-        Enums.COLLEGE_MATCH_RESULT result = Enums.COLLEGE_MATCH_RESULT.WIN;
+        Enums.CollegeMatchResult result = Enums.CollegeMatchResult.WIN;
         String collegeTeamName = "college team name";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, 0, 0,0);
@@ -107,7 +104,7 @@ public class CollegeTeamControllerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "college team name";
-        CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.COLLEGE_MATCH_RESULT.WIN, 10, 0, 0, 0,0);
+        CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 0, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamController.addStatsToCollegeTeam(user, dto, response);
         assertEquals(400, response.getStatus());
@@ -122,7 +119,7 @@ public class CollegeTeamControllerTest {
         Integer wins = 15;
         Integer draws = 250;
         Integer losses = 9;
-        Enums.COLLEGE_MATCH_RESULT result = Enums.COLLEGE_MATCH_RESULT.WIN;
+        Enums.CollegeMatchResult result = Enums.CollegeMatchResult.WIN;
         String collegeTeamName = "college team name";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, wins, draws,losses);
@@ -136,7 +133,7 @@ public class CollegeTeamControllerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "college team name";
-        CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.COLLEGE_MATCH_RESULT.WIN, 10, 5, 2, 7,6);
+        CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 5, 2, 7,6);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamController.editCollegeTeamStats(user, dto, response);
         assertEquals(400, response.getStatus());
