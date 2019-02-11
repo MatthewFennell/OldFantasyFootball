@@ -1173,10 +1173,6 @@ public class PlayerManageTest {
         // uwt1 has players 1,3,5,7
         // uwt2 has players 0,3,6,7
 
-        Integer user0ScoreWeekOne = Constants.POINTS_PER_ATTACKER_GOAL + Constants.POINTS_PER_MIDFIELDER_GOAL + Constants.POINTS_PER_CLEAN_SHEET;
-        Integer user1ScoreWeekOne = Constants.POINTS_PER_ASSIST + Constants.POINTS_PER_CLEAN_SHEET;
-        Integer user2ScoreWeekOne = Constants.POINTS_PER_ATTACKER_GOAL + Constants.POINTS_PER_ASSIST;
-
         List<String> goalScorersWeekOne = new ArrayList<>();
         goalScorersWeekOne.add(player.getId().toString());
         goalScorersWeekOne.add(player2.getId().toString());
@@ -1189,6 +1185,7 @@ public class PlayerManageTest {
         cleanSheets.add(player4.getId().toString());
         cleanSheets.add(player5.getId().toString());
 
+        // This says which weekly teams each player is in
         List<UsersWeeklyTeam> player0WeeklyTeams = new ArrayList<>();
         player0WeeklyTeams.add(uwt0);
         player0WeeklyTeams.add(uwt2);
@@ -1228,13 +1225,21 @@ public class PlayerManageTest {
         assertEquals(Constants.POINTS_PER_ASSIST, playerPoints6.getPoints());
         assertEquals(Integer.valueOf(0), playerPoints7.getPoints());
 
+        Integer user0ScoreWeekZero = Constants.POINTS_PER_ATTACKER_GOAL + Constants.POINTS_PER_MIDFIELDER_GOAL + Constants.POINTS_PER_CLEAN_SHEET;
+        Integer user1ScoreWeekZero = Constants.POINTS_PER_ASSIST + Constants.POINTS_PER_CLEAN_SHEET;
+        Integer user2ScoreWeekZero = Constants.POINTS_PER_ATTACKER_GOAL + Constants.POINTS_PER_ASSIST;
+
+        assertEquals(user0ScoreWeekZero, uwt0.getPoints());
+        assertEquals(user1ScoreWeekZero, uwt1.getPoints());
+        assertEquals(user2ScoreWeekZero, uwt2.getPoints());
+
         assertEquals(uwt0.getPoints(), user.getTotalPoints());
         assertEquals(uwt1.getPoints(), user1.getTotalPoints());
         assertEquals(uwt2.getPoints(), user2.getTotalPoints());
 
-        assertEquals(user0ScoreWeekOne, user.getTotalPoints());
-        assertEquals(user1ScoreWeekOne, user1.getTotalPoints());
-        assertEquals(user2ScoreWeekOne, user2.getTotalPoints());
+        assertEquals(user0ScoreWeekZero, user.getTotalPoints());
+        assertEquals(user1ScoreWeekZero, user1.getTotalPoints());
+        assertEquals(user2ScoreWeekZero, user2.getTotalPoints());
 
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfGoals());
         assertEquals(Integer.valueOf(1), playerPoints2.getNumberOfGoals());
@@ -1329,13 +1334,13 @@ public class PlayerManageTest {
         assertFalse(playerPoints33.isCleanSheet());
 
         Integer user0ScoreWeekTwo = Constants.POINTS_PER_DEFENDER_GOAL*4 +  Constants.POINTS_PER_ASSIST*4 + Constants.POINTS_PER_CLEAN_SHEET*2;
-        Integer totalUserZeroPoints = user0ScoreWeekOne + user0ScoreWeekTwo;
+        Integer totalUserZeroPoints = user0ScoreWeekZero + user0ScoreWeekTwo;
 
         Integer user1ScoreWeekTwo = Constants.POINTS_PER_DEFENDER_GOAL + Constants.POINTS_PER_ASSIST*3 + Constants.POINTS_PER_CLEAN_SHEET*3;
-        Integer totalUserOnePoints = user1ScoreWeekOne + user1ScoreWeekTwo;
+        Integer totalUserOnePoints = user1ScoreWeekZero + user1ScoreWeekTwo;
 
         Integer user2ScoreWeekTwo = Constants.POINTS_PER_DEFENDER_GOAL + Constants.POINTS_PER_ASSIST + Constants.POINTS_PER_CLEAN_SHEET;
-        Integer totalUserTwoPoints = user2ScoreWeekOne + user2ScoreWeekTwo;
+        Integer totalUserTwoPoints = user2ScoreWeekZero + user2ScoreWeekTwo;
 
         assertEquals(user0ScoreWeekTwo, uwt00.getPoints());
         assertEquals(totalUserZeroPoints, user.getTotalPoints());
@@ -1346,6 +1351,20 @@ public class PlayerManageTest {
         assertEquals(user2ScoreWeekTwo, uwt22.getPoints());
         assertEquals(totalUserTwoPoints, user2.getTotalPoints());
 
+        // Check week zero details aren't changed
+        assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, playerPoints.getPoints());
+        assertEquals(Integer.valueOf(0), playerPoints1.getPoints());
+        assertEquals(Constants.POINTS_PER_MIDFIELDER_GOAL, playerPoints2.getPoints());
+        assertEquals(Integer.valueOf(0), playerPoints3.getPoints());
+
+        assertEquals(Constants.POINTS_PER_CLEAN_SHEET, playerPoints4.getPoints());
+        assertEquals(playerFiveScore, playerPoints5.getPoints());
+        assertEquals(Constants.POINTS_PER_ASSIST, playerPoints6.getPoints());
+        assertEquals(Integer.valueOf(0), playerPoints7.getPoints());
+
+        assertEquals(user0ScoreWeekZero, uwt0.getPoints());
+        assertEquals(user1ScoreWeekZero, uwt1.getPoints());
+        assertEquals(user2ScoreWeekZero, uwt2.getPoints());
     }
 
 }
