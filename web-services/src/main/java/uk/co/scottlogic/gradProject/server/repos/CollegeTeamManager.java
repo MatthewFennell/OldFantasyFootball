@@ -10,7 +10,6 @@ import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamStatsDTO;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -62,11 +61,11 @@ public class CollegeTeamManager {
             collegeTeam.get().addGoalsFor(dto.getGoalsFor());
             collegeTeam.get().addGoalsAgainst(dto.getGoalsAgainst());
 
-            if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.WIN)) {
+            if (dto.getResult().equals(Enums.CollegeMatchResult.WIN)) {
                 collegeTeam.get().addWin();
-            } else if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.DRAW)) {
+            } else if (dto.getResult().equals(Enums.CollegeMatchResult.DRAW)) {
                 collegeTeam.get().addDraw();
-            } else if (dto.getResult().equals(Enums.COLLEGE_MATCH_RESULT.LOSS)) {
+            } else if (dto.getResult().equals(Enums.CollegeMatchResult.LOSS)) {
                 collegeTeam.get().addLoss();
             }
 

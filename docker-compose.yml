@@ -3,7 +3,7 @@ version: "3.1"
 services:
   ui:
     container_name: fantasy-ui
-    image: pampoomio/fantasy-ui
+    image: pampoomio/fantasy-ui:latest
     ports:
       - "5000:5000"
     environment:
@@ -27,7 +27,7 @@ services:
       - 3307:3306
   server:
     container_name: fantasy-server
-    image: pampoomio/fantasy-server
+    image: pampoomio/fantasy-server:latest
     ports:
       - "8080:8080"
     depends_on:

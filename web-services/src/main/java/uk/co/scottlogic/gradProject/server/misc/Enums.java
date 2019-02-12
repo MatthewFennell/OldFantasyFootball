@@ -10,7 +10,7 @@ public class Enums {
         GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER, ALL
     }
 
-    public enum COLLEGE_MATCH_RESULT {
+    public enum CollegeMatchResult {
         WIN, DRAW, LOSS, CRASHES_WITHOUT_THIS
     }
 

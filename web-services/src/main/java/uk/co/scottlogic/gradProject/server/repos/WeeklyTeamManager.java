@@ -61,28 +61,9 @@ public class WeeklyTeamManager {
         return weeklyTeamRepo.findNumberOfWeeks();
     }
 
-    public void makeNewWeek(){
-        Integer maxWeek = getTotalNumberOfWeeks();
-        Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
-        List<ApplicationUser> users = new ArrayList<>();
-        allUsers.forEach(users::add);
-        for (ApplicationUser user : users){
-            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findMostRecentWeeklyTeam(user);
-            if (weeklyTeams.isEmpty()){
-                System.out.println("user has no weekly teams");
-            }
-            else {
-                UsersWeeklyTeam mostRecent = weeklyTeams.get(0);
-                UsersWeeklyTeam newUWT = new UsersWeeklyTeam(user, new Date(), mostRecent.getPlayers(), maxWeek+1);
-                weeklyTeamRepo.save(newUWT);
-            }
-        }
-    }
-
     void removePlayerFromWeeklyTeam(ApplicationUser user, String id) {
 
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
-
         if (player.isPresent()) {
             Player p = player.get();
             List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
