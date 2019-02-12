@@ -437,9 +437,9 @@ public class PlayerManager {
                 Integer previousScore = calculateScore(playerPoints.get());
 
                 PlayerPoints newPlayerPoints = new PlayerPoints(dto, player.get());
+                newPlayerPoints.setPoints(calculateScore(newPlayerPoints));
 
                 Integer newScore = calculateScore(newPlayerPoints);
-
                 playerPoints.get().setPoints(newScore);
                 playerPoints.get().setValues(newPlayerPoints);
                 Integer differenceInScores = newScore - previousScore;
@@ -447,7 +447,6 @@ public class PlayerManager {
                 player.get().changeGoals(newPlayerPoints.getNumberOfGoals() - goalsBefore);
                 player.get().changeAssists(newPlayerPoints.getNumberOfAssists() - goalsAssists);
                 player.get().changeScore(differenceInScores);
-
                 playerPointsRepo.save(playerPoints.get());
                 playerRepo.save(player.get());
 

@@ -1367,4 +1367,35 @@ public class PlayerManageTest {
         assertEquals(user2ScoreWeekZero, uwt2.getPoints());
     }
 
+    @Test
+    public void editingPlayerStatsChangesPointsForJustThatWeek(){
+        CollegeTeam collegeTeam = new CollegeTeam("college_team");
+
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, 0);
+        PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, 1);
+
+        when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
+        when(playerPointsRepo.findByPlayerByWeek(player, 1)).thenReturn(Optional.of(playerPoints1));
+        when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
+
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+
+        UsersWeeklyTeam uwt1 = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), 0);
+        when(weeklyTeamRepo.findByPlayersAndWeek(player, 1)).thenReturn(Collections.singletonList(uwt1));
+
+        PlayerPointsDTO editPoints = new PlayerPointsDTO(10,3,0,true,1,true,false, player.getId().toString(), 1);
+        playerManager.editPoints(editPoints);
+
+        Integer newScore = Constants.POINTS_PER_ATTACKER_GOAL*10 + Constants.POINTS_PER_ASSIST*3+Constants.MAN_OF_THE_MATCH_BONUS + Constants.POINTS_PER_YELLOW_CARD + Constants.POINTS_PER_RED_CARD;
+        assertEquals(newScore, playerPoints1.getPoints());
+        assertEquals(Integer.valueOf(0), playerPoints.getPoints());
+
+        assertEquals(newScore, user.getTotalPoints());
+        assertEquals(Integer.valueOf(10), playerPoints1.getNumberOfGoals());
+        assertEquals(Integer.valueOf(3), playerPoints1.getNumberOfAssists());
+        assertEquals(Integer.valueOf(0), playerPoints.getNumberOfAssists());
+        assertEquals(Integer.valueOf(0), playerPoints.getNumberOfGoals());
+    }
+
 }
