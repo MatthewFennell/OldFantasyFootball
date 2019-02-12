@@ -1369,6 +1369,7 @@ public class PlayerManageTest {
 
     @Test
     public void editingPlayerStatsChangesPointsForJustThatWeek(){
+        // Only editing one week
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
 
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
