@@ -35,7 +35,7 @@ public class CollegeTeam {
     private UUID id;
 
     public CollegeTeam(String name) {
-        this.name = name;
+        setName(name);
         setWins(0);
         setDraws(0);
         setLosses(0);
@@ -77,6 +77,10 @@ public class CollegeTeam {
     }
 
     public void setName(String name) {
+        // Comes from CreateCollegeTeam.tsx
+        if (name.equals("Please select a team")){
+            throw new IllegalArgumentException("Please provide a team name");
+        }
         this.name = name;
     }
 

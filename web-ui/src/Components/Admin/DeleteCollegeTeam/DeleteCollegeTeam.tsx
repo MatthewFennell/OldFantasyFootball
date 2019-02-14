@@ -98,7 +98,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         </div>
         {this.state.collegeTeamDeleted ? (
           <div className="error-message-animation">
-            Deleted college team : {this.state.previousCollegeName}{' '}
+            Deleted college team successfully : {this.state.previousCollegeName}{' '}
           </div>
         ) : null}
         {this.state.errorMessage.length > 0 ? (

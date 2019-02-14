@@ -24,7 +24,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
-      collegeNameValue: '',
+      collegeNameValue: 'Please select a team',
       collegeTeamCreated: false,
       previousCollegeTeamMade: '',
       errorMessage: ''

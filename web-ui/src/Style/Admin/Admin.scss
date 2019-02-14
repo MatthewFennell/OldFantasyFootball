@@ -21,6 +21,9 @@
       .admin-info-row>div:hover{
         color: blue;
       }
+      .admin-info-row>div.selected{
+        background-color: yellowgreen;
+      }
       
     }
     .div.left-rows>div {
