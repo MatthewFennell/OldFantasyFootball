@@ -143,6 +143,7 @@ public class PlayerController {
             for (Player p : filteredPlayers) {
                 responses.add(new PlayerDTO(p));
             }
+            System.out.println("responses = " + responses);
             return responses;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);

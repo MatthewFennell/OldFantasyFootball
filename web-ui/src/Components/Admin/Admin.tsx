@@ -34,33 +34,59 @@ class Admin extends React.Component<AdminProps, {}> {
     this.props.setAdminPageBeingViewed(pageToView);
   }
 
+  _selectedOrNot(input: string) {
+    if (input === this.props.adminPageBeingViewed) {
+      return 'selected';
+    } else {
+      return 'not-selected';
+    }
+  }
+
   render() {
     return (
       <div className="outer-admin-columns">
         <div className="left-rows">
           <div className="admin-info-row">
-            <div className="create-player" onClick={() => this._setPageBeingViewed('create')}>
+            <div
+              className={this._selectedOrNot('create')}
+              onClick={() => this._setPageBeingViewed('create')}
+            >
               Create Player
             </div>
-            <div className="delete" onClick={() => this._setPageBeingViewed('delete-player')}>
+            <div
+              className={this._selectedOrNot('delete-player')}
+              onClick={() => this._setPageBeingViewed('delete-player')}
+            >
               Delete Player
             </div>
             <div
-              className="create-college"
+              className={this._selectedOrNot('create-college-team')}
               onClick={() => this._setPageBeingViewed('create-college-team')}
             >
               Create College Team
             </div>
-            <div className="delete" onClick={() => this._setPageBeingViewed('delete-college-team')}>
+            <div
+              className={this._selectedOrNot('delete-college-team')}
+              onClick={() => this._setPageBeingViewed('delete-college-team')}
+            >
               Delete College Team
             </div>
-            <div className="add-points" onClick={() => this._setPageBeingViewed('add-points')}>
+            <div
+              className={this._selectedOrNot('add-points')}
+              onClick={() => this._setPageBeingViewed('add-points')}
+            >
               Add Points to Players
             </div>
-            <div className="edit-player" onClick={() => this._setPageBeingViewed('edit-stats')}>
+            <div
+              className={this._selectedOrNot('edit-stats')}
+              onClick={() => this._setPageBeingViewed('edit-stats')}
+            >
               Edit Player Stats
             </div>
-            <div className="add-result" onClick={() => this._setPageBeingViewed('add-result')}>
+            <div
+              className={this._selectedOrNot('add-result')}
+              onClick={() => this._setPageBeingViewed('add-result')}
+            >
               Create Results
             </div>
           </div>
