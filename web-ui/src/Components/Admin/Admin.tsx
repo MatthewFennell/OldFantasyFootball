@@ -39,17 +39,30 @@ class Admin extends React.Component<AdminProps, {}> {
       <div className="outer-admin-columns">
         <div className="left-rows">
           <div className="admin-info-row">
-            <div onClick={() => this._setPageBeingViewed('create')}>Create Player</div>
-            <div onClick={() => this._setPageBeingViewed('delete-player')}>Delete Player</div>
-            <div onClick={() => this._setPageBeingViewed('create-college-team')}>
+            <div className="create-player" onClick={() => this._setPageBeingViewed('create')}>
+              Create Player
+            </div>
+            <div className="delete" onClick={() => this._setPageBeingViewed('delete-player')}>
+              Delete Player
+            </div>
+            <div
+              className="create-college"
+              onClick={() => this._setPageBeingViewed('create-college-team')}
+            >
               Create College Team
             </div>
-            <div onClick={() => this._setPageBeingViewed('delete-college-team')}>
+            <div className="delete" onClick={() => this._setPageBeingViewed('delete-college-team')}>
               Delete College Team
             </div>
-            <div onClick={() => this._setPageBeingViewed('add-points')}>Add Points to Players</div>
-            <div onClick={() => this._setPageBeingViewed('edit-stats')}>Edit Player Stats</div>
-            <div onClick={() => this._setPageBeingViewed('add-result')}>Create Results</div>
+            <div className="add-points" onClick={() => this._setPageBeingViewed('add-points')}>
+              Add Points to Players
+            </div>
+            <div className="edit-player" onClick={() => this._setPageBeingViewed('edit-stats')}>
+              Edit Player Stats
+            </div>
+            <div className="add-result" onClick={() => this._setPageBeingViewed('add-result')}>
+              Create Results
+            </div>
           </div>
           {this.props.adminPageBeingViewed === 'create' ? (
             <CreatePlayerForm />

@@ -13,6 +13,7 @@ import YellowCards from './YellowCards';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { AddPoints } from '../../../Models/Interfaces/AddPoints';
 import { addPlayerPoints } from '../../../Services/Player/PlayerService';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -49,6 +50,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._handleWeek = this._handleWeek.bind(this);
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
       goals: '0',
       assists: '0',
@@ -143,12 +145,20 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
         console.log('response TO POINTS ADDED = ' + JSON.stringify(response));
         this.setState({ pointsAdded: true });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ pointsAdded: false });
+        setTimeout(this._removeErrorMessage, 10000);
       });
+  }
+
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ pointsAdded: false });
+    this.setState({ errorMessage: '' });
   }
 
   render() {
@@ -211,8 +221,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
             Add Points
           </Button>
         </div>
-        {this.state.pointsAdded ? <div> Points added successfully </div> : null}
-        {this.state.errorMessage.length > 0 ? <div> Error : {this.state.errorMessage} </div> : null}
+        {this.state.pointsAdded ? (
+          <div className="error-message-animation"> Points added successfully </div>
+        ) : null}
+        {this.state.errorMessage.length > 0 ? (
+          <div className="error-message-animation"> Error : {this.state.errorMessage} </div>
+        ) : null}
       </div>
     );
   }

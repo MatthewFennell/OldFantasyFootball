@@ -14,6 +14,7 @@ import YellowCards from '../AddPoints/YellowCards';
 import ManOfTheMatch from '../AddPoints/ManOfTheMatch';
 import RedCard from '../AddPoints/RedCard';
 import CleanSheet from '../AddPoints/CleanSheet';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -52,6 +53,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
     this._handleWeek = this._handleWeek.bind(this);
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
       goals: '0',
       assists: '0',
@@ -78,6 +80,12 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
       pointsEdited: false,
       errorMessage: ''
     };
+  }
+
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ pointsEdited: false });
+    this.setState({ errorMessage: '' });
   }
 
   _getResults() {
@@ -190,11 +198,13 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
         console.log('response to editing player = ' + response);
         this.setState({ pointsEdited: true });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ pointsEdited: false });
+        setTimeout(this._removeErrorMessage, 10000);
       });
   }
 
@@ -331,8 +341,12 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
             Edit Points
           </Button>
         </div>
-        {this.state.pointsEdited ? <div>Points edited successfully! </div> : null}
-        {this.state.errorMessage ? <div>Error : {this.state.errorMessage} </div> : null}
+        {this.state.pointsEdited ? (
+          <div className="error-message-animation">Points edited successfully! </div>
+        ) : null}
+        {this.state.errorMessage ? (
+          <div className="error-message-animation">Error : {this.state.errorMessage} </div>
+        ) : null}
       </div>
     );
   }

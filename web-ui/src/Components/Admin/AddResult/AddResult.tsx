@@ -6,6 +6,7 @@ import Week from '../AddPoints/Week';
 import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
 import { SubmitResults } from '../../../Models/Interfaces/SubmitResults';
 import { submitResult } from '../../../Services/Player/PlayerService';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface TransfersFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -36,6 +37,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handlePlayerIDAssists = this._handlePlayerIDAssists.bind(this);
     this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
     this._getResults = this._getResults.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
       goalsFor: '0',
       goalsAgainst: '-1',
@@ -87,6 +89,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this.setState({ playerIDGoals: newState }, this._getResults);
 
     // this.setState({ playerIDGoals: [...this.state.playerIDGoals, playerID] }, this._getResults);
+  }
+
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ resultAdded: false });
+    this.setState({ errorMessage: '' });
   }
 
   _handlePlayerIDAssists(playerID: string, previousID: string) {
@@ -143,6 +151,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     if (this.state.week === '') {
       this.setState({ errorMessage: 'Please provide a week' });
       this.setState({ resultAdded: false });
+      setTimeout(this._removeErrorMessage, 10000);
     } else {
       submitResult(data).then(response => {
         console.log('response = ' + JSON.stringify(response));
@@ -150,6 +159,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         this.setState({ previousTeamName: this.state.teamName });
         this.setState({ previousWeek: this.state.week });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       });
     }
   }
@@ -216,12 +226,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           </div>
         </div>
         {this.state.resultAdded ? (
-          <div>
+          <div className="error-message-animation">
             Result added to team {this.state.previousTeamName} in week {this.state.previousWeek}
           </div>
         ) : null}
 
-        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage}</div> : null}
+        {this.state.errorMessage.length > 0 ? (
+          <div className="error-message-animation">Error : {this.state.errorMessage}</div>
+        ) : null}
       </div>
     );
   }

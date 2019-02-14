@@ -237,6 +237,7 @@ public class PlayerController {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
+                System.out.println("message = " + e.getMessage());
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
                 log.debug(f.getMessage());

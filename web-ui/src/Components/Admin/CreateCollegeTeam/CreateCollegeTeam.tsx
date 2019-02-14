@@ -3,6 +3,7 @@ import { Button } from 'reactstrap';
 import CollegeName from './CollegeName';
 import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface TransfersFormProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -21,6 +22,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._getResults = this._getResults.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
       collegeNameValue: '',
       collegeTeamCreated: false,
@@ -30,6 +32,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   _getResults() {}
+
+  componentDidUpdate(_: any, prevState: any) {
+    console.log('component updated');
+    if (this.state.errorMessage.length > 0 && prevState.errorMessage.length === 0) {
+    }
+  }
 
   _handleCollegeName(collegeName: string) {
     this.setState({ collegeNameValue: collegeName }, this._getResults);
@@ -54,12 +62,21 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         this.setState({ collegeTeamCreated: true });
         this.setState({ previousCollegeTeamMade: this.state.collegeNameValue });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
         console.log('error message : ' + error);
         this.setState({ errorMessage: error });
         this.setState({ collegeTeamCreated: false });
+        console.log('setting in 5 seconds');
+        setTimeout(this._removeErrorMessage, 10000);
       });
+  }
+
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ collegeTeamCreated: false });
+    this.setState({ errorMessage: '' });
   }
 
   render() {
@@ -84,9 +101,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           </div>
         </div>
         {this.state.collegeTeamCreated ? (
-          <div>College team created : {this.state.previousCollegeTeamMade} </div>
+          <div className="error-message-animation">
+            College team created : {this.state.previousCollegeTeamMade}{' '}
+          </div>
         ) : null}
-        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage} </div> : null}
+        {this.state.errorMessage.length > 0 ? (
+          <div className="error-message-animation">Error : {this.state.errorMessage} </div>
+        ) : null}
       </div>
     );
   }

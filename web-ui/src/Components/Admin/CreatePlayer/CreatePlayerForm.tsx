@@ -8,6 +8,7 @@ import Price from './Price';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface TransfersFormProps {
   allCollegeTeams: CT[];
@@ -33,6 +34,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleFirstName = this._handleFirstName.bind(this);
     this._handlePrice = this._handlePrice.bind(this);
     this._getResults = this._getResults.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     if (this.props.allCollegeTeams.length > 0) {
       this.state = {
         positionValue: 'Goalkeeper',
@@ -73,6 +75,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     // createPlayer(data).then(response => {
     //   this.props.setFilteredPlayers(response);
     // });
+  }
+
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ playerCreated: false });
+    this.setState({ errorMessage: '' });
   }
 
   _handlePositionChange(position: string) {
@@ -118,11 +126,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         ];
         this.setState({ previousValues: values });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ playerCreated: false });
+        setTimeout(this._removeErrorMessage, 10000);
       });
   }
 
@@ -165,14 +175,16 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           </div>
         </div>
         {this.state.playerCreated ? (
-          <div>
+          <div className="error-message-animation">
             Player {this.state.previousValues[0]} {this.state.previousValues[1]}
             successfully created for team {this.state.previousValues[2]} with price{' '}
             {this.state.previousValues[3]} with position {this.state.previousValues[4]}
           </div>
         ) : null}
 
-        {this.state.errorMessage.length > 0 ? <div>Error : {this.state.errorMessage}</div> : null}
+        {this.state.errorMessage.length > 0 ? (
+          <div className="error-message-animation">Error : {this.state.errorMessage}</div>
+        ) : null}
       </div>
     );
   }
