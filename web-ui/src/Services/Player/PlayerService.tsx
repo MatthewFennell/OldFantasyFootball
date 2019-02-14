@@ -74,6 +74,7 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
 };
 
 export const deletePlayer = (id: string): Promise<boolean> => {
+  console.log('id = ' + id);
   return fetch('/api/player/delete', {
     method: 'POST',
     body: id,
@@ -81,6 +82,7 @@ export const deletePlayer = (id: string): Promise<boolean> => {
   }).then(response => {
     if (!response.ok) {
       if (response.status === 400) {
+        console.log('response = ' + response);
         return response.json().then(json => {
           if (response.ok) {
             return json;

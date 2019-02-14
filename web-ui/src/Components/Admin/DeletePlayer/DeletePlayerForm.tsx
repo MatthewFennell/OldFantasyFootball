@@ -4,6 +4,7 @@ import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { deletePlayer } from '../../../Services/Player/PlayerService';
+import '../../../Style/Admin/ErrorMessage.css';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -23,8 +24,9 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._handlePlayerID = this._handlePlayerID.bind(this);
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
+    this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this.state = {
-      playerID: '',
+      playerID: 'No player selected',
       playerDeleted: false,
       errorMessage: ''
     };
@@ -40,6 +42,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this.props.setTeamAddingPoints(team);
   }
 
+  _removeErrorMessage() {
+    console.log('error message set');
+    this.setState({ playerDeleted: false });
+    this.setState({ errorMessage: '' });
+  }
+
   _onSubmit() {
     console.log('This state = ' + JSON.stringify(this.state));
     deletePlayer(this.state.playerID)
@@ -47,11 +55,13 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
         console.log('response to deleting player = ' + response);
         this.setState({ playerDeleted: true });
         this.setState({ errorMessage: '' });
+        setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
         console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ playerDeleted: false });
+        setTimeout(this._removeErrorMessage, 10000);
       });
   }
 
@@ -79,8 +89,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
             Delete player
           </Button>
         </div>
-        {this.state.playerDeleted ? <div> Player deleted successfully! </div> : null}
-        {this.state.errorMessage ? <div> Error : {this.state.errorMessage} </div> : null}
+        {this.state.playerDeleted ? (
+          <div className="error-message-animation"> Player deleted successfully! </div>
+        ) : null}
+        {this.state.errorMessage ? (
+          <div className="error-message-animation"> Error : {this.state.errorMessage} </div>
+        ) : null}
       </div>
     );
   }
