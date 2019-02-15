@@ -78,7 +78,7 @@ public class PlayerTest {
 
     @Test
     public void changingScore() {
-        Player player = new Player(null, null, 0, null, null);
+        Player player = new Player(null, null, 0, "f", "s");
         Integer changePositive = 10;
         player.changeScore(changePositive);
         assertEquals(changePositive, player.getTotalScore());
@@ -88,4 +88,45 @@ public class PlayerTest {
         player.changeScore(changeScoreNegative);
         assertEquals(expected, player.getTotalScore());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithNumbersInFirstNameFails(){
+        new Player(null, null, 0, "123", "s");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithNumbersInSurnameFails(){
+        new Player(null, null, 0, "a", "123");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithSpecialCharactersInFirstNameFails(){
+        new Player(null, null, 0, "£", "s");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithSpecialCharactersInSurnameFails(){
+        new Player(null, null, 0, "a", "£");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithEmptyFirstNameFails(){
+        new Player(null, null, 0, "", "a");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithEmptySurnameFails(){
+        new Player(null, null, 0, "a", "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithSpaceAtFrontOfFirstNameFails(){
+        new Player(null, null, 0, " a", "a");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingPlayerWithSpaceAtFrontOfSurnameFails(){
+        new Player(null, null, 0, "", " a");
+    }
+
 }

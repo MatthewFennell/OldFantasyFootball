@@ -66,8 +66,10 @@ public class ApplicationUserManager {
     }
 
     public void setTeamName(ApplicationUser user, String teamName) {
+        System.out.println("here");
         Optional<ApplicationUser> appUser = applicationUserRepo.findByUsername(user.getUsername());
         if (appUser.isPresent()) {
+            System.out.println("in here");
             ApplicationUser u = appUser.get();
             u.setTeamName(teamName);
             applicationUserRepo.save(u);

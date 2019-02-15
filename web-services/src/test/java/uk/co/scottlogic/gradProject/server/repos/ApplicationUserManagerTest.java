@@ -57,6 +57,39 @@ public class ApplicationUserManagerTest {
     }
 
     @Test
+    public void settingTeamNameUpdatesTheTeamName() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        when(applicationUserRepo.findByUsername("username")).thenReturn(Optional.of(user));
+        String newTeamName = "A team name";
+        applicationUserManager.setTeamName(user, newTeamName);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsWithSpecialCharacters() {
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a", "a@a.com");
+        when(applicationUserRepo.findByUsername("username")).thenReturn(Optional.of(user));
+        String newTeamName = "£";
+        applicationUserManager.setTeamName(user, newTeamName);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsWithNumbers() {
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a", "a@a.com");
+        when(applicationUserRepo.findByUsername("username")).thenReturn(Optional.of(user));
+        String newTeamName = "123";
+        applicationUserManager.setTeamName(user, newTeamName);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsSpace() {
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a", "a@a.com");
+        when(applicationUserRepo.findByUsername("username")).thenReturn(Optional.of(user));
+        String newTeamName = "";
+        applicationUserManager.setTeamName(user, newTeamName);
+    }
+
+
+    @Test
     public void shouldPatchEmailIfJustEmailBeingChangedAndEmailValid() {
         String newEmail = "user@user.com";
         UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, null, newEmail, null);

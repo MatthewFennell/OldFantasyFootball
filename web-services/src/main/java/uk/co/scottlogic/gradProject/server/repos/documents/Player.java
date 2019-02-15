@@ -6,6 +6,9 @@ import uk.co.scottlogic.gradProject.server.misc.Enums;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static uk.co.scottlogic.gradProject.server.misc.Regex.PLAYER_FIRST_NAME_PATTERN;
+import static uk.co.scottlogic.gradProject.server.misc.Regex.PLAYER_SURNAME_PATTERN;
+
 @Entity
 @Table(indexes = {
         @Index(name = "idx_player_price", columnList = "price"),
@@ -124,6 +127,10 @@ public class Player {
     }
 
     public void setFirstName(String firstName) {
+
+        if (!firstName.matches(PLAYER_FIRST_NAME_PATTERN)) {
+            throw new IllegalArgumentException("Players first name does not match regex");
+        }
         this.firstName = firstName;
     }
 
@@ -132,6 +139,10 @@ public class Player {
     }
 
     public void setSurname(String surname) {
+
+        if (!surname.matches(PLAYER_SURNAME_PATTERN)) {
+            throw new IllegalArgumentException("Players first name does not match regex");
+        }
         this.surname = surname;
     }
 

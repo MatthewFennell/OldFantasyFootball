@@ -120,6 +120,36 @@ public class ApplicationUserTest {
         new ApplicationUser("a", "123456", "a", surname, "a@a.com");
     }
 
+    @Test
+    public void settingTeamNameIsOk() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        user.setTeamName("Team name");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsForAnEmptyTeamName() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        user.setTeamName("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsForSpaceAtStartOfTeamName() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        user.setTeamName(" abc");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsForSpecialCharacters() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        user.setTeamName("£");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void settingTeamNameFailsForNumbers() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        user.setTeamName("123");
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void emptyUsernameShouldNotMakeAUser() {
         new ApplicationUser("", "123456", "a", "a", "a@a.com");

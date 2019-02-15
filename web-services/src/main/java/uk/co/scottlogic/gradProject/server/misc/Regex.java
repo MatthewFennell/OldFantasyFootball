@@ -25,4 +25,14 @@ public class Regex {
     public static final String SURNAME_PATTERN = "^[() -'a-zA-ZÀ-ÖØ-öø-ſ]{1,63}+$";
 
     public static final String EMAIL_PATTERN = "^.+@.+\\..+$";
+
+    public static final String COLLEGE_NAME_PATTERN = "^[A-z]+['s]*(\\s[A-z]*){0,1}$";
+
+    public static final String LEAGUE_NAME_PATTERN = "^[A-z]+(\\s[A-z]*)*$";
+
+    public static final String PLAYER_FIRST_NAME_PATTERN = "^[A-z]+$";
+
+    public static final String PLAYER_SURNAME_PATTERN = "^[A-z]+$";
+
+    public static final String  USER_TEAM_NAME_PATTERN = "^[A-z]+['s]*(\\s[A-z]*){0,1}$";
 }
