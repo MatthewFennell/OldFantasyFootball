@@ -104,4 +104,24 @@ public class CollegeTeamTest {
         Integer goalsAgainst = -10;
         collegeTeam.setGoalsAgainst(goalsAgainst);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingCollegeTeamWithJustSpaceFails(){
+        new CollegeTeam(" ");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingCollegeTeamWithSpaceAtFrontFails(){
+        new CollegeTeam(" College Team");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingCollegeTeamWithNumbersFails(){
+        new CollegeTeam("College N12");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void creatingCollegeTeamWithSpecialCharactersFails(){
+        new CollegeTeam("Coll£");
+    }
 }

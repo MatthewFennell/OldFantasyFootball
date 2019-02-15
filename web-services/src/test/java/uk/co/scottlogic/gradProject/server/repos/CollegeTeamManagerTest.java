@@ -34,20 +34,20 @@ public class CollegeTeamManagerTest {
 
     @Test
     public void makingCollegeTeamWithNormalNameThrowsNoErrors(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         collegeTeamManager.makeTeam(collegeTeamName);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void deletingCollegeTeamThatDoesNotExistThrowsException(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamManager.deleteTeam(collegeTeamName);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void deletingCollegeTeamThatExistsWithPlayersInItReturnsThrowsException(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
@@ -58,7 +58,7 @@ public class CollegeTeamManagerTest {
 
     @Test
     public void deletingCollegeTeamThatExistsWithNoPlayersInItReturnsCorrectly(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
@@ -75,7 +75,7 @@ public class CollegeTeamManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void addingStatsToCollegeTeamThrowsExceptionIfCollegeTeamDoesNotExist(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 5, 2, 7,6);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamManager.addStatsToCollegeTeam(dto);
@@ -83,7 +83,7 @@ public class CollegeTeamManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void editingStatsToCollegeTeamThrowsExceptionIfCollegeTeamDoesNotExist(){
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 5, 2, 7,6);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamManager.editCollegeTeamStats(dto);
@@ -94,7 +94,7 @@ public class CollegeTeamManagerTest {
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
         Enums.CollegeMatchResult result = Enums.CollegeMatchResult.WIN;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
@@ -109,7 +109,7 @@ public class CollegeTeamManagerTest {
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
         Enums.CollegeMatchResult result = Enums.CollegeMatchResult.DRAW;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
@@ -124,7 +124,7 @@ public class CollegeTeamManagerTest {
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
         Enums.CollegeMatchResult result = Enums.CollegeMatchResult.LOSS;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
@@ -141,7 +141,7 @@ public class CollegeTeamManagerTest {
         Integer wins = 15;
         Integer draws = 250;
         Integer losses = 9;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, goalsFor, goalsAgainst, wins, draws,losses);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));

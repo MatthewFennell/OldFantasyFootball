@@ -581,10 +581,10 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCollegeGoalsForAndAgainst(){
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        SubmitPointsDTO dto = new SubmitPointsDTO(1532, 2710, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1532, 2710, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
         assertEquals(Integer.valueOf(1532), collegeTeam.getGoalsFor());
         assertEquals(Integer.valueOf(2710), collegeTeam.getGoalsAgainst());
@@ -593,14 +593,14 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesGoalsForGoalscorer(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         playerManager.submitResults(dto);
@@ -612,14 +612,14 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesAssistsForAssistMaker(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> assists = new ArrayList<>();
         assists.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         playerManager.submitResults(dto);
@@ -631,14 +631,14 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesCleanSheetsForCleanSheetsDefenders(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> cleanSheets = new ArrayList<>();
         cleanSheets.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         playerManager.submitResults(dto);
@@ -652,14 +652,14 @@ public class PlayerManageTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam uwt = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), week);
 
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
@@ -674,14 +674,14 @@ public class PlayerManageTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam uwt = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), week);
 
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> assists = new ArrayList<>();
         assists.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
@@ -696,14 +696,14 @@ public class PlayerManageTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         UsersWeeklyTeam uwt = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), week);
 
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> cleanSheets = new ArrayList<>();
         cleanSheets.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(),cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(),cleanSheets, "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
@@ -715,12 +715,12 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesPointsForMultipleGoalscorers(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p3", "s3");
-        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p4", "s4");
-        Player player4 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p5", "s5");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
+        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "pp", "s");
+        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "ppp", "s");
+        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppp", "s");
+        Player player4 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "pppppp", "s");
 
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player1, week);
@@ -734,9 +734,9 @@ public class PlayerManageTest {
         goalScorers.add(player2.getId().toString());
         goalScorers.add(player3.getId().toString());
         goalScorers.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
         when(playerRepo.findById(player2.getId())).thenReturn(Optional.of(player2));
@@ -772,12 +772,12 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesPointsForMultipleAssists(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p3", "s3");
-        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p4", "s4");
-        Player player4 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p5", "s5");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
+        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "pp", "ss");
+        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "ppp", "sss");
+        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppp", "ssss");
+        Player player4 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "ppppp", "sssss");
 
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player1, week);
@@ -791,9 +791,9 @@ public class PlayerManageTest {
         assists.add(player2.getId().toString());
         assists.add(player3.getId().toString());
         assists.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
         when(playerRepo.findById(player2.getId())).thenReturn(Optional.of(player2));
@@ -829,12 +829,12 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesPointsForMultipleCleanSheetsAndZeroPointsIfTheyAreAnAttacker(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p3", "s3");
-        Player player3 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p4", "s4");
-        Player player4 = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p5", "s5");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p", "s");
+        Player player1 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pp", "ss");
+        Player player2 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "ppp", "sss");
+        Player player3 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "pppp", "ssss");
+        Player player4 = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "ppppp", "sssss");
 
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player1, week);
@@ -848,9 +848,9 @@ public class PlayerManageTest {
         cleanSheets.add(player2.getId().toString());
         cleanSheets.add(player3.getId().toString());
         cleanSheets.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
         when(playerRepo.findById(player2.getId())).thenReturn(Optional.of(player2));
@@ -885,16 +885,16 @@ public class PlayerManageTest {
         UsersWeeklyTeam uwt1 = new UsersWeeklyTeam(user1, new Date(), new ArrayList<>(), week);
         UsersWeeklyTeam uwt2 = new UsersWeeklyTeam(user2, new Date(), new ArrayList<>(), week);
 
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p3", "s3");
-        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p4", "s4");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
+        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "pp", "s");
+        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "ppp", "s");
+        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppp", "s");
 
-        Player player4 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p5", "s5");
-        Player player5 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p6", "s6");
-        Player player6 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p7", "s7");
-        Player player7 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p8", "s8");
+        Player player4 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "ppppp", "s");
+        Player player5 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppppp", "s");
+        Player player6 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "ppppppp", "s");
+        Player player7 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "pppppppp", "s");
 
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player1, week);
@@ -935,9 +935,9 @@ public class PlayerManageTest {
         cleanSheets.add(player7.getId().toString());
 
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, assists, cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, assists, cleanSheets, "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
         when(playerRepo.findById(player2.getId())).thenReturn(Optional.of(player2));
@@ -1009,12 +1009,12 @@ public class PlayerManageTest {
 
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesCollegeResults(){
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(10, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
-        SubmitPointsDTO dto2 = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
+        CollegeTeam collegeTeam = new CollegeTeam("Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(10, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto2 = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
         playerManager.submitResults(dto1);
         playerManager.submitResults(dto2);
@@ -1026,17 +1026,17 @@ public class PlayerManageTest {
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesGoalsForGoalscorer(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
 
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         playerManager.submitResults(dto);
@@ -1049,10 +1049,10 @@ public class PlayerManageTest {
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesMultiplePoints(){
         Integer week = 0;
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p3", "s3");
+        CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "firstname", "surname");
+        Player player2 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "firstname", "surname");
 
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player1, week);
@@ -1066,12 +1066,12 @@ public class PlayerManageTest {
         assists.add(player1.getId().toString());
         cleanSheets.add(player2.getId().toString());
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "college_team");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "college_team");
-        SubmitPointsDTO dto2 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Woman's A");
+        SubmitPointsDTO dto2 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Woman's A");
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
 
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
@@ -1099,17 +1099,17 @@ public class PlayerManageTest {
     @Test
     public void submittingMultipleResultsForDifferentWeeksUpdatedMultipleUsersPointsForMultipleDifferentTeams() {
 
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
+        CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
 
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
-        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p2", "s2");
-        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "p3", "s3");
-        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p4", "s4");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
+        Player player1 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "pp", "ss");
+        Player player2 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 10, "ppp", "sss");
+        Player player3 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppp", "ssss");
 
-        Player player4 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p5", "s5");
-        Player player5 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p6", "s6");
-        Player player6 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p7", "s7");
-        Player player7 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "p8", "s8");
+        Player player4 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "ppppp", "sssss");
+        Player player5 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "pppppp", "ssssss");
+        Player player6 = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "ppppppp", "sssssss");
+        Player player7 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "pppppppp", "ssssssss");
 
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerRepo.findById(player1.getId())).thenReturn(Optional.of(player1));
@@ -1209,9 +1209,9 @@ public class PlayerManageTest {
         when(weeklyTeamRepo.findByPlayersAndWeek(player6, 0)).thenReturn(Collections.singletonList(uwt2));
         when(weeklyTeamRepo.findByPlayersAndWeek(player7, 0)).thenReturn(player7WeeklyTeams);
 
-        when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
+        when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(2, 0, 0, goalScorersWeekOne, assistsWeekOne, cleanSheets, "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(2, 0, 0, goalScorersWeekOne, assistsWeekOne, cleanSheets, "Woman's A");
         playerManager.submitResults(dto);
 
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, playerPoints.getPoints());
@@ -1300,7 +1300,7 @@ public class PlayerManageTest {
         when(weeklyTeamRepo.findByPlayersAndWeek(player6, 1)).thenReturn(Collections.singletonList(uwt11));
         when(weeklyTeamRepo.findByPlayersAndWeek(player7, 1)).thenReturn(Collections.singletonList(uwt00));
 
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "college_team");
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "Woman's A");
         playerManager.submitResults(dto1);
 
         assertEquals(Integer.valueOf(1), playerPoints33.getNumberOfGoals());
@@ -1370,9 +1370,9 @@ public class PlayerManageTest {
     @Test
     public void editingPlayerStatsChangesPointsForJustThatWeek(){
         // Only editing one week
-        CollegeTeam collegeTeam = new CollegeTeam("college_team");
+        CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
 
-        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p1", "s1");
+        Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
         PlayerPoints playerPoints = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, 0);
         PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, 1);
 

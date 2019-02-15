@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
+import static uk.co.scottlogic.gradProject.server.misc.Regex.LEAGUE_NAME_PATTERN;
+
 @Entity
 @Table(indexes = {
         @Index(name = "idx_league_name", columnList = "leagueName", unique = true)})
@@ -56,6 +58,10 @@ public class League {
     }
 
     public void setLeagueName(String leagueName) {
+        if (!leagueName.matches(LEAGUE_NAME_PATTERN)) {
+            throw new IllegalArgumentException("League name does not match regex");
+        }
+
         this.leagueName = leagueName;
     }
 

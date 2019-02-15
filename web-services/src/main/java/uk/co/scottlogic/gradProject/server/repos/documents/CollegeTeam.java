@@ -5,6 +5,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
+import static uk.co.scottlogic.gradProject.server.misc.Regex.COLLEGE_NAME_PATTERN;
+
 @Entity
 @Table(indexes = {
         @Index(name = "idx_team_name", columnList = "name", unique = true),
@@ -78,6 +80,11 @@ public class CollegeTeam {
 
     public void setName(String name) {
         // Comes from CreateCollegeTeam.tsx
+
+        if (!name.matches(COLLEGE_NAME_PATTERN)) {
+            throw new IllegalArgumentException("College team name does not match regex");
+        }
+
         if (name.equals("Please select a team")){
             throw new IllegalArgumentException("Please provide a team name");
         }

@@ -42,7 +42,7 @@ public class CollegeTeamControllerTest {
     public void makingCollegeTeamReturns200() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         collegeTeamController.makeCollegeTeam(user, collegeTeamName, response);
         assertEquals(200, response.getStatus());
     }
@@ -51,7 +51,7 @@ public class CollegeTeamControllerTest {
     public void deletingCollegeTeamCorrectlyReturns204() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
@@ -64,7 +64,7 @@ public class CollegeTeamControllerTest {
     public void deletingCollegeTeamWhenPlayersInItReturns400() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
@@ -78,7 +78,7 @@ public class CollegeTeamControllerTest {
     public void deletingCollegeTeamThatDoesNotExistReturns400() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamController.deleteCollegeTeam(user, collegeTeamName, response);
         assertEquals(400, response.getStatus());
@@ -91,7 +91,7 @@ public class CollegeTeamControllerTest {
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
         Enums.CollegeMatchResult result = Enums.CollegeMatchResult.WIN;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
@@ -103,7 +103,7 @@ public class CollegeTeamControllerTest {
     public void addStatsToCollegeTeamReturns400WhenCollegeTeamDoesNotExist() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 0, 0, 0,0);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamController.addStatsToCollegeTeam(user, dto, response);
@@ -120,7 +120,7 @@ public class CollegeTeamControllerTest {
         Integer draws = 250;
         Integer losses = 9;
         Enums.CollegeMatchResult result = Enums.CollegeMatchResult.WIN;
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, result, goalsFor, goalsAgainst, wins, draws,losses);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
@@ -132,7 +132,7 @@ public class CollegeTeamControllerTest {
     public void editingCollegeStatsReturns400WhenCollegeTeamDoesNotExist() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        String collegeTeamName = "college team name";
+        String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 5, 2, 7,6);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
         collegeTeamController.editCollegeTeamStats(user, dto, response);
