@@ -25,6 +25,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onValidate = this._onValidate.bind(this);
     this.state = {
       playerID: 'No player selected',
       playerDeleted: false,
@@ -46,6 +48,16 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     console.log('error message set');
     this.setState({ playerDeleted: false });
     this.setState({ errorMessage: '' });
+  }
+
+  _onValidate() {
+    if (this.state.playerID === 'No player selected') {
+      this.setState({ errorMessage: 'Please select a player (UI)' });
+      this.setState({ playerDeleted: false });
+      setTimeout(this._removeErrorMessage, 10000);
+    } else {
+      this._onSubmit();
+    }
   }
 
   _onSubmit() {
@@ -84,7 +96,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
           <Button
             className="btn btn-default btn-round-lg btn-lg second"
             id="btnRegister"
-            onClick={() => this._onSubmit()}
+            onClick={() => this._onValidate()}
           >
             Delete player
           </Button>

@@ -51,16 +51,18 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onValidate = this._onValidate.bind(this);
     this.state = {
-      goals: '0',
-      assists: '0',
-      minutesPlayed: '0',
+      goals: '',
+      assists: '',
+      minutesPlayed: '',
       manOfTheMatch: false,
       yellowCards: '0',
       cleanSheet: false,
       redCard: false,
       playerID: '',
-      week: '0',
+      week: '',
       viewingDefender: true,
       pointsAdded: false,
       errorMessage: ''
@@ -125,6 +127,40 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 
   _handleWeek(week: string) {
     this.setState({ week }, this._getResults);
+  }
+
+  _onValidate() {
+    let error: boolean = false;
+    let message: string = 'Please select a value for : ';
+
+    if (this.state.playerID === '') {
+      error = true;
+      message += 'Player, ';
+    }
+    if (this.state.week === '') {
+      error = true;
+      message += 'Week, ';
+    }
+    if (this.state.goals === '') {
+      error = true;
+      message += 'Goals, ';
+    }
+    if (this.state.assists === '') {
+      error = true;
+      message += 'Assists, ';
+    }
+    if (this.state.minutesPlayed === '') {
+      error = true;
+      message += 'Minutes Played, ';
+    }
+
+    if (error) {
+      this.setState({ errorMessage: message.substring(0, message.length - 2) });
+      this.setState({ pointsAdded: false });
+      setTimeout(this._removeErrorMessage, 10000);
+    } else {
+      this._onSubmit();
+    }
   }
 
   _onSubmit() {
@@ -216,7 +252,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
           <Button
             className="btn btn-default btn-round-lg btn-lg second"
             id="btnRegister"
-            onClick={() => this._onSubmit()}
+            onClick={() => this._onValidate()}
           >
             Add Points
           </Button>

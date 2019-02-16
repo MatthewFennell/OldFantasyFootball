@@ -39,3 +39,15 @@ export const clearSessionStorage = () => {
 export const getBearerHeader = () => {
   return 'Bearer ' + sessionStorage.access;
 };
+
+export const validCollegeName = (name: string) => {
+  return name.match(/^[A-z]+['s]*(\s[A-z]*){0,1}$/);
+};
+
+export const validPlayerFirstName = (name: string) => {
+  return name.match(/^[A-z]+$/);
+};
+
+export const validPlayerSurname = (name: string) => {
+  return name.match(/^[A-z]+$/);
+};

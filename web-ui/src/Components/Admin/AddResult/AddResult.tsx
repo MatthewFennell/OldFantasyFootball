@@ -38,9 +38,11 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
     this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onValidate = this._onValidate.bind(this);
     this.state = {
-      goalsFor: '0',
-      goalsAgainst: '-1',
+      goalsFor: '',
+      goalsAgainst: '',
       week: '',
       playerIDGoals: [],
       playerIDAssists: [],
@@ -137,6 +139,32 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this.setState({ week }, this._getResults);
   }
 
+  _onValidate() {
+    let error: boolean = false;
+    let message: string = 'Please select a value for ';
+    if (this.state.week === '') {
+      error = true;
+      message += 'Week, ';
+    }
+    if (this.state.goalsFor === '') {
+      error = true;
+      message += 'Goals for, ';
+    }
+    if (this.state.goalsAgainst === '') {
+      error = true;
+      message += 'Goals against, ';
+    }
+
+    if (error) {
+      this.setState({ previousTeamName: '' });
+      this.setState({ previousWeek: '' });
+      this.setState({ errorMessage: message.substring(0, message.length - 2) });
+      setTimeout(this._removeErrorMessage, 10000);
+    } else {
+      this._onSubmit();
+    }
+  }
+
   _onSubmit() {
     let data: SubmitResults = {
       goalsFor: parseInt(this.state.goalsFor),
@@ -148,20 +176,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       teamName: this.state.teamName
     };
 
-    if (this.state.week === '') {
-      this.setState({ errorMessage: 'Please provide a week' });
-      this.setState({ resultAdded: false });
+    submitResult(data).then(response => {
+      console.log('response = ' + JSON.stringify(response));
+      this.setState({ resultAdded: true });
+      this.setState({ previousTeamName: this.state.teamName });
+      this.setState({ previousWeek: this.state.week });
+      this.setState({ errorMessage: '' });
       setTimeout(this._removeErrorMessage, 10000);
-    } else {
-      submitResult(data).then(response => {
-        console.log('response = ' + JSON.stringify(response));
-        this.setState({ resultAdded: true });
-        this.setState({ previousTeamName: this.state.teamName });
-        this.setState({ previousWeek: this.state.week });
-        this.setState({ errorMessage: '' });
-        setTimeout(this._removeErrorMessage, 10000);
-      });
-    }
+    });
   }
 
   render() {
@@ -219,7 +241,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
               id="btnRegister"
-              onClick={() => this._onSubmit()}
+              onClick={() => this._onValidate()}
             >
               Create result
             </Button>

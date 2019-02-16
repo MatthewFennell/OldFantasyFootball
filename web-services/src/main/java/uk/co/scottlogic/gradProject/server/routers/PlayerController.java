@@ -258,7 +258,7 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/multiple/add")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void addPointsToPlayers(@AuthenticationPrincipal ApplicationUser user,
                                    @RequestBody AddMultiplePointsDTO dto,
                                    HttpServletResponse response) {
@@ -285,7 +285,7 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/add")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean addPointsToSinglePlayer(@AuthenticationPrincipal ApplicationUser user,
                                         @RequestBody PlayerPointsDTO dto,
                                         HttpServletResponse response) {
@@ -315,7 +315,7 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/edit")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
                                     @RequestBody PlayerPointsDTO dto,
                                     HttpServletResponse response) {
@@ -372,7 +372,7 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/result/submit")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean submitResult(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody SubmitPointsDTO dto,
                              HttpServletResponse response) {
