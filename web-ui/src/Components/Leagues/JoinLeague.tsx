@@ -50,6 +50,7 @@ class JoinLeague extends React.Component<
               this.props.addToLeagueCache(response.leagueName, response.position);
             })
             .catch(error => {
+              console.log(error);
             });
         }
         break;

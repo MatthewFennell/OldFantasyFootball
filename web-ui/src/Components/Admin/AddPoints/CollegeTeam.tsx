@@ -51,6 +51,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
         this.props.setPlayersInFilteredTeam(response);
       })
       .catch(error => {
+        console.log(error);
         this.props.setPlayersInFilteredTeam([]);
       });
   }

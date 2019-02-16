@@ -96,6 +96,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
           this.setState({ playerStats: response });
         })
         .catch(error => {
+          console.log(error);
           this.setState({
             playerStats: {
               goals: 0,

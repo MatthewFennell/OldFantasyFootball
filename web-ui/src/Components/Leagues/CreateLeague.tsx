@@ -50,10 +50,12 @@ class CreateGroup extends React.Component<
           };
           createLeague(data)
             .then(response => {
+              console.log(response);
               // TO:DO Add newly created league to props
               this.props.addToLeagueCache(this.state.leagueName, 1);
             })
             .catch(error => {
+              console.log(error);
             });
         }
         break;
