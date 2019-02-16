@@ -4,6 +4,7 @@ import CollegeName from './CollegeName';
 import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
+import { validCollegeName } from '../../../Services/CredentialInputService';
 
 interface TransfersFormProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -23,6 +24,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onValidate = this._onValidate.bind(this);
     this.state = {
       collegeNameValue: 'Please select a team',
       collegeTeamCreated: false,
@@ -33,20 +36,22 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
   _getResults() {}
 
-  componentDidUpdate(_: any, prevState: any) {
-    console.log('component updated');
-    if (this.state.errorMessage.length > 0 && prevState.errorMessage.length === 0) {
-    }
-  }
-
   _handleCollegeName(collegeName: string) {
     this.setState({ collegeNameValue: collegeName }, this._getResults);
   }
 
+  _onValidate() {
+    if (validCollegeName(this.state.collegeNameValue)) {
+      this._onSubmit();
+    } else {
+      this.setState({ errorMessage: 'College team name does not match regex (UI)' });
+      this.setState({ collegeTeamCreated: false });
+      console.log('setting in 5 seconds');
+      setTimeout(this._removeErrorMessage, 10000);
+    }
+  }
+
   _onSubmit() {
-    // createPlayer(data).catch(error => {
-    //   console.log('error = ' + JSON.stringify(error));
-    // });
     makeCollegeTeam(this.state.collegeNameValue)
       .then(response => {
         let alreadyThere: boolean = false;
@@ -94,7 +99,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
               id="btnRegister"
-              onClick={() => this._onSubmit()}
+              onClick={() => this._onValidate()}
             >
               Create College Team
             </Button>

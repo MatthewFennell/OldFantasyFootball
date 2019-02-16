@@ -10,6 +10,8 @@ import { Button } from 'reactstrap';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 
+import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
+
 interface TransfersFormProps {
   allCollegeTeams: CT[];
 }
@@ -34,6 +36,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handleFirstName = this._handleFirstName.bind(this);
     this._handlePrice = this._handlePrice.bind(this);
     this._getResults = this._getResults.bind(this);
+    this._onSubmit = this._onSubmit.bind(this);
+    this._onValidate = this._onValidate.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     if (this.props.allCollegeTeams.length > 0) {
       this.state = {
@@ -60,22 +64,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     }
   }
 
-  _getResults() {
-    // Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
-    // let position: string = this.state.positionValue
-    //   .toUpperCase()
-    //   .substr(0, this.state.positionValue.length - 1);
-    // let data: CreatePlayer = {
-    //   position: position,
-    //   collegeTeam: this.state.teamValue,
-    //   price: parseInt(this.state.priceValue),
-    //   firstName: this.state.firstNameValue,
-    //   surname: this.state.surnameValue
-    // };
-    // createPlayer(data).then(response => {
-    //   this.props.setFilteredPlayers(response);
-    // });
-  }
+  _getResults() {}
 
   _removeErrorMessage() {
     console.log('error message set');
@@ -101,6 +90,25 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
   _handlePrice(price: string) {
     this.setState({ priceValue: price }, this._getResults);
+  }
+
+  _onValidate() {
+    if (
+      !validPlayerFirstName(this.state.firstNameValue) ||
+      !validPlayerSurname(this.state.surnameValue)
+    ) {
+      this.setState({ errorMessage: 'Invalid First name or Surname' });
+      this.setState({ playerCreated: false });
+      setTimeout(this._removeErrorMessage, 10000);
+    } else {
+      if (this.state.priceValue === '') {
+        this.setState({ errorMessage: 'Please enter a price' });
+        this.setState({ playerCreated: false });
+        setTimeout(this._removeErrorMessage, 10000);
+      } else {
+        this._onSubmit();
+      }
+    }
   }
 
   _onSubmit() {
@@ -168,7 +176,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
               id="btnRegister"
-              onClick={() => this._onSubmit()}
+              onClick={() => this._onValidate()}
             >
               Create Player
             </Button>
