@@ -10,7 +10,7 @@ import Week from '../AddPoints/Week';
 import Goals from '../AddPoints/Goals';
 import Assists from '../AddPoints/Assists';
 import MinutesPlayed from '../AddPoints/MinutesPlayed';
-import YellowCards from '../AddPoints/YellowCards';
+import YellowCard from '../AddPoints/YellowCard';
 import ManOfTheMatch from '../AddPoints/ManOfTheMatch';
 import RedCard from '../AddPoints/RedCard';
 import CleanSheet from '../AddPoints/CleanSheet';
@@ -350,7 +350,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
                 <MinutesPlayed minutesPlayed={minutesPlayed} />
               </div>
               <div>
-                <YellowCards yellowCards={yellowCards} />
+                <YellowCard yellowCards={yellowCards} />
               </div>
               <div>
                 <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
