@@ -40,7 +40,7 @@ public class LeagueManager {
         return league.getId().toString();
     }
 
-    List<UserInLeagueReturnDTO> findUsersInLeague(League league) {
+    private List<UserInLeagueReturnDTO> findUsersInLeague(League league) {
         List<ApplicationUser> participants = league.getParticipants();
         List<UserInLeagueReturnDTO> orderedUsers = new ArrayList<>();
         for (ApplicationUser u : participants) {
@@ -140,7 +140,7 @@ public class LeagueManager {
         return false;
     }
 
-    Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
+    private Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
         List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
         for (UserInLeagueReturnDTO u : usersInLeague) {
             System.out.println("Points = " + u.getPoints());
