@@ -9,7 +9,8 @@ export enum ActionTypes {
   ADD_TO_PLAYERS_BEING_REMOVED = 'ADD_TO_PLAYERS_BEING_REMOVED',
   REMOVE_FROM_PLAYERS_BEING_REMOVED = 'REMOVE_FROM_PLAYERS_BEING_REMOVED',
   CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED',
-  SET_TRANSFER_MARKET = 'SET_TRANSFER_MARKET'
+  SET_TRANSFER_MARKET = 'SET_TRANSFER_MARKET',
+  REVERSE_FILTERED_PLAYERS = 'REVERSE_FILTERED_PLAYERS'
 }
 
 export interface SetRemainingBudget {
@@ -55,6 +56,11 @@ export interface ClearPlayersBeingAddedAndRemoved {
 export interface SetTransferMarket {
   type: ActionTypes.SET_TRANSFER_MARKET;
   payload: { transferMarketOpen: boolean };
+}
+
+export interface ReverseFilteredPlayers {
+  type: ActionTypes.REVERSE_FILTERED_PLAYERS;
+  payload: {};
 }
 
 export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
@@ -122,6 +128,13 @@ export const setTransferMarket = (transferMarketOpen: boolean): SetTransferMarke
   };
 };
 
+export const reverseFilteredPlayers = (): ReverseFilteredPlayers => {
+  return {
+    type: ActionTypes.REVERSE_FILTERED_PLAYERS,
+    payload: {}
+  };
+};
+
 export type Action =
   | SetRemainingBudget
   | SetRemainingTransfers
@@ -131,4 +144,5 @@ export type Action =
   | AddToPlayersBeingRemoved
   | RemoveFromPlayersBeingRemoved
   | ClearPlayersBeingAddedAndRemoved
-  | SetTransferMarket;
+  | SetTransferMarket
+  | ReverseFilteredPlayers;

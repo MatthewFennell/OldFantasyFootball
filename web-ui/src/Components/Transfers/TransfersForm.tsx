@@ -79,9 +79,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
 
     filterPlayers(data).then(response => {
-      if (response.length > 0) {
-        this.props.setFilteredPlayers(response);
-      }
+      // if (response.length > 0) {
+      this.props.setFilteredPlayers(response);
+      // }
     });
   }
 

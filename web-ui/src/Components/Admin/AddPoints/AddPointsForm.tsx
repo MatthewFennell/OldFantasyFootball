@@ -137,19 +137,19 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
       error = true;
       message += 'Player, ';
     }
-    if (this.state.week === '') {
+    if (this.state.week === '' || isNaN(parseFloat(this.state.week))) {
       error = true;
       message += 'Week, ';
     }
-    if (this.state.goals === '') {
+    if (this.state.goals === '' || isNaN(parseFloat(this.state.goals))) {
       error = true;
       message += 'Goals, ';
     }
-    if (this.state.assists === '') {
+    if (this.state.assists === '' || isNaN(parseFloat(this.state.assists))) {
       error = true;
       message += 'Assists, ';
     }
-    if (this.state.minutesPlayed === '') {
+    if (this.state.minutesPlayed === '' || isNaN(parseFloat(this.state.minutesPlayed))) {
       error = true;
       message += 'Minutes Played, ';
     }

@@ -142,15 +142,15 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   _onValidate() {
     let error: boolean = false;
     let message: string = 'Please select a value for ';
-    if (this.state.week === '') {
+    if (this.state.week === '' || isNaN(parseFloat(this.state.week))) {
       error = true;
       message += 'Week, ';
     }
-    if (this.state.goalsFor === '') {
+    if (this.state.goalsFor === '' || isNaN(parseFloat(this.state.goalsFor))) {
       error = true;
       message += 'Goals for, ';
     }
-    if (this.state.goalsAgainst === '') {
+    if (this.state.goalsAgainst === '' || isNaN(parseFloat(this.state.goalsAgainst))) {
       error = true;
       message += 'Goals against, ';
     }
