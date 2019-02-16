@@ -1,7 +1,8 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
-import TransfersTableBody from './TransfersTableBody';
+import TransfersTableBody from '../../Containers/Transfers/TransfersTableBody';
+// import TransfersTableBody from './TransfersTableBody';
 import Pitch from '../Team/PitchLayout/Pitch';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
@@ -98,7 +99,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
             </div>
             <div>
               <div className="transfers-table">
-                <TransfersTableBody filteredPlayers={this.props.filteredPlayers} />
+                <TransfersTableBody />
               </div>
             </div>
           </div>

@@ -89,6 +89,13 @@ export const reducer = (state: State = initialState, action: Action) => {
       };
     }
 
+    case ActionTypes.REVERSE_FILTERED_PLAYERS: {
+      return {
+        ...state,
+        filteredPlayers: state.filteredPlayers.reverse()
+      };
+    }
+
     default:
       return state;
   }

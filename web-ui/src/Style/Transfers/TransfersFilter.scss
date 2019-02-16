@@ -6,11 +6,15 @@ div.transfers-table {
         td{
             width: 10%;
         }
+        
         td.position {
         //   margin-left: 30px;
           color: red;
         //   width: 100%;
           text-align: center;
+        }
+        td:hover{
+          color: yellow;
         }
       }
     }

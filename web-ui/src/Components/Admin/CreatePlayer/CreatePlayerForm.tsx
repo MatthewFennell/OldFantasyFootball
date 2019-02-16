@@ -101,8 +101,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       this.setState({ playerCreated: false });
       setTimeout(this._removeErrorMessage, 10000);
     } else {
-      if (this.state.priceValue === '') {
-        this.setState({ errorMessage: 'Please enter a price' });
+      if (this.state.priceValue === '' || isNaN(parseFloat(this.state.priceValue))) {
+        this.setState({ errorMessage: 'Please enter a valid price' });
         this.setState({ playerCreated: false });
         setTimeout(this._removeErrorMessage, 10000);
       } else {
@@ -184,8 +184,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         </div>
         {this.state.playerCreated ? (
           <div className="error-message-animation">
-            Player {this.state.previousValues[0]} {this.state.previousValues[1]}
-            successfully created for team {this.state.previousValues[2]} with price{' '}
+            Player {this.state.previousValues[0]} {this.state.previousValues[1]} successfully
+            created for team {this.state.previousValues[2]} with price{' '}
             {this.state.previousValues[3]} with position {this.state.previousValues[4]}
           </div>
         ) : null}
