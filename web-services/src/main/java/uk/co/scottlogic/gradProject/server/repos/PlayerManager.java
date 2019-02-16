@@ -123,7 +123,7 @@ public class PlayerManager {
         return false;
     }
 
-    public void makeNewWeek(Integer newWeek){
+    void makeNewWeek(Integer newWeek){
         Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
         List<ApplicationUser> users = new ArrayList<>();
         allUsers.forEach(users::add);

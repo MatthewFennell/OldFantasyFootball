@@ -36,7 +36,6 @@ class CleanSheet extends React.Component<CleanSheetProps, CleanSheetState> {
   }
 
   render() {
-    // TO:DO - fetch the teams from the server
     let teams: string[] = ['Yes', 'No'];
     const teamOptions = teams.map(team => (
       <p className="menu-items">

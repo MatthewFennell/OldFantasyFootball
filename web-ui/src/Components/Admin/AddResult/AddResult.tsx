@@ -36,7 +36,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     this._handlePlayerIDGoalscorers = this._handlePlayerIDGoalscorers.bind(this);
     this._handlePlayerIDAssists = this._handlePlayerIDAssists.bind(this);
     this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onValidate = this._onValidate.bind(this);
@@ -55,31 +54,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
   }
 
-  _getResults() {
-    console.log('New goalscorers = ' + JSON.stringify(this.state.playerIDGoals));
-    console.log('');
-    console.log('New assists = ' + JSON.stringify(this.state.playerIDAssists));
-    console.log('');
-    console.log('New clean sheets = ' + JSON.stringify(this.state.playerIDCleanSheets));
-
-    // Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
-    // let position: string = this.state.positionValue
-    //   .toUpperCase()
-    //   .substr(0, this.state.positionValue.length - 1);
-    // let data: CreatePlayer = {
-    //   position: position,
-    //   collegeTeam: this.state.teamValue,
-    //   price: parseInt(this.state.priceValue),
-    //   firstName: this.state.firstNameValue,
-    //   surname: this.state.surnameValue
-    // };
-    // createPlayer(data).then(response => {
-    //   this.props.setFilteredPlayers(response);
-    // });
-  }
-
-  // TO:DO improve later -> not loop through, preferably just exchange
-  // for goals, assists and clean sheets
   _handlePlayerIDGoalscorers(playerID: string, previousID: string) {
     let newState: string[] = [];
     for (let x = 0; x < this.state.playerIDGoals.length; x++) {
@@ -88,13 +62,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       }
     }
     newState.push(playerID);
-    this.setState({ playerIDGoals: newState }, this._getResults);
-
-    // this.setState({ playerIDGoals: [...this.state.playerIDGoals, playerID] }, this._getResults);
+    this.setState({ playerIDGoals: newState });
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ resultAdded: false });
     this.setState({ errorMessage: '' });
   }
@@ -107,7 +78,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       }
     }
     newState.push(playerID);
-    this.setState({ playerIDAssists: newState }, this._getResults);
+    this.setState({ playerIDAssists: newState });
   }
 
   _handlePlayerIDCleanSheets(playerID: string, previousID: string) {
@@ -118,7 +89,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
       }
     }
     newState.push(playerID);
-    this.setState({ playerIDCleanSheets: newState }, this._getResults);
+    this.setState({ playerIDCleanSheets: newState });
   }
 
   _handleCollegeTeam(teamName: string) {
@@ -127,16 +98,15 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   _handleGoalsFor(goalsFor: string) {
-    this.setState({ goalsFor }, this._getResults);
+    this.setState({ goalsFor });
   }
 
   _handleGoalsAgainst(goalsAgainst: string) {
-    this.setState({ goalsAgainst }, this._getResults);
+    this.setState({ goalsAgainst });
   }
 
   _handleWeek(week: string) {
-    console.log('set week to ' + week);
-    this.setState({ week }, this._getResults);
+    this.setState({ week });
   }
 
   _onValidate() {
@@ -177,7 +147,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
 
     submitResult(data).then(response => {
-      console.log('response = ' + JSON.stringify(response));
       this.setState({ resultAdded: true });
       this.setState({ previousTeamName: this.state.teamName });
       this.setState({ previousWeek: this.state.week });
@@ -187,11 +156,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   render() {
-    // let positionChange = this._handlePositionChange;
     let teamChange = this._handleCollegeTeam;
-    // let price = this._handlePrice;
-    // let firstName = this._handleFirstName;
-    // let surname = this._handleSurname;
     let goalsFor = this._handleGoalsFor;
     let setWeek = this._handleWeek;
     let goalsAgainst = this._handleGoalsAgainst;

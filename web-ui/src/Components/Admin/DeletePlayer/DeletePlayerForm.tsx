@@ -22,7 +22,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
   constructor(props: AddPointsFormProps) {
     super(props);
     this._handlePlayerID = this._handlePlayerID.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
@@ -34,10 +33,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     };
   }
 
-  _getResults() {}
-
   _handlePlayerID(playerID: string) {
-    this.setState({ playerID }, this._getResults);
+    this.setState({ playerID });
   }
 
   _handleCollegeTeam(team: string) {
@@ -45,7 +42,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ playerDeleted: false });
     this.setState({ errorMessage: '' });
   }
@@ -61,16 +57,13 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
   }
 
   _onSubmit() {
-    console.log('This state = ' + JSON.stringify(this.state));
     deletePlayer(this.state.playerID)
       .then(response => {
-        console.log('response to deleting player = ' + response);
         this.setState({ playerDeleted: true });
         this.setState({ errorMessage: '' });
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ playerDeleted: false });
         setTimeout(this._removeErrorMessage, 10000);

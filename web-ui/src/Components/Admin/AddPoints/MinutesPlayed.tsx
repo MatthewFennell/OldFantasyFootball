@@ -25,10 +25,6 @@ class MinutesPlayed extends React.Component<MinutesPlayedProps, State> {
     } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
-  _validate = () => {
-    return false;
-  };
-
   render() {
     return (
       <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>

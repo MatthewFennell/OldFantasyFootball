@@ -2,7 +2,6 @@ import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { findPlayersInCollegeTeam } from '../../../Services/Player/PlayerService';
 import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
-
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface TeamDropdownProps {
@@ -52,14 +51,12 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
         this.props.setPlayersInFilteredTeam(response);
       })
       .catch(error => {
-        console.log('error message : ' + error);
+        console.log(error);
         this.props.setPlayersInFilteredTeam([]);
       });
   }
 
   render() {
-    // TO:DO - fetch the teams from the server
-
     const teamOptions = this.props.allCollegeTeams.map(team => (
       <p className="menu-items">
         <DropdownItem

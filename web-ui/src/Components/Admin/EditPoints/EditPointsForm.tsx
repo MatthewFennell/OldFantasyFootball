@@ -85,7 +85,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ pointsEdited: false });
     this.setState({ errorMessage: '' });
   }
@@ -97,7 +96,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
           this.setState({ playerStats: response });
         })
         .catch(error => {
-          console.log('error = ' + error);
+          console.log(error);
           this.setState({
             playerStats: {
               goals: 0,
@@ -121,9 +120,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 
   _handlePlayerID(playerID: string) {
     this.setState({ playerID }, this._getResults);
-
     let haveSet: boolean = false;
-
     for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
       if (playerID === this.props.playersInFilteredTeam[x].id) {
         this.setState(
@@ -231,13 +228,11 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 
     editPlayerPoints(data)
       .then(response => {
-        console.log('response to editing player = ' + response);
         this.setState({ pointsEdited: true });
         this.setState({ errorMessage: '' });
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ pointsEdited: false });
         setTimeout(this._removeErrorMessage, 10000);

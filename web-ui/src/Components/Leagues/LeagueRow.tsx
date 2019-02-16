@@ -8,7 +8,6 @@ interface LeagueRowProps {
 
 class LeagueRow extends React.Component<LeagueRowProps> {
   handleRowClick = (leagueName: string) => {
-    console.log('clicked row of league ' + leagueName);
     this.props.setLeagueBeingViewed(leagueName);
   };
 

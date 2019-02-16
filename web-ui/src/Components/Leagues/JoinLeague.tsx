@@ -35,17 +35,6 @@ class JoinLeague extends React.Component<
   }
 
   _validate = () => {
-    // if (LoginService.emptyFields(this.state.leagueName, this.state.codeToJoin)) {
-    //   this.setState({ error: 'All fields must be filled in' });
-    //   return true;
-    // } else if (
-    //   LoginService.invalidUsername(this.state.leagueName) ||
-    //   LoginService.invalidPasscode(this.state.codeToJoin) ||
-    //   LoginService.passcodeTooShort(this.state.codeToJoin)
-    // ) {
-    //   this.setState({ error: 'leagueName or codeToJoin not recognised' });
-    //   return true;
-    // } else return false;
     return false;
   };
 
@@ -57,12 +46,11 @@ class JoinLeague extends React.Component<
         if (!err) {
           joinLeague(this.state.codeToJoin)
             .then(response => {
-              console.log('response = ' + JSON.stringify(response));
               // TO:DO Add newly created league to props
               this.props.addToLeagueCache(response.leagueName, response.position);
             })
             .catch(error => {
-              console.log('error = ' + JSON.stringify(error));
+              console.log(error);
             });
         }
         break;

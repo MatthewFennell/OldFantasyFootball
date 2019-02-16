@@ -13,7 +13,6 @@ interface StatsState {}
 class Stats extends React.Component<StatsProps, StatsState> {
   componentDidMount() {}
 
-  // Only load the player name when it's been added to the cache
   render() {
     const {
       averageWeeklyPointsCache,

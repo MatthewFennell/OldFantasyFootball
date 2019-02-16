@@ -36,17 +36,6 @@ class CreateGroup extends React.Component<
   }
 
   _validate = () => {
-    // if (LoginService.emptyFields(this.state.leagueName, this.state.codeToJoin)) {
-    //   this.setState({ error: 'All fields must be filled in' });
-    //   return true;
-    // } else if (
-    //   LoginService.invalidUsername(this.state.leagueName) ||
-    //   LoginService.invalidPasscode(this.state.codeToJoin) ||
-    //   LoginService.passcodeTooShort(this.state.codeToJoin)
-    // ) {
-    //   this.setState({ error: 'leagueName or codeToJoin not recognised' });
-    //   return true;
-    // } else return false;
     return false;
   };
 
@@ -61,12 +50,12 @@ class CreateGroup extends React.Component<
           };
           createLeague(data)
             .then(response => {
-              console.log('response = ' + JSON.stringify(response));
+              console.log(response);
               // TO:DO Add newly created league to props
               this.props.addToLeagueCache(this.state.leagueName, 1);
             })
             .catch(error => {
-              console.log('error = ' + JSON.stringify(error));
+              console.log(error);
             });
         }
         break;

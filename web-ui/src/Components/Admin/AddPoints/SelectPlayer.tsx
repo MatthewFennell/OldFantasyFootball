@@ -34,7 +34,6 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
   }
 
   _handlePlayerIDChange(id: string[]) {
-    console.log('previous value was ' + this.state.playerSelectedID);
     let previousValue = this.state.playerSelectedID;
     this.setState({ playerSelected: id[0] });
     this.setState({ playerSelectedID: id[1] });
@@ -42,7 +41,6 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
   }
 
   render() {
-    // TO:DO - fetch the teams from the server
     let teams: string[][] = [];
     for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
       if (this.props.onlyDefenders) {

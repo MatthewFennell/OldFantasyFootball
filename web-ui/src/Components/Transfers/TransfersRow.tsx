@@ -49,39 +49,31 @@ class TransferRow extends React.Component<TransferRowProps> {
         numberInThatPosition += 1;
       }
       if (element.id === player.id) {
-        console.log('Cannot add the same player twice');
         playerExists = true;
       }
     });
 
-    console.log('Position = ' + player.position);
-    console.log('There are ' + numberInThatPosition + ' players already in that position');
     if (playerExists) {
       return false;
     }
     if (player.price !== undefined && player.price > this.props.remainingBudget) {
-      console.log('You do not have enough $$$');
       return false;
     }
 
     if (player.position === 'GOALKEEPER') {
       if (numberInThatPosition > 0) {
-        console.log('Can only have 1 keeper!');
         return false;
       }
     } else if (player.position === 'DEFENDER') {
       if (numberInThatPosition > 3) {
-        console.log('Can only have 4 defenders!');
         return false;
       }
     } else if (player.position === 'MIDFIELDER') {
       if (numberInThatPosition > 3) {
-        console.log('Can only have 4 midfielders!');
         return false;
       }
     } else if (player.position === 'ATTACKER') {
       if (numberInThatPosition > 1) {
-        console.log('Can only have 2 attackers!');
         return false;
       }
     }
