@@ -48,7 +48,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     this._handleRedCard = this._handleRedCard.bind(this);
     this._handlePlayerID = this._handlePlayerID.bind(this);
     this._handleWeek = this._handleWeek.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
@@ -69,14 +68,12 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     };
   }
 
-  _getResults() {}
-
   _handleGoals(goals: string) {
-    this.setState({ goals }, this._getResults);
+    this.setState({ goals });
   }
 
   _handlePlayerID(playerID: string) {
-    this.setState({ playerID }, this._getResults);
+    this.setState({ playerID });
 
     let haveSet: boolean = false;
 
@@ -102,31 +99,31 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
   }
 
   _handleAssists(assists: string) {
-    this.setState({ assists }, this._getResults);
+    this.setState({ assists });
   }
 
   _handleMinutesPlayed(minutesPlayed: string) {
-    this.setState({ minutesPlayed }, this._getResults);
+    this.setState({ minutesPlayed });
   }
 
   _handleManOfTheMatch(manOfTheMatch: boolean) {
-    this.setState({ manOfTheMatch }, this._getResults);
+    this.setState({ manOfTheMatch });
   }
 
   _handleYellowCards(yellowCards: string) {
-    this.setState({ yellowCards }, this._getResults);
+    this.setState({ yellowCards });
   }
 
   _handleCleanSheet(cleanSheet: boolean) {
-    this.setState({ cleanSheet }, this._getResults);
+    this.setState({ cleanSheet });
   }
 
   _handleRedCard(redCard: boolean) {
-    this.setState({ redCard }, this._getResults);
+    this.setState({ redCard });
   }
 
   _handleWeek(week: string) {
-    this.setState({ week }, this._getResults);
+    this.setState({ week });
   }
 
   _onValidate() {
@@ -178,13 +175,11 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 
     addPlayerPoints(data)
       .then(response => {
-        console.log('response TO POINTS ADDED = ' + JSON.stringify(response));
         this.setState({ pointsAdded: true });
         this.setState({ errorMessage: '' });
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ pointsAdded: false });
         setTimeout(this._removeErrorMessage, 10000);
@@ -192,7 +187,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ pointsAdded: false });
     this.setState({ errorMessage: '' });
   }

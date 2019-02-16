@@ -9,7 +9,6 @@ import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
-
 import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
 
 interface TransfersFormProps {
@@ -67,7 +66,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   _getResults() {}
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ playerCreated: false });
     this.setState({ errorMessage: '' });
   }
@@ -123,7 +121,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
     createPlayer(data)
       .then(response => {
-        console.log('response = ' + JSON.stringify(response));
         this.setState({ playerCreated: true });
         let values: string[] = [
           this.state.firstNameValue,
@@ -137,7 +134,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ playerCreated: false });
         setTimeout(this._removeErrorMessage, 10000);
@@ -156,7 +152,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         <div className="transfer-form-row-one">
           <div className="position-dropdown">
             <FirstName firstName={firstName} />
-            {/*  */}
           </div>
           <div>
             <Surname surname={surname} />

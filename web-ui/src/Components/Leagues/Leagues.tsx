@@ -51,12 +51,10 @@ class Leagues extends React.Component<LeagueProps, {}> {
   }
 
   _onClickCreateLeague() {
-    console.log('clicked');
     this.props.setLeaguePageBeingViewed('create-league');
   }
 
   _onClickJoinLeague() {
-    console.log('clicked');
     this.props.setLeaguePageBeingViewed('join-league');
   }
 

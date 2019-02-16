@@ -6,9 +6,7 @@ interface RankingsRowProps {
 }
 
 class RankingsRow extends React.Component<RankingsRowProps> {
-  handleRowClick = (firstName: string) => {
-    console.log('clicked row of player ' + firstName);
-  };
+  handleRowClick = (firstName: string) => {};
 
   _activeLeagueJSX = () => {
     const { firstName, surname, points, position } = this.props.element;

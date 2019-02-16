@@ -2,7 +2,6 @@ import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
 import TransfersForm from '../../Containers/Transfers/TransfersForm';
 import TransfersTableBody from '../../Containers/Transfers/TransfersTableBody';
-// import TransfersTableBody from './TransfersTableBody';
 import Pitch from '../Team/PitchLayout/Pitch';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
@@ -50,13 +49,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
     updateTeam(data)
       .then(response => {
-        console.log('Valid transfer request = ' + JSON.stringify(response));
         this.props.clearPlayersBeingAddedAndRemoved();
         this.setState({ teamUpdated: true });
         this.setState({ errorMessage: '' });
       })
       .catch(error => {
-        console.log('error = ' + JSON.stringify(error));
         this.setState({ errorMessage: error });
         this.setState({ teamUpdated: false });
       });

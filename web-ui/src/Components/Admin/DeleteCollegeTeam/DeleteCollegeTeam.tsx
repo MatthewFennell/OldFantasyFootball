@@ -22,7 +22,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   constructor(props: TransfersFormProps) {
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
 
     if (this.props.allCollegeTeams.length > 0) {
@@ -42,19 +41,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     }
   }
 
-  _getResults() {}
-
   _handleCollegeName(collegeName: string) {
-    this.setState({ collegeNameValue: collegeName }, this._getResults);
+    this.setState({ collegeNameValue: collegeName });
   }
 
   _onSubmit() {
-    // createPlayer(data).catch(error => {
-    //   console.log('error = ' + JSON.stringify(error));
-    // });
     deleteCollegeTeam(this.state.collegeNameValue)
       .then(response => {
-        console.log('response to deleting college team = ' + response);
         this.setState({ collegeTeamDeleted: true });
         this.setState({ previousCollegeName: this.state.collegeNameValue });
         this.setState({ errorMessage: '' });
@@ -62,7 +55,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error message : ' + error);
         this.setState({ errorMessage: error });
         this.setState({ collegeTeamDeleted: false });
         setTimeout(this._removeErrorMessage, 10000);
@@ -70,7 +62,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ collegeTeamDeleted: false });
     this.setState({ errorMessage: '' });
   }

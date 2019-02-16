@@ -36,7 +36,6 @@ class RedCard extends React.Component<RedCardProps, RedCardState> {
   }
 
   render() {
-    // TO:DO - fetch the teams from the server
     let options: string[] = ['Yes', 'No'];
     const teamOptions = options.map(option => (
       <p className="menu-items">

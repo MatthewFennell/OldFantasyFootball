@@ -6,14 +6,10 @@ import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 
 interface StatsProps {
   totalPoints: number;
-
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
-
   setTeam: (team: PlayerDTO[]) => void;
-
   weeklyPointsCache: any;
-
   totalNumberOfWeeks: number;
 }
 
@@ -36,7 +32,6 @@ class Info extends React.Component<StatsProps, InfoState> {
     getTeamForUserInWeek(week).then(response => {
       this.props.setTeam(response);
     });
-    // this.props.generateCache(week);
   }
 
   _toggle() {

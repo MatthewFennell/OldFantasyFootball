@@ -22,7 +22,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
   constructor(props: TransfersFormProps) {
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onValidate = this._onValidate.bind(this);
@@ -34,10 +33,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     };
   }
 
-  _getResults() {}
-
   _handleCollegeName(collegeName: string) {
-    this.setState({ collegeNameValue: collegeName }, this._getResults);
+    this.setState({ collegeNameValue: collegeName });
   }
 
   _onValidate() {
@@ -46,7 +43,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     } else {
       this.setState({ errorMessage: 'College team name does not match regex (UI)' });
       this.setState({ collegeTeamCreated: false });
-      console.log('setting in 5 seconds');
       setTimeout(this._removeErrorMessage, 10000);
     }
   }
@@ -70,16 +66,13 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
         setTimeout(this._removeErrorMessage, 10000);
       })
       .catch(error => {
-        console.log('error message : ' + error);
         this.setState({ errorMessage: error });
         this.setState({ collegeTeamCreated: false });
-        console.log('setting in 5 seconds');
         setTimeout(this._removeErrorMessage, 10000);
       });
   }
 
   _removeErrorMessage() {
-    console.log('error message set');
     this.setState({ collegeTeamCreated: false });
     this.setState({ errorMessage: '' });
   }

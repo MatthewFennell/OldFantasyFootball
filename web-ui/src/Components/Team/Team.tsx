@@ -73,7 +73,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       }
 
       getTeamForUserInWeek(currentWeek).then(activeTeam => {
-        console.log('setting team for week ' + currentWeek);
         this.props.setTeam(activeTeam);
       });
 
@@ -94,11 +93,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   }
 
   _generateCache(currentWeek: number) {
-    // getTeamForUserInWeek(currentWeek).then(activeTeam => {
-    //   console.log('setting team for week ' + currentWeek);
-    //   this.props.setTeam(activeTeam);
-    // });
-
     // Hold a cache of [Week -> Weekly Team]
     if (this.props.weeklyTeamCache[currentWeek] === undefined) {
       getTeamForUserInWeek(currentWeek).then(weeklyTeam => {
