@@ -9,7 +9,7 @@ import MinutesPlayed from './MinutesPlayed';
 import ManOfTheMatch from './ManOfTheMatch';
 import RedCard from './RedCard';
 import CleanSheet from './CleanSheet';
-import YellowCards from './YellowCards';
+import YellowCard from './YellowCard';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { AddPoints } from '../../../Models/Interfaces/AddPoints';
 import { addPlayerPoints } from '../../../Services/Player/PlayerService';
@@ -233,7 +233,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
             <MinutesPlayed minutesPlayed={minutesPlayed} />
           </div>
           <div>
-            <YellowCards yellowCards={yellowCards} />
+            <YellowCard yellowCards={yellowCards} />
           </div>
           <div>
             <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
