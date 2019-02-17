@@ -10,6 +10,7 @@ import '../../Style/League/League-create.css';
 interface CreateGroupState {
   leagueName: string;
   error: string;
+  leagueCode: string;
 }
 
 interface CreateGroupProps {
@@ -24,7 +25,8 @@ class CreateGroup extends React.Component<
     super(props);
     this.state = {
       leagueName: '',
-      error: ''
+      error: '',
+      leagueCode: ''
     };
     this._onSubmit = this._onSubmit.bind(this);
   }
@@ -50,11 +52,16 @@ class CreateGroup extends React.Component<
           };
           createLeague(data)
             .then(response => {
-              console.log(response);
+              console.log('response = ' + JSON.stringify(response));
+              this.setState({ leagueCode: response.id });
+              console.log('This state = ' + JSON.stringify(this.state));
               // TO:DO Add newly created league to props
               this.props.addToLeagueCache(this.state.leagueName, 1);
+              console.log('Just made a league with name ' + this.state.leagueName);
             })
             .catch(error => {
+              this.setState({ error });
+              setTimeout(this._removeErrorMessage, 10000);
               console.log(error);
             });
         }
@@ -63,6 +70,10 @@ class CreateGroup extends React.Component<
         break;
     }
   };
+
+  _removeErrorMessage() {
+    this.setState({ error: '' });
+  }
 
   render() {
     return (
@@ -95,6 +106,14 @@ class CreateGroup extends React.Component<
             Create League
           </Button>
         </Form>
+        {this.state.leagueCode.length > 0 ? (
+          <div className="error-message">
+            League created : {this.state.leagueName}. The code to join is {this.state.leagueCode}
+          </div>
+        ) : null}
+        {this.state.error.length > 0 ? (
+          <div className="error-message-animation">Error : {this.state.error} </div>
+        ) : null}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import { CreateLeague } from '../../Models/Interfaces/CreateLeague';
 import { getBearerHeader } from '../CredentialInputService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import { UserLeaguePosition } from '../../Models/Interfaces/UserLeaguePosition';
+import { LeagueAdmin } from '../../Models/Interfaces/LeagueAdmin';
 
 export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
   return fetch('/api/league/user/all', {
@@ -14,7 +15,7 @@ export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
   });
 };
 
-export const createLeague = (data: CreateLeague): Promise<any> => {
+export const createLeague = (data: CreateLeague): Promise<LeaguePositions> => {
   return fetch('/api/league/make', {
     method: 'POST',
     body: JSON.stringify(data),
@@ -72,6 +73,25 @@ export const getPositionsOfUsersInLeague = (leagueName: string): Promise<UserLea
     headers: { Authorization: getBearerHeader() }
   }).then(response => {
     if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getLeagueAdmin = (leagueName: string): Promise<LeagueAdmin> => {
+  return fetch('/api/league/' + leagueName + '/admin', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 400) {
+      return response.json().then(json => {
+        if (response.ok) {
+          return json;
+        } else {
+          return Promise.reject(json.message);
+        }
+      });
+    } else if (response.status === 200) {
       return response.json();
     }
   });

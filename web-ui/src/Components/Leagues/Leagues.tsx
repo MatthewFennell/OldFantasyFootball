@@ -2,7 +2,8 @@ import * as React from 'react';
 import '../../Style/League/League.css';
 import {
   getLeaguesAndPositions,
-  getPositionsOfUsersInLeague
+  getPositionsOfUsersInLeague,
+  getLeagueAdmin
 } from '../../Services/League/LeagueService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
@@ -24,10 +25,21 @@ interface LeagueProps {
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
 }
 
-class Leagues extends React.Component<LeagueProps, {}> {
+interface LeaguesState {
+  isAdmin: boolean;
+  adminName: string;
+  code: string;
+}
+
+class Leagues extends React.Component<LeagueProps, LeaguesState> {
   constructor(props: LeagueProps) {
     super(props);
     this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
+    this.state = {
+      isAdmin: false,
+      adminName: '',
+      code: ''
+    };
   }
 
   componentDidMount() {
@@ -44,9 +56,15 @@ class Leagues extends React.Component<LeagueProps, {}> {
   }
 
   _setLeagueBeingViewed(leagueToView: string) {
+    // TO:DO - Combine into one request?
+
     this.props.setLeaguePageBeingViewed(leagueToView);
     getPositionsOfUsersInLeague(leagueToView).then(leagueRankings => {
       this.props.setLeagueRankings(leagueRankings);
+    });
+
+    getLeagueAdmin(leagueToView).then(response => {
+      this.setState({ isAdmin: response.userIsAdmin, code: response.code });
     });
   }
 
@@ -65,7 +83,12 @@ class Leagues extends React.Component<LeagueProps, {}> {
     let leagues: LeaguePositions[] = [];
     var keys = Object.keys(this.props.leagueCache);
     for (let x = 0; x < keys.length; x++) {
-      let p: LeaguePositions = { leagueName: keys[x], position: this.props.leagueCache[keys[x]] };
+      // TO:DO - Check this
+      let p: LeaguePositions = {
+        leagueName: keys[x],
+        position: this.props.leagueCache[keys[x]],
+        id: this.props.leagueCache[keys[x]]
+      };
       leagues.push(p);
     }
 
@@ -85,9 +108,16 @@ class Leagues extends React.Component<LeagueProps, {}> {
     );
 
     const renderLeagueRankings = () => (
-      <Col xs={6} md={6} lg={6} className="league-info-screen">
-        <RankingsTableBody leagueRankings={this.props.leagueRankings} />
-      </Col>
+      <div>
+        {this.state.isAdmin ? (
+          <div>You are the admin of this league. The code for joining is {this.state.code} </div>
+        ) : (
+          <div>The admin of this league is {this.state.code} </div>
+        )}
+        <Col xs={6} md={6} lg={6} className="league-info-screen">
+          <RankingsTableBody leagueRankings={this.props.leagueRankings} />
+        </Col>
+      </div>
     );
 
     return (
