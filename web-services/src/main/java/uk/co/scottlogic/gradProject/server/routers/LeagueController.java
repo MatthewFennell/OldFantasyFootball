@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.LeagueManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.routers.dto.LeagueAdminDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakeLeagueDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
@@ -41,7 +42,7 @@ public class LeagueController {
             @ApiResponse(code = 400, message = "A league with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
-    public String makeLeague(@AuthenticationPrincipal ApplicationUser user,
+    public LeagueReturnDTO makeLeague(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
@@ -63,6 +64,8 @@ public class LeagueController {
         }
         return null;
     }
+
+
 
     @ApiOperation(value = Icons.key + " Join a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
@@ -155,6 +158,35 @@ public class LeagueController {
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Gets the users and their positions in a league",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/league/{league-name}/admin")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "League does not exist with that league name"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public LeagueAdminDTO isAdmin(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("league-name") String leagueName) {
+        try {
+            response.setStatus(200);
+            return leagueManager.isLeagueAdmin(user, leagueName);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
         } catch (Exception e) {
             response.setStatus(500);
         }

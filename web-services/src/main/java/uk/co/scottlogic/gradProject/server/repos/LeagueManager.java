@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.routers.dto.LeagueAdminDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,7 +31,7 @@ public class LeagueManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
     }
 
-    public String createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
+    public LeagueReturnDTO createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
         Optional<League> duplicate = leagueRepo.findByLeagueName(leagueName);
         if (duplicate.isPresent()) {
             throw new IllegalArgumentException("A league with that name already exists");
@@ -37,7 +39,7 @@ public class LeagueManager {
         League league = new League(owner, leagueName, new ArrayList<>(), startWeek);
         league.addParticipant(owner);
         leagueRepo.save(league);
-        return league.getId().toString();
+        return new LeagueReturnDTO(league);
     }
 
     private List<UserInLeagueReturnDTO> findUsersInLeague(League league) {
@@ -117,7 +119,7 @@ public class LeagueManager {
                 l.addParticipant(user);
                 leagueRepo.save(l);
                 int position = findPositionOfUserInLeague(user, l);
-                return new LeagueReturnDTO(l.getLeagueName(), position);
+                return new LeagueReturnDTO(l.getLeagueName(), position, l.getCodeToJoin());
             } else {
                 log.debug("Invalid code");
                 throw new IllegalArgumentException("Invalid code for league");  // Never happens?
@@ -156,6 +158,23 @@ public class LeagueManager {
         throw new IllegalArgumentException("User not in league?");
     }
 
+    public LeagueAdminDTO isLeagueAdmin(ApplicationUser user, String leagueName){
+        Optional<League> league = leagueRepo.findByLeagueName(leagueName);
+        if (league.isPresent()){
+            if (league.get().getOwner().getId().equals(user.getId())){
+                return new LeagueAdminDTO(true, league.get().getCodeToJoin());
+            }
+            else {
+                String leagueAdmin = league.get().getOwner().getFirstName() + " " + league.get().getOwner().getSurname();
+                return new LeagueAdminDTO(false, leagueAdmin);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("There is no league with that name");
+        }
+    }
+
+
     // TO:DO
     // SURELY this can be improved
     public List<LeagueReturnDTO> findLeaguesPlayerIsIn(ApplicationUser user) {
@@ -172,7 +191,7 @@ public class LeagueManager {
             for (UserInLeagueReturnDTO u : participants) {
                 position += 1;
                 if (u.getUserID().equals(user.getId())) {
-                    returnDTOS.add(new LeagueReturnDTO(l.getLeagueName(), position));
+                    returnDTOS.add(new LeagueReturnDTO(l.getLeagueName(), position, l.getCodeToJoin()));
                     break;
                 }
             }
