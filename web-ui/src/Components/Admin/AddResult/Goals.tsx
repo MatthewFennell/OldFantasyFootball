@@ -23,7 +23,7 @@ class Goals extends React.Component<GoalsProps, GoalsState> {
     this.props.goals(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<GoalsState, keyof GoalsState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<GoalsState, keyof GoalsState>);
   }
 
   render() {

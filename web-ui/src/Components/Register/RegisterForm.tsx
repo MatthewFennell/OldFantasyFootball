@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form';
 import * as RegisterService from '../../Services/CredentialInputService';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 
-interface State {
+interface RegisterState {
   firstName: string;
   surname: string;
   email: string;
@@ -16,7 +16,7 @@ interface State {
   error: string;
 }
 
-class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>, State> {
+class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>, RegisterState> {
   constructor(props: RoutedFormProps<RouteComponentProps>) {
     super(props);
     this.state = {
@@ -68,7 +68,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<RegisterState, keyof RegisterState>);
   }
 
   _onSubmit = (event: string) => {

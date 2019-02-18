@@ -7,7 +7,7 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { createLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-create.css';
 
-interface CreateGroupState {
+interface CreateLeagueState {
   leagueName: string;
   error: string;
   leagueCode: string;
@@ -17,9 +17,9 @@ interface CreateGroupProps {
   addToLeagueCache: (leagueName: string, position: number) => void;
 }
 
-class CreateGroup extends React.Component<
+class CreateLeagueClass extends React.Component<
   RoutedFormProps<RouteComponentProps> & CreateGroupProps,
-  CreateGroupState
+  CreateLeagueState
 > {
   constructor(props: RoutedFormProps<RouteComponentProps> & CreateGroupProps) {
     super(props);
@@ -34,7 +34,7 @@ class CreateGroup extends React.Component<
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<CreateGroupState, keyof CreateGroupState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<CreateLeagueState, keyof CreateLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
   }
 
   _validate = () => {
@@ -122,5 +122,5 @@ class CreateGroup extends React.Component<
 export default withRouter(
   reduxForm<{}, any>({
     form: 'login'
-  })(CreateGroup)
+  })(CreateLeagueClass)
 );

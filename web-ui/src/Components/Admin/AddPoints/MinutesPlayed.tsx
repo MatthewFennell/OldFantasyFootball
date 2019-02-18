@@ -22,7 +22,7 @@ class MinutesPlayed extends React.Component<MinutesPlayedProps, State> {
     this.props.minutesPlayed(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<State, keyof State>);
   }
 
   render() {

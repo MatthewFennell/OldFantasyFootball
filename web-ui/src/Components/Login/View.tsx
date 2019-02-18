@@ -9,12 +9,12 @@ import { isLoggedIn } from '../../Services/CredentialInputService';
 import { UserProps } from '../../Models/Interfaces/UserProps';
 import '../../Style/LoginForm.css';
 
-interface RouterProps {
+interface LoginProps {
   location: any;
   history: any;
 }
 
-class Login extends React.Component<UserProps & RouterProps> {
+class Login extends React.Component<UserProps & LoginProps> {
   componentDidMount() {
     let header: HTMLElement | null = document.getElementById('header');
     if (header != null) {

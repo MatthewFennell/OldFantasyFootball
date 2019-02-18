@@ -6,20 +6,20 @@ import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { deletePlayer } from '../../../Services/Player/PlayerService';
 import '../../../Style/Admin/ErrorMessage.css';
 
-interface AddPointsFormProps {
+interface DeletePlayerProps {
   setTeamAddingPoints: (team: string) => void;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
 }
 
-interface AddPointsFormState {
+interface DeletePlayerState {
   playerID: string;
   playerDeleted: boolean;
   errorMessage: string;
 }
 
-class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
-  constructor(props: AddPointsFormProps) {
+class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState> {
+  constructor(props: DeletePlayerProps) {
     super(props);
     this._handlePlayerID = this._handlePlayerID.bind(this);
     this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
@@ -104,4 +104,4 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     );
   }
 }
-export default AddPointsForm;
+export default DeletePlayer;

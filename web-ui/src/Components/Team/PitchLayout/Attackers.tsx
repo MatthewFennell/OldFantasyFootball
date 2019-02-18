@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../Style/Team/PitchLayout/Attackers.css';
 import Player from '../../../Containers/Player';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
@@ -11,8 +10,8 @@ interface AttackerProps {
 class Attackers extends React.Component<AttackerProps, {}> {
   render() {
     return (
-      <div className="attackers-columns">
-        <div className="first-attacker">
+      <div className="player-columns">
+        <div className="player">
           {this.props.attackers.length >= 1 ? (
             <Player
               transfer={this.props.transfer}
@@ -23,7 +22,7 @@ class Attackers extends React.Component<AttackerProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="second-attacker">
+        <div className="player">
           {this.props.attackers.length >= 2 ? (
             <Player
               transfer={this.props.transfer}

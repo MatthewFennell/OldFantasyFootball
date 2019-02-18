@@ -10,6 +10,7 @@ interface AssistsState {
 interface AssistProps {
   assists: (assists: string) => void;
 }
+
 class Assists extends React.Component<AssistProps, AssistsState> {
   constructor(props: AssistProps) {
     super(props);
@@ -22,7 +23,7 @@ class Assists extends React.Component<AssistProps, AssistsState> {
     this.props.assists(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<AssistsState, keyof AssistsState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<AssistsState, keyof AssistsState>);
   }
 
   render() {

@@ -57,10 +57,8 @@ class Player extends React.Component<PlayerProps, {}> {
   render() {
     if (this.props.emptyPlayer) {
       return (
-        <div>
-          <div className="empty-player">
-            <p className="name">No player selected</p>
-          </div>
+        <div className="empty-player">
+          <p className="name">No player selected</p>
         </div>
       );
     } else {

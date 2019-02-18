@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../Style/Team/PitchLayout/Defenders.css';
 import Player from '../../../Containers/Player';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
@@ -11,8 +10,8 @@ interface DefenderProps {
 class Defenders extends React.Component<DefenderProps, {}> {
   render() {
     return (
-      <div className="defenders-columns">
-        <div className="first-defender">
+      <div className="player-columns">
+        <div className="player">
           {this.props.defenders.length >= 1 ? (
             <Player
               transfer={this.props.transfer}
@@ -23,7 +22,7 @@ class Defenders extends React.Component<DefenderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="second-defender">
+        <div className="player">
           {this.props.defenders.length >= 2 ? (
             <Player
               transfer={this.props.transfer}
@@ -34,7 +33,7 @@ class Defenders extends React.Component<DefenderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="third-defender">
+        <div className="player">
           {this.props.defenders.length >= 3 ? (
             <Player
               transfer={this.props.transfer}
@@ -45,7 +44,7 @@ class Defenders extends React.Component<DefenderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="fourth-defender">
+        <div className="player">
           {this.props.defenders.length >= 4 ? (
             <Player
               transfer={this.props.transfer}
