@@ -1,25 +1,24 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-// import CollegeName from '../CreateCollegeTeam/CollegeName';
 import { deleteCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 
-interface TransfersFormProps {
+interface DeleteCollegeTeamProps {
   allCollegeTeams: CT[];
   removeCollegeTeam: (teamName: string) => void;
 }
 
-interface TransfersFormState {
+interface DeleteCollegeTeamState {
   collegeNameValue: string;
   collegeTeamDeleted: boolean;
   previousCollegeName: string;
   errorMessage: string;
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-  constructor(props: TransfersFormProps) {
+class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCollegeTeamState> {
+  constructor(props: DeleteCollegeTeamProps) {
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
@@ -99,4 +98,4 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     );
   }
 }
-export default TransfersForm;
+export default DeleteCollegeTeam;

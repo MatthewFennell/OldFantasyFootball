@@ -7,13 +7,13 @@ import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import * as LoginService from '../../Services/CredentialInputService';
 
-interface State {
+interface LoginState {
   username: string;
   passcode: string;
   error: string;
 }
 
-class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, State> {
+class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, LoginState> {
   constructor(props: RoutedFormProps<RouteComponentProps>) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, St
   _handleInput(eventName: string, eventTarget: HTMLInputElement) {
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<LoginState, keyof LoginState>);
   }
 
   _validate = () => {

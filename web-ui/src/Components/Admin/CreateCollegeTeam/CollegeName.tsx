@@ -22,7 +22,7 @@ class SearchByName extends React.Component<PositionDropdownProps, State> {
     this.props.collegeName(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<State, keyof State>);
   }
 
   render() {

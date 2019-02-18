@@ -22,7 +22,7 @@ class Week extends React.Component<WeekProps, WeekState> {
     this.props.week(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<WeekState, keyof WeekState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<WeekState, keyof WeekState>);
   }
 
   render() {

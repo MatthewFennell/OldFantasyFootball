@@ -11,11 +11,11 @@ import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
 
-interface TransfersFormProps {
+interface CreatePlayerProps {
   allCollegeTeams: CT[];
 }
 
-interface TransfersFormState {
+interface CreatePlayerState {
   positionValue: string;
   teamValue: string;
   firstNameValue: string;
@@ -26,8 +26,8 @@ interface TransfersFormState {
   errorMessage: string;
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-  constructor(props: TransfersFormProps) {
+class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerState> {
+  constructor(props: CreatePlayerProps) {
     super(props);
     this._handlePositionChange = this._handlePositionChange.bind(this);
     this._handleTeamChange = this._handleTeamChange.bind(this);
@@ -192,4 +192,4 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     );
   }
 }
-export default TransfersForm;
+export default CreatePlayerForm;

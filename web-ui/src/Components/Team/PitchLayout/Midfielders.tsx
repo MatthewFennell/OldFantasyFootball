@@ -1,5 +1,4 @@
 import * as React from 'react';
-import '../../../Style/Team/PitchLayout/Midfielders.css';
 import Player from '../../../Containers/Player';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
@@ -11,8 +10,8 @@ interface MidfielderProps {
 class Midfielders extends React.Component<MidfielderProps, {}> {
   render() {
     return (
-      <div className="midfielders-columns">
-        <div className="first-midfielder">
+      <div className="player-columns">
+        <div className="player">
           {this.props.midfielders.length >= 1 ? (
             <Player
               transfer={this.props.transfer}
@@ -23,7 +22,7 @@ class Midfielders extends React.Component<MidfielderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="second-midfielder">
+        <div className="player">
           {this.props.midfielders.length >= 2 ? (
             <Player
               transfer={this.props.transfer}
@@ -34,7 +33,7 @@ class Midfielders extends React.Component<MidfielderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="third-midfielder">
+        <div className="player">
           {this.props.midfielders.length >= 3 ? (
             <Player
               transfer={this.props.transfer}
@@ -45,7 +44,7 @@ class Midfielders extends React.Component<MidfielderProps, {}> {
             <Player transfer={false} emptyPlayer={true} />
           )}
         </div>
-        <div className="fourth-midfielder">
+        <div className="player">
           {this.props.midfielders.length >= 4 ? (
             <Player
               transfer={this.props.transfer}

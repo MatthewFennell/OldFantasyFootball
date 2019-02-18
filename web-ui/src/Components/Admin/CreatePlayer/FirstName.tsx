@@ -3,15 +3,15 @@ import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-interface State {
+interface FirstNameState {
   firstName: string;
 }
 
-interface PositionDropdownProps {
+interface FirstNameProps {
   firstName: (searchByName: string) => void;
 }
-class SearchByName extends React.Component<PositionDropdownProps, State> {
-  constructor(props: PositionDropdownProps) {
+class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
+  constructor(props: FirstNameProps) {
     super(props);
     this.state = {
       firstName: ''
@@ -22,7 +22,7 @@ class SearchByName extends React.Component<PositionDropdownProps, State> {
     this.props.firstName(eventTarget.value);
     this.setState({
       [eventName]: eventTarget.value
-    } as Pick<State, keyof State>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+    } as Pick<FirstNameState, keyof FirstNameState>);
   }
 
   render() {

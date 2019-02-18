@@ -6,20 +6,20 @@ import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validCollegeName } from '../../../Services/CredentialInputService';
 
-interface TransfersFormProps {
+interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
   allCollegeTeams: CollegeTeam[];
 }
 
-interface TransfersFormState {
+interface CreateCollegeTeamState {
   collegeNameValue: string;
   collegeTeamCreated: boolean;
   previousCollegeTeamMade: string;
   errorMessage: string;
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-  constructor(props: TransfersFormProps) {
+class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
+  constructor(props: CreateCollegeTeamProps) {
     super(props);
     this._handleCollegeName = this._handleCollegeName.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
@@ -110,4 +110,4 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     );
   }
 }
-export default TransfersForm;
+export default CreateCollegeTeam;
