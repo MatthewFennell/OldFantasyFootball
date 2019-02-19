@@ -11,7 +11,7 @@ interface PriceProps {
   price: (searchByName: string) => void;
 }
 
-class SearchByName extends React.Component<PriceProps, PriceState> {
+class Price extends React.Component<PriceProps, PriceState> {
   constructor(props: PriceProps) {
     super(props);
     this.state = {
@@ -28,8 +28,8 @@ class SearchByName extends React.Component<PriceProps, PriceState> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="create-player-form-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="create-player-form">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="price" className="unselectable">
@@ -53,5 +53,5 @@ class SearchByName extends React.Component<PriceProps, PriceState> {
 export default withRouter(
   reduxForm<{}, any>({
     form: 'login'
-  })(SearchByName)
+  })(Price)
 );
