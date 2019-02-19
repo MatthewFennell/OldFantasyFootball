@@ -1,0 +1,29 @@
+div.create-player-form   {
+    display: flex;
+    flex-direction: column;
+    background-color: green;
+    .create-player-form-row-one {
+      display: flex;
+      background-color: black;
+      justify-content: center;
+    }
+    .create-player-form-row-one>div {
+      background-color: red;
+      margin: 10px;
+      padding: 20px;
+      font-size: 30px;
+      width: 100%;
+    }
+    .create-player-form-row-two {
+      display: flex;
+    //   background-color: green;
+      justify-content: center;
+    }
+    .create-player-form-row-two>div {
+    //   background-color: orange;
+      margin: 10px;
+      padding: 20px;
+      font-size: 30px;
+      width: 100%;
+    }
+  }
