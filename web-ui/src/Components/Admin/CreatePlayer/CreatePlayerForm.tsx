@@ -10,6 +10,7 @@ import { Button } from 'reactstrap';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
+import '../../../Style/Admin/CreatePlayerForm.css';
 
 interface CreatePlayerProps {
   allCollegeTeams: CT[];
@@ -34,7 +35,6 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
     this._handleSurname = this._handleSurname.bind(this);
     this._handleFirstName = this._handleFirstName.bind(this);
     this._handlePrice = this._handlePrice.bind(this);
-    this._getResults = this._getResults.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onValidate = this._onValidate.bind(this);
     this._removeErrorMessage = this._removeErrorMessage.bind(this);
@@ -63,31 +63,29 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
     }
   }
 
-  _getResults() {}
-
   _removeErrorMessage() {
     this.setState({ playerCreated: false });
     this.setState({ errorMessage: '' });
   }
 
   _handlePositionChange(position: string) {
-    this.setState({ positionValue: position }, this._getResults);
+    this.setState({ positionValue: position });
   }
 
   _handleTeamChange(team: string) {
-    this.setState({ teamValue: team }, this._getResults);
+    this.setState({ teamValue: team });
   }
 
   _handleFirstName(firstname: string) {
-    this.setState({ firstNameValue: firstname }, this._getResults);
+    this.setState({ firstNameValue: firstname });
   }
 
   _handleSurname(surname: string) {
-    this.setState({ surnameValue: surname }, this._getResults);
+    this.setState({ surnameValue: surname });
   }
 
   _handlePrice(price: string) {
-    this.setState({ priceValue: price }, this._getResults);
+    this.setState({ priceValue: price });
   }
 
   _onValidate() {
