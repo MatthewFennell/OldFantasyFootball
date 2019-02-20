@@ -44,15 +44,21 @@ div.create-player-form  {
 
   .position-dropdown{
       color: #ffa260;
-      border: 2px solid;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+      border-image-slice: 1;
   }
 
   .team-dropdown{
       color: #ffa260;
-      border: 2px solid;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+      border-image-slice: 1;
   }
 
   .create-player-form-outer{
     color: #ffa260;
-    border: 2px solid;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+    border-image-slice: 1;
   }
