@@ -64,23 +64,26 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
       <div className="outer-transfer-columns">
         <div className="left-rows">
           <div className="transfer-info-row">
-            <div>Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil</div>
+            <div className="info">
+              Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil
+            </div>
             {this.props.transfersMarketOpen ? (
-              <div>Transfer Market: Open</div>
+              <div className="info">Transfer Market: Open</div>
             ) : (
-              <div>Transfer Market: Closed</div>
+              <div className="info">Transfer Market: Closed</div>
             )}
+            <div className="save-changes">
+              <Button
+                id="btnLogin"
+                type="submit"
+                className="btn btn-default btn-round-lg btn-lg first"
+                onClick={(e: any) => this._updateTeam()}
+              >
+                SAVE TEAM
+              </Button>
+            </div>
           </div>
-          <div className="save-changes">
-            <Button
-              id="btnLogin"
-              type="submit"
-              className="btn btn-default btn-round-lg btn-lg first"
-              onClick={(e: any) => this._updateTeam()}
-            >
-              SAVE TEAM
-            </Button>
-          </div>
+
           {this.state.teamUpdated ? <div>Team updated successfully </div> : null}
           {this.state.errorMessage.length > 0 ? (
             <div>Error : {this.state.errorMessage} </div>

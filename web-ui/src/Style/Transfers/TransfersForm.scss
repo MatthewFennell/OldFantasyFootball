@@ -1,26 +1,33 @@
 div.transfer-filter-rows {
   display: flex;
   flex-direction: column;
-  background-color: green;
+  // background-color: green;
   .transfer-form-row-one {
     display: flex;
-    background-color: black;
+    background-color: #222227;
     justify-content: center;
   }
   .transfer-form-row-one>div {
-    background-color: red;
+    // background-color: green;
     margin: 10px;
     padding: 20px;
     font-size: 30px;
     width: 100%;
+    color: #ffa260;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+    border-image-slice: 1;
   }
   .transfer-form-row-two {
     display: flex;
-    background-color: green;
+    // background-color: green;
     justify-content: center;
   }
   .transfer-form-row-two>div {
-    background-color: orange;
+    color: #ffa260;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+    border-image-slice: 1;
     margin: 10px;
     padding: 20px;
     font-size: 30px;
@@ -28,3 +35,23 @@ div.transfer-filter-rows {
   }
 }
 
+.transfers-search-player-form-outer{
+  color: #ffa260;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image-slice: 1;
+}
+
+#transfers-search-by-name-form{
+  h1,
+    label,
+    input,
+    button,
+    h1#greeting {
+      color: #ffa260; 
+      width: 80%;
+      margin-left: 10%;
+      font-size: 24px;    
+      font-weight: 400;
+    }
+}
