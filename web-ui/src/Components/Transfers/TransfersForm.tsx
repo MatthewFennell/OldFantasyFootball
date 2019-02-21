@@ -118,26 +118,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     return (
       <div className="transfer-filter-rows">
         <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <PositionDropDown setPosition={positionChange} />
-          </div>
-          <div>
-            <TeamDropDown setTeam={teamChange} allCollegeTeams={this.props.allCollegeTeams} />
-          </div>
-          <div>
-            <SortByDropdown setSortBy={sortByChange} />
-          </div>
+          <PositionDropDown setPosition={positionChange} />
+          <TeamDropDown setTeam={teamChange} allCollegeTeams={this.props.allCollegeTeams} />
+          <SortByDropdown setSortBy={sortByChange} />
         </div>
         <div className="transfer-form-row-two">
-          <div>
-            <MinimumPriceDropdown setMinimumPrice={minimumPriceChange} />
-          </div>
-          <div>
-            <MaximumPriceDropdown setMaximumPrice={maximumPriceChange} />
-          </div>
-          <div>
-            <SearchByName setSearchByName={searchByName} />
-          </div>
+          <MinimumPriceDropdown setMinimumPrice={minimumPriceChange} />
+          <MaximumPriceDropdown setMaximumPrice={maximumPriceChange} />
+          <SearchByName setSearchByName={searchByName} />
         </div>
       </div>
     );

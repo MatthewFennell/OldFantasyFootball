@@ -28,8 +28,8 @@ class SearchByName extends React.Component<PositionDropdownProps, State> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="transfers-search-player-form-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="transfers-search-by-name-form">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="searchByValue" className="unselectable">
