@@ -179,29 +179,25 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
     }
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <CollegeTeam setTeam={teamChange} />
-          </div>
-          <div>
-            <Goals goals={goalsFor} wording={'for'} />
-            <Goals goals={goalsAgainst} wording={'against'} />
-          </div>
-          <div>
-            <Week week={setWeek} />
-          </div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <CollegeTeam setTeam={teamChange} />
+          <Goals goals={goalsFor} wording={'for'} />
+          <Goals goals={goalsAgainst} wording={'against'} />
+          <Week week={setWeek} />
         </div>
-        <div className="transfer-form-row-two">
-          <div>
+        <div className="admin-form-row-two">
+          <div className="edit-points-info">
             Goalscorers:
             {goalScorers}
           </div>
-          <div>
+          <div className="edit-points-info">
             Assists:
             {assists}
           </div>
-          {this.state.goalsAgainst === '0' ? <div>Clean Sheets: {defenders} </div> : null}
+          {this.state.goalsAgainst === '0' ? (
+            <div className="edit-points-info">Clean Sheets: {defenders} </div>
+          ) : null}
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"

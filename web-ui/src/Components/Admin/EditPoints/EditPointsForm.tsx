@@ -252,47 +252,41 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
     let yellowCards = this._handleYellowCards;
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <CollegeTeam setTeam={setTeam} />
-          </div>
-          <div>
-            <SelectPlayer setPlayerID={setPlayerID} />
-          </div>
-          <div>
-            <Week week={setWeek} />
-          </div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <CollegeTeam setTeam={setTeam} />
+          <SelectPlayer setPlayerID={setPlayerID} />
+          <Week week={setWeek} />
         </div>
-        <div className="transfer-form-row-two">
+        <div className="admin-form-row-two">
           {this.state.playerID !== '' && this.state.week !== '' ? (
-            <div>
+            <div className="edit-points-info">
               Stats for player {this.state.playerName} in week {this.state.week}
             </div>
           ) : null}
         </div>
-        <div className="transfer-form-row-two">
-          <div>
+        <div className="admin-form-row-two">
+          <div className="edit-points-info">
             Goals:
             {this.state.playerStats.playerID !== 'nobody' ? this.state.playerStats.goals : null}
           </div>
-          <div>
+          <div className="edit-points-info">
             Assists:
             {this.state.playerStats.playerID !== 'nobody' ? this.state.playerStats.assists : null}
           </div>
-          <div>
+          <div className="edit-points-info">
             Minutes Played:
             {this.state.playerStats.playerID !== 'nobody'
               ? this.state.playerStats.minutesPlayed
               : null}
           </div>
-          <div>
+          <div className="edit-points-info">
             Yellow Cards:
             {this.state.playerStats.playerID !== 'nobody'
               ? this.state.playerStats.yellowCards
               : null}
           </div>
-          <div>
+          <div className="edit-points-info">
             Man of the Match:
             {this.state.playerStats.playerID !== 'nobody' ? (
               this.state.playerStats.manOfTheMatch ? (
@@ -302,7 +296,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
               )
             ) : null}
           </div>
-          <div>
+          <div className="edit-points-info">
             Red Card:
             {this.state.playerStats.playerID !== 'nobody' ? (
               this.state.playerStats.redCard ? (
@@ -314,7 +308,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
           </div>
 
           {this.state.viewingDefender ? (
-            <div>
+            <div className="edit-points-info">
               Clean Sheet:
               {this.state.playerStats.playerID !== 'nobody' ? (
                 this.state.playerStats.cleanSheet ? (
@@ -326,39 +320,23 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
             </div>
           ) : null}
         </div>
-        <div className="transfer-form-row-two">
+        <div className="admin-form-row-two">
           {this.state.playerID !== '' && this.state.week !== '' ? (
-            <div>Edit their stats below</div>
+            <div className="edit-points-info">Edit their stats below</div>
           ) : null}
         </div>
 
-        <div className="transfer-form-row-two">
+        <div className="admin-form-row-two">
           {this.state.playerID !== '' && this.state.week !== '' ? (
-            <div className="transfer-form-row-two">
-              <div>
-                <Goals goals={setGoals} />
-              </div>
-              <div>
-                <Assists assists={assists} />
-              </div>
-              <div>
-                <MinutesPlayed minutesPlayed={minutesPlayed} />
-              </div>
-              <div>
-                <YellowCard yellowCards={yellowCards} />
-              </div>
-              <div>
-                <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
-              </div>
-              <div>
-                <RedCard setRedCard={redCard} />
-              </div>
+            <div className="admin-form-row-two">
+              <Goals goals={setGoals} />
+              <Assists assists={assists} />
+              <MinutesPlayed minutesPlayed={minutesPlayed} />
+              <YellowCard yellowCards={yellowCards} />
+              <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
+              <RedCard setRedCard={redCard} />
 
-              {this.state.viewingDefender ? (
-                <div>
-                  <CleanSheet setCleanSheet={cleanSheet} />
-                </div>
-              ) : null}
+              {this.state.viewingDefender ? <CleanSheet setCleanSheet={cleanSheet} /> : null}
             </div>
           ) : null}
         </div>
