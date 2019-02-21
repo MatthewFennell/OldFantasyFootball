@@ -69,13 +69,11 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
     let collegeName = this._handleCollegeName;
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <CollegeTeam setTeam={collegeName} />
-          </div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <CollegeTeam setTeam={collegeName} />
         </div>
-        <div className="transfer-form-row-two">
+        <div className="admin-form-row-two">
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"

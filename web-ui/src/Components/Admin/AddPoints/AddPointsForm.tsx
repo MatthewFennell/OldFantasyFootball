@@ -204,43 +204,21 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
     let yellowCards = this._handleYellowCards;
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <CollegeTeam setTeam={setTeam} />
-          </div>
-          <div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <CollegeTeam setTeam={setTeam} />
             <SelectPlayer setPlayerID={setPlayerID} />
-          </div>
-          <div>
-            <Week week={setWeek} />
-          </div>
+          <Week week={setWeek} />
         </div>
-        <div className="transfer-form-row-two">
-          <div>
-            <Goals goals={setGoals} />
-          </div>
-          <div>
-            <Assists assists={assists} />
-          </div>
-          <div>
-            <MinutesPlayed minutesPlayed={minutesPlayed} />
-          </div>
-          <div>
-            <YellowCard yellowCards={yellowCards} />
-          </div>
-          <div>
-            <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
-          </div>
-          <div>
-            <RedCard setRedCard={redCard} />
-          </div>
+        <div className="admin-form-row-two">
+          <Goals goals={setGoals} />
+          <Assists assists={assists} />
+          <MinutesPlayed minutesPlayed={minutesPlayed} />
+          <YellowCard yellowCards={yellowCards} />
+          <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
+          <RedCard setRedCard={redCard} />
 
-          {this.state.viewingDefender ? (
-            <div>
-              <CleanSheet setCleanSheet={cleanSheet} />
-            </div>
-          ) : null}
+          {this.state.viewingDefender ? <CleanSheet setCleanSheet={cleanSheet} /> : null}
         </div>
         <div>
           <Button

@@ -1,25 +1,25 @@
-div.create-player-form  {
+div.admin-form  {
     display: flex;
     flex-direction: column;
     // background-color: green;
-    .create-player-form-row-one {
+    .admin-form-row-one {
       display: flex;
       background-color: #222227;
       justify-content: center;
     }
-    .create-player-form-row-one>div {
+    .admin-form-row-one>div {
       background-color: #222227;
       margin: 10px;
       padding: 20px;
       font-size: 30px;
       width: 100%;
     }
-    .create-player-form-row-two {
+    .admin-form-row-two {
       display: flex;
       background-color: #222227;
       justify-content: center;
     }
-    .create-player-form-row-two>div {
+    .admin-form-row-two>div {
     //   background-color: orange;
       margin: 10px;
       padding: 20px;
@@ -28,7 +28,7 @@ div.create-player-form  {
     }
   }
 
-  #create-player-form {
+  #create-player-form, #create-college-team-form, #add-points-week-form, #add-points-goals, #add-points-assists, #add-points-minutes {
     h1,
     label,
     input,
@@ -56,7 +56,15 @@ div.create-player-form  {
       border-image-slice: 1;
   }
 
-  .create-player-form-outer{
+  .create-player-form-outer, .add-points-assists-outer, .add-points-minutes-outer{
+    color: #ffa260;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+    border-image-slice: 1;
+  }
+
+
+.create-college-team-form-outer, .add-points-week-outer, .add-points-goals-outer{
     color: #ffa260;
     border: 3px solid;
     border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);

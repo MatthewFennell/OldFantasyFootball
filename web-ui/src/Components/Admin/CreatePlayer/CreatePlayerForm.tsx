@@ -146,13 +146,13 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
     let surname = this._handleSurname;
 
     return (
-      <div className="create-player-form">
-        <div className="create-player-form-row-one">
+      <div className="admin-form">
+        <div className="admin-form-row-one">
           <FirstName firstName={firstName} />
           <Surname surname={surname} />
           <PositionsDropDown setPosition={positionChange} />
         </div>
-        <div className="create-player-form-row-two">
+        <div className="admin-form-row-two">
           <Price price={price} />
           <CollegeTeam setTeam={teamChange} />
           <div>
