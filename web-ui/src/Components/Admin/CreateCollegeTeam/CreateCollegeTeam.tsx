@@ -81,13 +81,11 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
     let collegeName = this._handleCollegeName;
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <CollegeName collegeName={collegeName} />
-          </div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <CollegeName collegeName={collegeName} />
         </div>
-        <div className="transfer-form-row-two">
+        <div className="admin-form-row-two">
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"

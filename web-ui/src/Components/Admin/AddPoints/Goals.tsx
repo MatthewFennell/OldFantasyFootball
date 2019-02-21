@@ -28,8 +28,8 @@ class Goals extends React.Component<GoalsProps, GoalsState> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="add-points-goals-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="add-points-goals">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="goals" className="unselectable">

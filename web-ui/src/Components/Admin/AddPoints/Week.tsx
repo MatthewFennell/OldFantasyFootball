@@ -27,8 +27,8 @@ class Week extends React.Component<WeekProps, WeekState> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="add-points-week-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="add-points-week-form">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="week" className="unselectable">

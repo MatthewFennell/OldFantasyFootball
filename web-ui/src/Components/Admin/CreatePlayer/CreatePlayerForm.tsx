@@ -146,25 +146,15 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
     let surname = this._handleSurname;
 
     return (
-      <div className="transfer-filter-rows">
-        <div className="transfer-form-row-one">
-          <div className="position-dropdown">
-            <FirstName firstName={firstName} />
-          </div>
-          <div>
-            <Surname surname={surname} />
-          </div>
-          <div>
-            <PositionsDropDown setPosition={positionChange} />
-          </div>
+      <div className="admin-form">
+        <div className="admin-form-row-one">
+          <FirstName firstName={firstName} />
+          <Surname surname={surname} />
+          <PositionsDropDown setPosition={positionChange} />
         </div>
-        <div className="transfer-form-row-two">
-          <div>
-            <Price price={price} />
-          </div>
-          <div>
-            <CollegeTeam setTeam={teamChange} />
-          </div>
+        <div className="admin-form-row-two">
+          <Price price={price} />
+          <CollegeTeam setTeam={teamChange} />
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"

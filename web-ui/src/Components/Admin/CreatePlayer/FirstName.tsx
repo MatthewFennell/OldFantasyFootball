@@ -27,8 +27,8 @@ class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="create-player-form-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="create-player-form">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="firstName" className="unselectable">

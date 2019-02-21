@@ -27,8 +27,8 @@ class MinutesPlayed extends React.Component<MinutesPlayedProps, State> {
 
   render() {
     return (
-      <div id="search-by-name-form" onSubmit={e => e.preventDefault()}>
-        <Form id="search-by-name-form">
+      <div className="add-points-minutes-outer" onSubmit={e => e.preventDefault()}>
+        <Form id="add-points-minutes">
           <div id="login-input-fields">
             <FormGroup>
               <Label for="minutesPlayed" className="unselectable">
