@@ -207,7 +207,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
       <div className="admin-form">
         <div className="admin-form-row-one">
           <CollegeTeam setTeam={setTeam} />
-            <SelectPlayer setPlayerID={setPlayerID} />
+          <SelectPlayer setPlayerID={setPlayerID} />
           <Week week={setWeek} />
         </div>
         <div className="admin-form-row-two">
