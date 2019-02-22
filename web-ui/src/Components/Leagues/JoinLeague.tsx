@@ -61,7 +61,7 @@ class JoinLeague extends React.Component<
 
   render() {
     return (
-      <div id="join-league-form" onSubmit={e => e.preventDefault()}>
+      <div className="join-league-form" onSubmit={e => e.preventDefault()}>
         <Form id="join-league-form">
           <h1 id="greeting" className="text-center unselectable">
             Join a league!

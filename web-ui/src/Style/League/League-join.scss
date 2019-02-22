@@ -1,23 +1,30 @@
 #join-league-form {
   margin-top: 10vh;
   height: 70vh;
-  background-color: lightgrey;
+  background-color: #222227;
+  color: #ffa260;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+      border-image-slice: 1;
+      margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10%;
   h1,
   label,
   input,
   button,
   h1#greeting {
-    color: blue; // font-weight: bold; // text-align: center;
+    color: #ffa260; // font-weight: bold; // text-align: center;
     width: 80%;
     margin-left: 10%;
     font-size: 24px;
   }
   h1#greeting {
-    color: black;
+    color: rgb(216, 216, 32);
     padding-top: 100px;
   }
   #btnJoinLeague {
-    color: green;
+    color: #ffa260;
     display: table;
     margin: auto;
     border-radius: 35px;

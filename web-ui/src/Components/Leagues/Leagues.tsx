@@ -92,8 +92,8 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
       leagues.push(p);
     }
 
-    const offSet = this.props.leaguePageBeingViewed === 'home' ? 1 : 0;
-    const width = this.props.leaguePageBeingViewed === 'home' ? 10 : 6;
+    const offSet = this.props.leaguePageBeingViewed === 'home' ? 0 : 0;
+    const width = this.props.leaguePageBeingViewed === 'home' ? 12 : 6;
 
     const renderCreateLeague = () => (
       <Col xs={6} md={6} lg={6} className="league-info-screen">
@@ -124,6 +124,7 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
       <Container>
         <Row>
           <Col
+            className="huh"
             xs={width}
             xsOffset={offSet}
             md={width}
