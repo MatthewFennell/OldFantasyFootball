@@ -77,7 +77,7 @@ class CreateLeagueClass extends React.Component<
 
   render() {
     return (
-      <div id="create-league-form" onSubmit={e => e.preventDefault()}>
+      <div className="create-league-form" onSubmit={e => e.preventDefault()}>
         <Form id="create-league-form">
           <h1 id="greeting" className="text-center unselectable">
             Create your league!

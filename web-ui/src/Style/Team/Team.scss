@@ -2,20 +2,39 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-color: #222227;
 
     .row-1-info {
-        background-color: coral;
+        background-color: #222227;
         flex-grow: 1;
         // height: 100%;
+        .total-points, .week-points, .dropdown{
+          color: #ffa260;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image-slice: 1;
+          background-color: #222227;
+
+        }
     }
 
     .row-2-stats{
-        background-color: lightblue;
+        background-color: #222227;
         flex-grow: 1;
+
+        .average-points, .player-most-points, .user-most-points{
+          color: #ffa260;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image-slice: 1;
+          background-color: #222227;
+
+        }
+
     }
 
     .row-3-squad{
-        background-color: grey;
+        background-color: #3c3c44;
         flex-grow: 10;
         height: 100%;
         // height: 50vh;
@@ -29,7 +48,7 @@
   
   .outer-rows > div {
     width: 100%;
-    margin: 10px;
+    // margin: 10px;
     text-align: center;
     line-height: 75px;
     font-size: 30px;       

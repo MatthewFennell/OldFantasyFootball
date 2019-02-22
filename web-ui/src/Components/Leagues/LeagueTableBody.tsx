@@ -11,7 +11,7 @@ class LeagueTableBody extends React.Component<LeagueTableBodyProps> {
   render() {
     return (
       <tbody className="my-active-leagues">
-        <tr className="league" key={'header'}>
+        <tr className="league-header" key={'header'}>
           <td className="league-name">{'League Name'}</td>
           <td className="position">{'Position'}</td>
         </tr>

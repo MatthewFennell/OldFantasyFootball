@@ -64,16 +64,14 @@ class Info extends React.Component<StatsProps, InfoState> {
       <div className="info-columns">
         <div className="total-points">Total Points: {totalPoints}</div>
 
-        <div className="dropdown">
-          <Dropdown isOpen={this.state.dropdownOpen} toggle={this._toggle}>
-            {'Week: '} {this.props.weekBeingViewed}
-            <DropdownToggle caret className="week-menu-toggle">
-              {' '}
-              {' ▼'}
-            </DropdownToggle>
-            <DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
-          </Dropdown>
-        </div>
+        <Dropdown isOpen={this.state.dropdownOpen} toggle={this._toggle}>
+          {'Week: '} {this.props.weekBeingViewed}
+          <DropdownToggle caret className="week-menu-toggle">
+            {' '}
+            {' ▼'}
+          </DropdownToggle>
+          <DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
+        </Dropdown>
         <div className="week-points">Week points : {weeklyPointsCache[weekBeingViewed]}</div>
       </div>
     );
