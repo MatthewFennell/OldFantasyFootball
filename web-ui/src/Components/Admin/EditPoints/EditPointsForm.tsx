@@ -344,7 +344,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
         <div>
           <Button
             className="btn btn-default btn-round-lg btn-lg second"
-            id="btnRegister"
+            id="btnEditPoints"
             onClick={() => this._onValidate()}
           >
             Edit Points

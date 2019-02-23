@@ -74,7 +74,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
             )}
             <div className="save-changes">
               <Button
-                id="btnLogin"
+                id="transfers-save-team"
                 type="submit"
                 className="btn btn-default btn-round-lg btn-lg first"
                 onClick={(e: any) => this._updateTeam()}

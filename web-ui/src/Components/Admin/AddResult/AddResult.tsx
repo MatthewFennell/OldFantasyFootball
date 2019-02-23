@@ -201,7 +201,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
-              id="btnRegister"
+              id="btnAddResult"
               onClick={() => this._onValidate()}
             >
               Create result

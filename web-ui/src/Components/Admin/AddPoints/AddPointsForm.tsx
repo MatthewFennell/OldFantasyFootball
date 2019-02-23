@@ -223,7 +223,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
         <div>
           <Button
             className="btn btn-default btn-round-lg btn-lg second"
-            id="btnRegister"
+            id="btnAddPoints"
             onClick={() => this._onValidate()}
           >
             Add Points

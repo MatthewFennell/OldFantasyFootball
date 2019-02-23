@@ -76,3 +76,43 @@ div.admin-form  {
     border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
     border-image-slice: 1;
   }
+
+  #btnCreatePlayer, #btnDeletePlayer, #btnAddResult {
+    color: #ffa260;
+    display: table;
+    margin: auto;
+    border-radius: 35px;
+    border-color: #e07c34 !important;
+    width: 100%;
+    font-weight: bold; // padding: 13px 16px;
+    background-color: #222227;
+    padding: 13px 16px;
+    border: 2px solid;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      color: rgb(209, 209, 27);
+      outline: none;
+    }
+  }
+
+   #btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints, #btnEditPoints {
+    color: #ffa260;
+    display: table;
+    margin: auto;
+    border-radius: 35px;
+    border-color: #e07c34 !important;
+    width: 20%;
+    font-weight: bold; // padding: 13px 16px;
+    background-color: #222227;
+    padding: 13px 16px;
+    border: 2px solid;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      color: rgb(209, 209, 27);
+      outline: none;
+    }
+  }

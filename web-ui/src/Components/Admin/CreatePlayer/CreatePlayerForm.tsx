@@ -158,7 +158,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
-              id="btnRegister"
+              id="btnCreatePlayer"
               onClick={() => this._onValidate()}
             >
               Create Player

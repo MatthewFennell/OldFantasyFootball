@@ -27,16 +27,17 @@
     display: table;
     margin: auto;
     border-radius: 35px;
+    border-color: #e07c34 !important;
     width: 40%;
     font-weight: bold; // padding: 13px 16px;
-    background-color: black;
+    background-color: #222227;
     padding: 13px 16px;
+    border: 2px solid;
     &:focus {
       outline: none;
     }
     &:hover {
-      color: red;
-      background-color: white;
+      color: rgb(209, 209, 27);
       outline: none;
     }
   }
