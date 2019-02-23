@@ -77,7 +77,7 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
           <div>
             <Button
               className="btn btn-default btn-round-lg btn-lg second"
-              id="btnRegister"
+              id="btnDeleteCollegeTeam"
               onClick={() => this._onSubmit()}
             >
               Delete College Team

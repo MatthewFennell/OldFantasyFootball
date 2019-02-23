@@ -84,7 +84,7 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
         <div>
           <Button
             className="btn btn-default btn-round-lg btn-lg second"
-            id="btnRegister"
+            id="btnDeletePlayer"
             onClick={() => this._onValidate()}
           >
             Delete player
