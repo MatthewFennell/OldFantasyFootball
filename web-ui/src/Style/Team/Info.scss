@@ -8,7 +8,6 @@
 }
 
 .info-columns>div {
-  background-color: #f1f1f1;
   width: 30%;
   margin: 10px;
   text-align: center;
@@ -16,17 +15,13 @@
   font-size: 18px;
 }
 
-div.dropdown {
-  // line-height: 25px;// margin-top: 12.5px;
-}
-
 .week-menu-toggle {
-  color: black; // Color of the small triangle to generate the dropdown
+  color: #ffa260; // Color of the small triangle to generate the dropdown
   outline: 0;
   align-content: center;
   padding: 0px;
   margin: 0px;
-  background: none;
+  background: #222227;
 }
 
 .week-menu-toggle:focus {
@@ -40,7 +35,7 @@ div.dropdown {
 
 // The hover colour of the div
 .menu-items:hover {
-  background: orange;
+  background: green;
 }
 
 // Colour of the text when false
