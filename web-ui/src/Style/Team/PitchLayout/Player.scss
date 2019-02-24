@@ -18,4 +18,13 @@
     justify-content: center;
     height: 100%;
   }
+
+  .filled-player{
+
+    height: 100%;
+
+    .name, .value{
+      margin-bottom: 0px;
+    }
+  }
   
