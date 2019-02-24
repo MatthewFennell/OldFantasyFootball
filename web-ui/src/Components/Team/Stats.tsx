@@ -34,7 +34,7 @@ class Stats extends React.Component<StatsProps, StatsState> {
             {topWeeklyPlayerCache[weekBeingViewed].points} points)
           </div>
         ) : (
-          <div className="player-most-points">Player with most points :</div>
+          <div className="player-most-points">Player of the week :</div>
         )}
 
         {topWeeklyUsersCache[weekBeingViewed] !== undefined ? (
@@ -44,7 +44,7 @@ class Stats extends React.Component<StatsProps, StatsState> {
             {topWeeklyUsersCache[weekBeingViewed].points} points )
           </div>
         ) : (
-          <div className="user-most-points">Player with most points :</div>
+          <div className="user-most-points">Team of the week :</div>
         )}
       </div>
     );

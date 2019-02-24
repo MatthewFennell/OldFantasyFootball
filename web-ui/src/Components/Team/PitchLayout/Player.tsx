@@ -64,7 +64,7 @@ class Player extends React.Component<PlayerProps, {}> {
     } else {
       const { firstName, surname, weeklyPoints, price } = this.props.player;
       return (
-        <div className="player" onClick={this._onClick}>
+        <div className="filled-player" onClick={this._onClick}>
           <p className="name">
             {firstName} {surname}
           </p>
