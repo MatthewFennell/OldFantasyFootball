@@ -47,7 +47,7 @@ class Info extends React.Component<StatsProps, InfoState> {
     }
 
     const weekOptions = allWeeks.map(week => (
-      <p className="menu-items">
+      <p className="team-menu-items">
         <DropdownItem
           className={'week-menu-item-' + (week === this.props.weekBeingViewed)}
           key={week}

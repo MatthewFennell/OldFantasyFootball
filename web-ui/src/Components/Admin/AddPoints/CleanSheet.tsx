@@ -38,7 +38,7 @@ class CleanSheet extends React.Component<CleanSheetProps, CleanSheetState> {
   render() {
     let teams: string[] = ['Yes', 'No'];
     const teamOptions = teams.map(team => (
-      <p className="menu-items">
+      <p className="team-menu-items">
         <DropdownItem
           className={'team-menu-item-' + (team === this.state.cleanSheet)}
           key={team}

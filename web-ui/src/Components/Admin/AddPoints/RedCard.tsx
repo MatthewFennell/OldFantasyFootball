@@ -38,7 +38,7 @@ class RedCard extends React.Component<RedCardProps, RedCardState> {
   render() {
     let options: string[] = ['Yes', 'No'];
     const teamOptions = options.map(option => (
-      <p className="menu-items">
+      <p className="team-menu-items">
         <DropdownItem
           className={'team-menu-item-' + (option === this.state.redCard)}
           key={option}

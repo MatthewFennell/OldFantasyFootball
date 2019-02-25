@@ -34,7 +34,7 @@ class YellowCard extends React.Component<YellowCardProps, YellowCardState> {
   render() {
     let options: string[] = ['0', '1', '2'];
     const teamOptions = options.map(option => (
-      <p className="menu-items">
+      <p className="team-menu-items">
         <DropdownItem
           className={'team-menu-item-' + (option === this.state.yellowCards)}
           key={option}
