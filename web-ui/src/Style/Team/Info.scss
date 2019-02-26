@@ -40,27 +40,41 @@
 
 // Colour of the text when false
 .week-menu-item-false {
-  color: pink;
-  border: 0;
-  outline: 0;
-  background: none;
-  font-weight: normal;
+  color: white;
+    border: 0;
+    outline: 0;
+    background: none;
+    font-weight: normal;
+    width: 100%;
+    padding: 0px;
+    height: 100%;
 }
 
 // Colour of the text when true
 .week-menu-item-true {
-  color: red;
-  border: 0;
-  outline: 0;
-  background: none;
-  font-weight: normal;
+  color: rgb(226, 226, 43);
+    border: 0;
+    outline: 0;
+    background: none;
+    font-weight: normal;
+    width: 100%;
+    padding: 0px;
+    height: 100%;
 }
 
 .week-menu {
   min-width: 0px;
+  padding: 0px;
 }
 
 .week-change-error {
   font-weight: bold;
   min-height: 24px;
+}
+
+.team-menu-items{
+  margin: 0px;
+  height: 30px;
+  background: #80808a;
+  line-height: 30px;
 }

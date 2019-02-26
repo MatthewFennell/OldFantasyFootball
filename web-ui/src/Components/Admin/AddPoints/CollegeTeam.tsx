@@ -58,7 +58,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 
   render() {
     const teamOptions = this.props.allCollegeTeams.map(team => (
-      <p className="menu-items">
+      <p className="team-menu-items">
         <DropdownItem
           className={'team-menu-item-' + (team.name === this.state.teamValue)}
           key={team.name}
