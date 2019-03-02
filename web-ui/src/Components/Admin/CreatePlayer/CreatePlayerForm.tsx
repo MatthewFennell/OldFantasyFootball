@@ -3,7 +3,7 @@ import { createPlayer } from '../../../Services/Player/PlayerService';
 import { CreatePlayer } from '../../../Models/Interfaces/CreatePlayer';
 import FirstName from './FirstName';
 import Surname from './Surname';
-import PositionsDropDown from './PositionsDropdown';
+// import PositionsDropDown from './PositionsDropdown';
 import Price from './Price';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
@@ -11,6 +11,7 @@ import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
 import '../../../Style/Admin/CreatePlayerForm.css';
+import CustomDropdown from '../../Reusable/CustomDropdown';
 
 interface CreatePlayerProps {
   allCollegeTeams: CT[];
@@ -150,7 +151,12 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
         <div className="admin-form-row-one">
           <FirstName firstName={firstName} />
           <Surname surname={surname} />
-          <PositionsDropDown setPosition={positionChange} />
+          {/* <PositionsDropDown setPosition={positionChange} /> */}
+          <CustomDropdown
+            title={'Position'}
+            setData={positionChange}
+            values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
+          />
         </div>
         <div className="admin-form-row-two">
           <Price price={price} />

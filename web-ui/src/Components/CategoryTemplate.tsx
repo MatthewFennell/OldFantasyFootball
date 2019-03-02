@@ -13,6 +13,7 @@ interface CategoryTemplateProps {
 
 class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
   public render() {
+    console.log('WHAT THE FUCK');
     let header = document.getElementById('header');
     if (header != null) {
       header.hidden = false;

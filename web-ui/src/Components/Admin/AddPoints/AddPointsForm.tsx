@@ -6,14 +6,15 @@ import Week from './Week';
 import Goals from './Goals';
 import Assists from './Assists';
 import MinutesPlayed from './MinutesPlayed';
-import ManOfTheMatch from './ManOfTheMatch';
-import RedCard from './RedCard';
-import CleanSheet from './CleanSheet';
-import YellowCard from './YellowCard';
+// import ManOfTheMatch from './ManOfTheMatch';
+// import RedCard from './RedCard';
+// import CleanSheet from './CleanSheet';
+// import YellowCard from './YellowCard';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { AddPoints } from '../../../Models/Interfaces/AddPoints';
 import { addPlayerPoints } from '../../../Services/Player/PlayerService';
 import '../../../Style/Admin/ErrorMessage.css';
+import CustomDropdown from '../../Reusable/CustomDropdown';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -214,11 +215,25 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
           <Goals goals={setGoals} />
           <Assists assists={assists} />
           <MinutesPlayed minutesPlayed={minutesPlayed} />
-          <YellowCard yellowCards={yellowCards} />
-          <ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
-          <RedCard setRedCard={redCard} />
+          {/* <YellowCard yellowCards={yellowCards} /> */}
+          <CustomDropdown title={'Yellow Cards'} setData={yellowCards} values={['0', '1', '2']} />
+          <CustomDropdown
+            title={'Man of the Match'}
+            setData={manOfTheMatch}
+            values={['No', 'Yes']}
+          />
+          {/* <ManOfTheMatch setManOfTheMatch={manOfTheMatch} /> */}
+          <CustomDropdown
+            title={'Man of the Match'}
+            setData={manOfTheMatch}
+            values={['No', 'Yes']}
+          />
+          {/* <RedCard setRedCard={redCard} /> */}
+          <CustomDropdown title={'Red Card'} setData={redCard} values={['No', 'Yes']} />
 
-          {this.state.viewingDefender ? <CleanSheet setCleanSheet={cleanSheet} /> : null}
+          {this.state.viewingDefender ? (
+            <CustomDropdown title={'Clean Sheet'} setData={cleanSheet} values={['No', 'Yes']} />
+          ) : null}
         </div>
         <div>
           <Button

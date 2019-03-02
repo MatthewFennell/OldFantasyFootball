@@ -18,7 +18,7 @@ class SplashScreen extends React.Component<Props, {}> {
   componentDidMount() {
     let header: HTMLElement | null = document.getElementById('header');
     if (header != null) {
-      header.hidden = true;
+      header.hidden = false;
     }
   }
   render() {
