@@ -69,6 +69,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   }
 
   _select = (target: React.RefObject<HTMLDivElement>, name: string) => {
+    console.log('DAFUQ');
     this.teamRef.current!.classList.remove('selected');
     this.transfersRef.current!.classList.remove('selected');
     this.leagueRef.current!.classList.remove('selected');
@@ -81,6 +82,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   };
 
   render() {
+    console.log('pathname = ' + this.props.location.pathname);
     return (
       <div id="header">
         <Row className="categories-user unselectable">
@@ -138,7 +140,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
                     select={() => this._onAdminSelect()}
                     imgSrc="Windy.png"
                     text="Admin"
-                  />
+                  />{' '}
                 </Link>
               ) : null}
             </div>
