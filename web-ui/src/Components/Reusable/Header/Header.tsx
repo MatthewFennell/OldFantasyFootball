@@ -5,6 +5,7 @@ import { Image } from 'react-bootstrap';
 import ButtonPageSelector from './ButtonPageSelector';
 import { getUser } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
+import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 
 interface Props {
   setPageBeingViewed: (page: string) => void;
@@ -13,7 +14,7 @@ interface Props {
   surname: string;
   roles: string[];
 }
-class Header extends React.Component<Props> {
+class Header extends React.Component<Props & RouteComponentProps> {
   private transfersRef: React.RefObject<HTMLDivElement>;
   private leagueRef: React.RefObject<HTMLDivElement>;
   private settingsRef: React.RefObject<HTMLDivElement>;
@@ -25,7 +26,7 @@ class Header extends React.Component<Props> {
   private _onTransfersSelect: () => void;
   private _onAdminSelect: () => void;
 
-  constructor(props: Props) {
+  constructor(props: Props & RouteComponentProps) {
     super(props);
 
     this.transfersRef = React.createRef<HTMLDivElement>();
@@ -88,47 +89,57 @@ class Header extends React.Component<Props> {
           </Col>
           <Col lg="9">
             <div id="midOptions">
-              <ButtonPageSelector
-                id="transactions"
-                setRef={() => this.teamRef}
-                selected={true}
-                select={() => this._onTeamSelect()}
-                imgSrc="Home.png"
-                text="Team"
-              />
-              <ButtonPageSelector
-                id="categories"
-                setRef={() => this.transfersRef}
-                selected={false}
-                select={() => this._onTransfersSelect()}
-                imgSrc="Max.png"
-                text="Transfers"
-              />
-              <ButtonPageSelector
-                id="settings"
-                setRef={() => this.leagueRef}
-                selected={false}
-                select={() => this._onLeagueSelect()}
-                imgSrc="Rupert.png"
-                text="Leagues"
-              />
-              <ButtonPageSelector
-                id="settings"
-                setRef={() => this.settingsRef}
-                selected={false}
-                select={() => this._onSettingsSelect()}
-                imgSrc="Windy.png"
-                text="Settings"
-              />
-              {this._isAdmin() ? (
+              <Link to="/team">
+                <ButtonPageSelector
+                  id="transactions"
+                  setRef={() => this.teamRef}
+                  selected={this.props.location.pathname === '/team'}
+                  select={() => this._onTeamSelect()}
+                  imgSrc="Home.png"
+                  text="Team"
+                />
+              </Link>
+              <Link to="/transfers">
+                <ButtonPageSelector
+                  id="categories"
+                  setRef={() => this.transfersRef}
+                  selected={this.props.location.pathname === '/transfers'}
+                  select={() => this._onTransfersSelect()}
+                  imgSrc="Max.png"
+                  text="Transfers"
+                />
+              </Link>
+              <Link to="/leagues">
                 <ButtonPageSelector
                   id="settings"
-                  setRef={() => this.adminRef}
-                  selected={false}
-                  select={() => this._onAdminSelect()}
-                  imgSrc="Windy.png"
-                  text="Admin"
+                  setRef={() => this.leagueRef}
+                  selected={this.props.location.pathname === '/leagues'}
+                  select={() => this._onLeagueSelect()}
+                  imgSrc="Rupert.png"
+                  text="Leagues"
                 />
+              </Link>
+              <Link to="/settings">
+                <ButtonPageSelector
+                  id="settings"
+                  setRef={() => this.settingsRef}
+                  selected={this.props.location.pathname === '/settings'}
+                  select={() => this._onSettingsSelect()}
+                  imgSrc="Windy.png"
+                  text="Settings"
+                />
+              </Link>
+              {this._isAdmin() ? (
+                <Link to="/admin">
+                  <ButtonPageSelector
+                    id="settings"
+                    setRef={() => this.adminRef}
+                    selected={this.props.location.pathname === '/admin'}
+                    select={() => this._onAdminSelect()}
+                    imgSrc="Windy.png"
+                    text="Admin"
+                  />
+                </Link>
               ) : null}
             </div>
           </Col>
@@ -144,4 +155,4 @@ class Header extends React.Component<Props> {
     );
   }
 }
-export default Header;
+export default withRouter(Header);
