@@ -11,6 +11,7 @@ import Transfers from '../Containers/Transfers/Transfers';
 import Team from '../Containers/Team/Team';
 import Leagues from '../Containers/League/Leagues';
 import Admin from '../Containers/Admin/Admin';
+import Settings from '../Components/Settings/Settings';
 
 class App extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class App extends React.Component {
           <Route exact path="/transfers" component={Transfers} />
           <Route exact path="/leagues" component={Leagues} />
           <Route exact path="/admin" component={Admin} />
+          <Route exact path="/settings" component={Settings} />
           <PageBody />
         </Switch>
       </React.Fragment>

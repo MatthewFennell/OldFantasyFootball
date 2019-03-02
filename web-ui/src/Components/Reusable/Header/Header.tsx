@@ -82,7 +82,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   };
 
   render() {
-    console.log('pathname = ' + this.props.location.pathname);
+    const { firstname, surname } = this.props;
     return (
       <div id="header">
         <Row className="categories-user unselectable">
@@ -148,7 +148,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
           <Col lg="2">
             <div id="account">
               <div id="avatar" />
-              <h5 id="name">{'Firstname' + ' ' + 'Surname'}</h5>
+              <h5 id="name">{firstname + ' ' + surname}</h5>
               <i className="fa fa-caret-down cursor-pointer" aria-hidden="true" />
             </div>
           </Col>
