@@ -58,17 +58,14 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
   constructor(props: TransactionsProps) {
     super(props);
     this._generateCache = this._generateCache.bind(this);
-
   }
 
   componentDidMount() {
-
     let header: HTMLElement | null = document.getElementById('header');
     if (header != null) {
       header.hidden = false;
     }
 
-    
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
       // Automatically start viewing the latest

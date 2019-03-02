@@ -56,7 +56,7 @@ class Login extends React.Component<UserProps & LoginProps> {
           )}
         </div>
       );
-    } else {      
+    } else {
       return <SplashScreen redirect={'/team'} />;
     }
   }
