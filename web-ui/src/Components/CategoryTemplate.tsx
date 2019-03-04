@@ -13,7 +13,6 @@ interface CategoryTemplateProps {
 
 class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
   public render() {
-    console.log('WHAT THE FUCK');
     let header = document.getElementById('header');
     if (header != null) {
       header.hidden = false;
@@ -34,6 +33,7 @@ class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
         return <Team />;
       }
     } else {
+      console.log('SPLASH SCREEN');
       return <SplashScreen redirect={'/login'} />;
     }
   }
