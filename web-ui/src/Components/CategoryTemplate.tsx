@@ -33,7 +33,6 @@ class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
         return <Team />;
       }
     } else {
-      console.log('SPLASH SCREEN');
       return <SplashScreen redirect={'/login'} />;
     }
   }

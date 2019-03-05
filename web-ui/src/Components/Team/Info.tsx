@@ -42,6 +42,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 
   render() {
     let allWeeks: number[] = [];
+    allWeeks.push(-1);
     for (let x = 0; x <= this.props.totalNumberOfWeeks; x++) {
       allWeeks.push(x);
     }
@@ -54,7 +55,7 @@ class Info extends React.Component<StatsProps, InfoState> {
           value={week}
           onClick={() => this._handleWeekChange(week)}
         >
-          Week {week}
+          {week === -1 ? 'Active Team' : 'Week ' + week}
         </DropdownItem>
       </p>
     ));
@@ -65,7 +66,9 @@ class Info extends React.Component<StatsProps, InfoState> {
         <div className="total-points">Total Points: {totalPoints}</div>
 
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this._toggle}>
-          {'Week: '} {this.props.weekBeingViewed}
+          {this.props.weekBeingViewed === -1
+            ? 'Active Team'
+            : 'Week : ' + this.props.weekBeingViewed}
           <DropdownToggle caret className="week-menu-toggle">
             {' '}
             {' ▼'}

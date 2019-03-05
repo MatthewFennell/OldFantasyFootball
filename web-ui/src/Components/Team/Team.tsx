@@ -95,6 +95,12 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
         this.props.setAllCollegeTeams(response);
       });
     }
+
+    if (this.props.weeklyTeamCache[-1] === undefined) {
+      getTeamForUserInWeek(-1).then(weeklyTeam => {
+        this.props.addToWeeklyTeamCache(-1, weeklyTeam);
+      });
+    }
   }
 
   _generateCache(currentWeek: number) {

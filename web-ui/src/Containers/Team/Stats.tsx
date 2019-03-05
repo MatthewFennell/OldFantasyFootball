@@ -8,7 +8,10 @@ import {
   getTopWeeklyUserCache
 } from '../../Selectors/StatsSelector';
 
+import { getRemainingBudget } from '../../Selectors/TransfersSelector';
+
 const mapStateToProps = (state: State) => ({
+  remainingBudget: getRemainingBudget(state),
   averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
   weekBeingViewed: getWeekBeingViewed(state),
   topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
