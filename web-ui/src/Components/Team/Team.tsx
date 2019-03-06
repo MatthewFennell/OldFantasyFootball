@@ -65,11 +65,12 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
     if (header != null) {
       header.hidden = false;
     }
+    this.props.setWeekBeingViewed(-1);
 
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
       // Automatically start viewing the latest
-      this.props.setWeekBeingViewed(currentWeek);
+      // this.props.setWeekBeingViewed(currentWeek);
       this.props.setTotalNumberOfWeeks(currentWeek);
       this._generateCache(currentWeek);
 
