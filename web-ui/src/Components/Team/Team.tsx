@@ -6,7 +6,7 @@ import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-import { MostValuable} from "../../Models/Interfaces/MostValuable";
+import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
@@ -54,7 +54,7 @@ interface TransactionsProps {
   setRemainingBudget: (budget: number) => void;
 
   setMostValuable: (mostValuable: MostValuable) => void;
-  mostValuable: MostValuable
+  mostValuable: MostValuable;
 }
 
 interface TransactionsState {}
