@@ -536,9 +536,9 @@ public class PlayerManageTest {
         users.add(user3);
 
         when(applicationUserRepo.findAll()).thenReturn(users);
-        when(weeklyTeamRepo.findMostRecentWeeklyTeam(user)).thenReturn(Optional.of(uwt));
-        when(weeklyTeamRepo.findMostRecentWeeklyTeam(user1)).thenReturn(Optional.of(uwt1));
-        when(weeklyTeamRepo.findMostRecentWeeklyTeam(user2)).thenReturn(Optional.of(uwt2));
+        when(weeklyTeamRepo.findActiveTeam(user)).thenReturn(Optional.of(uwt));
+        when(weeklyTeamRepo.findActiveTeam(user)).thenReturn(Optional.of(uwt1));
+        when(weeklyTeamRepo.findActiveTeam(user2)).thenReturn(Optional.of(uwt2));
 
         playerManager.makeNewWeek(1);
     }
@@ -1300,6 +1300,8 @@ public class PlayerManageTest {
         when(weeklyTeamRepo.findByPlayersAndWeek(player6, 1)).thenReturn(Collections.singletonList(uwt11));
         when(weeklyTeamRepo.findByPlayersAndWeek(player7, 1)).thenReturn(Collections.singletonList(uwt00));
 
+
+        when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(1);
         SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "Woman's A");
         playerManager.submitResults(dto1);
 

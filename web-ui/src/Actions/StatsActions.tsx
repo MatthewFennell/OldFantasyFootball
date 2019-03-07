@@ -1,5 +1,6 @@
 import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
+import { MostValuable } from '../Models/Interfaces/MostValuable';
 
 export enum ActionTypes {
   SET_WEEK_BEING_VIEWED = 'SET_WEEK_BEING_VIEWED',
@@ -7,7 +8,8 @@ export enum ActionTypes {
   ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE = 'ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE',
   ADD_TO_TOP_WEEKLY_PLAYERS_CACHE = 'ADD_TO_TOP_WEEKLY_PLAYERS_CACHE',
   ADD_TO_TOP_WEEKLY_USERS_CACHE = 'ADD_TO_TOP_WEEKLY_USERS_CACHE',
-  SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;'
+  SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;',
+  SET_MOST_VALUBLE = 'SET_MOST_VALUABLE'
 }
 
 export interface SetWeekBeingViewed {
@@ -38,6 +40,11 @@ export interface AddToTopWeeklyUsersCache {
 export interface SetTotalNumberOfWeeks {
   type: ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS;
   payload: { numberOfWeeks: number };
+}
+
+export interface SetMostValuable {
+  type: ActionTypes.SET_MOST_VALUBLE;
+  payload: { mostValuable: MostValuable };
 }
 
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
@@ -93,10 +100,18 @@ export const setTotalNumberOfWeeks = (numberOfWeeks: number): SetTotalNumberOfWe
   };
 };
 
+export const setMostValuable = (mostValuable: MostValuable): SetMostValuable => {
+  return {
+    type: ActionTypes.SET_MOST_VALUBLE,
+    payload: { mostValuable }
+  };
+};
+
 export type Action =
   | SetWeekBeingViewed
   | AddToWeeklyPointsCache
   | AddToAverageWeeklyPointsCache
   | AddToTopWeeklyPlayersCache
   | AddToTopWeeklyUsersCache
-  | SetTotalNumberOfWeeks;
+  | SetTotalNumberOfWeeks
+  | SetMostValuable;

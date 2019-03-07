@@ -1,5 +1,6 @@
 import * as React from 'react';
 import '../../Style/Team/Stats.css';
+import { MostValuable } from '../../Models/Interfaces/MostValuable';
 
 interface StatsProps {
   averageWeeklyPointsCache: any;
@@ -7,6 +8,7 @@ interface StatsProps {
   weekBeingViewed: number;
   topWeeklyUsersCache: any;
   remainingBudget: number;
+  mostValuable: MostValuable;
 }
 
 interface StatsState {}
@@ -19,7 +21,8 @@ class Stats extends React.Component<StatsProps, StatsState> {
       averageWeeklyPointsCache,
       weekBeingViewed,
       topWeeklyPlayerCache,
-      topWeeklyUsersCache
+      topWeeklyUsersCache,
+      mostValuable
     } = this.props;
 
     return (
@@ -42,8 +45,12 @@ class Stats extends React.Component<StatsProps, StatsState> {
             {topWeeklyPlayerCache[weekBeingViewed].surname} (
             {topWeeklyPlayerCache[weekBeingViewed].points} points)
           </div>
-        ) : this.props.weekBeingViewed === -1 ? (
-          <div className="player-most-points">Your most valuable player is : </div>
+        ) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+          <div className="player-most-points">
+            Your most valuable player is {mostValuable.mostValuablePlayer.firstName}{' '}
+            {mostValuable.mostValuablePlayer.surname} with {mostValuable.mostValuablePlayerScore}{' '}
+            points{' '}
+          </div>
         ) : null}
 
         {topWeeklyUsersCache[weekBeingViewed] !== undefined ? (
@@ -52,8 +59,11 @@ class Stats extends React.Component<StatsProps, StatsState> {
             {topWeeklyUsersCache[weekBeingViewed].surname} (
             {topWeeklyUsersCache[weekBeingViewed].points} points )
           </div>
-        ) : this.props.weekBeingViewed === -1 ? (
-          <div className="player-most-points">Your most valuable college team is : </div>
+        ) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+          <div className="player-most-points">
+            Your most valuable college team is {mostValuable.mostValuableCollegeTeam.name} with{' '}
+            {mostValuable.mostValuableCollegeTeamScore} points
+          </div>
         ) : null}
       </div>
     );

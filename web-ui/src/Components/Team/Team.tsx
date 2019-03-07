@@ -6,11 +6,13 @@ import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { MostValuable} from "../../Models/Interfaces/MostValuable";
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
   getTeamForUserInWeek,
-  getPlayersWithMostPointsInWeek
+  getPlayersWithMostPointsInWeek,
+  getMostValuableAssets
 } from '../../Services/Player/PlayerService';
 import {
   getAveragePoints,
@@ -50,6 +52,9 @@ interface TransactionsProps {
   allCollegeTeams: CollegeTeam[];
 
   setRemainingBudget: (budget: number) => void;
+
+  setMostValuable: (mostValuable: MostValuable) => void;
+  mostValuable: MostValuable
 }
 
 interface TransactionsState {}
@@ -66,6 +71,11 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
       header.hidden = false;
     }
     this.props.setWeekBeingViewed(-1);
+
+    getMostValuableAssets().then(mostValuable => {
+      console.log('Most valuable = ' + JSON.stringify(mostValuable));
+      this.props.setMostValuable(mostValuable);
+    });
 
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {

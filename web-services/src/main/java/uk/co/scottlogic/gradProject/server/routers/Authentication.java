@@ -140,7 +140,7 @@ public class Authentication {
                 }
             }
             // TO:DO - not start at week 0, start at the current max week
-            UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), 0);
+            UsersWeeklyTeam team = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), -1);
             weeklyTeamRepo.save(team);
             response.setStatus(201);
             return new UserReturnDTO(user);

@@ -5,9 +5,21 @@ import { getBearerHeader } from '.././CredentialInputService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { AddPoints } from '../../Models/Interfaces/AddPoints';
 import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
+import { MostValuable } from '../../Models/Interfaces/MostValuable';
 
 export const getTeamForUserInWeek = (week: number): Promise<PlayerDTO[]> => {
   return fetch('/api/player/week/' + week + '/team', {
+    method: 'GET',
+    headers: { Authorization: getBearerHeader() }
+  }).then(response => {
+    if (response.status === 200) {
+      return response.json();
+    }
+  });
+};
+
+export const getMostValuableAssets = (): Promise<MostValuable> => {
+  return fetch('/api/player/value', {
     method: 'GET',
     headers: { Authorization: getBearerHeader() }
   }).then(response => {
