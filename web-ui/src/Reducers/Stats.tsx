@@ -1,6 +1,7 @@
 import { ActionTypes, Action as StatsAction } from '../Actions/StatsActions';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
+import { MostValuable } from '../Models/Interfaces/MostValuable';
 type Action = StatsAction;
 
 // Define our State interface for the current reducer
@@ -11,6 +12,7 @@ export interface State {
   topWeeklyPlayersCache: {};
   topWeeklyUsersCache: {};
   totalNumberOfWeeks: 0;
+  mostValuable: MostValuable;
 }
 
 // Define our initialState
@@ -20,7 +22,8 @@ export const initialState: State = {
   averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
   topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
   topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
-  totalNumberOfWeeks: 0
+  totalNumberOfWeeks: 0,
+  mostValuable: undefined as any
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -76,6 +79,13 @@ export const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         totalNumberOfWeeks: action.payload.numberOfWeeks
+      };
+    }
+
+    case ActionTypes.SET_MOST_VALUBLE: {
+      return {
+        ...state,
+        mostValuable: action.payload.mostValuable
       };
     }
 

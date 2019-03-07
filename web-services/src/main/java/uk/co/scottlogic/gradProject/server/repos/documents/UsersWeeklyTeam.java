@@ -12,7 +12,6 @@ import java.util.UUID;
         @Index(name = "idx_team_date", columnList = "date")})
 public class UsersWeeklyTeam {
 
-
     @OneToOne
     @JoinColumn(name = "user")
     private ApplicationUser user;

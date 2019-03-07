@@ -59,6 +59,39 @@ public class WeeksController {
         return false;
     }
 
+    @ApiOperation(value = Icons.key + " Delete a college team ", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 201, message = "League successfully created"),
+            @ApiResponse(code = 204, message = "Team deleted successfully"),
+            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 403, message = "League with that name already exists"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/week/trigger")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean updateWeek(@AuthenticationPrincipal ApplicationUser user,
+                                     @RequestBody int week, HttpServletResponse response) {
+        try {
+            response.setStatus(201);
+            weeklyTeamManager.updateAllWeeklyTeams(week);
+            return true;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+        return false;
+    }
+
     @ApiOperation(value = Icons.key
             + " Gets whether the transfer market is open",
             notes = "Requires User role", authorizations = {

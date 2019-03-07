@@ -5,14 +5,19 @@ import {
   getAverageWeeklyPointsCache,
   getWeekBeingViewed,
   getTopWeeklyPlayerCache,
-  getTopWeeklyUserCache
+  getTopWeeklyUserCache,
+  getMostValuable
 } from '../../Selectors/StatsSelector';
 
+import { getRemainingBudget } from '../../Selectors/TransfersSelector';
+
 const mapStateToProps = (state: State) => ({
+  remainingBudget: getRemainingBudget(state),
   averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
   weekBeingViewed: getWeekBeingViewed(state),
   topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
-  topWeeklyUsersCache: getTopWeeklyUserCache(state)
+  topWeeklyUsersCache: getTopWeeklyUserCache(state),
+  mostValuable: getMostValuable(state)
 });
 
 const mapDispatchToProps = {};

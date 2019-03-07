@@ -61,7 +61,6 @@ public class WeeksControllerTest {
         List<UsersWeeklyTeam> weeklyTeams = new ArrayList<>();
         weeklyTeams.add(weeklyTeam);
 
-        when(weeklyTeamRepo.findByUser(user)).thenReturn(weeklyTeams);
         TransferDTO transferDTO = new TransferDTO(new ArrayList<>(), new ArrayList<>());
         weeksController.updateTeam(user, transferDTO, response);
         TestCase.assertEquals(400, response.getStatus());
@@ -88,7 +87,6 @@ public class WeeksControllerTest {
         Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 1, "firstname", "surname");
         Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 1, "firstname", "surname");
 
-
         when(playerRepo.findById(player_one.getId())).thenReturn(Optional.of(player_one));
         when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
         when(playerRepo.findById(player_three.getId())).thenReturn(Optional.of(player_three));
@@ -101,7 +99,7 @@ public class WeeksControllerTest {
         when(playerRepo.findById(player_ten.getId())).thenReturn(Optional.of(player_ten));
         when(playerRepo.findById(player_eleven.getId())).thenReturn(Optional.of(player_eleven));
 
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
 
         List<PlayerDTO> playersToAdd = new ArrayList<>();
         playersToAdd.add(new PlayerDTO(player_one));

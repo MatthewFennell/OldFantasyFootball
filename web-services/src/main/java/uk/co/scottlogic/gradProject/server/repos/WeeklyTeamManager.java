@@ -20,11 +20,9 @@ public class WeeklyTeamManager {
 
     private PlayerRepo playerRepo;
 
-
     private ApplicationUserRepo applicationUserRepo;
 
     private WeeklyTeamRepo weeklyTeamRepo;
-
 
     private PlayerManager playerManager;
 
@@ -37,16 +35,15 @@ public class WeeklyTeamManager {
         this.playerManager = playerManager;
     }
 
-
     // Adds to the first weekly team it finds
     void addPlayerToWeeklyTeam(ApplicationUser user, String id) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
 
         if (player.isPresent()) {
             Player p = player.get();
-            List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
-            if (!teams.isEmpty()) {
-                UsersWeeklyTeam team = teams.get(0);
+            Optional<UsersWeeklyTeam> teams = weeklyTeamRepo.findActiveTeam(user);
+            if (teams.isPresent()) {
+                UsersWeeklyTeam team = teams.get();
                 team.getPlayers().add(p);
                 weeklyTeamRepo.save(team);
                 log.debug("Added player {} to user {}", p.getFirstName(), user.getFirstName());
@@ -54,6 +51,34 @@ public class WeeklyTeamManager {
         } else {
             log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
+        }
+    }
+
+    public void updateAllWeeklyTeams(int week){
+
+        int maxWeek = weeklyTeamRepo.findNumberOfWeeks();
+
+        if (week != maxWeek + 1){
+            throw new IllegalArgumentException("The next week should be " + (maxWeek+1) + ", not " + week);
+        }
+
+        Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
+        List<ApplicationUser> users = new ArrayList<>();
+        allUsers.forEach(users::add);
+        for (ApplicationUser user : users){
+
+            if (weeklyTeamRepo.findByUserByWeek(user, week).isPresent()){
+                throw new IllegalArgumentException("There is already a weekly team for this week");
+            }
+
+            Optional<UsersWeeklyTeam> uwt = weeklyTeamRepo.findByUserByWeek(user, -1);
+            if (uwt.isPresent()){
+                UsersWeeklyTeam newTeam = new UsersWeeklyTeam(user, new Date(), uwt.get().getPlayers(), week);
+                weeklyTeamRepo.save(newTeam);
+            }
+            else {
+                throw new IllegalArgumentException("User has no active team");
+            }
         }
     }
 
@@ -66,9 +91,9 @@ public class WeeklyTeamManager {
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
         if (player.isPresent()) {
             Player p = player.get();
-            List<UsersWeeklyTeam> teams = weeklyTeamRepo.findByUser(user);
+            Optional<UsersWeeklyTeam> teams = weeklyTeamRepo.findActiveTeam(user);
             if (!teams.isEmpty()) {
-                UsersWeeklyTeam team = teams.get(0);
+                UsersWeeklyTeam team = teams.get();
                 team.getPlayers().remove(p);
                 weeklyTeamRepo.save(team);
                 log.debug("Removed player {} from user {}", p.getFirstName(), user.getFirstName());
@@ -150,7 +175,7 @@ public class WeeklyTeamManager {
     }
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
-
+        System.out.println("came in here");
         double priceOfAdding = 0;
         double priceOfRemoving = 0;
 
@@ -158,18 +183,19 @@ public class WeeklyTeamManager {
             log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }
-
-        if (weeklyTeamRepo.findByUser(user).isEmpty()) {
-            log.debug("User has no weekly team");
-            throw new IllegalArgumentException("User does not have a weekly team");
-        }
-
+        System.out.println("yo");
         if (playersBeingAdded.isEmpty()) {
             log.debug("Must attempt to transfer at least 1 player");
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
-
-        UsersWeeklyTeam activeTeam = weeklyTeamRepo.findByUser(user).get(0);
+        System.out.println("here");
+        Optional<UsersWeeklyTeam> optionalActiveTeam = weeklyTeamRepo.findActiveTeam(user);
+        System.out.println("and here");
+        if (!optionalActiveTeam.isPresent()){
+            System.out.println("inactive???");
+            throw new IllegalArgumentException("User has no active team");
+        }
+        UsersWeeklyTeam activeTeam = optionalActiveTeam.get();
 
         if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != Constants.MAX_TEAM_SIZE) {
             log.debug("Invalid team size");

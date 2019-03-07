@@ -33,3 +33,6 @@ export const getTotalNumberOfWeeks = createSelector(
   [getTotalNumberOfWeeksState],
   p => p.totalNumberOfWeeks
 );
+
+const getMostValubleState = (state: State) => state.stats;
+export const getMostValuable = createSelector([getMostValubleState], p => p.mostValuable);

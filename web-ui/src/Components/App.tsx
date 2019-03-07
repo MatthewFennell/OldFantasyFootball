@@ -7,14 +7,15 @@ import SplashScreen from './Reusable/SplashScreen';
 import Header from '../Containers/Header';
 import '../Style/App.css';
 import PageBody from '../Containers/PageBody';
-import Transfers from '../Containers/Transfers/Transfers';
-import Team from '../Containers/Team/Team';
+// import Transfers from '../Containers/Transfers/Transfers';
+// import Team from '../Containers/Team/Team';
 import Leagues from '../Containers/League/Leagues';
 import Admin from '../Containers/Admin/Admin';
 import Settings from '../Components/Settings/Settings';
 
 class App extends React.Component {
   render() {
+    console.log('logged in = ' + isLoggedIn());
     return (
       <React.Fragment>
         <Header />
@@ -27,8 +28,8 @@ class App extends React.Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/splashScreen" component={SplashScreen} />
-          <Route exact path="/team" component={Team} />
-          <Route exact path="/transfers" component={Transfers} />
+          {/* <Route exact path="/team" component={Team} /> */}
+          {/* <Route exact path="/transfers" component={Transfers} /> */}
           <Route exact path="/leagues" component={Leagues} />
           <Route exact path="/admin" component={Admin} />
           <Route exact path="/settings" component={Settings} />

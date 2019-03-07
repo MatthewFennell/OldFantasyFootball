@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../Style/TextScottCash.css';
 import { Route } from 'react-router-dom';
 import '../../Style/App.css';
-// import CategoryTemplate from '../../Containers/CategoryTemplate';
+import CategoryTemplate from '../../Containers/CategoryTemplate';
 import Team from '../../Containers/Team/Team';
 import Transfers from '../../Containers/Transfers/Transfers';
 import Leagues from '../../Containers/League/Leagues';
@@ -14,6 +14,7 @@ interface PageBodyProps {
 
 class PageBody extends React.Component<PageBodyProps> {
   _whichPage() {
+    console.log('hey');
     let pageBeingViewed = this.props.pageBeingViewed;
 
     if (pageBeingViewed === 'Team') {
@@ -30,7 +31,7 @@ class PageBody extends React.Component<PageBodyProps> {
   }
 
   render() {
-    return <Route exact path="/team" component={Team} />;
+    return <Route path="/" component={CategoryTemplate} />;
   }
 }
 

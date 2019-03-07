@@ -11,7 +11,8 @@ import {
   getAverageWeeklyPointsCache,
   getTopWeeklyPlayerCache,
   getTopWeeklyUserCache,
-  getTotalNumberOfWeeks
+  getTotalNumberOfWeeks,
+  getMostValuable
 } from '../../Selectors/StatsSelector';
 import { setTotalPoints } from '../../Actions/AccountActions';
 import {
@@ -20,7 +21,8 @@ import {
   addToAverageWeeklyPointsCache,
   addToTopWeeklyPlayersCache,
   addToTopWeeklyUsersCache,
-  setTotalNumberOfWeeks
+  setTotalNumberOfWeeks,
+  setMostValuable
 } from '../../Actions/StatsActions';
 
 import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
@@ -37,7 +39,8 @@ const mapStateToProps = (state: State) => ({
   activeTeam: getActiveTeam(state),
   weeklyTeamCache: getWeeklyTeamCache(state),
   totalNumberOfWeeks: getTotalNumberOfWeeks(state),
-  allCollegeTeams: getAllCollegeTeams(state)
+  allCollegeTeams: getAllCollegeTeams(state),
+  mostValuable: getMostValuable(state)
 });
 
 const mapDispatchToProps = {
@@ -52,7 +55,8 @@ const mapDispatchToProps = {
   setTotalNumberOfWeeks,
   setTransferMarket,
   setAllCollegeTeams,
-  setRemainingBudget
+  setRemainingBudget,
+  setMostValuable
 };
 
 export default connect<any, any, any>(

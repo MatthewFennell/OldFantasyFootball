@@ -154,6 +154,32 @@ public class PlayerController {
         return null;
     }
 
+    @ApiOperation(value = Icons.key
+            + " Find your most valuable assets",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player/value")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public MostValuableDTO findMostValuableAssets(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response ) {
+        try {
+            // Currently just returns the randomly first selected
+            // Should go back later and make it choose the top on some criteria
+            MostValuableDTO mostValuableDTO = playerManager.findMostValuablePlayer(user);
+            response.setStatus(200);
+            return mostValuableDTO;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
+    }
+
     @ApiOperation(value = Icons.key + " Make a player ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {

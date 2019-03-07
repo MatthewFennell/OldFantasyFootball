@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
-import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.MakePlayerDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.PlayerPointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.SubmitPointsDTO;
+import uk.co.scottlogic.gradProject.server.routers.User;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import java.util.*;
 
@@ -40,26 +38,26 @@ public class PlayerManager {
 //        CollegeTeam collegeTeam = new CollegeTeam("A");
 //        teamRepo.save(collegeTeam);
 //
-//        Player p = new Player(collegeTeam, Enums.Position.GOALKEEPER, 2, "fn0" ,"sn0");
+//        Player p = new Player(collegeTeam, Enums.Position.GOALKEEPER, 2, "a" ,"sn");
 //
-//        Player p1 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn1" ,"sn1");
-//        Player p2 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn2" ,"sn2");
-//        Player p3 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn3" ,"sn3");
-//        Player p4 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn4" ,"sn4");
-//        Player p5 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn5" ,"sn5");
-//        Player p6 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "fn6" ,"sn6");
+//        Player p1 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "b" ,"sn");
+//        Player p2 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "c" ,"sn");
+//        Player p3 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "d" ,"sn");
+//        Player p4 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "e" ,"sn");
+//        Player p5 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "f" ,"sn");
+//        Player p6 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "g" ,"sn");
 //
-//        Player p7 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn7" ,"sn7");
-//        Player p8 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn8" ,"sn8");
-//        Player p9 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn9" ,"sn8");
-//        Player p10 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn10" ,"sn10");
-//        Player p11 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn11" ,"sn11");
-//        Player p12 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "fn12" ,"sn12");
+//        Player p7 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "h" ,"sn");
+//        Player p8 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "i" ,"sn");
+//        Player p9 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "j" ,"sn");
+//        Player p10 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "k" ,"sn");
+//        Player p11 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "l" ,"sn");
+//        Player p12 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "m" ,"sn");
 //
-//        Player p13 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn13" ,"sn13");
-//        Player p14 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn14" ,"sn14");
-//        Player p15 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn15" ,"sn15");
-//        Player p16 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "fn16" ,"sn16");
+//        Player p13 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "n" ,"sn");
+//        Player p14 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "o" ,"sn");
+//        Player p15 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "p" ,"sn");
+//        Player p16 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "q" ,"sn");
 //
 //        playerRepo.save(p);
 //        playerRepo.save(p1);
@@ -91,6 +89,8 @@ public class PlayerManager {
             throw new IllegalArgumentException("Invalid team");
         }
     }
+
+
 
     public void deletePlayer(String playerID) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
@@ -128,7 +128,7 @@ public class PlayerManager {
         List<ApplicationUser> users = new ArrayList<>();
         allUsers.forEach(users::add);
         for (ApplicationUser user : users){
-            Optional<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findMostRecentWeeklyTeam(user);
+            Optional<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findActiveTeam(user);
             if (!weeklyTeams.isPresent()){
                 System.out.println("user has no weekly teams");
                 UsersWeeklyTeam newUWT = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), newWeek);
@@ -147,11 +147,8 @@ public class PlayerManager {
     public void submitResults(SubmitPointsDTO pointsDTO){
 
         Integer maxWeek = weeklyTeamRepo.findNumberOfWeeks();
-        if (pointsDTO.getWeek() == maxWeek+1){
-            makeNewWeek(pointsDTO.getWeek());
-        }
-        else if (pointsDTO.getWeek() > maxWeek+1){
-            throw new IllegalArgumentException("Missing out a week of points. The next week should be " + (maxWeek+1));
+        if (pointsDTO.getWeek() > maxWeek){
+            throw new IllegalArgumentException("Missing out a week of points. The next week should be " + (maxWeek));
         }
 
         System.out.println("submitting results");
@@ -337,11 +334,11 @@ public class PlayerManager {
 
     private void addGoalToPlayer(Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-        player.changeGoals(1);
-        playerRepo.save(player);
-        System.out.println("gave them a goal");
-
         if (playerPoints.isPresent()){
+            player.changeGoals(1);
+            playerRepo.save(player);
+            System.out.println("gave them a goal");
+
             playerPoints.get().addGoal();
             playerPoints.get().setPoints(calculateScore(playerPoints.get()));
             System.out.println("SET PLAYER POINTS FOR PLAYER " + player.getFirstName() + " to : " + playerPoints.get().getPoints());
@@ -370,7 +367,7 @@ public class PlayerManager {
             }
         }
         else {
-            log.debug("player had no points object - made a new one with 1 goal");
+            log.debug("player had no points object - made a new one");
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
             playerPointsRepo.save(playerPoints1);
             addGoalToPlayer(player, week);
@@ -379,9 +376,9 @@ public class PlayerManager {
 
     private void addAssistToPlayer(Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
-        player.changeAssists(1);
-        playerRepo.save(player);
         if (playerPoints.isPresent()){
+            player.changeAssists(1);
+            playerRepo.save(player);
             playerPoints.get().addAssist();
             playerPoints.get().setPoints(calculateScore(playerPoints.get()));
             playerPointsRepo.save(playerPoints.get());
@@ -401,6 +398,71 @@ public class PlayerManager {
             playerPointsRepo.save(playerPoints1);
             addAssistToPlayer(player, week);
         }
+    }
+
+    public MostValuableDTO findMostValuablePlayer(ApplicationUser user){
+        HashMap<UUID, Integer> pointsPerPlayer = new HashMap<>();
+        Optional<UsersWeeklyTeam> mostRecent = weeklyTeamRepo.findActiveTeam(user);
+
+        HashMap<UUID, Integer> pointsPerCollegeTeam = new HashMap<>();
+
+        if (mostRecent.isPresent()){
+            for (Player player : mostRecent.get().getPlayers()){
+                pointsPerPlayer.put(player.getId(), 0);
+                pointsPerCollegeTeam.putIfAbsent(player.getActiveTeam().getId(), 0);
+            }
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findWeeklyTeams(user);
+            for (UsersWeeklyTeam weeklyTeam : weeklyTeams){
+                for (Player player : weeklyTeam.getPlayers()){
+                    if (pointsPerPlayer.containsKey(player.getId())){
+                        Optional<Integer> points = playerPointsRepo.findScoreByPlayerByWeek(player, weeklyTeam.getWeek());
+                        if (points.isPresent()) {
+                            pointsPerPlayer.put(player.getId(), pointsPerPlayer.get(player.getId()) + points.get());
+                            pointsPerCollegeTeam.put(player.getActiveTeam().getId(), pointsPerCollegeTeam.get(player.getActiveTeam().getId()) + points.get());
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            throw new IllegalArgumentException("No active team");
+        }
+
+        UUID maxPlayer = findMostValuableID(pointsPerPlayer);
+        UUID maxCollegeTeam = findMostValuableID(pointsPerCollegeTeam);
+
+        Optional<Player> player = playerRepo.findById(maxPlayer);
+        Optional<CollegeTeam> collegeTeam = teamRepo.findById(maxCollegeTeam);
+
+        if (!player.isPresent() || !pointsPerPlayer.containsKey(player.get().getId())){
+            throw new IllegalArgumentException("No max player");
+        }
+
+        if (!collegeTeam.isPresent() || !pointsPerCollegeTeam.containsKey(collegeTeam.get().getId())){
+            throw new IllegalArgumentException("No max college team present");
+        }
+
+        int playerScore = pointsPerPlayer.get(player.get().getId());
+        int collegeScore = pointsPerCollegeTeam.get(collegeTeam.get().getId());
+
+        MostValuableDTO mostValuableDTO = new MostValuableDTO(player.get(), playerScore, collegeTeam.get(), collegeScore);
+
+        System.out.println("Best player score = " + playerScore);
+        System.out.println("Best college score = " + collegeScore);
+        return mostValuableDTO;
+    }
+
+
+    private UUID findMostValuableID(HashMap<UUID, Integer> hashMap){
+        UUID maxID = null;
+        int currentMaxScore = -100;
+        for (Map.Entry<UUID, Integer> item : hashMap.entrySet()) {
+            if (item.getValue() > currentMaxScore){
+                currentMaxScore = item.getValue();
+                maxID = item.getKey();
+            }
+        }
+        return maxID;
     }
 
     private void addCleanSheet(Player player, Integer week){

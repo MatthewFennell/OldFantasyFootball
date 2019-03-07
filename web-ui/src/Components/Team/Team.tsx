@@ -6,11 +6,13 @@ import Stats from '../../Containers/Team/Stats';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
   getTeamForUserInWeek,
-  getPlayersWithMostPointsInWeek
+  getPlayersWithMostPointsInWeek,
+  getMostValuableAssets
 } from '../../Services/Player/PlayerService';
 import {
   getAveragePoints,
@@ -50,6 +52,9 @@ interface TransactionsProps {
   allCollegeTeams: CollegeTeam[];
 
   setRemainingBudget: (budget: number) => void;
+
+  setMostValuable: (mostValuable: MostValuable) => void;
+  mostValuable: MostValuable;
 }
 
 interface TransactionsState {}
@@ -65,11 +70,17 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
     if (header != null) {
       header.hidden = false;
     }
+    this.props.setWeekBeingViewed(-1);
+
+    getMostValuableAssets().then(mostValuable => {
+      console.log('Most valuable = ' + JSON.stringify(mostValuable));
+      this.props.setMostValuable(mostValuable);
+    });
 
     // Get the total number of weeks
     getNumberOfWeeks().then(currentWeek => {
       // Automatically start viewing the latest
-      this.props.setWeekBeingViewed(currentWeek);
+      // this.props.setWeekBeingViewed(currentWeek);
       this.props.setTotalNumberOfWeeks(currentWeek);
       this._generateCache(currentWeek);
 
@@ -93,6 +104,12 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
     if (this.props.allCollegeTeams.length === 0) {
       getCollegeTeams('alphabetical').then(response => {
         this.props.setAllCollegeTeams(response);
+      });
+    }
+
+    if (this.props.weeklyTeamCache[-1] === undefined) {
+      getTeamForUserInWeek(-1).then(weeklyTeam => {
+        this.props.addToWeeklyTeamCache(-1, weeklyTeam);
       });
     }
   }

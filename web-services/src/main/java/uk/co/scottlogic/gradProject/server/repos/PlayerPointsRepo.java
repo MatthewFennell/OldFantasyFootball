@@ -17,6 +17,9 @@ public interface PlayerPointsRepo extends CrudRepository<PlayerPoints, UUID> {
     @Query(value = "FROM PlayerPoints WHERE player = ?1 AND week = ?2")
     Optional<PlayerPoints> findByPlayerByWeek(Player player, Integer week);
 
+    @Query(value = "SELECT points FROM PlayerPoints WHERE player = ?1 AND week = ?2")
+    Optional<Integer> findScoreByPlayerByWeek(Player player, Integer week);
+
     @Query(value = "FROM PlayerPoints WHERE week = ?1 and points = (SELECT MAX(points) FROM PlayerPoints WHERE week = ?1 )")
     List<PlayerPoints> findPlayerWithMostPoints(Integer week);
 }

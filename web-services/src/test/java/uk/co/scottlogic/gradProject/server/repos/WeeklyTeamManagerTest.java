@@ -72,7 +72,7 @@ public class WeeklyTeamManagerTest {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(u1, new Date(), new ArrayList<>(), 0);
 
         when(playerRepo.findById(any())).thenReturn(Optional.of(player));
-        when(weeklyTeamRepo.findByUser(u1)).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(u1)).thenReturn(Optional.of(weeklyTeam));
         weeklyTeamManager.addPlayerToWeeklyTeam(u1, UUID.randomUUID().toString());
         assertEquals(1, weeklyTeam.getPlayers().size());
         assertEquals(10, weeklyTeam.getPlayers().get(0).getPrice(), 0.01);
@@ -102,7 +102,7 @@ public class WeeklyTeamManagerTest {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(u1, new Date(), originalPlayers, 0);
 
         when(playerRepo.findById(any())).thenReturn(Optional.of(player_one));
-        when(weeklyTeamRepo.findByUser(u1)).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(u1)).thenReturn(Optional.of(weeklyTeam));
         weeklyTeamManager.removePlayerFromWeeklyTeam(u1, UUID.randomUUID().toString());
         assertEquals(2, weeklyTeam.getPlayers().size());
         assertEquals(playersAfterRemove, weeklyTeam.getPlayers());
@@ -114,7 +114,7 @@ public class WeeklyTeamManagerTest {
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
 
         when(playerRepo.findById(any())).thenReturn(Optional.of(player_one));
-        when(weeklyTeamRepo.findByUser(u1)).thenReturn(Collections.emptyList());
+        when(weeklyTeamRepo.findActiveTeam(u1)).thenReturn(Optional.empty());
         weeklyTeamManager.removePlayerFromWeeklyTeam(u1, UUID.randomUUID().toString());
     }
 
@@ -348,14 +348,15 @@ public class WeeklyTeamManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenUserHasNoTeamThrowIllegalArgumentWhenTryingToUpdate() {
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.emptyList());
-        weeklyTeamManager.update(null, null, null);
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.empty());
+        List<PlayerDTO> playersBeingAdded = new ArrayList<>();
+        playersBeingAdded.add(new PlayerDTO());
+        playersBeingAdded.add(new PlayerDTO());
+        weeklyTeamManager.update(null, playersBeingAdded, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void failUpdateWhenPlayersToBeAddedListIsEmpty() {
-        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
         weeklyTeamManager.update(null, Collections.emptyList(), null);
     }
 
@@ -389,7 +390,6 @@ public class WeeklyTeamManagerTest {
         players.add(player_eleven);
 
         weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
 
         List<PlayerDTO> playersToAdd = new ArrayList<>();
         playersToAdd.add(new PlayerDTO());
@@ -427,7 +427,6 @@ public class WeeklyTeamManagerTest {
         players.add(player_eleven);
 
         weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
 
         List<PlayerDTO> playersToRemove = new ArrayList<>();
         playersToRemove.add(new PlayerDTO());
@@ -466,7 +465,7 @@ public class WeeklyTeamManagerTest {
         when(playerRepo.findById(player_ten.getId())).thenReturn(Optional.of(player_ten));
         when(playerRepo.findById(player_eleven.getId())).thenReturn(Optional.of(player_eleven));
 
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
 
         List<PlayerDTO> playersToAdd = new ArrayList<>();
         playersToAdd.add(new PlayerDTO(player_one));
@@ -516,7 +515,7 @@ public class WeeklyTeamManagerTest {
         when(playerRepo.findById(player_ten.getId())).thenReturn(Optional.of(player_ten));
         when(playerRepo.findById(player_eleven.getId())).thenReturn(Optional.of(player_eleven));
 
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
 
         List<PlayerDTO> playersToAdd = new ArrayList<>();
         playersToAdd.add(new PlayerDTO(player_one));
@@ -564,7 +563,6 @@ public class WeeklyTeamManagerTest {
         players.add(player_eleven);
 
         weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
         when(playerRepo.findById(any())).thenReturn(Optional.empty());
 
         List<PlayerDTO> playersToAdd = new ArrayList<>();
@@ -612,7 +610,7 @@ public class WeeklyTeamManagerTest {
         players.add(player_eleven);
 
         weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
         when(playerRepo.findById(player_twelve.getId())).thenReturn(Optional.of(player_twelve));
         when(playerRepo.findById(player_thirteen.getId())).thenReturn(Optional.of(player_thirteen));
         when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
@@ -663,7 +661,7 @@ public class WeeklyTeamManagerTest {
         players.add(player_eleven);
 
         weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findByUser(any())).thenReturn(Collections.singletonList(weeklyTeam));
+        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
         when(playerRepo.findById(player_twelve.getId())).thenReturn(Optional.of(player_twelve));
         when(playerRepo.findById(player_thirteen.getId())).thenReturn(Optional.of(player_thirteen));
         when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
