@@ -14,6 +14,14 @@
     "semi": ["warn", "always"],
     "no-undef": "off",
     "no-unused-vars": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "max-len": "warn",
+    "comma-dangle": "off",
+    "indent": ["error", 4, { "SwitchCase" : 1}],
+    "import/no=extraneous-dependencies": "off",
+    "linebreak-style":"off",
+    "radix":"off",
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true}],
+    "react/prefer-stateless-function": "warn"
   }
 }

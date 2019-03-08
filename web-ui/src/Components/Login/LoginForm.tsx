@@ -14,137 +14,137 @@ interface LoginState {
 }
 
 class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, LoginState> {
-  constructor(props: RoutedFormProps<RouteComponentProps>) {
-    super(props);
-    this.state = {
-      username: '',
-      passcode: '',
-      error: ''
-    };
-    this._onSubmit = this._onSubmit.bind(this);
-  }
+    constructor(props: RoutedFormProps<RouteComponentProps>) {
+        super(props);
+        this.state = {
+            username: '',
+            passcode: '',
+            error: ''
+        };
+        this._onSubmit = this._onSubmit.bind(this);
+    }
 
-  _handleInput(eventName: string, eventTarget: HTMLInputElement) {
-    this.setState({
-      [eventName]: eventTarget.value
-    } as Pick<LoginState, keyof LoginState>);
-  }
+    _handleInput(eventName: string, eventTarget: HTMLInputElement) {
+        this.setState({
+            [eventName]: eventTarget.value
+        } as Pick<LoginState, keyof LoginState>);
+    }
 
   _validate = () => {
-    if (LoginService.emptyFields(this.state.username, this.state.passcode)) {
-      this.setState({ error: 'All fields must be filled in' });
-      return true;
-    } else if (
-      LoginService.invalidUsername(this.state.username) ||
+      if (LoginService.emptyFields(this.state.username, this.state.passcode)) {
+          this.setState({ error: 'All fields must be filled in' });
+          return true;
+      } else if (
+          LoginService.invalidUsername(this.state.username) ||
       LoginService.invalidPasscode(this.state.passcode) ||
       LoginService.passcodeTooShort(this.state.passcode)
-    ) {
-      this.setState({ error: 'Username or Passcode not recognised' });
-      return true;
-    } else return false;
+      ) {
+          this.setState({ error: 'Username or Passcode not recognised' });
+          return true;
+      } else return false;
   };
 
   _onSubmit = (event: string) => {
-    switch (event) {
-      case 'btnLogin':
-        const err = this._validate();
-        if (!err) {
-          const data: Credentials = {
-            username: this.state.username,
-            password: this.state.passcode
-          };
-          login(data)
-            .then(function(response) {
-              LoginService.setTokens(response);
-            })
-            .then(() => getUser())
-            .then(response => {
-              this.props.setAccount({
-                id: response.id,
-                firstName: response.firstName,
-                surname: response.surname,
-                email: response.email,
-                username: response.username,
-                totalPoints: response.totalPoints,
-                remainingBudget: response.remainingBudget,
-                remainingTransfers: response.remainingTransfers,
-                roles: response.roles
-              });
-              this.props.setRemainingBudget(response.remainingBudget);
-            })
-            .then(() => {
-              this.props.history.push('/team');
-            })
-            .catch(error => {
-              this.setState({ error: LoginService.formatError(error.toString()) });
-            });
-        }
-        break;
-      case 'btnRegister':
-        this.props.history.push('/register', { animate: true });
-        break;
-      default:
-        break;
-    }
+      switch (event) {
+          case 'btnLogin':
+              const err = this._validate();
+              if (!err) {
+                  const data: Credentials = {
+                      username: this.state.username,
+                      password: this.state.passcode
+                  };
+                  login(data)
+                      .then(function(response) {
+                          LoginService.setTokens(response);
+                      })
+                      .then(() => getUser())
+                      .then(response => {
+                          this.props.setAccount({
+                              id: response.id,
+                              firstName: response.firstName,
+                              surname: response.surname,
+                              email: response.email,
+                              username: response.username,
+                              totalPoints: response.totalPoints,
+                              remainingBudget: response.remainingBudget,
+                              remainingTransfers: response.remainingTransfers,
+                              roles: response.roles
+                          });
+                          this.props.setRemainingBudget(response.remainingBudget);
+                      })
+                      .then(() => {
+                          this.props.history.push('/team');
+                      })
+                      .catch(error => {
+                          this.setState({ error: LoginService.formatError(error.toString()) });
+                      });
+              }
+              break;
+          case 'btnRegister':
+              this.props.history.push('/register', { animate: true });
+              break;
+          default:
+              break;
+      }
   };
 
   render() {
-    return (
-      <div id="login-form" onSubmit={e => e.preventDefault()}>
-        <Form id="login-form">
-          <h1 id="greeting" className="text-center unselectable">
+      return (
+          <div id="login-form" onSubmit={e => e.preventDefault()}>
+              <Form id="login-form">
+                  <h1 id="greeting" className="text-center unselectable">
             Hi there!
-          </h1>
-          <div id="login-input-fields">
-            <Label className="error-text">{this.state.error}</Label>
-            <FormGroup>
-              <Label for="username" className="unselectable">
+                  </h1>
+                  <div id="login-input-fields">
+                      <Label className="error-text">{this.state.error}</Label>
+                      <FormGroup>
+                          <Label for="username" className="unselectable">
                 Username
-              </Label>
-              <Field
-                type="text"
-                name="username"
-                id="username"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="passcode" className="unselectable">
+                          </Label>
+                          <Field
+                              type="text"
+                              name="username"
+                              id="username"
+                              component="input"
+                              onChange={e => this._handleInput(e!.target.name, e!.target)}
+                          />
+                      </FormGroup>
+                      <FormGroup>
+                          <Label for="passcode" className="unselectable">
                 Passcode
-              </Label>
-              <Field
-                type="password"
-                name="passcode"
-                id="passcode"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-          </div>
-          <Button
-            id="btnLogin"
-            type="submit"
-            className="btn btn-default btn-round-lg btn-lg first"
-            onClick={(e: any) => this._onSubmit(e.target.id)}
-          >
+                          </Label>
+                          <Field
+                              type="password"
+                              name="passcode"
+                              id="passcode"
+                              component="input"
+                              onChange={e => this._handleInput(e!.target.name, e!.target)}
+                          />
+                      </FormGroup>
+                  </div>
+                  <Button
+                      id="btnLogin"
+                      type="submit"
+                      className="btn btn-default btn-round-lg btn-lg first"
+                      onClick={(e: any) => this._onSubmit(e.target.id)}
+                  >
             Log In
-          </Button>
-          <Button
-            className="btn btn-default btn-round-lg btn-lg second"
-            id="btnRegister"
-            onClick={(e: any) => this._onSubmit(e.target.id)}
-          >
+                  </Button>
+                  <Button
+                      className="btn btn-default btn-round-lg btn-lg second"
+                      id="btnRegister"
+                      onClick={(e: any) => this._onSubmit(e.target.id)}
+                  >
             Sign Up
-          </Button>
-        </Form>
-      </div>
-    );
+                  </Button>
+              </Form>
+          </div>
+      );
   }
 }
 
 export default withRouter(
-  reduxForm<{}, any>({
-    form: 'login'
-  })(LoginForm)
+    reduxForm<{}, any>({
+        form: 'login'
+    })(LoginForm)
 );
