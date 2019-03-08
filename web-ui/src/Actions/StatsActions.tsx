@@ -48,63 +48,63 @@ export interface SetMostValuable {
 }
 
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
-  return {
-    type: ActionTypes.SET_WEEK_BEING_VIEWED,
-    payload: {
-      week
-    }
-  };
+	return {
+		type: ActionTypes.SET_WEEK_BEING_VIEWED,
+		payload: {
+			week
+		}
+	};
 };
 
 export const addToWeeklyPointsCache = (weekId: number, week: number): AddToWeeklyPointsCache => {
-  return {
-    type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE,
-    payload: { weekId, week }
-  };
+	return {
+		type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE,
+		payload: { weekId, week }
+	};
 };
 
 export const addToTopWeeklyPlayersCache = (
-  weekId: number,
-  player: PlayerDTO
+	weekId: number,
+	player: PlayerDTO
 ): AddToTopWeeklyPlayersCache => {
-  return {
-    type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE,
-    payload: { weekId, player }
-  };
+	return {
+		type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE,
+		payload: { weekId, player }
+	};
 };
 
 export const addToAverageWeeklyPointsCache = (
-  weekId: number,
-  averageWeeklyPoints: number
+	weekId: number,
+	averageWeeklyPoints: number
 ): AddToAverageWeeklyPointsCache => {
-  return {
-    type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE,
-    payload: { weekId, averageWeeklyPoints }
-  };
+	return {
+		type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE,
+		payload: { weekId, averageWeeklyPoints }
+	};
 };
 
 export const addToTopWeeklyUsersCache = (
-  weekId: number,
-  user: TopWeeklyUser
+	weekId: number,
+	user: TopWeeklyUser
 ): AddToTopWeeklyUsersCache => {
-  return {
-    type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE,
-    payload: { weekId, user }
-  };
+	return {
+		type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE,
+		payload: { weekId, user }
+	};
 };
 
 export const setTotalNumberOfWeeks = (numberOfWeeks: number): SetTotalNumberOfWeeks => {
-  return {
-    type: ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS,
-    payload: { numberOfWeeks }
-  };
+	return {
+		type: ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS,
+		payload: { numberOfWeeks }
+	};
 };
 
 export const setMostValuable = (mostValuable: MostValuable): SetMostValuable => {
-  return {
-    type: ActionTypes.SET_MOST_VALUBLE,
-    payload: { mostValuable }
-  };
+	return {
+		type: ActionTypes.SET_MOST_VALUBLE,
+		payload: { mostValuable }
+	};
 };
 
 export type Action =

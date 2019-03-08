@@ -41,45 +41,45 @@ export interface RemoveCollegeTeam {
 }
 
 export const setAdminPageBeingViewed = (adminPageBeingViewed: string): SetAdminPageBeingViewed => {
-  return {
-    type: ActionTypes.SET_ADMIN_PAGE_BEING_VIEWED,
-    payload: { adminPageBeingViewed }
-  };
+	return {
+		type: ActionTypes.SET_ADMIN_PAGE_BEING_VIEWED,
+		payload: { adminPageBeingViewed }
+	};
 };
 
 export const setTeamAddingPoints = (team: string): SetTeamAddingPoints => {
-  return {
-    type: ActionTypes.SET_TEAM_ADDING_POINTS,
-    payload: { team }
-  };
+	return {
+		type: ActionTypes.SET_TEAM_ADDING_POINTS,
+		payload: { team }
+	};
 };
 
 export const setPlayersInFilteredTeam = (players: PlayerDTO[]): SetPlayersInFilteredTeam => {
-  return {
-    type: ActionTypes.SET_PLAYERS_IN_FILTERED_TEAM,
-    payload: { players }
-  };
+	return {
+		type: ActionTypes.SET_PLAYERS_IN_FILTERED_TEAM,
+		payload: { players }
+	};
 };
 
 export const setAllCollegeTeams = (teams: CollegeTeam[]): SetAllCollegeTeams => {
-  return {
-    type: ActionTypes.SET_ALL_COLLEGE_TEAMS,
-    payload: { teams }
-  };
+	return {
+		type: ActionTypes.SET_ALL_COLLEGE_TEAMS,
+		payload: { teams }
+	};
 };
 
 export const addCollegeTeam = (team: CollegeTeam): AddCollegeTeam => {
-  return {
-    type: ActionTypes.ADD_COLLEGE_TEAM,
-    payload: { team }
-  };
+	return {
+		type: ActionTypes.ADD_COLLEGE_TEAM,
+		payload: { team }
+	};
 };
 
 export const removeCollegeTeam = (teamName: string): RemoveCollegeTeam => {
-  return {
-    type: ActionTypes.REMOVE_COLLEGE_TEAM,
-    payload: { teamName }
-  };
+	return {
+		type: ActionTypes.REMOVE_COLLEGE_TEAM,
+		payload: { teamName }
+	};
 };
 
 export type Action =

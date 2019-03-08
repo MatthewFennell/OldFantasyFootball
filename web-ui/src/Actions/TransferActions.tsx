@@ -64,75 +64,75 @@ export interface ReverseFilteredPlayers {
 }
 
 export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
-  return {
-    type: ActionTypes.SET_REMAINING_BUDGET,
-    payload: { remainingBudget }
-  };
+	return {
+		type: ActionTypes.SET_REMAINING_BUDGET,
+		payload: { remainingBudget }
+	};
 };
 
 export const setRemainingTransfers = (remainingTransfers: number): SetRemainingTransfers => {
-  return {
-    type: ActionTypes.SET_REMAINING_TRANSFERS,
-    payload: { remainingTransfers }
-  };
+	return {
+		type: ActionTypes.SET_REMAINING_TRANSFERS,
+		payload: { remainingTransfers }
+	};
 };
 
 export const setFilteredPlayers = (filteredPlayers: PlayerDTO[]): SetFilteredPlayers => {
-  return {
-    type: ActionTypes.SET_FILTERED_PLAYERS,
-    payload: { filteredPlayers }
-  };
+	return {
+		type: ActionTypes.SET_FILTERED_PLAYERS,
+		payload: { filteredPlayers }
+	};
 };
 
 export const addToPlayerBeingAdded = (playerBeingAdded: PlayerDTO): AddToPlayersBeingAdded => {
-  return {
-    type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED,
-    payload: { playerBeingAdded }
-  };
+	return {
+		type: ActionTypes.ADD_TO_PLAYERS_BEING_ADDED,
+		payload: { playerBeingAdded }
+	};
 };
 
 export const removeFromPlayersBeingAdded = (indexToRemove: number): RemoveFromPlayersBeingAdded => {
-  return {
-    type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_ADDED,
-    payload: { indexToRemove }
-  };
+	return {
+		type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_ADDED,
+		payload: { indexToRemove }
+	};
 };
 
 export const clearPlayersBeingAddedAndRemoved = (): ClearPlayersBeingAddedAndRemoved => {
-  return {
-    type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED,
-    payload: {}
-  };
+	return {
+		type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED,
+		payload: {}
+	};
 };
 
 export const addToPlayerBeingRemoved = (playerBeingAdded: PlayerDTO): AddToPlayersBeingRemoved => {
-  return {
-    type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED,
-    payload: { playerBeingAdded }
-  };
+	return {
+		type: ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED,
+		payload: { playerBeingAdded }
+	};
 };
 
 export const removeFromPlayersBeingRemoved = (
-  indexToRemove: number
+	indexToRemove: number
 ): RemoveFromPlayersBeingRemoved => {
-  return {
-    type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_REMOVED,
-    payload: { indexToRemove }
-  };
+	return {
+		type: ActionTypes.REMOVE_FROM_PLAYERS_BEING_REMOVED,
+		payload: { indexToRemove }
+	};
 };
 
 export const setTransferMarket = (transferMarketOpen: boolean): SetTransferMarket => {
-  return {
-    type: ActionTypes.SET_TRANSFER_MARKET,
-    payload: { transferMarketOpen }
-  };
+	return {
+		type: ActionTypes.SET_TRANSFER_MARKET,
+		payload: { transferMarketOpen }
+	};
 };
 
 export const reverseFilteredPlayers = (): ReverseFilteredPlayers => {
-  return {
-    type: ActionTypes.REVERSE_FILTERED_PLAYERS,
-    payload: {}
-  };
+	return {
+		type: ActionTypes.REVERSE_FILTERED_PLAYERS,
+		payload: {}
+	};
 };
 
 export type Action =
