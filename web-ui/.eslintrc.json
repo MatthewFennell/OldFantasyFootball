@@ -3,8 +3,8 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "extends": ["standard", "plugin:prettier/recommended"],
-  "plugins": ["typescript", "prettier"],
+  "extends": ["standard", "plugin:react/recommended"],
+  "plugins": ["typescript"],
   "env": {
     "browser": true,
     "node": true,
@@ -14,14 +14,23 @@
     "semi": ["warn", "always"],
     "no-undef": "off",
     "no-unused-vars": "off",
-    "prettier/prettier": "error",
     "max-len": "warn",
     "comma-dangle": "off",
-    "indent": ["error", 4, { "SwitchCase" : 1}],
+    "indent": [2, "tab"],
     "import/no=extraneous-dependencies": "off",
     "linebreak-style":"off",
     "radix":"off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true}],
-    "react/prefer-stateless-function": "warn"
+    "react/prefer-stateless-function": "warn",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-curly-spacing" : ["error", { "when" : "always"}],
+    "react/destructuring-assignment": "off",
+    "no-tabs": 0,
+    "no-mixed-spaces-and-tabs": 0
+  },
+  "settings": {
+    "react": {
+        "version": "detect" 
+    }
   }
 }
