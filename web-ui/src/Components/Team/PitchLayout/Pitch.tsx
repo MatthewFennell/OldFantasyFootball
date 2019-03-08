@@ -12,42 +12,42 @@ interface PitchProps {
 }
 
 class Pitch extends React.Component<PitchProps, {}> {
-  render() {
-    let goalKeeper: PlayerDTO[] = [];
-    let defenders: PlayerDTO[] = [];
-    let midfielders: PlayerDTO[] = [];
-    let attackers: PlayerDTO[] = [];
+	render () {
+		let goalKeeper: PlayerDTO[] = [];
+		let defenders: PlayerDTO[] = [];
+		let midfielders: PlayerDTO[] = [];
+		let attackers: PlayerDTO[] = [];
 
-    if (this.props.activeWeeklyTeam !== undefined) {
-      this.props.activeWeeklyTeam.forEach(element => {
-        if (element.position === 'GOALKEEPER') {
-          goalKeeper.push(element);
-        } else if (element.position === 'DEFENDER') {
-          defenders.push(element);
-        } else if (element.position === 'MIDFIELDER') {
-          midfielders.push(element);
-        } else if (element.position === 'ATTACKER') {
-          attackers.push(element);
-        }
-      });
-    }
+		if (this.props.activeWeeklyTeam !== undefined) {
+			this.props.activeWeeklyTeam.forEach(element => {
+				if (element.position === 'GOALKEEPER') {
+					goalKeeper.push(element);
+				} else if (element.position === 'DEFENDER') {
+					defenders.push(element);
+				} else if (element.position === 'MIDFIELDER') {
+					midfielders.push(element);
+				} else if (element.position === 'ATTACKER') {
+					attackers.push(element);
+				}
+			});
+		}
 
-    return (
-      <div className="pitch-with-players">
-        <div className="attackers">
-          <Attackers attackers={attackers} transfer={this.props.transfer} />
-        </div>
-        <div className="midfielders">
-          <Midfielders midfielders={midfielders} transfer={this.props.transfer} />
-        </div>
-        <div className="defenders">
-          <Defenders defenders={defenders} transfer={this.props.transfer} />
-        </div>
-        <div className="goalkeeper">
-          <Goalkeeper goalkeepers={goalKeeper} transfer={this.props.transfer} />
-        </div>
-      </div>
-    );
-  }
+		return (
+			<div className="pitch-with-players">
+				<div className="attackers">
+					<Attackers attackers={ attackers } transfer={ this.props.transfer } />
+				</div>
+				<div className="midfielders">
+					<Midfielders midfielders={ midfielders } transfer={ this.props.transfer } />
+				</div>
+				<div className="defenders">
+					<Defenders defenders={ defenders } transfer={ this.props.transfer } />
+				</div>
+				<div className="goalkeeper">
+					<Goalkeeper goalkeepers={ goalKeeper } transfer={ this.props.transfer } />
+				</div>
+			</div>
+		);
+	}
 }
 export default Pitch;

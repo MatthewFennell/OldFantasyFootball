@@ -5,12 +5,12 @@ import { State } from '../../Reducers/root';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 
 const mapStateToProps = (state: State) => ({
-  activeTeam: getActiveTeam(state)
+	activeTeam: getActiveTeam(state)
 });
 
 const mapDispatchToProps = {
-  addPlayer,
-  setTeam
+	addPlayer,
+	setTeam
 };
 
 export default connect<any, any, any>(

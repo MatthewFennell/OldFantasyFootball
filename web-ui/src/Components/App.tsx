@@ -14,29 +14,29 @@ import Admin from '../Containers/Admin/Admin';
 import Settings from '../Components/Settings/Settings';
 
 class App extends React.Component {
-  render() {
-    console.log('logged in = ' + isLoggedIn());
-    return (
-      <React.Fragment>
-        <Header />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            component={() => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />)}
-          />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/splashScreen" component={SplashScreen} />
-          {/* <Route exact path="/team" component={Team} /> */}
-          {/* <Route exact path="/transfers" component={Transfers} /> */}
-          <Route exact path="/leagues" component={Leagues} />
-          <Route exact path="/admin" component={Admin} />
-          <Route exact path="/settings" component={Settings} />
-          <PageBody />
-        </Switch>
-      </React.Fragment>
-    );
-  }
+	render () {
+		console.log('logged in = ' + isLoggedIn());
+		return (
+			<React.Fragment>
+				<Header />
+				<Switch>
+					<Route
+						exact
+						path="/"
+						component={ () => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />) }
+					/>
+					<Route exact path="/login" component={ Login } />
+					<Route exact path="/register" component={ Register } />
+					<Route exact path="/splashScreen" component={ SplashScreen } />
+					{/* <Route exact path="/team" component={Team} /> */}
+					{/* <Route exact path="/transfers" component={Transfers} /> */}
+					<Route exact path="/leagues" component={ Leagues } />
+					<Route exact path="/admin" component={ Admin } />
+					<Route exact path="/settings" component={ Settings } />
+					<PageBody />
+				</Switch>
+			</React.Fragment>
+		);
+	}
 }
 export default App;

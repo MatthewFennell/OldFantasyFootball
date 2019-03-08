@@ -6,8 +6,8 @@ export const getRemainingBudget = createSelector([getRemainingBudgetState], a =>
 
 const getRemainingTransfersState = (state: State) => state.transfers;
 export const getRemainingTransfers = createSelector(
-  [getRemainingTransfersState],
-  a => a.remainingTransfers
+	[getRemainingTransfersState],
+	a => a.remainingTransfers
 );
 
 const getFilteredPlayersState = (state: State) => state.transfers;
@@ -15,18 +15,18 @@ export const getFilteredPlayers = createSelector([getFilteredPlayersState], a =>
 
 const getPlayersBeingAddedState = (state: State) => state.transfers;
 export const getPlayersBeingAdded = createSelector(
-  [getPlayersBeingAddedState],
-  a => a.playersBeingAdded
+	[getPlayersBeingAddedState],
+	a => a.playersBeingAdded
 );
 
 const getPlayersBeingRemovedState = (state: State) => state.transfers;
 export const getPlayersBeingRemoved = createSelector(
-  [getPlayersBeingRemovedState],
-  a => a.playersBeingRemoved
+	[getPlayersBeingRemovedState],
+	a => a.playersBeingRemoved
 );
 
 const getTransferMarketOpenState = (state: State) => state.transfers;
 export const getTransferMarketOpen = createSelector(
-  [getTransferMarketOpenState],
-  a => a.transferMarketOpen
+	[getTransferMarketOpenState],
+	a => a.transferMarketOpen
 );

@@ -5,12 +5,12 @@ import { getTeamAddingPoints, getPlayersInFilteredTeam } from '../../Selectors/A
 import { setTeamAddingPoints } from '../../Actions/AdminActions';
 
 const mapStateToProps = (state: State) => ({
-  teamAddingPoints: getTeamAddingPoints(state),
-  playersInFilteredTeam: getPlayersInFilteredTeam(state)
+	teamAddingPoints: getTeamAddingPoints(state),
+	playersInFilteredTeam: getPlayersInFilteredTeam(state)
 });
 
 const mapDispatchToProps = {
-  setTeamAddingPoints
+	setTeamAddingPoints
 };
 
 export default connect<any, any, any>(

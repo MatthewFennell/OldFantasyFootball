@@ -4,7 +4,7 @@ import CreatePlayerForm from '../../Components/Admin/CreatePlayer/CreatePlayerFo
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
-  allCollegeTeams: getAllCollegeTeams(state)
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {};

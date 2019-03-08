@@ -6,7 +6,7 @@ import { addToLeagueCache } from '../../Actions/LeagueActions';
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = {
-  addToLeagueCache
+	addToLeagueCache
 };
 
 export default connect<any, any, any>(

@@ -11,25 +11,25 @@ interface ButtonPageSelectorProps {
 }
 
 class ButtonPageSelector extends React.Component<ButtonPageSelectorProps> {
-  shouldComponentUpdate(nextProps: ButtonPageSelectorProps) {
-    return nextProps !== this.props;
-  }
+	shouldComponentUpdate (nextProps: ButtonPageSelectorProps) {
+		return nextProps !== this.props;
+	}
 
-  render() {
-    return (
-      <div
-        id={this.props.id}
-        className={classNames('cursor-pointer', {
-          selected: this.props.selected
-        })}
-        onClick={() => this.props.select()}
-        ref={this.props.setRef()}
-      >
-        <img src={this.props.imgSrc} />
-        <h6>{this.props.text}</h6>
-      </div>
-    );
-  }
+	render () {
+		return (
+			<div
+				id={ this.props.id }
+				className={ classNames('cursor-pointer', {
+					selected: this.props.selected
+				}) }
+				onClick={ () => this.props.select() }
+				ref={ this.props.setRef() }
+			>
+				<img src={ this.props.imgSrc } />
+				<h6>{this.props.text}</h6>
+			</div>
+		);
+	}
 }
 
 export default ButtonPageSelector;

@@ -18,109 +18,109 @@ interface CreateGroupProps {
 }
 
 class CreateLeagueClass extends React.Component<
-  RoutedFormProps<RouteComponentProps> & CreateGroupProps,
-  CreateLeagueState
-> {
-  constructor(props: RoutedFormProps<RouteComponentProps> & CreateGroupProps) {
-    super(props);
-    this.state = {
-      leagueName: '',
-      error: '',
-      leagueCode: ''
-    };
-    this._onSubmit = this._onSubmit.bind(this);
-  }
+	RoutedFormProps<RouteComponentProps> & CreateGroupProps,
+	CreateLeagueState
+	> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & CreateGroupProps) {
+		super(props);
+		this.state = {
+			leagueName: '',
+			error: '',
+			leagueCode: ''
+		};
+		this._onSubmit = this._onSubmit.bind(this);
+	}
 
-  _handleInput(eventName: string, eventTarget: HTMLInputElement) {
-    this.setState({
-      [eventName]: eventTarget.value
-    } as Pick<CreateLeagueState, keyof CreateLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
-  }
+	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+		this.setState({
+			[eventName]: eventTarget.value
+		} as Pick<CreateLeagueState, keyof CreateLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+	}
 
   _validate = () => {
-    return false;
+  	return false;
   };
 
   _onSubmit = (event: string) => {
-    switch (event) {
-      case 'btnCreateLeague':
-        const err = this._validate();
-        if (!err) {
-          const data: CreateLeague = {
-            leagueName: this.state.leagueName,
-            startWeek: 0
-          };
-          createLeague(data)
-            .then(response => {
-              console.log('response = ' + JSON.stringify(response));
-              this.setState({ leagueCode: response.id });
-              console.log('This state = ' + JSON.stringify(this.state));
-              // TO:DO Add newly created league to props
-              this.props.addToLeagueCache(this.state.leagueName, 1);
-              console.log('Just made a league with name ' + this.state.leagueName);
-            })
-            .catch(error => {
-              this.setState({ error });
-              setTimeout(this._removeErrorMessage, 10000);
-              console.log(error);
-            });
-        }
-        break;
-      default:
-        break;
-    }
+  	switch (event) {
+  	case 'btnCreateLeague':
+  		const err = this._validate();
+  		if (!err) {
+  			const data: CreateLeague = {
+  				leagueName: this.state.leagueName,
+  				startWeek: 0
+  			};
+  			createLeague(data)
+  				.then(response => {
+  					console.log('response = ' + JSON.stringify(response));
+  					this.setState({ leagueCode: response.id });
+  					console.log('This state = ' + JSON.stringify(this.state));
+  					// TO:DO Add newly created league to props
+  					this.props.addToLeagueCache(this.state.leagueName, 1);
+  					console.log('Just made a league with name ' + this.state.leagueName);
+  				})
+  				.catch(error => {
+  					this.setState({ error });
+  					setTimeout(this._removeErrorMessage, 10000);
+  					console.log(error);
+  				});
+  		}
+  		break;
+  	default:
+  		break;
+  	}
   };
 
-  _removeErrorMessage() {
-    this.setState({ error: '' });
+  _removeErrorMessage () {
+  	this.setState({ error: '' });
   }
 
-  render() {
-    return (
-      <div className="create-league-form" onSubmit={e => e.preventDefault()}>
-        <Form id="create-league-form">
-          <h1 id="greeting" className="text-center unselectable">
+  render () {
+  	return (
+  		<div className="create-league-form" onSubmit={ e => e.preventDefault() }>
+  			<Form id="create-league-form">
+  				<h1 id="greeting" className="text-center unselectable">
             Create your league!
-          </h1>
-          <div id="login-input-fields">
-            <Label className="error-text">{this.state.error}</Label>
-            <FormGroup>
-              <Label for="leagueName" className="unselectable">
+  				</h1>
+  				<div id="login-input-fields">
+  					<Label className="error-text">{this.state.error}</Label>
+  					<FormGroup>
+  						<Label for="leagueName" className="unselectable">
                 League name
-              </Label>
-              <Field
-                type="text"
-                name="leagueName"
-                id="leagueName"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-          </div>
-          <Button
-            id="btnCreateLeague"
-            type="submit"
-            className="btn btn-default btn-round-lg btn-lg first"
-            onClick={(e: any) => this._onSubmit(e.target.id)}
-          >
+  						</Label>
+  						<Field
+  							type="text"
+  							name="leagueName"
+  							id="leagueName"
+  							component="input"
+  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  						/>
+  					</FormGroup>
+  				</div>
+  				<Button
+  					id="btnCreateLeague"
+  					type="submit"
+  					className="btn btn-default btn-round-lg btn-lg first"
+  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  				>
             Create League
-          </Button>
-        </Form>
-        {this.state.leagueCode.length > 0 ? (
-          <div className="error-message">
+  				</Button>
+  			</Form>
+  			{this.state.leagueCode.length > 0 ? (
+  				<div className="error-message">
             League created : {this.state.leagueName}. The code to join is {this.state.leagueCode}
-          </div>
-        ) : null}
-        {this.state.error.length > 0 ? (
-          <div className="error-message-animation">Error : {this.state.error} </div>
-        ) : null}
-      </div>
-    );
+  				</div>
+  			) : null}
+  			{this.state.error.length > 0 ? (
+  				<div className="error-message-animation">Error : {this.state.error} </div>
+  			) : null}
+  		</div>
+  	);
   }
 }
 
 export default withRouter(
-  reduxForm<{}, any>({
-    form: 'login'
-  })(CreateLeagueClass)
+	reduxForm<{}, any>({
+		form: 'login'
+	})(CreateLeagueClass)
 );

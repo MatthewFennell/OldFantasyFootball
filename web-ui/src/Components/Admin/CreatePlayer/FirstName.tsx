@@ -11,46 +11,46 @@ interface FirstNameProps {
   firstName: (searchByName: string) => void;
 }
 class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
-  constructor(props: FirstNameProps) {
-    super(props);
-    this.state = {
-      firstName: ''
-    };
-  }
+	constructor (props: FirstNameProps) {
+		super(props);
+		this.state = {
+			firstName: ''
+		};
+	}
 
-  _handleInput(eventName: string, eventTarget: HTMLInputElement) {
-    this.props.firstName(eventTarget.value);
-    this.setState({
-      [eventName]: eventTarget.value
-    } as Pick<FirstNameState, keyof FirstNameState>);
-  }
+	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+		this.props.firstName(eventTarget.value);
+		this.setState({
+			[eventName]: eventTarget.value
+		} as Pick<FirstNameState, keyof FirstNameState>);
+	}
 
-  render() {
-    return (
-      <div className="create-player-form-outer" onSubmit={e => e.preventDefault()}>
-        <Form id="create-player-form">
-          <div id="login-input-fields">
-            <FormGroup>
-              <Label for="firstName" className="unselectable">
+	render () {
+		return (
+			<div className="create-player-form-outer" onSubmit={ e => e.preventDefault() }>
+				<Form id="create-player-form">
+					<div id="login-input-fields">
+						<FormGroup>
+							<Label for="firstName" className="unselectable">
                 First name
-              </Label>
-              <Field
-                type="text"
-                name="firstName"
-                id="firstName"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-          </div>
-        </Form>
-      </div>
-    );
-  }
+							</Label>
+							<Field
+								type="text"
+								name="firstName"
+								id="firstName"
+								component="input"
+								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+							/>
+						</FormGroup>
+					</div>
+				</Form>
+			</div>
+		);
+	}
 }
 
 export default withRouter(
-  reduxForm<{}, any>({
-    form: 'login'
-  })(SearchByName)
+	reduxForm<{}, any>({
+		form: 'login'
+	})(SearchByName)
 );

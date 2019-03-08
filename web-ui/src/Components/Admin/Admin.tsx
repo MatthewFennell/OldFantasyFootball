@@ -19,95 +19,95 @@ interface AdminProps {
 }
 
 class Admin extends React.Component<AdminProps, {}> {
-  constructor(props: AdminProps) {
-    super(props);
-    this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
+	constructor (props: AdminProps) {
+		super(props);
+		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
 
-    if (this.props.allCollegeTeams.length === 0) {
-      getCollegeTeams('alphabetical').then(response => {
-        this.props.setAllCollegeTeams(response);
-      });
-    }
-  }
+		if (this.props.allCollegeTeams.length === 0) {
+			getCollegeTeams('alphabetical').then(response => {
+				this.props.setAllCollegeTeams(response);
+			});
+		}
+	}
 
-  _setPageBeingViewed(pageToView: string) {
-    this.props.setAdminPageBeingViewed(pageToView);
-  }
+	_setPageBeingViewed (pageToView: string) {
+		this.props.setAdminPageBeingViewed(pageToView);
+	}
 
-  _selectedOrNot(input: string) {
-    if (input === this.props.adminPageBeingViewed) {
-      return 'raise-selected';
-    } else {
-      return 'raise';
-    }
-  }
+	_selectedOrNot (input: string) {
+		if (input === this.props.adminPageBeingViewed) {
+			return 'raise-selected';
+		} else {
+			return 'raise';
+		}
+	}
 
-  render() {
-    return (
-      <div className="outer-admin-columns">
-        <div className="left-rows">
-          <div className="admin-info-row">
-            <div
-              className={this._selectedOrNot('create')}
-              onClick={() => this._setPageBeingViewed('create')}
-            >
+	render () {
+		return (
+			<div className="outer-admin-columns">
+				<div className="left-rows">
+					<div className="admin-info-row">
+						<div
+							className={ this._selectedOrNot('create') }
+							onClick={ () => this._setPageBeingViewed('create') }
+						>
               Create Player
-            </div>
-            <div
-              className={this._selectedOrNot('delete-player')}
-              onClick={() => this._setPageBeingViewed('delete-player')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('delete-player') }
+							onClick={ () => this._setPageBeingViewed('delete-player') }
+						>
               Delete Player
-            </div>
-            <div
-              className={this._selectedOrNot('create-college-team')}
-              onClick={() => this._setPageBeingViewed('create-college-team')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('create-college-team') }
+							onClick={ () => this._setPageBeingViewed('create-college-team') }
+						>
               Create College Team
-            </div>
-            <div
-              className={this._selectedOrNot('delete-college-team')}
-              onClick={() => this._setPageBeingViewed('delete-college-team')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('delete-college-team') }
+							onClick={ () => this._setPageBeingViewed('delete-college-team') }
+						>
               Delete College Team
-            </div>
-            <div
-              className={this._selectedOrNot('add-points')}
-              onClick={() => this._setPageBeingViewed('add-points')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('add-points') }
+							onClick={ () => this._setPageBeingViewed('add-points') }
+						>
               Add Points to Players
-            </div>
-            <div
-              className={this._selectedOrNot('edit-stats')}
-              onClick={() => this._setPageBeingViewed('edit-stats')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('edit-stats') }
+							onClick={ () => this._setPageBeingViewed('edit-stats') }
+						>
               Edit Player Stats
-            </div>
-            <div
-              className={this._selectedOrNot('add-result')}
-              onClick={() => this._setPageBeingViewed('add-result')}
-            >
+						</div>
+						<div
+							className={ this._selectedOrNot('add-result') }
+							onClick={ () => this._setPageBeingViewed('add-result') }
+						>
               Create Results
-            </div>
-          </div>
-          {this.props.adminPageBeingViewed === 'create' ? (
-            <CreatePlayerForm />
-          ) : this.props.adminPageBeingViewed === 'add-points' ? (
-            <AddPointsForm />
-          ) : this.props.adminPageBeingViewed === 'edit-stats' ? (
-            <EditPointsForm />
-          ) : this.props.adminPageBeingViewed === 'delete-player' ? (
-            <DeletePlayerForm />
-          ) : this.props.adminPageBeingViewed === 'create-college-team' ? (
-            <CreateCollegeTeam />
-          ) : this.props.adminPageBeingViewed === 'delete-college-team' ? (
-            <DeleteCollegeTeam />
-          ) : this.props.adminPageBeingViewed === 'add-result' ? (
-            <AddResult />
-          ) : null}
-        </div>
-      </div>
-    );
-  }
+						</div>
+					</div>
+					{this.props.adminPageBeingViewed === 'create' ? (
+						<CreatePlayerForm />
+					) : this.props.adminPageBeingViewed === 'add-points' ? (
+						<AddPointsForm />
+					) : this.props.adminPageBeingViewed === 'edit-stats' ? (
+						<EditPointsForm />
+					) : this.props.adminPageBeingViewed === 'delete-player' ? (
+						<DeletePlayerForm />
+					) : this.props.adminPageBeingViewed === 'create-college-team' ? (
+						<CreateCollegeTeam />
+					) : this.props.adminPageBeingViewed === 'delete-college-team' ? (
+						<DeleteCollegeTeam />
+					) : this.props.adminPageBeingViewed === 'add-result' ? (
+						<AddResult />
+					) : null}
+				</div>
+			</div>
+		);
+	}
 }
 export default Admin;

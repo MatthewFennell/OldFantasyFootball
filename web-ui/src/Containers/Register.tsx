@@ -7,9 +7,9 @@ import { setRemainingBudget } from '../Actions/TransferActions';
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = {
-  resetAccount,
-  setAccount,
-  setRemainingBudget
+	resetAccount,
+	setAccount,
+	setRemainingBudget
 };
 
 export default connect<any, any, any>(

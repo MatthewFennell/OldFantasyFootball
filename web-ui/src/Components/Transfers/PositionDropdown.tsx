@@ -12,53 +12,53 @@ interface PositionDropdownState {
 }
 
 class PositionDropdown extends React.Component<PositionDropdownProps, PositionDropdownState> {
-  constructor(props: PositionDropdownProps) {
-    super(props);
-    this._togglePosition = this._togglePosition.bind(this);
-    this.state = {
-      positionDropDownOpen: false,
-      positionValue: 'All'
-    };
-  }
+	constructor (props: PositionDropdownProps) {
+		super(props);
+		this._togglePosition = this._togglePosition.bind(this);
+		this.state = {
+			positionDropDownOpen: false,
+			positionValue: 'All'
+		};
+	}
 
-  _togglePosition() {
-    this.setState(prevState => ({
-      positionDropDownOpen: !prevState.positionDropDownOpen
-    }));
-  }
+	_togglePosition () {
+		this.setState(prevState => ({
+			positionDropDownOpen: !prevState.positionDropDownOpen
+		}));
+	}
 
-  _handlePositionChange(position: string) {
-    this.setState({ positionValue: position });
-    this.props.setPosition(position);
-  }
+	_handlePositionChange (position: string) {
+		this.setState({ positionValue: position });
+		this.props.setPosition(position);
+	}
 
-  render() {
-    let positions: string[] = ['Goalkeepers', 'Defenders', 'Midfielders', 'Attackers', 'All'];
-    const positionOptions = positions.map(position => (
-      <p className="position-menu-items">
-        <DropdownItem
-          className={'position-menu-item-' + (position === this.state.positionValue)}
-          key={position}
-          value={position}
-          onClick={() => this._handlePositionChange(position)}
-        >
-          {position}
-        </DropdownItem>
-      </p>
-    ));
+	render () {
+		let positions: string[] = ['Goalkeepers', 'Defenders', 'Midfielders', 'Attackers', 'All'];
+		const positionOptions = positions.map(position => (
+			<p className="position-menu-items">
+				<DropdownItem
+					className={ 'position-menu-item-' + (position === this.state.positionValue) }
+					key={ position }
+					value={ position }
+					onClick={ () => this._handlePositionChange(position) }
+				>
+					{position}
+				</DropdownItem>
+			</p>
+		));
 
-    return (
-      <div className="position-dropdown">
-        <Dropdown isOpen={this.state.positionDropDownOpen} toggle={this._togglePosition}>
-          {'Position: '} {this.state.positionValue}
-          <DropdownToggle caret className="position-menu-toggle">
-            {' '}
-            {' ▼'}
-          </DropdownToggle>
-          <DropdownMenu className="position-menu">{positionOptions}</DropdownMenu>
-        </Dropdown>
-      </div>
-    );
-  }
+		return (
+			<div className="position-dropdown">
+				<Dropdown isOpen={ this.state.positionDropDownOpen } toggle={ this._togglePosition }>
+					{'Position: '} {this.state.positionValue}
+					<DropdownToggle caret className="position-menu-toggle">
+						{' '}
+						{' ▼'}
+					</DropdownToggle>
+					<DropdownMenu className="position-menu">{positionOptions}</DropdownMenu>
+				</Dropdown>
+			</div>
+		);
+	}
 }
 export default PositionDropdown;

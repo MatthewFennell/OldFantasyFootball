@@ -14,59 +14,59 @@ interface StatsProps {
 interface StatsState {}
 
 class Stats extends React.Component<StatsProps, StatsState> {
-  componentDidMount() {}
+	componentDidMount () {}
 
-  render() {
-    const {
-      averageWeeklyPointsCache,
-      weekBeingViewed,
-      topWeeklyPlayerCache,
-      topWeeklyUsersCache,
-      mostValuable
-    } = this.props;
+	render () {
+		const {
+			averageWeeklyPointsCache,
+			weekBeingViewed,
+			topWeeklyPlayerCache,
+			topWeeklyUsersCache,
+			mostValuable
+		} = this.props;
 
-    return (
-      <div className="stats-columns">
-        <div className="average-points">
-          {this.props.weekBeingViewed === -1 ? (
-            <div>Remaining Budget : {this.props.remainingBudget} mil </div>
-          ) : (
-            <div> Average Points: {averageWeeklyPointsCache[weekBeingViewed]}</div>
-          )}
-        </div>
+		return (
+			<div className="stats-columns">
+				<div className="average-points">
+					{this.props.weekBeingViewed === -1 ? (
+						<div>Remaining Budget : {this.props.remainingBudget} mil </div>
+					) : (
+						<div> Average Points: {averageWeeklyPointsCache[weekBeingViewed]}</div>
+					)}
+				</div>
 
-        {/* {this.props.weekBeingViewed === -1 ? (
+				{/* {this.props.weekBeingViewed === -1 ? (
           <div className="player-most-points">Your most valuable player is : </div>
         ) : null} */}
 
-        {topWeeklyPlayerCache[weekBeingViewed] !== undefined ? (
-          <div className="player-most-points">
+				{topWeeklyPlayerCache[weekBeingViewed] !== undefined ? (
+					<div className="player-most-points">
             Player of the Week : {topWeeklyPlayerCache[weekBeingViewed].firstName}{' '}
-            {topWeeklyPlayerCache[weekBeingViewed].surname} (
-            {topWeeklyPlayerCache[weekBeingViewed].points} points)
-          </div>
-        ) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
-          <div className="player-most-points">
+						{topWeeklyPlayerCache[weekBeingViewed].surname} (
+						{topWeeklyPlayerCache[weekBeingViewed].points} points)
+					</div>
+				) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+					<div className="player-most-points">
             Your most valuable player is {mostValuable.mostValuablePlayer.firstName}{' '}
-            {mostValuable.mostValuablePlayer.surname} with {mostValuable.mostValuablePlayerScore}{' '}
+						{mostValuable.mostValuablePlayer.surname} with {mostValuable.mostValuablePlayerScore}{' '}
             points{' '}
-          </div>
-        ) : null}
+					</div>
+				) : null}
 
-        {topWeeklyUsersCache[weekBeingViewed] !== undefined ? (
-          <div className="user-most-points">
+				{topWeeklyUsersCache[weekBeingViewed] !== undefined ? (
+					<div className="user-most-points">
             Team of the Week : {topWeeklyUsersCache[weekBeingViewed].firstName}{' '}
-            {topWeeklyUsersCache[weekBeingViewed].surname} (
-            {topWeeklyUsersCache[weekBeingViewed].points} points )
-          </div>
-        ) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
-          <div className="player-most-points">
+						{topWeeklyUsersCache[weekBeingViewed].surname} (
+						{topWeeklyUsersCache[weekBeingViewed].points} points )
+					</div>
+				) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+					<div className="player-most-points">
             Your most valuable college team is {mostValuable.mostValuableCollegeTeam.name} with{' '}
-            {mostValuable.mostValuableCollegeTeamScore} points
-          </div>
-        ) : null}
-      </div>
-    );
-  }
+						{mostValuable.mostValuableCollegeTeamScore} points
+					</div>
+				) : null}
+			</div>
+		);
+	}
 }
 export default Stats;

@@ -5,13 +5,13 @@ import { setAdminPageBeingViewed, setAllCollegeTeams } from '../../Actions/Admin
 import { getAdminPageBeingViewed, getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
-  adminPageBeingViewed: getAdminPageBeingViewed(state),
-  allCollegeTeams: getAllCollegeTeams(state)
+	adminPageBeingViewed: getAdminPageBeingViewed(state),
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {
-  setAdminPageBeingViewed,
-  setAllCollegeTeams
+	setAdminPageBeingViewed,
+	setAllCollegeTeams
 };
 
 export default connect<any, any, any>(

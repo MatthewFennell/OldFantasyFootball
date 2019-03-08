@@ -5,12 +5,12 @@ import { State } from '../Reducers/root';
 import { getFirstName } from '../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
-  firstName: getFirstName(state)
+	firstName: getFirstName(state)
 });
 
 const mapDispatchToProps = {
-  setFirstName,
-  getFirstName
+	setFirstName,
+	getFirstName
 };
 
 export default connect<any, any, any>(

@@ -13,26 +13,26 @@ interface PageBodyProps {
 }
 
 class PageBody extends React.Component<PageBodyProps> {
-  _whichPage() {
-    console.log('hey');
-    let pageBeingViewed = this.props.pageBeingViewed;
+	_whichPage () {
+		console.log('hey');
+		let pageBeingViewed = this.props.pageBeingViewed;
 
-    if (pageBeingViewed === 'Team') {
-      return <Team />;
-    } else if (pageBeingViewed === 'Transfers') {
-      return <Transfers />;
-    } else if (pageBeingViewed === 'Leagues') {
-      return <Leagues />;
-    } else if (pageBeingViewed === 'Settings') {
-      return <Settings />;
-    } else {
-      return <Team />;
-    }
-  }
+		if (pageBeingViewed === 'Team') {
+			return <Team />;
+		} else if (pageBeingViewed === 'Transfers') {
+			return <Transfers />;
+		} else if (pageBeingViewed === 'Leagues') {
+			return <Leagues />;
+		} else if (pageBeingViewed === 'Settings') {
+			return <Settings />;
+		} else {
+			return <Team />;
+		}
+	}
 
-  render() {
-    return <Route path="/" component={CategoryTemplate} />;
-  }
+	render () {
+		return <Route path="/" component={ CategoryTemplate } />;
+	}
 }
 
 export default PageBody;

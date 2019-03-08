@@ -17,70 +17,70 @@ export interface State {
 
 // Define our initialState
 export const initialState: State = {
-  id: '',
-  firstName: '',
-  surname: '',
-  email: '',
-  username: '',
-  pageBeingViewed: 'Team',
-  totalPoints: 0,
-  weekBeingViewed: 0,
-  remainingTransfers: 0,
-  roles: []
+	id: '',
+	firstName: '',
+	surname: '',
+	email: '',
+	username: '',
+	pageBeingViewed: 'Team',
+	totalPoints: 0,
+	weekBeingViewed: 0,
+	remainingTransfers: 0,
+	roles: []
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
-  switch (action.type) {
-    case ActionTypes.SET_FIRSTNAME: {
-      return {
-        ...state,
-        firstName: action.payload.firstName
-      };
-    }
+	switch (action.type) {
+	case ActionTypes.SET_FIRSTNAME: {
+		return {
+			...state,
+			firstName: action.payload.firstName
+		};
+	}
 
-    case ActionTypes.SET_ACCOUNT: {
-      const {
-        id,
-        firstName,
-        surname,
-        username,
-        email,
-        totalPoints,
-        remainingTransfers,
-        roles
-      } = action.payload.account;
+	case ActionTypes.SET_ACCOUNT: {
+		const {
+			id,
+			firstName,
+			surname,
+			username,
+			email,
+			totalPoints,
+			remainingTransfers,
+			roles
+		} = action.payload.account;
 
-      return {
-        id,
-        firstName,
-        surname,
-        username,
-        email,
-        totalPoints,
-        remainingTransfers,
-        roles
-      };
-    }
+		return {
+			id,
+			firstName,
+			surname,
+			username,
+			email,
+			totalPoints,
+			remainingTransfers,
+			roles
+		};
+	}
 
-    case ActionTypes.SET_PAGE_BEING_VIEWED: {
-      return {
-        ...state,
-        pageBeingViewed: action.payload.pageToView
-      };
-    }
+	case ActionTypes.SET_PAGE_BEING_VIEWED: {
+		return {
+			...state,
+			pageBeingViewed: action.payload.pageToView
+		};
+	}
 
-    case ActionTypes.SET_TOTAL_POINTS: {
-      return {
-        ...state,
-        totalPoints: action.payload.totalPoints
-      };
-    }
+	case ActionTypes.SET_TOTAL_POINTS: {
+		return {
+			...state,
+			totalPoints: action.payload.totalPoints
+		};
+	}
 
-    case ActionTypes.RESET_ACCOUNT: {
-      return initialState;
-    }
+	case ActionTypes.RESET_ACCOUNT: {
+		return initialState;
+	}
 
-    default:
-      return state;
-  }
+	default:
+		return state;
+	}
 };

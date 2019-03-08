@@ -4,7 +4,7 @@ import Rankings from '../../Components/Leagues/RankingsTableBody';
 import { getLeaguePageBeingViewed } from '../../Selectors/LeagueSelector';
 
 const mapStateToProps = (state: State) => ({
-  leaguePageBeingViewed: getLeaguePageBeingViewed(state)
+	leaguePageBeingViewed: getLeaguePageBeingViewed(state)
 });
 
 const mapDispatchToProps = {};
