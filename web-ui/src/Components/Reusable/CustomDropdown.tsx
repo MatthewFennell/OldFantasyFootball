@@ -44,7 +44,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 
 	render () {
 		const positionOptions = this.props.values.map(name => (
-			<p className="custom-dropdown-menu-items">
+			<p className="custom-dropdown-menu-items" key = { name }>
 				<DropdownItem
 					className={ 'custom-dropdown-menu-item-' + (name === this.state.value) }
 					key={ name }

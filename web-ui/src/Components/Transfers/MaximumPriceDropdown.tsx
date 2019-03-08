@@ -50,7 +50,7 @@ class MaximumPriceDropdown extends React.Component<
 			'No limit'
 		];
 		const maximumPriceOptions = maximumPrices.map(maximumPrice => (
-			<p className="maximum-menu-items">
+			<p className="maximum-menu-items" key = { maximumPrice }>
 				<DropdownItem
 					className={ 'maximum-price-menu-item-' + (maximumPrice === this.state.maximumPriceValue) }
 					key={ maximumPrice }

@@ -35,7 +35,7 @@ class SortByDropdown extends React.Component<SortByDropdownProps, SortByDropdown
 	render () {
 		let sortBys: string[] = ['Total score', 'Goals', 'Assists', 'Price'];
 		const sortByOptions = sortBys.map(sortBy => (
-			<p className="sort-by-menu-items">
+			<p className="sort-by-menu-items" key = { sortBy }>
 				<DropdownItem
 					className={ 'sort-by-menu-item-' + (sortBy === this.state.sortByValue) }
 					key={ sortBy }

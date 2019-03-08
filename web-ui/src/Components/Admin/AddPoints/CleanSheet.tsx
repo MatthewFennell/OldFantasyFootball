@@ -26,7 +26,7 @@ class CleanSheet extends React.Component<CleanSheetProps, CleanSheetState> {
 		}));
 	}
 
-	_handleTeamChange (team: string) {
+	_handleCleanSheetChange (team: string) {
 		this.setState({ cleanSheet: team });
 		if (team === 'Yes') {
 			this.props.setCleanSheet(true);
@@ -36,16 +36,16 @@ class CleanSheet extends React.Component<CleanSheetProps, CleanSheetState> {
 	}
 
 	render () {
-		let teams: string[] = ['Yes', 'No'];
-		const teamOptions = teams.map(team => (
-			<p className="team-menu-items">
+		let cleanSheets: string[] = ['Yes', 'No'];
+		const teamOptions = cleanSheets.map(cleanSheet => (
+			<p className="team-menu-items" key = { cleanSheet }>
 				<DropdownItem
-					className={ 'team-menu-item-' + (team === this.state.cleanSheet) }
-					key={ team }
-					value={ team }
-					onClick={ () => this._handleTeamChange(team) }
+					className={ 'team-menu-item-' + (cleanSheet === this.state.cleanSheet) }
+					key={ cleanSheet }
+					value={ cleanSheet }
+					onClick={ () => this._handleCleanSheetChange(cleanSheet) }
 				>
-					{team}
+					{cleanSheet}
 				</DropdownItem>
 			</p>
 		));

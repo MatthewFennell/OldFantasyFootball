@@ -48,7 +48,7 @@ class MinimumPriceDropdown extends React.Component<
 			'12.0'
 		];
 		const minimumPriceOptions = minimumPrices.map(minimumPrice => (
-			<p className="minimum-menu-items">
+			<p className="minimum-menu-items" key = { minimumPrice }>
 				<DropdownItem
 					className={ 'minimum-price-menu-item-' + (minimumPrice === this.state.minimumPriceValue) }
 					key={ minimumPrice }

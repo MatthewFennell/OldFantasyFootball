@@ -65,7 +65,7 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 		}
 
 		const teamOptions = teams.map(team => (
-			<p className="team-menu-items">
+			<p className="team-menu-items" key = { team[0] }>
 				<DropdownItem
 					className={ 'team-menu-item-' + (team[0] === this.state.playerSelected) }
 					key={ team[1] }
