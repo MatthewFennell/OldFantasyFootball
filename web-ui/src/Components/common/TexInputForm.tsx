@@ -3,26 +3,14 @@ import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-interface FirstNameState {
-  firstName: string;
+interface TextValueProps {
+  setValue: (value: string) => void;
+  currentValue: string;
+  title: string;
 }
-
-interface FirstNameProps {
-  firstName: (searchByName: string) => void;
-}
-class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
-	constructor (props: FirstNameProps) {
-		super(props);
-		this.state = {
-			firstName: ''
-		};
-	}
-
-	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
-		this.props.firstName(eventTarget.value);
-		this.setState({
-			[eventName]: eventTarget.value
-		} as Pick<FirstNameState, keyof FirstNameState>);
+class TextValue extends React.Component<TextValueProps, {}> {
+	_handleInput (eventTarget: HTMLInputElement) {
+		this.props.setValue(eventTarget.value);
 	}
 
 	render () {
@@ -38,13 +26,13 @@ class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
 								className="unselectable"
 								for="firstName"
 							>
-                First name
+								{this.props.title}
 							</Label>
 							<Field
 								component="input"
-								id="firstName"
-								name="firstName"
-								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								id={this.props.title}
+								name={this.props.title}
+								onChange={e => this._handleInput(e!.target)}
 								type="text"
 							/>
 						</FormGroup>
@@ -58,5 +46,5 @@ class SearchByName extends React.Component<FirstNameProps, FirstNameState> {
 export default withRouter(
 	reduxForm<{}, any>({
 		form: 'login'
-	})(SearchByName)
+	})(TextValue)
 );

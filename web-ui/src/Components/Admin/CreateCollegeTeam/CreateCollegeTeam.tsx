@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeName from './CollegeName';
 import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validCollegeName } from '../../../Services/CredentialInputService';
+import TextInputForm from '../../common/TexInputForm';
 
 interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -78,12 +78,16 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	render () {
-		let collegeName = this._handleCollegeName;
+		// let collegeName = this._handleCollegeName;
 
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeName collegeName={collegeName} />
+					<TextInputForm
+						currentValue={this.state.collegeNameValue}
+						setValue={this._handleCollegeName}
+						title="College team name"
+					/>
 				</div>
 				<div className="admin-form-row-two">
 					<div>

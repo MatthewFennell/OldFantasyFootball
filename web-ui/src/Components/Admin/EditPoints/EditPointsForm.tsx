@@ -6,15 +6,9 @@ import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { PlayerPoints } from '../../../Models/Interfaces/PlayerPoints';
 import { AddPoints } from '../../../Models/Interfaces/AddPoints';
 import { editPlayerPoints, getPlayerStatsForWeek } from '../../../Services/Player/PlayerService';
-import Week from '../AddPoints/Week';
-import Goals from '../AddPoints/Goals';
-import Assists from '../AddPoints/Assists';
-import MinutesPlayed from '../AddPoints/MinutesPlayed';
-import YellowCard from '../AddPoints/YellowCard';
-import ManOfTheMatch from '../AddPoints/ManOfTheMatch';
-import RedCard from '../AddPoints/RedCard';
-import CleanSheet from '../AddPoints/CleanSheet';
 import '../../../Style/Admin/ErrorMessage.css';
+import TextInputForm from '../../common/TexInputForm';
+import CustomDropdown from '../../common/CustomDropdown';
 
 interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -242,21 +236,17 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	render () {
 		let setTeam = this._handleCollegeTeam;
 		let setPlayerID = this._handlePlayerID;
-		let setWeek = this._handleWeek;
-		let setGoals = this._handleGoals;
-		let assists = this._handleAssists;
-		let minutesPlayed = this._handleMinutesPlayed;
-		let manOfTheMatch = this._handleManOfTheMatch;
-		let redCard = this._handleRedCard;
-		let cleanSheet = this._handleCleanSheet;
-		let yellowCards = this._handleYellowCards;
 
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
 					<CollegeTeam setTeam={setTeam} />
 					<SelectPlayer setPlayerID={setPlayerID} />
-					<Week week={setWeek} />
+					<TextInputForm
+						currentValue={this.state.week}
+						setValue={this._handleWeek}
+						title="Week"
+					/>
 				</div>
 				<div className="admin-form-row-two">
 					{this.state.playerID !== '' && this.state.week !== '' ? (
@@ -329,14 +319,42 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 				<div className="admin-form-row-two">
 					{this.state.playerID !== '' && this.state.week !== '' ? (
 						<div className="admin-form-row-two">
-							<Goals goals={setGoals} />
-							<Assists assists={assists} />
-							<MinutesPlayed minutesPlayed={minutesPlayed} />
-							<YellowCard yellowCards={yellowCards} />
-							<ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
-							<RedCard setRedCard={redCard} />
+							<TextInputForm
+								currentValue={this.state.goals}
+								setValue={this._handleGoals}
+								title="Goals"
+							/>
+							<TextInputForm
+								currentValue={this.state.assists}
+								setValue={this._handleAssists}
+								title="Assists"
+							/>
+							<TextInputForm
+								currentValue={this.state.minutesPlayed}
+								setValue={this._handleMinutesPlayed}
+								title="Minutes played"
+							/>
+							<CustomDropdown
+								setData={this._handleYellowCards}
+								title="Yellow Cards"
+								values={['0', '1', '2']}
+							/>
+							<CustomDropdown
+								setData={this._handleManOfTheMatch}
+								title="Man of the Match"
+								values={['No', 'Yes']}
+							/>
+							<CustomDropdown
+								setData={this._handleRedCard}
+								title="Red Card"
+								values={['No', 'Yes']}
+							/>
 
-							{this.state.viewingDefender ? <CleanSheet setCleanSheet={cleanSheet} /> : null}
+							{this.state.viewingDefender ? <CustomDropdown
+								setData={this._handleCleanSheet}
+								title="Clean Sheet"
+								values={['No', 'Yes']}
+							                              /> : null}
 						</div>
 					) : null}
 				</div>

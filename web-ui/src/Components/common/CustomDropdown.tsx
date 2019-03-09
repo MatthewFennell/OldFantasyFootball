@@ -16,7 +16,7 @@ interface CustomDropdownState {
 class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdownState> {
 	constructor (props: CustomDropdownProps) {
 		super(props);
-		this._togglePosition = this._togglePosition.bind(this);
+		this._toggleDropdown = this._toggleDropdown.bind(this);
 
 		if (this.props.values.length > 0) {
 			this.state = {
@@ -31,7 +31,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 		}
 	}
 
-	_togglePosition () {
+	_toggleDropdown () {
 		this.setState(prevState => ({
 			dropDownOpen: !prevState.dropDownOpen
 		}));
@@ -63,7 +63,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 			<div className="custom-dropdown">
 				<Dropdown
 					isOpen={this.state.dropDownOpen}
-					toggle={this._togglePosition}
+					toggle={this._toggleDropdown}
 				>
 					{this.props.title + ':'} {this.state.value}
 					<DropdownToggle
