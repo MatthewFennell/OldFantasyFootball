@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
-import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
-import { deletePlayer } from '../../../Services/Player/PlayerService';
-import '../../../Style/Admin/ErrorMessage.css';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
+import SelectPlayer from '../../Containers/Admin/SelectPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { deletePlayer } from '../../Services/Player/PlayerService';
+import '../../Style/Admin/ErrorMessage.css';
 
 interface DeletePlayerProps {
   setTeamAddingPoints: (team: string) => void;
@@ -25,7 +25,7 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
 			playerID: 'No player selected',
 			playerDeleted: false,
@@ -38,7 +38,8 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 	}
 
 	_handleCollegeTeam (team: string) {
-		this.props.setTeamAddingPoints(team);
+		const { setTeamAddingPoints } = this.props;
+		setTeamAddingPoints(team);
 	}
 
 	_removeErrorMessage () {
@@ -46,8 +47,9 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 		this.setState({ errorMessage: '' });
 	}
 
-	_onValidate () {
-		if (this.state.playerID === 'No player selected') {
+	handleValidate () {
+		const { playerID } = this.state;
+		if (playerID === 'No player selected') {
 			this.setState({ errorMessage: 'Please select a player (UI)' });
 			this.setState({ playerDeleted: false });
 			setTimeout(this._removeErrorMessage, 10000);
@@ -57,7 +59,8 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 	}
 
 	_onSubmit () {
-		deletePlayer(this.state.playerID)
+		const { playerID } = this.state;
+		deletePlayer(playerID)
 			.then(response => {
 				this.setState({ playerDeleted: true });
 				this.setState({ errorMessage: '' });
@@ -71,16 +74,15 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 	}
 
 	render () {
-		let setTeam = this._handleCollegeTeam;
-		let setPlayerID = this._handlePlayerID;
+		const { playerDeleted, errorMessage } = this.state;
 
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={setTeam} />
+					<CollegeTeam setTeam={this._handleCollegeTeam} />
 					<SelectPlayer
 						onlyDefendwrs={false}
-						setPlayerID={setPlayerID}
+						setPlayerID={this._handlePlayerID}
 					/>
 				</div>
 				<div className="admin-form-row-two" />
@@ -88,16 +90,16 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnDeletePlayer"
-						onClick={() => this._onValidate()}
+						onClick={this.handleValidate}
 					>
             Delete player
 					</Button>
 				</div>
-				{this.state.playerDeleted ? (
+				{playerDeleted ? (
 					<div className="error-message-animation"> Player deleted successfully! </div>
 				) : null}
-				{this.state.errorMessage ? (
-					<div className="error-message-animation"> Error : {this.state.errorMessage} </div>
+				{errorMessage ? (
+					<div className="error-message-animation"> Error : {errorMessage} </div>
 				) : null}
 			</div>
 		);

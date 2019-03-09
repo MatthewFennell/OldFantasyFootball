@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
-import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
-import '../../../Style/Admin/ErrorMessage.css';
-import { validCollegeName } from '../../../Services/CredentialInputService';
-import TextInputForm from '../../common/TexInputForm';
+import { makeCollegeTeam } from '../../Services/CollegeTeam/CollegeTeamService';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import '../../Style/Admin/ErrorMessage.css';
+import { validCollegeName } from '../../Services/CredentialInputService';
+import TextInputForm from '../common/TexInputForm';
 
 interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -24,7 +24,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		this._handleCollegeName = this._handleCollegeName.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
 			collegeNameValue: 'Please select a team',
 			collegeTeamCreated: false,
@@ -37,8 +37,9 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		this.setState({ collegeNameValue: collegeName });
 	}
 
-	_onValidate () {
-		if (validCollegeName(this.state.collegeNameValue)) {
+	handleValidate () {
+		const { collegeNameValue } = this.state;
+		if (validCollegeName(collegeNameValue)) {
 			this._onSubmit();
 		} else {
 			this.setState({ errorMessage: 'College team name does not match regex (UI)' });
@@ -48,20 +49,22 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	_onSubmit () {
-		makeCollegeTeam(this.state.collegeNameValue)
+		const { allCollegeTeams, addCollegeTeam } = this.props;
+		const { collegeNameValue } = this.state;
+		makeCollegeTeam(collegeNameValue)
 			.then(response => {
 				let alreadyThere: boolean = false;
 
-				for (let x = 0; x < this.props.allCollegeTeams.length; x++) {
-					if (this.props.allCollegeTeams[x].name === this.state.collegeNameValue) {
+				for (let x = 0; x < allCollegeTeams.length; x++) {
+					if (allCollegeTeams[x].name === collegeNameValue) {
 						alreadyThere = true;
 					}
 				}
 				if (!alreadyThere) {
-					this.props.addCollegeTeam(response);
+					addCollegeTeam(response);
 				}
 				this.setState({ collegeTeamCreated: true });
-				this.setState({ previousCollegeTeamMade: this.state.collegeNameValue });
+				this.setState({ previousCollegeTeamMade: collegeNameValue });
 				this.setState({ errorMessage: '' });
 				setTimeout(this._removeErrorMessage, 10000);
 			})
@@ -78,13 +81,12 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	render () {
-		// let collegeName = this._handleCollegeName;
-
+		const { collegeNameValue, collegeTeamCreated, previousCollegeTeamMade, errorMessage } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
 					<TextInputForm
-						currentValue={this.state.collegeNameValue}
+						currentValue={collegeNameValue}
 						setValue={this._handleCollegeName}
 						title="College team name"
 					/>
@@ -94,19 +96,19 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreateCollegeTeam"
-							onClick={() => this._onValidate()}
+							onClick={this.handleValidate}
 						>
               Create College Team
 						</Button>
 					</div>
 				</div>
-				{this.state.collegeTeamCreated ? (
+				{collegeTeamCreated ? (
 					<div className="error-message-animation">
-            College team created : {this.state.previousCollegeTeamMade}{' '}
+            College team created : {previousCollegeTeamMade}{' '}
 					</div>
 				) : null}
-				{this.state.errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {this.state.errorMessage} </div>
+				{errorMessage.length > 0 ? (
+					<div className="error-message-animation">Error : {errorMessage} </div>
 				) : null}
 			</div>
 		);
