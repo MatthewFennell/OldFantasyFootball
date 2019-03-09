@@ -23,9 +23,11 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		this._handleCollegeName = this._handleCollegeName.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 
-		if (this.props.allCollegeTeams.length > 0) {
+		const { allCollegeTeams } = this.props;
+
+		if (allCollegeTeams.length > 0) {
 			this.state = {
-				collegeNameValue: this.props.allCollegeTeams[0].name,
+				collegeNameValue: allCollegeTeams[0].name,
 				collegeTeamDeleted: false,
 				previousCollegeName: '',
 				errorMessage: ''
@@ -44,13 +46,15 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		this.setState({ collegeNameValue: collegeName });
 	}
 
-	_onSubmit () {
-		deleteCollegeTeam(this.state.collegeNameValue)
+	handleSubmit () {
+		const { removeCollegeTeam } = this.props;
+		const { collegeNameValue } = this.state;
+		deleteCollegeTeam(collegeNameValue)
 			.then(response => {
 				this.setState({ collegeTeamDeleted: true });
-				this.setState({ previousCollegeName: this.state.collegeNameValue });
+				this.setState({ previousCollegeName: collegeNameValue });
 				this.setState({ errorMessage: '' });
-				this.props.removeCollegeTeam(this.state.collegeNameValue);
+				removeCollegeTeam(collegeNameValue);
 				setTimeout(this._removeErrorMessage, 10000);
 			})
 			.catch(error => {
@@ -66,31 +70,30 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 	}
 
 	render () {
-		let collegeName = this._handleCollegeName;
-
+		const { collegeTeamDeleted, previousCollegeName, errorMessage } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={collegeName} />
+					<CollegeTeam setTeam={this._handleCollegeName} />
 				</div>
 				<div className="admin-form-row-two">
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnDeleteCollegeTeam"
-							onClick={() => this._onSubmit()}
+							onClick={this.handleSubmit}
 						>
               Delete College Team
 						</Button>
 					</div>
 				</div>
-				{this.state.collegeTeamDeleted ? (
+				{collegeTeamDeleted ? (
 					<div className="error-message-animation">
-            Deleted college team successfully : {this.state.previousCollegeName}{' '}
+            Deleted college team successfully : {previousCollegeName}{' '}
 					</div>
 				) : null}
-				{this.state.errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {this.state.errorMessage} </div>
+				{errorMessage.length > 0 ? (
+					<div className="error-message-animation">Error : {errorMessage} </div>
 				) : null}
 			</div>
 		);

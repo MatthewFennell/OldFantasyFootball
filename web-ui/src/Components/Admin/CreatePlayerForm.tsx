@@ -35,12 +35,15 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		this._handleFirstName = this._handleFirstName.bind(this);
 		this._handlePrice = this._handlePrice.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleValidate = this.handleValidate.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
-		if (this.props.allCollegeTeams.length > 0) {
+
+		const { allCollegeTeams } = this.props;
+
+		if (allCollegeTeams.length > 0) {
 			this.state = {
 				positionValue: 'Goalkeeper',
-				teamValue: this.props.allCollegeTeams[0].name,
+				teamValue: allCollegeTeams[0].name,
 				firstNameValue: '',
 				surnameValue: '',
 				priceValue: '',
@@ -87,16 +90,17 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		this.setState({ priceValue: price });
 	}
 
-	_onValidate () {
+	handleValidate () {
+		const { firstNameValue, surnameValue, priceValue } = this.state;
 		if (
-			!validPlayerFirstName(this.state.firstNameValue) ||
-      !validPlayerSurname(this.state.surnameValue)
+			!validPlayerFirstName(firstNameValue) ||
+      !validPlayerSurname(surnameValue)
 		) {
 			this.setState({ errorMessage: 'Invalid First name or Surname' });
 			this.setState({ playerCreated: false });
 			setTimeout(this._removeErrorMessage, 10000);
 		} else {
-			if (this.state.priceValue === '' || isNaN(parseFloat(this.state.priceValue))) {
+			if (priceValue === '' || isNaN(parseFloat(priceValue))) {
 				this.setState({ errorMessage: 'Please enter a valid price' });
 				this.setState({ playerCreated: false });
 				setTimeout(this._removeErrorMessage, 10000);
@@ -107,24 +111,25 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 	}
 
 	_onSubmit () {
-		let position: string = this.state.positionValue.toUpperCase();
+		const { positionValue, teamValue, priceValue, firstNameValue, surnameValue } = this.state;
+		let position: string = positionValue.toUpperCase();
 
 		let data: CreatePlayer = {
 			position: position,
-			collegeTeam: this.state.teamValue,
-			price: parseFloat(this.state.priceValue),
-			firstName: this.state.firstNameValue,
-			surname: this.state.surnameValue
+			collegeTeam: teamValue,
+			price: parseFloat(priceValue),
+			firstName: firstNameValue,
+			surname: surnameValue
 		};
 		createPlayer(data)
 			.then(response => {
 				this.setState({ playerCreated: true });
 				let values: string[] = [
-					this.state.firstNameValue,
-					this.state.surnameValue,
-					this.state.teamValue,
-					this.state.priceValue,
-					this.state.positionValue
+					firstNameValue,
+					surnameValue,
+					teamValue,
+					priceValue,
+					positionValue
 				];
 				this.setState({ previousValues: values });
 				this.setState({ errorMessage: '' });
@@ -138,55 +143,53 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 	}
 
 	render () {
-		let positionChange = this._handlePositionChange;
-		let teamChange = this._handleTeamChange;
-
+		const { firstNameValue, surnameValue, priceValue, playerCreated, previousValues, errorMessage } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
 					<TextInputForm
-						currentValue={this.state.firstNameValue}
+						currentValue={firstNameValue}
 						setValue={this._handleFirstName}
 						title="First name"
 					/>
 					<TextInputForm
-						currentValue={this.state.surnameValue}
+						currentValue={surnameValue}
 						setValue={this._handleSurname}
 						title="Surname"
 					/>
 					<CustomDropdown
-						setData={positionChange}
+						setData={this._handlePositionChange}
 						title="Position"
 						values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
 					/>
 				</div>
 				<div className="admin-form-row-two">
 					<TextInputForm
-						currentValue={this.state.priceValue}
+						currentValue={priceValue}
 						setValue={this._handlePrice}
 						title="Price"
 					/>
-					<CollegeTeam setTeam={teamChange} />
+					<CollegeTeam setTeam={this._handleTeamChange} />
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreatePlayer"
-							onClick={() => this._onValidate()}
+							onClick={this.handleValidate}
 						>
               Create Player
 						</Button>
 					</div>
 				</div>
-				{this.state.playerCreated ? (
+				{playerCreated ? (
 					<div className="error-message-animation">
-            Player {this.state.previousValues[0]} {this.state.previousValues[1]} successfully
-            created for team {this.state.previousValues[2]} with price{' '}
-						{this.state.previousValues[3]} with position {this.state.previousValues[4]}
+            Player {previousValues[0]} {previousValues[1]} successfully
+            created for team {previousValues[2]} with price{' '}
+						{previousValues[3]} with position {previousValues[4]}
 					</div>
 				) : null}
 
-				{this.state.errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {this.state.errorMessage}</div>
+				{errorMessage.length > 0 ? (
+					<div className="error-message-animation">Error : {errorMessage}</div>
 				) : null}
 			</div>
 		);

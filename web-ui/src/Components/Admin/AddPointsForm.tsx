@@ -45,7 +45,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this.state = {
 			goals: '',
 			assists: '',
@@ -121,7 +121,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.setState({ week });
 	}
 
-	_onValidate () {
+	handleOnValidate () {
 		let error: boolean = false;
 		let message: string = 'Please select a value for : ';
 
@@ -193,12 +193,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	render () {
 		let setTeam = this._handleCollegeTeam;
 		let setPlayerID = this._handlePlayerID;
-		let manOfTheMatch = this._handleManOfTheMatch;
-		let redCard = this._handleRedCard;
-		let cleanSheet = this._handleCleanSheet;
-		let yellowCards = this._handleYellowCards;
 
-		const { viewingDefender, pointsAdded, errorMessage } = this.state;
+		const { viewingDefender, pointsAdded, errorMessage, week, goals, assists, minutesPlayed } = this.state;
 
 		return (
 			<div className="admin-form">
@@ -206,46 +202,46 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 					<CollegeTeam setTeam={setTeam} />
 					<SelectPlayer setPlayerID={setPlayerID} />
 					<TextInputForm
-						currentValue={this.state.week}
+						currentValue={week}
 						setValue={this._handleWeek}
 						title="Week"
 					/>
 				</div>
 				<div className="admin-form-row-two">
 					<TextInputForm
-						currentValue={this.state.goals}
+						currentValue={goals}
 						setValue={this._handleGoals}
 						title="Goals"
 					/>
 					<TextInputForm
-						currentValue={this.state.assists}
+						currentValue={assists}
 						setValue={this._handleAssists}
 						title="Assists"
 					/>
 					<TextInputForm
-						currentValue={this.state.minutesPlayed}
+						currentValue={minutesPlayed}
 						setValue={this._handleMinutesPlayed}
 						title="Minutes played"
 					/>
 					<CustomDropdown
-						setData={yellowCards}
+						setData={this._handleYellowCards}
 						title="Yellow Cards"
 						values={['0', '1', '2']}
 					/>
 					<CustomDropdown
-						setData={manOfTheMatch}
+						setData={this._handleManOfTheMatch}
 						title="Man of the Match"
 						values={['No', 'Yes']}
 					/>
 					<CustomDropdown
-						setData={redCard}
+						setData={this._handleRedCard}
 						title="Red Card"
 						values={['No', 'Yes']}
 					/>
 
 					{viewingDefender ? (
 						<CustomDropdown
-							setData={cleanSheet}
+							setData={this._handleCleanSheet}
 							title="Clean Sheet"
 							values={['No', 'Yes']}
 						/>
@@ -255,7 +251,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnAddPoints"
-						onClick={this._onValidate}
+						onClick={this.handleOnValidate}
 					>
             Add Points
 					</Button>

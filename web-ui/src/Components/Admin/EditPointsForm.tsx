@@ -49,7 +49,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
 			goals: '',
 			assists: '',
@@ -84,8 +84,9 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	_getResults () {
-		if (this.state.playerID !== '' && this.state.week !== '') {
-			getPlayerStatsForWeek(parseInt(this.state.week), this.state.playerID)
+		const { playerID, week } = this.state;
+		if (playerID !== '' && week !== '') {
+			getPlayerStatsForWeek(parseInt(week), playerID)
 				.then(response => {
 					this.setState({ playerStats: response });
 				})
@@ -113,22 +114,23 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	_handlePlayerID (playerID: string) {
+		const { playersInFilteredTeam } = this.props;
 		this.setState({ playerID }, this._getResults);
 		let haveSet: boolean = false;
-		for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
-			if (playerID === this.props.playersInFilteredTeam[x].id) {
+		for (let x = 0; x < playersInFilteredTeam.length; x++) {
+			if (playerID === playersInFilteredTeam[x].id) {
 				this.setState(
 					{
 						playerName:
-              this.props.playersInFilteredTeam[x].firstName +
+              playersInFilteredTeam[x].firstName +
               ' ' +
-              this.props.playersInFilteredTeam[x].surname
+              playersInFilteredTeam[x].surname
 					},
 					this._getResults
 				);
 				if (
-					this.props.playersInFilteredTeam[x].position === 'DEFENDER' ||
-          this.props.playersInFilteredTeam[x].position === 'GOALKEEPER'
+					playersInFilteredTeam[x].position === 'DEFENDER' ||
+          playersInFilteredTeam[x].position === 'GOALKEEPER'
 				) {
 					haveSet = true;
 					this.setState({ viewingDefender: true });
@@ -142,7 +144,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	_handleCollegeTeam (team: string) {
-		this.props.setTeamAddingPoints(team);
+		const { setTeamAddingPoints } = this.props;
+		setTeamAddingPoints(team);
 	}
 
 	_handleAssists (assists: string) {
@@ -173,27 +176,28 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this.setState({ week }, this._getResults);
 	}
 
-	_onValidate () {
+	handleValidate () {
+		const { playerID, week, goals, assists, minutesPlayed } = this.state;
 		let error: boolean = false;
 		let message: string = 'Please select a value for : ';
 
-		if (this.state.playerID === '') {
+		if (playerID === '') {
 			error = true;
 			message += 'Player, ';
 		}
-		if (this.state.week === '' || isNaN(parseFloat(this.state.week))) {
+		if (week === '' || isNaN(parseFloat(week))) {
 			error = true;
 			message += 'Week, ';
 		}
-		if (this.state.goals === '' || isNaN(parseFloat(this.state.goals))) {
+		if (goals === '' || isNaN(parseFloat(goals))) {
 			error = true;
 			message += 'Goals, ';
 		}
-		if (this.state.assists === '' || isNaN(parseFloat(this.state.assists))) {
+		if (assists === '' || isNaN(parseFloat(assists))) {
 			error = true;
 			message += 'Assists, ';
 		}
-		if (this.state.minutesPlayed === '' || isNaN(parseFloat(this.state.minutesPlayed))) {
+		if (minutesPlayed === '' || isNaN(parseFloat(minutesPlayed))) {
 			error = true;
 			message += 'Minutes Played, ';
 		}
@@ -208,16 +212,17 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	_onSubmit () {
+		const { goals, assists, minutesPlayed, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
 		let data: AddPoints = {
-			goals: this.state.goals,
-			assists: this.state.assists,
-			minutesPlayed: this.state.minutesPlayed,
-			manOfTheMatch: this.state.manOfTheMatch,
-			yellowCards: this.state.yellowCards,
-			cleanSheet: this.state.cleanSheet,
-			redCard: this.state.redCard,
-			playerID: this.state.playerID,
-			week: this.state.week
+			goals: goals,
+			assists: assists,
+			minutesPlayed: minutesPlayed,
+			manOfTheMatch: manOfTheMatch,
+			yellowCards: yellowCards,
+			cleanSheet: cleanSheet,
+			redCard: redCard,
+			playerID: playerID,
+			week: week
 		};
 
 		editPlayerPoints(data)
@@ -234,52 +239,50 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	render () {
-		let setTeam = this._handleCollegeTeam;
-		let setPlayerID = this._handlePlayerID;
-
+		const { week, playerID, playerName, playerStats, goals, assists, minutesPlayed, viewingDefender, pointsEdited, errorMessage } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={setTeam} />
-					<SelectPlayer setPlayerID={setPlayerID} />
+					<CollegeTeam setTeam={this._handleCollegeTeam} />
+					<SelectPlayer setPlayerID={this._handlePlayerID} />
 					<TextInputForm
-						currentValue={this.state.week}
+						currentValue={week}
 						setValue={this._handleWeek}
 						title="Week"
 					/>
 				</div>
 				<div className="admin-form-row-two">
-					{this.state.playerID !== '' && this.state.week !== '' ? (
+					{playerID !== '' && week !== '' ? (
 						<div className="edit-points-info">
-              Stats for player {this.state.playerName} in week {this.state.week}
+              Stats for player {playerName} in week {week}
 						</div>
 					) : null}
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">
             Goals:
-						{this.state.playerStats.playerID !== 'nobody' ? this.state.playerStats.goals : null}
+						{playerStats.playerID !== 'nobody' ? playerStats.goals : null}
 					</div>
 					<div className="edit-points-info">
             Assists:
-						{this.state.playerStats.playerID !== 'nobody' ? this.state.playerStats.assists : null}
+						{playerStats.playerID !== 'nobody' ? playerStats.assists : null}
 					</div>
 					<div className="edit-points-info">
             Minutes Played:
-						{this.state.playerStats.playerID !== 'nobody'
-							? this.state.playerStats.minutesPlayed
+						{playerStats.playerID !== 'nobody'
+							? playerStats.minutesPlayed
 							: null}
 					</div>
 					<div className="edit-points-info">
             Yellow Cards:
-						{this.state.playerStats.playerID !== 'nobody'
-							? this.state.playerStats.yellowCards
+						{playerStats.playerID !== 'nobody'
+							? playerStats.yellowCards
 							: null}
 					</div>
 					<div className="edit-points-info">
             Man of the Match:
-						{this.state.playerStats.playerID !== 'nobody' ? (
-							this.state.playerStats.manOfTheMatch ? (
+						{playerStats.playerID !== 'nobody' ? (
+							playerStats.manOfTheMatch ? (
 								<p>Yes</p>
 							) : (
 								<p>No</p>
@@ -288,8 +291,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					</div>
 					<div className="edit-points-info">
             Red Card:
-						{this.state.playerStats.playerID !== 'nobody' ? (
-							this.state.playerStats.redCard ? (
+						{playerStats.playerID !== 'nobody' ? (
+							playerStats.redCard ? (
 								<p>Yes</p>
 							) : (
 								<p>No</p>
@@ -297,11 +300,11 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 						) : null}
 					</div>
 
-					{this.state.viewingDefender ? (
+					{viewingDefender ? (
 						<div className="edit-points-info">
               Clean Sheet:
-							{this.state.playerStats.playerID !== 'nobody' ? (
-								this.state.playerStats.cleanSheet ? (
+							{playerStats.playerID !== 'nobody' ? (
+								playerStats.cleanSheet ? (
 									<p>Yes</p>
 								) : (
 									<p>No</p>
@@ -311,26 +314,26 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					) : null}
 				</div>
 				<div className="admin-form-row-two">
-					{this.state.playerID !== '' && this.state.week !== '' ? (
+					{playerID !== '' && week !== '' ? (
 						<div className="edit-points-info">Edit their stats below</div>
 					) : null}
 				</div>
 
 				<div className="admin-form-row-two">
-					{this.state.playerID !== '' && this.state.week !== '' ? (
+					{playerID !== '' && week !== '' ? (
 						<div className="admin-form-row-two">
 							<TextInputForm
-								currentValue={this.state.goals}
+								currentValue={goals}
 								setValue={this._handleGoals}
 								title="Goals"
 							/>
 							<TextInputForm
-								currentValue={this.state.assists}
+								currentValue={assists}
 								setValue={this._handleAssists}
 								title="Assists"
 							/>
 							<TextInputForm
-								currentValue={this.state.minutesPlayed}
+								currentValue={minutesPlayed}
 								setValue={this._handleMinutesPlayed}
 								title="Minutes played"
 							/>
@@ -350,11 +353,11 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 								values={['No', 'Yes']}
 							/>
 
-							{this.state.viewingDefender ? <CustomDropdown
+							{viewingDefender ? <CustomDropdown
 								setData={this._handleCleanSheet}
 								title="Clean Sheet"
 								values={['No', 'Yes']}
-							                              /> : null}
+							                   /> : null}
 						</div>
 					) : null}
 				</div>
@@ -363,16 +366,16 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnEditPoints"
-						onClick={() => this._onValidate()}
+						onClick={this.handleValidate}
 					>
             Edit Points
 					</Button>
 				</div>
-				{this.state.pointsEdited ? (
+				{pointsEdited ? (
 					<div className="error-message-animation">Points edited successfully! </div>
 				) : null}
-				{this.state.errorMessage ? (
-					<div className="error-message-animation">Error : {this.state.errorMessage} </div>
+				{errorMessage ? (
+					<div className="error-message-animation">Error : {errorMessage} </div>
 				) : null}
 			</div>
 		);

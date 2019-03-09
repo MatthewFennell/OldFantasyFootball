@@ -37,7 +37,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
-		this._onValidate = this._onValidate.bind(this);
+		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this.state = {
 			goalsFor: '',
 			goalsAgainst: '',
@@ -92,7 +92,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_handleCollegeTeam (teamName: string) {
-		this.props.setTeamAddingPoints(teamName);
+		const { setTeamAddingPoints } = this.props;
+		setTeamAddingPoints(teamName);
 		this.setState({ teamName });
 	}
 
@@ -108,18 +109,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this.setState({ week });
 	}
 
-	_onValidate () {
+	handleOnValidate () {
+		const { week, goalsFor, goalsAgainst } = this.state;
 		let error: boolean = false;
 		let message: string = 'Please select a value for ';
-		if (this.state.week === '' || isNaN(parseFloat(this.state.week))) {
+		if (week === '' || isNaN(parseFloat(week))) {
 			error = true;
 			message += 'Week, ';
 		}
-		if (this.state.goalsFor === '' || isNaN(parseFloat(this.state.goalsFor))) {
+		if (goalsFor === '' || isNaN(parseFloat(goalsFor))) {
 			error = true;
 			message += 'Goals for, ';
 		}
-		if (this.state.goalsAgainst === '' || isNaN(parseFloat(this.state.goalsAgainst))) {
+		if (goalsAgainst === '' || isNaN(parseFloat(goalsAgainst))) {
 			error = true;
 			message += 'Goals against, ';
 		}
@@ -135,47 +137,41 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_onSubmit () {
+		const { goalsFor, goalsAgainst, week, playerIDGoals, playerIDAssists, playerIDCleanSheets, teamName } = this.state;
 		let data: SubmitResults = {
-			goalsFor: parseInt(this.state.goalsFor),
-			goalsAgainst: parseInt(this.state.goalsAgainst),
-			week: parseInt(this.state.week),
-			goalScorers: this.state.playerIDGoals,
-			assists: this.state.playerIDAssists,
-			cleanSheets: this.state.playerIDCleanSheets,
-			teamName: this.state.teamName
+			goalsFor: parseInt(goalsFor),
+			goalsAgainst: parseInt(goalsAgainst),
+			week: parseInt(week),
+			goalScorers: playerIDGoals,
+			assists: playerIDAssists,
+			cleanSheets: playerIDCleanSheets,
+			teamName: teamName
 		};
 
 		submitResult(data).then(response => {
 			this.setState({ resultAdded: true });
-			this.setState({ previousTeamName: this.state.teamName });
-			this.setState({ previousWeek: this.state.week });
+			this.setState({ previousTeamName: teamName });
+			this.setState({ previousWeek: week });
 			this.setState({ errorMessage: '' });
 			setTimeout(this._removeErrorMessage, 10000);
 		});
 	}
 
 	render () {
-		let teamChange = this._handleCollegeTeam;
-		// let goalsFor = this._handleGoalsFor;
-		// let setWeek = this._handleWeek;
-		// let goalsAgainst = this._handleGoalsAgainst;
-		let setPlayerIDGoalscorers = this._handlePlayerIDGoalscorers;
-		let setPlayerIDAssists = this._handlePlayerIDAssists;
-		let setPlayerIDCleanSheets = this._handlePlayerIDCleanSheets;
-
+		const { goalsFor, goalsAgainst, week, resultAdded, previousTeamName, previousWeek, errorMessage } = this.state;
 		let goalScorers = [];
 		let assists = [];
 		let defenders = [];
-		for (let i = 0; i < parseInt(this.state.goalsFor); i++) {
-			goalScorers.push(<SelectPlayer setPlayerID={setPlayerIDGoalscorers} />);
-			assists.push(<SelectPlayer setPlayerID={setPlayerIDAssists} />);
+		for (let i = 0; i < parseInt(goalsFor); i++) {
+			goalScorers.push(<SelectPlayer setPlayerID={this._handlePlayerIDGoalscorers} />);
+			assists.push(<SelectPlayer setPlayerID={this._handlePlayerIDAssists} />);
 		}
 
-		if (this.state.goalsAgainst === '0') {
+		if (goalsAgainst === '0') {
 			for (let i = 0; i < 7; i++) {
 				defenders.push(<SelectPlayer
 					onlyDefenders
-					setPlayerID={setPlayerIDCleanSheets}
+					setPlayerID={this._handlePlayerIDCleanSheets}
 				               />);
 			}
 		}
@@ -183,19 +179,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={teamChange} />
+					<CollegeTeam setTeam={this._handleCollegeTeam} />
 					<TextInputForm
-						currentValue={this.state.goalsFor}
+						currentValue={goalsFor}
 						setValue={this._handleGoalsFor}
 						title="Goals for"
 					/>
 					<TextInputForm
-						currentValue={this.state.goalsAgainst}
+						currentValue={goalsAgainst}
 						setValue={this._handleGoalsAgainst}
 						title="Goals against"
 					/>
 					<TextInputForm
-						currentValue={this.state.week}
+						currentValue={week}
 						setValue={this._handleWeek}
 						title="Week"
 					/>
@@ -209,27 +205,27 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
             Assists:
 						{assists}
 					</div>
-					{this.state.goalsAgainst === '0' ? (
+					{goalsAgainst === '0' ? (
 						<div className="edit-points-info">Clean Sheets: {defenders} </div>
 					) : null}
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnAddResult"
-							onClick={() => this._onValidate()}
+							onClick={this.handleOnValidate}
 						>
               Create result
 						</Button>
 					</div>
 				</div>
-				{this.state.resultAdded ? (
+				{resultAdded ? (
 					<div className="error-message-animation">
-            Result added to team {this.state.previousTeamName} in week {this.state.previousWeek}
+            Result added to team {previousTeamName} in week {previousWeek}
 					</div>
 				) : null}
 
-				{this.state.errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {this.state.errorMessage}</div>
+				{errorMessage.length > 0 ? (
+					<div className="error-message-animation">Error : {errorMessage}</div>
 				) : null}
 			</div>
 		);
