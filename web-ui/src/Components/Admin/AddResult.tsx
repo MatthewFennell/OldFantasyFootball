@@ -54,12 +54,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_handlePlayerIDGoalscorers (playerID: string, previousID: string) {
-		let newState: string[] = [];
-		for (let x = 0; x < this.state.playerIDGoals.length; x++) {
-			if (this.state.playerIDGoals[x] !== previousID) {
-				newState.push(this.state.playerIDGoals[x]);
-			}
-		}
+		const { playerIDGoals } = this.state;
+		let newState: string[] = playerIDGoals.filter(value => {
+			return value !== previousID;
+		});
 		newState.push(playerID);
 		this.setState({ playerIDGoals: newState });
 	}
@@ -70,23 +68,19 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_handlePlayerIDAssists (playerID: string, previousID: string) {
-		let newState: string[] = [];
-		for (let x = 0; x < this.state.playerIDAssists.length; x++) {
-			if (this.state.playerIDAssists[x] !== previousID) {
-				newState.push(this.state.playerIDAssists[x]);
-			}
-		}
+		const { playerIDAssists } = this.state;
+		let newState: string[] = playerIDAssists.filter(value => {
+			return value !== previousID;
+		});
 		newState.push(playerID);
 		this.setState({ playerIDAssists: newState });
 	}
 
 	_handlePlayerIDCleanSheets (playerID: string, previousID: string) {
-		let newState: string[] = [];
-		for (let x = 0; x < this.state.playerIDCleanSheets.length; x++) {
-			if (this.state.playerIDCleanSheets[x] !== previousID) {
-				newState.push(this.state.playerIDCleanSheets[x]);
-			}
-		}
+		const { playerIDCleanSheets } = this.state;
+		let newState: string[] = playerIDCleanSheets.filter(value => {
+			return value !== previousID;
+		});
 		newState.push(playerID);
 		this.setState({ playerIDCleanSheets: newState });
 	}

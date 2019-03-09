@@ -17,11 +17,12 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 	constructor (props: CustomDropdownProps) {
 		super(props);
 		this._toggleDropdown = this._toggleDropdown.bind(this);
+		const { values } = this.props;
 
-		if (this.props.values.length > 0) {
+		if (values.length > 0) {
 			this.state = {
 				dropDownOpen: false,
-				value: this.props.values[0]
+				value: values[0]
 			};
 		} else {
 			this.state = {
@@ -38,18 +39,21 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 	}
 
 	_handleValueChange (position: string) {
+		const { setData } = this.props;
 		this.setState({ value: position });
-		this.props.setData(position);
+		setData(position);
 	}
 
 	render () {
-		const positionOptions = this.props.values.map(name => (
+		const { values, title } = this.props;
+		const { value, dropDownOpen } = this.state;
+		const positionOptions = values.map(name => (
 			<p
 				className="custom-dropdown-menu-items"
 				key={name}
 			>
 				<DropdownItem
-					className={'custom-dropdown-menu-item-' + (name === this.state.value)}
+					className={'custom-dropdown-menu-item-' + (name === value)}
 					key={name}
 					onClick={() => this._handleValueChange(name)}
 					value={name}
@@ -62,10 +66,10 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 		return (
 			<div className="custom-dropdown">
 				<Dropdown
-					isOpen={this.state.dropDownOpen}
+					isOpen={dropDownOpen}
 					toggle={this._toggleDropdown}
 				>
-					{this.props.title + ':'} {this.state.value}
+					{title + ':'} {value}
 					<DropdownToggle
 						caret
 						className="custom-dropdown-menu-toggle"

@@ -42,22 +42,21 @@ class CreateLeagueClass extends React.Component<
   };
 
   _onSubmit = (event: string) => {
+	  const { leagueName } = this.state;
+	  const { addToLeagueCache } = this.props;
   	switch (event) {
   	case 'btnCreateLeague':
   		const err = this._validate();
   		if (!err) {
   			const data: CreateLeague = {
-  				leagueName: this.state.leagueName,
+  				leagueName: leagueName,
   				startWeek: 0
   			};
   			createLeague(data)
   				.then(response => {
-  					console.log('response = ' + JSON.stringify(response));
   					this.setState({ leagueCode: response.id });
-  					console.log('This state = ' + JSON.stringify(this.state));
-  					// TO:DO Add newly created league to props
-  					this.props.addToLeagueCache(this.state.leagueName, 1);
-  					console.log('Just made a league with name ' + this.state.leagueName);
+  					addToLeagueCache(leagueName, 1);
+  					console.log('Just made a league with name ' + leagueName);
   				})
   				.catch(error => {
   					this.setState({ error });
@@ -76,6 +75,7 @@ class CreateLeagueClass extends React.Component<
   }
 
   render () {
+	  const { error, leagueCode, leagueName } = this.state;
   	return (
   		<div
   			className="create-league-form"
@@ -89,7 +89,7 @@ class CreateLeagueClass extends React.Component<
             Create your league!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{this.state.error}</Label>
+  					<Label className="error-text">{error}</Label>
   					<FormGroup>
   						<Label
   							className="unselectable"
@@ -115,13 +115,13 @@ class CreateLeagueClass extends React.Component<
             Create League
   				</Button>
   			</Form>
-  			{this.state.leagueCode.length > 0 ? (
+  			{leagueCode.length > 0 ? (
   				<div className="error-message">
-            League created : {this.state.leagueName}. The code to join is {this.state.leagueCode}
+            League created : {leagueName}. The code to join is {leagueCode}
   				</div>
   			) : null}
-  			{this.state.error.length > 0 ? (
-  				<div className="error-message-animation">Error : {this.state.error} </div>
+  			{error.length > 0 ? (
+  				<div className="error-message-animation">Error : {error} </div>
   			) : null}
   		</div>
   	);

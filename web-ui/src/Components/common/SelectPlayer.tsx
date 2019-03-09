@@ -33,36 +33,27 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 	}
 
 	_handlePlayerIDChange (id: string[]) {
-		let previousValue = this.state.playerSelectedID;
+		const { playerSelectedID } = this.state;
+		const { setPlayerID } = this.props;
+		let previousValue = playerSelectedID;
 		this.setState({ playerSelected: id[0] });
 		this.setState({ playerSelectedID: id[1] });
-		this.props.setPlayerID(id[1], previousValue);
+		setPlayerID(id[1], previousValue);
 	}
 
 	render () {
+		const { onlyDefenders, playersInFilteredTeam } = this.props;
+		const { selectPlayerOpen, playerSelected } = this.state;
 		let teams: string[][] = [];
-		for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
-			if (this.props.onlyDefenders) {
-				if (
-					this.props.playersInFilteredTeam[x].position === 'DEFENDER' ||
-          this.props.playersInFilteredTeam[x].position === 'GOALKEEPER'
-				) {
-					teams.push([
-						this.props.playersInFilteredTeam[x].firstName +
-              ' ' +
-              this.props.playersInFilteredTeam[x].surname,
-						this.props.playersInFilteredTeam[x].id
-					]);
+		playersInFilteredTeam.map(value => {
+			if (onlyDefenders) {
+				if (value.position === 'DEFENDER' || value.position === 'GOALKEEPER') {
+					teams.push([value.firstName + ' ' + value.surname, value.id]);
 				}
 			} else {
-				teams.push([
-					this.props.playersInFilteredTeam[x].firstName +
-            ' ' +
-            this.props.playersInFilteredTeam[x].surname,
-					this.props.playersInFilteredTeam[x].id
-				]);
+				teams.push([value.firstName + ' ' + value.surname, value.id]);
 			}
-		}
+		});
 
 		const teamOptions = teams.map(team => (
 			<p
@@ -83,10 +74,10 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 		return (
 			<div className="team-dropdown">
 				<Dropdown
-					isOpen={this.state.selectPlayerOpen}
+					isOpen={selectPlayerOpen}
 					toggle={this._toggleTeam}
 				>
-					{'Player: '} {this.state.playerSelected}
+					{'Player: '} {playerSelected}
 					<DropdownToggle
 						caret
 						className="team-menu-toggle"
