@@ -36,7 +36,7 @@ class Register extends React.Component<RegisterProps, {}> {
 
 		if (shouldAnimate) {
 			return (
-				<BubbleAnimationWrapper transitionName={ transitionName }>{children}</BubbleAnimationWrapper>
+				<BubbleAnimationWrapper transitionName={transitionName}>{children}</BubbleAnimationWrapper>
 			);
 		}
 
@@ -57,8 +57,8 @@ class Register extends React.Component<RegisterProps, {}> {
 					'bubble-largest',
 					<Bubble className="bubble-largest bubble-blue">
 						<RegisterForm
-							setAccount={ this.props.setAccount }
-							setRemainingBudget={ this.props.setRemainingBudget }
+							setAccount={this.props.setAccount}
+							setRemainingBudget={this.props.setRemainingBudget}
 						/>
 					</Bubble>
 				)}

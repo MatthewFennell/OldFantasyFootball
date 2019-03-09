@@ -34,7 +34,7 @@ class CreateLeagueClass extends React.Component<
 	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
-		} as Pick<CreateLeagueState, keyof CreateLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+		} as Pick<CreateLeagueState, keyof CreateLeagueState>);
 	}
 
   _validate = () => {
@@ -77,31 +77,40 @@ class CreateLeagueClass extends React.Component<
 
   render () {
   	return (
-  		<div className="create-league-form" onSubmit={ e => e.preventDefault() }>
+  		<div
+  			className="create-league-form"
+  			onSubmit={e => e.preventDefault()}
+  		>
   			<Form id="create-league-form">
-  				<h1 id="greeting" className="text-center unselectable">
+  				<h1
+  					className="text-center unselectable"
+  					id="greeting"
+  				>
             Create your league!
   				</h1>
   				<div id="login-input-fields">
   					<Label className="error-text">{this.state.error}</Label>
   					<FormGroup>
-  						<Label for="leagueName" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="leagueName"
+  						>
                 League name
   						</Label>
   						<Field
-  							type="text"
-  							name="leagueName"
-  							id="leagueName"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="leagueName"
+  							name="leagueName"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   				</div>
   				<Button
-  					id="btnCreateLeague"
-  					type="submit"
   					className="btn btn-default btn-round-lg btn-lg first"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  					id="btnCreateLeague"
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
+  					type="submit"
   				>
             Create League
   				</Button>

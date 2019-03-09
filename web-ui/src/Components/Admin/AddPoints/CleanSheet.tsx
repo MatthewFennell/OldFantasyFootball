@@ -27,34 +27,45 @@ class CleanSheet extends React.Component<CleanSheetProps, CleanSheetState> {
 	}
 
 	_handleCleanSheetChange (team: string) {
+		const { setCleanSheet } = this.props;
 		this.setState({ cleanSheet: team });
 		if (team === 'Yes') {
-			this.props.setCleanSheet(true);
+			setCleanSheet(true);
 		} else {
-			this.props.setCleanSheet(false);
+			setCleanSheet(false);
 		}
 	}
 
 	render () {
+		const { cleanSheet, cleanSheetOpen } = this.state;
 		let cleanSheets: string[] = ['Yes', 'No'];
-		const teamOptions = cleanSheets.map(cleanSheet => (
-			<p className="team-menu-items" key = { cleanSheet }>
+		const teamOptions = cleanSheets.map(clean => (
+			<p
+				className="team-menu-items"
+				key={clean}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (cleanSheet === this.state.cleanSheet) }
-					key={ cleanSheet }
-					value={ cleanSheet }
-					onClick={ () => this._handleCleanSheetChange(cleanSheet) }
+					className={'team-menu-item-' + (clean === cleanSheet)}
+					key={clean}
+					onClick={() => this._handleCleanSheetChange(clean)}
+					value={clean}
 				>
-					{cleanSheet}
+					{clean}
 				</DropdownItem>
 			</p>
 		));
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.cleanSheetOpen } toggle={ this._toggleTeam }>
-					{'Clean Sheet: '} {this.state.cleanSheet}
-					<DropdownToggle caret className="team-menu-toggle">
+				<Dropdown
+					isOpen={cleanSheetOpen}
+					toggle={this._toggleTeam}
+				>
+					{'Clean Sheet: '} {cleanSheet}
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

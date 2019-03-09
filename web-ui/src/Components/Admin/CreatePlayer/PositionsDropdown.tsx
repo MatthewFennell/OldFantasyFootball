@@ -34,12 +34,15 @@ class PositionDropdown extends React.Component<PositionDropdownProps, PositionDr
 	render () {
 		let positions: string[] = ['Goalkeeper', 'Defender', 'Midfielder', 'Attacker'];
 		const positionOptions = positions.map(position => (
-			<p className="position-menu-items" key = { position }>
+			<p
+				className="position-menu-items"
+				key={position}
+			>
 				<DropdownItem
-					className={ 'position-menu-item-' + (position === this.state.positionValue) }
-					key={ position }
-					value={ position }
-					onClick={ () => this._handlePositionChange(position) }
+					className={'position-menu-item-' + (position === this.state.positionValue)}
+					key={position}
+					onClick={() => this._handlePositionChange(position)}
+					value={position}
 				>
 					{position}
 				</DropdownItem>
@@ -48,9 +51,15 @@ class PositionDropdown extends React.Component<PositionDropdownProps, PositionDr
 
 		return (
 			<div className="position-dropdown">
-				<Dropdown isOpen={ this.state.positionDropDownOpen } toggle={ this._togglePosition }>
+				<Dropdown
+					isOpen={this.state.positionDropDownOpen}
+					toggle={this._togglePosition}
+				>
 					{'Position: '} {this.state.positionValue}
-					<DropdownToggle caret className="position-menu-toggle">
+					<DropdownToggle
+						caret
+						className="position-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

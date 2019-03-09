@@ -14,23 +14,29 @@ class Attackers extends React.Component<AttackerProps, {}> {
 				<div className="player">
 					{this.props.attackers.length >= 1 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.attackers[0] }
+							emptyPlayer={false}
+							player={this.props.attackers[0]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 				<div className="player">
 					{this.props.attackers.length >= 2 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.attackers[1] }
+							emptyPlayer={false}
+							player={this.props.attackers[1]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 			</div>

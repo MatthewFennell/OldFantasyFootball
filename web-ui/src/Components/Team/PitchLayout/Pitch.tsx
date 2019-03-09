@@ -35,16 +35,28 @@ class Pitch extends React.Component<PitchProps, {}> {
 		return (
 			<div className="pitch-with-players">
 				<div className="attackers">
-					<Attackers attackers={ attackers } transfer={ this.props.transfer } />
+					<Attackers
+						attackers={attackers}
+						transfer={this.props.transfer}
+					/>
 				</div>
 				<div className="midfielders">
-					<Midfielders midfielders={ midfielders } transfer={ this.props.transfer } />
+					<Midfielders
+						midfielders={midfielders}
+						transfer={this.props.transfer}
+					/>
 				</div>
 				<div className="defenders">
-					<Defenders defenders={ defenders } transfer={ this.props.transfer } />
+					<Defenders
+						defenders={defenders}
+						transfer={this.props.transfer}
+					/>
 				</div>
 				<div className="goalkeeper">
-					<Goalkeeper goalkeepers={ goalKeeper } transfer={ this.props.transfer } />
+					<Goalkeeper
+						goalkeepers={goalKeeper}
+						transfer={this.props.transfer}
+					/>
 				</div>
 			</div>
 		);

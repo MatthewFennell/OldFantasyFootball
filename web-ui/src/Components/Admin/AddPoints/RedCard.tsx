@@ -38,12 +38,15 @@ class RedCard extends React.Component<RedCardProps, RedCardState> {
 	render () {
 		let options: string[] = ['Yes', 'No'];
 		const teamOptions = options.map(option => (
-			<p className="team-menu-items" key = { option }>
+			<p
+				className="team-menu-items"
+				key={option}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (option === this.state.redCard) }
-					key={ option }
-					value={ option }
-					onClick={ () => this._handleRedCardChange(option) }
+					className={'team-menu-item-' + (option === this.state.redCard)}
+					key={option}
+					onClick={() => this._handleRedCardChange(option)}
+					value={option}
 				>
 					{option}
 				</DropdownItem>
@@ -52,9 +55,15 @@ class RedCard extends React.Component<RedCardProps, RedCardState> {
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.redCardOpen } toggle={ this._toggleRedCard }>
+				<Dropdown
+					isOpen={this.state.redCardOpen}
+					toggle={this._toggleRedCard}
+				>
 					{'Red Card: '} {this.state.redCard}
-					<DropdownToggle caret className="team-menu-toggle">
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

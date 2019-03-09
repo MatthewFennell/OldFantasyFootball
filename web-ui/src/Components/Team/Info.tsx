@@ -48,12 +48,15 @@ class Info extends React.Component<StatsProps, InfoState> {
 		}
 
 		const weekOptions = allWeeks.map(week => (
-			<p className="team-menu-items" key = { week }>
+			<p
+				className="team-menu-items"
+				key={week}
+			>
 				<DropdownItem
-					className={ 'week-menu-item-' + (week === this.props.weekBeingViewed) }
-					key={ week }
-					value={ week }
-					onClick={ () => this._handleWeekChange(week) }
+					className={'week-menu-item-' + (week === this.props.weekBeingViewed)}
+					key={week}
+					onClick={() => this._handleWeekChange(week)}
+					value={week}
 				>
 					{week === -1 ? 'Active Team' : 'Week ' + week}
 				</DropdownItem>
@@ -65,11 +68,17 @@ class Info extends React.Component<StatsProps, InfoState> {
 			<div className="info-columns">
 				<div className="total-points">Total Points: {totalPoints}</div>
 
-				<Dropdown isOpen={ this.state.dropdownOpen } toggle={ this._toggle }>
+				<Dropdown
+					isOpen={this.state.dropdownOpen}
+					toggle={this._toggle}
+				>
 					{this.props.weekBeingViewed === -1
 						? 'Active Team'
 						: 'Week : ' + this.props.weekBeingViewed}
-					<DropdownToggle caret className="week-menu-toggle">
+					<DropdownToggle
+						caret
+						className="week-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

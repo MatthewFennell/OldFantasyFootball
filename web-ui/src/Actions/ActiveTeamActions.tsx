@@ -1,4 +1,3 @@
-// import { WeeklyPlayer } from '../Models/Interfaces/WeeklyPlayer';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {

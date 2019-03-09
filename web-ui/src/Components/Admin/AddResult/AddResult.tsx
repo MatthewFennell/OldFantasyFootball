@@ -168,23 +168,32 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		let assists = [];
 		let defenders = [];
 		for (let i = 0; i < parseInt(this.state.goalsFor); i++) {
-			goalScorers.push(<SelectPlayer setPlayerID={ setPlayerIDGoalscorers } />);
-			assists.push(<SelectPlayer setPlayerID={ setPlayerIDAssists } />);
+			goalScorers.push(<SelectPlayer setPlayerID={setPlayerIDGoalscorers} />);
+			assists.push(<SelectPlayer setPlayerID={setPlayerIDAssists} />);
 		}
 
 		if (this.state.goalsAgainst === '0') {
 			for (let i = 0; i < 7; i++) {
-				defenders.push(<SelectPlayer setPlayerID={ setPlayerIDCleanSheets } onlyDefenders={ true } />);
+				defenders.push(<SelectPlayer
+					onlyDefenders
+					setPlayerID={setPlayerIDCleanSheets}
+				               />);
 			}
 		}
 
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={ teamChange } />
-					<Goals goals={ goalsFor } wording={ 'for' } />
-					<Goals goals={ goalsAgainst } wording={ 'against' } />
-					<Week week={ setWeek } />
+					<CollegeTeam setTeam={teamChange} />
+					<Goals
+						goals={goalsFor}
+						wording="for"
+					/>
+					<Goals
+						goals={goalsAgainst}
+						wording="against"
+					/>
+					<Week week={setWeek} />
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">
@@ -202,7 +211,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnAddResult"
-							onClick={ () => this._onValidate() }
+							onClick={() => this._onValidate()}
 						>
               Create result
 						</Button>

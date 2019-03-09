@@ -21,22 +21,24 @@ class TransferRow extends React.Component<TransferRowProps> {
 	}
 
   handleRowClick = (player: PlayerDTO) => {
+	  const { addPlayer, playersBeingRemoved, removeFromPlayersBeingRemoved,
+			 addToPlayerBeingAdded, setRemainingBudget, remainingBudget } = this.props;
   	if (this.canAdd(player)) {
-  		this.props.addPlayer(player);
+  		addPlayer(player);
 
   		let removed: boolean = false;
-  		this.props.playersBeingRemoved.forEach((element, index) => {
+  		playersBeingRemoved.forEach((element, index) => {
   			if (element.id === player.id) {
   				removed = true;
-  				this.props.removeFromPlayersBeingRemoved(index);
+  				removeFromPlayersBeingRemoved(index);
   			}
   		});
 
   		if (!removed) {
-  			this.props.addToPlayerBeingAdded(player);
+  			addToPlayerBeingAdded(player);
   		}
   		if (player.price !== undefined) {
-  			this.props.setRemainingBudget(this.props.remainingBudget - player.price);
+  			setRemainingBudget(remainingBudget - player.price);
   		}
   	}
   };
@@ -44,7 +46,8 @@ class TransferRow extends React.Component<TransferRowProps> {
   canAdd (player: PlayerDTO): boolean {
   	let numberInThatPosition: number = 0;
   	let playerExists: boolean = false;
-  	this.props.activeTeam.forEach(element => {
+  	const { activeTeam, remainingBudget } = this.props;
+  	activeTeam.forEach(element => {
   		if (element.position === player.position) {
   			numberInThatPosition += 1;
   		}
@@ -56,7 +59,7 @@ class TransferRow extends React.Component<TransferRowProps> {
   	if (playerExists) {
   		return false;
   	}
-  	if (player.price !== undefined && player.price > this.props.remainingBudget) {
+  	if (player.price !== undefined && player.price > remainingBudget) {
   		return false;
   	}
 
@@ -94,8 +97,8 @@ class TransferRow extends React.Component<TransferRowProps> {
   	return (
   		<tr
   			className="transfers"
-  			key={ firstName + surname }
-  			onClick={ () => this.handleRowClick(this.props.element) }
+  			key={firstName + surname}
+  			onClick={() => this.handleRowClick(this.props.element)}
   		>
   			<td className="name">{firstName + ' ' + surname}</td>
   			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>

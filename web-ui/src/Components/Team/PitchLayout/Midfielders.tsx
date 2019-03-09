@@ -14,45 +14,57 @@ class Midfielders extends React.Component<MidfielderProps, {}> {
 				<div className="player">
 					{this.props.midfielders.length >= 1 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.midfielders[0] }
+							emptyPlayer={false}
+							player={this.props.midfielders[0]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 				<div className="player">
 					{this.props.midfielders.length >= 2 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.midfielders[1] }
+							emptyPlayer={false}
+							player={this.props.midfielders[1]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 				<div className="player">
 					{this.props.midfielders.length >= 3 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.midfielders[2] }
+							emptyPlayer={false}
+							player={this.props.midfielders[2]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 				<div className="player">
 					{this.props.midfielders.length >= 4 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.midfielders[3] }
+							emptyPlayer={false}
+							player={this.props.midfielders[3]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 			</div>

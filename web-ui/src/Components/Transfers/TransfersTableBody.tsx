@@ -21,33 +21,35 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 	}
 
 	_sortByPrice () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByPrice: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
-				if (this.props.filteredPlayers[x].price > this.props.filteredPlayers[x - 1].price) {
+				if (filteredPlayers[x].price > filteredPlayers[x - 1].price) {
 					alreadySortedByPrice = false;
 				}
 			}
 		}
 
 		if (alreadySortedByPrice) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort(
+			let newList: PlayerDTO[] = filteredPlayers.sort(
 				(obj1, obj2) => obj2.price - obj1.price
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByTeamName () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByTeamName: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
 				if (
-					this.props.filteredPlayers[x].collegeTeam > this.props.filteredPlayers[x - 1].collegeTeam
+					filteredPlayers[x].collegeTeam > filteredPlayers[x - 1].collegeTeam
 				) {
 					alreadySortedByTeamName = false;
 				}
@@ -55,45 +57,47 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		}
 
 		if (alreadySortedByTeamName) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort((obj1, obj2) =>
+			let newList: PlayerDTO[] = filteredPlayers.sort((obj1, obj2) =>
 				obj2.collegeTeam.localeCompare(obj1.collegeTeam)
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByPosition () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByPosition: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
-				if (this.props.filteredPlayers[x].position > this.props.filteredPlayers[x - 1].position) {
+				if (filteredPlayers[x].position > filteredPlayers[x - 1].position) {
 					alreadySortedByPosition = false;
 				}
 			}
 		}
 
 		if (alreadySortedByPosition) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort((obj1, obj2) =>
+			let newList: PlayerDTO[] = filteredPlayers.sort((obj1, obj2) =>
 				obj2.position.localeCompare(obj1.position)
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByGoals () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByGoals: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
 				if (
-					this.props.filteredPlayers[x].totalGoals > this.props.filteredPlayers[x - 1].totalGoals
+					filteredPlayers[x].totalGoals > filteredPlayers[x - 1].totalGoals
 				) {
 					alreadySortedByGoals = false;
 				}
@@ -101,24 +105,25 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		}
 
 		if (alreadySortedByGoals) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort(
+			let newList: PlayerDTO[] = filteredPlayers.sort(
 				(obj1, obj2) => obj2.totalGoals - obj1.totalGoals
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByAssists () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByAssists: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
 				if (
-					this.props.filteredPlayers[x].totalAssists >
-          this.props.filteredPlayers[x - 1].totalAssists
+					filteredPlayers[x].totalAssists >
+          filteredPlayers[x - 1].totalAssists
 				) {
 					alreadySortedByAssists = false;
 				}
@@ -126,23 +131,24 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		}
 
 		if (alreadySortedByAssists) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort(
+			let newList: PlayerDTO[] = filteredPlayers.sort(
 				(obj1, obj2) => obj2.totalAssists - obj1.totalAssists
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByTotalScore () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByTotalScore: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
 				if (
-					this.props.filteredPlayers[x].totalScore > this.props.filteredPlayers[x - 1].totalScore
+					filteredPlayers[x].totalScore > filteredPlayers[x - 1].totalScore
 				) {
 					alreadySortedByTotalScore = false;
 				}
@@ -150,34 +156,35 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		}
 
 		if (alreadySortedByTotalScore) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort(
+			let newList: PlayerDTO[] = filteredPlayers.sort(
 				(obj1, obj2) => obj2.totalScore - obj1.totalScore
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
 	}
 
 	_sortByName () {
+		const { filteredPlayers, reverseFilteredPlayers, setFilteredPlayers } = this.props;
 		let alreadySortedByName: boolean = true;
-		for (let x = 0; x < this.props.filteredPlayers.length; x++) {
+		for (let x = 0; x < filteredPlayers.length; x++) {
 			if (x !== 0) {
-				if (this.props.filteredPlayers[x].surname > this.props.filteredPlayers[x - 1].surname) {
+				if (filteredPlayers[x].surname > filteredPlayers[x - 1].surname) {
 					alreadySortedByName = false;
 				}
 			}
 		}
 
 		if (alreadySortedByName) {
-			this.props.reverseFilteredPlayers();
+			reverseFilteredPlayers();
 		} else {
-			let newList: PlayerDTO[] = this.props.filteredPlayers.sort((obj1, obj2) =>
+			let newList: PlayerDTO[] = filteredPlayers.sort((obj1, obj2) =>
 				obj2.surname.localeCompare(obj1.surname)
 			);
-			this.props.setFilteredPlayers(newList);
+			setFilteredPlayers(newList);
 		}
 		// Wasn't rerendering without this??
 		this.forceUpdate();
@@ -187,31 +194,58 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		console.log('mapping stuff now');
 		return (
 			<tbody className="my-active-transfers">
-				<tr className="transfers-header" key={ 'header' }>
-					<td className="name" onClick={ () => this._sortByName() }>
+				<tr
+					className="transfers-header"
+					key="header"
+				>
+					<td
+						className="name"
+						onClick={() => this._sortByName()}
+					>
 						{'Name'}
 					</td>
-					<td className="position" onClick={ () => this._sortByPosition() }>
+					<td
+						className="position"
+						onClick={() => this._sortByPosition()}
+					>
 						{'Position'}
 					</td>
-					<td className="team" onClick={ () => this._sortByTeamName() }>
+					<td
+						className="team"
+						onClick={() => this._sortByTeamName()}
+					>
 						{'Team'}
 					</td>
-					<td className="price" onClick={ () => this._sortByPrice() }>
+					<td
+						className="price"
+						onClick={() => this._sortByPrice()}
+					>
 						{'Price'}
 					</td>
-					<td className="goals" onClick={ () => this._sortByGoals() }>
+					<td
+						className="goals"
+						onClick={() => this._sortByGoals()}
+					>
 						{'Total Goals'}
 					</td>
-					<td className="assists" onClick={ () => this._sortByAssists() }>
+					<td
+						className="assists"
+						onClick={() => this._sortByAssists()}
+					>
 						{'Total Assists'}
 					</td>
-					<td className="score" onClick={ () => this._sortByTotalScore() }>
+					<td
+						className="score"
+						onClick={() => this._sortByTotalScore()}
+					>
 						{'Total Score'}{' '}
 					</td>
 				</tr>
 				{this.props.filteredPlayers.map(datum => (
-					<TransfersRow key={ datum.firstName + datum.surname } element={ datum } />
+					<TransfersRow
+						element={datum}
+						key={datum.firstName + datum.surname}
+					/>
 				))}
 			</tbody>
 		);

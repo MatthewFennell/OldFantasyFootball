@@ -14,12 +14,15 @@ class Goalkeeper extends React.Component<GoalkeeperProps, {}> {
 				<div className="player">
 					{this.props.goalkeepers.length >= 1 ? (
 						<Player
-							transfer={ this.props.transfer }
-							emptyPlayer={ false }
-							player={ this.props.goalkeepers[0] }
+							emptyPlayer={false}
+							player={this.props.goalkeepers[0]}
+							transfer={this.props.transfer}
 						/>
 					) : (
-						<Player transfer={ false } emptyPlayer={ true } />
+						<Player
+							emptyPlayer
+							transfer={false}
+						/>
 					)}
 				</div>
 			</div>

@@ -28,7 +28,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 
 		if (shouldAnimate) {
 			return (
-				<BubbleAnimationWrapper transitionName={ transitionName }>{children}</BubbleAnimationWrapper>
+				<BubbleAnimationWrapper transitionName={transitionName}>{children}</BubbleAnimationWrapper>
 			);
 		}
 
@@ -49,15 +49,15 @@ class Login extends React.Component<UserProps & LoginProps> {
 						'bubble-largest',
 						<Bubble className="bubble-largest bubble-green">
 							<LoginForm
-								setAccount={ this.props.setAccount }
-								setRemainingBudget={ this.props.setRemainingBudget }
+								setAccount={this.props.setAccount}
+								setRemainingBudget={this.props.setRemainingBudget}
 							/>
 						</Bubble>
 					)}
 				</div>
 			);
 		} else {
-			return <SplashScreen redirect={ '/team' } />;
+			return <SplashScreen redirect="/team" />;
 		}
 	}
 }

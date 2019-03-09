@@ -3,7 +3,10 @@ import '../../Style/TextScottCash.css';
 export default class TextScottCash extends React.Component {
 	render () {
 		return (
-			<h1 id="text-scott-cash" className="unselectable">
+			<h1
+				className="unselectable"
+				id="text-scott-cash"
+			>
         Fantasy footy
 			</h1>
 		);

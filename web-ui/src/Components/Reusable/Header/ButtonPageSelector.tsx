@@ -18,14 +18,14 @@ class ButtonPageSelector extends React.Component<ButtonPageSelectorProps> {
 	render () {
 		return (
 			<div
-				id={ this.props.id }
-				className={ classNames('cursor-pointer', {
+				className={classNames('cursor-pointer', {
 					selected: this.props.selected
-				}) }
-				onClick={ () => this.props.select() }
-				ref={ this.props.setRef() }
+				})}
+				id={this.props.id}
+				onClick={() => this.props.select()}
+				ref={this.props.setRef()}
 			>
-				<img src={ this.props.imgSrc } />
+				<img src={this.props.imgSrc} />
 				<h6>{this.props.text}</h6>
 			</div>
 		);

@@ -31,7 +31,10 @@ class PageBody extends React.Component<PageBodyProps> {
 	}
 
 	render () {
-		return <Route path="/" component={ CategoryTemplate } />;
+		return (<Route
+			component={CategoryTemplate}
+			path="/"
+		        />);
 	}
 }
 

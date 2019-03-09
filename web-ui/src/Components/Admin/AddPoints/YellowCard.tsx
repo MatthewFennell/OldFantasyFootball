@@ -34,12 +34,15 @@ class YellowCard extends React.Component<YellowCardProps, YellowCardState> {
 	render () {
 		let options: string[] = ['0', '1', '2'];
 		const teamOptions = options.map(option => (
-			<p className="team-menu-items" key = { option }>
+			<p
+				className="team-menu-items"
+				key={option}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (option === this.state.yellowCards) }
-					key={ option }
-					value={ option }
-					onClick={ () => this._handleTeamChange(option) }
+					className={'team-menu-item-' + (option === this.state.yellowCards)}
+					key={option}
+					onClick={() => this._handleTeamChange(option)}
+					value={option}
 				>
 					{option}
 				</DropdownItem>
@@ -48,9 +51,15 @@ class YellowCard extends React.Component<YellowCardProps, YellowCardState> {
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.yellowCardOpen } toggle={ this._toggleYellowCards }>
+				<Dropdown
+					isOpen={this.state.yellowCardOpen}
+					toggle={this._toggleYellowCards}
+				>
 					{'Yellow Cards: '} {this.state.yellowCards}
-					<DropdownToggle caret className="team-menu-toggle">
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

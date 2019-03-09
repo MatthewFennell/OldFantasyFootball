@@ -163,7 +163,10 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 					<Stats />
 				</div>
 				<div className="row-3-squad">
-					<Pitch transfer={ false } activeWeeklyTeam={ this.props.activeTeam } />
+					<Pitch
+						activeWeeklyTeam={this.props.activeTeam}
+						transfer={false}
+					/>
 				</div>
 			</div>
 		);

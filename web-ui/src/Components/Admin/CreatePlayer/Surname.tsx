@@ -27,19 +27,25 @@ class SearchByName extends React.Component<SurnameProps, SurnameState> {
 
 	render () {
 		return (
-			<div className="create-player-form-outer" onSubmit={ e => e.preventDefault() }>
+			<div
+				className="create-player-form-outer"
+				onSubmit={e => e.preventDefault()}
+			>
 				<Form id="create-player-form">
 					<div id="login-input-fields">
 						<FormGroup>
-							<Label for="surname" className="unselectable">
+							<Label
+								className="unselectable"
+								for="surname"
+							>
                 Surname
 							</Label>
 							<Field
-								type="text"
-								name="surname"
-								id="surname"
 								component="input"
-								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+								id="surname"
+								name="surname"
+								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								type="text"
 							/>
 						</FormGroup>
 					</div>

@@ -90,50 +90,62 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
 
   render () {
   	return (
-  		<div id="login-form" onSubmit={ e => e.preventDefault() }>
+  		<div
+  			id="login-form"
+  			onSubmit={e => e.preventDefault()}
+  		>
   			<Form id="login-form">
-  				<h1 id="greeting" className="text-center unselectable">
+  				<h1
+  					className="text-center unselectable"
+  					id="greeting"
+  				>
             Hi there!
   				</h1>
   				<div id="login-input-fields">
   					<Label className="error-text">{this.state.error}</Label>
   					<FormGroup>
-  						<Label for="username" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="username"
+  						>
                 Username
   						</Label>
   						<Field
-  							type="text"
-  							name="username"
-  							id="username"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="username"
+  							name="username"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   					<FormGroup>
-  						<Label for="passcode" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="passcode"
+  						>
                 Passcode
   						</Label>
   						<Field
-  							type="password"
-  							name="passcode"
-  							id="passcode"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="passcode"
+  							name="passcode"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="password"
   						/>
   					</FormGroup>
   				</div>
   				<Button
-  					id="btnLogin"
-  					type="submit"
   					className="btn btn-default btn-round-lg btn-lg first"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  					id="btnLogin"
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
+  					type="submit"
   				>
             Log In
   				</Button>
   				<Button
   					className="btn btn-default btn-round-lg btn-lg second"
   					id="btnRegister"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
   				>
             Sign Up
   				</Button>

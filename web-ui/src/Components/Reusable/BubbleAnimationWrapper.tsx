@@ -13,11 +13,11 @@ class BubbleAnimationWrapper extends React.Component<Props, {}> {
 
 		return (
 			<CSSTransitionGroup
-				transitionName={ transitionName }
-				transitionAppear={ true }
-				transitionAppearTimeout={ 1000 }
-				transitionEnter={ false }
-				transitionLeave={ false }
+				transitionAppear
+				transitionAppearTimeout={1000}
+				transitionEnter={false}
+				transitionLeave={false}
+				transitionName={transitionName}
 			>
 				{children}
 			</CSSTransitionGroup>

@@ -254,9 +254,9 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={ setTeam } />
-					<SelectPlayer setPlayerID={ setPlayerID } />
-					<Week week={ setWeek } />
+					<CollegeTeam setTeam={setTeam} />
+					<SelectPlayer setPlayerID={setPlayerID} />
+					<Week week={setWeek} />
 				</div>
 				<div className="admin-form-row-two">
 					{this.state.playerID !== '' && this.state.week !== '' ? (
@@ -329,14 +329,14 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 				<div className="admin-form-row-two">
 					{this.state.playerID !== '' && this.state.week !== '' ? (
 						<div className="admin-form-row-two">
-							<Goals goals={ setGoals } />
-							<Assists assists={ assists } />
-							<MinutesPlayed minutesPlayed={ minutesPlayed } />
-							<YellowCard yellowCards={ yellowCards } />
-							<ManOfTheMatch setManOfTheMatch={ manOfTheMatch } />
-							<RedCard setRedCard={ redCard } />
+							<Goals goals={setGoals} />
+							<Assists assists={assists} />
+							<MinutesPlayed minutesPlayed={minutesPlayed} />
+							<YellowCard yellowCards={yellowCards} />
+							<ManOfTheMatch setManOfTheMatch={manOfTheMatch} />
+							<RedCard setRedCard={redCard} />
 
-							{this.state.viewingDefender ? <CleanSheet setCleanSheet={ cleanSheet } /> : null}
+							{this.state.viewingDefender ? <CleanSheet setCleanSheet={cleanSheet} /> : null}
 						</div>
 					) : null}
 				</div>
@@ -345,7 +345,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnEditPoints"
-						onClick={ () => this._onValidate() }
+						onClick={() => this._onValidate()}
 					>
             Edit Points
 					</Button>

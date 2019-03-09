@@ -28,19 +28,25 @@ class Assists extends React.Component<AssistProps, AssistsState> {
 
 	render () {
 		return (
-			<div className="add-points-assists-outer" onSubmit={ e => e.preventDefault() }>
+			<div
+				className="add-points-assists-outer"
+				onSubmit={e => e.preventDefault()}
+			>
 				<Form id="add-points-assists">
 					<div id="login-input-fields">
 						<FormGroup>
-							<Label for="assists" className="unselectable">
-                Number of assists
+							<Label
+								className="unselectable"
+								for="assists"
+							>
+                			Number of assists
 							</Label>
 							<Field
-								type="text"
-								name="assists"
-								id="assists"
 								component="input"
-								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+								id="assists"
+								name="assists"
+								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								type="text"
 							/>
 						</FormGroup>
 					</div>

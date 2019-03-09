@@ -27,19 +27,25 @@ class MinutesPlayed extends React.Component<MinutesPlayedProps, State> {
 
 	render () {
 		return (
-			<div className="add-points-minutes-outer" onSubmit={ e => e.preventDefault() }>
+			<div
+				className="add-points-minutes-outer"
+				onSubmit={e => e.preventDefault()}
+			>
 				<Form id="add-points-minutes">
 					<div id="login-input-fields">
 						<FormGroup>
-							<Label for="minutesPlayed" className="unselectable">
+							<Label
+								className="unselectable"
+								for="minutesPlayed"
+							>
                 Minutes Played
 							</Label>
 							<Field
-								type="text"
-								name="minutesPlayed"
-								id="minutesPlayed"
 								component="input"
-								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+								id="minutesPlayed"
+								name="minutesPlayed"
+								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								type="text"
 							/>
 						</FormGroup>
 					</div>

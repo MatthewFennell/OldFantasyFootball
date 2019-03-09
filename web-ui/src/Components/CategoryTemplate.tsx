@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Team from '../Containers/Team/Team';
-// import { withRouter, RouteComponentProps } from 'react-router-dom';
 import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers/Transfers';
 import Leagues from '../Containers/League/Leagues';
@@ -33,7 +32,7 @@ class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
 				return <Team />;
 			}
 		} else {
-			return <SplashScreen redirect={ '/login' } />;
+			return <SplashScreen redirect="/login" />;
 		}
 	}
 }

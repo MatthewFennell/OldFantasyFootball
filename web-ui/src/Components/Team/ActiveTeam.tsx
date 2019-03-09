@@ -19,7 +19,7 @@ class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
   _activeTeamJSX = () => {
   	return (
   		<Table responsive>
-  			<ActiveTeamTableBody activeTeam={ this.props.activeTeam } />
+  			<ActiveTeamTableBody activeTeam={this.props.activeTeam} />
   		</Table>
   	);
   };
@@ -28,7 +28,12 @@ class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
   	return (
   		<div id="active-team-table">
   			<Row id="player-in-active-team-row">
-  				<Col sm="12" md={ { size: 12 } } lg="12" id="active-team-columns">
+  				<Col
+  					id="active-team-columns"
+  					lg="12"
+  					md={{ size: 12 }}
+  					sm="12"
+  				>
   					{this._activeTeamJSX()}
   				</Col>
   			</Row>
