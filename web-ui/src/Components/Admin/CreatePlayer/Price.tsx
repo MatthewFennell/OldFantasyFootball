@@ -28,19 +28,25 @@ class Price extends React.Component<PriceProps, PriceState> {
 
 	render () {
 		return (
-			<div className="create-player-form-outer" onSubmit={ e => e.preventDefault() }>
+			<div
+				className="create-player-form-outer"
+				onSubmit={e => e.preventDefault()}
+			>
 				<Form id="create-player-form">
 					<div id="login-input-fields">
 						<FormGroup>
-							<Label for="price" className="unselectable">
+							<Label
+								className="unselectable"
+								for="price"
+							>
                 Price
 							</Label>
 							<Field
-								type="text"
-								name="price"
-								id="price"
 								component="input"
-								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+								id="price"
+								name="price"
+								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								type="text"
 							/>
 						</FormGroup>
 					</div>

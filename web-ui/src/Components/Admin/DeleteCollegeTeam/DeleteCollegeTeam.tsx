@@ -71,14 +71,14 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={ collegeName } />
+					<CollegeTeam setTeam={collegeName} />
 				</div>
 				<div className="admin-form-row-two">
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnDeleteCollegeTeam"
-							onClick={ () => this._onSubmit() }
+							onClick={() => this._onSubmit()}
 						>
               Delete College Team
 						</Button>

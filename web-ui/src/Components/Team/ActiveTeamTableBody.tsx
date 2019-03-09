@@ -11,7 +11,10 @@ class ActiveTeamTableBody extends React.Component<ActiveTeamProps> {
 		return (
 			<tbody className="my-active-team">
 				{this.props.activeTeam.map(datum => (
-					<RowActiveTeam key={ datum.id } element={ datum } />
+					<RowActiveTeam
+						element={datum}
+						key={datum.id}
+					/>
 				))}
 			</tbody>
 		);

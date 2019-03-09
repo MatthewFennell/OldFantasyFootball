@@ -71,14 +71,14 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 
 	_handlePlayerID (playerID: string) {
 		this.setState({ playerID });
-
 		let haveSet: boolean = false;
+		const { playersInFilteredTeam } = this.props;
 
-		for (let x = 0; x < this.props.playersInFilteredTeam.length; x++) {
-			if (playerID === this.props.playersInFilteredTeam[x].id) {
+		for (let x = 0; x < playersInFilteredTeam.length; x++) {
+			if (playerID === playersInFilteredTeam[x].id) {
 				if (
-					this.props.playersInFilteredTeam[x].position === 'DEFENDER' ||
-          this.props.playersInFilteredTeam[x].position === 'GOALKEEPER'
+					playersInFilteredTeam[x].position === 'DEFENDER' ||
+          			playersInFilteredTeam[x].position === 'GOALKEEPER'
 				) {
 					haveSet = true;
 					this.setState({ viewingDefender: true });
@@ -92,7 +92,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	_handleCollegeTeam (team: string) {
-		this.props.setTeamAddingPoints(team);
+		const { setTeamAddingPoints } = this.props;
+		setTeamAddingPoints(team);
 	}
 
 	_handleAssists (assists: string) {
@@ -127,23 +128,25 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		let error: boolean = false;
 		let message: string = 'Please select a value for : ';
 
-		if (this.state.playerID === '') {
+		const { playerID, week, goals, assists, minutesPlayed } = this.state;
+
+		if (playerID === '') {
 			error = true;
 			message += 'Player, ';
 		}
-		if (this.state.week === '' || isNaN(parseFloat(this.state.week))) {
+		if (week === '' || isNaN(parseFloat(week))) {
 			error = true;
 			message += 'Week, ';
 		}
-		if (this.state.goals === '' || isNaN(parseFloat(this.state.goals))) {
+		if (goals === '' || isNaN(parseFloat(goals))) {
 			error = true;
 			message += 'Goals, ';
 		}
-		if (this.state.assists === '' || isNaN(parseFloat(this.state.assists))) {
+		if (assists === '' || isNaN(parseFloat(assists))) {
 			error = true;
 			message += 'Assists, ';
 		}
-		if (this.state.minutesPlayed === '' || isNaN(parseFloat(this.state.minutesPlayed))) {
+		if (minutesPlayed === '' || isNaN(parseFloat(minutesPlayed))) {
 			error = true;
 			message += 'Minutes Played, ';
 		}
@@ -158,16 +161,18 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	_onSubmit () {
+		const { goals, assists, minutesPlayed, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
+
 		let data: AddPoints = {
-			goals: this.state.goals,
-			assists: this.state.assists,
-			minutesPlayed: this.state.minutesPlayed,
-			manOfTheMatch: this.state.manOfTheMatch,
-			yellowCards: this.state.yellowCards,
-			cleanSheet: this.state.cleanSheet,
-			redCard: this.state.redCard,
-			playerID: this.state.playerID,
-			week: this.state.week
+			goals: goals,
+			assists: assists,
+			minutesPlayed: minutesPlayed,
+			manOfTheMatch: manOfTheMatch,
+			yellowCards: yellowCards,
+			cleanSheet: cleanSheet,
+			redCard: redCard,
+			playerID: playerID,
+			week: week
 		};
 
 		addPlayerPoints(data)
@@ -200,51 +205,62 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		let cleanSheet = this._handleCleanSheet;
 		let yellowCards = this._handleYellowCards;
 
+		const { viewingDefender, pointsAdded, errorMessage } = this.state;
+
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={ setTeam } />
-					<SelectPlayer setPlayerID={ setPlayerID } />
-					<Week week={ setWeek } />
+					<CollegeTeam setTeam={setTeam} />
+					<SelectPlayer setPlayerID={setPlayerID} />
+					<Week week={setWeek} />
 				</div>
 				<div className="admin-form-row-two">
-					<Goals goals={ setGoals } />
-					<Assists assists={ assists } />
-					<MinutesPlayed minutesPlayed={ minutesPlayed } />
-					{/* <YellowCard yellowCards={yellowCards} /> */}
-					<CustomDropdown title={ 'Yellow Cards' } setData={ yellowCards } values={ ['0', '1', '2'] } />
+					<Goals goals={setGoals} />
+					<Assists assists={assists} />
+					<MinutesPlayed minutesPlayed={minutesPlayed} />
 					<CustomDropdown
-						title={ 'Man of the Match' }
-						setData={ manOfTheMatch }
-						values={ ['No', 'Yes'] }
+						setData={yellowCards}
+						title="Yellow Cards"
+						values={['0', '1', '2']}
 					/>
-					{/* <ManOfTheMatch setManOfTheMatch={manOfTheMatch} /> */}
 					<CustomDropdown
-						title={ 'Man of the Match' }
-						setData={ manOfTheMatch }
-						values={ ['No', 'Yes'] }
+						setData={manOfTheMatch}
+						title="Man of the Match"
+						values={['No', 'Yes']}
 					/>
-					{/* <RedCard setRedCard={redCard} /> */}
-					<CustomDropdown title={ 'Red Card' } setData={ redCard } values={ ['No', 'Yes'] } />
+					<CustomDropdown
+						setData={manOfTheMatch}
+						title="Man of the Match"
+						values={['No', 'Yes']}
+					/>
+					<CustomDropdown
+						setData={redCard}
+						title="Red Card"
+						values={['No', 'Yes']}
+					/>
 
-					{this.state.viewingDefender ? (
-						<CustomDropdown title={ 'Clean Sheet' } setData={ cleanSheet } values={ ['No', 'Yes'] } />
+					{viewingDefender ? (
+						<CustomDropdown
+							setData={cleanSheet}
+							title="Clean Sheet"
+							values={['No', 'Yes']}
+						/>
 					) : null}
 				</div>
 				<div>
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnAddPoints"
-						onClick={ () => this._onValidate() }
+						onClick={this._onValidate}
 					>
             Add Points
 					</Button>
 				</div>
-				{this.state.pointsAdded ? (
+				{pointsAdded ? (
 					<div className="error-message-animation"> Points added successfully </div>
 				) : null}
-				{this.state.errorMessage.length > 0 ? (
-					<div className="error-message-animation"> Error : {this.state.errorMessage} </div>
+				{errorMessage.length > 0 ? (
+					<div className="error-message-animation"> Error : {errorMessage} </div>
 				) : null}
 			</div>
 		);

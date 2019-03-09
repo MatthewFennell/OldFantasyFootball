@@ -77,15 +77,18 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={ setTeam } />
-					<SelectPlayer setPlayerID={ setPlayerID } onlyDefendwrs={ false } />
+					<CollegeTeam setTeam={setTeam} />
+					<SelectPlayer
+						onlyDefendwrs={false}
+						setPlayerID={setPlayerID}
+					/>
 				</div>
 				<div className="admin-form-row-two" />
 				<div>
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnDeletePlayer"
-						onClick={ () => this._onValidate() }
+						onClick={() => this._onValidate()}
 					>
             Delete player
 					</Button>

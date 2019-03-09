@@ -21,18 +21,42 @@ class App extends React.Component {
 				<Header />
 				<Switch>
 					<Route
+						component={() => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />)}
 						exact
 						path="/"
-						component={ () => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />) }
 					/>
-					<Route exact path="/login" component={ Login } />
-					<Route exact path="/register" component={ Register } />
-					<Route exact path="/splashScreen" component={ SplashScreen } />
+					<Route
+						component={Login}
+						exact
+						path="/login"
+					/>
+					<Route
+						component={Register}
+						exact
+						path="/register"
+					/>
+					<Route
+						component={SplashScreen}
+						exact
+						path="/splashScreen"
+					/>
 					{/* <Route exact path="/team" component={Team} /> */}
 					{/* <Route exact path="/transfers" component={Transfers} /> */}
-					<Route exact path="/leagues" component={ Leagues } />
-					<Route exact path="/admin" component={ Admin } />
-					<Route exact path="/settings" component={ Settings } />
+					<Route
+						component={Leagues}
+						exact
+						path="/leagues"
+					/>
+					<Route
+						component={Admin}
+						exact
+						path="/admin"
+					/>
+					<Route
+						component={Settings}
+						exact
+						path="/settings"
+					/>
 					<PageBody />
 				</Switch>
 			</React.Fragment>

@@ -149,23 +149,23 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<FirstName firstName={ firstName } />
-					<Surname surname={ surname } />
+					<FirstName firstName={firstName} />
+					<Surname surname={surname} />
 					{/* <PositionsDropDown setPosition={positionChange} /> */}
 					<CustomDropdown
-						title={ 'Position' }
-						setData={ positionChange }
-						values={ ['Goalkeeper', 'Defender', 'Midfielder', 'Attacker'] }
+						setData={positionChange}
+						title="Position"
+						values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
 					/>
 				</div>
 				<div className="admin-form-row-two">
-					<Price price={ price } />
-					<CollegeTeam setTeam={ teamChange } />
+					<Price price={price} />
+					<CollegeTeam setTeam={teamChange} />
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreatePlayer"
-							onClick={ () => this._onValidate() }
+							onClick={() => this._onValidate()}
 						>
               Create Player
 						</Button>

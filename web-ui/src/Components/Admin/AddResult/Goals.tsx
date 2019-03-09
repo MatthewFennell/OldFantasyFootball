@@ -28,19 +28,25 @@ class Goals extends React.Component<GoalsProps, GoalsState> {
 
 	render () {
 		return (
-			<div className="add-result-goals-form-outer" onSubmit={ e => e.preventDefault() }>
+			<div
+				className="add-result-goals-form-outer"
+				onSubmit={e => e.preventDefault()}
+			>
 				<Form id="add-result-goals-form">
 					<div id="login-input-fields">
 						<FormGroup>
-							<Label for="goals" className="unselectable">
+							<Label
+								className="unselectable"
+								for="goals"
+							>
                 Goals {this.props.wording} :
 							</Label>
 							<Field
-								type="text"
-								name={ this.props.wording }
-								id={ this.props.wording }
 								component="input"
-								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+								id={this.props.wording}
+								name={this.props.wording}
+								onChange={e => this._handleInput(e!.target.name, e!.target)}
+								type="text"
 							/>
 						</FormGroup>
 					</div>

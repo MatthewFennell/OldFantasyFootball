@@ -61,31 +61,40 @@ class JoinLeague extends React.Component<
 
   render () {
   	return (
-  		<div className="join-league-form" onSubmit={ e => e.preventDefault() }>
+  		<div
+  			className="join-league-form"
+  			onSubmit={e => e.preventDefault()}
+  		>
   			<Form id="join-league-form">
-  				<h1 id="greeting" className="text-center unselectable">
+  				<h1
+  					className="text-center unselectable"
+  					id="greeting"
+  				>
             Join a league!
   				</h1>
   				<div id="login-input-fields">
   					<Label className="error-text">{this.state.error}</Label>
   					<FormGroup>
-  						<Label for="codeToJoin" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="codeToJoin"
+  						>
                 Code to join league
   						</Label>
   						<Field
-  							type="text"
-  							name="codeToJoin"
-  							id="codeToJoin"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="codeToJoin"
+  							name="codeToJoin"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   				</div>
   				<Button
-  					id="btnJoinLeague"
-  					type="submit"
   					className="btn btn-default btn-round-lg btn-lg first"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  					id="btnJoinLeague"
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
+  					type="submit"
   				>
             Join League
   				</Button>

@@ -122,85 +122,106 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   render () {
   	return (
   		<div id="register-form">
-  			<Form id="register-form" onSubmit={ e => e.preventDefault() }>
-  				<h1 id="greeting" className="text-center unselectable">
+  			<Form
+  				id="register-form"
+  				onSubmit={e => e.preventDefault()}
+  			>
+  				<h1
+  					className="text-center unselectable"
+  					id="greeting"
+  				>
             Sign Up:
   				</h1>
   				<Label className="error-text">{this.state.error}</Label>
   				<div id="register-input-fields">
   					<FormGroup className="first-name">
-  						<Label for="firstName" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="firstName"
+  						>
                 First name
   						</Label>
   						<Field
-  							type="text"
-  							name="firstName"
-  							id="firstName"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="firstName"
+  							name="firstName"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   					<FormGroup className="surname">
-  						<Label for="surname" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="surname"
+  						>
                 Surname
   						</Label>
   						<Field
-  							type="text"
-  							name="surname"
-  							id="surname"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="surname"
+  							name="surname"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   					<FormGroup className="email">
-  						<Label for="email" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="email"
+  						>
                 Email
   						</Label>
   						<Field
-  							type="text"
-  							name="email"
-  							id="email"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="email"
+  							name="email"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   					<FormGroup className="username">
-  						<Label for="username" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="username"
+  						>
                 Username
   						</Label>
   						<Field
-  							type="text"
-  							name="username"
-  							id="username"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="username"
+  							name="username"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   					<FormGroup className="passcode">
-  						<Label for="passcode" className="unselectable">
+  						<Label
+  							className="unselectable"
+  							for="passcode"
+  						>
                 Passcode
   						</Label>
   						<Field
-  							type="password"
-  							name="passcode"
-  							id="passcode"
   							component="input"
-  							onChange={ e => this._handleInput(e!.target.name, e!.target) }
+  							id="passcode"
+  							name="passcode"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="password"
   						/>
   					</FormGroup>
   				</div>
   				<Button
-  					id="btnRegister"
   					className="btn btn-default btn-round-lg btn-lg first"
+  					id="btnRegister"
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
   					type="submit"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
   				>
             Sign up
   				</Button>
   				<Button
   					className="btn btn-default btn-round-lg btn-lg second"
   					id="btnLogin"
-  					onClick={ (e: any) => this._onSubmit(e.target.id) }
+  					onClick={(e: any) => this._onSubmit(e.target.id)}
   				>
             Log in
   				</Button>

@@ -83,14 +83,14 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeName collegeName={ collegeName } />
+					<CollegeName collegeName={collegeName} />
 				</div>
 				<div className="admin-form-row-two">
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreateCollegeTeam"
-							onClick={ () => this._onValidate() }
+							onClick={() => this._onValidate()}
 						>
               Create College Team
 						</Button>

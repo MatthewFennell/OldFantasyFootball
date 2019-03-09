@@ -65,12 +65,15 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 		}
 
 		const teamOptions = teams.map(team => (
-			<p className="team-menu-items" key = { team[0] }>
+			<p
+				className="team-menu-items"
+				key={team[0]}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (team[0] === this.state.playerSelected) }
-					key={ team[1] }
-					value={ team[0] }
-					onClick={ () => this._handlePlayerIDChange(team) }
+					className={'team-menu-item-' + (team[0] === this.state.playerSelected)}
+					key={team[1]}
+					onClick={() => this._handlePlayerIDChange(team)}
+					value={team[0]}
 				>
 					{team[0]}
 				</DropdownItem>
@@ -79,9 +82,15 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.selectPlayerOpen } toggle={ this._toggleTeam }>
+				<Dropdown
+					isOpen={this.state.selectPlayerOpen}
+					toggle={this._toggleTeam}
+				>
 					{'Player: '} {this.state.playerSelected}
-					<DropdownToggle caret className="team-menu-toggle">
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

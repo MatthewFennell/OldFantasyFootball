@@ -87,47 +87,51 @@ class Header extends React.Component<Props & RouteComponentProps> {
   		<div id="header">
   			<Row className="categories-user unselectable">
   				<Col lg="2">
-  					<Image id="appIcon" src="appIcon.jpg" alt="App Icon" />
+  					<Image
+  						alt="App Icon"
+  						id="appIcon"
+  						src="appIcon.jpg"
+  					/>
   				</Col>
   				<Col lg="9">
   					<div id="midOptions">
   						<Link to="/team">
   							<ButtonPageSelector
   								id="transactions"
-  								setRef={ () => this.teamRef }
-  								selected={ this.props.location.pathname === '/team' }
-  								select={ () => this._onTeamSelect() }
   								imgSrc="Home.png"
+  								select={() => this._onTeamSelect()}
+  								selected={this.props.location.pathname === '/team'}
+  								setRef={() => this.teamRef}
   								text="Team"
   							/>
   						</Link>
   						<Link to="/transfers">
   							<ButtonPageSelector
   								id="categories"
-  								setRef={ () => this.transfersRef }
-  								selected={ this.props.location.pathname === '/transfers' }
-  								select={ () => this._onTransfersSelect() }
   								imgSrc="Max.png"
+  								select={() => this._onTransfersSelect()}
+  								selected={this.props.location.pathname === '/transfers'}
+  								setRef={() => this.transfersRef}
   								text="Transfers"
   							/>
   						</Link>
   						<Link to="/leagues">
   							<ButtonPageSelector
   								id="settings"
-  								setRef={ () => this.leagueRef }
-  								selected={ this.props.location.pathname === '/leagues' }
-  								select={ () => this._onLeagueSelect() }
   								imgSrc="Rupert.png"
+  								select={() => this._onLeagueSelect()}
+  								selected={this.props.location.pathname === '/leagues'}
+  								setRef={() => this.leagueRef}
   								text="Leagues"
   							/>
   						</Link>
   						<Link to="/settings">
   							<ButtonPageSelector
   								id="settings"
-  								setRef={ () => this.settingsRef }
-  								selected={ this.props.location.pathname === '/settings' }
-  								select={ () => this._onSettingsSelect() }
   								imgSrc="Windy.png"
+  								select={() => this._onSettingsSelect()}
+  								selected={this.props.location.pathname === '/settings'}
+  								setRef={() => this.settingsRef}
   								text="Settings"
   							/>
   						</Link>
@@ -135,10 +139,10 @@ class Header extends React.Component<Props & RouteComponentProps> {
   							<Link to="/admin">
   								<ButtonPageSelector
   									id="settings"
-  									setRef={ () => this.adminRef }
-  									selected={ this.props.location.pathname === '/admin' }
-  									select={ () => this._onAdminSelect() }
   									imgSrc="Windy.png"
+  									select={() => this._onAdminSelect()}
+  									selected={this.props.location.pathname === '/admin'}
+  									setRef={() => this.adminRef}
   									text="Admin"
   								/>{' '}
   							</Link>
@@ -149,7 +153,10 @@ class Header extends React.Component<Props & RouteComponentProps> {
   					<div id="account">
   						<div id="avatar" />
   						<h5 id="name">{firstname + ' ' + surname}</h5>
-  						<i className="fa fa-caret-down cursor-pointer" aria-hidden="true" />
+  						<i
+  							aria-hidden="true"
+  							className="fa fa-caret-down cursor-pointer"
+  						/>
   					</div>
   				</Col>
   			</Row>

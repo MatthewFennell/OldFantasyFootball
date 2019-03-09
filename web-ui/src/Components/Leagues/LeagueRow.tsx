@@ -14,7 +14,11 @@ class LeagueRow extends React.Component<LeagueRowProps> {
   _activeLeagueJSX = () => {
   	const { leagueName, position } = this.props.element;
   	return (
-  		<tr className="league" key={ leagueName } onClick={ () => this.handleRowClick(leagueName) }>
+  		<tr
+  			className="league"
+  			key={leagueName}
+  			onClick={() => this.handleRowClick(leagueName)}
+  		>
   			<td className="league-name">{leagueName}</td>
   			<td className="position">{position}</td>
   		</tr>

@@ -11,7 +11,11 @@ class RowActiveTeam extends React.Component<RowActiveTeamProps> {
   _activeTeamJSX = () => {
   	const { firstName, surname, position, price, id } = this.props.element;
   	return (
-  		<tr className="player-in-active-team" key={ id } onClick={ () => this.handleRowClick() }>
+  		<tr
+  			className="player-in-active-team"
+  			key={id}
+  			onClick={() => this.handleRowClick()}
+  		>
   			<td className="first name">{firstName}</td>
   			<td className="surname">{surname}</td>
   			<td className="position">{position}</td>

@@ -20,20 +20,22 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		super(props);
 		this._toggleTeam = this._toggleTeam.bind(this);
 
-		if (this.props.allCollegeTeams.length > 0) {
+		const { allCollegeTeams, setPlayersInFilteredTeam } = this.props;
+
+		if (allCollegeTeams.length > 0) {
 			this.state = {
 				teamDropDownOpen: false,
-				teamValue: this.props.allCollegeTeams[0].name
+				teamValue: allCollegeTeams[0].name
 			};
-			findPlayersInCollegeTeam(this.props.allCollegeTeams[0].name).then(response => {
-				this.props.setPlayersInFilteredTeam(response);
+			findPlayersInCollegeTeam(allCollegeTeams[0].name).then(response => {
+				setPlayersInFilteredTeam(response);
 			});
 		} else {
 			this.state = {
 				teamDropDownOpen: false,
 				teamValue: 'No team selected'
 			};
-			this.props.setPlayersInFilteredTeam([]);
+			setPlayersInFilteredTeam([]);
 		}
 	}
 
@@ -44,26 +46,32 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 	}
 
 	_handleTeamChange (team: string) {
+		const { setTeam, setPlayersInFilteredTeam } = this.props;
 		this.setState({ teamValue: team });
-		this.props.setTeam(team);
+		setTeam(team);
 		findPlayersInCollegeTeam(team)
 			.then(response => {
-				this.props.setPlayersInFilteredTeam(response);
+				setPlayersInFilteredTeam(response);
 			})
 			.catch(error => {
 				console.log(error);
-				this.props.setPlayersInFilteredTeam([]);
+				setPlayersInFilteredTeam([]);
 			});
 	}
 
 	render () {
-		const teamOptions = this.props.allCollegeTeams.map(team => (
-			<p className="team-menu-items" key = { team.id }>
+		const { allCollegeTeams } = this.props;
+		const { teamValue, teamDropDownOpen } = this.state;
+		const teamOptions = allCollegeTeams.map(team => (
+			<p
+				className="team-menu-items"
+				key={team.id}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (team.name === this.state.teamValue) }
-					key={ team.name }
-					value={ team }
-					onClick={ () => this._handleTeamChange(team.name) }
+					className={'team-menu-item-' + (team.name === teamValue)}
+					key={team.name}
+					onClick={() => this._handleTeamChange(team.name)}
+					value={team}
 				>
 					{team.name}
 				</DropdownItem>
@@ -72,9 +80,15 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.teamDropDownOpen } toggle={ this._toggleTeam }>
-					{'Team: '} {this.state.teamValue}
-					<DropdownToggle caret className="team-menu-toggle">
+				<Dropdown
+					isOpen={teamDropDownOpen}
+					toggle={this._toggleTeam}
+				>
+					{'Team: '} {teamValue}
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

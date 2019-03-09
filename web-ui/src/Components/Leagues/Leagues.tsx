@@ -96,13 +96,23 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		const width = this.props.leaguePageBeingViewed === 'home' ? 12 : 6;
 
 		const renderCreateLeague = () => (
-			<Col xs={ 6 } md={ 6 } lg={ 6 } className="league-info-screen">
+			<Col
+				className="league-info-screen"
+				lg={6}
+				md={6}
+				xs={6}
+			>
 				<CreateLeague />
 			</Col>
 		);
 
 		const renderJoinLeague = () => (
-			<Col xs={ 6 } md={ 6 } lg={ 6 } className="league-info-screen">
+			<Col
+				className="league-info-screen"
+				lg={6}
+				md={6}
+				xs={6}
+			>
 				<JoinLeague />
 			</Col>
 		);
@@ -114,8 +124,13 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 				) : (
 					<div>The admin of this league is {this.state.code} </div>
 				)}
-				<Col xs={ 6 } md={ 6 } lg={ 6 } className="league-info-screen">
-					<RankingsTableBody leagueRankings={ this.props.leagueRankings } />
+				<Col
+					className="league-info-screen"
+					lg={6}
+					md={6}
+					xs={6}
+				>
+					<RankingsTableBody leagueRankings={this.props.leagueRankings} />
 				</Col>
 			</div>
 		);
@@ -125,18 +140,21 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 				<Row>
 					<Col
 						className="huh"
-						xs={ width }
-						xsOffset={ offSet }
-						md={ width }
-						mdOffset={ offSet }
-						lg={ width }
-						lgOffset={ offSet }
+						lg={width}
+						lgOffset={offSet}
+						md={width}
+						mdOffset={offSet}
+						xs={width}
+						xsOffset={offSet}
 					>
 						<div className="outer-league-rows">
 							<div className="my-leagues">
                 My Leagues
 								<div className="league-table">
-									<LeagueTableBody leagues={ leagues } setLeagueBeingViewed={ setLeagueBeingViewed } />
+									<LeagueTableBody
+										leagues={leagues}
+										setLeagueBeingViewed={setLeagueBeingViewed}
+									/>
 								</div>
 							</div>
 
@@ -145,10 +163,10 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 									<div className="create league">
 										<div className="create-league-button">
 											<Button
-												id="btnCreateLeague"
-												type="submit"
 												className="btn btn-default btn-round-lg btn-lg first"
-												onClick={ (e: any) => this._onClickCreateLeague() }
+												id="btnCreateLeague"
+												onClick={(e: any) => this._onClickCreateLeague()}
+												type="submit"
 											>
                         Create league
 											</Button>
@@ -157,10 +175,10 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 									<div className="join-league">
 										<div className="join-league-button">
 											<Button
-												id="btnJoinLeague"
-												type="submit"
 												className="btn btn-default btn-round-lg btn-lg first"
-												onClick={ (e: any) => this._onClickJoinLeague() }
+												id="btnJoinLeague"
+												onClick={(e: any) => this._onClickJoinLeague()}
+												type="submit"
 											>
                         Join league
 											</Button>
