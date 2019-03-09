@@ -1,11 +1,11 @@
 import * as React from 'react';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
-import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
-import { SubmitResults } from '../../../Models/Interfaces/SubmitResults';
-import { submitResult } from '../../../Services/Player/PlayerService';
-import '../../../Style/Admin/ErrorMessage.css';
-import TextInputForm from '../../common/TexInputForm';
+import SelectPlayer from '../../Containers/Admin/SelectPlayer';
+import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
+import { submitResult } from '../../Services/Player/PlayerService';
+import '../../Style/Admin/ErrorMessage.css';
+import TextInputForm from '../common/TexInputForm';
 
 interface TransfersFormProps {
   setTeamAddingPoints: (team: string) => void;

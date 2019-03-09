@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import { deleteCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
-import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
-import '../../../Style/Admin/ErrorMessage.css';
+import { deleteCollegeTeam } from '../../Services/CollegeTeam/CollegeTeamService';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
+import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
+import '../../Style/Admin/ErrorMessage.css';
 
 interface DeleteCollegeTeamProps {
   allCollegeTeams: CT[];

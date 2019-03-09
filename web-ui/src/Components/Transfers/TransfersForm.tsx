@@ -1,15 +1,12 @@
 import * as React from 'react';
 import '../../Style/Transfers/TransfersForm.css';
-import PositionDropDown from './PositionDropdown';
 import TeamDropDown from './TeamDropdown';
-import SortByDropdown from './SortByDropdown';
-import MinimumPriceDropdown from './MinimumPriceDropdown';
-import MaximumPriceDropdown from './MaximumPriceDropdown';
-import SearchByName from './SearchByName';
 import { filterPlayers } from '../../Services/Player/PlayerService';
 import { FilterPlayers } from '../../Models/Interfaces/FilterPlayers';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import TextInputForm from '../common/TexInputForm';
+import CustomDropdown from '../common/CustomDropdown';
 
 interface TransfersFormProps {
   setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
@@ -108,27 +105,65 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	render () {
-		let positionChange = this._handlePositionChange;
 		let teamChange = this._handleTeamChange;
-		let sortByChange = this._handleSortByChange;
-		let minimumPriceChange = this._handleMinimumPriceChange;
-		let maximumPriceChange = this._handleMaximumPriceChange;
-		let searchByName = this._handleSearchByNameValue;
 
 		return (
 			<div className="transfer-filter-rows">
 				<div className="transfer-form-row-one">
-					<PositionDropDown setPosition={positionChange} />
+					<CustomDropdown
+						setData={this._handlePositionChange}
+						title="Position"
+						values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
+					/>
 					<TeamDropDown
 						allCollegeTeams={this.props.allCollegeTeams}
 						setTeam={teamChange}
 					/>
-					<SortByDropdown setSortBy={sortByChange} />
+					<CustomDropdown
+						setData={this._handleSortByChange}
+						title="Sort by"
+						values={['Total score', 'Goals', 'Assists', 'Price']}
+					/>
 				</div>
 				<div className="transfer-form-row-two">
-					<MinimumPriceDropdown setMinimumPrice={minimumPriceChange} />
-					<MaximumPriceDropdown setMaximumPrice={maximumPriceChange} />
-					<SearchByName setSearchByName={searchByName} />
+					<CustomDropdown
+						setData={this._handleMinimumPriceChange}
+						title="Minimum Price"
+						values={[
+							'No limit',
+							'5.0',
+							'6.0',
+							'7.0',
+							'8.0',
+							'9.0',
+							'10.0',
+							'11.0',
+							'12.0'
+						]}
+					/>
+					<CustomDropdown
+						setData={this._handleMaximumPriceChange}
+						title="Maximum Price"
+						values={[
+							'No limit',
+							'5.0',
+							'6.0',
+							'7.0',
+							'8.0',
+							'9.0',
+							'10.0',
+							'11.0',
+							'12.0',
+							'13.0',
+							'14.0'
+
+						]}
+					/>
+					<TextInputForm
+						currentValue={this.state.searchByNameValue}
+						setValue={this._handleSearchByNameValue}
+						title="Player name"
+					/>
 				</div>
 			</div>
 		);

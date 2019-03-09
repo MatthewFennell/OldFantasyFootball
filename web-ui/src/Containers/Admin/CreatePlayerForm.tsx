@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
-import CreatePlayerForm from '../../Components/Admin/CreatePlayer/CreatePlayerForm';
+import CreatePlayerForm from '../../Components/Admin/CreatePlayerForm';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
-import DeleteCollegeTeam from '../../Components/Admin/DeleteCollegeTeam/DeleteCollegeTeam';
+import DeleteCollegeTeam from '../../Components/Admin/DeleteCollegeTeam';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 import { removeCollegeTeam } from '../../Actions/AdminActions';

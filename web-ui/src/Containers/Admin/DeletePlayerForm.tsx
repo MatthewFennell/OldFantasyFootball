@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
-import DeletePlayerForm from '../../Components/Admin/DeletePlayer/DeletePlayerForm';
+import DeletePlayerForm from '../../Components/Admin/DeletePlayerForm';
 import { getTeamAddingPoints, getPlayersInFilteredTeam } from '../../Selectors/AdminSelector';
 import { setTeamAddingPoints } from '../../Actions/AdminActions';
 

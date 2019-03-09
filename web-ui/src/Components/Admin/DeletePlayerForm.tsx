@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
-import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
-import { deletePlayer } from '../../../Services/Player/PlayerService';
-import '../../../Style/Admin/ErrorMessage.css';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
+import SelectPlayer from '../../Containers/Admin/SelectPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { deletePlayer } from '../../Services/Player/PlayerService';
+import '../../Style/Admin/ErrorMessage.css';
 
 interface DeletePlayerProps {
   setTeamAddingPoints: (team: string) => void;

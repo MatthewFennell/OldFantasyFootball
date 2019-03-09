@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
-import CollegeTeam from '../../Components/Admin/AddPoints/CollegeTeam';
+import CollegeTeam from '../../Components/common/CollegeTeam';
 import { getTeamAddingPoints, getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import { setTeamAddingPoints, setPlayersInFilteredTeam } from '../../Actions/AdminActions';
 

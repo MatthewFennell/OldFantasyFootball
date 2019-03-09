@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
-import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
-import { AddPoints } from '../../../Models/Interfaces/AddPoints';
-import { addPlayerPoints } from '../../../Services/Player/PlayerService';
-import '../../../Style/Admin/ErrorMessage.css';
-import CustomDropdown from '../../common/CustomDropdown';
-import TextInputForm from '../../common/TexInputForm';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
+import SelectPlayer from '../../Containers/Admin/SelectPlayer';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { AddPoints } from '../../Models/Interfaces/AddPoints';
+import { addPlayerPoints } from '../../Services/Player/PlayerService';
+import '../../Style/Admin/ErrorMessage.css';
+import CustomDropdown from '../common/CustomDropdown';
+import TextInputForm from '../common/TexInputForm';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;

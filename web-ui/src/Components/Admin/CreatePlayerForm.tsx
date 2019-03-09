@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { createPlayer } from '../../../Services/Player/PlayerService';
-import { CreatePlayer } from '../../../Models/Interfaces/CreatePlayer';
-import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
+import { createPlayer } from '../../Services/Player/PlayerService';
+import { CreatePlayer } from '../../Models/Interfaces/CreatePlayer';
+import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
-import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
-import '../../../Style/Admin/ErrorMessage.css';
-import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
-import '../../../Style/Admin/CreatePlayerForm.css';
-import CustomDropdown from '../../common/CustomDropdown';
+import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
+import '../../Style/Admin/ErrorMessage.css';
+import { validPlayerFirstName, validPlayerSurname } from '../../Services/CredentialInputService';
+import '../../Style/Admin/CreatePlayerForm.css';
+import CustomDropdown from '../common/CustomDropdown';
 
-import TextInputForm from '../../common/TexInputForm';
+import TextInputForm from '../common/TexInputForm';
 
 interface CreatePlayerProps {
   allCollegeTeams: CT[];

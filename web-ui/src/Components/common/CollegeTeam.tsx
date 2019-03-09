@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import { findPlayersInCollegeTeam } from '../../../Services/Player/PlayerService';
-import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
+import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TeamDropdownProps {
   setTeam: (team: string) => void;

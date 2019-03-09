@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import { makeCollegeTeam } from '../../../Services/CollegeTeam/CollegeTeamService';
-import { CollegeTeam } from '../../../Models/Interfaces/CollegeTeam';
-import '../../../Style/Admin/ErrorMessage.css';
-import { validCollegeName } from '../../../Services/CredentialInputService';
-import TextInputForm from '../../common/TexInputForm';
+import { makeCollegeTeam } from '../../Services/CollegeTeam/CollegeTeamService';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import '../../Style/Admin/ErrorMessage.css';
+import { validCollegeName } from '../../Services/CredentialInputService';
+import TextInputForm from '../common/TexInputForm';
 
 interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
