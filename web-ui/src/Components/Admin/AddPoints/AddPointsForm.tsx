@@ -2,15 +2,12 @@ import * as React from 'react';
 import { Button } from 'reactstrap';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
-import Week from './Week';
-import Goals from './Goals';
-import Assists from './Assists';
-import MinutesPlayed from './MinutesPlayed';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import { AddPoints } from '../../../Models/Interfaces/AddPoints';
 import { addPlayerPoints } from '../../../Services/Player/PlayerService';
 import '../../../Style/Admin/ErrorMessage.css';
-import CustomDropdown from '../../Reusable/CustomDropdown';
+import CustomDropdown from '../../common/CustomDropdown';
+import TextInputForm from '../../common/TexInputForm';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -196,10 +193,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	render () {
 		let setTeam = this._handleCollegeTeam;
 		let setPlayerID = this._handlePlayerID;
-		let setWeek = this._handleWeek;
-		let setGoals = this._handleGoals;
-		let assists = this._handleAssists;
-		let minutesPlayed = this._handleMinutesPlayed;
 		let manOfTheMatch = this._handleManOfTheMatch;
 		let redCard = this._handleRedCard;
 		let cleanSheet = this._handleCleanSheet;
@@ -212,21 +205,32 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 				<div className="admin-form-row-one">
 					<CollegeTeam setTeam={setTeam} />
 					<SelectPlayer setPlayerID={setPlayerID} />
-					<Week week={setWeek} />
+					<TextInputForm
+						currentValue={this.state.week}
+						setValue={this._handleWeek}
+						title="Week"
+					/>
 				</div>
 				<div className="admin-form-row-two">
-					<Goals goals={setGoals} />
-					<Assists assists={assists} />
-					<MinutesPlayed minutesPlayed={minutesPlayed} />
+					<TextInputForm
+						currentValue={this.state.goals}
+						setValue={this._handleGoals}
+						title="Goals"
+					/>
+					<TextInputForm
+						currentValue={this.state.assists}
+						setValue={this._handleAssists}
+						title="Assists"
+					/>
+					<TextInputForm
+						currentValue={this.state.minutesPlayed}
+						setValue={this._handleMinutesPlayed}
+						title="Minutes played"
+					/>
 					<CustomDropdown
 						setData={yellowCards}
 						title="Yellow Cards"
 						values={['0', '1', '2']}
-					/>
-					<CustomDropdown
-						setData={manOfTheMatch}
-						title="Man of the Match"
-						values={['No', 'Yes']}
 					/>
 					<CustomDropdown
 						setData={manOfTheMatch}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import { PlayerDTO } from '../../../Models/Interfaces/Player';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface SelectPlayerProps {
   setPlayerID: (id: string, previousID: string) => void;

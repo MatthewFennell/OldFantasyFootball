@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { createPlayer } from '../../../Services/Player/PlayerService';
 import { CreatePlayer } from '../../../Models/Interfaces/CreatePlayer';
-import FirstName from './FirstName';
-import Surname from './Surname';
-// import PositionsDropDown from './PositionsDropdown';
-import Price from './Price';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
 import { CollegeTeam as CT } from '../../../Models/Interfaces/CollegeTeam';
 import '../../../Style/Admin/ErrorMessage.css';
 import { validPlayerFirstName, validPlayerSurname } from '../../../Services/CredentialInputService';
 import '../../../Style/Admin/CreatePlayerForm.css';
-import CustomDropdown from '../../Reusable/CustomDropdown';
+import CustomDropdown from '../../common/CustomDropdown';
+
+import TextInputForm from '../../common/TexInputForm';
 
 interface CreatePlayerProps {
   allCollegeTeams: CT[];
@@ -142,16 +140,20 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 	render () {
 		let positionChange = this._handlePositionChange;
 		let teamChange = this._handleTeamChange;
-		let price = this._handlePrice;
-		let firstName = this._handleFirstName;
-		let surname = this._handleSurname;
 
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<FirstName firstName={firstName} />
-					<Surname surname={surname} />
-					{/* <PositionsDropDown setPosition={positionChange} /> */}
+					<TextInputForm
+						currentValue={this.state.firstNameValue}
+						setValue={this._handleFirstName}
+						title="First name"
+					/>
+					<TextInputForm
+						currentValue={this.state.surnameValue}
+						setValue={this._handleSurname}
+						title="Surname"
+					/>
 					<CustomDropdown
 						setData={positionChange}
 						title="Position"
@@ -159,7 +161,11 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 					/>
 				</div>
 				<div className="admin-form-row-two">
-					<Price price={price} />
+					<TextInputForm
+						currentValue={this.state.priceValue}
+						setValue={this._handlePrice}
+						title="Price"
+					/>
 					<CollegeTeam setTeam={teamChange} />
 					<div>
 						<Button

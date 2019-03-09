@@ -1,12 +1,11 @@
 import * as React from 'react';
 import CollegeTeam from '../../../Containers/Admin/AddPointsCollegeTeam';
 import { Button } from 'reactstrap';
-import Goals from './Goals';
-import Week from '../AddPoints/Week';
 import SelectPlayer from '../../../Containers/Admin/SelectPlayer';
 import { SubmitResults } from '../../../Models/Interfaces/SubmitResults';
 import { submitResult } from '../../../Services/Player/PlayerService';
 import '../../../Style/Admin/ErrorMessage.css';
+import TextInputForm from '../../common/TexInputForm';
 
 interface TransfersFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -157,9 +156,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
 	render () {
 		let teamChange = this._handleCollegeTeam;
-		let goalsFor = this._handleGoalsFor;
-		let setWeek = this._handleWeek;
-		let goalsAgainst = this._handleGoalsAgainst;
+		// let goalsFor = this._handleGoalsFor;
+		// let setWeek = this._handleWeek;
+		// let goalsAgainst = this._handleGoalsAgainst;
 		let setPlayerIDGoalscorers = this._handlePlayerIDGoalscorers;
 		let setPlayerIDAssists = this._handlePlayerIDAssists;
 		let setPlayerIDCleanSheets = this._handlePlayerIDCleanSheets;
@@ -185,15 +184,21 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			<div className="admin-form">
 				<div className="admin-form-row-one">
 					<CollegeTeam setTeam={teamChange} />
-					<Goals
-						goals={goalsFor}
-						wording="for"
+					<TextInputForm
+						currentValue={this.state.goalsFor}
+						setValue={this._handleGoalsFor}
+						title="Goals for"
 					/>
-					<Goals
-						goals={goalsAgainst}
-						wording="against"
+					<TextInputForm
+						currentValue={this.state.goalsAgainst}
+						setValue={this._handleGoalsAgainst}
+						title="Goals against"
 					/>
-					<Week week={setWeek} />
+					<TextInputForm
+						currentValue={this.state.week}
+						setValue={this._handleWeek}
+						title="Week"
+					/>
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">
