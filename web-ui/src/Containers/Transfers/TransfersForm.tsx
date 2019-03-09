@@ -6,12 +6,12 @@ import { getFilteredPlayers } from '../../Selectors/TransfersSelector';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
-  filteredPlayers: getFilteredPlayers(state),
-  allCollegeTeams: getAllCollegeTeams(state)
+	filteredPlayers: getFilteredPlayers(state),
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {
-  setFilteredPlayers
+	setFilteredPlayers
 };
 
 export default connect<any, any, any>(

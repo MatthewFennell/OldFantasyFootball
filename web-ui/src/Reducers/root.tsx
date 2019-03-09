@@ -18,12 +18,12 @@ export interface State {
 }
 
 const rootReducer = combineReducers<State>({
-  account,
-  activeTeam,
-  stats,
-  league,
-  transfers,
-  admin,
-  form: formReducer
+	account,
+	activeTeam,
+	stats,
+	league,
+	transfers,
+	admin,
+	form: formReducer
 } as any);
 export default rootReducer;

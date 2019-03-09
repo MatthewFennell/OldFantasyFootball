@@ -5,11 +5,11 @@ import { addCollegeTeam } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
-  allCollegeTeams: getAllCollegeTeams(state)
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {
-  addCollegeTeam
+	addCollegeTeam
 };
 
 export default connect<any, any, any>(

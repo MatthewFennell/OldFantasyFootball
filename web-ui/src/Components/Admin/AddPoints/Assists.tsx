@@ -12,46 +12,46 @@ interface AssistProps {
 }
 
 class Assists extends React.Component<AssistProps, AssistsState> {
-  constructor(props: AssistProps) {
-    super(props);
-    this.state = {
-      assists: ''
-    };
-  }
+	constructor (props: AssistProps) {
+		super(props);
+		this.state = {
+			assists: ''
+		};
+	}
 
-  _handleInput(eventName: string, eventTarget: HTMLInputElement) {
-    this.props.assists(eventTarget.value);
-    this.setState({
-      [eventName]: eventTarget.value
-    } as Pick<AssistsState, keyof AssistsState>);
-  }
+	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+		this.props.assists(eventTarget.value);
+		this.setState({
+			[eventName]: eventTarget.value
+		} as Pick<AssistsState, keyof AssistsState>);
+	}
 
-  render() {
-    return (
-      <div className="add-points-assists-outer" onSubmit={e => e.preventDefault()}>
-        <Form id="add-points-assists">
-          <div id="login-input-fields">
-            <FormGroup>
-              <Label for="assists" className="unselectable">
+	render () {
+		return (
+			<div className="add-points-assists-outer" onSubmit={ e => e.preventDefault() }>
+				<Form id="add-points-assists">
+					<div id="login-input-fields">
+						<FormGroup>
+							<Label for="assists" className="unselectable">
                 Number of assists
-              </Label>
-              <Field
-                type="text"
-                name="assists"
-                id="assists"
-                component="input"
-                onChange={e => this._handleInput(e!.target.name, e!.target)}
-              />
-            </FormGroup>
-          </div>
-        </Form>
-      </div>
-    );
-  }
+							</Label>
+							<Field
+								type="text"
+								name="assists"
+								id="assists"
+								component="input"
+								onChange={ e => this._handleInput(e!.target.name, e!.target) }
+							/>
+						</FormGroup>
+					</div>
+				</Form>
+			</div>
+		);
+	}
 }
 
 export default withRouter(
-  reduxForm<{}, any>({
-    form: 'login'
-  })(Assists)
+	reduxForm<{}, any>({
+		form: 'login'
+	})(Assists)
 );

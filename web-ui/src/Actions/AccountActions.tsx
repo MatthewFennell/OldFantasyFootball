@@ -60,77 +60,77 @@ export interface SetTotalPoints {
 }
 
 export const setBalance = (balance: number): SetBalance => {
-  return {
-    type: ActionTypes.SET_BALANCE,
-    payload: {
-      balance
-    }
-  };
+	return {
+		type: ActionTypes.SET_BALANCE,
+		payload: {
+			balance
+		}
+	};
 };
 
 export const setFirstname = (firstName: string): SetFirstName => {
-  return {
-    type: ActionTypes.SET_FIRSTNAME,
-    payload: {
-      firstName
-    }
-  };
+	return {
+		type: ActionTypes.SET_FIRSTNAME,
+		payload: {
+			firstName
+		}
+	};
 };
 export const setSurname = (surname: string): SetSurname => {
-  return {
-    type: ActionTypes.SET_SURNAME,
-    payload: {
-      surname
-    }
-  };
+	return {
+		type: ActionTypes.SET_SURNAME,
+		payload: {
+			surname
+		}
+	};
 };
 export const setEmail = (email: string): SetEmail => {
-  return {
-    type: ActionTypes.SET_EMAIL,
-    payload: {
-      email
-    }
-  };
+	return {
+		type: ActionTypes.SET_EMAIL,
+		payload: {
+			email
+		}
+	};
 };
 export const setUsername = (username: string): SetUsername => {
-  return {
-    type: ActionTypes.SET_USERNAME,
-    payload: {
-      username
-    }
-  };
+	return {
+		type: ActionTypes.SET_USERNAME,
+		payload: {
+			username
+		}
+	};
 };
 
 export const resetAccount = (): ResetAccount => {
-  return {
-    type: ActionTypes.RESET_ACCOUNT,
-    payload: {}
-  };
+	return {
+		type: ActionTypes.RESET_ACCOUNT,
+		payload: {}
+	};
 };
 
 export const setAccount = (account: Account): SetAccount => {
-  return {
-    type: ActionTypes.SET_ACCOUNT,
-    payload: {
-      account
-    }
-  };
+	return {
+		type: ActionTypes.SET_ACCOUNT,
+		payload: {
+			account
+		}
+	};
 };
 
 export const setPageBeingViewed = (pageToView: string): SetPageBeingViewed => {
-  return {
-    type: ActionTypes.SET_PAGE_BEING_VIEWED,
-    payload: { pageToView }
-  };
+	return {
+		type: ActionTypes.SET_PAGE_BEING_VIEWED,
+		payload: { pageToView }
+	};
 };
 
 export const setTotalPoints = (totalPoints: number): SetTotalPoints => {
-  return {
-    type: ActionTypes.SET_TOTAL_POINTS,
-    payload: {
-      totalPoints
-    }
-  };
+	return {
+		type: ActionTypes.SET_TOTAL_POINTS,
+		payload: {
+			totalPoints
+		}
+	};
 };
 
 export type Action =

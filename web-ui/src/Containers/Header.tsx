@@ -3,22 +3,22 @@ import { State } from '../Reducers/root';
 import Header from '../Components/Reusable/Header/Header';
 import { setAccount, setPageBeingViewed } from '../Actions/AccountActions';
 import {
-  getSurname,
-  getFirstName,
-  getPageBeingViewed,
-  getRoles
+	getSurname,
+	getFirstName,
+	getPageBeingViewed,
+	getRoles
 } from '../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
-  firstname: getFirstName(state),
-  surname: getSurname(state),
-  pageBeingViewed: getPageBeingViewed(state),
-  roles: getRoles(state)
+	firstname: getFirstName(state),
+	surname: getSurname(state),
+	pageBeingViewed: getPageBeingViewed(state),
+	roles: getRoles(state)
 });
 
 const mapDispatchToProps = {
-  setAccount,
-  setPageBeingViewed
+	setAccount,
+	setPageBeingViewed
 };
 
 export default connect<any, any, any>(

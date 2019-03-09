@@ -4,10 +4,10 @@ import '../../Style/AccountBalance.css';
 interface Props {}
 
 class AccountBalance extends React.Component<Props, {}> {
-  componentDidMount() {}
+	componentDidMount () {}
 
-  public render() {
-    return <div id="container-account-balance" />;
-  }
+	public render () {
+		return <div id="container-account-balance" />;
+	}
 }
 export default AccountBalance;

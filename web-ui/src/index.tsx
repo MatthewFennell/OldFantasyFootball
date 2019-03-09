@@ -8,11 +8,11 @@ import store from './Store/configure-store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>,
+	<Provider store={ store }>
+		<Router>
+			<App />
+		</Router>
+	</Provider>,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

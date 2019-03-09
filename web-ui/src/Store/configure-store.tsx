@@ -10,7 +10,7 @@ const sagaMiddleware = createSagaMiddleware();
 middlewares.push(sagaMiddleware);
 middlewares.push(thunk);
 if (process.env.NODE_ENV !== 'production') {
-  middlewares.push(logger);
+	middlewares.push(logger);
 }
 
 const store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));

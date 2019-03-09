@@ -16,72 +16,72 @@ interface TeamDropdownState {
 }
 
 class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState> {
-  constructor(props: TeamDropdownProps) {
-    super(props);
-    this._toggleTeam = this._toggleTeam.bind(this);
+	constructor (props: TeamDropdownProps) {
+		super(props);
+		this._toggleTeam = this._toggleTeam.bind(this);
 
-    if (this.props.allCollegeTeams.length > 0) {
-      this.state = {
-        teamDropDownOpen: false,
-        teamValue: this.props.allCollegeTeams[0].name
-      };
-      findPlayersInCollegeTeam(this.props.allCollegeTeams[0].name).then(response => {
-        this.props.setPlayersInFilteredTeam(response);
-      });
-    } else {
-      this.state = {
-        teamDropDownOpen: false,
-        teamValue: 'No team selected'
-      };
-      this.props.setPlayersInFilteredTeam([]);
-    }
-  }
+		if (this.props.allCollegeTeams.length > 0) {
+			this.state = {
+				teamDropDownOpen: false,
+				teamValue: this.props.allCollegeTeams[0].name
+			};
+			findPlayersInCollegeTeam(this.props.allCollegeTeams[0].name).then(response => {
+				this.props.setPlayersInFilteredTeam(response);
+			});
+		} else {
+			this.state = {
+				teamDropDownOpen: false,
+				teamValue: 'No team selected'
+			};
+			this.props.setPlayersInFilteredTeam([]);
+		}
+	}
 
-  _toggleTeam() {
-    this.setState(prevState => ({
-      teamDropDownOpen: !prevState.teamDropDownOpen
-    }));
-  }
+	_toggleTeam () {
+		this.setState(prevState => ({
+			teamDropDownOpen: !prevState.teamDropDownOpen
+		}));
+	}
 
-  _handleTeamChange(team: string) {
-    this.setState({ teamValue: team });
-    this.props.setTeam(team);
-    findPlayersInCollegeTeam(team)
-      .then(response => {
-        this.props.setPlayersInFilteredTeam(response);
-      })
-      .catch(error => {
-        console.log(error);
-        this.props.setPlayersInFilteredTeam([]);
-      });
-  }
+	_handleTeamChange (team: string) {
+		this.setState({ teamValue: team });
+		this.props.setTeam(team);
+		findPlayersInCollegeTeam(team)
+			.then(response => {
+				this.props.setPlayersInFilteredTeam(response);
+			})
+			.catch(error => {
+				console.log(error);
+				this.props.setPlayersInFilteredTeam([]);
+			});
+	}
 
-  render() {
-    const teamOptions = this.props.allCollegeTeams.map(team => (
-      <p className="team-menu-items">
-        <DropdownItem
-          className={'team-menu-item-' + (team.name === this.state.teamValue)}
-          key={team.name}
-          value={team}
-          onClick={() => this._handleTeamChange(team.name)}
-        >
-          {team.name}
-        </DropdownItem>
-      </p>
-    ));
+	render () {
+		const teamOptions = this.props.allCollegeTeams.map(team => (
+			<p className="team-menu-items" key = { team.id }>
+				<DropdownItem
+					className={ 'team-menu-item-' + (team.name === this.state.teamValue) }
+					key={ team.name }
+					value={ team }
+					onClick={ () => this._handleTeamChange(team.name) }
+				>
+					{team.name}
+				</DropdownItem>
+			</p>
+		));
 
-    return (
-      <div className="team-dropdown">
-        <Dropdown isOpen={this.state.teamDropDownOpen} toggle={this._toggleTeam}>
-          {'Team: '} {this.state.teamValue}
-          <DropdownToggle caret className="team-menu-toggle">
-            {' '}
-            {' ▼'}
-          </DropdownToggle>
-          <DropdownMenu className="team-menu">{teamOptions}</DropdownMenu>
-        </Dropdown>
-      </div>
-    );
-  }
+		return (
+			<div className="team-dropdown">
+				<Dropdown isOpen={ this.state.teamDropDownOpen } toggle={ this._toggleTeam }>
+					{'Team: '} {this.state.teamValue}
+					<DropdownToggle caret className="team-menu-toggle">
+						{' '}
+						{' ▼'}
+					</DropdownToggle>
+					<DropdownMenu className="team-menu">{teamOptions}</DropdownMenu>
+				</Dropdown>
+			</div>
+		);
+	}
 }
 export default TeamDropdown;

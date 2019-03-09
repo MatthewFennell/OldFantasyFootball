@@ -6,8 +6,8 @@ export const getLeagueCache = createSelector([getLeagueCacheState], p => p.leagu
 
 const getLeaguePageBeingViewedState = (state: State) => state.league;
 export const getLeaguePageBeingViewed = createSelector(
-  [getLeaguePageBeingViewedState],
-  p => p.leaguePageBeingViewed
+	[getLeaguePageBeingViewedState],
+	p => p.leaguePageBeingViewed
 );
 
 const getLeagueRankingsState = (state: State) => state.league;

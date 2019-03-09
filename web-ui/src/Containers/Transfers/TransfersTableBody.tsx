@@ -5,12 +5,12 @@ import { getFilteredPlayers } from '../../Selectors/TransfersSelector';
 import { reverseFilteredPlayers, setFilteredPlayers } from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
-  filteredPlayers: getFilteredPlayers(state)
+	filteredPlayers: getFilteredPlayers(state)
 });
 
 const mapDispatchToProps = {
-  setFilteredPlayers,
-  reverseFilteredPlayers
+	setFilteredPlayers,
+	reverseFilteredPlayers
 };
 
 export default connect<any, any, any>(

@@ -6,32 +6,32 @@ export const getWeekBeingViewed = createSelector([getWeekBeingViewedState], p =>
 
 const getWeeklyPointsCacheState = (state: State) => state.stats;
 export const getWeeklyPointsCache = createSelector(
-  [getWeeklyPointsCacheState],
-  p => p.weeklyPointsCache
+	[getWeeklyPointsCacheState],
+	p => p.weeklyPointsCache
 );
 
 const getAverageWeeklyPointsCacheState = (state: State) => state.stats;
 export const getAverageWeeklyPointsCache = createSelector(
-  [getAverageWeeklyPointsCacheState],
-  p => p.averageWeeklyPointsCache
+	[getAverageWeeklyPointsCacheState],
+	p => p.averageWeeklyPointsCache
 );
 
 const getTopWeeklyPlayerCacheState = (state: State) => state.stats;
 export const getTopWeeklyPlayerCache = createSelector(
-  [getTopWeeklyPlayerCacheState],
-  p => p.topWeeklyPlayersCache
+	[getTopWeeklyPlayerCacheState],
+	p => p.topWeeklyPlayersCache
 );
 
 const getTopWeeklyUserCacheState = (state: State) => state.stats;
 export const getTopWeeklyUserCache = createSelector(
-  [getTopWeeklyUserCacheState],
-  p => p.topWeeklyUsersCache
+	[getTopWeeklyUserCacheState],
+	p => p.topWeeklyUsersCache
 );
 
 const getTotalNumberOfWeeksState = (state: State) => state.stats;
 export const getTotalNumberOfWeeks = createSelector(
-  [getTotalNumberOfWeeksState],
-  p => p.totalNumberOfWeeks
+	[getTotalNumberOfWeeksState],
+	p => p.totalNumberOfWeeks
 );
 
 const getMostValubleState = (state: State) => state.stats;

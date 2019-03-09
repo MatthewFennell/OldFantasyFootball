@@ -11,29 +11,29 @@ interface ActiveTeamProps {
 interface ActiveTeamState {}
 
 class ActiveTeam extends React.Component<ActiveTeamProps, ActiveTeamState> {
-  constructor(props: ActiveTeamProps) {
-    super(props);
-    this.state = {};
-  }
+	constructor (props: ActiveTeamProps) {
+		super(props);
+		this.state = {};
+	}
 
   _activeTeamJSX = () => {
-    return (
-      <Table responsive>
-        <ActiveTeamTableBody activeTeam={this.props.activeTeam} />
-      </Table>
-    );
+  	return (
+  		<Table responsive>
+  			<ActiveTeamTableBody activeTeam={ this.props.activeTeam } />
+  		</Table>
+  	);
   };
 
-  render() {
-    return (
-      <div id="active-team-table">
-        <Row id="player-in-active-team-row">
-          <Col sm="12" md={{ size: 12 }} lg="12" id="active-team-columns">
-            {this._activeTeamJSX()}
-          </Col>
-        </Row>
-      </div>
-    );
+  render () {
+  	return (
+  		<div id="active-team-table">
+  			<Row id="player-in-active-team-row">
+  				<Col sm="12" md={ { size: 12 } } lg="12" id="active-team-columns">
+  					{this._activeTeamJSX()}
+  				</Col>
+  			</Row>
+  		</div>
+  	);
   }
 }
 

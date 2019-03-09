@@ -20,62 +20,62 @@ interface PlayerProps {
 }
 
 class Player extends React.Component<PlayerProps, {}> {
-  constructor(props: PlayerProps) {
-    super(props);
-    this._onClick = this._onClick.bind(this);
-  }
+	constructor (props: PlayerProps) {
+		super(props);
+		this._onClick = this._onClick.bind(this);
+	}
 
-  _onClick() {
-    console.log('clicked');
-    if (this.props.transfer) {
-      const { price, id } = this.props.player;
-      this._removePlayerFromActiveTeam(id);
+	_onClick () {
+		console.log('clicked');
+		if (this.props.transfer) {
+			const { price, id } = this.props.player;
+			this._removePlayerFromActiveTeam(id);
 
-      let removed: boolean = false;
-      this.props.playersBeingAdded.forEach((element, index) => {
-        if (element.id === id) {
-          removed = true;
-          this.props.removeFromPlayersBeingAdded(index);
-        }
-      });
+			let removed: boolean = false;
+			this.props.playersBeingAdded.forEach((element, index) => {
+				if (element.id === id) {
+					removed = true;
+					this.props.removeFromPlayersBeingAdded(index);
+				}
+			});
 
-      if (!removed) {
-        this.props.addToPlayerBeingRemoved(this.props.player);
-      }
-      this.props.setRemainingBudget(this.props.remainingBudget + price);
-    }
-  }
+			if (!removed) {
+				this.props.addToPlayerBeingRemoved(this.props.player);
+			}
+			this.props.setRemainingBudget(this.props.remainingBudget + price);
+		}
+	}
 
-  _removePlayerFromActiveTeam(id: string) {
-    this.props.activeTeam.forEach((element, index) => {
-      if (element.id === id) {
-        this.props.removeIndex(index);
-      }
-    });
-  }
+	_removePlayerFromActiveTeam (id: string) {
+		this.props.activeTeam.forEach((element, index) => {
+			if (element.id === id) {
+				this.props.removeIndex(index);
+			}
+		});
+	}
 
-  render() {
-    if (this.props.emptyPlayer) {
-      return (
-        <div className="empty-player">
-          <p className="name">No player selected</p>
-        </div>
-      );
-    } else {
-      const { firstName, surname, weeklyPoints, price } = this.props.player;
-      return (
-        <div className="filled-player" onClick={this._onClick}>
-          <p className="name">
-            {firstName} {surname}
-          </p>
-          {this.props.transfer ? (
-            <p className="value">{'£' + price}</p>
-          ) : (
-            <p className="points">{weeklyPoints + ' pts'}</p>
-          )}
-        </div>
-      );
-    }
-  }
+	render () {
+		if (this.props.emptyPlayer) {
+			return (
+				<div className="empty-player">
+					<p className="name">No player selected</p>
+				</div>
+			);
+		} else {
+			const { firstName, surname, weeklyPoints, price } = this.props.player;
+			return (
+				<div className="filled-player" onClick={ this._onClick }>
+					<p className="name">
+						{firstName} {surname}
+					</p>
+					{this.props.transfer ? (
+						<p className="value">{'£' + price}</p>
+					) : (
+						<p className="points">{weeklyPoints + ' pts'}</p>
+					)}
+				</div>
+			);
+		}
+	}
 }
 export default Player;

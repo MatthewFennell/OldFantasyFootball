@@ -32,80 +32,80 @@ interface TransfersState {
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
-  constructor(props: TransfersProps) {
-    super(props);
-    this._updateTeam = this._updateTeam.bind(this);
-    this.state = {
-      teamUpdated: false,
-      errorMessage: ''
-    };
-  }
+	constructor (props: TransfersProps) {
+		super(props);
+		this._updateTeam = this._updateTeam.bind(this);
+		this.state = {
+			teamUpdated: false,
+			errorMessage: ''
+		};
+	}
 
-  _updateTeam() {
-    let data: UpdatePlayers = {
-      playersBeingAdded: this.props.playersBeingAdded,
-      playersBeingRemoved: this.props.playersBeingRemoved
-    };
+	_updateTeam () {
+		let data: UpdatePlayers = {
+			playersBeingAdded: this.props.playersBeingAdded,
+			playersBeingRemoved: this.props.playersBeingRemoved
+		};
 
-    updateTeam(data)
-      .then(response => {
-        this.props.clearPlayersBeingAddedAndRemoved();
-        this.setState({ teamUpdated: true });
-        this.setState({ errorMessage: '' });
-      })
-      .catch(error => {
-        this.setState({ errorMessage: error });
-        this.setState({ teamUpdated: false });
-      });
-  }
+		updateTeam(data)
+			.then(response => {
+				this.props.clearPlayersBeingAddedAndRemoved();
+				this.setState({ teamUpdated: true });
+				this.setState({ errorMessage: '' });
+			})
+			.catch(error => {
+				this.setState({ errorMessage: error });
+				this.setState({ teamUpdated: false });
+			});
+	}
 
-  render() {
-    return (
-      <div className="outer-transfer-columns">
-        <div className="left-rows">
-          <div className="transfer-info-row">
-            <div className="info">
+	render () {
+		return (
+			<div className="outer-transfer-columns">
+				<div className="left-rows">
+					<div className="transfer-info-row">
+						<div className="info">
               Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil
-            </div>
-            {this.props.transfersMarketOpen ? (
-              <div className="info">Transfer Market: Open</div>
-            ) : (
-              <div className="info">Transfer Market: Closed</div>
-            )}
-            <div className="save-changes">
-              <Button
-                id="transfers-save-team"
-                type="submit"
-                className="btn btn-default btn-round-lg btn-lg first"
-                onClick={(e: any) => this._updateTeam()}
-              >
+						</div>
+						{this.props.transfersMarketOpen ? (
+							<div className="info">Transfer Market: Open</div>
+						) : (
+							<div className="info">Transfer Market: Closed</div>
+						)}
+						<div className="save-changes">
+							<Button
+								id="transfers-save-team"
+								type="submit"
+								className="btn btn-default btn-round-lg btn-lg first"
+								onClick={ (e: any) => this._updateTeam() }
+							>
                 SAVE TEAM
-              </Button>
-            </div>
-          </div>
+							</Button>
+						</div>
+					</div>
 
-          {this.state.teamUpdated ? <div>Team updated successfully </div> : null}
-          {this.state.errorMessage.length > 0 ? (
-            <div>Error : {this.state.errorMessage} </div>
-          ) : null}
-          <div className="pitch-value">
-            <Pitch transfer={true} activeWeeklyTeam={this.props.activeTeam} />
-          </div>
-        </div>
-        <div className="right-rows">
-          <div className="flex-container">
-            <div>
-              <TransfersForm />
-            </div>
-            <div>
-              <div className="transfers-table">
-                <TransfersTableBody />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+					{this.state.teamUpdated ? <div>Team updated successfully </div> : null}
+					{this.state.errorMessage.length > 0 ? (
+						<div>Error : {this.state.errorMessage} </div>
+					) : null}
+					<div className="pitch-value">
+						<Pitch transfer={ true } activeWeeklyTeam={ this.props.activeTeam } />
+					</div>
+				</div>
+				<div className="right-rows">
+					<div className="flex-container">
+						<div>
+							<TransfersForm />
+						</div>
+						<div>
+							<div className="transfers-table">
+								<TransfersTableBody />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 export default Transfers;

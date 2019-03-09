@@ -6,23 +6,23 @@ import { getTotalPoints } from '../../Selectors/AccountSelector';
 import { setAllCollegeTeams } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
-  getWeekBeingViewed,
-  getWeeklyPointsCache,
-  getAverageWeeklyPointsCache,
-  getTopWeeklyPlayerCache,
-  getTopWeeklyUserCache,
-  getTotalNumberOfWeeks,
-  getMostValuable
+	getWeekBeingViewed,
+	getWeeklyPointsCache,
+	getAverageWeeklyPointsCache,
+	getTopWeeklyPlayerCache,
+	getTopWeeklyUserCache,
+	getTotalNumberOfWeeks,
+	getMostValuable
 } from '../../Selectors/StatsSelector';
 import { setTotalPoints } from '../../Actions/AccountActions';
 import {
-  setWeekBeingViewed,
-  addToWeeklyPointsCache,
-  addToAverageWeeklyPointsCache,
-  addToTopWeeklyPlayersCache,
-  addToTopWeeklyUsersCache,
-  setTotalNumberOfWeeks,
-  setMostValuable
+	setWeekBeingViewed,
+	addToWeeklyPointsCache,
+	addToAverageWeeklyPointsCache,
+	addToTopWeeklyPlayersCache,
+	addToTopWeeklyUsersCache,
+	setTotalNumberOfWeeks,
+	setMostValuable
 } from '../../Actions/StatsActions';
 
 import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
@@ -30,33 +30,33 @@ import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferAct
 import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
-  totalPoints: getTotalPoints(state),
-  weekBeingViewed: getWeekBeingViewed(state),
-  weeklyPointsCache: getWeeklyPointsCache(state),
-  averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
-  topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
-  topWeeklyUsersCache: getTopWeeklyUserCache(state),
-  activeTeam: getActiveTeam(state),
-  weeklyTeamCache: getWeeklyTeamCache(state),
-  totalNumberOfWeeks: getTotalNumberOfWeeks(state),
-  allCollegeTeams: getAllCollegeTeams(state),
-  mostValuable: getMostValuable(state)
+	totalPoints: getTotalPoints(state),
+	weekBeingViewed: getWeekBeingViewed(state),
+	weeklyPointsCache: getWeeklyPointsCache(state),
+	averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
+	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
+	topWeeklyUsersCache: getTopWeeklyUserCache(state),
+	activeTeam: getActiveTeam(state),
+	weeklyTeamCache: getWeeklyTeamCache(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
+	allCollegeTeams: getAllCollegeTeams(state),
+	mostValuable: getMostValuable(state)
 });
 
 const mapDispatchToProps = {
-  setTotalPoints,
-  setWeekBeingViewed,
-  addToWeeklyPointsCache,
-  addToAverageWeeklyPointsCache,
-  addToTopWeeklyPlayersCache,
-  addToTopWeeklyUsersCache,
-  setTeam,
-  addToWeeklyTeamCache,
-  setTotalNumberOfWeeks,
-  setTransferMarket,
-  setAllCollegeTeams,
-  setRemainingBudget,
-  setMostValuable
+	setTotalPoints,
+	setWeekBeingViewed,
+	addToWeeklyPointsCache,
+	addToAverageWeeklyPointsCache,
+	addToTopWeeklyPlayersCache,
+	addToTopWeeklyUsersCache,
+	setTeam,
+	addToWeeklyTeamCache,
+	setTotalNumberOfWeeks,
+	setTransferMarket,
+	setAllCollegeTeams,
+	setRemainingBudget,
+	setMostValuable
 };
 
 export default connect<any, any, any>(

@@ -10,14 +10,14 @@ import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import Pitch from './PitchLayout/Pitch';
 import {
-  getTeamForUserInWeek,
-  getPlayersWithMostPointsInWeek,
-  getMostValuableAssets
+	getTeamForUserInWeek,
+	getPlayersWithMostPointsInWeek,
+	getMostValuableAssets
 } from '../../Services/Player/PlayerService';
 import {
-  getAveragePoints,
-  getPointsForUserInWeek,
-  getUsersWithMostPointsInWeek
+	getAveragePoints,
+	getPointsForUserInWeek,
+	getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { getRemainingBudget } from '../../Services/User/UserService';
@@ -60,114 +60,114 @@ interface TransactionsProps {
 interface TransactionsState {}
 
 class Transactions extends React.Component<TransactionsProps, TransactionsState> {
-  constructor(props: TransactionsProps) {
-    super(props);
-    this._generateCache = this._generateCache.bind(this);
-  }
+	constructor (props: TransactionsProps) {
+		super(props);
+		this._generateCache = this._generateCache.bind(this);
+	}
 
-  componentDidMount() {
-    let header: HTMLElement | null = document.getElementById('header');
-    if (header != null) {
-      header.hidden = false;
-    }
-    this.props.setWeekBeingViewed(-1);
+	componentDidMount () {
+		let header: HTMLElement | null = document.getElementById('header');
+		if (header != null) {
+			header.hidden = false;
+		}
+		this.props.setWeekBeingViewed(-1);
 
-    getMostValuableAssets().then(mostValuable => {
-      console.log('Most valuable = ' + JSON.stringify(mostValuable));
-      this.props.setMostValuable(mostValuable);
-    });
+		getMostValuableAssets().then(mostValuable => {
+			console.log('Most valuable = ' + JSON.stringify(mostValuable));
+			this.props.setMostValuable(mostValuable);
+		});
 
-    // Get the total number of weeks
-    getNumberOfWeeks().then(currentWeek => {
-      // Automatically start viewing the latest
-      // this.props.setWeekBeingViewed(currentWeek);
-      this.props.setTotalNumberOfWeeks(currentWeek);
-      this._generateCache(currentWeek);
+		// Get the total number of weeks
+		getNumberOfWeeks().then(currentWeek => {
+			// Automatically start viewing the latest
+			// this.props.setWeekBeingViewed(currentWeek);
+			this.props.setTotalNumberOfWeeks(currentWeek);
+			this._generateCache(currentWeek);
 
-      for (let x = 0; x < currentWeek; x++) {
-        this._generateCache(x);
-      }
+			for (let x = 0; x < currentWeek; x++) {
+				this._generateCache(x);
+			}
 
-      getTeamForUserInWeek(currentWeek).then(activeTeam => {
-        this.props.setTeam(activeTeam);
-      });
+			getTeamForUserInWeek(currentWeek).then(activeTeam => {
+				this.props.setTeam(activeTeam);
+			});
 
-      getRemainingBudget().then(response => {
-        this.props.setRemainingBudget(response);
-      });
-    });
+			getRemainingBudget().then(response => {
+				this.props.setRemainingBudget(response);
+			});
+		});
 
-    getTransferStatus().then(response => {
-      this.props.setTransferMarket(response);
-    });
+		getTransferStatus().then(response => {
+			this.props.setTransferMarket(response);
+		});
 
-    if (this.props.allCollegeTeams.length === 0) {
-      getCollegeTeams('alphabetical').then(response => {
-        this.props.setAllCollegeTeams(response);
-      });
-    }
+		if (this.props.allCollegeTeams.length === 0) {
+			getCollegeTeams('alphabetical').then(response => {
+				this.props.setAllCollegeTeams(response);
+			});
+		}
 
-    if (this.props.weeklyTeamCache[-1] === undefined) {
-      getTeamForUserInWeek(-1).then(weeklyTeam => {
-        this.props.addToWeeklyTeamCache(-1, weeklyTeam);
-      });
-    }
-  }
+		if (this.props.weeklyTeamCache[-1] === undefined) {
+			getTeamForUserInWeek(-1).then(weeklyTeam => {
+				this.props.addToWeeklyTeamCache(-1, weeklyTeam);
+			});
+		}
+	}
 
-  _generateCache(currentWeek: number) {
-    // Hold a cache of [Week -> Weekly Team]
-    if (this.props.weeklyTeamCache[currentWeek] === undefined) {
-      getTeamForUserInWeek(currentWeek).then(weeklyTeam => {
-        this.props.addToWeeklyTeamCache(currentWeek, weeklyTeam);
-      });
-    }
+	_generateCache (currentWeek: number) {
+		// Hold a cache of [Week -> Weekly Team]
+		if (this.props.weeklyTeamCache[currentWeek] === undefined) {
+			getTeamForUserInWeek(currentWeek).then(weeklyTeam => {
+				this.props.addToWeeklyTeamCache(currentWeek, weeklyTeam);
+			});
+		}
 
-    // Hold a cache of [Week -> Average Weekly Points]
-    // If not cached, add to it
-    if (this.props.averageWeeklyPointsCache[currentWeek] === undefined) {
-      getAveragePoints(currentWeek).then(averageWeeklyPoints => {
-        this.props.addToAverageWeeklyPointsCache(currentWeek, averageWeeklyPoints);
-      });
-    }
+		// Hold a cache of [Week -> Average Weekly Points]
+		// If not cached, add to it
+		if (this.props.averageWeeklyPointsCache[currentWeek] === undefined) {
+			getAveragePoints(currentWeek).then(averageWeeklyPoints => {
+				this.props.addToAverageWeeklyPointsCache(currentWeek, averageWeeklyPoints);
+			});
+		}
 
-    // Hold a cache of [Week -> User Points]
-    // If the week has not already been cached, then fetch the points for the week
-    if (this.props.weeklyPointsCache[currentWeek] === undefined) {
-      getPointsForUserInWeek(currentWeek).then(userWeeklyPoints => {
-        this.props.addToWeeklyPointsCache(currentWeek, userWeeklyPoints);
-      });
-    }
+		// Hold a cache of [Week -> User Points]
+		// If the week has not already been cached, then fetch the points for the week
+		if (this.props.weeklyPointsCache[currentWeek] === undefined) {
+			getPointsForUserInWeek(currentWeek).then(userWeeklyPoints => {
+				this.props.addToWeeklyPointsCache(currentWeek, userWeeklyPoints);
+			});
+		}
 
-    // Top weekly player cache
-    if (this.props.topWeeklyPlayerCache[currentWeek] === undefined) {
-      getPlayersWithMostPointsInWeek(currentWeek).then(playerMostPoints => {
-        this.props.addToTopWeeklyPlayersCache(currentWeek, playerMostPoints);
-      });
-    }
+		// Top weekly player cache
+		if (this.props.topWeeklyPlayerCache[currentWeek] === undefined) {
+			getPlayersWithMostPointsInWeek(currentWeek).then(playerMostPoints => {
+				this.props.addToTopWeeklyPlayersCache(currentWeek, playerMostPoints);
+			});
+		}
 
-    // Top weekly user cache
-    if (this.props.topWeeklyUsersCache[currentWeek] === undefined) {
-      getUsersWithMostPointsInWeek(currentWeek).then(userMostPoints => {
-        this.props.addToTopWeeklyUsersCache(currentWeek, userMostPoints);
-      });
-    }
-  }
+		// Top weekly user cache
+		if (this.props.topWeeklyUsersCache[currentWeek] === undefined) {
+			getUsersWithMostPointsInWeek(currentWeek).then(userMostPoints => {
+				this.props.addToTopWeeklyUsersCache(currentWeek, userMostPoints);
+			});
+		}
+	}
 
-  render() {
-    return (
-      <div className="outer-rows">
-        <div className="row-1-info">
-          <Info />
-        </div>
-        <div className="row-2-stats">
-          <Stats />
-        </div>
-        <div className="row-3-squad">
-          <Pitch transfer={false} activeWeeklyTeam={this.props.activeTeam} />
-        </div>
-      </div>
-    );
-  }
+	render () {
+		return (
+			<div className="outer-rows">
+				<div className="row-1-info">
+					<Info />
+				</div>
+				<div className="row-2-stats">
+					<Stats />
+				</div>
+				<div className="row-3-squad">
+					<Pitch transfer={ false } activeWeeklyTeam={ this.props.activeTeam } />
+				</div>
+			</div>
+		);
+	}
 }
 
 export default Transactions;

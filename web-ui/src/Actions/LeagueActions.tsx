@@ -28,33 +28,33 @@ export interface AddToLeagueRankings {
 }
 
 export const addToLeagueCache = (leagueName: string, position: number): AddToLeagueCache => {
-  return {
-    type: ActionTypes.ADD_TO_LEAGUE_CACHE,
-    payload: { leagueName, position }
-  };
+	return {
+		type: ActionTypes.ADD_TO_LEAGUE_CACHE,
+		payload: { leagueName, position }
+	};
 };
 
 export const setLeaguePageBeingViewed = (
-  leaguePageBeingViewed: string
+	leaguePageBeingViewed: string
 ): SetLeaguePageBeingViewed => {
-  return {
-    type: ActionTypes.SET_LEAGUE_PAGE_BEING_VIEWED,
-    payload: { leaguePageBeingViewed }
-  };
+	return {
+		type: ActionTypes.SET_LEAGUE_PAGE_BEING_VIEWED,
+		payload: { leaguePageBeingViewed }
+	};
 };
 
 export const setLeagueRankings = (leagueRankings: UserLeaguePosition[]): SetLeagueRankings => {
-  return {
-    type: ActionTypes.SET_LEAGUE_RANKINGS,
-    payload: { leagueRankings }
-  };
+	return {
+		type: ActionTypes.SET_LEAGUE_RANKINGS,
+		payload: { leagueRankings }
+	};
 };
 
 export const addToLeagueRankings = (user: UserLeaguePosition): AddToLeagueRankings => {
-  return {
-    type: ActionTypes.ADD_TO_LEAGUE_RANKINGS,
-    payload: { user }
-  };
+	return {
+		type: ActionTypes.ADD_TO_LEAGUE_RANKINGS,
+		payload: { user }
+	};
 };
 
 export type Action =

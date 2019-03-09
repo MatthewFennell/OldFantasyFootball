@@ -11,45 +11,45 @@ export interface State {
 
 // Define our initialState
 export const initialState: State = {
-  leagueCache: {} as { leagueCache: { leagueName: string; position: number } },
-  leaguePageBeingViewed: 'home',
-  leagueRankings: []
+	leagueCache: {} as { leagueCache: { leagueName: string; position: number } },
+	leaguePageBeingViewed: 'home',
+	leagueRankings: []
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
-  switch (action.type) {
-    case ActionTypes.ADD_TO_LEAGUE_CACHE: {
-      return {
-        ...state,
-        leagueCache: {
-          ...state.leagueCache,
-          [action.payload.leagueName]: action.payload.position
-        }
-      };
-    }
+	switch (action.type) {
+	case ActionTypes.ADD_TO_LEAGUE_CACHE: {
+		return {
+			...state,
+			leagueCache: {
+				...state.leagueCache,
+				[action.payload.leagueName]: action.payload.position
+			}
+		};
+	}
 
-    case ActionTypes.SET_LEAGUE_PAGE_BEING_VIEWED: {
-      return {
-        ...state,
-        leaguePageBeingViewed: action.payload.leaguePageBeingViewed
-      };
-    }
+	case ActionTypes.SET_LEAGUE_PAGE_BEING_VIEWED: {
+		return {
+			...state,
+			leaguePageBeingViewed: action.payload.leaguePageBeingViewed
+		};
+	}
 
-    case ActionTypes.SET_LEAGUE_RANKINGS: {
-      return {
-        ...state,
-        leagueRankings: action.payload.leagueRankings
-      };
-    }
+	case ActionTypes.SET_LEAGUE_RANKINGS: {
+		return {
+			...state,
+			leagueRankings: action.payload.leagueRankings
+		};
+	}
 
-    case ActionTypes.ADD_TO_LEAGUE_RANKINGS: {
-      return {
-        ...state,
-        leagueRankings: state.leagueRankings.concat(action.payload.user)
-      };
-    }
+	case ActionTypes.ADD_TO_LEAGUE_RANKINGS: {
+		return {
+			...state,
+			leagueRankings: state.leagueRankings.concat(action.payload.user)
+		};
+	}
 
-    default:
-      return state;
-  }
+	default:
+		return state;
+	}
 };

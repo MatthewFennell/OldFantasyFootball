@@ -5,13 +5,13 @@ import { getTeamAddingPoints, getAllCollegeTeams } from '../../Selectors/AdminSe
 import { setTeamAddingPoints, setPlayersInFilteredTeam } from '../../Actions/AdminActions';
 
 const mapStateToProps = (state: State) => ({
-  teamAddingPoints: getTeamAddingPoints(state),
-  allCollegeTeams: getAllCollegeTeams(state)
+	teamAddingPoints: getTeamAddingPoints(state),
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {
-  setTeamAddingPoints,
-  setPlayersInFilteredTeam
+	setTeamAddingPoints,
+	setPlayersInFilteredTeam
 };
 
 export default connect<any, any, any>(

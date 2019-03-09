@@ -15,8 +15,8 @@ export const getTotalPoints = createSelector([getTotalPointsState], p => p.total
 
 const getRemainingTransfersState = (state: State) => state.account;
 export const getRemainingTransfers = createSelector(
-  [getRemainingTransfersState],
-  p => p.remainingTransfers
+	[getRemainingTransfersState],
+	p => p.remainingTransfers
 );
 
 const getRolesState = (state: State) => state.account;

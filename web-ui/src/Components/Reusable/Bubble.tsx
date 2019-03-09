@@ -7,8 +7,8 @@ interface BubbleProps {
 }
 
 class Bubble extends React.Component<BubbleProps, {}> {
-  render() {
-    return <div className={'bubble shadow ' + this.props.className}>{this.props.children}</div>;
-  }
+	render () {
+		return <div className={ 'bubble shadow ' + this.props.className }>{this.props.children}</div>;
+	}
 }
 export default Bubble;

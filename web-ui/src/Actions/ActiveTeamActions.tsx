@@ -29,37 +29,37 @@ export interface RemoveIndex {
 }
 
 export const addPlayer = (player: PlayerDTO): AddPlayer => {
-  return {
-    type: ActionTypes.ADD_PLAYER,
-    payload: {
-      player
-    }
-  };
+	return {
+		type: ActionTypes.ADD_PLAYER,
+		payload: {
+			player
+		}
+	};
 };
 
 export const setTeam = (activeTeam: PlayerDTO[]): SetTeam => {
-  return {
-    type: ActionTypes.SET_TEAM,
-    payload: {
-      activeTeam
-    }
-  };
+	return {
+		type: ActionTypes.SET_TEAM,
+		payload: {
+			activeTeam
+		}
+	};
 };
 
 export const removeIndex = (indexToRemove: number): RemoveIndex => {
-  return {
-    type: ActionTypes.REMOVE_INDEX,
-    payload: {
-      indexToRemove
-    }
-  };
+	return {
+		type: ActionTypes.REMOVE_INDEX,
+		payload: {
+			indexToRemove
+		}
+	};
 };
 
 export const addToWeeklyTeamCache = (weekId: number, team: PlayerDTO[]): AddToWeeklyTeamCache => {
-  return {
-    type: ActionTypes.ADD_TO_WEEKLY_TEAM_CACHE,
-    payload: { weekId, team }
-  };
+	return {
+		type: ActionTypes.ADD_TO_WEEKLY_TEAM_CACHE,
+		payload: { weekId, team }
+	};
 };
 
 export type Action = AddPlayer | SetTeam | AddToWeeklyTeamCache | RemoveIndex;
