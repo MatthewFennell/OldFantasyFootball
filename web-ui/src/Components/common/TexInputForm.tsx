@@ -10,10 +10,12 @@ interface TextValueProps {
 }
 class TextValue extends React.Component<TextValueProps, {}> {
 	_handleInput (eventTarget: HTMLInputElement) {
-		this.props.setValue(eventTarget.value);
+		const { setValue } = this.props;
+		setValue(eventTarget.value);
 	}
 
 	render () {
+		const { title } = this.props;
 		return (
 			<div
 				className="create-player-form-outer"
@@ -26,12 +28,12 @@ class TextValue extends React.Component<TextValueProps, {}> {
 								className="unselectable"
 								for="firstName"
 							>
-								{this.props.title}
+								{title}
 							</Label>
 							<Field
 								component="input"
-								id={this.props.title}
-								name={this.props.title}
+								id={title}
+								name={title}
 								onChange={e => this._handleInput(e!.target)}
 								type="text"
 							/>

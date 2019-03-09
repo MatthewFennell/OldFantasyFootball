@@ -23,19 +23,23 @@ class Admin extends React.Component<AdminProps, {}> {
 		super(props);
 		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
 
-		if (this.props.allCollegeTeams.length === 0) {
+		const { allCollegeTeams, setAllCollegeTeams } = this.props;
+
+		if (allCollegeTeams.length === 0) {
 			getCollegeTeams('alphabetical').then(response => {
-				this.props.setAllCollegeTeams(response);
+				setAllCollegeTeams(response);
 			});
 		}
 	}
 
 	_setPageBeingViewed (pageToView: string) {
-		this.props.setAdminPageBeingViewed(pageToView);
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed(pageToView);
 	}
 
 	_selectedOrNot (input: string) {
-		if (input === this.props.adminPageBeingViewed) {
+		const { adminPageBeingViewed } = this.props;
+		if (input === adminPageBeingViewed) {
 			return 'raise-selected';
 		} else {
 			return 'raise';
@@ -43,6 +47,7 @@ class Admin extends React.Component<AdminProps, {}> {
 	}
 
 	render () {
+		const { adminPageBeingViewed } = this.props;
 		return (
 			<div className="outer-admin-columns">
 				<div className="left-rows">
@@ -90,19 +95,19 @@ class Admin extends React.Component<AdminProps, {}> {
               Create Results
 						</div>
 					</div>
-					{this.props.adminPageBeingViewed === 'create' ? (
+					{adminPageBeingViewed === 'create' ? (
 						<CreatePlayerForm />
-					) : this.props.adminPageBeingViewed === 'add-points' ? (
+					) : adminPageBeingViewed === 'add-points' ? (
 						<AddPointsForm />
-					) : this.props.adminPageBeingViewed === 'edit-stats' ? (
+					) : adminPageBeingViewed === 'edit-stats' ? (
 						<EditPointsForm />
-					) : this.props.adminPageBeingViewed === 'delete-player' ? (
+					) : adminPageBeingViewed === 'delete-player' ? (
 						<DeletePlayerForm />
-					) : this.props.adminPageBeingViewed === 'create-college-team' ? (
+					) : adminPageBeingViewed === 'create-college-team' ? (
 						<CreateCollegeTeam />
-					) : this.props.adminPageBeingViewed === 'delete-college-team' ? (
+					) : adminPageBeingViewed === 'delete-college-team' ? (
 						<DeleteCollegeTeam />
-					) : this.props.adminPageBeingViewed === 'add-result' ? (
+					) : adminPageBeingViewed === 'add-result' ? (
 						<AddResult />
 					) : null}
 				</div>

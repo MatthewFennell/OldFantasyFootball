@@ -43,10 +43,11 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	}
 
 	componentDidMount () {
+		const { leagueCache, addToLeagueCache } = this.props;
 		getLeaguesAndPositions().then(leagueAndPositionsArray => {
 			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-				if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
-					this.props.addToLeagueCache(
+				if (leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
+					addToLeagueCache(
 						leagueAndPositionsArray[x].leagueName,
 						leagueAndPositionsArray[x].position
 					);
@@ -58,9 +59,11 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	_setLeagueBeingViewed (leagueToView: string) {
 		// TO:DO - Combine into one request?
 
-		this.props.setLeaguePageBeingViewed(leagueToView);
+		const { setLeagueRankings, setLeaguePageBeingViewed } = this.props;
+
+		setLeaguePageBeingViewed(leagueToView);
 		getPositionsOfUsersInLeague(leagueToView).then(leagueRankings => {
-			this.props.setLeagueRankings(leagueRankings);
+			setLeagueRankings(leagueRankings);
 		});
 
 		getLeagueAdmin(leagueToView).then(response => {
@@ -69,16 +72,16 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	}
 
 	_onClickCreateLeague () {
-		this.props.setLeaguePageBeingViewed('create-league');
+		const { setLeaguePageBeingViewed } = this.props;
+		setLeaguePageBeingViewed('create-league');
 	}
 
 	_onClickJoinLeague () {
-		this.props.setLeaguePageBeingViewed('join-league');
+		const { setLeaguePageBeingViewed } = this.props;
+		setLeaguePageBeingViewed('join-league');
 	}
 
 	render () {
-		let setLeagueBeingViewed = this._setLeagueBeingViewed;
-
 		// Gets all of the leagues
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
@@ -153,7 +156,7 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 								<div className="league-table">
 									<LeagueTableBody
 										leagues={leagues}
-										setLeagueBeingViewed={setLeagueBeingViewed}
+										setLeagueBeingViewed={this._setLeagueBeingViewed}
 									/>
 								</div>
 							</div>

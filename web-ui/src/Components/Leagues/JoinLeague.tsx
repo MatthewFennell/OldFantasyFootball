@@ -31,7 +31,7 @@ class JoinLeague extends React.Component<
 	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
-		} as Pick<JoinLeagueState, keyof JoinLeagueState>); // Needs type conversion, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26635
+		} as Pick<JoinLeagueState, keyof JoinLeagueState>);
 	}
 
   _validate = () => {
@@ -39,15 +39,17 @@ class JoinLeague extends React.Component<
   };
 
   _onSubmit = (event: string) => {
+	  const { codeToJoin } = this.state;
+	  const { addToLeagueCache } = this.props;
   	switch (event) {
   	case 'btnJoinLeague':
   		console.log('join league button pressed');
   		const err = this._validate();
   		if (!err) {
-  			joinLeague(this.state.codeToJoin)
+  			joinLeague(codeToJoin)
   				.then(response => {
   					// TO:DO Add newly created league to props
-  					this.props.addToLeagueCache(response.leagueName, response.position);
+  					addToLeagueCache(response.leagueName, response.position);
   				})
   				.catch(error => {
   					console.log(error);
@@ -60,6 +62,7 @@ class JoinLeague extends React.Component<
   };
 
   render () {
+	  const { error } = this.state;
   	return (
   		<div
   			className="join-league-form"
@@ -73,7 +76,7 @@ class JoinLeague extends React.Component<
             Join a league!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{this.state.error}</Label>
+  					<Label className="error-text">{error}</Label>
   					<FormGroup>
   						<Label
   							className="unselectable"

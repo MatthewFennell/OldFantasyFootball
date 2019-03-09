@@ -9,6 +9,7 @@ class RankingsRow extends React.Component<RankingsRowProps> {
   handleRowClick = (firstName: string) => {};
 
   _activeLeagueJSX = () => {
+  	// eslint-disable-next-line react/destructuring-assignment
   	const { firstName, surname, points, position } = this.props.element;
   	return (
   		<tr

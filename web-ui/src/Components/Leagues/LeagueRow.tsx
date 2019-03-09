@@ -8,19 +8,20 @@ interface LeagueRowProps {
 
 class LeagueRow extends React.Component<LeagueRowProps> {
   handleRowClick = (leagueName: string) => {
-  	this.props.setLeagueBeingViewed(leagueName);
+  	const { setLeagueBeingViewed } = this.props;
+  	setLeagueBeingViewed(leagueName);
   };
 
   _activeLeagueJSX = () => {
-  	const { leagueName, position } = this.props.element;
+  	const { element } = this.props;
   	return (
   		<tr
   			className="league"
-  			key={leagueName}
-  			onClick={() => this.handleRowClick(leagueName)}
+  			key={element.leagueName}
+  			onClick={() => this.handleRowClick(element.leagueName)}
   		>
-  			<td className="league-name">{leagueName}</td>
-  			<td className="position">{position}</td>
+  			<td className="league-name">{element.leagueName}</td>
+  			<td className="position">{element.position}</td>
   		</tr>
   	);
   };
