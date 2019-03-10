@@ -1,3 +1,5 @@
+/* eslint-disable react/require-optimization */
+/* eslint-disable react/prefer-stateless-function */
 import * as React from 'react';
 
 class Settings extends React.Component<{}, {}> {

@@ -27,7 +27,6 @@ interface LeagueProps {
 
 interface LeaguesState {
   isAdmin: boolean;
-  adminName: string;
   code: string;
 }
 
@@ -37,7 +36,6 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
 		this.state = {
 			isAdmin: false,
-			adminName: '',
 			code: ''
 		};
 	}
@@ -71,12 +69,12 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		});
 	}
 
-	_onClickCreateLeague () {
+	handleCreateLeague () {
 		const { setLeaguePageBeingViewed } = this.props;
 		setLeaguePageBeingViewed('create-league');
 	}
 
-	_onClickJoinLeague () {
+	handleJoinLeague () {
 		const { setLeaguePageBeingViewed } = this.props;
 		setLeaguePageBeingViewed('join-league');
 	}
@@ -168,10 +166,10 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 											<Button
 												className="btn btn-default btn-round-lg btn-lg first"
 												id="btnCreateLeague"
-												onClick={(e: any) => this._onClickCreateLeague()}
+												onClick={this.handleCreateLeague}
 												type="submit"
 											>
-                        Create league
+                        					Create league
 											</Button>
 										</div>
 									</div>
@@ -180,10 +178,10 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 											<Button
 												className="btn btn-default btn-round-lg btn-lg first"
 												id="btnJoinLeague"
-												onClick={(e: any) => this._onClickJoinLeague()}
+												onClick={this.handleJoinLeague}
 												type="submit"
 											>
-                        Join league
+                        					Join league
 											</Button>
 										</div>
 									</div>

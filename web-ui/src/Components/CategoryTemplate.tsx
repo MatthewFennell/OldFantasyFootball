@@ -11,6 +11,10 @@ interface CategoryTemplateProps {
 }
 
 class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
+	shouldComponentUpdate () {
+		return true;
+	}
+
 	public render () {
 		let header = document.getElementById('header');
 		if (header != null) {
