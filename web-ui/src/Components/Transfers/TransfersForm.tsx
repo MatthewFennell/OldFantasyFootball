@@ -46,29 +46,31 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_getResults () {
+		const { minimumPriceValue, maximumPriceValue, positionValue, sortByValue, searchByNameValue, teamValue } = this.state;
+		const { setFilteredPlayers } = this.props;
 		let minPrice: number =
-      this.state.minimumPriceValue === 'No limit' ? 0 : Number(this.state.minimumPriceValue);
+      minimumPriceValue === 'No limit' ? 0 : Number(minimumPriceValue);
 		let maxPrice: number =
-      this.state.maximumPriceValue === 'No limit' ? 100 : Number(this.state.maximumPriceValue);
+      maximumPriceValue === 'No limit' ? 100 : Number(maximumPriceValue);
 
 		// Makes it return ALL, GOALKEEPER, DEFENDER, MIDFIELDER, ATTACKER
 		let position: string =
-      this.state.positionValue === 'All'
+      positionValue === 'All'
       	? 'ALL'
-      	: this.state.positionValue.toUpperCase().substr(0, this.state.positionValue.length - 1);
+      	: positionValue.toUpperCase().substr(0, positionValue.length - 1);
 
 		// Formats the correct response
 		let sortBy: string =
-      this.state.sortByValue === 'Total score'
+      sortByValue === 'Total score'
       	? 'TOTAL_POINTS'
-      	: this.state.sortByValue.toUpperCase();
+      	: sortByValue.toUpperCase();
 
 		let searchName: string =
-      this.state.searchByNameValue.length === 0 ? 'null' : this.state.searchByNameValue;
+      searchByNameValue.length === 0 ? 'null' : searchByNameValue;
 
 		let data: FilterPlayers = {
 			position: position,
-			team: this.state.teamValue,
+			team: teamValue,
 			sortBy: sortBy,
 			minimum: minPrice,
 			maximum: maxPrice,
@@ -76,7 +78,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		};
 
 		filterPlayers(data).then(response => {
-			this.props.setFilteredPlayers(response);
+			setFilteredPlayers(response);
 		});
 	}
 
@@ -105,8 +107,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	render () {
-		let teamChange = this._handleTeamChange;
-
+		const { searchByNameValue } = this.state;
+		const { allCollegeTeams } = this.props;
 		return (
 			<div className="transfer-filter-rows">
 				<div className="transfer-form-row-one">
@@ -116,8 +118,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 						values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
 					/>
 					<TeamDropDown
-						allCollegeTeams={this.props.allCollegeTeams}
-						setTeam={teamChange}
+						allCollegeTeams={allCollegeTeams}
+						setTeam={this._handleTeamChange}
 					/>
 					<CustomDropdown
 						setData={this._handleSortByChange}
@@ -160,7 +162,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 						]}
 					/>
 					<TextInputForm
-						currentValue={this.state.searchByNameValue}
+						currentValue={searchByNameValue}
 						setValue={this._handleSearchByNameValue}
 						title="Player name"
 					/>

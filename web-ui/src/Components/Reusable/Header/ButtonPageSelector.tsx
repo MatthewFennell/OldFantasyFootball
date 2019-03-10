@@ -22,7 +22,7 @@ class ButtonPageSelector extends React.Component<ButtonPageSelectorProps> {
 					selected: this.props.selected
 				})}
 				id={this.props.id}
-				onClick={() => this.props.select()}
+				onClick={this.props.select}
 				ref={this.props.setRef()}
 			>
 				<img src={this.props.imgSrc} />

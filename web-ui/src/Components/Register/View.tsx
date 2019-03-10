@@ -29,6 +29,10 @@ class Register extends React.Component<RegisterProps, {}> {
 		}
 	}
 
+	shouldComponentUpdate () {
+		return false;
+	}
+
 	_renderAnimatedWrapper (transitionName: string, children: React.ReactNode) {
 		const animate = _.get(this.props.location, 'state.animate', false);
 		const { action } = this.props.history;

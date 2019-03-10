@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import '../../Style/Team/Team.css';
 import '../../Style/Team/PitchLayout/Pitch.css';

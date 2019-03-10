@@ -5,16 +5,18 @@ interface RowActiveTeamProps {
   element: PlayerDTO;
 }
 
+// TO:DO Stateless component?
 class RowActiveTeam extends React.Component<RowActiveTeamProps> {
   handleRowClick = () => {};
 
   _activeTeamJSX = () => {
+  	// eslint-disable-next-line react/destructuring-assignment
   	const { firstName, surname, position, price, id } = this.props.element;
   	return (
   		<tr
   			className="player-in-active-team"
   			key={id}
-  			onClick={() => this.handleRowClick()}
+  			onClick={this.handleRowClick}
   		>
   			<td className="first name">{firstName}</td>
   			<td className="surname">{surname}</td>

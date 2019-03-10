@@ -7,26 +7,31 @@ interface RankingsTableBodyProps {
   leagueRankings: UserLeaguePosition[];
 }
 
-class RankingsTableBody extends React.Component<RankingsTableBodyProps> {
-	render () {
-		return (
-			<tbody className="league-rankings">
-				<tr
-					className="rankings"
-					key="header"
-				>
-					<td className="user-name">Name</td>
-					<td className="points">Points</td>
-					<td className="position">Position</td>
-				</tr>
-				{this.props.leagueRankings.map(datum => (
-					<RankingsRow
-						element={datum}
-						key={datum.position}
-					/>
-				))}
-			</tbody>
-		);
-	}
-}
+const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
+	// eslint-disable-next-line react/prop-types
+	const { leagueRankings } = props;
+	return (
+		<tbody className="league-rankings">
+			<tr
+				className="rankings"
+				key="header"
+			>
+				<td className="user-name">Name</td>
+				<td className="points">Points</td>
+				<td className="position">Position</td>
+			</tr>
+			{leagueRankings.map(datum => (
+				<RankingsRow
+					element={datum}
+					key={datum.position}
+				/>
+			))}
+		</tbody>
+	);
+};
+
+RankingsTableBody.defaultProps = {
+	leagueRankings: []
+};
+
 export default RankingsTableBody;

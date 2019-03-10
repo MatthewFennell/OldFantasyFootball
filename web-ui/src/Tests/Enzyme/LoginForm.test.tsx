@@ -10,9 +10,9 @@ const store = createStore(RootReducer);
 let wrapper: any;
 beforeEach(() => {
 	wrapper = Enzyme.mount(
-		<Provider store={ store }>
+		<Provider store={store}>
 			<Router>
-				<LoginForm setAccount={ () => {} } />
+				<LoginForm setAccount={null} />
 			</Router>
 		</Provider>
 	);
