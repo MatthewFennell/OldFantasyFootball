@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Player.css';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
@@ -22,11 +23,10 @@ interface PlayerProps {
 class Player extends React.Component<PlayerProps, {}> {
 	constructor (props: PlayerProps) {
 		super(props);
-		this._onClick = this._onClick.bind(this);
+		this.handleOnClick = this.handleOnClick.bind(this);
 	}
 
-	_onClick () {
-		console.log('clicked');
+	handleOnClick () {
 		if (this.props.transfer) {
 			const { price, id } = this.props.player;
 			this._removePlayerFromActiveTeam(id);
@@ -66,7 +66,7 @@ class Player extends React.Component<PlayerProps, {}> {
 			return (
 				<div
 					className="filled-player"
-					onClick={this._onClick}
+					onClick={this.handleOnClick}
 				>
 					<p className="name">
 						{firstName} {surname}

@@ -8,6 +8,10 @@ interface Props {
 }
 
 class BubbleAnimationWrapper extends React.Component<Props, {}> {
+	shouldComponentUpdate () {
+		return false;
+	}
+
 	render () {
 		const { transitionName, children } = this.props;
 

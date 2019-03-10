@@ -3,30 +3,36 @@ import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueRow from './LeagueRow';
 
 interface LeagueTableBodyProps {
-  leagues: LeaguePositions[];
-  setLeagueBeingViewed: (leagueBeingViewed: string) => void;
+	leagues: LeaguePositions[];
+	setLeagueBeingViewed: (leagueBeingViewed: string) => void;
 }
 
-class LeagueTableBody extends React.Component<LeagueTableBodyProps> {
-	render () {
-		return (
-			<tbody className="my-active-leagues">
-				<tr
-					className="league-header"
-					key="header"
-				>
-					<td className="league-name">League Name</td>
-					<td className="position">Position</td>
-				</tr>
-				{this.props.leagues.map(datum => (
-					<LeagueRow
-						element={datum}
-						key={datum.leagueName}
-						setLeagueBeingViewed={this.props.setLeagueBeingViewed}
-					/>
-				))}
-			</tbody>
-		);
-	}
-}
+const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
+	// eslint-disable-next-line react/prop-types
+	const { leagues, setLeagueBeingViewed } = props;
+	return (
+		<tbody className="my-active-leagues">
+			<tr
+				className="league-header"
+				key="header"
+			>
+				<td className="league-name">League Name</td>
+				<td className="position">Position</td>
+			</tr>
+			{leagues.map(datum => (
+				<LeagueRow
+					element={datum}
+					key={datum.leagueName}
+					setLeagueBeingViewed={setLeagueBeingViewed}
+				/>
+			))}
+		</tbody>
+	);
+};
+
+LeagueTableBody.defaultProps = {
+	leagues: [],
+	setLeagueBeingViewed: () => {}
+};
+
 export default LeagueTableBody;

@@ -34,22 +34,23 @@ interface TransfersState {
 class Transfers extends React.Component<TransfersProps, TransfersState> {
 	constructor (props: TransfersProps) {
 		super(props);
-		this._updateTeam = this._updateTeam.bind(this);
+		this.handleUpdateTeam = this.handleUpdateTeam.bind(this);
 		this.state = {
 			teamUpdated: false,
 			errorMessage: ''
 		};
 	}
 
-	_updateTeam () {
+	handleUpdateTeam () {
+		const { playersBeingAdded, playersBeingRemoved, clearPlayersBeingAddedAndRemoved } = this.props;
 		let data: UpdatePlayers = {
-			playersBeingAdded: this.props.playersBeingAdded,
-			playersBeingRemoved: this.props.playersBeingRemoved
+			playersBeingAdded: playersBeingAdded,
+			playersBeingRemoved: playersBeingRemoved
 		};
 
 		updateTeam(data)
 			.then(response => {
-				this.props.clearPlayersBeingAddedAndRemoved();
+				clearPlayersBeingAddedAndRemoved();
 				this.setState({ teamUpdated: true });
 				this.setState({ errorMessage: '' });
 			})
@@ -60,36 +61,41 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	render () {
+		const { remainingBudget, transfersMarketOpen, activeTeam } = this.props;
+		const { teamUpdated, errorMessage } = this.state;
 		return (
 			<div className="outer-transfer-columns">
 				<div className="left-rows">
 					<div className="transfer-info-row">
 						<div className="info">
-              Remaining Budget: £{this.props.remainingBudget.toFixed(1)} mil
+              Remaining Budget: £{remainingBudget.toFixed(1)} mil
 						</div>
-						{this.props.transfersMarketOpen ? (
+						{transfersMarketOpen ? (
 							<div className="info">Transfer Market: Open</div>
 						) : (
 							<div className="info">Transfer Market: Closed</div>
 						)}
 						<div className="save-changes">
 							<Button
-								id="transfers-save-team"
-								type="submit"
 								className="btn btn-default btn-round-lg btn-lg first"
-								onClick={ (e: any) => this._updateTeam() }
+								id="transfers-save-team"
+								onClick={this.handleUpdateTeam}
+								type="submit"
 							>
-                SAVE TEAM
+                			SAVE TEAM
 							</Button>
 						</div>
 					</div>
 
-					{this.state.teamUpdated ? <div>Team updated successfully </div> : null}
-					{this.state.errorMessage.length > 0 ? (
-						<div>Error : {this.state.errorMessage} </div>
+					{teamUpdated ? <div>Team updated successfully </div> : null}
+					{errorMessage.length > 0 ? (
+						<div>Error : {errorMessage} </div>
 					) : null}
 					<div className="pitch-value">
-						<Pitch transfer={ true } activeWeeklyTeam={ this.props.activeTeam } />
+						<Pitch
+							activeWeeklyTeam={activeTeam}
+							transfer
+						/>
 					</div>
 				</div>
 				<div className="right-rows">

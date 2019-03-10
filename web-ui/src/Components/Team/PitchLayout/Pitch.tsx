@@ -18,8 +18,10 @@ class Pitch extends React.Component<PitchProps, {}> {
 		let midfielders: PlayerDTO[] = [];
 		let attackers: PlayerDTO[] = [];
 
-		if (this.props.activeWeeklyTeam !== undefined) {
-			this.props.activeWeeklyTeam.forEach(element => {
+		const { activeWeeklyTeam, transfer } = this.props;
+
+		if (activeWeeklyTeam !== undefined) {
+			activeWeeklyTeam.forEach(element => {
 				if (element.position === 'GOALKEEPER') {
 					goalKeeper.push(element);
 				} else if (element.position === 'DEFENDER') {
@@ -37,25 +39,25 @@ class Pitch extends React.Component<PitchProps, {}> {
 				<div className="attackers">
 					<Attackers
 						attackers={attackers}
-						transfer={this.props.transfer}
+						transfer={transfer}
 					/>
 				</div>
 				<div className="midfielders">
 					<Midfielders
 						midfielders={midfielders}
-						transfer={this.props.transfer}
+						transfer={transfer}
 					/>
 				</div>
 				<div className="defenders">
 					<Defenders
 						defenders={defenders}
-						transfer={this.props.transfer}
+						transfer={transfer}
 					/>
 				</div>
 				<div className="goalkeeper">
 					<Goalkeeper
 						goalkeepers={goalKeeper}
-						transfer={this.props.transfer}
+						transfer={transfer}
 					/>
 				</div>
 			</div>

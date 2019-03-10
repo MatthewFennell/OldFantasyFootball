@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { Button, FormGroup, Form, Label } from 'reactstrap';
 import { register, login, getUser } from '../../Services/User/UserService';

@@ -63,18 +63,19 @@ class Info extends React.Component<StatsProps, InfoState> {
 			</p>
 		));
 
-		const { totalPoints, weekBeingViewed, weeklyPointsCache } = this.props;
+		const { totalPoints, weekBeingViewed, weeklyPointsCache, } = this.props;
+		const { dropdownOpen } = this.state;
 		return (
 			<div className="info-columns">
 				<div className="total-points">Total Points: {totalPoints}</div>
 
 				<Dropdown
-					isOpen={this.state.dropdownOpen}
+					isOpen={dropdownOpen}
 					toggle={this._toggle}
 				>
-					{this.props.weekBeingViewed === -1
+					{weekBeingViewed === -1
 						? 'Active Team'
-						: 'Week : ' + this.props.weekBeingViewed}
+						: 'Week : ' + weekBeingViewed}
 					<DropdownToggle
 						caret
 						className="week-menu-toggle"

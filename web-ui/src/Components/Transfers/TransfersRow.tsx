@@ -20,25 +20,25 @@ class TransferRow extends React.Component<TransferRowProps> {
 		this.canAdd = this.canAdd.bind(this);
 	}
 
-  handleRowClick = (player: PlayerDTO) => {
+  handleRowClick = () => {
 	  const { addPlayer, playersBeingRemoved, removeFromPlayersBeingRemoved,
-			 addToPlayerBeingAdded, setRemainingBudget, remainingBudget } = this.props;
-  	if (this.canAdd(player)) {
-  		addPlayer(player);
+			 addToPlayerBeingAdded, setRemainingBudget, remainingBudget, element } = this.props;
+  	if (this.canAdd(element)) {
+  		addPlayer(element);
 
   		let removed: boolean = false;
-  		playersBeingRemoved.forEach((element, index) => {
-  			if (element.id === player.id) {
+  		playersBeingRemoved.forEach((ele, index) => {
+  			if (ele.id === element.id) {
   				removed = true;
   				removeFromPlayersBeingRemoved(index);
   			}
   		});
 
   		if (!removed) {
-  			addToPlayerBeingAdded(player);
+  			addToPlayerBeingAdded(element);
   		}
-  		if (player.price !== undefined) {
-  			setRemainingBudget(remainingBudget - player.price);
+  		if (element.price !== undefined) {
+  			setRemainingBudget(remainingBudget - element.price);
   		}
   	}
   };
@@ -93,12 +93,13 @@ class TransferRow extends React.Component<TransferRowProps> {
   		totalGoals,
   		totalAssists,
   		points
+  	// eslint-disable-next-line react/destructuring-assignment
   	} = this.props.element;
   	return (
   		<tr
   			className="transfers"
   			key={firstName + surname}
-  			onClick={() => this.handleRowClick(this.props.element)}
+  			onClick={this.handleRowClick}
   		>
   			<td className="name">{firstName + ' ' + surname}</td>
   			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>

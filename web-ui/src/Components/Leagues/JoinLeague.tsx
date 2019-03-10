@@ -48,7 +48,6 @@ class JoinLeague extends React.Component<
   		if (!err) {
   			joinLeague(codeToJoin)
   				.then(response => {
-  					// TO:DO Add newly created league to props
   					addToLeagueCache(response.leagueName, response.position);
   				})
   				.catch(error => {

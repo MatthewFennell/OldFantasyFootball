@@ -30,18 +30,24 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 	}
 
 	_handleTeamChange (team: string) {
+		const { setTeam } = this.props;
 		this.setState({ teamValue: team });
-		this.props.setTeam(team);
+		setTeam(team);
 	}
 
 	render () {
-		const teamOptions = this.props.allCollegeTeams.map(team => (
-			<p className="team-menu-items" key = { team.id }>
+		const { allCollegeTeams } = this.props;
+		const { teamValue, teamDropDownOpen } = this.state;
+		const teamOptions = allCollegeTeams.map(team => (
+			<p
+				className="team-menu-items"
+				key={team.id}
+			>
 				<DropdownItem
-					className={ 'team-menu-item-' + (team.name === this.state.teamValue) }
-					key = { team.id }
-					value={ team.name }
-					onClick={ () => this._handleTeamChange(team.name) }
+					className={'team-menu-item-' + (team.name === teamValue)}
+					key={team.id}
+					onClick={() => this._handleTeamChange(team.name)}
+					value={team.name}
 				>
 					{team.name}
 				</DropdownItem>
@@ -51,10 +57,10 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		teamOptions.unshift(
 			<p className="team-menu-items">
 				<DropdownItem
-					className={ 'team-menu-item-' + (this.state.teamValue === 'All teams') }
-					key={ 'All teams' }
-					value={ 'All teams' }
-					onClick={ () => this._handleTeamChange('All teams') }
+					className={'team-menu-item-' + (teamValue === 'All teams')}
+					key="All teams"
+					onClick={() => this._handleTeamChange('All teams')}
+					value="All teams"
 				>
 					{'All teams'}
 				</DropdownItem>
@@ -63,9 +69,15 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 
 		return (
 			<div className="team-dropdown">
-				<Dropdown isOpen={ this.state.teamDropDownOpen } toggle={ this._toggleTeam }>
-					{'Team: '} {this.state.teamValue}
-					<DropdownToggle caret className="team-menu-toggle">
+				<Dropdown
+					isOpen={teamDropDownOpen}
+					toggle={this._toggleTeam}
+				>
+					{'Team: '} {teamValue}
+					<DropdownToggle
+						caret
+						className="team-menu-toggle"
+					>
 						{' '}
 						{' ▼'}
 					</DropdownToggle>

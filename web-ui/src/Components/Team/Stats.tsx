@@ -16,28 +16,29 @@ interface StatsState {}
 class Stats extends React.Component<StatsProps, StatsState> {
 	componentDidMount () {}
 
+	shouldComponentUpdate () {
+		return false;
+	}
+
 	render () {
 		const {
 			averageWeeklyPointsCache,
 			weekBeingViewed,
 			topWeeklyPlayerCache,
 			topWeeklyUsersCache,
-			mostValuable
+			mostValuable,
+			remainingBudget
 		} = this.props;
 
 		return (
 			<div className="stats-columns">
 				<div className="average-points">
-					{this.props.weekBeingViewed === -1 ? (
-						<div>Remaining Budget : {this.props.remainingBudget} mil </div>
+					{weekBeingViewed === -1 ? (
+						<div>Remaining Budget : {remainingBudget} mil </div>
 					) : (
 						<div> Average Points: {averageWeeklyPointsCache[weekBeingViewed]}</div>
 					)}
 				</div>
-
-				{/* {this.props.weekBeingViewed === -1 ? (
-          <div className="player-most-points">Your most valuable player is : </div>
-        ) : null} */}
 
 				{topWeeklyPlayerCache[weekBeingViewed] !== undefined ? (
 					<div className="player-most-points">
@@ -45,7 +46,7 @@ class Stats extends React.Component<StatsProps, StatsState> {
 						{topWeeklyPlayerCache[weekBeingViewed].surname} (
 						{topWeeklyPlayerCache[weekBeingViewed].points} points)
 					</div>
-				) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+				) : weekBeingViewed === -1 && mostValuable !== undefined ? (
 					<div className="player-most-points">
             Your most valuable player is {mostValuable.mostValuablePlayer.firstName}{' '}
 						{mostValuable.mostValuablePlayer.surname} with {mostValuable.mostValuablePlayerScore}{' '}
@@ -59,7 +60,7 @@ class Stats extends React.Component<StatsProps, StatsState> {
 						{topWeeklyUsersCache[weekBeingViewed].surname} (
 						{topWeeklyUsersCache[weekBeingViewed].points} points )
 					</div>
-				) : this.props.weekBeingViewed === -1 && mostValuable !== undefined ? (
+				) : weekBeingViewed === -1 && mostValuable !== undefined ? (
 					<div className="player-most-points">
             Your most valuable college team is {mostValuable.mostValuableCollegeTeam.name} with{' '}
 						{mostValuable.mostValuableCollegeTeamScore} points

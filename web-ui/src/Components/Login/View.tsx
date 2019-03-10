@@ -21,6 +21,11 @@ class Login extends React.Component<UserProps & LoginProps> {
 			header.hidden = true;
 		}
 	}
+
+	shouldComponentUpdate () {
+		return false;
+	}
+
 	_renderAnimatedWrapper (transitionName: string, children: React.ReactNode) {
 		const animate = _.get(this.props.location, 'state.animate', false);
 		const { action } = this.props.history;

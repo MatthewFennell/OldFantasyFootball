@@ -99,7 +99,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   							<ButtonPageSelector
   								id="transactions"
   								imgSrc="Home.png"
-  								select={() => this._onTeamSelect()}
+  								select={this._onTeamSelect}
   								selected={this.props.location.pathname === '/team'}
   								setRef={() => this.teamRef}
   								text="Team"
@@ -109,7 +109,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   							<ButtonPageSelector
   								id="categories"
   								imgSrc="Max.png"
-  								select={() => this._onTransfersSelect()}
+  								select={this._onTransfersSelect}
   								selected={this.props.location.pathname === '/transfers'}
   								setRef={() => this.transfersRef}
   								text="Transfers"
@@ -119,7 +119,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   							<ButtonPageSelector
   								id="settings"
   								imgSrc="Rupert.png"
-  								select={() => this._onLeagueSelect()}
+  								select={this._onLeagueSelect}
   								selected={this.props.location.pathname === '/leagues'}
   								setRef={() => this.leagueRef}
   								text="Leagues"
@@ -129,7 +129,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   							<ButtonPageSelector
   								id="settings"
   								imgSrc="Windy.png"
-  								select={() => this._onSettingsSelect()}
+  								select={this._onSettingsSelect}
   								selected={this.props.location.pathname === '/settings'}
   								setRef={() => this.settingsRef}
   								text="Settings"
@@ -140,7 +140,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   								<ButtonPageSelector
   									id="settings"
   									imgSrc="Windy.png"
-  									select={() => this._onAdminSelect()}
+  									select={this._onAdminSelect}
   									selected={this.props.location.pathname === '/admin'}
   									setRef={() => this.adminRef}
   									text="Admin"
