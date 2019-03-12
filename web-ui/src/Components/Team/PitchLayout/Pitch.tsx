@@ -38,7 +38,7 @@ class Pitch extends React.Component<PitchProps, {}> {
 					player={value}
 					transfer={transfer}
 				/>
-                       </div>);
+			</div>);
 		});
 
 		let pitchMidfielders: JSX.Element[] = [];
@@ -49,7 +49,7 @@ class Pitch extends React.Component<PitchProps, {}> {
 					player={value}
 					transfer={transfer}
 				/>
-                         </div>);
+			</div>);
 		});
 
 		let pitchDefenders: JSX.Element[] = [];
@@ -60,7 +60,7 @@ class Pitch extends React.Component<PitchProps, {}> {
 					player={value}
 					transfer={transfer}
 				/>
-                       </div>);
+			</div>);
 		});
 
 		let pitchGoalkeepers: JSX.Element[] = [];
@@ -71,7 +71,7 @@ class Pitch extends React.Component<PitchProps, {}> {
 					player={value}
 					transfer={transfer}
 				/>
-                         </div>);
+			</div>);
 		});
 
 		return (
