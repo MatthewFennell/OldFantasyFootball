@@ -14,8 +14,6 @@ interface StatsProps {
 interface StatsState {}
 
 class Stats extends React.Component<StatsProps, StatsState> {
-	componentDidMount () {}
-
 	shouldComponentUpdate () {
 		return true;
 	}
