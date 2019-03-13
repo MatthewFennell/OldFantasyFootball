@@ -13,6 +13,10 @@ interface PageBodyProps {
 }
 
 class PageBody extends React.Component<PageBodyProps> {
+	shouldComponentUpdate () {
+		return true;
+	}
+
 	_whichPage () {
 		console.log('hey');
 		let pageBeingViewed = this.props.pageBeingViewed;

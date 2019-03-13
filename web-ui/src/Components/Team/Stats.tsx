@@ -17,7 +17,7 @@ class Stats extends React.Component<StatsProps, StatsState> {
 	componentDidMount () {}
 
 	shouldComponentUpdate () {
-		return false;
+		return true;
 	}
 
 	render () {

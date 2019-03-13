@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-comp */
 import * as React from 'react';
 import { Row, Col } from 'reactstrap';
 import '../../../Style/Header.css';

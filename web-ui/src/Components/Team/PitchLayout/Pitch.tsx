@@ -1,10 +1,6 @@
 import * as React from 'react';
-// import '../../../Style/Team/PitchLayout/Pitch.css';
-import Attackers from '../../../Containers/Team/PitchLayout/Attackers';
-import Midfielders from '../../../Containers/Team/PitchLayout/Midfielders';
-import Defenders from '../../../Containers/Team/PitchLayout/Defenders';
-import Goalkeeper from '../../../Containers/Team/PitchLayout/Goalkeeper';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
+import Player from '../../../Containers/Player';
 
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
@@ -34,31 +30,71 @@ class Pitch extends React.Component<PitchProps, {}> {
 			});
 		}
 
+		let pitchAttackers: JSX.Element[] = [];
+		attackers.map(value => {
+			pitchAttackers.push(<div className="player">
+				<Player
+					emptyPlayer={false}
+					player={value}
+					transfer={transfer}
+				/>
+			</div>);
+		});
+
+		let pitchMidfielders: JSX.Element[] = [];
+		midfielders.map(value => {
+			pitchMidfielders.push(<div className="player">
+				<Player
+					emptyPlayer={false}
+					player={value}
+					transfer={transfer}
+				/>
+			</div>);
+		});
+
+		let pitchDefenders: JSX.Element[] = [];
+		defenders.map(value => {
+			pitchDefenders.push(<div className="player">
+				<Player
+					emptyPlayer={false}
+					player={value}
+					transfer={transfer}
+				/>
+			</div>);
+		});
+
+		let pitchGoalkeepers: JSX.Element[] = [];
+		goalKeeper.map(value => {
+			pitchGoalkeepers.push(<div className="player">
+				<Player
+					emptyPlayer={false}
+					player={value}
+					transfer={transfer}
+				/>
+			</div>);
+		});
+
 		return (
 			<div className="pitch-with-players">
 				<div className="attackers">
-					<Attackers
-						attackers={attackers}
-						transfer={transfer}
-					/>
+					<div className="player-columns">
+						{pitchAttackers}
+					</div>
 				</div>
 				<div className="midfielders">
-					<Midfielders
-						midfielders={midfielders}
-						transfer={transfer}
-					/>
+					<div className="player-columns">
+						{pitchMidfielders}
+					</div>
 				</div>
 				<div className="defenders">
-					<Defenders
-						defenders={defenders}
-						transfer={transfer}
-					/>
+					<div className="player-columns">
+						{pitchDefenders}
+					</div>
 				</div>
 				<div className="goalkeeper">
-					<Goalkeeper
-						goalkeepers={goalKeeper}
-						transfer={transfer}
-					/>
+					<div className="player-columns">
+						{pitchGoalkeepers}
+					</div>
 				</div>
 			</div>
 		);

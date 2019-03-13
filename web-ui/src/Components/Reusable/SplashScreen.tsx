@@ -21,6 +21,11 @@ class SplashScreen extends React.Component<Props, {}> {
 			header.hidden = false;
 		}
 	}
+
+	shouldComponentUpdate () {
+		return true;
+	}
+
 	render () {
 		return (
 			<div id="container-no-margin">

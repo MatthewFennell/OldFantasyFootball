@@ -22,6 +22,13 @@ class Admin extends React.Component<AdminProps, {}> {
 	constructor (props: AdminProps) {
 		super(props);
 		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
+		this.handleSetPageBeingViewedCreate = this.handleSetPageBeingViewedCreate.bind(this);
+		this.handleSetPageBeingViewedDeletePlayer = this.handleSetPageBeingViewedDeletePlayer.bind(this);
+		this.handleSetPageBeingViewedDeleteCollegeTeam = this.handleSetPageBeingViewedDeleteCollegeTeam.bind(this);
+		this.handleSetPageBeingViewedCreateCollegeTeam = this.handleSetPageBeingViewedCreateCollegeTeam.bind(this);
+		this.handleSetPageBeingViewedAddPoints = this.handleSetPageBeingViewedAddPoints.bind(this);
+		this.handleSetPageBeingViewedAddResult = this.handleSetPageBeingViewedAddResult.bind(this);
+		this.handleSetPageBeingViewedEditStats = this.handleSetPageBeingViewedEditStats.bind(this);
 
 		const { allCollegeTeams, setAllCollegeTeams } = this.props;
 
@@ -35,6 +42,41 @@ class Admin extends React.Component<AdminProps, {}> {
 	_setPageBeingViewed (pageToView: string) {
 		const { setAdminPageBeingViewed } = this.props;
 		setAdminPageBeingViewed(pageToView);
+	}
+
+	handleSetPageBeingViewedCreate () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('create');
+	}
+
+	handleSetPageBeingViewedDeletePlayer () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('delete-player');
+	}
+
+	handleSetPageBeingViewedCreateCollegeTeam () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('create-college-team');
+	}
+
+	handleSetPageBeingViewedDeleteCollegeTeam () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('delete-college-team');
+	}
+
+	handleSetPageBeingViewedAddPoints () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('add-points');
+	}
+
+	handleSetPageBeingViewedEditStats () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('edit-stats');
+	}
+
+	handleSetPageBeingViewedAddResult () {
+		const { setAdminPageBeingViewed } = this.props;
+		setAdminPageBeingViewed('add-result');
 	}
 
 	_selectedOrNot (input: string) {
@@ -54,43 +96,43 @@ class Admin extends React.Component<AdminProps, {}> {
 					<div className="admin-info-row">
 						<div
 							className={this._selectedOrNot('create')}
-							onClick={() => this._setPageBeingViewed('create')}
+							onClick={this.handleSetPageBeingViewedCreate}
 						>
               Create Player
 						</div>
 						<div
 							className={this._selectedOrNot('delete-player')}
-							onClick={() => this._setPageBeingViewed('delete-player')}
+							onClick={this.handleSetPageBeingViewedDeletePlayer}
 						>
               Delete Player
 						</div>
 						<div
 							className={this._selectedOrNot('create-college-team')}
-							onClick={() => this._setPageBeingViewed('create-college-team')}
+							onClick={this.handleSetPageBeingViewedCreateCollegeTeam}
 						>
               Create College Team
 						</div>
 						<div
 							className={this._selectedOrNot('delete-college-team')}
-							onClick={() => this._setPageBeingViewed('delete-college-team')}
+							onClick={this.handleSetPageBeingViewedDeleteCollegeTeam}
 						>
               Delete College Team
 						</div>
 						<div
 							className={this._selectedOrNot('add-points')}
-							onClick={() => this._setPageBeingViewed('add-points')}
+							onClick={this.handleSetPageBeingViewedAddPoints}
 						>
               Add Points to Players
 						</div>
 						<div
 							className={this._selectedOrNot('edit-stats')}
-							onClick={() => this._setPageBeingViewed('edit-stats')}
+							onClick={this.handleSetPageBeingViewedEditStats}
 						>
               Edit Player Stats
 						</div>
 						<div
 							className={this._selectedOrNot('add-result')}
-							onClick={() => this._setPageBeingViewed('add-result')}
+							onClick={this.handleSetPageBeingViewedAddResult}
 						>
               Create Results
 						</div>

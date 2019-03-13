@@ -6,18 +6,23 @@ interface ActiveTeamProps {
   activeTeam: PlayerDTO[];
 }
 
-class ActiveTeamTableBody extends React.Component<ActiveTeamProps> {
-	render () {
-		return (
-			<tbody className="my-active-team">
-				{this.props.activeTeam.map(datum => (
-					<RowActiveTeam
-						element={datum}
-						key={datum.id}
-					/>
-				))}
-			</tbody>
-		);
-	}
-}
+const ActiveTeamTableBody: React.SFC<ActiveTeamProps> = (props) => {
+	// eslint-disable-next-line react/prop-types
+	const { activeTeam } = props;
+	return (
+		<tbody className="my-active-team">
+			{activeTeam.map(datum => (
+				<RowActiveTeam
+					element={datum}
+					key={datum.id}
+				/>
+			))}
+		</tbody>
+	);
+};
+
+ActiveTeamTableBody.defaultProps = {
+	activeTeam: []
+};
+
 export default ActiveTeamTableBody;
