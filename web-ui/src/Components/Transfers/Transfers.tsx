@@ -24,21 +24,40 @@ interface TransfersProps {
 
   setTransferMarket: (transferMarket: boolean) => void;
   transfersMarketOpen: boolean;
+
+  removeIndex: (indexToRemove: number) => void;
+
+  addToPlayerBeingRemoved: (playerBeingAdded: PlayerDTO) => void;
+  removeFromActiveTeam: (id: string) => void;
+  removeFromPlayersBeingAdded: (index: number) => void;
 }
 
 interface TransfersState {
   teamUpdated: boolean;
   errorMessage: string;
+  playersBeingAdded: PlayerDTO[];
+  playersBeingRemoved: PlayerDTO[];
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
 	constructor (props: TransfersProps) {
 		super(props);
 		this.handleUpdateTeam = this.handleUpdateTeam.bind(this);
+		this.onRemoveFromActiveTeam = this.onRemoveFromActiveTeam.bind(this);
 		this.state = {
 			teamUpdated: false,
-			errorMessage: ''
+			errorMessage: '',
+			playersBeingAdded: [],
+			playersBeingRemoved: []
 		};
+	}
+
+	onRemoveFromActiveTeam (id: string) {
+		this.props.activeTeam.forEach((element, index) => {
+			if (element.id === id) {
+				this.props.removeIndex(index);
+			}
+		});
 	}
 
 	handleUpdateTeam () {
@@ -94,6 +113,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 					<div className="pitch-value">
 						<Pitch
 							activeWeeklyTeam={activeTeam}
+							removeFromActiveTeam={this.onRemoveFromActiveTeam}
 							transfer
 						/>
 					</div>

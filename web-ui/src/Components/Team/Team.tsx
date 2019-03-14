@@ -166,6 +166,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 				<div className="row-3-squad">
 					<Pitch
 						activeWeeklyTeam={this.props.activeTeam}
+						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>
 				</div>

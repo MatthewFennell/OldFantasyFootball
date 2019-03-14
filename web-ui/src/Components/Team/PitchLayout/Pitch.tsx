@@ -5,6 +5,7 @@ import Player from '../../../Containers/Player';
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
   transfer: boolean;
+  removeFromActiveTeam: (id: string) => void;
 }
 
 const Pitch: React.SFC<PitchProps> = (props) => {
@@ -35,6 +36,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				emptyPlayer={false}
 				player={value}
+				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
 			/>
 		</div>);
@@ -46,6 +48,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				emptyPlayer={false}
 				player={value}
+				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
 			/>
 		</div>);
@@ -57,6 +60,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				emptyPlayer={false}
 				player={value}
+				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
 			/>
 		</div>);
@@ -68,6 +72,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				emptyPlayer={false}
 				player={value}
+				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
 			/>
 		</div>);

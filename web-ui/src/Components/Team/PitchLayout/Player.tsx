@@ -17,6 +17,7 @@ interface PlayerProps {
 
   playersBeingAdded: PlayerDTO[];
   addToPlayerBeingRemoved: (playerBeingAdded: PlayerDTO) => void;
+  removeFromActiveTeam: (id: string) => void;
   removeFromPlayersBeingAdded: (index: number) => void;
 }
 
@@ -29,7 +30,7 @@ class Player extends React.Component<PlayerProps, {}> {
 	handleOnClick () {
 		if (this.props.transfer) {
 			const { price, id } = this.props.player;
-			this._removePlayerFromActiveTeam(id);
+			this.props.removeFromActiveTeam(id);
 
 			let removed: boolean = false;
 			this.props.playersBeingAdded.forEach((element, index) => {
