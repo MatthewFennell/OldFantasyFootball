@@ -8,19 +8,11 @@ interface PlayerProps {
   emptyPlayer: boolean;
   player: PlayerDTO;
 
-  activeTeam: PlayerDTO[];
-  setTeam: (team: PlayerDTO[]) => void;
-  removeIndex: (indexToRemove: number) => void;
-
-  setRemainingBudget: (remainingBudget: number) => void;
-  remainingBudget: number;
-
-  playersBeingAdded: PlayerDTO[];
-  addToPlayerBeingRemoved: (playerBeingAdded: PlayerDTO) => void;
+  addOrRemovePlayer: (id: string, price: number, player:PlayerDTO) => void;
   removeFromActiveTeam: (id: string) => void;
-  removeFromPlayersBeingAdded: (index: number) => void;
 }
 
+// eslint-disable-next-line react/require-optimization
 class Player extends React.Component<PlayerProps, {}> {
 	constructor (props: PlayerProps) {
 		super(props);
@@ -31,28 +23,8 @@ class Player extends React.Component<PlayerProps, {}> {
 		if (this.props.transfer) {
 			const { price, id } = this.props.player;
 			this.props.removeFromActiveTeam(id);
-
-			let removed: boolean = false;
-			this.props.playersBeingAdded.forEach((element, index) => {
-				if (element.id === id) {
-					removed = true;
-					this.props.removeFromPlayersBeingAdded(index);
-				}
-			});
-
-			if (!removed) {
-				this.props.addToPlayerBeingRemoved(this.props.player);
-			}
-			this.props.setRemainingBudget(this.props.remainingBudget + price);
+			this.props.addOrRemovePlayer(id, price, this.props.player);
 		}
-	}
-
-	_removePlayerFromActiveTeam (id: string) {
-		this.props.activeTeam.forEach((element, index) => {
-			if (element.id === id) {
-				this.props.removeIndex(index);
-			}
-		});
 	}
 
 	render () {

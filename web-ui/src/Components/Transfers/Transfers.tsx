@@ -11,6 +11,7 @@ import { updateTeam } from '../../Services/Weeks/WeeksService';
 
 interface TransfersProps {
   remainingBudget: number;
+  setRemainingBudget: (remainingBudget: number) => void;
 
   remainingTransfers: number;
 
@@ -35,8 +36,6 @@ interface TransfersProps {
 interface TransfersState {
   teamUpdated: boolean;
   errorMessage: string;
-  playersBeingAdded: PlayerDTO[];
-  playersBeingRemoved: PlayerDTO[];
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
@@ -44,11 +43,10 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		super(props);
 		this.handleUpdateTeam = this.handleUpdateTeam.bind(this);
 		this.onRemoveFromActiveTeam = this.onRemoveFromActiveTeam.bind(this);
+		this.onAddOrRemovePlayer = this.onAddOrRemovePlayer.bind(this);
 		this.state = {
 			teamUpdated: false,
 			errorMessage: '',
-			playersBeingAdded: [],
-			playersBeingRemoved: []
 		};
 	}
 
@@ -60,8 +58,24 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		});
 	}
 
+	onAddOrRemovePlayer (id: string, price: number, player: PlayerDTO) {
+		let removed: boolean = false;
+		this.props.playersBeingAdded.forEach((element, index) => {
+			if (element.id === id) {
+				removed = true;
+				this.props.removeFromPlayersBeingAdded(index);
+			}
+		});
+
+		if (!removed) {
+			this.props.addToPlayerBeingRemoved(player);
+		}
+		this.props.setRemainingBudget(this.props.remainingBudget + price);
+	}
+
 	handleUpdateTeam () {
 		const { playersBeingAdded, playersBeingRemoved, clearPlayersBeingAddedAndRemoved } = this.props;
+		console.log('Adding players ' + JSON.stringify(playersBeingAdded));
 		let data: UpdatePlayers = {
 			playersBeingAdded: playersBeingAdded,
 			playersBeingRemoved: playersBeingRemoved
@@ -113,6 +127,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 					<div className="pitch-value">
 						<Pitch
 							activeWeeklyTeam={activeTeam}
+							addOrRemovePlayer={this.onAddOrRemovePlayer}
 							removeFromActiveTeam={this.onRemoveFromActiveTeam}
 							transfer
 						/>

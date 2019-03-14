@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
-import Player from '../../../Containers/Player';
+import Player from './Player';
 
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
+  addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
   transfer: boolean;
   removeFromActiveTeam: (id: string) => void;
 }
@@ -34,6 +35,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 	attackers.map(value => {
 		pitchAttackers.push(<div className="player">
 			<Player
+				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
@@ -46,6 +48,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 	midfielders.map(value => {
 		pitchMidfielders.push(<div className="player">
 			<Player
+				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
@@ -58,6 +61,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 	defenders.map(value => {
 		pitchDefenders.push(<div className="player">
 			<Player
+				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
@@ -70,6 +74,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 	goalKeeper.map(value => {
 		pitchGoalkeepers.push(<div className="player">
 			<Player
+				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}

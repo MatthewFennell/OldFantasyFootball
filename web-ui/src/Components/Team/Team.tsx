@@ -81,7 +81,6 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 		// Get the total number of weeks
 		getNumberOfWeeks().then(currentWeek => {
 			// Automatically start viewing the latest
-			// this.props.setWeekBeingViewed(currentWeek);
 			this.props.setTotalNumberOfWeeks(currentWeek);
 			this._generateCache(currentWeek);
 
@@ -89,7 +88,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 				this._generateCache(x);
 			}
 
-			getTeamForUserInWeek(currentWeek).then(activeTeam => {
+			getTeamForUserInWeek(this.props.weekBeingViewed).then(activeTeam => {
 				this.props.setTeam(activeTeam);
 			});
 
@@ -166,6 +165,7 @@ class Transactions extends React.Component<TransactionsProps, TransactionsState>
 				<div className="row-3-squad">
 					<Pitch
 						activeWeeklyTeam={this.props.activeTeam}
+						addOrRemovePlayer={() => {}}
 						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>

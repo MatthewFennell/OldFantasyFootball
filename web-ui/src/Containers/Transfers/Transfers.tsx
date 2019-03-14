@@ -5,7 +5,8 @@ import { removeIndex } from '../../Actions/ActiveTeamActions';
 import { clearPlayersBeingAddedAndRemoved,
 	setRemainingBudget,
 	addToPlayerBeingRemoved,
-	removeFromPlayersBeingAdded } from '../../Actions/TransferActions';
+	removeFromPlayersBeingAdded,
+} from '../../Actions/TransferActions';
 import {
 	getFilteredPlayers,
 	getPlayersBeingAdded,

@@ -46,7 +46,8 @@ class TransferRow extends React.Component<TransferRowProps> {
   canAdd (player: PlayerDTO): boolean {
   	let numberInThatPosition: number = 0;
   	let playerExists: boolean = false;
-  	const { activeTeam, remainingBudget } = this.props;
+	  const { activeTeam, remainingBudget } = this.props;
+	  console.log('Active team = ' + JSON.stringify(activeTeam));
   	activeTeam.forEach(element => {
   		if (element.position === player.position) {
   			numberInThatPosition += 1;
