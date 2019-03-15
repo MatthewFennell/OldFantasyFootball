@@ -89,7 +89,7 @@
     "react/prefer-es6-class": "warn",
     // "react/prefer-read-only-props": "warn",
     "react/prefer-stateless-function": "warn",
-    "react/prop-types": "warn",
+    "react/prop-types": "off",
     "react/react-in-jsx-scope": "warn",
     "react/require-default-props": "warn",
     "react/require-optimization": "warn",

@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { removeIndex } from '../../Actions/ActiveTeamActions';
+import { addPlayer, removeIndex } from '../../Actions/ActiveTeamActions';
 import { clearPlayersBeingAddedAndRemoved,
 	setRemainingBudget,
 	addToPlayerBeingRemoved,
+	addToPlayerBeingAdded,
 	removeFromPlayersBeingAdded,
+	removeFromPlayersBeingRemoved
 } from '../../Actions/TransferActions';
 import {
 	getFilteredPlayers,
@@ -28,11 +30,14 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
+	addPlayer,
+	addToPlayerBeingAdded,
 	clearPlayersBeingAddedAndRemoved,
 	removeIndex,
 	setRemainingBudget,
 	addToPlayerBeingRemoved,
-	removeFromPlayersBeingAdded
+	removeFromPlayersBeingAdded,
+	removeFromPlayersBeingRemoved
 };
 
 export default connect<any, any, any>(

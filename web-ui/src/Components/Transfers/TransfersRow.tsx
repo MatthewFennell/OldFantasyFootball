@@ -3,87 +3,10 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TransferRowProps {
   element: PlayerDTO;
-  activeTeam: PlayerDTO[];
-  addPlayer: (player: PlayerDTO) => void;
-
-  remainingBudget: number;
-  setRemainingBudget: (remainingBudget: number) => void;
-
-  addToPlayerBeingAdded: (playerToAdd: PlayerDTO) => void;
-  removeFromPlayersBeingRemoved: (index: number) => void;
-  playersBeingRemoved: PlayerDTO[];
+  handleRowClick: (player: PlayerDTO) => void;
 }
 
 class TransferRow extends React.Component<TransferRowProps> {
-	constructor (props: TransferRowProps) {
-		super(props);
-		this.canAdd = this.canAdd.bind(this);
-	}
-
-  handleRowClick = () => {
-	  const { addPlayer, playersBeingRemoved, removeFromPlayersBeingRemoved,
-			 addToPlayerBeingAdded, setRemainingBudget, remainingBudget, element } = this.props;
-  	if (this.canAdd(element)) {
-  		addPlayer(element);
-
-  		let removed: boolean = false;
-  		playersBeingRemoved.forEach((ele, index) => {
-  			if (ele.id === element.id) {
-  				removed = true;
-  				removeFromPlayersBeingRemoved(index);
-  			}
-  		});
-
-  		if (!removed) {
-  			addToPlayerBeingAdded(element);
-  		}
-  		if (element.price !== undefined) {
-  			setRemainingBudget(remainingBudget - element.price);
-  		}
-  	}
-  };
-
-  canAdd (player: PlayerDTO): boolean {
-  	let numberInThatPosition: number = 0;
-  	let playerExists: boolean = false;
-	  const { activeTeam, remainingBudget } = this.props;
-	  console.log('Active team = ' + JSON.stringify(activeTeam));
-  	activeTeam.forEach(element => {
-  		if (element.position === player.position) {
-  			numberInThatPosition += 1;
-  		}
-  		if (element.id === player.id) {
-  			playerExists = true;
-  		}
-  	});
-
-  	if (playerExists) {
-  		return false;
-  	}
-  	if (player.price !== undefined && player.price > remainingBudget) {
-  		return false;
-  	}
-
-  	if (player.position === 'GOALKEEPER') {
-  		if (numberInThatPosition > 0) {
-  			return false;
-  		}
-  	} else if (player.position === 'DEFENDER') {
-  		if (numberInThatPosition > 3) {
-  			return false;
-  		}
-  	} else if (player.position === 'MIDFIELDER') {
-  		if (numberInThatPosition > 3) {
-  			return false;
-  		}
-  	} else if (player.position === 'ATTACKER') {
-  		if (numberInThatPosition > 1) {
-  			return false;
-  		}
-  	}
-  	return true;
-  }
-
   _activeFilteredPlayersJSX = () => {
   	const {
   		firstName,
@@ -100,7 +23,7 @@ class TransferRow extends React.Component<TransferRowProps> {
   		<tr
   			className="transfers"
   			key={firstName + surname}
-  			onClick={this.handleRowClick}
+  			onClick={() => { this.props.handleRowClick(this.props.element); }}
   		>
   			<td className="name">{firstName + ' ' + surname}</td>
   			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>
