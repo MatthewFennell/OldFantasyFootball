@@ -8,7 +8,6 @@ interface LeagueTableBodyProps {
 }
 
 const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
-	// eslint-disable-next-line react/prop-types
 	const { leagues, setLeagueBeingViewed } = props;
 	return (
 		<tbody className="my-active-leagues">

@@ -1,7 +1,14 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { clearPlayersBeingAddedAndRemoved } from '../../Actions/TransferActions';
+import { addPlayer, removeIndex } from '../../Actions/ActiveTeamActions';
+import { clearPlayersBeingAddedAndRemoved,
+	setRemainingBudget,
+	addToPlayerBeingRemoved,
+	addToPlayerBeingAdded,
+	removeFromPlayersBeingAdded,
+	removeFromPlayersBeingRemoved
+} from '../../Actions/TransferActions';
 import {
 	getFilteredPlayers,
 	getPlayersBeingAdded,
@@ -23,7 +30,14 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-	clearPlayersBeingAddedAndRemoved
+	addPlayer,
+	addToPlayerBeingAdded,
+	clearPlayersBeingAddedAndRemoved,
+	removeIndex,
+	setRemainingBudget,
+	addToPlayerBeingRemoved,
+	removeFromPlayersBeingAdded,
+	removeFromPlayersBeingRemoved
 };
 
 export default connect<any, any, any>(

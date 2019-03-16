@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-import TransfersRow from '../../Containers/Transfers/TransfersRow';
+import TransfersRow from './TransfersRow';
 import '../../Style/Transfers/TransfersFilter.css';
 
 interface TransfersTableBodyProps {
   filteredPlayers: PlayerDTO[];
+  handleRowClick: (player: PlayerDTO) => void;
   setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
   reverseFilteredPlayers: () => void;
 }
@@ -244,6 +245,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 				{filteredPlayers.map(datum => (
 					<TransfersRow
 						element={datum}
+						handleRowClick={this.props.handleRowClick}
 						key={datum.firstName + datum.surname}
 					/>
 				))}

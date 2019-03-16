@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { joinLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
+import { Col } from 'react-bootstrap';
 
 interface JoinLeagueState {
   codeToJoin: string;
@@ -63,6 +64,12 @@ class JoinLeague extends React.Component<
   render () {
 	  const { error } = this.state;
   	return (
+  		<Col
+  			className="league-info-screen"
+  			lg={6}
+  			md={6}
+  			xs={6}
+  		>
   		<div
   			className="join-league-form"
   			onSubmit={e => e.preventDefault()}
@@ -102,6 +109,7 @@ class JoinLeague extends React.Component<
   				</Button>
   			</Form>
   		</div>
+		  </Col>
   	);
   }
 }

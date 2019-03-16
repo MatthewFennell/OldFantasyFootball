@@ -9,8 +9,8 @@ import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
 import { Button, Container } from 'reactstrap';
 import { Row, Col } from 'react-bootstrap';
-import CreateLeague from '../../Containers/League/CreateLeague';
-import JoinLeague from '../../Containers/League/JoinLeague';
+import CreateLeague from './CreateLeague';
+import JoinLeague from './JoinLeague';
 import RankingsTableBody from './RankingsTableBody';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 
@@ -34,6 +34,8 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	constructor (props: LeagueProps) {
 		super(props);
 		this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
+		this.handleCreateLeague = this.handleCreateLeague.bind(this);
+		this.handleJoinLeague = this.handleJoinLeague.bind(this);
 		this.state = {
 			isAdmin: false,
 			code: ''
@@ -96,46 +98,6 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		const offSet = this.props.leaguePageBeingViewed === 'home' ? 0 : 0;
 		const width = this.props.leaguePageBeingViewed === 'home' ? 12 : 6;
 
-		const renderCreateLeague = () => (
-			<Col
-				className="league-info-screen"
-				lg={6}
-				md={6}
-				xs={6}
-			>
-				<CreateLeague />
-			</Col>
-		);
-
-		const renderJoinLeague = () => (
-			<Col
-				className="league-info-screen"
-				lg={6}
-				md={6}
-				xs={6}
-			>
-				<JoinLeague />
-			</Col>
-		);
-
-		const renderLeagueRankings = () => (
-			<div>
-				{this.state.isAdmin ? (
-					<div>You are the admin of this league. The code for joining is {this.state.code} </div>
-				) : (
-					<div>The admin of this league is {this.state.code} </div>
-				)}
-				<Col
-					className="league-info-screen"
-					lg={6}
-					md={6}
-					xs={6}
-				>
-					<RankingsTableBody leagueRankings={this.props.leagueRankings} />
-				</Col>
-			</div>
-		);
-
 		return (
 			<Container>
 				<Row>
@@ -150,7 +112,7 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 					>
 						<div className="outer-league-rows">
 							<div className="my-leagues">
-                My Leagues
+                				My Leagues
 								<div className="league-table">
 									<LeagueTableBody
 										leagues={leagues}
@@ -190,11 +152,15 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 						</div>
 					</Col>
 					{this.props.leaguePageBeingViewed === 'create-league'
-						? renderCreateLeague()
+						? <CreateLeague addToLeagueCache={this.props.addToLeagueCache} />
 						: this.props.leaguePageBeingViewed === 'join-league'
-							? renderJoinLeague()
+							? <JoinLeague addToLeagueCache={this.props.addToLeagueCache} />
 							: this.props.leaguePageBeingViewed !== 'home'
-								? renderLeagueRankings()
+								? <RankingsTableBody
+									code={this.state.code}
+									isAdmin={this.state.isAdmin}
+									leagueRankings={this.props.leagueRankings}
+								  />
 								: null}
 				</Row>
 			</Container>

@@ -2,20 +2,17 @@ import * as React from 'react';
 import { UserLeaguePosition } from '../../Models/Interfaces/UserLeaguePosition';
 
 interface RankingsRowProps {
-  element: UserLeaguePosition;
+	element: UserLeaguePosition;
+	handleRowClick: (name: string) => void;
 }
 
-class RankingsRow extends React.Component<RankingsRowProps> {
-  handleRowClick = (firstName: string) => {};
-
-  _activeLeagueJSX = () => {
-  	// eslint-disable-next-line react/destructuring-assignment
-  	const { firstName, surname, points, position } = this.props.element;
+const RankingsRow: React.SFC<RankingsRowProps> = (props) => {
+	const { firstName, surname, points, position } = props.element;
   	return (
   		<tr
   			className="user"
   			key={position}
-  			onClick={() => this.handleRowClick(firstName)}
+  			onClick={() => props.handleRowClick(firstName)}
   		>
   			<td className="name">
   				{firstName} {surname}
@@ -24,10 +21,6 @@ class RankingsRow extends React.Component<RankingsRowProps> {
   			<td className="position">{position}</td>
   		</tr>
   	);
-  };
+};
 
-  render () {
-  	return <React.Fragment>{this._activeLeagueJSX()}</React.Fragment>;
-  }
-}
 export default RankingsRow;
