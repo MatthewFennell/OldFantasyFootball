@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { createLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-create.css';
+import { Col } from 'react-bootstrap';
 
 interface CreateLeagueState {
   leagueName: string;
@@ -77,6 +78,12 @@ class CreateLeagueClass extends React.Component<
   render () {
 	  const { error, leagueCode, leagueName } = this.state;
   	return (
+  		<Col
+  			className="league-info-screen"
+  			lg={6}
+  			md={6}
+  			xs={6}
+  		>
   		<div
   			className="create-league-form"
   			onSubmit={e => e.preventDefault()}
@@ -124,6 +131,7 @@ class CreateLeagueClass extends React.Component<
   				<div className="error-message-animation">Error : {error} </div>
   			) : null}
   		</div>
+		  </Col>
   	);
   }
 }
