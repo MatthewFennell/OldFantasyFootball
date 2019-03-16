@@ -7,8 +7,6 @@ export interface State {
   remainingBudget: number;
   remainingTransfers: number;
   filteredPlayers: PlayerDTO[];
-  playersBeingAdded: PlayerDTO[];
-  playersBeingRemoved: PlayerDTO[];
   transferMarketOpen: boolean;
 }
 
@@ -17,8 +15,6 @@ export const initialState: State = {
 	remainingBudget: -100,
 	remainingTransfers: 0,
 	filteredPlayers: [],
-	playersBeingAdded: [],
-	playersBeingRemoved: [],
 	transferMarketOpen: false
 };
 
@@ -40,45 +36,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			filteredPlayers: action.payload.filteredPlayers
-		};
-	}
-	case ActionTypes.ADD_TO_PLAYERS_BEING_ADDED: {
-		const playerToAdd = action.payload.playerBeingAdded;
-		return {
-			...state,
-			playersBeingAdded: state.playersBeingAdded.concat(playerToAdd)
-		};
-	}
-	case ActionTypes.REMOVE_FROM_PLAYERS_BEING_ADDED: {
-		return {
-			...state,
-			playersBeingAdded: state.playersBeingAdded.filter(
-				(item, index) => action.payload.indexToRemove !== index
-			)
-		};
-	}
-
-	case ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED: {
-		return {
-			...state,
-			playersBeingAdded: [],
-			playersBeingRemoved: []
-		};
-	}
-
-	case ActionTypes.ADD_TO_PLAYERS_BEING_REMOVED: {
-		const playerToAdd = action.payload.playerBeingAdded;
-		return {
-			...state,
-			playersBeingRemoved: state.playersBeingRemoved.concat(playerToAdd)
-		};
-	}
-	case ActionTypes.REMOVE_FROM_PLAYERS_BEING_REMOVED: {
-		return {
-			...state,
-			playersBeingRemoved: state.playersBeingRemoved.filter(
-				(item, index) => action.payload.indexToRemove !== index
-			)
 		};
 	}
 
