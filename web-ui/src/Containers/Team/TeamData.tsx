@@ -21,11 +21,20 @@ import {
 	setMostValuable
 } from '../../Actions/StatsActions';
 
+import {
+	addToLeagueCache
+} from '../../Actions/LeagueActions';
+
+import {
+	getLeagueCache
+} from '../../Selectors/LeagueSelector';
+
 import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
 
 import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
+	leagueCache: getLeagueCache(state),
 	weekBeingViewed: getWeekBeingViewed(state),
 	weeklyPointsCache: getWeeklyPointsCache(state),
 	averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
@@ -36,6 +45,7 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
+	addToLeagueCache,
 	setWeekBeingViewed,
 	addToWeeklyPointsCache,
 	addToAverageWeeklyPointsCache,

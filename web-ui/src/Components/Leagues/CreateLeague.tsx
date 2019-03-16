@@ -102,7 +102,7 @@ class CreateLeagueClass extends React.Component<
   							className="unselectable"
   							for="leagueName"
   						>
-                League name
+                		League name
   						</Label>
   						<Field
   							component="input"

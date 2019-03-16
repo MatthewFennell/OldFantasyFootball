@@ -14,7 +14,10 @@ import {
 	getMostValuable
 } from '../../Selectors/StatsSelector';
 
+import { getLeagueCache } from '../../Selectors/LeagueSelector';
+
 const mapStateToProps = (state: State) => ({
+	leagueCache: getLeagueCache(state),
 	totalPoints: getTotalPoints(state),
 	weekBeingViewed: getWeekBeingViewed(state),
 	weeklyPointsCache: getWeeklyPointsCache(state),
