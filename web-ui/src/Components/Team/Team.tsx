@@ -13,21 +13,13 @@ import TeamData from '../../Containers/Team/TeamData';
 interface TransactionsProps {
   totalPoints: number;
   weekBeingViewed: number;
-
   averageWeeklyPointsCache: any;
-
   weeklyPointsCache: any;
-
   topWeeklyPlayerCache: any;
-
   topWeeklyUsersCache: any;
-
   activeTeam: PlayerDTO[];
-
   weeklyTeamCache: any;
-
   allCollegeTeams: CollegeTeam[];
-
   mostValuable: MostValuable;
 }
 

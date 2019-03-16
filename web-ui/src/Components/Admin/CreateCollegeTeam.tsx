@@ -98,7 +98,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 							id="btnCreateCollegeTeam"
 							onClick={this.handleValidate}
 						>
-              Create College Team
+              			Create College Team
 						</Button>
 					</div>
 				</div>
