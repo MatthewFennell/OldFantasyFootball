@@ -3,7 +3,6 @@ import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
 import { getActiveTeam, getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
 import { getTotalPoints } from '../../Selectors/AccountSelector';
-import { setAllCollegeTeams } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
 	getWeekBeingViewed,
@@ -14,20 +13,6 @@ import {
 	getTotalNumberOfWeeks,
 	getMostValuable
 } from '../../Selectors/StatsSelector';
-import { setTotalPoints } from '../../Actions/AccountActions';
-import {
-	setWeekBeingViewed,
-	addToWeeklyPointsCache,
-	addToAverageWeeklyPointsCache,
-	addToTopWeeklyPlayersCache,
-	addToTopWeeklyUsersCache,
-	setTotalNumberOfWeeks,
-	setMostValuable
-} from '../../Actions/StatsActions';
-
-import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
-
-import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
 	totalPoints: getTotalPoints(state),
@@ -44,19 +29,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-	setTotalPoints,
-	setWeekBeingViewed,
-	addToWeeklyPointsCache,
-	addToAverageWeeklyPointsCache,
-	addToTopWeeklyPlayersCache,
-	addToTopWeeklyUsersCache,
-	setTeam,
-	addToWeeklyTeamCache,
-	setTotalNumberOfWeeks,
-	setTransferMarket,
-	setAllCollegeTeams,
-	setRemainingBudget,
-	setMostValuable
 };
 
 export default connect<any, any, any>(

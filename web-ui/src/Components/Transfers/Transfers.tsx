@@ -16,8 +16,6 @@ interface TransfersProps {
 
   remainingTransfers: number;
 
-  clearPlayersBeingAddedAndRemoved: () => void;
-
   filteredPlayers: PlayerDTO[];
   activeTeam: PlayerDTO[];
 
@@ -27,10 +25,7 @@ interface TransfersProps {
   setTransferMarket: (transferMarket: boolean) => void;
   transfersMarketOpen: boolean;
 
-  addToPlayerBeingAdded: (playerToAdd: PlayerDTO) => void;
   removeIndex: (indexToRemove: number) => void;
-  removeFromPlayersBeingRemoved: (index: number) => void;
-  addToPlayerBeingRemoved: (playerBeingAdded: PlayerDTO) => void;
   removeFromActiveTeam: (id: string) => void;
   removeFromPlayersBeingAdded: (index: number) => void;
 }
@@ -38,6 +33,8 @@ interface TransfersProps {
 interface TransfersState {
   teamUpdated: boolean;
   errorMessage: string;
+  playersToAdd: PlayerDTO[];
+  playersToRemove: PlayerDTO[];
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
@@ -47,10 +44,37 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.onRemoveFromActiveTeam = this.onRemoveFromActiveTeam.bind(this);
 		this.onAddOrRemovePlayer = this.onAddOrRemovePlayer.bind(this);
 		this.canAdd = this.canAdd.bind(this);
+		this.removeFromPlayersBeingAdded = this.removeFromPlayersBeingAdded.bind(this);
 		this.state = {
 			teamUpdated: false,
 			errorMessage: '',
+			playersToAdd: [],
+			playersToRemove: []
 		};
+	}
+
+	addToPlayerBeingRemoved (player: PlayerDTO) {
+		let playersToRemove = this.state.playersToRemove.concat(player);
+		this.setState({ playersToRemove });
+	}
+
+	addToPlayerBeingAdded (player: PlayerDTO) {
+		let playersToAdd = this.state.playersToAdd.concat(player);
+		this.setState({ playersToAdd });
+	}
+
+	removeFromPlayersBeingAdded (indexToRemove: number) {
+		let playersToAdd = this.state.playersToAdd.filter(
+			(item, index) => indexToRemove !== index
+		);
+		this.setState({ playersToAdd });
+	}
+
+	removeFromPlayersBeingRemoved (indexToRemove: number) {
+		let playersToRemove = this.state.playersToRemove.filter(
+			(item, index) => indexToRemove !== index
+		);
+		this.setState({ playersToRemove });
 	}
 
 	canAdd (player: PlayerDTO): boolean {
@@ -103,54 +127,52 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
 	onAddOrRemovePlayer (id: string, price: number, player: PlayerDTO) {
 		let removed: boolean = false;
-		this.props.playersBeingAdded.forEach((element, index) => {
+		this.state.playersToAdd.forEach((element, index) => {
 			if (element.id === id) {
 				removed = true;
-				this.props.removeFromPlayersBeingAdded(index);
+				this.removeFromPlayersBeingAdded(index);
 			}
 		});
 
 		if (!removed) {
-			this.props.addToPlayerBeingRemoved(player);
+			this.addToPlayerBeingRemoved(player);
 		}
 		this.props.setRemainingBudget(this.props.remainingBudget + price);
 	}
 
 	handleUpdateTeam () {
-		const { playersBeingAdded, playersBeingRemoved, clearPlayersBeingAddedAndRemoved } = this.props;
 		let data: UpdatePlayers = {
-			playersBeingAdded: playersBeingAdded,
-			playersBeingRemoved: playersBeingRemoved
+			playersBeingAdded: this.state.playersToAdd,
+			playersBeingRemoved: this.state.playersToRemove
 		};
 
 		updateTeam(data)
 			.then(response => {
-				clearPlayersBeingAddedAndRemoved();
-				this.setState({ teamUpdated: true });
-				this.setState({ errorMessage: '' });
+				this.setState({ playersToAdd: [],
+					 			playersToRemove: [],
+					  			teamUpdated: true,
+					   			errorMessage: '' });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ teamUpdated: false });
+				this.setState({ errorMessage: error, teamUpdated: false });
 			});
 	}
 
 	handleRowClick = (element: PlayerDTO) => {
-		const { addPlayer, playersBeingRemoved, removeFromPlayersBeingRemoved,
-			   addToPlayerBeingAdded, setRemainingBudget, remainingBudget } = this.props;
+		const { addPlayer, setRemainingBudget, remainingBudget } = this.props;
 		if (this.canAdd(element)) {
 			addPlayer(element);
 
 			let removed: boolean = false;
-			playersBeingRemoved.forEach((ele, index) => {
+			this.state.playersToRemove.forEach((ele, index) => {
 				if (ele.id === element.id) {
 					removed = true;
-					removeFromPlayersBeingRemoved(index);
+					this.removeFromPlayersBeingRemoved(index);
 				}
 			});
 
 			if (!removed) {
-				addToPlayerBeingAdded(element);
+				this.addToPlayerBeingAdded(element);
 			}
 			if (element.price !== undefined) {
 				setRemainingBudget(remainingBudget - element.price);
@@ -166,7 +188,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				<div className="left-rows">
 					<div className="transfer-info-row">
 						<div className="info">
-              Remaining Budget: £{remainingBudget.toFixed(1)} mil
+              				Remaining Budget: £{remainingBudget.toFixed(1)} mil
 						</div>
 						{transfersMarketOpen ? (
 							<div className="info">Transfer Market: Open</div>

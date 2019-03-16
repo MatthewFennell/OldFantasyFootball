@@ -11,9 +11,7 @@ interface StatsProps {
   mostValuable: MostValuable;
 }
 
-interface StatsState {}
-
-class Stats extends React.Component<StatsProps, StatsState> {
+class Stats extends React.Component<StatsProps> {
 	shouldComponentUpdate () {
 		return true;
 	}

@@ -13,18 +13,6 @@ export const getRemainingTransfers = createSelector(
 const getFilteredPlayersState = (state: State) => state.transfers;
 export const getFilteredPlayers = createSelector([getFilteredPlayersState], a => a.filteredPlayers);
 
-const getPlayersBeingAddedState = (state: State) => state.transfers;
-export const getPlayersBeingAdded = createSelector(
-	[getPlayersBeingAddedState],
-	a => a.playersBeingAdded
-);
-
-const getPlayersBeingRemovedState = (state: State) => state.transfers;
-export const getPlayersBeingRemoved = createSelector(
-	[getPlayersBeingRemovedState],
-	a => a.playersBeingRemoved
-);
-
 const getTransferMarketOpenState = (state: State) => state.transfers;
 export const getTransferMarketOpen = createSelector(
 	[getTransferMarketOpenState],
