@@ -16,6 +16,9 @@ import {
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { getRemainingBudget } from '../../Services/User/UserService';
+import {
+	getLeaguesAndPositions
+} from '../../Services/League/LeagueService';
 
 interface TransactionsProps {
   weekBeingViewed: number;
@@ -28,6 +31,9 @@ interface TransactionsProps {
   addToTopWeeklyPlayersCache: (id: number, player: PlayerDTO) => void;
   topWeeklyUsersCache: any;
   addToTopWeeklyUsersCache: (id: number, player: TopWeeklyUser) => void;
+
+  leagueCache: any;
+  addToLeagueCache: (leagueName: string, position: number) => void;
 
   setTeam: (team: PlayerDTO[]) => void;
   weeklyTeamCache: any;
@@ -52,6 +58,17 @@ class Transactions extends React.Component<TransactionsProps> {
 			header.hidden = false;
 		}
 		this.props.setWeekBeingViewed(-1);
+
+		getLeaguesAndPositions().then(leagueAndPositionsArray => {
+			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
+				if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
+					this.props.addToLeagueCache(
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position
+					);
+				}
+			}
+		});
 
 		getMostValuableAssets().then(mostValuable => {
 			this.props.setMostValuable(mostValuable);

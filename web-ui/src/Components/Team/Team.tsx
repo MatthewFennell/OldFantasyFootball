@@ -9,6 +9,8 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import Pitch from './PitchLayout/Pitch';
 import TeamData from '../../Containers/Team/TeamData';
+import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
+import LeagueTableBody from '../Leagues/LeagueTableBody';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -17,6 +19,7 @@ interface TransactionsProps {
   weeklyPointsCache: any;
   topWeeklyPlayerCache: any;
   topWeeklyUsersCache: any;
+  leagueCache: any;
   activeTeam: PlayerDTO[];
   weeklyTeamCache: any;
   allCollegeTeams: CollegeTeam[];
@@ -32,6 +35,17 @@ class Transactions extends React.Component<TransactionsProps> {
 	}
 
 	render () {
+		let leagues: LeaguePositions[] = [];
+		var keys = Object.keys(this.props.leagueCache);
+		for (let x = 0; x < keys.length; x++) {
+			// TO:DO - Check this
+			let p: LeaguePositions = {
+				leagueName: keys[x],
+				position: this.props.leagueCache[keys[x]],
+				id: this.props.leagueCache[keys[x]]
+			};
+			leagues.push(p);
+		}
 		return (
 			<div className="outer-rows">
 				<TeamData />
@@ -48,6 +62,16 @@ class Transactions extends React.Component<TransactionsProps> {
 						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>
+
+					<div className="leagues-team">
+						My Leagues
+						<div className="league-table">
+							<LeagueTableBody
+								leagues={leagues}
+								setLeagueBeingViewed={() => {}}
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		);

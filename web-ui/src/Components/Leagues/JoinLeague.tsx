@@ -88,7 +88,7 @@ class JoinLeague extends React.Component<
   							className="unselectable"
   							for="codeToJoin"
   						>
-                Code to join league
+                		Code to join league
   						</Label>
   						<Field
   							component="input"
@@ -105,7 +105,7 @@ class JoinLeague extends React.Component<
   					onClick={(e: any) => this._onSubmit(e.target.id)}
   					type="submit"
   				>
-            Join League
+            		Join League
   				</Button>
   			</Form>
   		</div>
