@@ -56,6 +56,11 @@ class Transactions extends React.Component<TransactionsProps> {
 					<Stats />
 				</div>
 				<div className="row-3-squad">
+
+					<div className="leagues-team">
+						Hello
+					</div>
+
 					<Pitch
 						activeWeeklyTeam={this.props.activeTeam}
 						addOrRemovePlayer={() => {}}
