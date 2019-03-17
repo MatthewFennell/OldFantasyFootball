@@ -41,9 +41,43 @@
         // height: 50vh;
     }
 
+    .player-stats-sidebar{
+       margin-left: 2vw;
+
+      hr{
+        width:150%;
+      }
+    }
+
+
+    .player-stats{
+      margin-top: 10vh;
+      width: 20vw;
+      color: white;
+      table{
+        width: 100%;
+        margin-left: 1vw;
+        tbody{
+          tr{
+            width: 100%;
+            line-height: 4vh;
+
+            td.stat-title, td.stat-value{
+              font-size: 16px;
+              text-align: left;
+              width: 50%;
+            }
+            td.stat-value{
+              padding-left: 30px;
+            }
+          }
+        }
+      }
+    }
+
     .leagues-team {
       margin-top: 10vh;
-      width: 15vw;
+      width: 20vw;
       color: white;
       font-size: 18px;  
         .league-table{

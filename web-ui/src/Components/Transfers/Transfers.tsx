@@ -215,6 +215,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 						<Pitch
 							activeWeeklyTeam={activeTeam}
 							addOrRemovePlayer={this.onAddOrRemovePlayer}
+							handleClickOnPlayer={() => {}}
 							removeFromActiveTeam={this.onRemoveFromActiveTeam}
 							transfer
 						/>

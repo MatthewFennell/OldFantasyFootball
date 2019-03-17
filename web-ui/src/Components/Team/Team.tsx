@@ -11,6 +11,10 @@ import Pitch from './PitchLayout/Pitch';
 import TeamData from '../../Containers/Team/TeamData';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from '../Leagues/LeagueTableBody';
+import PlayerStats from './PlayerStats';
+import { getPlayerStatsForWeek } from '../../Services/Player/PlayerService';
+import { PlayerStatsDTO } from './PlayerStatsType';
+import { PlayerPointsDTO } from './PlayerPointsType';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -26,12 +30,61 @@ interface TransactionsProps {
   mostValuable: MostValuable;
 }
 
-class Transactions extends React.Component<TransactionsProps> {
+interface TeamState {
+	playerStatsBeingViewed: PlayerStatsDTO;
+	statsBeingViewed: boolean;
+	playerPointsBeingViewed: PlayerPointsDTO;
+	playerPointsViewed: boolean;
+}
+
+class Transactions extends React.Component<TransactionsProps, TeamState> {
+	constructor (props: TransactionsProps) {
+		super(props);
+		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
+		this.state = {
+			playerStatsBeingViewed: {} as any,
+			statsBeingViewed: false,
+			playerPointsBeingViewed: {} as any,
+			playerPointsViewed: false
+		};
+	}
+
 	componentDidMount () {
 		let header: HTMLElement | null = document.getElementById('header');
 		if (header != null) {
 			header.hidden = false;
 		}
+	}
+
+	handleClickOnPlayer (player: PlayerDTO) {
+		let playerStats: PlayerStatsDTO = {
+			firstName: player.firstName,
+			surname: player.surname,
+			position: player.position,
+			points: player.points,
+			price: player.price,
+			totalGoals: player.totalGoals,
+			totalAssists: player.totalAssists
+		};
+
+		this.setState({ statsBeingViewed: true, playerStatsBeingViewed: playerStats });
+
+		getPlayerStatsForWeek(this.props.weekBeingViewed, player.id).then(response => {
+			let playerPoints :PlayerPointsDTO = {
+				goals: response.goals,
+				assists: response.assists,
+				manOfTheMatch: response.manOfTheMatch ? 'Yes ' : 'No',
+				yellowCards: response.yellowCards,
+				redCard: response.redCard ? 'Yes' : 'No',
+				week: response.week
+
+			};
+			this.setState({ playerPointsBeingViewed: playerPoints, playerPointsViewed: true });
+		})
+			.catch(error => {
+				console.log('failure - ' + error);
+				this.setState({ playerPointsBeingViewed: {} as any, playerPointsViewed: false });
+			});
 	}
 
 	render () {
@@ -57,13 +110,20 @@ class Transactions extends React.Component<TransactionsProps> {
 				</div>
 				<div className="row-3-squad">
 
-					<div className="leagues-team">
-						Hello
+					<div className="player-stats">
+						Player stats
+						<PlayerStats
+							playerPointsBeingViewed={this.state.playerPointsBeingViewed}
+							playerPointsViewed={this.state.playerPointsViewed}
+							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
+							statsBeingViewed={this.state.statsBeingViewed}
+						/>
 					</div>
 
 					<Pitch
 						activeWeeklyTeam={this.props.activeTeam}
 						addOrRemovePlayer={() => {}}
+						handleClickOnPlayer={this.handleClickOnPlayer}
 						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>
