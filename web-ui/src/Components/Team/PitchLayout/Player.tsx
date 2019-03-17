@@ -5,6 +5,7 @@ import { PlayerDTO } from '../../../Models/Interfaces/Player';
 
 interface PlayerProps {
   transfer: boolean;
+  handleClickOnPlayer: (player:PlayerDTO) => void;
   emptyPlayer: boolean;
   player: PlayerDTO;
 
@@ -24,6 +25,8 @@ class Player extends React.Component<PlayerProps, {}> {
 			const { price, id } = this.props.player;
 			this.props.removeFromActiveTeam(id);
 			this.props.addOrRemovePlayer(id, price, this.props.player);
+		} else {
+			this.props.handleClickOnPlayer(this.props.player);
 		}
 	}
 

@@ -17,7 +17,7 @@ const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
 					key="header"
 				>
 					<td className="league-name">League</td>
-					<td className="position">Position</td>
+					<td className="position">Rank</td>
 				</tr>
 				{leagues.map(datum => (
 					<LeagueRow

@@ -5,6 +5,7 @@ import Player from './Player';
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
   addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
+  handleClickOnPlayer: (player:PlayerDTO) => void;
   transfer: boolean;
   removeFromActiveTeam: (id: string) => void;
 }
@@ -37,6 +38,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
+				handleClickOnPlayer={props.handleClickOnPlayer}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
@@ -50,6 +52,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
+				handleClickOnPlayer={props.handleClickOnPlayer}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
@@ -63,6 +66,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
+				handleClickOnPlayer={props.handleClickOnPlayer}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}
@@ -76,6 +80,7 @@ const Pitch: React.SFC<PitchProps> = (props) => {
 			<Player
 				addOrRemovePlayer={props.addOrRemovePlayer}
 				emptyPlayer={false}
+				handleClickOnPlayer={props.handleClickOnPlayer}
 				player={value}
 				removeFromActiveTeam={props.removeFromActiveTeam}
 				transfer={transfer}

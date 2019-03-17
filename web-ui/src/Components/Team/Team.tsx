@@ -11,6 +11,10 @@ import Pitch from './PitchLayout/Pitch';
 import TeamData from '../../Containers/Team/TeamData';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from '../Leagues/LeagueTableBody';
+import PlayerStats from './PlayerStats';
+import { getPlayerStatsForWeek } from '../../Services/Player/PlayerService';
+import { PlayerStatsDTO } from './PlayerStatsType';
+import { PlayerPointsDTO } from './PlayerPointsType';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -24,14 +28,94 @@ interface TransactionsProps {
   weeklyTeamCache: any;
   allCollegeTeams: CollegeTeam[];
   mostValuable: MostValuable;
+  totalNumberOfWeeks: number;
 }
 
-class Transactions extends React.Component<TransactionsProps> {
+interface TeamState {
+	playerStatsBeingViewed: PlayerStatsDTO;
+	statsBeingViewed: boolean;
+	playerPointsBeingViewed: PlayerPointsDTO;
+	playerPointsViewed: boolean;
+	playerSidebar: PlayerDTO;
+	weekBeingViewed: number;
+}
+
+class Transactions extends React.Component<TransactionsProps, TeamState> {
+	constructor (props: TransactionsProps) {
+		super(props);
+		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
+		this.handleWeek = this.handleWeek.bind(this);
+		this.state = {
+			playerStatsBeingViewed: {} as any,
+			statsBeingViewed: false,
+			playerPointsBeingViewed: {} as any,
+			playerPointsViewed: false,
+			playerSidebar: {} as any,
+			weekBeingViewed: this.props.totalNumberOfWeeks
+		};
+	}
+
 	componentDidMount () {
 		let header: HTMLElement | null = document.getElementById('header');
 		if (header != null) {
 			header.hidden = false;
 		}
+	}
+
+	handleWeek (week: number) {
+		this.setState({ weekBeingViewed: week });
+		getPlayerStatsForWeek(week, this.state.playerSidebar.id).then(response => {
+			let playerPoints :PlayerPointsDTO = {
+				goals: response.goals,
+				assists: response.assists,
+				manOfTheMatch: response.manOfTheMatch ? 'Yes ' : 'No',
+				yellowCards: response.yellowCards,
+				redCard: response.redCard ? 'Yes' : 'No',
+				week: response.week
+
+			};
+			this.setState({ playerPointsBeingViewed: playerPoints, playerPointsViewed: true });
+		})
+			.catch(error => {
+				console.log('failure - ' + error);
+				this.setState({ playerPointsBeingViewed: {} as any, playerPointsViewed: false });
+			});
+	}
+
+	handleClickOnPlayer (player: PlayerDTO, week:number = this.props.weekBeingViewed) {
+		if (week === -1) {
+			week = this.props.totalNumberOfWeeks;
+		}
+		console.log('week = ' + week);
+		week === -1 ? this.setState({ weekBeingViewed: this.props.totalNumberOfWeeks }) : this.setState({ weekBeingViewed: week });
+		let playerStats: PlayerStatsDTO = {
+			firstName: player.firstName,
+			surname: player.surname,
+			position: player.position,
+			points: player.points,
+			price: player.price,
+			totalGoals: player.totalGoals,
+			totalAssists: player.totalAssists
+		};
+		this.setState({ playerSidebar: player });
+		this.setState({ statsBeingViewed: true, playerStatsBeingViewed: playerStats });
+
+		getPlayerStatsForWeek(week, player.id).then(response => {
+			let playerPoints :PlayerPointsDTO = {
+				goals: response.goals,
+				assists: response.assists,
+				manOfTheMatch: response.manOfTheMatch ? 'Yes ' : 'No',
+				yellowCards: response.yellowCards,
+				redCard: response.redCard ? 'Yes' : 'No',
+				week: response.week
+
+			};
+			this.setState({ playerPointsBeingViewed: playerPoints, playerPointsViewed: true });
+		})
+			.catch(error => {
+				console.log('failure - ' + error);
+				this.setState({ playerPointsBeingViewed: {} as any, playerPointsViewed: false });
+			});
 	}
 
 	render () {
@@ -56,9 +140,24 @@ class Transactions extends React.Component<TransactionsProps> {
 					<Stats />
 				</div>
 				<div className="row-3-squad">
+
+					<div className="player-stats">
+						Player stats
+						<PlayerStats
+							handleWeek={this.handleWeek}
+							playerPointsBeingViewed={this.state.playerPointsBeingViewed}
+							playerPointsViewed={this.state.playerPointsViewed}
+							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
+							statsBeingViewed={this.state.statsBeingViewed}
+							totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+							weekBeingViewed={this.state.weekBeingViewed}
+						/>
+					</div>
+
 					<Pitch
 						activeWeeklyTeam={this.props.activeTeam}
 						addOrRemovePlayer={() => {}}
+						handleClickOnPlayer={this.handleClickOnPlayer}
 						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>
