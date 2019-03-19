@@ -1,13 +1,42 @@
 .league-info-screen {
+  margin-top: 10vh;
   background-color: #222227;
   padding-left: 0px;
   padding-right: 0px;
+
+  .rankings-wrapper{
+    color: #ffa260;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+      border-image-slice: 1;
+      margin-left: 5vw;
+      margin-right: 5vw;
+      padding-bottom: 5vh;
+  }
+
+  .current-league-name{
+    text-align: center;
+    font-size: 30px;
+  }
+
+  .league-rankings-table{
+    margin-top: 2vh;
+  }
+
   tbody.league-rankings {
     background-color: #222227;
     color: red;
     text-align: center;
+
+    tr.rankings{
+      td.user-name, td.points, td.position{
+        color: rgb(197, 197, 21);
+      }
+    }
+
     tr {
       width: 100%;
+      font-size: 20px;
       td {
         width: 30vw;
         color: white;

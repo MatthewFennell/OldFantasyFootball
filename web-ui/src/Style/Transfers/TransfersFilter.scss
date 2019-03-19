@@ -6,6 +6,7 @@ div.transfers-table {
         td{
             width: 10%;
             color: rgb(197, 197, 21);
+            cursor: pointer;
         }
           text-align: center;
         td:hover{
@@ -13,6 +14,7 @@ div.transfers-table {
         }
       }
       tr.transfers{
+        cursor: pointer;
         td{
           width: 10%;
           color: white;

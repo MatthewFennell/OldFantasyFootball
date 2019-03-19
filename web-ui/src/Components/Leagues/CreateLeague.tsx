@@ -30,6 +30,7 @@ class CreateLeagueClass extends React.Component<
 			leagueCode: ''
 		};
 		this._onSubmit = this._onSubmit.bind(this);
+		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 	}
 
 	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
@@ -121,15 +122,17 @@ class CreateLeagueClass extends React.Component<
   				>
             Create League
   				</Button>
-  			</Form>
-  			{leagueCode.length > 0 ? (
-  				<div className="error-message">
-            League created : {leagueName}. The code to join is {leagueCode}
+
+				  {leagueCode.length > 0 ? (
+  				<div className="league-code-join-message">
+  							<p>League created : {leagueName}.</p> <p>The code to join is {leagueCode}</p>
   				</div>
   			) : null}
   			{error.length > 0 ? (
   				<div className="error-message-animation">Error : {error} </div>
   			) : null}
+  			</Form>
+
   		</div>
 		  </Col>
   	);

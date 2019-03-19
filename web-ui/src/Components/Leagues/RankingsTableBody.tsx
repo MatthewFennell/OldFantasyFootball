@@ -8,6 +8,7 @@ interface RankingsTableBodyProps {
 	code: string;
 	isAdmin: boolean;
   leagueRankings: UserLeaguePosition[];
+  leagueBeingViewed: string;
 }
 
 const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
@@ -19,28 +20,35 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 			md={6}
 			xs={6}
 		>
-			{props.isAdmin ? (
-				<div>You are the admin of this league. The code for joining is {props.code} </div>
-			) : (
-				<div>The admin of this league is {props.code} </div>
-			)}
-			<tbody className="league-rankings">
-				<tr
-					className="rankings"
-					key="header"
-				>
-					<td className="user-name">Name</td>
-					<td className="points">Points</td>
-					<td className="position">Position</td>
-				</tr>
-				{leagueRankings.map(datum => (
-					<RankingsRow
-						element={datum}
-						handleRowClick={() => {}}
-						key={datum.position}
-					/>
-				))}
-			</tbody>
+			<div className="rankings-wrapper">
+				{/* {props.isAdmin ? (
+					<div>You are the admin of this league. The code for joining is {props.code} </div>
+				) : (
+					<div>The admin of this league is {props.code} </div>
+				)} */}
+				<div className="current-league-name">
+					League: { props.leagueBeingViewed}
+				</div>
+				<table className="league-rankings-table">
+					<tbody className="league-rankings">
+						<tr
+							className="rankings"
+							key="header"
+						>
+							<td className="user-name">Name</td>
+							<td className="points">Points</td>
+							<td className="position">Position</td>
+						</tr>
+						{leagueRankings.map(datum => (
+							<RankingsRow
+								element={datum}
+								handleRowClick={() => {}}
+								key={datum.position}
+							/>
+						))}
+					</tbody>
+				</table>
+			</div>
 		</Col>
 	);
 };
