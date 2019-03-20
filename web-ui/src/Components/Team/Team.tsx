@@ -44,7 +44,7 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 	constructor (props: TransactionsProps) {
 		super(props);
 		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
-		this.handleWeek = this.handleWeek.bind(this);
+		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -62,7 +62,7 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 		}
 	}
 
-	handleWeek (week: number) {
+	onHandleWeek (week: number) {
 		this.setState({ weekBeingViewed: week });
 		getPlayerStatsForWeek(week, this.state.playerSidebar.id).then(response => {
 			let playerPoints :PlayerPointsDTO = {
@@ -86,7 +86,6 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 		if (week === -1) {
 			week = this.props.totalNumberOfWeeks;
 		}
-		console.log('week = ' + week);
 		week === -1 ? this.setState({ weekBeingViewed: this.props.totalNumberOfWeeks }) : this.setState({ weekBeingViewed: week });
 		let playerStats: PlayerStatsDTO = {
 			firstName: player.firstName,
@@ -144,7 +143,7 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 					<div className="player-stats">
 						Player stats
 						<PlayerStats
-							handleWeek={this.handleWeek}
+							handleWeek={this.onHandleWeek}
 							playerPointsBeingViewed={this.state.playerPointsBeingViewed}
 							playerPointsViewed={this.state.playerPointsViewed}
 							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
