@@ -125,8 +125,10 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 						</table>
 
 						<div className="no-stats-message">
-					No stats for {this.props.playerStatsBeingViewed.firstName}{' '}
-							{this.props.playerStatsBeingViewed.surname} in week {this.props.weekBeingViewed}
+
+							{!this.props.playerPointsViewed ? (<div>No stats for {this.props.playerStatsBeingViewed.firstName}{' '}
+								{this.props.playerStatsBeingViewed.surname} in week {this.props.weekBeingViewed} </div>) : (<div />)}
+
 						</div>
 
 					</div>

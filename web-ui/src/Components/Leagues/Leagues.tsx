@@ -84,13 +84,13 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		}
 
 		const offSet = this.props.leaguePageBeingViewed === 'home' ? 0 : 0;
-		const width = this.props.leaguePageBeingViewed === 'home' ? 12 : 6;
+		const width = this.props.leaguePageBeingViewed === 'home' ? 6 : 6;
 
 		return (
 			<Container>
 				<Row>
 					<Col
-						className="huh"
+						className="my-leagues-column-one"
 						lg={width}
 						lgOffset={offSet}
 						md={width}
@@ -147,6 +147,7 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 								? <RankingsTableBody
 									code={this.state.code}
 									isAdmin={this.state.isAdmin}
+									leagueBeingViewed={this.props.leaguePageBeingViewed}
 									leagueRankings={this.props.leagueRankings}
 								  />
 								: null}

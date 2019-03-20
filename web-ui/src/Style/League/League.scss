@@ -6,9 +6,14 @@
   width: 100%;
 }
 
+.my-leagues-column-one{
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
 .outer-league-rows>div {
   // background-color: #f1f1f1;
-  margin: 10px; // line-height: 75px;
+  // margin: 10px; // line-height: 75px;
   font-size: 30px;
 }
 
@@ -28,17 +33,25 @@
 }
 
 div.league-table {
+  margin-top: 2vh;
+  table.my-active-leagues-table{
+    width: 100%;
+  }
   tbody.my-active-leagues {
     width: 100%;
     tr.league {
+      
+      cursor: pointer;
       td.league-name {
         color: white;
-        width: 70%;
+        // width: 70%;
+        width: 50%;
       }
       td.position {
-        margin-left: 30px;
+        // margin-left: 30px;
         color: white;
-        width: 100%;
+        width: 50%;
+        // width: 100%;
         text-align: center;
       }
     }
@@ -79,11 +92,15 @@ tr.league:hover {
 }
 
 .my-leagues{
+  margin-left: 5vw;
+  margin-right: 5vw;
+  padding-bottom: 5vh;
+  text-align: center;
   color: #ffa260;
-          border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
-          border-image-slice: 1;
-          background-color: #222227;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image-slice: 1;
+  background-color: #222227;
 }
 
 .huh, .container{

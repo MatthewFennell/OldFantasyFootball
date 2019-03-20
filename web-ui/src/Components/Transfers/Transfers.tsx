@@ -54,27 +54,30 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	addToPlayerBeingRemoved (player: PlayerDTO) {
-		let playersToRemove = this.state.playersToRemove.concat(player);
-		this.setState({ playersToRemove });
+		this.setState(prevState => ({
+			playersToRemove: prevState.playersToRemove.concat(player)
+		}));
 	}
 
 	addToPlayerBeingAdded (player: PlayerDTO) {
-		let playersToAdd = this.state.playersToAdd.concat(player);
-		this.setState({ playersToAdd });
+		this.setState(prevState => ({
+			playersToAdd: prevState.playersToAdd.concat(player)
+		}));
 	}
 
 	removeFromPlayersBeingAdded (indexToRemove: number) {
-		let playersToAdd = this.state.playersToAdd.filter(
-			(item, index) => indexToRemove !== index
-		);
-		this.setState({ playersToAdd });
+		this.setState(prevState => ({
+			playersToAdd: prevState.playersToAdd.filter(
+				(item, index) => indexToRemove !== index)
+		}));
 	}
 
 	removeFromPlayersBeingRemoved (indexToRemove: number) {
-		let playersToRemove = this.state.playersToRemove.filter(
-			(item, index) => indexToRemove !== index
-		);
-		this.setState({ playersToRemove });
+		this.setState(prevState => ({
+			playersToRemove: prevState.playersToRemove.filter(
+				(item, index) => indexToRemove !== index
+			)
+		}));
 	}
 
 	canAdd (player: PlayerDTO): boolean {
@@ -158,7 +161,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			});
 	}
 
-	handleRowClick = (element: PlayerDTO) => {
+	onRowClick = (element: PlayerDTO) => {
 		const { addPlayer, setRemainingBudget, remainingBudget } = this.props;
 		if (this.canAdd(element)) {
 			addPlayer(element);
@@ -229,7 +232,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 						<div>
 							<div className="transfers-table">
 								<TransfersTableBody
-									handleRowClick={this.handleRowClick}
+									handleRowClick={this.onRowClick}
 								/>
 							</div>
 						</div>
