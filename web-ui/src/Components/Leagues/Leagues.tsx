@@ -2,7 +2,8 @@ import * as React from 'react';
 import '../../Style/League/League.css';
 import {
 	getPositionsOfUsersInLeague,
-	getLeagueAdmin
+	getLeagueAdmin,
+	getLeaguesAndPositions
 } from '../../Services/League/LeagueService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
@@ -42,6 +43,16 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	}
 
 	componentDidMount () {
+		getLeaguesAndPositions().then(leagueAndPositionsArray => {
+			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
+				if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
+					this.props.addToLeagueCache(
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position
+					);
+				}
+			}
+		});
 	}
 
 	_setLeagueBeingViewed (leagueToView: string) {
