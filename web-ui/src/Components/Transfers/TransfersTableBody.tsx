@@ -194,62 +194,68 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 	render () {
 		const { filteredPlayers } = this.props;
 		return (
-			<tbody className="my-active-transfers">
-				<tr
-					className="transfers-header"
-					key="header"
-				>
-					<td
-						className="name"
-						onClick={this.handleSortByName}
-					>
-						{'Name'}
-					</td>
-					<td
-						className="position"
-						onClick={this.handleSortByPosition}
-					>
-						{'Position'}
-					</td>
-					<td
-						className="team"
-						onClick={this.handleSortByTeamName}
-					>
-						{'Team'}
-					</td>
-					<td
-						className="price"
-						onClick={this.handleSortByPrice}
-					>
-						{'Price'}
-					</td>
-					<td
-						className="goals"
-						onClick={this.handleSortByGoals}
-					>
-						{'Total Goals'}
-					</td>
-					<td
-						className="assists"
-						onClick={this.handleSortByAssists}
-					>
-						{'Total Assists'}
-					</td>
-					<td
-						className="score"
-						onClick={this.handleSortByTotalScore}
-					>
-						{'Total Score'}{' '}
-					</td>
-				</tr>
-				{filteredPlayers.map(datum => (
-					<TransfersRow
-						element={datum}
-						handleRowClick={this.props.handleRowClick}
-						key={datum.firstName + datum.surname}
-					/>
-				))}
-			</tbody>
+			<div>
+				<table>
+					<thead>
+						<tr
+							className="transfers-header"
+							key="header"
+						>
+							<td
+								className="name"
+								onClick={this.handleSortByName}
+							>
+								{'Name'}
+							</td>
+							<td
+								className="position"
+								onClick={this.handleSortByPosition}
+							>
+								{'Position'}
+							</td>
+							<td
+								className="team"
+								onClick={this.handleSortByTeamName}
+							>
+								{'Team'}
+							</td>
+							<td
+								className="price"
+								onClick={this.handleSortByPrice}
+							>
+								{'Price'}
+							</td>
+							<td
+								className="goals"
+								onClick={this.handleSortByGoals}
+							>
+								{'Goals'}
+							</td>
+							<td
+								className="assists"
+								onClick={this.handleSortByAssists}
+							>
+								{'Assists'}
+							</td>
+							<td
+								className="score"
+								onClick={this.handleSortByTotalScore}
+							>
+								{'Score'}{' '}
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						{filteredPlayers.map(datum => (
+							<TransfersRow
+								element={datum}
+								handleRowClick={this.props.handleRowClick}
+								key={datum.firstName + datum.surname}
+							/>
+						))}
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 }
