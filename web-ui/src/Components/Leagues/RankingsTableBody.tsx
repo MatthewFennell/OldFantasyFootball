@@ -29,8 +29,8 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 				<div className="current-league-name">
 					League: { props.leagueBeingViewed}
 				</div>
-				<table className="league-rankings-table">
-					<tbody className="league-rankings">
+				<table className="my-active-leagues-table">
+					<thead>
 						<tr
 							className="rankings"
 							key="header"
@@ -39,6 +39,8 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 							<td className="points">Points</td>
 							<td className="position">Position</td>
 						</tr>
+					</thead>
+					<tbody className="my-active-leagues">
 						{leagueRankings.map(datum => (
 							<RankingsRow
 								element={datum}

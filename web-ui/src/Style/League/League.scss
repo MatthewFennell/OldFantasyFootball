@@ -32,33 +32,57 @@
   font-size: 30px;
 }
 
+
+
 div.league-table {
+
+
+
+  table{
+    width: 100%;
+  }
+
+  tbody {
+    display: block; /* to enable vertical scrolling */
+    max-height: 150px; /* e.g. */
+    overflow-y: auto; /* keeps the scrollbar even if it doesn't need it; display purpose */
+    ::-webkit-scrollbar {
+      display: inline-table;
+    }
+  }
+  
+  th, td {
+    // width: 100%; /* to enable "word-break: break-all" */
+    padding: 5px;
+    word-break: break-all; /* 4. */
+  }
+  
+  tr {
+    display: table; /* display purpose; th's border */
+    width: 100%;
+    box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+  }
+  
+  td {
+    text-align: center;
+    border-bottom: none;
+    border-left: none;
+    font-size: 16px;
+    width: 50%;
+  }
+
+
+  tr.league-header{
+    color: rgb(197, 197, 21);
+  }
+
+
   margin-top: 2vh;
   table.my-active-leagues-table{
     width: 100%;
   }
-  tbody.my-active-leagues {
-    width: 100%;
-    tr.league {
-      
-      cursor: pointer;
-      td.league-name {
-        color: white;
-        // width: 70%;
-        width: 50%;
-      }
-      td.position {
-        // margin-left: 30px;
-        color: white;
-        width: 50%;
-        // width: 100%;
-        text-align: center;
-      }
-    }
-    tr.league-header{
-      color: rgb(197, 197, 21);
-    }
-  }
+
+  
 }
 
 #btnCreateLeague, #btnJoinLeague {
@@ -101,6 +125,7 @@ tr.league:hover {
   border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
   border-image-slice: 1;
   background-color: #222227;
+  padding-right: 30px;
 }
 
 .huh, .container{
