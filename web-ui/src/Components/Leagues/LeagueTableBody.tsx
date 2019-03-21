@@ -11,7 +11,7 @@ const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
 	const { leagues, setLeagueBeingViewed } = props;
 	return (
 		<table className="my-active-leagues-table">
-			<tbody className="my-active-leagues">
+			<thead>
 				<tr
 					className="league-header"
 					key="header"
@@ -19,6 +19,8 @@ const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
 					<td className="league-name">League</td>
 					<td className="position">Rank</td>
 				</tr>
+			</thead>
+			<tbody className="my-active-leagues">
 				{leagues.map(datum => (
 					<LeagueRow
 						element={datum}
