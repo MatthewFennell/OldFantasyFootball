@@ -1,26 +1,76 @@
 div.transfers-table {
-    tbody.my-active-transfers {
-      width: 100%;
-      font-size: 24px;
-      tr.transfers-header {
+
+  
+  table{
+    width: 100%;
+  }
+
+  tbody {
+    display: block; /* to enable vertical scrolling */
+    max-height: 450px; /* e.g. */
+    overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
+    ::-webkit-scrollbar {
+      display: inline-table;
+    }
+  }
+  
+  th, td {
+    width: 100%; /* to enable "word-break: break-all" */
+    padding: 5px;
+    word-break: break-all; /* 4. */
+  }
+  
+  tr {
+    display: table; /* display purpose; th's border */
+    width: 100%;
+    box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+  }
+  
+  td {
+    text-align: center;
+    border-bottom: none;
+    border-left: none;
+    font-size: 16px;
+  }
+
+  tr.transfers-header {
         td{
             width: 10%;
             color: rgb(197, 197, 21);
             cursor: pointer;
         }
-          text-align: center;
-        td:hover{
-          color: yellow;
-        }
       }
-      tr.transfers{
+
+    tr.transfers{
         cursor: pointer;
         td{
           width: 10%;
           color: white;
       }
-      }
     }
+
+    // tbody.my-active-transfers {
+    //   width: 100%;
+    //   font-size: 24px;
+    //   tr.transfers-header {
+    //     td{
+    //         width: 10%;
+    //         color: rgb(197, 197, 21);
+    //         cursor: pointer;
+    //     }
+    //       text-align: center;
+    //     td:hover{
+    //       color: yellow;
+    //     }
+    //   }
+    //   tr.transfers{
+    //     cursor: pointer;
+    //     td{
+    //       width: 10%;
+    //       color: white;
+    //   }
+    //   }
+    // }
   }
   
   #customer-container {
@@ -32,3 +82,10 @@ div.transfers-table {
       color: #ffa260 !important;
     }
   }
+
+  
+  // ::-webkit-scrollbar-thumb {
+  //   border-radius: 5px;
+  //   background-color: blue;
+  //   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+  // }
