@@ -141,7 +141,6 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 				<div className="row-3-squad">
 
 					<div className="player-stats">
-						Player stats
 						<PlayerStats
 							handleWeek={this.onHandleWeek}
 							playerPointsBeingViewed={this.state.playerPointsBeingViewed}
@@ -162,7 +161,6 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 					/>
 
 					<div className="leagues-team">
-						My Leagues
 						<div className="league-table">
 							<LeagueTableBody
 								leagues={leagues}

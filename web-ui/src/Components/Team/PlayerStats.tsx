@@ -118,7 +118,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 				className="player-stats-sidebar"
 			>
 				{this.props.statsBeingViewed ? (
-					<div>
+					<div className="stats-wrapper">
 
 						<table>
 							<tbody> {totalStats} </tbody>

@@ -194,7 +194,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 	render () {
 		const { filteredPlayers } = this.props;
 		return (
-			<div>
+			<div className="transfers-table-wrapper">
 				<table>
 					<thead>
 						<tr

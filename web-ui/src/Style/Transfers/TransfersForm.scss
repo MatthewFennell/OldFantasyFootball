@@ -4,19 +4,20 @@ div.transfer-filter-rows {
   // background-color: green;
   .transfer-form-row-one {
     display: flex;
-    background-color: #222227;
+    background-color: # ;
     justify-content: center;
   }
   .transfer-form-row-one>div {
     // background-color: green;
     margin: 10px;
     padding: 20px;
-    font-size: 30px;
+    font-size: 18px;
     width: 100%;
     color: #ffa260;
     border: 3px solid;
     border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
     border-image-slice: 1;
+
   }
   .transfer-form-row-two {
     display: flex;
@@ -30,7 +31,7 @@ div.transfer-filter-rows {
     border-image-slice: 1;
     margin: 10px;
     padding: 20px;
-    font-size: 30px;
+    font-size: 18px;
     width: 100%;
   }
 }
