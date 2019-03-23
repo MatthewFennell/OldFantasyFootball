@@ -1,5 +1,17 @@
+.transfers-table-wrapper{
+  color: #ffa260;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image-slice: 1;
+  background-color: #3c3c44;
+  margin-top: 3vh;
+}
+
+
+
 div.transfers-table {
   padding-right: 30px;
+  // padding-bottom: 30px;
   table{
     width: 100%;
   }
@@ -40,12 +52,16 @@ div.transfers-table {
         }
       }
 
-    tr.transfers{
+    tr.transfers-even, tr.transfers-odd{
         cursor: pointer;
         td{
           width: 10%;
           color: white;
       }
+    }
+
+    tr.transfers-even{
+      background-color: #49494d;
     }
 
     // tbody.my-active-transfers {
@@ -76,7 +92,7 @@ div.transfers-table {
     margin-top: 0px;
   }
   
-  tr.transfers:hover {
+  tr.transfers-even:hover, tr.transfers-even:hover {
     td {
       color: #ffa260 !important;
     }

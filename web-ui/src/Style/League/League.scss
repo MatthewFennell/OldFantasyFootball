@@ -77,12 +77,14 @@ margin-right: 2vw;
   }
 
 
-  table.my-active-leagues-table{
-    width: 100%;
-  }
+
 
   tbody.my-active-leagues{
     cursor: pointer;
+
+    tr.league-even{
+      background-color: #49494d;
+    }
   }
 
   
@@ -127,7 +129,7 @@ tr.league:hover {
   border: 3px solid;
   border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
   border-image-slice: 1;
-  background-color: #222227;
+  background-color: #3c3c44;
   padding-right: 30px;
 }
 

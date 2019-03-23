@@ -1,9 +1,8 @@
 #create-league-form {
   height: 70vh;
-  background-color: #222227;
+  background-color: #3c3c44;
   margin-left: 10%;
   margin-right: 10%;
-  margin-top: 10%;
   color: #ffa260;
       border: 3px solid;
       border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
@@ -32,6 +31,7 @@
     font-weight: bold; // padding: 13px 16px;
     background-color: #222227;
     padding: 13px 16px;
+    margin-top: 5vh;
     border: 2px solid;
     &:focus {
       outline: none;

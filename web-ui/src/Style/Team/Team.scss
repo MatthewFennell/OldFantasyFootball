@@ -82,7 +82,6 @@
         text-align: left;
         font-size: 16px;
         line-height: 30px;
-        margin-left: 1vw;
       }
 
 
@@ -150,12 +149,12 @@
       color: white;
       font-size: 18px;  
         .league-table{
-
+          padding-right: 15px;
           color: #ffa260;
           border: 3px solid;
           border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
           border-image-slice: 1;
-          padding: 15px;
+          // padding: 15px;
           background-color: #222227;
 
 
@@ -169,30 +168,37 @@
           width: 100%;         
           
         tbody.my-active-leagues{
-          cursor: pointer;
+          
           min-height: 200px;
           max-height: 250px;
         }
 
           td.league-name{
-            width: 60%;
+            width: 50%;
+            padding-left: 10px;
             text-align: left;
           }
           td.position{
-            width: 40%;
+            width: 50%;
           }
 
           tr.league-header{
             line-height: 6vh;
-            font-size: 24px;
-            
+            font-size: 24px;            
           }
 
-          tr.league{
+          tr.league-even{
+            background-color: #333336;
+          }
+
+          tr.league-odd, tr.league-even{
             line-height: 4vh;
-            
+            // margin-left: 10px;
             td.league-name, td.position{
               font-size: 18px;
+            }
+            td.league-name{
+              // cursor: pointer;
             }
           }
 
