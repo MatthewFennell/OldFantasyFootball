@@ -1,95 +1,88 @@
 .outer-admin-columns {
-    display: flex;
-    background-color: #222227;
-    justify-content: center;
-    div.left-rows {
+  display: flex;
+  background-color: #222227;
+  justify-content: center;
+  div.left-rows {
       display: flex;
       flex-direction: column;
       background-color: #222227;
       .admin-info-row {
-        display: flex;
-        justify-content: center;
-      }
-      
-    }
-    .div.left-rows>div {
+          display: flex;
+          justify-content: center;
+     }
+ }
+  .div.left-rows>div {
       background-color: #f1f1f1;
       width: 100px;
       margin: 10px;
       text-align: center;
       line-height: 75px;
       font-size: 30px;
-    }
-  }
-  
-  .outer-admin-columns>div {
-    background-color: #f1f1f1;
-    margin: 10px;
-    padding: 20px;
-    font-size: 30px;
-    width: 100%;
-    text-align: center;
-  }
-
-
-.raise:hover, 
-.raise:focus {
+ }
+}
+.outer-admin-columns>div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+  width: 100%;
+  text-align: center;
+}
+.raise:hover, .raise:focus {
   cursor: pointer;
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
 }
-
-.offset {  
-  box-shadow: 
-    0.3em 0.3em 0 0 var(--color),
-    inset 0.3em 0.3em 0 0 var(--color);
-  
-  &:hover,
-  &:focus {
-    box-shadow: 
-      0 0 0 0 var(--hover),
-      inset 6em 3.5em 0 0 var(--hover);
-  }
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  &:hover, &:focus {
+      box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+ }
 }
-
-$colors: (
-  raise: #ffa260, 
-);
-
+$colors: ( raise: #ffa260, );
 @each $button, $color in $colors {
-  .#{$button} {
-    --color: #{$color};
-    --hover: #{adjust-hue($color, 45deg)};
-  }
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
 }
-
-div.raise {  
+div.raise {
   color: var(--color);
   transition: 0.25s;
-  
-  &:hover,
-  &:focus { 
-    border-color: var(--hover);
-    color: #fff;
-  }
-
-    background: none;
-    border: 2px solid;
-    font: inherit;
-    line-height: 1;
-    margin: 0.5em;
-    padding: 1em;
+  &:hover, &:focus {
+      border-color: var(--hover);
+      color: #fff;
+ }
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
 }
-
-div.raise-selected{ 
-  
-    border: 2px solid;
-    font: inherit;
-    line-height: 1;
-    margin: 0.5em;
-    padding: 1em;
-  border-color: #{adjust-hue(#ffa260, 45deg)};
-    color: #fff;
+div.raise-selected{
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue(#ffa260, 45deg)
+ }
+ ;
+  color: #fff;
   transform: translateY(-0.25em);
-  box-shadow: 0 0.5em 0.5em -0.4em #{adjust-hue(#ffa260, 45deg)};
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue(#ffa260, 45deg)
+ }
+ ;
 }

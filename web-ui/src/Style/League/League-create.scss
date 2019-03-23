@@ -4,45 +4,40 @@
   margin-left: 10%;
   margin-right: 10%;
   color: #ffa260;
-      border: 3px solid;
-      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
-      border-image-slice: 1;
-  h1,
-  label,
-  input,
-  button,
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image-slice: 1;
+  h1, label, input, button, h1#greeting {
+      color: #ffa260;
+      width: 80%;
+      margin-left: 10%;
+      font-size: 24px;
+ }
   h1#greeting {
-    color: #ffa260; // font-weight: bold; // text-align: center;
-    width: 80%;
-    margin-left: 10%;
-    font-size: 24px;
-  }
-  h1#greeting {
-    color: rgb(216, 216, 32);
-    padding-top: 100px;
-  }
+      color: rgb(216, 216, 32);
+      padding-top: 100px;
+ }
   #btnCreateLeague {
-    color: #ffa260;
-    display: table;
-    margin: auto;
-    border-radius: 35px;
-    border-color: #e07c34 !important;
-    width: 40%;
-    font-weight: bold; // padding: 13px 16px;
-    background-color: #222227;
-    padding: 13px 16px;
-    margin-top: 5vh;
-    border: 2px solid;
-    &:focus {
-      outline: none;
-    }
-    &:hover {
-      color: rgb(209, 209, 27);
-      outline: none;
-    }
-  }
+      color: #ffa260;
+      display: table;
+      margin: auto;
+      border-radius: 35px;
+      border-color: #e07c34 !important;
+      width: 40%;
+      font-weight: bold;
+      background-color: #222227;
+      padding: 13px 16px;
+      margin-top: 5vh;
+      border: 2px solid;
+      &:focus {
+          outline: none;
+     }
+      &:hover {
+          color: rgb(209, 209, 27);
+          outline: none;
+     }
+ }
 }
-
 .league-code-join-message{
   margin-top: 5vh;
   text-align: center;
