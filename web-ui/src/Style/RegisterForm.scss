@@ -32,7 +32,16 @@ div#register-input-fields>div {
 
 .position-relative.form-group {
   margin-left: 7px;
-  margin-right: 7px;
+  margin-right: 7px;  
+}
+
+#register-input-fields{
+  div.surname, div.email{
+    margin-bottom: 20px;
+  }
+  div.username{
+    margin-bottom: 40px;
+  }
 }
 
 div#register-input-fields>div>input#email {

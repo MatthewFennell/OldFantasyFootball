@@ -10,7 +10,7 @@ div>form#login-form {
     }
     &>button {
         &#btnLogin {
-            margin-top: 16.83px;
+            margin-top: 30px;
             margin-bottom: 25px;
         }
         &.second {
@@ -20,6 +20,11 @@ div>form#login-form {
             color: $color-primary-turquoise;
             border-color: $color-primary-turquoise;
             background-color: $color-white;
+        }
+    }
+    .position-relative{
+        input#username{
+            margin-bottom: 20px;
         }
     }
 }
