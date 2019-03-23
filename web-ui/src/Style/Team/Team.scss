@@ -1,229 +1,166 @@
 .outer-rows {
-    display: flex;
-    flex-direction: column;
-    // height: 100vh;
-    // background-color: #222227;
-    // background-image: url("./Abstract_Blue.jpg");
-      // background-size: 100% 100%; // height: 50vh;
-
-    .row-1-info {
-      // background-image: url("./Abstract_Blue.jpg");
-      // background-size: 100% 100%; // height: 50vh;
-        // background-color: #222227;
-        flex-grow: 1;
-        // height: 100%;
-        .total-points, .week-points, .dropdown{
+  display: flex;
+  flex-direction: column;
+  .row-1-info {
+      flex-grow: 1;
+      .total-points, .week-points, .dropdown{
           color: #ffa260;
           border: 3px solid;
           border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
           border-image-slice: 1;
           background-color: #222227;
-        }
-    }
-
-    .row-2-stats{
-      // background-image: url("./Abstract_Blue.jpg");
-      // background-size: 100% 100%; // height: 50vh;
-        // background-color: #222227;
-        flex-grow: 1;
-
-        .average-points, .player-most-points, .user-most-points{
+     }
+ }
+  .row-2-stats{
+      flex-grow: 1;
+      .average-points, .player-most-points, .user-most-points{
           color: #ffa260;
           border: 3px solid;
           border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
           border-image-slice: 1;
           background-color: #222227;
-
-        }
-
-    }
-
-    .row-3-squad{
-        display: flex;
-        background-color: #3c3c44;
-        flex-grow: 10;
-        // height: 100%;
-        // height: 50vh;
-    }
-
-    .player-stats-sidebar{
-      //  margin-left: 2vw;
-
+     }
+ }
+  .row-3-squad{
+      display: flex;
+      background-color: #3c3c44;
+      flex-grow: 10;
+ }
+  .player-stats-sidebar{
       .stats-wrapper{
-        color: #ffa260;
-        border: 3px solid;
-        border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
-        border-image-slice: 1;
-        padding: 15px;  
-        background-color: #222227;
-        margin-left: 1vw;
-        margin-right: 1vw;
-      }
-
-
-       .sidebar-stats-menu-toggle {
-        color: #ffa260; // Color of the small triangle to generate the dropdown
-        outline: 0;
-        align-content: center;
-        padding: 0px;
-        margin: 0px;
-        background: #222227;
-      }
-
+          color: #ffa260;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image-slice: 1;
+          padding: 15px;
+          background-color: #222227;
+          margin-left: 1vw;
+          margin-right: 1vw;
+     }
+      .sidebar-stats-menu-toggle {
+          color: #ffa260;
+          align-content: center;
+          padding: 0px;
+          margin: 0px;
+          background: #222227;
+     }
       div.week-menu{
-        margin: 0px;
-      }
-      
+          margin: 0px;
+     }
       .sidebar-stats-menu-toggle:focus {
-        color: #ffa260;
-      }
-
+          color: #ffa260;
+     }
       .no-stats-message{
-        text-align: left;
-        font-size: 16px;
-        line-height: 30px;
-      }
-
-
+          text-align: left;
+          font-size: 16px;
+          line-height: 30px;
+     }
       hr{
-        width:150%;
-      }
-
+          width:150%;
+     }
       .no-stats-message, .click-player-message{
-        font-size: 16px;
-        
-      }
-
+          font-size: 16px;
+     }
       .click-player-message{
-        color: #ffa260;
-        border: 3px solid;
-        border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
-        border-image-slice: 1;
-        padding: 15px;
-        background-color: #222227;
-        margin-left: 1vw;
-        margin-right: 1vw;
-        line-height: 40px;
-      }
-
-    }
-
-
-    .player-stats{
-      
+          color: #ffa260;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image-slice: 1;
+          padding: 15px;
+          background-color: #222227;
+          margin-left: 1vw;
+          margin-right: 1vw;
+          line-height: 40px;
+     }
+ }
+  .player-stats{
       margin-top: 10vh;
       width: 20vw;
       color: white;
       table{
-        width: 100%;
-        tbody{
-          tr{
-            width: 100%;
-            line-height: 4vh;
-
-            td.stat-title, td.stat-value{
-              font-size: 16px;
-              text-align: left;
-              width: 50%;
-            }
-            td.stat-value{
-              padding-left: 30px;
-              color: #ffa260;
-            }
-            td.stat-title{
-              color: rgb(209, 209, 27);
-            }
-            td.stat-title-no-wrap{
-              font-size: 14px;
-              text-align: left;
-              // white-space: nowrap;
-            }
-          }
-        }
-      }
-    }
-
-    .leagues-team {
+          width: 100%;
+          tbody{
+              tr{
+                  width: 100%;
+                  line-height: 4vh;
+                  td.stat-title, td.stat-value{
+                      font-size: 16px;
+                      text-align: left;
+                      width: 50%;
+                 }
+                  td.stat-value{
+                      padding-left: 30px;
+                      color: #ffa260;
+                 }
+                  td.stat-title{
+                      color: rgb(209, 209, 27);
+                 }
+                  td.stat-title-no-wrap{
+                      font-size: 14px;
+                      text-align: left;
+                 }
+             }
+         }
+     }
+ }
+  .leagues-team {
       margin-top: 10vh;
       width: 20vw;
       color: white;
-      font-size: 18px;  
-        .league-table{
+      font-size: 18px;
+      .league-table{
           padding-right: 15px;
           color: #ffa260;
           border: 3px solid;
           border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
           border-image-slice: 1;
-          // padding: 15px;
           background-color: #222227;
-
-
-
-          // margin-left: 100px;
-          // margin-right: 100px;
           margin-left: 2vw;
-          // margin-right: 5vw;
-
-        .my-active-leagues-table{
-          width: 100%;         
-          
-        tbody.my-active-leagues{
-          
-          min-height: 200px;
-          max-height: 250px;
-        }
-
-          td.league-name{
-            width: 50%;
-            padding-left: 10px;
-            text-align: left;
-          }
-          td.position{
-            width: 50%;
-          }
-
-          tr.league-header{
-            line-height: 6vh;
-            font-size: 24px;            
-          }
-
-          tr.league-even{
-            background-color: #333336;
-          }
-
-          tr.league-odd, tr.league-even{
-            line-height: 4vh;
-            // margin-left: 10px;
-            td.league-name, td.position{
-              font-size: 18px;
-            }
-            td.league-name{
-              // cursor: pointer;
-            }
-          }
-
-        }
-      }
-    }
-  }
-  
-  .outer-rows > div {
-    width: 100%;
-    // margin: 10px;
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;       
-  }
-
-  .testing-animation {
-    animation: pulse 5s infinite;
-  }
-  
-  @keyframes pulse {
-    0% {
+          .my-active-leagues-table{
+              width: 100%;
+              tbody.my-active-leagues{
+                  min-height: 200px;
+                  max-height: 250px;
+             }
+              td.league-name{
+                  width: 50%;
+                  padding-left: 10px;
+                  text-align: left;
+             }
+              td.position{
+                  width: 50%;
+             }
+              tr.league-header{
+                  line-height: 6vh;
+                  font-size: 24px;
+             }
+              tr.league-even{
+                  background-color: #333336;
+             }
+              tr.league-odd, tr.league-even{
+                  line-height: 4vh;
+                  td.league-name, td.position{
+                      font-size: 18px;
+                 }
+             }
+         }
+     }
+ }
+}
+.outer-rows > div {
+  width: 100%;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+.testing-animation {
+  animation: pulse 5s infinite;
+}
+@keyframes pulse {
+  0% {
       background-color: white;
-    }
-    100% {
+ }
+  100% {
       background-color: green;
-    }
-  }
+ }
+}

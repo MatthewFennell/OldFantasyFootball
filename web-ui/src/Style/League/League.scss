@@ -5,91 +5,65 @@
   background-color: #222227;
   width: 100%;
 }
-
 .my-leagues-column-one{
   padding-right: 0px;
   padding-left: 0px;
 }
-
 .outer-league-rows>div {
-  // background-color: #f1f1f1;
-  // margin: 10px; // line-height: 75px;
   font-size: 30px;
 }
-
 .flex-container-two {
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: #222227;
 }
-
 .flex-container-two>div {
-  background-color: #222227; // width: 100px;
+  background-color: #222227;
   margin: 10px;
   text-align: center;
   line-height: 75px;
   font-size: 30px;
 }
-
-
-
 div.league-table {
-
-margin-right: 2vw;
-
+  margin-right: 2vw;
   table{
-    width: 100%;
-  }
-
+      width: 100%;
+ }
   tbody {
-    display: block; /* to enable vertical scrolling */
-    max-height: 150px; /* e.g. */
-    overflow-y: auto; /* keeps the scrollbar even if it doesn't need it; display purpose */
-    ::-webkit-scrollbar {
-      display: inline-table;
-    }
-  }
-  
+      display: block;
+      max-height: 150px;
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+          display: inline-table;
+     }
+ }
   th, td {
-    // width: 100%; /* to enable "word-break: break-all" */
-    padding: 5px;
-    word-break: break-all; /* 4. */
-  }
-  
+      padding: 5px;
+      word-break: break-all;
+ }
   tr {
-    display: table; /* display purpose; th's border */
-    width: 100%;
-    box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
-  }
-  
+      display: table;
+      width: 100%;
+      box-sizing: border-box;
+ }
   td {
-    text-align: center;
-    border-bottom: none;
-    border-left: none;
-    font-size: 16px;
-    width: 50%;
-  }
-
-
+      text-align: center;
+      border-bottom: none;
+      border-left: none;
+      font-size: 16px;
+      width: 50%;
+ }
   tr.league-header{
-    color: rgb(197, 197, 21);
-  }
-
-
-
-
+      color: rgb(197, 197, 21);
+ }
   tbody.my-active-leagues{
-    cursor: pointer;
-
-    tr.league-even{
-      background-color: #49494d;
-    }
-  }
-
-  
+      cursor: pointer;
+      tr.league-even{
+          background-color: #49494d;
+     }
+ }
 }
-
 #btnCreateLeague, #btnJoinLeague {
   color: #ffa260;
   display: table;
@@ -97,29 +71,26 @@ margin-right: 2vw;
   border-radius: 35px;
   border-color: #e07c34 !important;
   width: 40%;
-  font-weight: bold; // padding: 13px 16px;
+  font-weight: bold;
   background-color: #222227;
   padding: 13px 16px;
   border: 2px solid;
   &:focus {
-    outline: none;
-  }
+      outline: none;
+ }
   &:hover {
-    color: rgb(209, 209, 27);
-    outline: none;
-  }
+      color: rgb(209, 209, 27);
+      outline: none;
+ }
 }
-
 #customer-container {
   margin-top: 0px;
 }
-
 tr.league:hover {
   td {
-    background-color: #3c3c46;
-  }
+      background-color: #3c3c46;
+ }
 }
-
 .my-leagues{
   margin-left: 5vw;
   margin-right: 5vw;
@@ -132,7 +103,6 @@ tr.league:hover {
   background-color: #3c3c44;
   padding-right: 30px;
 }
-
 .huh, .container{
   background-color: #222227;
 }

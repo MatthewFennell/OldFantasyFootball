@@ -3,64 +3,59 @@
   background-color: #222227;
   justify-content: center;
   div.left-rows {
-    display: flex;
-    flex-direction: column;
-    background-color: #222227;
-    .transfer-info-row {
       display: flex;
-      // background-color: yellow;
-      justify-content: center;
-      font-size: 36px;
-    }
-    .transfer-info-row>div.info {
-      color: #ffa260;
-    border: 3px solid;
-    border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
-    border-image-slice: 1;
-    margin-right: 5%;
-    margin-left: 5%;
-    font-size: 18px;
-    padding: 10px;
-
-    .save-changes{
-      display: flex;
-  justify-content: center;
-  align-items: center;
-    }
-    }
-  }
+      flex-direction: column;
+      background-color: #222227;
+      .transfer-info-row {
+          display: flex;
+          justify-content: center;
+          font-size: 36px;
+     }
+      .transfer-info-row>div.info {
+          color: #ffa260;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image-slice: 1;
+          margin-right: 5%;
+          margin-left: 5%;
+          font-size: 18px;
+          padding: 10px;
+          .save-changes{
+              display: flex;
+              justify-content: center;
+              align-items: center;
+         }
+     }
+ }
   div.right-rows {
-    display: flex;
-    flex-direction: column;
-    background-color: #222227;
-  }
+      display: flex;
+      flex-direction: column;
+      background-color: #222227;
+ }
   .div.right-rows>div {
-    background-color: #f1f1f1;
-    width: 100px;
-    margin: 10px;
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;
-  }
+      background-color: #f1f1f1;
+      width: 100px;
+      margin: 10px;
+      text-align: center;
+      line-height: 75px;
+      font-size: 30px;
+ }
   .div.left-rows>div {
-    background-color: #f1f1f1;
-    width: 100px;
-    margin: 10px;
-    text-align: center;
-    line-height: 75px;
-    font-size: 30px;
-  }
+      background-color: #f1f1f1;
+      width: 100px;
+      margin: 10px;
+      text-align: center;
+      line-height: 75px;
+      font-size: 30px;
+ }
 }
-
 .outer-transfer-columns>div {
   background-color: #f1f1f1;
-  // margin: 10px;
   padding: 10px;
   font-size: 30px;
   width: 100%;
   text-align: center;
-} 
-
+}
 #transfers-save-team {
   color: #ffa260;
   display: table;
@@ -68,15 +63,15 @@
   border-radius: 35px;
   border-color: #e07c34 !important;
   width: 100%;
-  font-weight: bold; // padding: 13px 16px;
+  font-weight: bold;
   background-color: #222227;
   padding: 13px 16px;
   border: 2px solid;
   &:focus {
-    outline: none;
-  }
+      outline: none;
+ }
   &:hover {
-    color: rgb(209, 209, 27);
-    outline: none;
-  }
+      color: rgb(209, 209, 27);
+      outline: none;
+ }
 }

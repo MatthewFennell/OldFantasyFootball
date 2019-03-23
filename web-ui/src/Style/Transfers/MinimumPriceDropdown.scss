@@ -1,70 +1,63 @@
 .minimum-price-dropdown {
-
   .minimum-price-menu{
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
-    width: 70%;
-  }
-
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+      width: 70%;
+ }
   .minimum-price-menu-toggle {
-    color: #ffa260; // Color of the small triangle to generate the dropdown
-    outline: 0;
-    align-content: center;
-    padding: 0px;
-    margin: 0px;
-    background: none;
-  }
+      color: #ffa260;
+      outline: 0;
+      align-content: center;
+      padding: 0px;
+      margin: 0px;
+      background: none;
+ }
   .minimum-price-menu-toggle:focus {
-    color: rgb(148, 148, 14);
-  } // Color when the dropdown triangle is hovered on
+      color: rgb(148, 148, 14);
+ }
   .minimum-price-toggle:hover {
-    color: rgb(148, 148, 14);
-  } // The hover colour of the div
+      color: rgb(148, 148, 14);
+ }
   .minimum-price:hover {
-    background: orange;
-  } // Colour of the text when false
+      background: orange;
+ }
   .minimum-price-menu-item-false {
-    color: white;
-    border: 0;
-    outline: 0;
-    background: none;
-    font-weight: normal;
-    width: 100%;
-    padding: 0px;
-    height: 100%;
-  } // Colour of the text when true
+      color: white;
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
   .minimum-price-menu-item-true {
-    color: rgb(226, 226, 43);
-    border: 0;
-    outline: 0;
-    background: none;
-    font-weight: normal;
-    width: 100%;
-    padding: 0px;
-    height: 100%;
-  }
+      color: rgb(226, 226, 43);
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
   .minimum-price-menu {
-    min-width: 0px;
-  }
+      min-width: 0px;
+ }
   .minimum-price-change-error {
-    font-weight: bold;
-    min-height: 24px;
-  }
+      font-weight: bold;
+      min-height: 24px;
+ }
 }
-
 .minimum-menu-items{
   margin: 0px;
   height: 30px;
   background: #80808a;
 }
-
-// The hover colour of the div
 .minimum-menu-items:hover {
-  // background: #222227;
   background: #616168;
 }
-
 p.menu-items{
   margin: 0px;
   height: 30px;
