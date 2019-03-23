@@ -4,7 +4,12 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 interface TransferRowProps {
   element: PlayerDTO;
   handleRowClick: (player: PlayerDTO) => void;
+  index: number;
 }
+
+const calculateClassName = (rowNumber: number) => {
+	return rowNumber % 2 === 0 ? 'transfers-even' : 'transfers-odd';
+};
 
 const TransferRow: React.SFC<TransferRowProps> = (props) => {
 	const {
@@ -19,7 +24,7 @@ const TransferRow: React.SFC<TransferRowProps> = (props) => {
 	} = props.element;
 	return (
 		<tr
-			className="transfers"
+			className={calculateClassName(props.index)}
 			key={firstName + surname}
 			onClick={() => { props.handleRowClick(props.element); }}
 		>

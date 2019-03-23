@@ -229,10 +229,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 						<div>
 							<TransfersForm />
 						</div>
-						<div>
+						<div className="transfers-table-wrapper">
 							<div className="transfers-table">
 								<TransfersTableBody
 									handleRowClick={this.onRowClick}
+									index={0}
 								/>
 							</div>
 						</div>

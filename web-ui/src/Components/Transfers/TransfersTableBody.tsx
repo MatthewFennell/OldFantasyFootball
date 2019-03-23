@@ -194,7 +194,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 	render () {
 		const { filteredPlayers } = this.props;
 		return (
-			<div className="transfers-table-wrapper">
+			<div>
 				<table>
 					<thead>
 						<tr
@@ -246,10 +246,11 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 						</tr>
 					</thead>
 					<tbody>
-						{filteredPlayers.map(datum => (
+						{filteredPlayers.map((datum, index) => (
 							<TransfersRow
 								element={datum}
 								handleRowClick={this.props.handleRowClick}
+								index={index}
 								key={datum.firstName + datum.surname}
 							/>
 						))}
