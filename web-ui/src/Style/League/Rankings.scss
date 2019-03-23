@@ -13,6 +13,7 @@
       margin-right: 5vw;
       padding-bottom: 5vh;
       padding-right: 30px;
+      background-color: #3c3c46;
 
       table{
         width: 100%;
@@ -55,6 +56,12 @@
         color: rgb(197, 197, 21);
       }
 
+        tbody.my-active-leagues{
+          tr.user-even{
+            background-color: #49494d;
+          }
+      }
+
   }
 
   .current-league-name{
@@ -71,11 +78,7 @@
     color: red;
     text-align: center;
 
-    tr.rankings{
-      td.user-name, td.points, td.position{
-        color: rgb(197, 197, 21);
-      }
-    }
+    
 
     tr {
       width: 100%;
@@ -89,7 +92,7 @@
         text-align: center;
       }
     }
-    tr.user:hover {
+    tr.user-even:hover, tr.user-odd:hover {
       background-color: #ffa260;
     }
   }

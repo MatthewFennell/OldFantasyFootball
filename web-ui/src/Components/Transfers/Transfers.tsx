@@ -8,6 +8,7 @@ import '../../Style/Transfers/PitchValue.css';
 import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 import { updateTeam } from '../../Services/Weeks/WeeksService';
+import TeamData from '../../Containers/Team/TeamData';
 
 interface TransfersProps {
   remainingBudget: number;
@@ -188,6 +189,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		const { teamUpdated, errorMessage } = this.state;
 		return (
 			<div className="outer-transfer-columns">
+				<TeamData />
 				<div className="left-rows">
 					<div className="transfer-info-row">
 						<div className="info">

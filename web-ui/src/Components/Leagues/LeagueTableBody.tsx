@@ -21,9 +21,10 @@ const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
 				</tr>
 			</thead>
 			<tbody className="my-active-leagues">
-				{leagues.map(datum => (
+				{leagues.map((datum, index) => (
 					<LeagueRow
 						element={datum}
+						index={index}
 						key={datum.leagueName}
 						setLeagueBeingViewed={setLeagueBeingViewed}
 					/>
