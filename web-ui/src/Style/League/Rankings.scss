@@ -50,6 +50,11 @@
           tr.user-even{
               background-color: #49494d;
          }
+
+         tr.user-even:hover, tr.user-odd:hover{
+            color: #e96304;
+            cursor: pointer;
+         }
      }
  }
   .current-league-name{
