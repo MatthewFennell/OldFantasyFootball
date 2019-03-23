@@ -27,7 +27,16 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 					<div>The admin of this league is {props.code} </div>
 				)} */}
 				<div className="current-league-name">
+					<div className="info">
+						<div className="league-name">
 					League: { props.leagueBeingViewed}
+						</div>
+						{props.isAdmin ? (
+							<div className="league-info">Code to join : {props.code} </div>
+						) : (
+							<div className="league-info">Admin : {props.code} </div>
+						)}
+					</div>
 				</div>
 				<table className="my-active-leagues-table">
 					<thead>

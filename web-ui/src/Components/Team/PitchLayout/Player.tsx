@@ -48,7 +48,7 @@ class Player extends React.Component<PlayerProps, {}> {
 						{firstName} {surname}
 					</p>
 					{this.props.transfer ? (
-						<p className="value">{'£' + price}</p>
+						<p className="value">{'£' + price + 'm'}</p>
 					) : (
 						<p className="points">{weeklyPoints + ' pts'}</p>
 					)}

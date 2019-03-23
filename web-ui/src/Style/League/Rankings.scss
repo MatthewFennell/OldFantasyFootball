@@ -59,7 +59,15 @@
  }
   .current-league-name{
       text-align: center;
-      font-size: 30px;
+      font-size: 14px;
+      .info{
+          padding: 10px;
+          display: flex;
+          .league-name, .league-info{
+              width:50%;
+          }
+      }
+
  }
   .league-rankings-table{
       margin-top: 2vh;
