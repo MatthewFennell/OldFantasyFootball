@@ -89,8 +89,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	_handleCollegeTeam (team: string) {
-		const { setTeamAddingPoints } = this.props;
-		setTeamAddingPoints(team);
+		this.props.setTeamAddingPoints(team);
 	}
 
 	_handleAssists (assists: string) {

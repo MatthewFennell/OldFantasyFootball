@@ -50,11 +50,24 @@
           tr.user-even{
               background-color: #49494d;
          }
+
+         tr.user-even:hover, tr.user-odd:hover{
+            color: #e96304;
+            cursor: pointer;
+         }
      }
  }
   .current-league-name{
       text-align: center;
-      font-size: 30px;
+      font-size: 14px;
+      .info{
+          padding: 10px;
+          display: flex;
+          .league-name, .league-info{
+              width:50%;
+          }
+      }
+
  }
   .league-rankings-table{
       margin-top: 2vh;

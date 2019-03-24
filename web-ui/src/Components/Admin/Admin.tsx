@@ -40,43 +40,35 @@ class Admin extends React.Component<AdminProps, {}> {
 	}
 
 	_setPageBeingViewed (pageToView: string) {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed(pageToView);
+		this.props.setAdminPageBeingViewed(pageToView);
 	}
 
 	handleSetPageBeingViewedCreate () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('create');
+		this.props.setAdminPageBeingViewed('create');
 	}
 
 	handleSetPageBeingViewedDeletePlayer () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('delete-player');
+		this.props.setAdminPageBeingViewed('delete-player');
 	}
 
 	handleSetPageBeingViewedCreateCollegeTeam () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('create-college-team');
+		this.props.setAdminPageBeingViewed('create-college-team');
 	}
 
 	handleSetPageBeingViewedDeleteCollegeTeam () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('delete-college-team');
+		this.props.setAdminPageBeingViewed('delete-college-team');
 	}
 
 	handleSetPageBeingViewedAddPoints () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('add-points');
+		this.props.setAdminPageBeingViewed('add-points');
 	}
 
 	handleSetPageBeingViewedEditStats () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('edit-stats');
+		this.props.setAdminPageBeingViewed('edit-stats');
 	}
 
 	handleSetPageBeingViewedAddResult () {
-		const { setAdminPageBeingViewed } = this.props;
-		setAdminPageBeingViewed('add-result');
+		this.props.setAdminPageBeingViewed('add-result');
 	}
 
 	_selectedOrNot (input: string) {

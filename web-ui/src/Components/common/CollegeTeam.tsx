@@ -20,7 +20,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		super(props);
 		this._toggleTeam = this._toggleTeam.bind(this);
 
-		const { allCollegeTeams, setPlayersInFilteredTeam } = this.props;
+		const { allCollegeTeams } = this.props;
 
 		if (allCollegeTeams.length > 0) {
 			this.state = {
@@ -28,14 +28,14 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 				teamValue: allCollegeTeams[0].name
 			};
 			findPlayersInCollegeTeam(allCollegeTeams[0].name).then(response => {
-				setPlayersInFilteredTeam(response);
+				this.props.setPlayersInFilteredTeam(response);
 			});
 		} else {
 			this.state = {
 				teamDropDownOpen: false,
 				teamValue: 'No team selected'
 			};
-			setPlayersInFilteredTeam([]);
+			this.props.setPlayersInFilteredTeam([]);
 		}
 	}
 
@@ -46,16 +46,15 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 	}
 
 	_handleTeamChange (team: string) {
-		const { setTeam, setPlayersInFilteredTeam } = this.props;
 		this.setState({ teamValue: team });
-		setTeam(team);
+		this.props.setTeam(team);
 		findPlayersInCollegeTeam(team)
 			.then(response => {
-				setPlayersInFilteredTeam(response);
+				this.props.setPlayersInFilteredTeam(response);
 			})
 			.catch(error => {
 				console.log(error);
-				setPlayersInFilteredTeam([]);
+				this.props.setPlayersInFilteredTeam([]);
 			});
 	}
 

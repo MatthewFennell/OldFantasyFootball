@@ -24,6 +24,9 @@
   text-align: center;
   line-height: 75px;
   font-size: 30px;
+  .create-league-button{
+    margin-top: 10px;
+  }
 }
 div.league-table {
   margin-right: 2vw;
@@ -58,10 +61,21 @@ div.league-table {
       color: rgb(197, 197, 21);
  }
   tbody.my-active-leagues{
-      cursor: pointer;
+      // cursor: pointer;
       tr.league-even{
           background-color: #49494d;
      }
+
+     tr.league-even, tr.league-odd{
+       cursor: pointer;
+     }
+
+     tr.league-even:hover, tr.league-odd:hover{
+       td.league-name, td.position{
+         color: #e96304;
+       }
+     }
+
  }
 }
 #btnCreateLeague, #btnJoinLeague {

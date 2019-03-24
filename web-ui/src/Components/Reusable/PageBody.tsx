@@ -18,7 +18,6 @@ class PageBody extends React.Component<PageBodyProps> {
 	}
 
 	_whichPage () {
-		console.log('hey');
 		let pageBeingViewed = this.props.pageBeingViewed;
 
 		if (pageBeingViewed === 'Team') {
