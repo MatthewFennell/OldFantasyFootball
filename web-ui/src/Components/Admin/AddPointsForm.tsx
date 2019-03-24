@@ -28,6 +28,7 @@ interface AddPointsFormState {
   viewingDefender: boolean;
   pointsAdded: boolean;
   errorMessage: string;
+  data: AddPoints;
 }
 
 class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
@@ -58,7 +59,18 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 			week: '',
 			viewingDefender: true,
 			pointsAdded: false,
-			errorMessage: ''
+			errorMessage: '',
+			data: {
+				goals: '',
+				assists: '',
+				minutesPlayed: '',
+				manOfTheMatch: false,
+				yellowCards: '',
+				cleanSheet: false,
+				redCard: false,
+				playerID: '',
+				week: ''
+			}
 		};
 	}
 
@@ -89,8 +101,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	_handleCollegeTeam (team: string) {
-		const { setTeamAddingPoints } = this.props;
-		setTeamAddingPoints(team);
+		this.props.setTeamAddingPoints(team);
 	}
 
 	_handleAssists (assists: string) {
