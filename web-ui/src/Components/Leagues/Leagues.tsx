@@ -18,15 +18,17 @@ interface LeagueProps {
   leagueCache: any;
   leaguePageBeingViewed: string;
   leagueRankings: UserLeaguePosition[];
+  isAdmin: boolean;
+  leagueCode: string;
 
   addToLeagueCache: (leagueName: string, position: number) => void;
   setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
+  setIsLeagueAdmin: (isAdmin: boolean) => void;
+  setLeagueCode: (code: string) => void;
 }
 
 interface LeaguesState {
-  isAdmin: boolean;
-  code: string;
 }
 
 class Leagues extends React.Component<LeagueProps, LeaguesState> {
@@ -35,10 +37,6 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
 		this.handleCreateLeague = this.handleCreateLeague.bind(this);
 		this.handleJoinLeague = this.handleJoinLeague.bind(this);
-		this.state = {
-			isAdmin: false,
-			code: ''
-		};
 	}
 
 	componentDidMount () {
@@ -56,7 +54,6 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 
 	_setLeagueBeingViewed (leagueToView: string) {
 		// TO:DO - Combine into one request?
-
 		const { setLeagueRankings, setLeaguePageBeingViewed } = this.props;
 
 		setLeaguePageBeingViewed(leagueToView);
@@ -65,7 +62,8 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		});
 
 		getLeagueAdmin(leagueToView).then(response => {
-			this.setState({ isAdmin: response.userIsAdmin, code: response.code });
+			this.props.setIsLeagueAdmin(response.userIsAdmin);
+			this.props.setLeagueCode(response.code);
 		});
 	}
 
@@ -154,8 +152,8 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 							? <JoinLeague addToLeagueCache={this.props.addToLeagueCache} />
 							: this.props.leaguePageBeingViewed !== 'home'
 								? <RankingsTableBody
-									code={this.state.code}
-									isAdmin={this.state.isAdmin}
+									code={this.props.leagueCode}
+									isAdmin={this.props.isAdmin}
 									leagueBeingViewed={this.props.leaguePageBeingViewed}
 									leagueRankings={this.props.leagueRankings}
 								  />

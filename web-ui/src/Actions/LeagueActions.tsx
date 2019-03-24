@@ -4,7 +4,9 @@ export enum ActionTypes {
   ADD_TO_LEAGUE_CACHE = 'ADD_TO_LEAGUE_CACHE',
   SET_LEAGUE_PAGE_BEING_VIEWED = 'SET_LEAGUE_PAGE_BEING_VIEWED',
   SET_LEAGUE_RANKINGS = 'SET_LEAGUE_RANKINGS',
-  ADD_TO_LEAGUE_RANKINGS = 'ADD_TO_LEAGUE_RANKINGS'
+	ADD_TO_LEAGUE_RANKINGS = 'ADD_TO_LEAGUE_RANKINGS',
+	SET_IS_LEAGUE_ADMIN = 'SET_IS_LEAGUE_ADMIN',
+	SET_LEAGUE_CODE = 'SET_LEAGUE_CODE'
 }
 
 export interface AddToLeagueCache {
@@ -22,9 +24,19 @@ export interface SetLeagueRankings {
   payload: { leagueRankings: UserLeaguePosition[] };
 }
 
+export interface SetIsLeagueAdmin {
+  type: ActionTypes.SET_IS_LEAGUE_ADMIN;
+  payload: { admin: boolean };
+}
+
 export interface AddToLeagueRankings {
   type: ActionTypes.ADD_TO_LEAGUE_RANKINGS;
   payload: { user: UserLeaguePosition };
+}
+
+export interface SetLeagueCode {
+  type: ActionTypes.SET_LEAGUE_CODE;
+  payload: { code: string };
 }
 
 export const addToLeagueCache = (leagueName: string, position: number): AddToLeagueCache => {
@@ -57,8 +69,24 @@ export const addToLeagueRankings = (user: UserLeaguePosition): AddToLeagueRankin
 	};
 };
 
+export const setIsLeagueAdmin = (admin: boolean): SetIsLeagueAdmin => {
+	return {
+		type: ActionTypes.SET_IS_LEAGUE_ADMIN,
+		payload: { admin }
+	};
+};
+
+export const setLeagueCode = (code: string): SetLeagueCode => {
+	return {
+		type: ActionTypes.SET_LEAGUE_CODE,
+		payload: { code }
+	};
+};
+
 export type Action =
   | AddToLeagueCache
   | SetLeaguePageBeingViewed
   | SetLeagueRankings
-  | AddToLeagueRankings;
+	| AddToLeagueRankings
+	| SetIsLeagueAdmin
+	| SetLeagueCode;

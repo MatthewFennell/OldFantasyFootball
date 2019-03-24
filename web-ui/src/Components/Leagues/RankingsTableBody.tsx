@@ -12,7 +12,6 @@ interface RankingsTableBodyProps {
 }
 
 const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
-	console.log('admin = ' + props.isAdmin);
 	return (
 		<Col
 			className="league-info-screen"

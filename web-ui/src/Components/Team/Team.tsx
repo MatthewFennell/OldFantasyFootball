@@ -17,7 +17,7 @@ import { PlayerPointsDTO } from './PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import {
-	getPositionsOfUsersInLeague,
+	getPositionsOfUsersInLeague, getLeagueAdmin
 } from '../../Services/League/LeagueService';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 
@@ -35,9 +35,15 @@ interface TransactionsProps {
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
 
+  isAdmin: boolean;
+  leagueCode: string;
+
   setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
   setPageBeingViewed: (page: string) => void;
+
+  setIsLeagueAdmin: (isAdmin: boolean) => void;
+  setLeagueCode: (code: string) => void;
 }
 
 interface TeamState {
@@ -134,6 +140,11 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.props.history.push('/leagues');
 		getPositionsOfUsersInLeague(leagueToView).then(leagueRankings => {
 			this.props.setLeagueRankings(leagueRankings);
+		});
+
+		getLeagueAdmin(leagueToView).then(response => {
+			this.props.setIsLeagueAdmin(response.userIsAdmin);
+			this.props.setLeagueCode(response.code);
 		});
 	}
 

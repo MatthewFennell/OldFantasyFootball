@@ -17,10 +17,13 @@ import {
 
 import {
 	setLeaguePageBeingViewed,
-	setLeagueRankings
+	setLeagueRankings,
+	setIsLeagueAdmin,
+	setLeagueCode
 } from '../../Actions/LeagueActions';
 
-import { getLeagueCache } from '../../Selectors/LeagueSelector';
+import { getLeagueCache, getIsLeagueAdmin,
+	getLeagueCode } from '../../Selectors/LeagueSelector';
 
 const mapStateToProps = (state: State) => ({
 	leagueCache: getLeagueCache(state),
@@ -34,12 +37,16 @@ const mapStateToProps = (state: State) => ({
 	weeklyTeamCache: getWeeklyTeamCache(state),
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 	allCollegeTeams: getAllCollegeTeams(state),
-	mostValuable: getMostValuable(state)
+	mostValuable: getMostValuable(state),
+	leagueCode: getLeagueCode(state),
+	isAdmin: getIsLeagueAdmin(state)
 });
 
 const mapDispatchToProps = {
 	setLeaguePageBeingViewed,
+	setLeagueCode,
 	setPageBeingViewed,
+	setIsLeagueAdmin,
 	setLeagueRankings
 };
 
