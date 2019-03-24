@@ -14,6 +14,8 @@ import PlayerStats from './PlayerStats';
 import { getPlayerStatsForWeek } from '../../Services/Player/PlayerService';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from './PlayerPointsType';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -28,6 +30,9 @@ interface TransactionsProps {
   allCollegeTeams: CollegeTeam[];
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
+
+  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
+  setPageBeingViewed: (page: string) => void;
 }
 
 interface TeamState {
@@ -39,11 +44,12 @@ interface TeamState {
 	weekBeingViewed: number;
 }
 
-class Transactions extends React.Component<TransactionsProps, TeamState> {
-	constructor (props: TransactionsProps) {
+class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> & TransactionsProps, TeamState> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & TransactionsProps) {
 		super(props);
 		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
 		this.onHandleWeek = this.onHandleWeek.bind(this);
+		this.setLeague = this.setLeague.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -116,6 +122,13 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 			});
 	}
 
+	setLeague (leagueToView: string) {
+		console.log('hey');
+		this.props.setLeaguePageBeingViewed(leagueToView);
+		this.props.setPageBeingViewed('Leagues');
+		this.props.history.push('/leagues');
+	}
+
 	render () {
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
@@ -163,7 +176,7 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 						<div className="league-table">
 							<LeagueTableBody
 								leagues={leagues}
-								setLeagueBeingViewed={() => {}}
+								setLeagueBeingViewed={this.setLeague}
 							/>
 						</div>
 					</div>
@@ -173,4 +186,4 @@ class Transactions extends React.Component<TransactionsProps, TeamState> {
 	}
 }
 
-export default Transactions;
+export default withRouter(Transactions);

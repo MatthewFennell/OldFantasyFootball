@@ -83,6 +83,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
 
   render () {
 	  const { firstname, surname } = this.props;
+	  console.log('rendered props = ' + JSON.stringify(this.props));
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">

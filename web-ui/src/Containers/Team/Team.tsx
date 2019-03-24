@@ -3,6 +3,7 @@ import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
 import { getActiveTeam, getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
 import { getTotalPoints } from '../../Selectors/AccountSelector';
+import { setPageBeingViewed } from '../../Actions/AccountActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
 	getWeekBeingViewed,
@@ -13,6 +14,10 @@ import {
 	getTotalNumberOfWeeks,
 	getMostValuable
 } from '../../Selectors/StatsSelector';
+
+import {
+	setLeaguePageBeingViewed,
+} from '../../Actions/LeagueActions';
 
 import { getLeagueCache } from '../../Selectors/LeagueSelector';
 
@@ -32,6 +37,8 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
+	setLeaguePageBeingViewed,
+	setPageBeingViewed
 };
 
 export default connect<any, any, any>(
