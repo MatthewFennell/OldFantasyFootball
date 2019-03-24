@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Player.css';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';

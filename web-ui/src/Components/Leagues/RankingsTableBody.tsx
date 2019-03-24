@@ -21,11 +21,6 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 			xs={6}
 		>
 			<div className="rankings-wrapper">
-				{/* {props.isAdmin ? (
-					<div>You are the admin of this league. The code for joining is {props.code} </div>
-				) : (
-					<div>The admin of this league is {props.code} </div>
-				)} */}
 				<div className="current-league-name">
 					<div className="info">
 						<div className="league-name">

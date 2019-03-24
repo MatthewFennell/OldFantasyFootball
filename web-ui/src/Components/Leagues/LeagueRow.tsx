@@ -3,8 +3,8 @@ import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 
 interface LeagueRowProps {
   element: LeaguePositions;
-  setLeagueBeingViewed: (leagueBeingViewed: string) => void;
   index: number;
+  setLeagueBeingViewed: (leagueBeingViewed: string) => void;
 }
 
 const calculateClassName = (index:number) => {

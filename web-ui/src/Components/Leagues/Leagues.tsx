@@ -16,12 +16,11 @@ import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition'
 
 interface LeagueProps {
   leagueCache: any;
-  addToLeagueCache: (leagueName: string, position: number) => void;
-
   leaguePageBeingViewed: string;
-  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
-
   leagueRankings: UserLeaguePosition[];
+
+  addToLeagueCache: (leagueName: string, position: number) => void;
+  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
 }
 
@@ -81,7 +80,6 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	}
 
 	render () {
-		// Gets all of the leagues
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
 		for (let x = 0; x < keys.length; x++) {

@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import * as React from 'react';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from './PlayerPointsType';
@@ -18,7 +17,6 @@ interface PlayerStatsState {
 	dropdownOpen: boolean;
   }
 
-// eslint-disable-next-line react/require-optimization
 class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 	constructor (props: PlayerStatsProps) {
 		super(props);
