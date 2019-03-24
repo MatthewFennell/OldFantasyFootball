@@ -70,7 +70,6 @@ class Header extends React.Component<Props & RouteComponentProps> {
   }
 
   _select = (target: React.RefObject<HTMLDivElement>, name: string) => {
-  	console.log('DAFUQ');
     this.teamRef.current!.classList.remove('selected');
     this.transfersRef.current!.classList.remove('selected');
     this.leagueRef.current!.classList.remove('selected');
@@ -83,7 +82,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   };
 
   render () {
-  	const { firstname, surname } = this.props;
+	  const { firstname, surname } = this.props;
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">
@@ -101,15 +100,15 @@ class Header extends React.Component<Props & RouteComponentProps> {
   								id="transactions"
   								imgSrc="Home.png"
   								select={this._onTeamSelect}
-  								selected={this.props.location.pathname === '/team'}
+  								selected={this.props.location.pathname === '/team' || this.props.location.pathname === '/login'}
   								setRef={() => this.teamRef}
   								text="Team"
   							/>
   						</Link>
   						<Link to="/transfers">
   							<ButtonPageSelector
-  								id="categories"
-  								imgSrc="Max.png"
+								  id="categories"
+  								imgSrc="Matt.png"
   								select={this._onTransfersSelect}
   								selected={this.props.location.pathname === '/transfers'}
   								setRef={() => this.transfersRef}
@@ -119,7 +118,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						<Link to="/leagues">
   							<ButtonPageSelector
   								id="settings"
-  								imgSrc="Rupert.png"
+  								imgSrc="stag.jpg"
   								select={this._onLeagueSelect}
   								selected={this.props.location.pathname === '/leagues'}
   								setRef={() => this.leagueRef}
@@ -129,7 +128,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						<Link to="/settings">
   							<ButtonPageSelector
   								id="settings"
-  								imgSrc="Windy.png"
+  								imgSrc="Settings.png"
   								select={this._onSettingsSelect}
   								selected={this.props.location.pathname === '/settings'}
   								setRef={() => this.settingsRef}
