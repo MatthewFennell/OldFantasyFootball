@@ -10,6 +10,7 @@ import PageBody from '../Containers/PageBody';
 import Leagues from '../Containers/League/Leagues';
 import Admin from '../Containers/Admin/Admin';
 import Settings from '../Components/Settings/Settings';
+import Transfers from '../Containers/Transfers/Transfers';
 
 const App: React.SFC = (props) => {
 	return (
@@ -40,6 +41,11 @@ const App: React.SFC = (props) => {
 					component={Leagues}
 					exact
 					path="/leagues"
+				/>
+				<Route
+					component={Transfers}
+					exact
+					path="/transfers"
 				/>
 				<Route
 					component={Admin}

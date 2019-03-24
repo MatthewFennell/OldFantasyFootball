@@ -12,7 +12,7 @@ export interface State {
 
 // Define our initialState
 export const initialState: State = {
-	remainingBudget: -100,
+	remainingBudget: 0,
 	remainingTransfers: 0,
 	filteredPlayers: [],
 	transferMarketOpen: false
