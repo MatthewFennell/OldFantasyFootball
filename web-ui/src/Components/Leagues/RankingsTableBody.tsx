@@ -12,7 +12,6 @@ interface RankingsTableBodyProps {
 }
 
 const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
-	const { leagueRankings } = props;
 	console.log('admin = ' + props.isAdmin);
 	return (
 		<Col
@@ -46,7 +45,7 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 						</tr>
 					</thead>
 					<tbody className="my-active-leagues">
-						{leagueRankings.map((datum, index) => (
+						{props.leagueRankings.map((datum, index) => (
 							<RankingsRow
 								element={datum}
 								handleRowClick={() => {}}

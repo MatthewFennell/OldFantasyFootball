@@ -17,6 +17,7 @@ import {
 
 import {
 	setLeaguePageBeingViewed,
+	setLeagueRankings
 } from '../../Actions/LeagueActions';
 
 import { getLeagueCache } from '../../Selectors/LeagueSelector';
@@ -38,7 +39,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
 	setLeaguePageBeingViewed,
-	setPageBeingViewed
+	setPageBeingViewed,
+	setLeagueRankings
 };
 
 export default connect<any, any, any>(

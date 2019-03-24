@@ -16,6 +16,10 @@ import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from './PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
+import {
+	getPositionsOfUsersInLeague,
+} from '../../Services/League/LeagueService';
+import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -32,6 +36,7 @@ interface TransactionsProps {
   totalNumberOfWeeks: number;
 
   setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
+  setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
   setPageBeingViewed: (page: string) => void;
 }
 
@@ -127,6 +132,9 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.props.setLeaguePageBeingViewed(leagueToView);
 		this.props.setPageBeingViewed('Leagues');
 		this.props.history.push('/leagues');
+		getPositionsOfUsersInLeague(leagueToView).then(leagueRankings => {
+			this.props.setLeagueRankings(leagueRankings);
+		});
 	}
 
 	render () {
