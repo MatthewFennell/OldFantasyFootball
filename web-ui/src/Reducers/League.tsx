@@ -7,13 +7,17 @@ export interface State {
   leagueCache: {};
   leaguePageBeingViewed: string;
   leagueRankings: UserLeaguePosition[];
+  isAdmin: boolean;
+  code: string;
 }
 
 // Define our initialState
 export const initialState: State = {
 	leagueCache: {} as { leagueCache: { leagueName: string; position: number } },
 	leaguePageBeingViewed: 'home',
-	leagueRankings: []
+	leagueRankings: [],
+	isAdmin: false,
+	code: ''
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -46,6 +50,20 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			leagueRankings: state.leagueRankings.concat(action.payload.user)
+		};
+	}
+
+	case ActionTypes.SET_IS_LEAGUE_ADMIN: {
+		return {
+			...state,
+			isAdmin: action.payload.admin
+		};
+	}
+
+	case ActionTypes.SET_LEAGUE_CODE: {
+		return {
+			...state,
+			code: action.payload.code
 		};
 	}
 

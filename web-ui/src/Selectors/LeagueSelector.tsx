@@ -12,3 +12,9 @@ export const getLeaguePageBeingViewed = createSelector(
 
 const getLeagueRankingsState = (state: State) => state.league;
 export const getLeagueRankings = createSelector([getLeagueRankingsState], p => p.leagueRankings);
+
+const getIsLeagueAdminState = (state: State) => state.league;
+export const getIsLeagueAdmin = createSelector([getIsLeagueAdminState], p => p.isAdmin);
+
+const getLeagueCodeState = (state: State) => state.league;
+export const getLeagueCode = createSelector([getLeagueCodeState], p => p.code);
