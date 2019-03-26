@@ -4,7 +4,8 @@ export enum ActionTypes {
   ADD_PLAYER = 'ADD_PLAYER',
   SET_TEAM = 'SET_TEAM',
   ADD_TO_WEEKLY_TEAM_CACHE = 'ADD_TO_WEEKLY_TEAM_CACHE',
-  REMOVE_INDEX = 'REMOVE_INDEX'
+	REMOVE_INDEX = 'REMOVE_INDEX',
+	SET_USER_BEING_VIEWED = 'SET_USER_BEING_VIEWED'
 }
 
 export interface AddPlayer {
@@ -25,6 +26,11 @@ export interface AddToWeeklyTeamCache {
 export interface RemoveIndex {
   type: ActionTypes.REMOVE_INDEX;
   payload: { indexToRemove: number };
+}
+
+export interface SetUserBeingViewed {
+  type: ActionTypes.SET_USER_BEING_VIEWED;
+  payload: { user: string };
 }
 
 export const addPlayer = (player: PlayerDTO): AddPlayer => {
@@ -61,4 +67,11 @@ export const addToWeeklyTeamCache = (weekId: number, team: PlayerDTO[]): AddToWe
 	};
 };
 
-export type Action = AddPlayer | SetTeam | AddToWeeklyTeamCache | RemoveIndex;
+export const setUserBeingViewed = (user: string): SetUserBeingViewed => {
+	return {
+		type: ActionTypes.SET_USER_BEING_VIEWED,
+		payload: { user }
+	};
+};
+
+export type Action = AddPlayer | SetTeam | AddToWeeklyTeamCache | RemoveIndex | SetUserBeingViewed;

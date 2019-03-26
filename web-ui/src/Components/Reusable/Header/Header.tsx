@@ -9,6 +9,7 @@ import { Account } from '../../../Models/Interfaces/Account';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 
 interface Props {
+	setUserBeingViewed: (user: string) => void;
   setPageBeingViewed: (page: string) => void;
   setAccount: (account: Account) => void;
   firstname: string;
@@ -62,9 +63,9 @@ class Header extends React.Component<Props & RouteComponentProps> {
   				username: response.username,
   				totalPoints: response.totalPoints,
   				remainingBudget: response.remainingBudget,
-  				remainingTransfers: response.remainingTransfers,
   				roles: response.roles
-  			});
+			  });
+			  this.props.setUserBeingViewed(response.id);
   		}
   	});
   }

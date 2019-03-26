@@ -5,7 +5,6 @@ type Action = AccountAction;
 // Define our State interface for the current reducer
 export interface State {
   remainingBudget: number;
-  remainingTransfers: number;
   filteredPlayers: PlayerDTO[];
   transferMarketOpen: boolean;
 }
@@ -13,7 +12,6 @@ export interface State {
 // Define our initialState
 export const initialState: State = {
 	remainingBudget: 0,
-	remainingTransfers: 0,
 	filteredPlayers: [],
 	transferMarketOpen: false
 };
@@ -24,12 +22,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			remainingBudget: action.payload.remainingBudget
-		};
-	}
-	case ActionTypes.SET_REMAINING_TRANSFERS: {
-		return {
-			...state,
-			remainingTransfers: action.payload.remainingTransfers
 		};
 	}
 	case ActionTypes.SET_FILTERED_PLAYERS: {

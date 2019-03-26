@@ -11,7 +11,6 @@ export interface State {
   pageBeingViewed: string;
   totalPoints: number;
   weekBeingViewed: number;
-  remainingTransfers: number;
   roles: string[];
 }
 
@@ -25,7 +24,6 @@ export const initialState: State = {
 	pageBeingViewed: 'Team',
 	totalPoints: 0,
 	weekBeingViewed: 0,
-	remainingTransfers: 0,
 	roles: []
 };
 
@@ -46,7 +44,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			username,
 			email,
 			totalPoints,
-			remainingTransfers,
 			roles
 		} = action.payload.account;
 
@@ -57,7 +54,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			username,
 			email,
 			totalPoints,
-			remainingTransfers,
 			roles
 		};
 	}

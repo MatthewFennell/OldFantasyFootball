@@ -35,6 +35,8 @@ interface TransactionsProps {
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
 
+  userBeingViewed: string;
+
   isAdmin: boolean;
   leagueCode: string;
 
@@ -67,7 +69,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 			playerPointsBeingViewed: {} as any,
 			playerPointsViewed: false,
 			playerSidebar: {} as any,
-			weekBeingViewed: this.props.totalNumberOfWeeks
+			weekBeingViewed: this.props.totalNumberOfWeeks,
 		};
 	}
 
@@ -134,7 +136,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	setLeague (leagueToView: string) {
-		console.log('hey');
 		this.props.setLeaguePageBeingViewed(leagueToView);
 		this.props.setPageBeingViewed('Leagues');
 		this.props.history.push('/leagues');
@@ -179,6 +180,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
 							statsBeingViewed={this.state.statsBeingViewed}
 							totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+							userBeingViewed={this.props.userBeingViewed}
 							weekBeingViewed={this.state.weekBeingViewed}
 						/>
 					</div>

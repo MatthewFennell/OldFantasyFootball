@@ -8,6 +8,7 @@ import {
 	getIsLeagueAdmin,
 	getLeagueCode
 } from '../../Selectors/LeagueSelector';
+import { setPageBeingViewed } from '../../Actions/AccountActions';
 import {
 	addToLeagueCache,
 	setLeaguePageBeingViewed,
@@ -15,6 +16,7 @@ import {
 	setIsLeagueAdmin,
 	setLeagueCode
 } from '../../Actions/LeagueActions';
+import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
@@ -29,7 +31,9 @@ const mapDispatchToProps = {
 	setLeagueCode,
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
-	setIsLeagueAdmin
+	setIsLeagueAdmin,
+	setUserBeingViewed,
+	setPageBeingViewed
 };
 
 export default connect<any, any, any>(

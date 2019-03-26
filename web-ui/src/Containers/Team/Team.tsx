@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
-import { getActiveTeam, getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
+import { getActiveTeam, getWeeklyTeamCache, getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 import { getTotalPoints } from '../../Selectors/AccountSelector';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
@@ -39,7 +39,8 @@ const mapStateToProps = (state: State) => ({
 	allCollegeTeams: getAllCollegeTeams(state),
 	mostValuable: getMostValuable(state),
 	leagueCode: getLeagueCode(state),
-	isAdmin: getIsLeagueAdmin(state)
+	isAdmin: getIsLeagueAdmin(state),
+	userBeingViewed: getUserBeingViewed(state)
 });
 
 const mapDispatchToProps = {

@@ -13,11 +13,5 @@ export const getPageBeingViewed = createSelector([getPageBeingViewedState], p =>
 const getTotalPointsState = (state: State) => state.account;
 export const getTotalPoints = createSelector([getTotalPointsState], p => p.totalPoints);
 
-const getRemainingTransfersState = (state: State) => state.account;
-export const getRemainingTransfers = createSelector(
-	[getRemainingTransfersState],
-	p => p.remainingTransfers
-);
-
 const getRolesState = (state: State) => state.account;
 export const getRoles = createSelector([getRolesState], p => p.roles);

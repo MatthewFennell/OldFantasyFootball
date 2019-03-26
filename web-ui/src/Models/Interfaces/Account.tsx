@@ -6,6 +6,5 @@ export interface Account {
   username: string;
   totalPoints: number;
   remainingBudget: number;
-  remainingTransfers: number;
   roles: string[];
 }
