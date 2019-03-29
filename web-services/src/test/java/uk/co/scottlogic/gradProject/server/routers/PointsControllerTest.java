@@ -15,6 +15,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 
 import java.util.*;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class PointsControllerTest {
@@ -88,9 +89,11 @@ public class PointsControllerTest {
 
     @Test
     public void findingTheTotalPointsOfAUserReturns200() {
+        String id = UUID.randomUUID().toString();
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        pointsController.totalPoints(user, response);
+        pointsController.totalPoints(user, response, id);
         TestCase.assertEquals(200, response.getStatus());
     }
 
