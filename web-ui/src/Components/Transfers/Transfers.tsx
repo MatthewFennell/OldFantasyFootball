@@ -15,8 +15,6 @@ interface TransfersProps {
   setRemainingBudget: (remainingBudget: number) => void;
   addPlayer: (player: PlayerDTO) => void;
 
-  remainingTransfers: number;
-
   filteredPlayers: PlayerDTO[];
   activeTeam: PlayerDTO[];
 

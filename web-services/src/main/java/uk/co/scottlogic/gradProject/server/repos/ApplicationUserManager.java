@@ -6,10 +6,12 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ApplicationUserManager {
@@ -76,8 +78,14 @@ public class ApplicationUserManager {
         }
     }
 
-    public Integer findTotalPoints(ApplicationUser user) {
-        return user.getTotalPoints();
+    public Integer findTotalPoints(String id) {
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
+        if (user.isPresent()){
+            return user.get().getTotalPoints();
+        }
+        else {
+            throw new IllegalArgumentException("User does not exist");
+        }
     }
 
     public List<ApplicationUser> findUsersWithLargestTotalPoints() {
@@ -97,6 +105,18 @@ public class ApplicationUserManager {
             topScoringUsers.add(new TopWeeklyUserReturnDTO(uwt));
         }
         return topScoringUsers;
+    }
+
+
+    public UserReturnDTO findUserStats(String id){
+        Optional<ApplicationUser> optionalApplicationUser = applicationUserRepo.findById(UUID.fromString(id));
+        if (optionalApplicationUser.isPresent()){
+            return new UserReturnDTO(optionalApplicationUser.get());
+        }
+        else {
+            throw new IllegalArgumentException("User does not exist");
+        }
+
     }
 
 

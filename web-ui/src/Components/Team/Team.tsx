@@ -20,6 +20,7 @@ import {
 	getPositionsOfUsersInLeague, getLeagueAdmin
 } from '../../Services/League/LeagueService';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
+import { getUserInfo } from '../../Services/User/UserService';
 
 interface TransactionsProps {
   totalPoints: number;
@@ -34,6 +35,8 @@ interface TransactionsProps {
   allCollegeTeams: CollegeTeam[];
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
+
+  userBeingViewed: string;
 
   isAdmin: boolean;
   leagueCode: string;
@@ -53,6 +56,8 @@ interface TeamState {
 	playerPointsViewed: boolean;
 	playerSidebar: PlayerDTO;
 	weekBeingViewed: number;
+
+	usernameBeingViewed: string;
 }
 
 class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> & TransactionsProps, TeamState> {
@@ -61,14 +66,17 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
 		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.setLeague = this.setLeague.bind(this);
+		this.updateUserInfo = this.updateUserInfo.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
 			playerPointsBeingViewed: {} as any,
 			playerPointsViewed: false,
 			playerSidebar: {} as any,
-			weekBeingViewed: this.props.totalNumberOfWeeks
+			weekBeingViewed: this.props.totalNumberOfWeeks,
+			usernameBeingViewed: ''
 		};
+		this.updateUserInfo();
 	}
 
 	componentDidMount () {
@@ -76,6 +84,24 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		if (header != null) {
 			header.hidden = false;
 		}
+	}
+
+	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+		console.log('prev props = ' + JSON.stringify(prevProps.userBeingViewed));
+		console.log('new props = ' + JSON.stringify(this.props.userBeingViewed));
+		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
+			console.log('Lets change stuff');
+			this.updateUserInfo();
+		}
+	}
+
+	updateUserInfo () {
+		getUserInfo(this.props.userBeingViewed).then(response => {
+			console.log('response = ' + JSON.stringify(response));
+			this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
+		}).catch(error => {
+			console.log('error = ' + error);
+		});
 	}
 
 	onHandleWeek (week: number) {
@@ -134,7 +160,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	setLeague (leagueToView: string) {
-		console.log('hey');
 		this.props.setLeaguePageBeingViewed(leagueToView);
 		this.props.setPageBeingViewed('Leagues');
 		this.props.history.push('/leagues');
@@ -149,6 +174,8 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	render () {
+		console.log('state = ' + this.state.usernameBeingViewed);
+
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
 		for (let x = 0; x < keys.length; x++) {
@@ -179,6 +206,8 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
 							statsBeingViewed={this.state.statsBeingViewed}
 							totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+							userBeingViewed={this.props.userBeingViewed}
+							username={this.state.usernameBeingViewed}
 							weekBeingViewed={this.state.weekBeingViewed}
 						/>
 					</div>

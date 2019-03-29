@@ -12,6 +12,7 @@ interface RegisterProps {
   resetAccount: () => void;
   setAccount: (account: Account) => void;
   setRemainingBudget: (budget: number) => void;
+  setUserBeingViewed: (user: string) => void;
   location: any;
   history: any;
 }
@@ -63,6 +64,7 @@ class Register extends React.Component<RegisterProps, {}> {
 						<RegisterForm
 							setAccount={this.props.setAccount}
 							setRemainingBudget={this.props.setRemainingBudget}
+							setUserBeingViewed={this.props.setUserBeingViewed}
 						/>
 					</Bubble>
 				)}

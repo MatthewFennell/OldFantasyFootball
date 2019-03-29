@@ -3,7 +3,7 @@ import { UserLeaguePosition } from '../../Models/Interfaces/UserLeaguePosition';
 
 interface RankingsRowProps {
 	element: UserLeaguePosition;
-	handleRowClick: (name: string) => void;
+	handleViewUser: (name: string) => void;
 	index: number;
 }
 
@@ -12,12 +12,12 @@ const calculateClassName = (index: number) => {
 };
 
 const RankingsRow: React.SFC<RankingsRowProps> = (props) => {
-	const { firstName, surname, points, position } = props.element;
+	const { firstName, surname, points, position, userID } = props.element;
   	return (
   		<tr
   			className={calculateClassName(props.index)}
   			key={position}
-  			onClick={() => props.handleRowClick(firstName)}
+  			onClick={() => props.handleViewUser(userID)}
   		>
   			<td className="name">
   				{firstName} {surname}

@@ -13,6 +13,8 @@ import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
 import RankingsTableBody from './RankingsTableBody';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 
 interface LeagueProps {
   leagueCache: any;
@@ -26,17 +28,21 @@ interface LeagueProps {
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
   setIsLeagueAdmin: (isAdmin: boolean) => void;
   setLeagueCode: (code: string) => void;
+
+  setPageBeingViewed: (page: string) => void;
+  setUserBeingViewed: (user: string) => void;
 }
 
 interface LeaguesState {
 }
 
-class Leagues extends React.Component<LeagueProps, LeaguesState> {
-	constructor (props: LeagueProps) {
+class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & LeagueProps, LeaguesState> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & LeagueProps) {
 		super(props);
 		this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
 		this.handleCreateLeague = this.handleCreateLeague.bind(this);
 		this.handleJoinLeague = this.handleJoinLeague.bind(this);
+		this.handleViewUser = this.handleViewUser.bind(this);
 	}
 
 	componentDidMount () {
@@ -75,6 +81,12 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 	handleJoinLeague () {
 		const { setLeaguePageBeingViewed } = this.props;
 		setLeaguePageBeingViewed('join-league');
+	}
+
+	handleViewUser (id: string) {
+		this.props.setUserBeingViewed(id);
+		this.props.setPageBeingViewed('Team');
+		this.props.history.push('/team');
 	}
 
 	render () {
@@ -153,6 +165,7 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 							: this.props.leaguePageBeingViewed !== 'home'
 								? <RankingsTableBody
 									code={this.props.leagueCode}
+									handleViewUser={this.handleViewUser}
 									isAdmin={this.props.isAdmin}
 									leagueBeingViewed={this.props.leaguePageBeingViewed}
 									leagueRankings={this.props.leagueRankings}
@@ -163,4 +176,4 @@ class Leagues extends React.Component<LeagueProps, LeaguesState> {
 		);
 	}
 }
-export default Leagues;
+export default withRouter(Leagues);

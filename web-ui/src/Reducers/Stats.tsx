@@ -13,6 +13,8 @@ export interface State {
   topWeeklyUsersCache: {};
   totalNumberOfWeeks: 0;
   mostValuable: MostValuable;
+
+  totalPointsCache: {}
 }
 
 // Define our initialState
@@ -23,7 +25,9 @@ export const initialState: State = {
 	topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
 	topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
 	totalNumberOfWeeks: 0,
-	mostValuable: undefined as any
+	mostValuable: undefined as any,
+
+	totalPointsCache: {} as { user: { id: string; points: number } }
 };
 
 export const reducer = (state: State = initialState, action: Action) => {

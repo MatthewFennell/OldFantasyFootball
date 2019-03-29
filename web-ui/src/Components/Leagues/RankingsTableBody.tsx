@@ -6,6 +6,7 @@ import { Col } from 'react-bootstrap';
 
 interface RankingsTableBodyProps {
 	code: string;
+	handleViewUser: (id: string) => void;
 	isAdmin: boolean;
   leagueRankings: UserLeaguePosition[];
   leagueBeingViewed: string;
@@ -47,7 +48,7 @@ const RankingsTableBody: React.SFC<RankingsTableBodyProps> = (props) => {
 						{props.leagueRankings.map((datum, index) => (
 							<RankingsRow
 								element={datum}
-								handleRowClick={() => {}}
+								handleViewUser={props.handleViewUser}
 								index={index}
 								key={datum.position}
 							/>

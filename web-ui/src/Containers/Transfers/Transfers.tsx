@@ -9,11 +9,9 @@ import {
 	getRemainingBudget
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
-import { getRemainingTransfers } from '../../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
-	remainingTransfers: getRemainingTransfers(state),
 	filteredPlayers: getFilteredPlayers(state),
 	activeTeam: getActiveTeam(state),
 	transfersMarketOpen: getTransferMarketOpen(state)

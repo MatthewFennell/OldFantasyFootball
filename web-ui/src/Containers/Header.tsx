@@ -8,6 +8,7 @@ import {
 	getPageBeingViewed,
 	getRoles
 } from '../Selectors/AccountSelector';
+import { setUserBeingViewed } from '../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
 	firstname: getFirstName(state),
@@ -18,7 +19,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
 	setAccount,
-	setPageBeingViewed
+	setPageBeingViewed,
+	setUserBeingViewed
 };
 
 export default connect<any, any, any>(

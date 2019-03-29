@@ -101,11 +101,12 @@ public class PointsController {
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Points obtained correctly"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
-    @GetMapping("/points/user/total")
-    public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+    @GetMapping("/points/user/total/{id}")
+    public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+                               @PathVariable("id") String id) {
         try {
             response.setStatus(200);
-            return applicationUserManager.findTotalPoints(user);
+            return applicationUserManager.findTotalPoints(id);
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());

@@ -56,6 +56,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 							<LoginForm
 								setAccount={this.props.setAccount}
 								setRemainingBudget={this.props.setRemainingBudget}
+								setUserBeingViewed={this.props.setUserBeingViewed}
 							/>
 						</Bubble>
 					)}
