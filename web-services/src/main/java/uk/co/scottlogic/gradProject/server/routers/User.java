@@ -161,4 +161,29 @@ public class User {
         applicationUserRepo.delete(user);
         response.setStatus(204);
     }
+
+    @ApiOperation(value = Icons.key
+            + " Gets the info for a user id",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/user/info/{id}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid week"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public UserReturnDTO getUserInfo(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("id") String id) {
+        try {
+            response.setStatus(200);
+            return applicationUserManager.findUserStats(id);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
+    }
 }

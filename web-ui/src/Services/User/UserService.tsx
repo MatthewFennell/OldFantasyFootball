@@ -86,3 +86,22 @@ export const deleteUser = (): Promise<void> => {
 		}
 	});
 };
+
+export const getUserInfo = (id: string): Promise<Account> => {
+	return fetch('/api/user/info/' + id, {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};

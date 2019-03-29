@@ -12,6 +12,7 @@ interface PlayerStatsProps {
 	totalNumberOfWeeks: number;
 	userBeingViewed: string;
 	weekBeingViewed: number;
+	username: string;
 }
 
 interface PlayerStatsState {
@@ -39,7 +40,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 	}
 
 	render () {
-		console.log('User being viewed = ' + this.props.userBeingViewed);
+		console.log('User being viewed = ' + this.props.username);
 		let totalStats: JSX.Element[] = [];
 
 		let info: String[] = ['First name', 'Surname', 'Position', 'Total points', 'Price', 'Total Goals', 'Total Assists'];
@@ -118,7 +119,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 				className="player-stats-sidebar"
 			>
 				<div>
-				User : {this.props.userBeingViewed}
+				User : {this.props.username}
 				</div>
 				{this.props.statsBeingViewed ? (
 					<div className="stats-wrapper">
