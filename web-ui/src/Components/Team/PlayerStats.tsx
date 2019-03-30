@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { PlayerStatsDTO } from './PlayerStatsType';
-import { PlayerPointsDTO } from './PlayerPointsType';
+import { PlayerPointsDTO } from '../../Models/Interfaces/PlayerPointsType';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 interface PlayerStatsProps {

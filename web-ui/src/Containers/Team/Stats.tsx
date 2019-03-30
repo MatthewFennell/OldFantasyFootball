@@ -7,7 +7,8 @@ import {
 	getTopWeeklyPlayerCache,
 	getTopWeeklyUserCache,
 	getRemainingBudget,
-	getMostValuableCache
+	getMostValuableCache,
+	getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
@@ -20,7 +21,8 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
 	userBeingViewed: getUserBeingViewed(state),
-	mostValuableCache: getMostValuableCache(state)
+	mostValuableCache: getMostValuableCache(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state)
 });
 
 const mapDispatchToProps = {

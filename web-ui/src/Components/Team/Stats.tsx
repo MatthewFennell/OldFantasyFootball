@@ -5,12 +5,14 @@ import { getUserBudget } from '../../Services/User/UserService';
 import { getMostValuableAssets } from '../../Services/Player/PlayerService';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 
 interface StatsProps {
   averageWeeklyPointsCache: any;
   topWeeklyPlayerCache: any;
   weekBeingViewed: number;
   topWeeklyUsersCache: any;
+  totalNumberOfWeeks: number;
 
   userBeingViewed: string
   remainingBudget: { user: { id: string; budget: number } }
@@ -57,11 +59,19 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	render () {
+		const week = this.props.weekBeingViewed === -1 ? this.props.totalNumberOfWeeks : this.props.weekBeingViewed;
+
 		const mostValuablePlayer : PlayerDTO = this.props.mostValuableCache[this.props.userBeingViewed] !== undefined
 			? this.props.mostValuableCache[this.props.userBeingViewed]['mostValuablePlayer'] : null;
 
 		const mostValuableTeam : CollegeTeam = this.props.mostValuableCache[this.props.userBeingViewed] !== undefined
 			? this.props.mostValuableCache[this.props.userBeingViewed]['mostValuableCollegeTeam'] : null;
+
+		const topWeeklyPlayer : PlayerDTO = this.props.topWeeklyPlayerCache[week] !== undefined
+			? this.props.topWeeklyPlayerCache[week] : null;
+
+		const topWeeklyTeam : TopWeeklyUser = this.props.topWeeklyUsersCache[week] !== undefined
+			? this.props.topWeeklyUsersCache[week] : null;
 
 		const {
 			averageWeeklyPointsCache,
@@ -89,6 +99,16 @@ class Stats extends React.Component<StatsProps> {
 					Your most valuable team is {mostValuableTeam.name}  with {' '}
 						{this.props.mostValuableCache[this.props.userBeingViewed]['mostValuableCollegeTeamScore']} points</div>
 					 : null}
+
+				{topWeeklyPlayer !== null
+					? <div className="player-most-points"> Player of the Week :
+						{topWeeklyPlayer.firstName}{' '}{topWeeklyPlayer.surname}{' '}
+						({topWeeklyPlayer.points} points) </div> : null}
+
+				{topWeeklyTeam !== null
+					? <div className="player-most-points"> Team of the Week :
+						{topWeeklyTeam.firstName}{' '}{topWeeklyTeam.surname}{' '}
+						({topWeeklyTeam.points} points) </div> : null}
 
 			</div>
 		);
