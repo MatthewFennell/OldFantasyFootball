@@ -6,10 +6,14 @@ import { setRemainingBudget } from '../../Actions/TransferActions';
 import {
 	getFilteredPlayers,
 	getTransferMarketOpen,
-	getRemainingBudget
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 
+import {
+	getRemainingBudget
+} from '../../Selectors/StatsSelector';
+
+import { setBudget } from '../../Actions/StatsActions';
 import { getAccountId } from '../../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
@@ -23,6 +27,7 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = {
 	addPlayer,
 	removeIndex,
+	setBudget,
 	setRemainingBudget,
 };
 

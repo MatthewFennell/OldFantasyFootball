@@ -12,8 +12,8 @@ import TeamData from '../../Containers/Team/TeamData';
 
 interface TransfersProps {
 	accountId: string;
-  remainingBudget: number;
-  setRemainingBudget: (remainingBudget: number) => void;
+  remainingBudget: { user: { id: string; budget: number } }
+  setBudget: (user: string, budget:number) => void;
   addPlayer: (player: PlayerDTO) => void;
 
   filteredPlayers: PlayerDTO[];
@@ -96,7 +96,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		if (playerExists) {
 			return false;
 		}
-		if (player.price !== undefined && player.price > remainingBudget) {
+		if (player.price !== undefined && player.price > remainingBudget[this.props.accountId]) {
 			return false;
 		}
 
@@ -140,7 +140,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		if (!removed) {
 			this.addToPlayerBeingRemoved(player);
 		}
-		this.props.setRemainingBudget(this.props.remainingBudget + price);
+		this.props.setBudget(this.props.accountId, this.props.remainingBudget[this.props.accountId] + price);
 	}
 
 	handleUpdateTeam () {
@@ -162,7 +162,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	onRowClick = (element: PlayerDTO) => {
-		const { addPlayer, setRemainingBudget, remainingBudget } = this.props;
+		const { addPlayer, remainingBudget } = this.props;
 		if (this.canAdd(element)) {
 			addPlayer(element);
 
@@ -178,12 +178,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				this.addToPlayerBeingAdded(element);
 			}
 			if (element.price !== undefined) {
-				setRemainingBudget(remainingBudget - element.price);
+				this.props.setBudget(this.props.accountId, remainingBudget[this.props.accountId] - element.price);
 			}
 		}
 	};
 
 	render () {
+		console.log('budget = ' + JSON.stringify(this.props.remainingBudget));
 		const { remainingBudget, transfersMarketOpen, activeTeam } = this.props;
 		const { teamUpdated, errorMessage } = this.state;
 		return (
@@ -192,7 +193,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				<div className="left-rows">
 					<div className="transfer-info-row">
 						<div className="info">
-						Remaining Budget: £{remainingBudget.toFixed(1)} mil
+							{remainingBudget[this.props.accountId] !== undefined
+								? 'Remaining Budget: £' + remainingBudget[this.props.accountId].toFixed(1) + 'mil'
+								: 'Remaining Budget: £0 mil' }
 						</div>
 						{transfersMarketOpen ? (
 							<div className="info">Transfer Market: Open</div>
