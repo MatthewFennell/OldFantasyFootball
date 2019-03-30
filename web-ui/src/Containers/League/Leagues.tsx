@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Leagues from '../../Components/Leagues/Leagues';
 import {
-	getLeagueCache,
 	getLeaguePageBeingViewed,
 	getLeagueRankings,
 	getIsLeagueAdmin,
@@ -22,7 +21,6 @@ import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
 const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
-	leagueCache: getLeagueCache(state),
 	leagueCode: getLeagueCode(state),
 	leaguePageBeingViewed: getLeaguePageBeingViewed(state),
 	leagueRankings: getLeagueRankings(state),

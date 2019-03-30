@@ -5,7 +5,6 @@ type Action = LeagueAction;
 
 // Define our State interface for the current reducer
 export interface State {
-  leagueCache: {};
   leaguePageBeingViewed: string;
   leagueRankings: UserLeaguePosition[];
   isAdmin: boolean;
@@ -15,7 +14,6 @@ export interface State {
 
 // Define our initialState
 export const initialState: State = {
-	leagueCache: {} as { leagueCache: { leagueName: string; position: number } },
 	leaguePageBeingViewed: 'home',
 	leagueRankings: [],
 	isAdmin: false,
@@ -34,10 +32,7 @@ export const reducer = (state: State = initialState, action: Action) => {
 	}
 
 	case ActionTypes.ADD_TO_LEAGUE_RANKINGS: {
-		return {
-			...state,
-			leagueRankings: state.leagueRankings.concat(action.payload.user)
-		};
+		return lodash.set('leagueRankings', state.leagueRankings.concat(action.payload.user), state);
 	}
 
 	case ActionTypes.SET_IS_LEAGUE_ADMIN: {

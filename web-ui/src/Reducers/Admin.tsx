@@ -40,18 +40,12 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.ADD_COLLEGE_TEAM: {
 		const teamToAdd = action.payload.team;
-		return {
-			...state,
-			allCollegeTeams: state.allCollegeTeams.concat(teamToAdd)
-		};
+		return lodash.set('allCollegeTeams', state.allCollegeTeams.concat(teamToAdd), state);
 	}
 
 	case ActionTypes.REMOVE_COLLEGE_TEAM: {
 		const teamToRemove = action.payload.teamName;
-		return {
-			...state,
-			allCollegeTeams: state.allCollegeTeams.filter(item => item.name !== teamToRemove)
-		};
+		return lodash.set('allCollegeTeams', state.allCollegeTeams.filter(item => item.name !== teamToRemove), state);
 	}
 
 	default:

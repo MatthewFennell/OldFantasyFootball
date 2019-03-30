@@ -3,7 +3,6 @@ import '../../Style/Team/Team.css';
 import '../../Style/Team/PitchLayout/Pitch.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
-import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import Pitch from './PitchLayout/Pitch';
@@ -22,15 +21,9 @@ import {
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 import { getUserInfo } from '../../Services/User/UserService';
 
-interface TransactionsProps {
+interface TeamProps {
   weekBeingViewed: number;
-  averageWeeklyPointsCache: any;
-  topWeeklyPlayerCache: any;
-  topWeeklyUsersCache: any;
-  leagueCache: any;
-  activeTeam: PlayerDTO[];
   weeklyTeamCache: any;
-  allCollegeTeams: CollegeTeam[];
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
 
@@ -64,8 +57,8 @@ interface TeamState {
 	usernameBeingViewed: string;
 }
 
-class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> & TransactionsProps, TeamState> {
-	constructor (props: RoutedFormProps<RouteComponentProps> & TransactionsProps) {
+class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamProps, TeamState> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & TeamProps) {
 		super(props);
 		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
 		this.onHandleWeek = this.onHandleWeek.bind(this);
@@ -123,22 +116,13 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	findLeagues () {
-		console.log('finding leagues');
-		console.log('finding leagues');
-		console.log('finding leagues');
-		console.log('finding leagues');
-		console.log('finding leagues');
-		console.log('finding leagues');
-		console.log('finding leagues');
 		console.log('user is ' + this.props.userBeingViewed);
 		if (this.props.userBeingViewed !== '') {
 			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
 				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-					if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
-						this.props.setLeagues(this.props.userBeingViewed,
-							leagueAndPositionsArray[x].leagueName,
-							leagueAndPositionsArray[x].position);
-					}
+					this.props.setLeagues(this.props.userBeingViewed,
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position);
 				}
 			});
 		}
@@ -289,4 +273,4 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 }
 
-export default withRouter(Transactions);
+export default withRouter(Team);

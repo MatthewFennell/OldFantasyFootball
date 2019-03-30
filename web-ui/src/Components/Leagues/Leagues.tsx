@@ -17,13 +17,11 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 
 interface LeagueProps {
-  leagueCache: any;
   leaguePageBeingViewed: string;
   leagueRankings: UserLeaguePosition[];
   isAdmin: boolean;
   leagueCode: string;
 
-  addToLeagueCache: (leagueName: string, position: number) => void;
   setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
   setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
   setIsLeagueAdmin: (isAdmin: boolean) => void;
@@ -53,11 +51,9 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		if (this.props.userBeingViewed !== '') {
 			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
 				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-					if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
-						this.props.setLeagues(this.props.userBeingViewed,
-							leagueAndPositionsArray[x].leagueName,
-							leagueAndPositionsArray[x].position);
-					}
+					this.props.setLeagues(this.props.userBeingViewed,
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position);
 				}
 			});
 		}

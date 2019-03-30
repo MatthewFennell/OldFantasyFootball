@@ -11,12 +11,10 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.routers.dto.MakeLeagueDTO;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class LeagueControllerTest {
@@ -27,12 +25,15 @@ public class LeagueControllerTest {
     @Mock
     private WeeklyTeamRepo weeklyTeamRepo;
 
+    @Mock
+    private ApplicationUserRepo applicationUserRepo;
+
     private LeagueController leagueController;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        LeagueManager leagueManager = new LeagueManager(leagueRepo, weeklyTeamRepo);
+        LeagueManager leagueManager = new LeagueManager(leagueRepo, weeklyTeamRepo, applicationUserRepo);
         leagueController = new LeagueController(leagueManager);
     }
 
@@ -88,10 +89,12 @@ public class LeagueControllerTest {
 
     @Test
     public void findAllLeaguesUserIsInReturns200() {
+        String id = UUID.randomUUID().toString();
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
-        leagueController.getLeaguesByUser(user, response);
         when(leagueRepo.findAll()).thenReturn(Collections.emptyList());
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(user));
+        leagueController.getLeaguesByUser(user, response, id);
         assertEquals(200, response.getStatus());
     }
 
