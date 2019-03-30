@@ -22,6 +22,8 @@ import {
 	setLeagueCode
 } from '../../Actions/LeagueActions';
 
+import { setTotalPointsCache } from '../../Actions/StatsActions';
+
 import { getLeagueCache, getIsLeagueAdmin,
 	getLeagueCode } from '../../Selectors/LeagueSelector';
 
@@ -48,7 +50,8 @@ const mapDispatchToProps = {
 	setLeagueCode,
 	setPageBeingViewed,
 	setIsLeagueAdmin,
-	setLeagueRankings
+	setLeagueRankings,
+	setTotalPointsCache
 };
 
 export default connect<any, any, any>(

@@ -11,6 +11,10 @@ interface StatsProps {
   setTeam: (team: PlayerDTO[]) => void;
   weeklyPointsCache: any;
   totalNumberOfWeeks: number;
+
+  userBeingViewed: string
+  totalPointsCache: { user: { id: string; points: number } }
+  setTotalPointsCache: (user: string, points:number) => void;
 }
 
 interface InfoState {
@@ -22,9 +26,31 @@ class Info extends React.Component<StatsProps, InfoState> {
 		super(props);
 		this._handleWeekChange = this._handleWeekChange.bind(this);
 		this._toggle = this._toggle.bind(this);
+		this.updateTotalPointsCache = this.updateTotalPointsCache.bind(this);
 		this.state = {
 			dropdownOpen: false
 		};
+	}
+
+	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			console.log('NEW USER');
+			this.updateTotalPointsCache();
+		}
+	}
+
+	updateTotalPointsCache () {
+		this.props.setTotalPointsCache(this.props.userBeingViewed, 5);
 	}
 
 	_handleWeekChange (week: number) {
@@ -41,6 +67,8 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	render () {
+		console.log('total points cache = ' + JSON.stringify(this.props.totalPointsCache));
+		console.log('user being viewed = ' + this.props.userBeingViewed);
 		let allWeeks: number[] = [];
 		allWeeks.push(-1);
 		for (let x = 0; x <= this.props.totalNumberOfWeeks; x++) {

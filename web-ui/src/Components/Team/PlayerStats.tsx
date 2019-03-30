@@ -40,7 +40,6 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 	}
 
 	render () {
-		console.log('User being viewed = ' + this.props.username);
 		let totalStats: JSX.Element[] = [];
 
 		let info: String[] = ['First name', 'Surname', 'Position', 'Total points', 'Price', 'Total Goals', 'Total Assists'];

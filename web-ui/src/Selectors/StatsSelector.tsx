@@ -36,3 +36,6 @@ export const getTotalNumberOfWeeks = createSelector(
 
 const getMostValubleState = (state: State) => state.stats;
 export const getMostValuable = createSelector([getMostValubleState], p => p.mostValuable);
+
+const getTotalPointsCacheState = (state: State) => state.stats;
+export const getTotalPointsCache = createSelector([getTotalPointsCacheState], p => p.totalPointsCache);

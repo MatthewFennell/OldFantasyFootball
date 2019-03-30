@@ -47,6 +47,7 @@ interface TransactionsProps {
 
   setIsLeagueAdmin: (isAdmin: boolean) => void;
   setLeagueCode: (code: string) => void;
+
 }
 
 interface TeamState {
@@ -67,6 +68,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.setLeague = this.setLeague.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
+		this.updateTotalPointsCache = this.updateTotalPointsCache.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -77,6 +79,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 			usernameBeingViewed: ''
 		};
 		this.updateUserInfo();
+		this.updateTotalPointsCache();
 	}
 
 	componentDidMount () {
@@ -87,10 +90,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
-		console.log('prev props = ' + JSON.stringify(prevProps.userBeingViewed));
-		console.log('new props = ' + JSON.stringify(this.props.userBeingViewed));
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
-			console.log('Lets change stuff');
 			this.updateUserInfo();
 		}
 	}
@@ -102,6 +102,9 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
+	}
+
+	updateTotalPointsCache () {
 	}
 
 	onHandleWeek (week: number) {
@@ -174,8 +177,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	render () {
-		console.log('state = ' + this.state.usernameBeingViewed);
-
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
 		for (let x = 0; x < keys.length; x++) {

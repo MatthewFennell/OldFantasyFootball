@@ -2,6 +2,8 @@ import { ActionTypes, Action as StatsAction } from '../Actions/StatsActions';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { MostValuable } from '../Models/Interfaces/MostValuable';
+import * as lodash from 'lodash/fp';
+
 type Action = StatsAction;
 
 // Define our State interface for the current reducer
@@ -28,6 +30,10 @@ export const initialState: State = {
 	mostValuable: undefined as any,
 
 	totalPointsCache: {} as { user: { id: string; points: number } }
+};
+
+const setTotalPoints = (path: string, value: number, state: State) => {
+	return lodash.set('totalPointsCache.' + path, value, state);
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -91,6 +97,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 			...state,
 			mostValuable: action.payload.mostValuable
 		};
+	}
+
+	case ActionTypes.SET_TOTAL_POINTS_CACHE: {
+		return setTotalPoints(action.payload.user, action.payload.points, state);
 	}
 
 	default:
