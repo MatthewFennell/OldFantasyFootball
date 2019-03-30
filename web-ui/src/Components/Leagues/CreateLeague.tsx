@@ -58,7 +58,6 @@ class CreateLeagueClass extends React.Component<
   				.then(response => {
   					this.setState({ leagueCode: response.id });
   					this.props.setLeagues(this.props.userBeingViewed, leagueName, 1);
-  					console.log('Just made a league with name ' + leagueName);
   				})
   				.catch(error => {
   					this.setState({ error });

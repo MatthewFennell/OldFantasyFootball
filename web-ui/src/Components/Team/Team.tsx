@@ -12,7 +12,7 @@ import LeagueTableBody from '../Leagues/LeagueTableBody';
 import PlayerStats from './PlayerStats';
 import { getPlayerStatsForWeek, getTeamForUserInWeek, getMostValuableAssets } from '../../Services/Player/PlayerService';
 import { PlayerStatsDTO } from './PlayerStatsType';
-import { PlayerPointsDTO } from './PlayerPointsType';
+import { PlayerPointsDTO } from '../../Models/Interfaces/PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import {
