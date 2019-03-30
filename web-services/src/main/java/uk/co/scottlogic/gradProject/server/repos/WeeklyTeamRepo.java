@@ -39,6 +39,6 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
     double findAveragePointsInWeek(Integer week);
 
     @Query(value = "SELECT points FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2 ")
-    Integer findPointsInWeekByUser(ApplicationUser user, Integer week);
+    Optional<Integer> findPointsInWeekByUser(ApplicationUser user, Integer week);
 
 }

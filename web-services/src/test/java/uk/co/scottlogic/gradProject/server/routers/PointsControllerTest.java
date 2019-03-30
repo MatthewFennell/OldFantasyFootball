@@ -99,10 +99,12 @@ public class PointsControllerTest {
 
     @Test
     public void gettingThePointsForAUserInAWeekReturns200() {
+        String id = UUID.randomUUID().toString();
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        when(weeklyTeamRepo.findPointsInWeekByUser(user, 0)).thenReturn(0);
+        when(weeklyTeamRepo.findPointsInWeekByUser(user, 0)).thenReturn(Optional.of(0));
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         MockHttpServletResponse response = new MockHttpServletResponse();
-        pointsController.getUserPointsInWeek(user, response, 0);
+        pointsController.getUserPointsInWeek(user, response, id,0);
         TestCase.assertEquals(200, response.getStatus());
     }
 

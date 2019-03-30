@@ -123,7 +123,7 @@ public class PointsController {
             + " Gets the number of points a user obtained in a week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/points/user/week/{id}")
+    @GetMapping("/points/user/{user-id}/week/{week-id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Invalid week"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
@@ -131,10 +131,11 @@ public class PointsController {
     @PreAuthorize("hasRole('USER')")
     public double getUserPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
-            @PathVariable("id") Integer week) {
+            @PathVariable("user-id") String id,
+            @PathVariable("week-id") Integer week) {
         try {
             response.setStatus(200);
-            return applicationUserManager.findPointsInWeek(user, week);
+            return applicationUserManager.findPointsInWeek(id, week);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
