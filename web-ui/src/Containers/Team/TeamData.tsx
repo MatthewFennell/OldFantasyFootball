@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import TeamData from '../../Components/Team/TeamData';
-import { getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
+import { getWeeklyTeamCache, getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 import { setAllCollegeTeams } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
@@ -39,6 +39,7 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
 	weeklyTeamCache: getWeeklyTeamCache(state),
 	allCollegeTeams: getAllCollegeTeams(state),
+	userBeingViewed: getUserBeingViewed(state)
 });
 
 const mapDispatchToProps = {
