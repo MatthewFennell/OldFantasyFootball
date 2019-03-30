@@ -15,6 +15,8 @@ import {
 
 import { setTeamCache } from '../../Actions/ActiveTeamActions';
 
+import { setMostValuableCache } from '../../Actions/StatsActions';
+
 import {
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
@@ -46,7 +48,8 @@ const mapDispatchToProps = {
 	setPageBeingViewed,
 	setIsLeagueAdmin,
 	setLeagueRankings,
-	setTeamCache
+	setTeamCache,
+	setMostValuableCache
 };
 
 export default connect<any, any, any>(

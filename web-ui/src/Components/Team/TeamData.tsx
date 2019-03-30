@@ -6,7 +6,6 @@ import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import {
 	getPlayersWithMostPointsInWeek,
-	getMostValuableAssets
 } from '../../Services/Player/PlayerService';
 import {
 	getAveragePoints,
@@ -61,10 +60,6 @@ class Transactions extends React.Component<TransactionsProps> {
 					);
 				}
 			}
-		});
-
-		getMostValuableAssets().then(mostValuable => {
-			this.props.setMostValuable(mostValuable);
 		});
 
 		// Get the total number of weeks

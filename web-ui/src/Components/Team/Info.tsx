@@ -63,7 +63,6 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	_handleWeekChange (week: number) {
-		// SHOULD BE In
 		this.props.setWeekBeingViewed(week);
 		getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
 			this.props.setTeamCache(this.props.userBeingViewed, week, response);

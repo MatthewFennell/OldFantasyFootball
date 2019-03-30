@@ -11,7 +11,7 @@ import TeamData from '../../Containers/Team/TeamData';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from '../Leagues/LeagueTableBody';
 import PlayerStats from './PlayerStats';
-import { getPlayerStatsForWeek, getTeamForUserInWeek } from '../../Services/Player/PlayerService';
+import { getPlayerStatsForWeek, getTeamForUserInWeek, getMostValuableAssets } from '../../Services/Player/PlayerService';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from './PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -49,6 +49,8 @@ interface TransactionsProps {
   teamCache: { user: { weeks: { id: string; team: PlayerDTO[] } } }
   setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
 
+  setMostValuableCache: (user: string, mostValuable: MostValuable) => void;
+
 }
 
 interface TeamState {
@@ -70,6 +72,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.setLeague = this.setLeague.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
 		this.findTeam = this.findTeam.bind(this);
+		this.findMostValuable = this.findMostValuable.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -81,6 +84,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		};
 		this.updateUserInfo();
 		this.findTeam();
+		this.findMostValuable();
 	}
 
 	componentDidMount () {
@@ -94,6 +98,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findTeam();
+			this.findMostValuable();
 		}
 	}
 
@@ -107,6 +112,15 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 				console.log('error = ' + error);
 			});
 		}
+	}
+
+	findMostValuable () {
+		getMostValuableAssets(this.props.userBeingViewed).then(response => {
+			console.log('response = ' + JSON.stringify(response));
+			this.props.setMostValuableCache(this.props.userBeingViewed, response);
+		}).catch(error => {
+			console.log('error = ' + error);
+		});
 	}
 
 	updateUserInfo () {

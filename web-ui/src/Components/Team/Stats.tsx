@@ -54,7 +54,7 @@ class Stats extends React.Component<StatsProps> {
 			<div className="stats-columns">
 				<div className="average-points">
 					{weekBeingViewed === -1 ? (
-						<div>Remaining Budget :{this.props.remainingBudget[this.props.userBeingViewed]}  mil </div>
+						<div>Remaining Budget : £{this.props.remainingBudget[this.props.userBeingViewed]}  mil </div>
 					) : (
 						<div> Average Points: {averageWeeklyPointsCache[weekBeingViewed]}</div>
 					)}
