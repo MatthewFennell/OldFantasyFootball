@@ -3,9 +3,9 @@ import '../../Style/Team/Info.css';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
+import { getTotalPointsById } from '../../Services/Points/PointsService';
 
 interface StatsProps {
-  totalPoints: number;
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
   setTeam: (team: PlayerDTO[]) => void;
@@ -51,6 +51,11 @@ class Info extends React.Component<StatsProps, InfoState> {
 
 	updateTotalPointsCache () {
 		this.props.setTotalPointsCache(this.props.userBeingViewed, 5);
+		getTotalPointsById(this.props.userBeingViewed).then(response => {
+			this.props.setTotalPointsCache(this.props.userBeingViewed, response);
+		}).catch(error => {
+			console.log('error = ' + error);
+		});
 	}
 
 	_handleWeekChange (week: number) {
@@ -67,7 +72,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	render () {
-		console.log('total points cache = ' + JSON.stringify(this.props.totalPointsCache));
+		console.log('total points cache = ' + JSON.stringify(this.props.totalPointsCache[this.props.userBeingViewed]));
 		console.log('user being viewed = ' + this.props.userBeingViewed);
 		let allWeeks: number[] = [];
 		allWeeks.push(-1);
@@ -91,11 +96,11 @@ class Info extends React.Component<StatsProps, InfoState> {
 			</p>
 		));
 
-		const { totalPoints, weekBeingViewed, weeklyPointsCache, } = this.props;
+		const { weekBeingViewed, weeklyPointsCache, } = this.props;
 		const { dropdownOpen } = this.state;
 		return (
 			<div className="info-columns">
-				<div className="total-points">Total Points: {totalPoints}</div>
+				<div className="total-points">Total Points: {this.props.totalPointsCache[this.props.userBeingViewed]}</div>
 
 				<Dropdown
 					isOpen={dropdownOpen}

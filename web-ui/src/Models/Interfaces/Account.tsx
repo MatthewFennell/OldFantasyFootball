@@ -4,7 +4,6 @@ export interface Account {
   surname: string;
   email: string;
   username: string;
-  totalPoints: number;
   remainingBudget: number;
   roles: string[];
 }
