@@ -19,8 +19,8 @@ export const getTeamForUserInWeek = (id: string, week: number): Promise<PlayerDT
 	});
 };
 
-export const getMostValuableAssets = (): Promise<MostValuable> => {
-	return fetch('/api/player/value', {
+export const getMostValuableAssets = (id: string): Promise<MostValuable> => {
+	return fetch('/api/player/value/' + id, {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {

@@ -1,15 +1,9 @@
 import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {
-  SET_REMAINING_BUDGET = 'SET_REMAINING_BUDGET',
   SET_FILTERED_PLAYERS = 'SET_FILTERED_PLAYERS',
   SET_TRANSFER_MARKET = 'SET_TRANSFER_MARKET',
   REVERSE_FILTERED_PLAYERS = 'REVERSE_FILTERED_PLAYERS'
-}
-
-export interface SetRemainingBudget {
-  type: ActionTypes.SET_REMAINING_BUDGET;
-  payload: { remainingBudget: number };
 }
 
 export interface SetFilteredPlayers {
@@ -26,13 +20,6 @@ export interface ReverseFilteredPlayers {
   type: ActionTypes.REVERSE_FILTERED_PLAYERS;
   payload: {};
 }
-
-export const setRemainingBudget = (remainingBudget: number): SetRemainingBudget => {
-	return {
-		type: ActionTypes.SET_REMAINING_BUDGET,
-		payload: { remainingBudget }
-	};
-};
 
 export const setFilteredPlayers = (filteredPlayers: PlayerDTO[]): SetFilteredPlayers => {
 	return {
@@ -56,7 +43,6 @@ export const reverseFilteredPlayers = (): ReverseFilteredPlayers => {
 };
 
 export type Action =
-  | SetRemainingBudget
   | SetFilteredPlayers
   | SetTransferMarket
   | ReverseFilteredPlayers;

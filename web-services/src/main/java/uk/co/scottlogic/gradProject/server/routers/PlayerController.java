@@ -159,17 +159,18 @@ public class PlayerController {
             + " Find your most valuable assets",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/player/value")
+    @GetMapping("/player/value/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public MostValuableDTO findMostValuableAssets(
-            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response ) {
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("id") String id) {
         try {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
-            MostValuableDTO mostValuableDTO = playerManager.findMostValuablePlayer(user);
+            MostValuableDTO mostValuableDTO = playerManager.findMostValuablePlayer(id);
             response.setStatus(200);
             return mostValuableDTO;
         } catch (IllegalArgumentException e) {

@@ -16,7 +16,6 @@ import {
 	addToTopWeeklyPlayersCache,
 	addToTopWeeklyUsersCache,
 	setTotalNumberOfWeeks,
-	setMostValuable
 } from '../../Actions/StatsActions';
 
 import {
@@ -27,7 +26,7 @@ import {
 	getLeagueCache
 } from '../../Selectors/LeagueSelector';
 
-import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
+import { setTransferMarket } from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
 	leagueCache: getLeagueCache(state),
@@ -48,8 +47,6 @@ const mapDispatchToProps = {
 	setTotalNumberOfWeeks,
 	setTransferMarket,
 	setAllCollegeTeams,
-	setRemainingBudget,
-	setMostValuable
 };
 
 export default connect<any, any, any>(

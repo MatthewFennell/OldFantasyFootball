@@ -7,7 +7,7 @@ const TextScottCash: React.SFC = () => {
 			className="unselectable"
 			id="text-scott-cash"
 		>
-		Fantasy footy
+		Fantasy Footy
 		</h1>
 	);
 };

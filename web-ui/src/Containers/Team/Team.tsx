@@ -10,7 +10,6 @@ import {
 	getTopWeeklyPlayerCache,
 	getTopWeeklyUserCache,
 	getTotalNumberOfWeeks,
-	getMostValuable
 } from '../../Selectors/StatsSelector';
 
 import { setTeamCache } from '../../Actions/ActiveTeamActions';
@@ -33,7 +32,6 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 	allCollegeTeams: getAllCollegeTeams(state),
-	mostValuable: getMostValuable(state),
 	leagueCode: getLeagueCode(state),
 	isAdmin: getIsLeagueAdmin(state),
 	userBeingViewed: getUserBeingViewed(state),
@@ -46,7 +44,7 @@ const mapDispatchToProps = {
 	setPageBeingViewed,
 	setIsLeagueAdmin,
 	setLeagueRankings,
-	setTeamCache
+	setTeamCache,
 };
 
 export default connect<any, any, any>(
