@@ -54,11 +54,6 @@ export interface SetPageBeingViewed {
   payload: { pageToView: string };
 }
 
-export interface SetTotalPoints {
-  type: ActionTypes.SET_TOTAL_POINTS;
-  payload: { totalPoints: number };
-}
-
 export const setBalance = (balance: number): SetBalance => {
 	return {
 		type: ActionTypes.SET_BALANCE,
@@ -124,15 +119,6 @@ export const setPageBeingViewed = (pageToView: string): SetPageBeingViewed => {
 	};
 };
 
-export const setTotalPoints = (totalPoints: number): SetTotalPoints => {
-	return {
-		type: ActionTypes.SET_TOTAL_POINTS,
-		payload: {
-			totalPoints
-		}
-	};
-};
-
 export type Action =
   | SetBalance
   | SetFirstName
@@ -141,5 +127,4 @@ export type Action =
   | SetUsername
   | SetAccount
   | ResetAccount
-  | SetPageBeingViewed
-  | SetTotalPoints;
+  | SetPageBeingViewed;

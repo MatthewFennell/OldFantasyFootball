@@ -23,7 +23,6 @@ import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition'
 import { getUserInfo } from '../../Services/User/UserService';
 
 interface TransactionsProps {
-  totalPoints: number;
   weekBeingViewed: number;
   averageWeeklyPointsCache: any;
   weeklyPointsCache: any;
@@ -68,7 +67,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.setLeague = this.setLeague.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
-		this.updateTotalPointsCache = this.updateTotalPointsCache.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -79,7 +77,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 			usernameBeingViewed: ''
 		};
 		this.updateUserInfo();
-		this.updateTotalPointsCache();
 	}
 
 	componentDidMount () {
@@ -102,9 +99,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
-	}
-
-	updateTotalPointsCache () {
 	}
 
 	onHandleWeek (week: number) {

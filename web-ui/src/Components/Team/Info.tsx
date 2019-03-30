@@ -30,27 +30,16 @@ class Info extends React.Component<StatsProps, InfoState> {
 		this.state = {
 			dropdownOpen: false
 		};
+		this.updateTotalPointsCache();
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
-			console.log('NEW USER');
 			this.updateTotalPointsCache();
 		}
 	}
 
 	updateTotalPointsCache () {
-		this.props.setTotalPointsCache(this.props.userBeingViewed, 5);
 		getTotalPointsById(this.props.userBeingViewed).then(response => {
 			this.props.setTotalPointsCache(this.props.userBeingViewed, response);
 		}).catch(error => {
