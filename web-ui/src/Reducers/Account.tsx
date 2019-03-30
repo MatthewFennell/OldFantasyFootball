@@ -1,4 +1,5 @@
 import { ActionTypes, Action as AccountAction } from '../Actions/AccountActions';
+import * as lodash from 'lodash/fp';
 type Action = AccountAction;
 
 // Define our State interface for the current reducer
@@ -28,10 +29,7 @@ export const initialState: State = {
 export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
 	case ActionTypes.SET_FIRSTNAME: {
-		return {
-			...state,
-			firstName: action.payload.firstName
-		};
+		return lodash.set('firstName', action.payload.firstName, state);
 	}
 
 	case ActionTypes.SET_ACCOUNT: {
@@ -55,10 +53,7 @@ export const reducer = (state: State = initialState, action: Action) => {
 	}
 
 	case ActionTypes.SET_PAGE_BEING_VIEWED: {
-		return {
-			...state,
-			pageBeingViewed: action.payload.pageToView
-		};
+		return lodash.set('pageBeingViewed', action.payload.pageToView, state);
 	}
 
 	case ActionTypes.RESET_ACCOUNT: {

@@ -199,8 +199,8 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 
 	render () {
 		let teamToRender = this.props.teamCache[this.props.userBeingViewed] !== undefined &&
-		this.props.teamCache[this.props.userBeingViewed]['week-' + this.props.weekBeingViewed] !== undefined
-			? this.props.teamCache[this.props.userBeingViewed]['week-' + this.props.weekBeingViewed] : [];
+		this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] !== undefined
+			? this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] : [];
 
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
