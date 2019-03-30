@@ -105,3 +105,22 @@ export const getUserInfo = (id: string): Promise<Account> => {
 		}
 	});
 };
+
+export const getUserBudget = (id: string): Promise<number> => {
+	return fetch('/api/user/' + id + '/remainingBudget', {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};

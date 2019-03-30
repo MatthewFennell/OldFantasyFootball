@@ -15,8 +15,10 @@ export interface State {
   totalNumberOfWeeks: 0;
   mostValuable: MostValuable;
 
+  budget: {}
   totalPointsCache: {}
   weeklyPoints: {}
+
 }
 
 // Define our initialState
@@ -28,8 +30,13 @@ export const initialState: State = {
 	totalNumberOfWeeks: 0,
 	mostValuable: undefined as any,
 
+	budget: {} as { user: { id: string; budget: number } },
 	totalPointsCache: {} as { user: { id: string; points: number } },
-	weeklyPoints: {} as { user: { weeks: { id: number; points: number } } },
+	weeklyPoints: {} as { user: { weeks: { id: string; points: number } } },
+};
+
+const setBudget = (path: string, value: number, state: State) => {
+	return lodash.set('budget.' + path, value, state);
 };
 
 const setTotalPoints = (path: string, value: number, state: State) => {
@@ -91,6 +98,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 			...state,
 			mostValuable: action.payload.mostValuable
 		};
+	}
+
+	case ActionTypes.SET_BUDGET: {
+		return setBudget(action.payload.user, action.payload.budget, state);
 	}
 
 	case ActionTypes.SET_TOTAL_POINTS_CACHE: {

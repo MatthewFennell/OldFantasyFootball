@@ -10,7 +10,8 @@ export enum ActionTypes {
   SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;',
 	SET_MOST_VALUBLE = 'SET_MOST_VALUABLE',
 	SET_TOTAL_POINTS_CACHE = 'SET_TOTAL_POINTS_CACHE',
-	SET_WEEKLY_POINTS_CACHE = 'SET_WEEKLY_POINTS_CACHE'
+	SET_WEEKLY_POINTS_CACHE = 'SET_WEEKLY_POINTS_CACHE',
+	SET_BUDGET = 'SET_BUDGET'
 }
 
 export interface SetWeekBeingViewed {
@@ -51,6 +52,11 @@ export interface SetTotalPointsCache {
 export interface SetWeeklyPointsCache {
   type: ActionTypes.SET_WEEKLY_POINTS_CACHE;
   payload: { user: string, points: number, week: number };
+}
+
+export interface SetBudget {
+  type: ActionTypes.SET_BUDGET;
+  payload: { user: string, budget: number };
 }
 
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
@@ -120,6 +126,13 @@ export const setWeeklyPointsCache = (user: string, points: number, week: number)
 	};
 };
 
+export const setBudget = (user: string, budget: number): SetBudget => {
+	return {
+		type: ActionTypes.SET_BUDGET,
+		payload: { user, budget }
+	};
+};
+
 export type Action =
   | SetWeekBeingViewed
   | AddToAverageWeeklyPointsCache
@@ -128,4 +141,5 @@ export type Action =
   | SetTotalNumberOfWeeks
 	| SetMostValuable
 	| SetTotalPointsCache
-	| SetWeeklyPointsCache;
+	| SetWeeklyPointsCache
+	| SetBudget;

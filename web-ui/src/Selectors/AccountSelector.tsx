@@ -12,3 +12,6 @@ export const getPageBeingViewed = createSelector([getPageBeingViewedState], p =>
 
 const getRolesState = (state: State) => state.account;
 export const getRoles = createSelector([getRolesState], p => p.roles);
+
+const getIdState = (state: State) => state.account;
+export const getAccountId = createSelector([getIdState], p => p.id);
