@@ -16,7 +16,6 @@ import {
 	addToTopWeeklyPlayersCache,
 	addToTopWeeklyUsersCache,
 	setTotalNumberOfWeeks,
-	setMostValuable
 } from '../../Actions/StatsActions';
 
 import {
@@ -48,7 +47,6 @@ const mapDispatchToProps = {
 	setTotalNumberOfWeeks,
 	setTransferMarket,
 	setAllCollegeTeams,
-	setMostValuable
 };
 
 export default connect<any, any, any>(

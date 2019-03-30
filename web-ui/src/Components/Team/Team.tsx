@@ -84,7 +84,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		};
 		this.updateUserInfo();
 		this.findTeam();
-		this.findMostValuable();
 	}
 
 	componentDidMount () {
@@ -98,7 +97,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findTeam();
-			this.findMostValuable();
 		}
 	}
 

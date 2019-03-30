@@ -13,7 +13,6 @@ export interface State {
   topWeeklyPlayersCache: {};
   topWeeklyUsersCache: {};
   totalNumberOfWeeks: 0;
-  mostValuable: MostValuable;
 
   budget: {}
   totalPointsCache: {}
@@ -29,7 +28,6 @@ export const initialState: State = {
 	topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
 	topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
 	totalNumberOfWeeks: 0,
-	mostValuable: undefined as any,
 
 	budget: {} as { user: { id: string; budget: number } },
 	totalPointsCache: {} as { user: { id: string; points: number } },
@@ -96,13 +94,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			totalNumberOfWeeks: action.payload.numberOfWeeks
-		};
-	}
-
-	case ActionTypes.SET_MOST_VALUBLE: {
-		return {
-			...state,
-			mostValuable: action.payload.mostValuable
 		};
 	}
 

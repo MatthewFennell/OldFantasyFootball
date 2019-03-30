@@ -400,56 +400,61 @@ public class PlayerManager {
         }
     }
 
-    public MostValuableDTO findMostValuablePlayer(ApplicationUser user){
-        HashMap<UUID, Integer> pointsPerPlayer = new HashMap<>();
-        Optional<UsersWeeklyTeam> mostRecent = weeklyTeamRepo.findActiveTeam(user);
+    public MostValuableDTO findMostValuablePlayer(String id){
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
+        if (user.isPresent()) {
+            HashMap<UUID, Integer> pointsPerPlayer = new HashMap<>();
+            Optional<UsersWeeklyTeam> mostRecent = weeklyTeamRepo.findActiveTeam(user.get());
 
-        HashMap<UUID, Integer> pointsPerCollegeTeam = new HashMap<>();
+            HashMap<UUID, Integer> pointsPerCollegeTeam = new HashMap<>();
 
-        if (mostRecent.isPresent()){
-            for (Player player : mostRecent.get().getPlayers()){
-                pointsPerPlayer.put(player.getId(), 0);
-                pointsPerCollegeTeam.putIfAbsent(player.getActiveTeam().getId(), 0);
-            }
-            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findWeeklyTeams(user);
-            for (UsersWeeklyTeam weeklyTeam : weeklyTeams){
-                for (Player player : weeklyTeam.getPlayers()){
-                    if (pointsPerPlayer.containsKey(player.getId())){
-                        Optional<Integer> points = playerPointsRepo.findScoreByPlayerByWeek(player, weeklyTeam.getWeek());
-                        if (points.isPresent()) {
-                            pointsPerPlayer.put(player.getId(), pointsPerPlayer.get(player.getId()) + points.get());
-                            pointsPerCollegeTeam.put(player.getActiveTeam().getId(), pointsPerCollegeTeam.get(player.getActiveTeam().getId()) + points.get());
+            if (mostRecent.isPresent()) {
+                for (Player player : mostRecent.get().getPlayers()) {
+                    pointsPerPlayer.put(player.getId(), 0);
+                    pointsPerCollegeTeam.putIfAbsent(player.getActiveTeam().getId(), 0);
+                }
+                List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findWeeklyTeams(user.get());
+                for (UsersWeeklyTeam weeklyTeam : weeklyTeams) {
+                    for (Player player : weeklyTeam.getPlayers()) {
+                        if (pointsPerPlayer.containsKey(player.getId())) {
+                            Optional<Integer> points = playerPointsRepo.findScoreByPlayerByWeek(player, weeklyTeam.getWeek());
+                            if (points.isPresent()) {
+                                pointsPerPlayer.put(player.getId(), pointsPerPlayer.get(player.getId()) + points.get());
+                                pointsPerCollegeTeam.put(player.getActiveTeam().getId(), pointsPerCollegeTeam.get(player.getActiveTeam().getId()) + points.get());
+                            }
                         }
                     }
                 }
+            } else {
+                throw new IllegalArgumentException("No active team");
             }
+
+            UUID maxPlayer = findMostValuableID(pointsPerPlayer);
+            UUID maxCollegeTeam = findMostValuableID(pointsPerCollegeTeam);
+
+            Optional<Player> player = playerRepo.findById(maxPlayer);
+            Optional<CollegeTeam> collegeTeam = teamRepo.findById(maxCollegeTeam);
+
+            if (!player.isPresent() || !pointsPerPlayer.containsKey(player.get().getId())) {
+                throw new IllegalArgumentException("No max player");
+            }
+
+            if (!collegeTeam.isPresent() || !pointsPerCollegeTeam.containsKey(collegeTeam.get().getId())) {
+                throw new IllegalArgumentException("No max college team present");
+            }
+
+            int playerScore = pointsPerPlayer.get(player.get().getId());
+            int collegeScore = pointsPerCollegeTeam.get(collegeTeam.get().getId());
+
+            MostValuableDTO mostValuableDTO = new MostValuableDTO(player.get(), playerScore, collegeTeam.get(), collegeScore);
+
+            System.out.println("Best player score = " + playerScore);
+            System.out.println("Best college score = " + collegeScore);
+            return mostValuableDTO;
         }
         else {
-            throw new IllegalArgumentException("No active team");
+            throw new IllegalArgumentException("User does not exist");
         }
-
-        UUID maxPlayer = findMostValuableID(pointsPerPlayer);
-        UUID maxCollegeTeam = findMostValuableID(pointsPerCollegeTeam);
-
-        Optional<Player> player = playerRepo.findById(maxPlayer);
-        Optional<CollegeTeam> collegeTeam = teamRepo.findById(maxCollegeTeam);
-
-        if (!player.isPresent() || !pointsPerPlayer.containsKey(player.get().getId())){
-            throw new IllegalArgumentException("No max player");
-        }
-
-        if (!collegeTeam.isPresent() || !pointsPerCollegeTeam.containsKey(collegeTeam.get().getId())){
-            throw new IllegalArgumentException("No max college team present");
-        }
-
-        int playerScore = pointsPerPlayer.get(player.get().getId());
-        int collegeScore = pointsPerCollegeTeam.get(collegeTeam.get().getId());
-
-        MostValuableDTO mostValuableDTO = new MostValuableDTO(player.get(), playerScore, collegeTeam.get(), collegeScore);
-
-        System.out.println("Best player score = " + playerScore);
-        System.out.println("Best college score = " + collegeScore);
-        return mostValuableDTO;
     }
 
 

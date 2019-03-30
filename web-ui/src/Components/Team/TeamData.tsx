@@ -2,7 +2,6 @@ import * as React from 'react';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import {
 	getPlayersWithMostPointsInWeek,
@@ -33,7 +32,6 @@ interface TransactionsProps {
   setTransferMarket: (transferMarket: boolean) => void;
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
-  setMostValuable: (mostValuable: MostValuable) => void;
 
   userBeingViewed: string;
 }
