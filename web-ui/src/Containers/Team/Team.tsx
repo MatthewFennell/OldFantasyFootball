@@ -13,6 +13,8 @@ import {
 	getMostValuable
 } from '../../Selectors/StatsSelector';
 
+import { setTeamCache } from '../../Actions/ActiveTeamActions';
+
 import {
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
@@ -45,6 +47,7 @@ const mapDispatchToProps = {
 	setPageBeingViewed,
 	setIsLeagueAdmin,
 	setLeagueRankings,
+	setTeamCache
 };
 
 export default connect<any, any, any>(

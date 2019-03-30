@@ -46,6 +46,8 @@ interface TransactionsProps {
   setIsLeagueAdmin: (isAdmin: boolean) => void;
   setLeagueCode: (code: string) => void;
 
+  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
+
 }
 
 interface TeamState {
@@ -76,6 +78,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 			usernameBeingViewed: ''
 		};
 		this.updateUserInfo();
+		this.props.setTeamCache('a', 5, []);
 	}
 
 	componentDidMount () {
@@ -93,7 +96,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 
 	updateUserInfo () {
 		getUserInfo(this.props.userBeingViewed).then(response => {
-			console.log('response = ' + JSON.stringify(response));
 			this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
 		}).catch(error => {
 			console.log('error = ' + error);
