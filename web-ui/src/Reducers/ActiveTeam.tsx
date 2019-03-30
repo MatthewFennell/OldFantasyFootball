@@ -9,10 +9,6 @@ export interface State {
   teamCache: {}
 }
 
-const setTeamCache = (path: string, value: PlayerDTO[], state: State) => {
-	return lodash.set('teamCache.' + path, value, state);
-};
-
 export const initialState: State = {
 	userBeingViewed: '',
 	teamCache: {} as { user: { weeks: { id: string; team: PlayerDTO[] } } },
@@ -21,14 +17,12 @@ export const initialState: State = {
 export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
 	case ActionTypes.SET_USER_BEING_VIEWED: {
-		return {
-			...state,
-			userBeingViewed: action.payload.user
-		};
+		return lodash.set('userBeingViewed', action.payload.user, state);
 	}
 
 	case ActionTypes.SET_TEAM_CACHE: {
-		return setTeamCache(action.payload.user + '.week-' + action.payload.week, action.payload.team, state);
+		const { user, week, team } = action.payload;
+		return lodash.set('teamCache.' + user + '.' + week, team, state);
 	}
 
 	default:

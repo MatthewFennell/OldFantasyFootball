@@ -122,7 +122,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 				</Dropdown>
 
 				{this.props.weeklyPoints[this.props.userBeingViewed] !== undefined
-					? <div className="week-points">Week points : {this.props.weeklyPoints[this.props.userBeingViewed]['week-0']}
+					? <div className="week-points">Week points : {this.props.weeklyPoints[this.props.userBeingViewed]['0']}
 					 </div> : <div className="week-points">Week points : </div>
 				}
 

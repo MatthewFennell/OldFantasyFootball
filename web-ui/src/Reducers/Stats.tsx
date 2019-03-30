@@ -18,7 +18,6 @@ export interface State {
   totalPointsCache: {}
   weeklyPoints: {}
   mostValuableCache: {}
-
 }
 
 // Define our initialState
@@ -35,82 +34,46 @@ export const initialState: State = {
 	mostValuableCache: {} as { user: { id: string; mostValuable: MostValuable } },
 };
 
-const setBudget = (path: string, value: number, state: State) => {
-	return lodash.set('budget.' + path, value, state);
-};
-
-const setMostValuable = (path: string, value: MostValuable, state: State) => {
-	return lodash.set('mostValuableCache.' + path, value, state);
-};
-
-const setTotalPoints = (path: string, value: number, state: State) => {
-	return lodash.set('totalPointsCache.' + path, value, state);
-};
-
-const setWeeklyPoints = (path: string, value: number, state: State) => {
-	return lodash.set('weeklyPoints.' + path, value, state);
-};
-
 export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
 	case ActionTypes.SET_WEEK_BEING_VIEWED: {
-		return {
-			...state,
-			weekBeingViewed: action.payload.week
-		};
+		return lodash.set('weekBeingViewed', action.payload.week, state);
 	}
 
 	case ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE: {
-		return {
-			...state,
-			averageWeeklyPointsCache: {
-				...state.averageWeeklyPointsCache,
-				[action.payload.weekId]: action.payload.averageWeeklyPoints
-			}
-		};
+		const { weekId, averageWeeklyPoints } = action.payload;
+		return lodash.set('averageWeeklyPointsCache.' + weekId.toString(), averageWeeklyPoints, state);
 	}
 
 	case ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE: {
-		return {
-			...state,
-			topWeeklyPlayersCache: {
-				...state.topWeeklyPlayersCache,
-				[action.payload.weekId]: action.payload.player
-			}
-		};
+		const { weekId, player } = action.payload;
+		return lodash.set('topWeeklyPlayersCache.' + weekId.toString(), player, state);
 	}
 
 	case ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE: {
-		return {
-			...state,
-			topWeeklyUsersCache: {
-				...state.topWeeklyUsersCache,
-				[action.payload.weekId]: action.payload.user
-			}
-		};
+		const { weekId, user } = action.payload;
+		return lodash.set('topWeeklyUsersCache.' + weekId.toString(), user, state);
 	}
 
 	case ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS: {
-		return {
-			...state,
-			totalNumberOfWeeks: action.payload.numberOfWeeks
-		};
+		return lodash.set('totalNumberOfWeeks', action.payload.numberOfWeeks, state);
 	}
 
 	case ActionTypes.SET_BUDGET: {
-		return setBudget(action.payload.user, action.payload.budget, state);
+		return lodash.set('budget.' + action.payload.user, action.payload.budget, state);
 	}
 
 	case ActionTypes.SET_TOTAL_POINTS_CACHE: {
-		return setTotalPoints(action.payload.user, action.payload.points, state);
+		return lodash.set('totalPointsCache.' + action.payload.user, action.payload.points, state);
 	}
 
 	case ActionTypes.SET_WEEKLY_POINTS_CACHE: {
-		return setWeeklyPoints(action.payload.user + '.week-' + action.payload.week, action.payload.points, state);
+		const { user, week, points } = action.payload;
+		return lodash.set('weeklyPoints.' + user + '.' + week, points, state);
 	}
 
 	case ActionTypes.SET_MOST_VALUABLE_CACHE: {
-		return setMostValuable(action.payload.user, action.payload.mostValuable, state);
+		return lodash.set('mostValuableCache.' + action.payload.user, action.payload.mostValuable, state);
 	}
 
 	default:
