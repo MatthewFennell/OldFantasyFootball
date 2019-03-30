@@ -19,10 +19,6 @@ import {
 } from '../../Actions/StatsActions';
 
 import {
-	addToLeagueCache
-} from '../../Actions/LeagueActions';
-
-import {
 	getLeagueCache
 } from '../../Selectors/LeagueSelector';
 
@@ -39,7 +35,6 @@ const mapStateToProps = (state: State) => ({
 });
 
 const mapDispatchToProps = {
-	addToLeagueCache,
 	setWeekBeingViewed,
 	addToAverageWeeklyPointsCache,
 	addToTopWeeklyPlayersCache,

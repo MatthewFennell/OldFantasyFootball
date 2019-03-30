@@ -31,6 +31,9 @@ interface LeagueProps {
 
   setPageBeingViewed: (page: string) => void;
   setUserBeingViewed: (user: string) => void;
+  setLeagues: (user: string, leagueName: string, position: number) => void;
+  userBeingViewed: string;
+  leagues: { user: { leagueCache: { leagueName: string; position: number } } }
 }
 
 interface LeaguesState {
@@ -43,19 +46,21 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.handleCreateLeague = this.handleCreateLeague.bind(this);
 		this.handleJoinLeague = this.handleJoinLeague.bind(this);
 		this.handleViewUser = this.handleViewUser.bind(this);
+		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 	}
 
 	componentDidMount () {
-		getLeaguesAndPositions().then(leagueAndPositionsArray => {
-			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-				if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
-					this.props.addToLeagueCache(
-						leagueAndPositionsArray[x].leagueName,
-						leagueAndPositionsArray[x].position
-					);
+		if (this.props.userBeingViewed !== '') {
+			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
+				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
+					if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
+						this.props.setLeagues(this.props.userBeingViewed,
+							leagueAndPositionsArray[x].leagueName,
+							leagueAndPositionsArray[x].position);
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	_setLeagueBeingViewed (leagueToView: string) {
@@ -89,18 +94,23 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.props.history.push('/team');
 	}
 
-	render () {
-		let leagues: LeaguePositions[] = [];
-		var keys = Object.keys(this.props.leagueCache);
-		for (let x = 0; x < keys.length; x++) {
-			// TO:DO - Check this
-			let p: LeaguePositions = {
-				leagueName: keys[x],
-				position: this.props.leagueCache[keys[x]],
-				id: this.props.leagueCache[keys[x]]
-			};
-			leagues.push(p);
+	generateLeaguePositions () {
+		if (this.props.leagues[this.props.userBeingViewed] === undefined) {
+			return [];
+		} else {
+			let leagues: LeaguePositions[] = [];
+			let keys = Object.keys(this.props.leagues[this.props.userBeingViewed]);
+			keys.map(obj => leagues.push(
+				{ leagueName: obj,
+					position: this.props.leagues[this.props.userBeingViewed][obj],
+					id: this.props.leagues[this.props.userBeingViewed][obj] }
+			));
+			return leagues;
 		}
+	}
+
+	render () {
+		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 
 		const offSet = this.props.leaguePageBeingViewed === 'home' ? 0 : 0;
 		const width = this.props.leaguePageBeingViewed === 'home' ? 6 : 6;
@@ -159,9 +169,15 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 						</div>
 					</Col>
 					{this.props.leaguePageBeingViewed === 'create-league'
-						? <CreateLeague addToLeagueCache={this.props.addToLeagueCache} />
+						? <CreateLeague
+							setLeagues={this.props.setLeagues}
+							userBeingViewed={this.props.userBeingViewed}
+						  />
 						: this.props.leaguePageBeingViewed === 'join-league'
-							? <JoinLeague addToLeagueCache={this.props.addToLeagueCache} />
+							? <JoinLeague
+								setLeagues={this.props.setLeagues}
+								userBeingViewed={this.props.userBeingViewed}
+							  />
 							: this.props.leaguePageBeingViewed !== 'home'
 								? <RankingsTableBody
 									code={this.props.leagueCode}

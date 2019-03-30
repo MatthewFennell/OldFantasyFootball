@@ -18,3 +18,6 @@ export const getIsLeagueAdmin = createSelector([getIsLeagueAdminState], p => p.i
 
 const getLeagueCodeState = (state: State) => state.league;
 export const getLeagueCode = createSelector([getLeagueCodeState], p => p.code);
+
+const getLeaguesState = (state: State) => state.league;
+export const getLeagues = createSelector([getLeaguesState], p => p.leagues);
