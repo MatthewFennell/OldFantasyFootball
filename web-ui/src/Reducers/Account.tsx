@@ -9,7 +9,6 @@ export interface State {
   username: string;
   email: string;
   pageBeingViewed: string;
-  totalPoints: number;
   weekBeingViewed: number;
   roles: string[];
 }
@@ -22,7 +21,6 @@ export const initialState: State = {
 	email: '',
 	username: '',
 	pageBeingViewed: 'Team',
-	totalPoints: 0,
 	weekBeingViewed: 0,
 	roles: []
 };
@@ -43,7 +41,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			surname,
 			username,
 			email,
-			totalPoints,
 			roles
 		} = action.payload.account;
 
@@ -53,7 +50,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			surname,
 			username,
 			email,
-			totalPoints,
 			roles
 		};
 	}
@@ -62,13 +58,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			pageBeingViewed: action.payload.pageToView
-		};
-	}
-
-	case ActionTypes.SET_TOTAL_POINTS: {
-		return {
-			...state,
-			totalPoints: action.payload.totalPoints
 		};
 	}
 

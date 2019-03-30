@@ -23,10 +23,8 @@ import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition'
 import { getUserInfo } from '../../Services/User/UserService';
 
 interface TransactionsProps {
-  totalPoints: number;
   weekBeingViewed: number;
   averageWeeklyPointsCache: any;
-  weeklyPointsCache: any;
   topWeeklyPlayerCache: any;
   topWeeklyUsersCache: any;
   leagueCache: any;
@@ -47,6 +45,7 @@ interface TransactionsProps {
 
   setIsLeagueAdmin: (isAdmin: boolean) => void;
   setLeagueCode: (code: string) => void;
+
 }
 
 interface TeamState {
@@ -87,10 +86,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
-		console.log('prev props = ' + JSON.stringify(prevProps.userBeingViewed));
-		console.log('new props = ' + JSON.stringify(this.props.userBeingViewed));
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
-			console.log('Lets change stuff');
 			this.updateUserInfo();
 		}
 	}
@@ -174,8 +170,6 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 
 	render () {
-		console.log('state = ' + this.state.usernameBeingViewed);
-
 		let leagues: LeaguePositions[] = [];
 		var keys = Object.keys(this.props.leagueCache);
 		for (let x = 0; x < keys.length; x++) {

@@ -7,6 +7,7 @@ import {
 	getTopWeeklyPlayerCache,
 	getTopWeeklyUserCache,
 	getMostValuable
+
 } from '../../Selectors/StatsSelector';
 
 import { getRemainingBudget } from '../../Selectors/TransfersSelector';
@@ -20,7 +21,8 @@ const mapStateToProps = (state: State) => ({
 	mostValuable: getMostValuable(state)
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+};
 
 export default connect<any, any, any>(
   mapStateToProps as any,

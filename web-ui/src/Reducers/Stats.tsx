@@ -2,12 +2,13 @@ import { ActionTypes, Action as StatsAction } from '../Actions/StatsActions';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { MostValuable } from '../Models/Interfaces/MostValuable';
+import * as lodash from 'lodash/fp';
+
 type Action = StatsAction;
 
 // Define our State interface for the current reducer
 export interface State {
   weekBeingViewed: number;
-  weeklyPointsCache: {};
   averageWeeklyPointsCache: {};
   topWeeklyPlayersCache: {};
   topWeeklyUsersCache: {};
@@ -15,19 +16,28 @@ export interface State {
   mostValuable: MostValuable;
 
   totalPointsCache: {}
+  weeklyPoints: {}
 }
 
 // Define our initialState
 export const initialState: State = {
 	weekBeingViewed: 0,
-	weeklyPointsCache: {} as { weeks: { id: number; points: number } },
 	averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
 	topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
 	topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
 	totalNumberOfWeeks: 0,
 	mostValuable: undefined as any,
 
-	totalPointsCache: {} as { user: { id: string; points: number } }
+	totalPointsCache: {} as { user: { id: string; points: number } },
+	weeklyPoints: {} as { user: { weeks: { id: number; points: number } } },
+};
+
+const setTotalPoints = (path: string, value: number, state: State) => {
+	return lodash.set('totalPointsCache.' + path, value, state);
+};
+
+const setWeeklyPoints = (path: string, value: number, state: State) => {
+	return lodash.set('weeklyPoints.' + path, value, state);
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -36,16 +46,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return {
 			...state,
 			weekBeingViewed: action.payload.week
-		};
-	}
-
-	case ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE: {
-		return {
-			...state,
-			weeklyPointsCache: {
-				...state.weeklyPointsCache,
-				[action.payload.weekId]: action.payload.week
-			}
 		};
 	}
 
@@ -91,6 +91,14 @@ export const reducer = (state: State = initialState, action: Action) => {
 			...state,
 			mostValuable: action.payload.mostValuable
 		};
+	}
+
+	case ActionTypes.SET_TOTAL_POINTS_CACHE: {
+		return setTotalPoints(action.payload.user, action.payload.points, state);
+	}
+
+	case ActionTypes.SET_WEEKLY_POINTS_CACHE: {
+		return setWeeklyPoints(action.payload.user + '.week-' + action.payload.week, action.payload.points, state);
 	}
 
 	default:

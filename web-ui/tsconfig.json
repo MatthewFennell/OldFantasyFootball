@@ -14,7 +14,8 @@
       "noImplicitAny": true,
       "noUnusedLocals": true,
       "forceConsistentCasingInFileNames": true,
-      "allowSyntheticDefaultImports": true
+      "allowSyntheticDefaultImports": true,
+      "suppressImplicitAnyIndexErrors": true,
     },
     "exclude": [
       "node_modules",

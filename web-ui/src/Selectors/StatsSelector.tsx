@@ -4,12 +4,6 @@ import { createSelector } from 'reselect';
 const getWeekBeingViewedState = (state: State) => state.stats;
 export const getWeekBeingViewed = createSelector([getWeekBeingViewedState], p => p.weekBeingViewed);
 
-const getWeeklyPointsCacheState = (state: State) => state.stats;
-export const getWeeklyPointsCache = createSelector(
-	[getWeeklyPointsCacheState],
-	p => p.weeklyPointsCache
-);
-
 const getAverageWeeklyPointsCacheState = (state: State) => state.stats;
 export const getAverageWeeklyPointsCache = createSelector(
 	[getAverageWeeklyPointsCacheState],
@@ -36,3 +30,9 @@ export const getTotalNumberOfWeeks = createSelector(
 
 const getMostValubleState = (state: State) => state.stats;
 export const getMostValuable = createSelector([getMostValubleState], p => p.mostValuable);
+
+const getTotalPointsCacheState = (state: State) => state.stats;
+export const getTotalPointsCache = createSelector([getTotalPointsCacheState], p => p.totalPointsCache);
+
+const getWeeklyPointsState = (state: State) => state.stats;
+export const getWeeklyPoints = createSelector([getWeeklyPointsState], p => p.weeklyPoints);
