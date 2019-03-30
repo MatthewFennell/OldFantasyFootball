@@ -25,7 +25,6 @@ import { getUserInfo } from '../../Services/User/UserService';
 interface TransactionsProps {
   weekBeingViewed: number;
   averageWeeklyPointsCache: any;
-  weeklyPointsCache: any;
   topWeeklyPlayerCache: any;
   topWeeklyUsersCache: any;
   leagueCache: any;

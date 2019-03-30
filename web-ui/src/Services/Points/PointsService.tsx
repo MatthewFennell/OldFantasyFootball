@@ -42,8 +42,8 @@ export const getAveragePoints = (week: number): Promise<number> => {
 	});
 };
 
-export const getPointsForUserInWeek = (week: number): Promise<number> => {
-	return fetch('/api/points/user/week/' + week, {
+export const getPointsForUserInWeek = (id: string, week: number): Promise<number> => {
+	return fetch('/api/points/user/' + id + '/week/' + week, {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {

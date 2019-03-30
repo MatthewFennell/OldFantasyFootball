@@ -4,23 +4,18 @@ import { MostValuable } from '../Models/Interfaces/MostValuable';
 
 export enum ActionTypes {
   SET_WEEK_BEING_VIEWED = 'SET_WEEK_BEING_VIEWED',
-  ADD_TO_WEEKLY_POINTS_CACHE = 'ADD_TO_WEEKLY_POINTS_CACHE',
   ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE = 'ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE',
   ADD_TO_TOP_WEEKLY_PLAYERS_CACHE = 'ADD_TO_TOP_WEEKLY_PLAYERS_CACHE',
   ADD_TO_TOP_WEEKLY_USERS_CACHE = 'ADD_TO_TOP_WEEKLY_USERS_CACHE',
   SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;',
 	SET_MOST_VALUBLE = 'SET_MOST_VALUABLE',
-	SET_TOTAL_POINTS_CACHE = 'SET_TOTAL_POINTS_CACHE'
+	SET_TOTAL_POINTS_CACHE = 'SET_TOTAL_POINTS_CACHE',
+	SET_WEEKLY_POINTS_CACHE = 'SET_WEEKLY_POINTS_CACHE'
 }
 
 export interface SetWeekBeingViewed {
   type: ActionTypes.SET_WEEK_BEING_VIEWED;
   payload: { week: number };
-}
-
-export interface AddToWeeklyPointsCache {
-  type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE;
-  payload: { weekId: number; week: number };
 }
 
 export interface AddToAverageWeeklyPointsCache {
@@ -53,19 +48,17 @@ export interface SetTotalPointsCache {
   payload: { user: string, points: number };
 }
 
+export interface SetWeeklyPointsCache {
+  type: ActionTypes.SET_WEEKLY_POINTS_CACHE;
+  payload: { user: string, points: number, week: number };
+}
+
 export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
 	return {
 		type: ActionTypes.SET_WEEK_BEING_VIEWED,
 		payload: {
 			week
 		}
-	};
-};
-
-export const addToWeeklyPointsCache = (weekId: number, week: number): AddToWeeklyPointsCache => {
-	return {
-		type: ActionTypes.ADD_TO_WEEKLY_POINTS_CACHE,
-		payload: { weekId, week }
 	};
 };
 
@@ -120,12 +113,19 @@ export const setTotalPointsCache = (user: string, points: number): SetTotalPoint
 	};
 };
 
+export const setWeeklyPointsCache = (user: string, points: number, week: number): SetWeeklyPointsCache => {
+	return {
+		type: ActionTypes.SET_WEEKLY_POINTS_CACHE,
+		payload: { user, points, week }
+	};
+};
+
 export type Action =
   | SetWeekBeingViewed
-  | AddToWeeklyPointsCache
   | AddToAverageWeeklyPointsCache
   | AddToTopWeeklyPlayersCache
   | AddToTopWeeklyUsersCache
   | SetTotalNumberOfWeeks
 	| SetMostValuable
-	| SetTotalPointsCache;
+	| SetTotalPointsCache
+	| SetWeeklyPointsCache;

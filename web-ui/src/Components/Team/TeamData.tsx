@@ -11,7 +11,7 @@ import {
 } from '../../Services/Player/PlayerService';
 import {
 	getAveragePoints,
-	getPointsForUserInWeek,
+	// getPointsForUserInWeek,
 	getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
@@ -25,8 +25,6 @@ interface TransactionsProps {
   setWeekBeingViewed: (week: number) => void;
   averageWeeklyPointsCache: any;
   addToAverageWeeklyPointsCache: (id: number, points: number) => void;
-  weeklyPointsCache: any;
-  addToWeeklyPointsCache: (id: number, points: number) => void;
   topWeeklyPlayerCache: any;
   addToTopWeeklyPlayersCache: (id: number, player: PlayerDTO) => void;
   topWeeklyUsersCache: any;
@@ -121,14 +119,6 @@ class Transactions extends React.Component<TransactionsProps> {
 		if (this.props.averageWeeklyPointsCache[currentWeek] === undefined) {
 			getAveragePoints(currentWeek).then(averageWeeklyPoints => {
 				this.props.addToAverageWeeklyPointsCache(currentWeek, averageWeeklyPoints);
-			});
-		}
-
-		// Hold a cache of [Week -> User Points]
-		// If the week has not already been cached, then fetch the points for the week
-		if (this.props.weeklyPointsCache[currentWeek] === undefined) {
-			getPointsForUserInWeek(currentWeek).then(userWeeklyPoints => {
-				this.props.addToWeeklyPointsCache(currentWeek, userWeeklyPoints);
 			});
 		}
 

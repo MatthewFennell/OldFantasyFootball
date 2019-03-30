@@ -6,7 +6,6 @@ import { setPageBeingViewed } from '../../Actions/AccountActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
 	getWeekBeingViewed,
-	getWeeklyPointsCache,
 	getAverageWeeklyPointsCache,
 	getTopWeeklyPlayerCache,
 	getTopWeeklyUserCache,
@@ -27,7 +26,6 @@ import { getLeagueCache, getIsLeagueAdmin,
 const mapStateToProps = (state: State) => ({
 	leagueCache: getLeagueCache(state),
 	weekBeingViewed: getWeekBeingViewed(state),
-	weeklyPointsCache: getWeeklyPointsCache(state),
 	averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
 	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
