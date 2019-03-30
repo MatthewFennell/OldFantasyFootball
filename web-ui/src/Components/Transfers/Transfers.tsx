@@ -11,13 +11,11 @@ import { updateTeam } from '../../Services/Weeks/WeeksService';
 import TeamData from '../../Containers/Team/TeamData';
 
 interface TransfersProps {
-	accountId: string;
+  accountId: string;
   remainingBudget: { user: { id: string; budget: number } }
   setBudget: (user: string, budget:number) => void;
-  addPlayer: (player: PlayerDTO) => void;
 
   filteredPlayers: PlayerDTO[];
-  activeTeam: PlayerDTO[];
 
   playersBeingAdded: PlayerDTO[];
   playersBeingRemoved: PlayerDTO[];
@@ -25,9 +23,8 @@ interface TransfersProps {
   setTransferMarket: (transferMarket: boolean) => void;
   transfersMarketOpen: boolean;
 
-  removeIndex: (indexToRemove: number) => void;
-  removeFromActiveTeam: (id: string) => void;
-  removeFromPlayersBeingAdded: (index: number) => void;
+  teamCache: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
 }
 
 interface TransfersState {
@@ -83,8 +80,8 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	canAdd (player: PlayerDTO): boolean {
 		let numberInThatPosition: number = 0;
 		let playerExists: boolean = false;
-		const { activeTeam, remainingBudget } = this.props;
-		activeTeam.forEach(element => {
+		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+		currentTeam.forEach(element => {
 			if (element.position === player.position) {
 				numberInThatPosition += 1;
 			}
@@ -92,11 +89,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				playerExists = true;
 			}
 		});
-
+		console.log('player exists = ' + playerExists);
 		if (playerExists) {
 			return false;
 		}
-		if (player.price !== undefined && player.price > remainingBudget[this.props.accountId]) {
+		if (player.price !== undefined && player.price > this.props.remainingBudget[this.props.accountId]) {
 			return false;
 		}
 
@@ -117,15 +114,16 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				return false;
 			}
 		}
+		console.log('true');
 		return true;
 	}
 
 	onRemoveFromActiveTeam (id: string) {
-		this.props.activeTeam.forEach((element, index) => {
-			if (element.id === id) {
-				this.props.removeIndex(index);
-			}
-		});
+		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+
+		let newTeam = currentTeam.filter(x => x.id !== id);
+
+		this.props.setTeamCache(this.props.accountId, -1, newTeam);
 	}
 
 	onAddOrRemovePlayer (id: string, price: number, player: PlayerDTO) {
@@ -162,9 +160,10 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	onRowClick = (element: PlayerDTO) => {
-		const { addPlayer, remainingBudget } = this.props;
+		const { remainingBudget } = this.props;
 		if (this.canAdd(element)) {
-			addPlayer(element);
+			let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'].concat(element);
+			this.props.setTeamCache(this.props.accountId, -1, currentTeam);
 
 			let removed: boolean = false;
 			this.state.playersToRemove.forEach((ele, index) => {
@@ -184,8 +183,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	render () {
-		console.log('budget = ' + JSON.stringify(this.props.remainingBudget));
-		const { remainingBudget, transfersMarketOpen, activeTeam } = this.props;
+		let teamToRender = this.props.teamCache[this.props.accountId] !== undefined &&
+		this.props.teamCache[this.props.accountId]['week--1'] !== undefined
+			? this.props.teamCache[this.props.accountId]['week--1'] : [];
+
+		const { remainingBudget, transfersMarketOpen } = this.props;
 		const { teamUpdated, errorMessage } = this.state;
 		return (
 			<div className="outer-transfer-columns">
@@ -220,7 +222,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 					) : null}
 					<div className="pitch-value">
 						<Pitch
-							activeWeeklyTeam={activeTeam}
+							activeWeeklyTeam={teamToRender}
 							addOrRemovePlayer={this.onAddOrRemovePlayer}
 							handleClickOnPlayer={() => {}}
 							removeFromActiveTeam={this.onRemoveFromActiveTeam}
