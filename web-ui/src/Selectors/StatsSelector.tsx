@@ -36,3 +36,6 @@ export const getTotalPointsCache = createSelector([getTotalPointsCacheState], p 
 
 const getWeeklyPointsState = (state: State) => state.stats;
 export const getWeeklyPoints = createSelector([getWeeklyPointsState], p => p.weeklyPoints);
+
+const getRemainingBudgetState = (state: State) => state.stats;
+export const getRemainingBudget = createSelector([getRemainingBudgetState], p => p.budget);

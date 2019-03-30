@@ -186,4 +186,31 @@ public class User {
         }
         return null;
     }
+    
+    @ApiOperation(value = Icons.key
+            + " Gets the remaining budget for a user",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/user/{id}/remainingBudget")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "Invalid week"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public double getRemainingBudget(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("id") String id) {
+        try {
+            response.setStatus(200);
+            return applicationUserManager.findRemainingBalance(id);
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return 0;
+    }
+
+
 }

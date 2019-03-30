@@ -11,6 +11,7 @@ import { updateTeam } from '../../Services/Weeks/WeeksService';
 import TeamData from '../../Containers/Team/TeamData';
 
 interface TransfersProps {
+	accountId: string;
   remainingBudget: number;
   setRemainingBudget: (remainingBudget: number) => void;
   addPlayer: (player: PlayerDTO) => void;

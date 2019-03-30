@@ -6,11 +6,12 @@ import {
 	getWeekBeingViewed,
 	getTopWeeklyPlayerCache,
 	getTopWeeklyUserCache,
-	getMostValuable
-
+	getMostValuable,
+	getRemainingBudget
 } from '../../Selectors/StatsSelector';
+import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
-import { getRemainingBudget } from '../../Selectors/TransfersSelector';
+import { setBudget } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
@@ -18,10 +19,12 @@ const mapStateToProps = (state: State) => ({
 	weekBeingViewed: getWeekBeingViewed(state),
 	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
-	mostValuable: getMostValuable(state)
+	mostValuable: getMostValuable(state),
+	userBeingViewed: getUserBeingViewed(state),
 });
 
 const mapDispatchToProps = {
+	setBudget
 };
 
 export default connect<any, any, any>(

@@ -123,7 +123,16 @@ public class ApplicationUserManager {
         else {
             throw new IllegalArgumentException("User does not exist");
         }
+    }
 
+    public double findRemainingBalance(String id){
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
+        if (user.isPresent()){
+            return user.get().getRemainingBudget();
+        }
+        else {
+            throw new IllegalArgumentException("User does not exist");
+        }
     }
 
 

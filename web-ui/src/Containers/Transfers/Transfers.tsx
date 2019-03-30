@@ -10,11 +10,14 @@ import {
 } from '../../Selectors/TransfersSelector';
 import { getActiveTeam } from '../../Selectors/ActiveTeamSelector';
 
+import { getAccountId } from '../../Selectors/AccountSelector';
+
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
 	filteredPlayers: getFilteredPlayers(state),
 	activeTeam: getActiveTeam(state),
-	transfersMarketOpen: getTransferMarketOpen(state)
+	transfersMarketOpen: getTransferMarketOpen(state),
+	accountId: getAccountId(state)
 });
 
 const mapDispatchToProps = {
