@@ -311,6 +311,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void findPlayersInWeeklyTeamCorrectly() {
+        String id = UUID.randomUUID().toString();
         CollegeTeam collegeTeam = new CollegeTeam("name");
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -331,7 +332,9 @@ public class WeeklyTeamManagerTest {
         when(weeklyTeamRepo.findByUserByWeek(u1, 0)).thenReturn(Optional.of(weeklyTeam));
         when(playerPointsRepo.findByPlayerByWeek(player_one, 0)).thenReturn(Optional.of(playerPoints_one));
         when(playerPointsRepo.findByPlayerByWeek(player_two, 0)).thenReturn(Optional.of(playerPoints_two));
-        List<PlayerDTO> squad = weeklyTeamManager.findAllPlayersInWeeklyTeam(u1, 0);
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(u1));
+
+        List<PlayerDTO> squad = weeklyTeamManager.findAllPlayersInWeeklyTeam(id, 0);
         assertEquals(2, squad.size());
         assertEquals(Integer.valueOf(27), squad.get(0).getPoints());
         assertEquals(Integer.valueOf(15), squad.get(1).getPoints());
@@ -342,7 +345,7 @@ public class WeeklyTeamManagerTest {
     public void findPlayersInWeeklyTeamThrowsExceptionIfTeamDoesNotExist() {
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(weeklyTeamRepo.findByUserByWeek(u1, 0)).thenReturn(Optional.empty());
-        weeklyTeamManager.findAllPlayersInWeeklyTeam(new ApplicationUser(), 0);
+        weeklyTeamManager.findAllPlayersInWeeklyTeam("", 0);
 
     }
 

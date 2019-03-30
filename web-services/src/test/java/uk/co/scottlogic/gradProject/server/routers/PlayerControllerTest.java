@@ -78,6 +78,7 @@ public class PlayerControllerTest {
 
     @Test
     public void gettingAllPlayersForAUserInAGivenWeekReturns200() {
+        String id = UUID.randomUUID().toString();
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
         List<Player> players = new ArrayList<>();
         Player p1 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
@@ -88,19 +89,22 @@ public class PlayerControllerTest {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(user, new Date(), players, 0);
 
         when(weeklyTeamRepo.findByUserByWeek(any(), any())).thenReturn(Optional.of(weeklyTeam));
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.of(playerPoints));
 
         MockHttpServletResponse response = new MockHttpServletResponse();
-        playerController.getAllPlayersForUserInWeek(user, response, 0);
+        playerController.getAllPlayersForUserInWeek(user, response, id, 0);
         TestCase.assertEquals(200, response.getStatus());
     }
 
     @Test
     public void gettingAllPlayersForAUserInAGivenWeekWhenNoTeamExistsReturns400() {
+        String id = UUID.randomUUID().toString();
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         when(weeklyTeamRepo.findByUserByWeek(any(), any())).thenReturn(Optional.empty());
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         MockHttpServletResponse response = new MockHttpServletResponse();
-        playerController.getAllPlayersForUserInWeek(user, response, 0);
+        playerController.getAllPlayersForUserInWeek(user, response, id, 0);
         TestCase.assertEquals(400, response.getStatus());
     }
 
