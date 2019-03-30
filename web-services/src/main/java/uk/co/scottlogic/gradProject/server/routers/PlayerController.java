@@ -64,17 +64,18 @@ public class PlayerController {
             + " Find all players for the user in a given week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/player/week/{week-id}/team")
+    @GetMapping("/player/{id}/week/{week-id}/team")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "No weekly team for that user and date"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<PlayerDTO> getAllPlayersForUserInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("id") String id,
             @PathVariable("week-id") Integer week) {
         try {
             response.setStatus(200);
-            return weeklyTeamManager.findAllPlayersInWeeklyTeam(user, week);
+            return weeklyTeamManager.findAllPlayersInWeeklyTeam(id, week);
         } catch (IllegalArgumentException e) {
             log.debug(e.getMessage());
             response.setStatus(400);

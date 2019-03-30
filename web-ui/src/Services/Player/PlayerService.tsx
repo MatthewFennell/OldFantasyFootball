@@ -7,8 +7,9 @@ import { AddPoints } from '../../Models/Interfaces/AddPoints';
 import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 
-export const getTeamForUserInWeek = (week: number): Promise<PlayerDTO[]> => {
-	return fetch('/api/player/week/' + week + '/team', {
+export const getTeamForUserInWeek = (id: string, week: number): Promise<PlayerDTO[]> => {
+	console.log('id = ' + id);
+	return fetch('/api/player/' + id + '/week/' + week + '/team', {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {

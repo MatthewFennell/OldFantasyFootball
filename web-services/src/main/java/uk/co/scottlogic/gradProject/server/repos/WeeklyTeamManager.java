@@ -240,25 +240,32 @@ public class WeeklyTeamManager {
     }
 
     // Returns the list sorted by Goalkeeper - Defenders - Midfielder - Attacker
-    public List<PlayerDTO> findAllPlayersInWeeklyTeam(ApplicationUser user, Integer week) {
-        System.out.println("searching for week " + week);
-        Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user, week);
-        List<PlayerDTO> playersToReturn = new ArrayList<>();
+    public List<PlayerDTO> findAllPlayersInWeeklyTeam(String id, Integer week) {
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
+        if (user.isPresent()) {
+            System.out.println("searching for week " + week);
+            Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user.get(), week);
+            List<PlayerDTO> playersToReturn = new ArrayList<>();
 
-        if (team.isPresent()) {
-            System.out.println("team is present");
-            List<Player> players = team.get().getPlayers();
-            for (Player p : players) {
-                playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
-                System.out.println("added DTO");
+            if (team.isPresent()) {
+                System.out.println("team is present");
+                List<Player> players = team.get().getPlayers();
+                for (Player p : players) {
+                    playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
+                    System.out.println("added DTO");
+                }
+            } else {
+                log.debug("No weekly team for that user and week");
+                throw new IllegalArgumentException("No weekly team for that user and week");
             }
-        } else {
-            log.debug("No weekly team for that user and week");
-            throw new IllegalArgumentException("No weekly team for that user and week");
+            playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
+            System.out.println("sorted them by position");
+
+            return playersToReturn;
         }
-        playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
-        System.out.println("sorted them by position");
-        return playersToReturn;
+        else {
+            throw new IllegalArgumentException("User does not exist");
+        }
     }
 
     public void addPlayersToWeeklyTeam() {

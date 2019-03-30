@@ -9,7 +9,7 @@ import {
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
-import { setTeam } from '../../Actions/ActiveTeamActions';
+import { setTeamCache } from '../../Actions/ActiveTeamActions';
 
 import { setWeekBeingViewed, setTotalPointsCache, setWeeklyPointsCache } from '../../Actions/StatsActions';
 
@@ -23,7 +23,7 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
 	setWeekBeingViewed,
-	setTeam,
+	setTeamCache,
 	setTotalPointsCache,
 	setWeeklyPointsCache
 };

@@ -8,7 +8,7 @@ import { getTotalPointsById, getPointsForUserInWeek } from '../../Services/Point
 interface StatsProps {
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
-  setTeam: (team: PlayerDTO[]) => void;
+  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
   totalNumberOfWeeks: number;
 
   userBeingViewed: string
@@ -63,9 +63,10 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	_handleWeekChange (week: number) {
+		// SHOULD BE In
 		this.props.setWeekBeingViewed(week);
-		getTeamForUserInWeek(week).then(response => {
-			this.props.setTeam(response);
+		getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+			this.props.setTeamCache(this.props.userBeingViewed, week, response);
 		});
 	}
 

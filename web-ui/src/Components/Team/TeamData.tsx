@@ -5,17 +5,14 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getNumberOfWeeks, getTransferStatus } from '../../Services/Weeks/WeeksService';
 import {
-	getTeamForUserInWeek,
 	getPlayersWithMostPointsInWeek,
 	getMostValuableAssets
 } from '../../Services/Player/PlayerService';
 import {
 	getAveragePoints,
-	// getPointsForUserInWeek,
 	getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
-import { getRemainingBudget } from '../../Services/User/UserService';
 import {
 	getLeaguesAndPositions
 } from '../../Services/League/LeagueService';
@@ -33,15 +30,13 @@ interface TransactionsProps {
   leagueCache: any;
   addToLeagueCache: (leagueName: string, position: number) => void;
 
-  setTeam: (team: PlayerDTO[]) => void;
-  weeklyTeamCache: any;
-  addToWeeklyTeamCache: (id: number, team: PlayerDTO[]) => void;
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
   setTransferMarket: (transferMarket: boolean) => void;
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
-  setRemainingBudget: (budget: number) => void;
   setMostValuable: (mostValuable: MostValuable) => void;
+
+  userBeingViewed: string;
 }
 
 class Transactions extends React.Component<TransactionsProps> {
@@ -79,14 +74,6 @@ class Transactions extends React.Component<TransactionsProps> {
 			for (let x = 0; x <= currentWeek; x++) {
 				this._generateCache(x);
 			}
-
-			getTeamForUserInWeek(this.props.weekBeingViewed).then(activeTeam => {
-				this.props.setTeam(activeTeam);
-			});
-
-			getRemainingBudget().then(response => {
-				this.props.setRemainingBudget(response);
-			});
 		});
 
 		getTransferStatus().then(response => {
@@ -98,22 +85,9 @@ class Transactions extends React.Component<TransactionsProps> {
 				this.props.setAllCollegeTeams(response);
 			});
 		}
-
-		if (this.props.weeklyTeamCache[-1] === undefined) {
-			getTeamForUserInWeek(-1).then(weeklyTeam => {
-				this.props.addToWeeklyTeamCache(-1, weeklyTeam);
-			});
-		}
 	}
 
 	_generateCache (currentWeek: number) {
-		// Hold a cache of [Week -> Weekly Team]
-		if (this.props.weeklyTeamCache[currentWeek] === undefined) {
-			getTeamForUserInWeek(currentWeek).then(weeklyTeam => {
-				this.props.addToWeeklyTeamCache(currentWeek, weeklyTeam);
-			});
-		}
-
 		// Hold a cache of [Week -> Average Weekly Points]
 		// If not cached, add to it
 		if (this.props.averageWeeklyPointsCache[currentWeek] === undefined) {

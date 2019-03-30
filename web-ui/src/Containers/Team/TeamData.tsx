@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import TeamData from '../../Components/Team/TeamData';
-import { getWeeklyTeamCache } from '../../Selectors/ActiveTeamSelector';
+import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 import { setAllCollegeTeams } from '../../Actions/AdminActions';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import {
@@ -29,16 +29,14 @@ import {
 
 import { setRemainingBudget, setTransferMarket } from '../../Actions/TransferActions';
 
-import { setTeam, addToWeeklyTeamCache } from '../../Actions/ActiveTeamActions';
-
 const mapStateToProps = (state: State) => ({
 	leagueCache: getLeagueCache(state),
 	weekBeingViewed: getWeekBeingViewed(state),
 	averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
 	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
 	topWeeklyUsersCache: getTopWeeklyUserCache(state),
-	weeklyTeamCache: getWeeklyTeamCache(state),
 	allCollegeTeams: getAllCollegeTeams(state),
+	userBeingViewed: getUserBeingViewed(state)
 });
 
 const mapDispatchToProps = {
@@ -47,8 +45,6 @@ const mapDispatchToProps = {
 	addToAverageWeeklyPointsCache,
 	addToTopWeeklyPlayersCache,
 	addToTopWeeklyUsersCache,
-	setTeam,
-	addToWeeklyTeamCache,
 	setTotalNumberOfWeeks,
 	setTransferMarket,
 	setAllCollegeTeams,
