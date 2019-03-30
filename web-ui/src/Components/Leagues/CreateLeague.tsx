@@ -15,7 +15,8 @@ interface CreateLeagueState {
 }
 
 interface CreateGroupProps {
-  addToLeagueCache: (leagueName: string, position: number) => void;
+  setLeagues: (user: string, leagueName: string, position: number) => void;
+  userBeingViewed: string;
 }
 
 class CreateLeagueClass extends React.Component<
@@ -45,7 +46,6 @@ class CreateLeagueClass extends React.Component<
 
   _onSubmit = (event: string) => {
 	  const { leagueName } = this.state;
-	  const { addToLeagueCache } = this.props;
   	switch (event) {
   	case 'btnCreateLeague':
   		const err = this._validate();
@@ -57,7 +57,7 @@ class CreateLeagueClass extends React.Component<
   			createLeague(data)
   				.then(response => {
   					this.setState({ leagueCode: response.id });
-  					addToLeagueCache(leagueName, 1);
+  					this.props.setLeagues(this.props.userBeingViewed, leagueName, 1);
   					console.log('Just made a league with name ' + leagueName);
   				})
   				.catch(error => {

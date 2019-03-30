@@ -11,9 +11,6 @@ import {
 	getUsersWithMostPointsInWeek
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
-import {
-	getLeaguesAndPositions
-} from '../../Services/League/LeagueService';
 
 interface TransactionsProps {
   weekBeingViewed: number;
@@ -25,15 +22,13 @@ interface TransactionsProps {
   topWeeklyUsersCache: any;
   addToTopWeeklyUsersCache: (id: number, player: TopWeeklyUser) => void;
 
-  leagueCache: any;
-  addToLeagueCache: (leagueName: string, position: number) => void;
-
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
   setTransferMarket: (transferMarket: boolean) => void;
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
 
   userBeingViewed: string;
+
 }
 
 class Transactions extends React.Component<TransactionsProps> {
@@ -48,17 +43,6 @@ class Transactions extends React.Component<TransactionsProps> {
 			header.hidden = false;
 		}
 		this.props.setWeekBeingViewed(-1);
-
-		getLeaguesAndPositions().then(leagueAndPositionsArray => {
-			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-				if (this.props.leagueCache[leagueAndPositionsArray[x].leagueName] === undefined) {
-					this.props.addToLeagueCache(
-						leagueAndPositionsArray[x].leagueName,
-						leagueAndPositionsArray[x].position
-					);
-				}
-			}
-		});
 
 		// Get the total number of weeks
 		getNumberOfWeeks().then(currentWeek => {

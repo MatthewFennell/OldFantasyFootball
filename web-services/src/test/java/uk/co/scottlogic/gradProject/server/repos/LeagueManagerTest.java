@@ -15,6 +15,7 @@ import java.util.*;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class LeagueManagerTest {
@@ -25,12 +26,15 @@ public class LeagueManagerTest {
     @Mock
     private WeeklyTeamRepo weeklyTeamRepo;
 
+    @Mock
+    private ApplicationUserRepo applicationUserRepo;
+
     private LeagueManager leagueManager;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        leagueManager = new LeagueManager(leagueRepo, weeklyTeamRepo);
+        leagueManager = new LeagueManager(leagueRepo, weeklyTeamRepo, applicationUserRepo);
     }
 
     @Test
@@ -219,12 +223,14 @@ public class LeagueManagerTest {
 
     @Test
     public void findSingleLeagueUserIsIn() {
+        String id = UUID.randomUUID().toString();
         League league = new League(null, "league", new ArrayList<>(), 0);
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         league.addParticipant(u1);
         Iterable<League> list = Collections.singletonList(league);
         when(leagueRepo.findAll()).thenReturn(list);
-        List<LeagueReturnDTO> dtoList = leagueManager.findLeaguesPlayerIsIn(u1);
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(u1));
+        List<LeagueReturnDTO> dtoList = leagueManager.findLeaguesPlayerIsIn(id);
         assertEquals(Integer.valueOf(1), dtoList.get(0).getPosition());
     }
 
@@ -240,6 +246,7 @@ public class LeagueManagerTest {
 
     @Test
     public void findMultipleLeaguesUserIsIn() {
+        String id = UUID.randomUUID().toString();
         League league_one = new League(null, "league_one", new ArrayList<>(), 0);
         League league_two = new League(null, "league_two", new ArrayList<>(), 0);
         League league_three = new League(null, "league_three", new ArrayList<>(), 0);
@@ -249,7 +256,8 @@ public class LeagueManagerTest {
         league_three.addParticipant(u1);
         Iterable<League> list = Arrays.asList(league_one, league_two, league_three);
         when(leagueRepo.findAll()).thenReturn(list);
-        List<LeagueReturnDTO> dtoList = leagueManager.findLeaguesPlayerIsIn(u1);
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(u1));
+        List<LeagueReturnDTO> dtoList = leagueManager.findLeaguesPlayerIsIn(id);
         assertEquals(3, dtoList.size());
     }
 
@@ -259,6 +267,8 @@ public class LeagueManagerTest {
 
     @Test
     public void findMultipleLeaguesWhereMultipleUsersThemReturnsCorrectPositionForEachLeague() {
+
+        String id = UUID.randomUUID().toString();
 
         League league_one = new League(null, "league_one", new ArrayList<>(), 0);
         League league_two = new League(null, "league_two", new ArrayList<>(), 0);
@@ -309,7 +319,9 @@ public class LeagueManagerTest {
         when(weeklyTeamRepo.findByUserAfterWeek(u3, 0)).thenReturn(weeklyTeams3);
         when(weeklyTeamRepo.findByUserAfterWeek(u4, 0)).thenReturn(weeklyTeams4);
 
-        List<LeagueReturnDTO> leaguesUserIsIn = leagueManager.findLeaguesPlayerIsIn(u1);
+        when(applicationUserRepo.findById(any())).thenReturn(Optional.of(u1));
+
+        List<LeagueReturnDTO> leaguesUserIsIn = leagueManager.findLeaguesPlayerIsIn(id);
 
 
         for (LeagueReturnDTO dto : leaguesUserIsIn){

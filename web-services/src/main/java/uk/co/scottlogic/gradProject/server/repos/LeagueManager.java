@@ -12,10 +12,7 @@ import uk.co.scottlogic.gradProject.server.routers.dto.LeagueReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserInLeagueReturnDTO;
 
 import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class LeagueManager {
@@ -24,11 +21,13 @@ public class LeagueManager {
 
     private LeagueRepo leagueRepo;
     private WeeklyTeamRepo weeklyTeamRepo;
+    private ApplicationUserRepo applicationUserRepo;
 
     @Autowired
-    public LeagueManager(LeagueRepo leagueRepo, WeeklyTeamRepo weeklyTeamRepo) {
+    public LeagueManager(LeagueRepo leagueRepo, WeeklyTeamRepo weeklyTeamRepo, ApplicationUserRepo applicationUserRepo) {
         this.leagueRepo = leagueRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
+        this.applicationUserRepo = applicationUserRepo;
     }
 
     public LeagueReturnDTO createLeague(ApplicationUser owner, String leagueName, Integer startWeek) {
@@ -177,26 +176,33 @@ public class LeagueManager {
 
     // TO:DO
     // SURELY this can be improved
-    public List<LeagueReturnDTO> findLeaguesPlayerIsIn(ApplicationUser user) {
+    public List<LeagueReturnDTO> findLeaguesPlayerIsIn(String id) {
 
-        List<LeagueReturnDTO> returnDTOS = new ArrayList<>();
-        Iterable<League> userLeagues = leagueRepo.findAll();
+        Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
+        if (user.isPresent()) {
 
-        List<League> allLeagues = new ArrayList<>();
-        userLeagues.forEach(allLeagues::add);
+            List<LeagueReturnDTO> returnDTOS = new ArrayList<>();
+            Iterable<League> userLeagues = leagueRepo.findAll();
 
-        for (League l : allLeagues) {
-            List<UserInLeagueReturnDTO> participants = findUsersInLeague(l);
-            int position = 0;
-            for (UserInLeagueReturnDTO u : participants) {
-                position += 1;
-                if (u.getUserID().equals(user.getId())) {
-                    returnDTOS.add(new LeagueReturnDTO(l.getLeagueName(), position, l.getCodeToJoin()));
-                    break;
+            List<League> allLeagues = new ArrayList<>();
+            userLeagues.forEach(allLeagues::add);
+
+            for (League l : allLeagues) {
+                List<UserInLeagueReturnDTO> participants = findUsersInLeague(l);
+                int position = 0;
+                for (UserInLeagueReturnDTO u : participants) {
+                    position += 1;
+                    if (u.getUserID().equals(user.get().getId())) {
+                        returnDTOS.add(new LeagueReturnDTO(l.getLeagueName(), position, l.getCodeToJoin()));
+                        break;
+                    }
                 }
             }
+            return returnDTOS;
         }
-        return returnDTOS;
+        else {
+            throw new IllegalArgumentException("User does not exist");
+        }
     }
 
 }

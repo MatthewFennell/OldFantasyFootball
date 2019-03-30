@@ -3,7 +3,6 @@ import '../../Style/Team/Team.css';
 import '../../Style/Team/PitchLayout/Pitch.css';
 import Info from '../../Containers/Team/Info';
 import Stats from '../../Containers/Team/Stats';
-import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import Pitch from './PitchLayout/Pitch';
@@ -17,20 +16,14 @@ import { PlayerPointsDTO } from './PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import {
-	getPositionsOfUsersInLeague, getLeagueAdmin
+	getPositionsOfUsersInLeague, getLeagueAdmin, getLeaguesAndPositions
 } from '../../Services/League/LeagueService';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 import { getUserInfo } from '../../Services/User/UserService';
 
-interface TransactionsProps {
+interface TeamProps {
   weekBeingViewed: number;
-  averageWeeklyPointsCache: any;
-  topWeeklyPlayerCache: any;
-  topWeeklyUsersCache: any;
-  leagueCache: any;
-  activeTeam: PlayerDTO[];
   weeklyTeamCache: any;
-  allCollegeTeams: CollegeTeam[];
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
 
@@ -50,7 +43,8 @@ interface TransactionsProps {
   setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
 
   setMostValuableCache: (user: string, mostValuable: MostValuable) => void;
-
+  setLeagues: (user: string, leagueName: string, position: number) => void;
+  leagues: { user: { leagueCache: { leagueName: string; position: number } } }
 }
 
 interface TeamState {
@@ -60,12 +54,11 @@ interface TeamState {
 	playerPointsViewed: boolean;
 	playerSidebar: PlayerDTO;
 	weekBeingViewed: number;
-
 	usernameBeingViewed: string;
 }
 
-class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> & TransactionsProps, TeamState> {
-	constructor (props: RoutedFormProps<RouteComponentProps> & TransactionsProps) {
+class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamProps, TeamState> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & TeamProps) {
 		super(props);
 		this.handleClickOnPlayer = this.handleClickOnPlayer.bind(this);
 		this.onHandleWeek = this.onHandleWeek.bind(this);
@@ -73,6 +66,8 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		this.updateUserInfo = this.updateUserInfo.bind(this);
 		this.findTeam = this.findTeam.bind(this);
 		this.findMostValuable = this.findMostValuable.bind(this);
+		this.findLeagues = this.findLeagues.bind(this);
+		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -84,6 +79,7 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		};
 		this.updateUserInfo();
 		this.findTeam();
+		this.findLeagues();
 	}
 
 	componentDidMount () {
@@ -97,12 +93,11 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findTeam();
+			this.findLeagues();
 		}
 	}
 
 	findTeam () {
-		console.log('doing it');
-		console.log('user = ' + this.props.userBeingViewed);
 		if (this.props.userBeingViewed !== '') {
 			getTeamForUserInWeek(this.props.userBeingViewed, -1).then(response => {
 				this.props.setTeamCache(this.props.userBeingViewed, -1, response);
@@ -114,11 +109,23 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 
 	findMostValuable () {
 		getMostValuableAssets(this.props.userBeingViewed).then(response => {
-			console.log('response = ' + JSON.stringify(response));
 			this.props.setMostValuableCache(this.props.userBeingViewed, response);
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
+	}
+
+	findLeagues () {
+		console.log('user is ' + this.props.userBeingViewed);
+		if (this.props.userBeingViewed !== '') {
+			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
+				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
+					this.props.setLeagues(this.props.userBeingViewed,
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position);
+				}
+			});
+		}
 	}
 
 	updateUserInfo () {
@@ -197,22 +204,28 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 		});
 	}
 
+	generateLeaguePositions () {
+		if (this.props.leagues[this.props.userBeingViewed] === undefined) {
+			return [];
+		} else {
+			let leagues: LeaguePositions[] = [];
+			let keys = Object.keys(this.props.leagues[this.props.userBeingViewed]);
+			keys.map(obj => leagues.push(
+				{ leagueName: obj,
+					position: this.props.leagues[this.props.userBeingViewed][obj],
+					id: this.props.leagues[this.props.userBeingViewed][obj] }
+			));
+			return leagues;
+		}
+	}
+
 	render () {
+		this.generateLeaguePositions();
 		let teamToRender = this.props.teamCache[this.props.userBeingViewed] !== undefined &&
 		this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] !== undefined
 			? this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] : [];
 
-		let leagues: LeaguePositions[] = [];
-		var keys = Object.keys(this.props.leagueCache);
-		for (let x = 0; x < keys.length; x++) {
-			// TO:DO - Check this
-			let p: LeaguePositions = {
-				leagueName: keys[x],
-				position: this.props.leagueCache[keys[x]],
-				id: this.props.leagueCache[keys[x]]
-			};
-			leagues.push(p);
-		}
+		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 		return (
 			<div className="outer-rows">
 				<TeamData />
@@ -260,4 +273,4 @@ class Transactions extends React.Component<RoutedFormProps<RouteComponentProps> 
 	}
 }
 
-export default withRouter(Transactions);
+export default withRouter(Team);

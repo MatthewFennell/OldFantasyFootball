@@ -124,16 +124,17 @@ public class LeagueController {
             + " Find all leagues that the user is in",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/league/user/all")
+    @GetMapping("/league/user/{id}/all")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Unknown error"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<LeagueReturnDTO> getLeaguesByUser(
-            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+            @AuthenticationPrincipal ApplicationUser user,  HttpServletResponse response,
+            @PathVariable("id") String id) {
         try {
-            return leagueManager.findLeaguesPlayerIsIn(user);
+            return leagueManager.findLeaguesPlayerIsIn(id);
         } catch (Exception e) {
             response.setStatus(400);
         }

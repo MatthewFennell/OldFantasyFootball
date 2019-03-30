@@ -4,8 +4,8 @@ import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import { UserLeaguePosition } from '../../Models/Interfaces/UserLeaguePosition';
 import { LeagueAdmin } from '../../Models/Interfaces/LeagueAdmin';
 
-export const getLeaguesAndPositions = (): Promise<LeaguePositions[]> => {
-	return fetch('/api/league/user/all', {
+export const getLeaguesAndPositions = (id: string): Promise<LeaguePositions[]> => {
+	return fetch('/api/league/user/' + id + '/all', {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {

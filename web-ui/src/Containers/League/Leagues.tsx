@@ -2,38 +2,40 @@ import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Leagues from '../../Components/Leagues/Leagues';
 import {
-	getLeagueCache,
 	getLeaguePageBeingViewed,
 	getLeagueRankings,
 	getIsLeagueAdmin,
-	getLeagueCode
+	getLeagueCode,
+	getLeagues
 } from '../../Selectors/LeagueSelector';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
 import {
-	addToLeagueCache,
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
 	setIsLeagueAdmin,
-	setLeagueCode
+	setLeagueCode,
+	setLeagues
 } from '../../Actions/LeagueActions';
 import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
+import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
 const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
-	leagueCache: getLeagueCache(state),
 	leagueCode: getLeagueCode(state),
 	leaguePageBeingViewed: getLeaguePageBeingViewed(state),
-	leagueRankings: getLeagueRankings(state)
+	leagueRankings: getLeagueRankings(state),
+	userBeingViewed: getUserBeingViewed(state),
+	leagues: getLeagues(state)
 });
 
 const mapDispatchToProps = {
-	addToLeagueCache,
 	setLeagueCode,
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
 	setIsLeagueAdmin,
 	setUserBeingViewed,
-	setPageBeingViewed
+	setPageBeingViewed,
+	setLeagues
 };
 
 export default connect<any, any, any>(

@@ -13,7 +13,8 @@ interface JoinLeagueState {
 }
 
 interface JoinLeagueProps {
-  addToLeagueCache: (leagueName: string, position: number) => void;
+	setLeagues: (user: string, leagueName: string, position: number) => void;
+	userBeingViewed: string;
 }
 
 class JoinLeague extends React.Component<
@@ -41,7 +42,6 @@ class JoinLeague extends React.Component<
 
   _onSubmit = (event: string) => {
 	  const { codeToJoin } = this.state;
-	  const { addToLeagueCache } = this.props;
   	switch (event) {
   	case 'btnJoinLeague':
   		console.log('join league button pressed');
@@ -49,7 +49,7 @@ class JoinLeague extends React.Component<
   		if (!err) {
   			joinLeague(codeToJoin)
   				.then(response => {
-  					addToLeagueCache(response.leagueName, response.position);
+  					this.props.setLeagues(this.props.userBeingViewed, response.leagueName, response.position);
   				})
   				.catch(error => {
   					console.log(error);
