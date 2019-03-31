@@ -1,14 +1,14 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
-import { getUserBeingViewed, getTeamCache } from '../../Selectors/ActiveTeamSelector';
+import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
 import {
 	getWeekBeingViewed,
 	getTotalNumberOfWeeks,
 } from '../../Selectors/StatsSelector';
 
-import { setTeamCache } from '../../Actions/ActiveTeamActions';
+import { setTeam } from '../../Actions/ActiveTeamActions';
 
 import {
 	setLeaguePageBeingViewed,
@@ -27,7 +27,7 @@ const mapStateToProps = (state: State) => ({
 	leagueCode: getLeagueCode(state),
 	isAdmin: getIsLeagueAdmin(state),
 	userBeingViewed: getUserBeingViewed(state),
-	teamCache: getTeamCache(state),
+	team: getTeam(state),
 	leagues: getLeagues(state)
 });
 
@@ -37,7 +37,7 @@ const mapDispatchToProps = {
 	setPageBeingViewed,
 	setIsLeagueAdmin,
 	setLeagueRankings,
-	setTeamCache,
+	setTeam,
 	setLeagues
 };
 

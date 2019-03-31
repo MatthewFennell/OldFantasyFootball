@@ -24,8 +24,8 @@ interface TransfersProps {
   setTransferMarket: (transferMarket: boolean) => void;
   transfersMarketOpen: boolean;
 
-  teamCache: { user: { weeks: { id: string; team: PlayerDTO[] } } }
-  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
+  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+  setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
 }
 
 interface TransfersState {
@@ -75,7 +75,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	findTeam () {
 		if (this.props.accountId !== '') {
 			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
-				this.props.setTeamCache(this.props.accountId, -1, response);
+				this.props.setTeam(this.props.accountId, -1, response);
 			}).catch(error => {
 				console.log('error = ' + error);
 			});
@@ -100,7 +100,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	canAdd (player: PlayerDTO): boolean {
 		let numberInThatPosition: number = 0;
 		let playerExists: boolean = false;
-		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'];
 		currentTeam.forEach(element => {
 			if (element.position === player.position) {
 				numberInThatPosition += 1;
@@ -137,11 +137,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	onRemoveFromActiveTeam (id: string) {
-		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'];
 
 		let newTeam = currentTeam.filter(x => x.id !== id);
 
-		this.props.setTeamCache(this.props.accountId, -1, newTeam);
+		this.props.setTeam(this.props.accountId, -1, newTeam);
 	}
 
 	onAddOrRemovePlayer (id: string, price: number, player: PlayerDTO) {
@@ -180,8 +180,8 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	onRowClick = (element: PlayerDTO) => {
 		const { remainingBudget } = this.props;
 		if (this.canAdd(element)) {
-			let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'].concat(element);
-			this.props.setTeamCache(this.props.accountId, -1, currentTeam);
+			let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'].concat(element);
+			this.props.setTeam(this.props.accountId, -1, currentTeam);
 
 			let removed: boolean = false;
 			this.state.playersToRemove.forEach((ele, index) => {
@@ -201,9 +201,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	render () {
-		let teamToRender = this.props.teamCache[this.props.accountId] !== undefined &&
-		this.props.teamCache[this.props.accountId][-1] !== undefined
-			? this.props.teamCache[this.props.accountId][-1] : [];
+		let teamToRender = this.props.team[this.props.accountId] !== undefined &&
+		this.props.team[this.props.accountId][-1] !== undefined
+			? this.props.team[this.props.accountId][-1] : [];
 
 		const { remainingBudget, transfersMarketOpen } = this.props;
 		const { teamUpdated, errorMessage } = this.state;

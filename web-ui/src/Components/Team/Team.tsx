@@ -23,7 +23,7 @@ import { getUserInfo } from '../../Services/User/UserService';
 
 interface TeamProps {
   weekBeingViewed: number;
-  weeklyTeamCache: any;
+  weeklyTeam: any;
   mostValuable: MostValuable;
   totalNumberOfWeeks: number;
 
@@ -39,12 +39,12 @@ interface TeamProps {
   setIsLeagueAdmin: (isAdmin: boolean) => void;
   setLeagueCode: (code: string) => void;
 
-  teamCache: { user: { weeks: { id: string; team: PlayerDTO[] } } }
-  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
+  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+  setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
 
-  setMostValuableCache: (user: string, mostValuable: MostValuable) => void;
+  setMostValuable: (user: string, mostValuable: MostValuable) => void;
   setLeagues: (user: string, leagueName: string, position: number) => void;
-  leagues: { user: { leagueCache: { leagueName: string; position: number } } }
+  leagues: { user: { league: { leagueName: string; position: number } } }
 }
 
 interface TeamState {
@@ -100,7 +100,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	findTeam () {
 		if (this.props.userBeingViewed !== '') {
 			getTeamForUserInWeek(this.props.userBeingViewed, -1).then(response => {
-				this.props.setTeamCache(this.props.userBeingViewed, -1, response);
+				this.props.setTeam(this.props.userBeingViewed, -1, response);
 			}).catch(error => {
 				console.log('error = ' + error);
 			});
@@ -109,7 +109,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 
 	findMostValuable () {
 		getMostValuableAssets(this.props.userBeingViewed).then(response => {
-			this.props.setMostValuableCache(this.props.userBeingViewed, response);
+			this.props.setMostValuable(this.props.userBeingViewed, response);
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
@@ -221,9 +221,9 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 
 	render () {
 		this.generateLeaguePositions();
-		let teamToRender = this.props.teamCache[this.props.userBeingViewed] !== undefined &&
-		this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] !== undefined
-			? this.props.teamCache[this.props.userBeingViewed][this.props.weekBeingViewed] : [];
+		let teamToRender = this.props.team[this.props.userBeingViewed] !== undefined &&
+		this.props.team[this.props.userBeingViewed][this.props.weekBeingViewed] !== undefined
+			? this.props.team[this.props.userBeingViewed][this.props.weekBeingViewed] : [];
 
 		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 		return (

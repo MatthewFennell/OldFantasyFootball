@@ -2,32 +2,32 @@ import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Stats from '../../Components/Team/Stats';
 import {
-	getAverageWeeklyPointsCache,
+	getAverageWeeklyPoints,
 	getWeekBeingViewed,
-	getTopWeeklyPlayerCache,
-	getTopWeeklyUserCache,
+	getTopWeeklyPlayer,
+	getTopWeeklyUser,
 	getRemainingBudget,
-	getMostValuableCache,
+	getMostValuable,
 	getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
-import { setBudget, setMostValuableCache } from '../../Actions/StatsActions';
+import { setBudget, setMostValuable } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
-	averageWeeklyPointsCache: getAverageWeeklyPointsCache(state),
+	averageWeeklyPoints: getAverageWeeklyPoints(state),
 	weekBeingViewed: getWeekBeingViewed(state),
-	topWeeklyPlayerCache: getTopWeeklyPlayerCache(state),
-	topWeeklyUsersCache: getTopWeeklyUserCache(state),
+	topWeeklyPlayer: getTopWeeklyPlayer(state),
+	topWeeklyUsers: getTopWeeklyUser(state),
 	userBeingViewed: getUserBeingViewed(state),
-	mostValuableCache: getMostValuableCache(state),
+	mostValuable: getMostValuable(state),
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state)
 });
 
 const mapDispatchToProps = {
 	setBudget,
-	setMostValuableCache
+	setMostValuable
 };
 
 export default connect<any, any, any>(

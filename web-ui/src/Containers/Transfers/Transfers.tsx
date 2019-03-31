@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { setTeamCache } from '../../Actions/ActiveTeamActions';
+import { setTeam } from '../../Actions/ActiveTeamActions';
 import {
 	getFilteredPlayers,
 	getTransferMarketOpen,
 } from '../../Selectors/TransfersSelector';
-import { getTeamCache } from '../../Selectors/ActiveTeamSelector';
+import { getTeam } from '../../Selectors/ActiveTeamSelector';
 
 import { getRemainingBudget } from '../../Selectors/StatsSelector';
 
@@ -18,12 +18,12 @@ const mapStateToProps = (state: State) => ({
 	filteredPlayers: getFilteredPlayers(state),
 	transfersMarketOpen: getTransferMarketOpen(state),
 	accountId: getAccountId(state),
-	teamCache: getTeamCache(state)
+	team: getTeam(state)
 });
 
 const mapDispatchToProps = {
 	setBudget,
-	setTeamCache
+	setTeam
 };
 
 export default connect<any, any, any>(

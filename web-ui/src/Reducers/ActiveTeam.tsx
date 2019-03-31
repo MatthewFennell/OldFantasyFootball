@@ -6,12 +6,12 @@ type Action = ActiveTeamAction;
 
 export interface State {
   userBeingViewed: string;
-  teamCache: {}
+  team: {}
 }
 
 export const initialState: State = {
 	userBeingViewed: '',
-	teamCache: {} as { user: { weeks: { id: string; team: PlayerDTO[] } } },
+	team: {} as { user: { weeks: { id: string; team: PlayerDTO[] } } },
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -20,9 +20,9 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('userBeingViewed', action.payload.user, state);
 	}
 
-	case ActionTypes.SET_TEAM_CACHE: {
+	case ActionTypes.SET_TEAM: {
 		const { user, week, team } = action.payload;
-		return lodash.set('teamCache.' + user + '.' + week, team, state);
+		return lodash.set('team.' + user + '.' + week, team, state);
 	}
 
 	default:

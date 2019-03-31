@@ -2,7 +2,7 @@ import { PlayerDTO } from '../Models/Interfaces/Player';
 
 export enum ActionTypes {
 	SET_USER_BEING_VIEWED = 'SET_USER_BEING_VIEWED',
-	SET_TEAM_CACHE = 'SET_TEAM_CACHE'
+	SET_TEAM = 'SET_TEAM'
 }
 
 export interface SetUserBeingViewed {
@@ -10,8 +10,8 @@ export interface SetUserBeingViewed {
   payload: { user: string };
 }
 
-export interface SetTeamCache {
-  type: ActionTypes.SET_TEAM_CACHE;
+export interface SetTeam {
+  type: ActionTypes.SET_TEAM;
   payload: { user: string, week: number, team: PlayerDTO[] };
 }
 
@@ -22,11 +22,11 @@ export const setUserBeingViewed = (user: string): SetUserBeingViewed => {
 	};
 };
 
-export const setTeamCache = (user: string, week: number, team: PlayerDTO[]): SetTeamCache => {
+export const setTeam = (user: string, week: number, team: PlayerDTO[]): SetTeam => {
 	return {
-		type: ActionTypes.SET_TEAM_CACHE,
+		type: ActionTypes.SET_TEAM,
 		payload: { user, week, team }
 	};
 };
 
-export type Action = SetUserBeingViewed | SetTeamCache;
+export type Action = SetUserBeingViewed | SetTeam;

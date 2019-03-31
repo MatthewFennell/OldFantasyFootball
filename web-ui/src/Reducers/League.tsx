@@ -18,7 +18,7 @@ export const initialState: State = {
 	leagueRankings: [],
 	isAdmin: false,
 	code: '',
-	leagues: {} as { user: { leagueCache: { leagueName: string; position: number } } },
+	leagues: {} as { user: { league: { leagueName: string; position: number } } },
 };
 
 export const reducer = (state: State = initialState, action: Action) => {

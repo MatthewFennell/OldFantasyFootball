@@ -4,28 +4,28 @@ import Info from '../../Components/Team/Info';
 import {
 	getWeekBeingViewed,
 	getTotalNumberOfWeeks,
-	getTotalPointsCache,
+	getTotalPoints,
 	getWeeklyPoints
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 
-import { setTeamCache } from '../../Actions/ActiveTeamActions';
+import { setTeam } from '../../Actions/ActiveTeamActions';
 
-import { setWeekBeingViewed, setTotalPointsCache, setWeeklyPointsCache } from '../../Actions/StatsActions';
+import { setWeekBeingViewed, setTotalPoints, setWeeklyPoints } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	weekBeingViewed: getWeekBeingViewed(state),
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
-	totalPointsCache: getTotalPointsCache(state),
+	totalPoints: getTotalPoints(state),
 	userBeingViewed: getUserBeingViewed(state),
 	weeklyPoints: getWeeklyPoints(state)
 });
 
 const mapDispatchToProps = {
 	setWeekBeingViewed,
-	setTeamCache,
-	setTotalPointsCache,
-	setWeeklyPointsCache
+	setTeam,
+	setTotalPoints,
+	setWeeklyPoints
 };
 
 export default connect<any, any, any>(

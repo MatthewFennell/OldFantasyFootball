@@ -31,7 +31,7 @@ interface LeagueProps {
 	setUserBeingViewed: (user: string) => void;
 	setLeagues: (user: string, leagueName: string, position: number) => void;
 	userBeingViewed: string;
-	leagues: { user: { leagueCache: { leagueName: string; position: number } } }
+	leagues: { user: { league: { leagueName: string; position: number } } }
 }
 
 interface LeaguesState {

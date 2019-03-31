@@ -28,10 +28,6 @@ export const initialState: State = {
 
 export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
-	case ActionTypes.SET_FIRSTNAME: {
-		return lodash.set('firstName', action.payload.firstName, state);
-	}
-
 	case ActionTypes.SET_ACCOUNT: {
 		const {
 			id,
