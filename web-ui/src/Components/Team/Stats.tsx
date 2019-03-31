@@ -18,7 +18,9 @@ interface StatsProps {
   remainingBudget: { user: { id: string; budget: number } }
   setBudget: (user: string, budget:number) => void;
   setMostValuable: (user: string, mostValuable: MostValuable) => void;
+  setUserBeingViewed: (user: string) => void;
   mostValuable: { user: { id: string; mostValuable: MostValuable } }
+
 }
 
 class Stats extends React.Component<StatsProps> {
@@ -26,6 +28,7 @@ class Stats extends React.Component<StatsProps> {
 		super(props);
 		this.setBudget = this.setBudget.bind(this);
 		this.findMostValuable = this.findMostValuable.bind(this);
+		this.handleViewTeamOfTheWeek = this.handleViewTeamOfTheWeek.bind(this);
 
 		this.setBudget();
 		this.findMostValuable();
@@ -56,6 +59,12 @@ class Stats extends React.Component<StatsProps> {
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
+	}
+
+	handleViewTeamOfTheWeek () {
+		const week: number = this.props.weekBeingViewed === -1 ? this.props.totalNumberOfWeeks : this.props.weekBeingViewed;
+		const teamOfTheWeekId : TopWeeklyUser = this.props.topWeeklyUsers[week];
+		this.props.setUserBeingViewed(teamOfTheWeekId.id);
 	}
 
 	render () {
@@ -106,7 +115,10 @@ class Stats extends React.Component<StatsProps> {
 						({topWeeklyPlayer.points} points) </div> : null}
 
 				{topWeeklyTeam !== null
-					? <div className="player-most-points"> Team of the Week :
+					? <div
+						className="player-most-points"
+						onClick={this.handleViewTeamOfTheWeek}
+					  > Team of the Week :
 						{topWeeklyTeam.firstName}{' '}{topWeeklyTeam.surname}{' '}
 						({topWeeklyTeam.points} points) </div> : null}
 

@@ -11,7 +11,7 @@ import {
 	getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
-
+import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
 import { setBudget, setMostValuable } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
@@ -27,7 +27,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
 	setBudget,
-	setMostValuable
+	setMostValuable,
+	setUserBeingViewed
 };
 
 export default connect<any, any, any>(

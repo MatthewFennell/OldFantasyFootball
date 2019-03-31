@@ -1,13 +1,15 @@
+@import '../Colors.scss';
+
 div.admin-form {
   display: flex;
   flex-direction: column;
   .admin-form-row-one {
       display: flex;
-      background-color: #222227;
+      background-color: $dark-black-background;;
       justify-content: center;
  }
   .admin-form-row-one>div {
-      background-color: #222227;
+      background-color: $dark-black-background;;
       margin: 10px;
       padding: 20px;
       font-size: 30px;
@@ -15,7 +17,7 @@ div.admin-form {
  }
   .admin-form-row-two {
       display: flex;
-      background-color: #222227;
+      background-color: $dark-black-background;;
       justify-content: center;
  }
   .admin-form-row-two>div {
@@ -27,7 +29,7 @@ div.admin-form {
 }
 #create-player-form, #create-college-team-form, #add-points-week-form, #add-points-goals, #add-points-assists, #add-points-minutes, #add-result-goals-form {
   h1, label, input, button, h1#greeting {
-      color: #ffa260;
+      color: $strange-orange;
       width: 80%;
       margin-left: 10%;
       font-size: 18px;
@@ -35,44 +37,44 @@ div.admin-form {
  }
 }
 .position-dropdown{
-  color: #ffa260;
+  color: $strange-orange;
   border: 3px solid;
-  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
 }
 .team-dropdown{
-  color: #ffa260;
+  color: $strange-orange;
   border: 3px solid;
-  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
 }
 .create-player-form-outer, .add-points-assists-outer, .add-points-minutes-outer{
-  color: #ffa260;
+  color: $strange-orange;
   border: 3px solid;
-  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
 }
 .create-college-team-form-outer, .add-points-week-outer, .add-points-goals-outer{
-  color: #ffa260;
+  color: $strange-orange;
   border: 3px solid;
-  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
 }
 .edit-points-info, .add-result-goals-form-outer{
-  color: #ffa260;
+  color: $strange-orange;
   border: 3px solid;
-  border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
 }
 #btnCreatePlayer, #btnDeletePlayer, #btnAddResult {
-  color: #ffa260;
+  color: $strange-orange;
   display: table;
   margin: auto;
   border-radius: 35px;
   border-color: #e07c34 !important;
   width: 100%;
   font-weight: bold;
-  background-color: #222227;
+  background-color: $dark-black-background;;
   padding: 13px 16px;
   border: 2px solid;
   &:focus {
@@ -84,14 +86,14 @@ div.admin-form {
  }
 }
 #btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints, #btnEditPoints {
-  color: #ffa260;
+  color: $strange-orange;
   display: table;
   margin: auto;
   border-radius: 35px;
   border-color: #e07c34 !important;
   width: 20%;
   font-weight: bold;
-  background-color: #222227;
+  background-color: $dark-black-background;;
   padding: 13px 16px;
   border: 2px solid;
   &:focus {

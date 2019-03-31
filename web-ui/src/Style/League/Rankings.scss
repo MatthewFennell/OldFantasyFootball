@@ -1,12 +1,13 @@
+@import '../Colors.scss';
 .league-info-screen {
   margin-top: 10vh;
-  background-color: #222227;
+  background-color: $dark-black-background;
   padding-left: 0px;
   padding-right: 0px;
   .rankings-wrapper{
-      color: #ffa260;
+      color: $strange-orange;
       border: 3px solid;
-      border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+      border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
       border-image-slice: 1;
       margin-left: 5vw;
       margin-right: 5vw;
@@ -73,7 +74,7 @@
       margin-top: 2vh;
  }
   tbody.league-rankings {
-      background-color: #222227;
+      background-color: $dark-black-background;
       color: red;
       text-align: center;
       tr {
@@ -88,7 +89,7 @@
          }
      }
       tr.user-even:hover, tr.user-odd:hover {
-          background-color: #ffa260;
+          background-color: $strange-orange;
      }
  }
 }
