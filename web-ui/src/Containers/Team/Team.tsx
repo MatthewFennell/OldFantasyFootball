@@ -9,6 +9,7 @@ import {
 } from '../../Selectors/StatsSelector';
 
 import { setTeam } from '../../Actions/ActiveTeamActions';
+import { getAccountId } from '../../Selectors/AccountSelector';
 
 import {
 	setLeaguePageBeingViewed,
@@ -28,7 +29,8 @@ const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
 	userBeingViewed: getUserBeingViewed(state),
 	team: getTeam(state),
-	leagues: getLeagues(state)
+	leagues: getLeagues(state),
+	accountId: getAccountId(state)
 });
 
 const mapDispatchToProps = {

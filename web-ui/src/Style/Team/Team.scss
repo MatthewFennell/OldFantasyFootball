@@ -21,11 +21,16 @@
           background-color: #222227;
      }
  }
-  .row-3-squad{
+  .row-3-squad-my-team{
       display: flex;
       background-color: #3c3c44;
       flex-grow: 10;
  }
+ .row-3-squad-other-team{
+    display: flex;
+    background-color: #444447;
+    flex-grow: 10;
+}
   .player-stats-sidebar{
       .stats-wrapper{
           color: #ffa260;

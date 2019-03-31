@@ -22,29 +22,24 @@ import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition'
 import { getUserInfo } from '../../Services/User/UserService';
 
 interface TeamProps {
-  weekBeingViewed: number;
-  weeklyTeam: any;
-  mostValuable: MostValuable;
-  totalNumberOfWeeks: number;
-
-  userBeingViewed: string;
-
-  isAdmin: boolean;
-  leagueCode: string;
-
-  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
-  setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
-  setPageBeingViewed: (page: string) => void;
-
-  setIsLeagueAdmin: (isAdmin: boolean) => void;
-  setLeagueCode: (code: string) => void;
-
-  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
-  setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
-
-  setMostValuable: (user: string, mostValuable: MostValuable) => void;
-  setLeagues: (user: string, leagueName: string, position: number) => void;
-  leagues: { user: { league: { leagueName: string; position: number } } }
+	accountId: string;
+	weekBeingViewed: number;
+	weeklyTeam: any;
+	mostValuable: MostValuable;
+	totalNumberOfWeeks: number;
+	userBeingViewed: string;
+	isAdmin: boolean;
+	leagueCode: string;
+	setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
+	setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
+	setPageBeingViewed: (page: string) => void;
+	setIsLeagueAdmin: (isAdmin: boolean) => void;
+	setLeagueCode: (code: string) => void;
+	team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+	setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
+	setMostValuable: (user: string, mostValuable: MostValuable) => void;
+	setLeagues: (user: string, leagueName: string, position: number) => void;
+	leagues: { user: { league: { leagueName: string; position: number } } }
 }
 
 interface TeamState {
@@ -68,6 +63,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.findMostValuable = this.findMostValuable.bind(this);
 		this.findLeagues = this.findLeagues.bind(this);
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
+		this.generateRowClassName = this.generateRowClassName.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -219,6 +215,14 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		}
 	}
 
+	generateRowClassName () {
+		if (this.props.userBeingViewed === this.props.accountId) {
+			return 'row-3-squad-my-team';
+		} else {
+			return 'row-3-squad-other-team';
+		}
+	}
+
 	render () {
 		this.generateLeaguePositions();
 		let teamToRender = this.props.team[this.props.userBeingViewed] !== undefined &&
@@ -235,7 +239,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 				<div className="row-2-stats">
 					<Stats />
 				</div>
-				<div className="row-3-squad">
+				<div className={this.generateRowClassName()}>
 
 					<div className="player-stats">
 						<PlayerStats
