@@ -15,26 +15,27 @@ import RankingsTableBody from './RankingsTableBody';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
+import { getUserInfo } from '../../Services/User/UserService';
 
 interface LeagueProps {
-  leaguePageBeingViewed: string;
-  leagueRankings: UserLeaguePosition[];
-  isAdmin: boolean;
-  leagueCode: string;
-
-  setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
-  setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
-  setIsLeagueAdmin: (isAdmin: boolean) => void;
-  setLeagueCode: (code: string) => void;
-
-  setPageBeingViewed: (page: string) => void;
-  setUserBeingViewed: (user: string) => void;
-  setLeagues: (user: string, leagueName: string, position: number) => void;
-  userBeingViewed: string;
-  leagues: { user: { leagueCache: { leagueName: string; position: number } } }
+	accountId: string;
+	leaguePageBeingViewed: string;
+	leagueRankings: UserLeaguePosition[];
+	isAdmin: boolean;
+	leagueCode: string;
+	setLeaguePageBeingViewed: (leaguePageBeingViewed: string) => void;
+	setLeagueRankings: (leagueRankings: UserLeaguePosition[]) => void;
+	setIsLeagueAdmin: (isAdmin: boolean) => void;
+	setLeagueCode: (code: string) => void;
+	setPageBeingViewed: (page: string) => void;
+	setUserBeingViewed: (user: string) => void;
+	setLeagues: (user: string, leagueName: string, position: number) => void;
+	userBeingViewed: string;
+	leagues: { user: { league: { leagueName: string; position: number } } }
 }
 
 interface LeaguesState {
+	leaguesMessage: string;
 }
 
 class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & LeagueProps, LeaguesState> {
@@ -46,17 +47,23 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.handleViewUser = this.handleViewUser.bind(this);
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.findLeaguesAndPositions = this.findLeaguesAndPositions.bind(this);
+		this.generateLeaguesMessage = this.generateLeaguesMessage.bind(this);
+		this.state = {
+			leaguesMessage: ''
+		};
 	}
 
 	componentDidMount () {
 		if (this.props.userBeingViewed !== '') {
 			this.findLeaguesAndPositions();
+			this.generateLeaguesMessage();
 		}
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.findLeaguesAndPositions();
+			this.generateLeaguesMessage();
 		}
 	}
 
@@ -116,6 +123,18 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		}
 	}
 
+	generateLeaguesMessage () {
+		if (this.props.accountId === this.props.userBeingViewed) {
+			this.setState({ leaguesMessage: 'My leagues' });
+		} else {
+			getUserInfo(this.props.userBeingViewed).then(response => {
+				this.setState({ leaguesMessage: 'You are viewing leagues of ' + response.firstName + '  ' + response.surname });
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
+	}
+
 	render () {
 		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 
@@ -136,7 +155,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 					>
 						<div className="outer-league-rows">
 							<div className="my-leagues">
-                				My Leagues
+                				{this.state.leaguesMessage}
 								<div className="league-table">
 									<LeagueTableBody
 										leagues={leagues}

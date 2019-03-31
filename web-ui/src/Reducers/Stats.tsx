@@ -9,29 +9,29 @@ type Action = StatsAction;
 // Define our State interface for the current reducer
 export interface State {
   weekBeingViewed: number;
-  averageWeeklyPointsCache: {};
-  topWeeklyPlayersCache: {};
-  topWeeklyUsersCache: {};
+  averageWeeklyPoints: {};
+  topWeeklyPlayers: {};
+  topWeeklyUsers: {};
   totalNumberOfWeeks: 0;
 
   budget: {}
-  totalPointsCache: {}
+  totalPoints: {}
   weeklyPoints: {}
-  mostValuableCache: {}
+  mostValuable: {}
 }
 
 // Define our initialState
 export const initialState: State = {
 	weekBeingViewed: 0,
-	averageWeeklyPointsCache: {} as { averageWeeks: { id: number; points: number } },
-	topWeeklyPlayersCache: {} as { topPlayers: { id: number; player: PlayerDTO } },
-	topWeeklyUsersCache: {} as { topUsers: { id: number; user: TopWeeklyUser } },
+	averageWeeklyPoints: {} as { averageWeeks: { id: number; points: number } },
+	topWeeklyPlayers: {} as { topPlayers: { id: number; player: PlayerDTO } },
+	topWeeklyUsers: {} as { topUsers: { id: number; user: TopWeeklyUser } },
 	totalNumberOfWeeks: 0,
 
 	budget: {} as { user: { id: string; budget: number } },
-	totalPointsCache: {} as { user: { id: string; points: number } },
+	totalPoints: {} as { user: { id: string; points: number } },
 	weeklyPoints: {} as { user: { weeks: { id: string; points: number } } },
-	mostValuableCache: {} as { user: { id: string; mostValuable: MostValuable } },
+	mostValuable: {} as { user: { id: string; mostValuable: MostValuable } },
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -40,19 +40,19 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('weekBeingViewed', action.payload.week, state);
 	}
 
-	case ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE: {
+	case ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS: {
 		const { weekId, averageWeeklyPoints } = action.payload;
-		return lodash.set('averageWeeklyPointsCache.' + weekId.toString(), averageWeeklyPoints, state);
+		return lodash.set('averageWeeklyPoints.' + weekId.toString(), averageWeeklyPoints, state);
 	}
 
-	case ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE: {
+	case ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS: {
 		const { weekId, player } = action.payload;
-		return lodash.set('topWeeklyPlayersCache.' + weekId.toString(), player, state);
+		return lodash.set('topWeeklyPlayers.' + weekId.toString(), player, state);
 	}
 
-	case ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE: {
+	case ActionTypes.ADD_TO_TOP_WEEKLY_USERS: {
 		const { weekId, user } = action.payload;
-		return lodash.set('topWeeklyUsersCache.' + weekId.toString(), user, state);
+		return lodash.set('topWeeklyUsers.' + weekId.toString(), user, state);
 	}
 
 	case ActionTypes.SET_TOTAL_NUMBER_OF_WEEKS: {
@@ -63,17 +63,17 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('budget.' + action.payload.user, action.payload.budget, state);
 	}
 
-	case ActionTypes.SET_TOTAL_POINTS_CACHE: {
-		return lodash.set('totalPointsCache.' + action.payload.user, action.payload.points, state);
+	case ActionTypes.SET_TOTAL_POINTS: {
+		return lodash.set('totalPoints.' + action.payload.user, action.payload.points, state);
 	}
 
-	case ActionTypes.SET_WEEKLY_POINTS_CACHE: {
+	case ActionTypes.SET_WEEKLY_POINTS: {
 		const { user, week, points } = action.payload;
 		return lodash.set('weeklyPoints.' + user + '.' + week, points, state);
 	}
 
-	case ActionTypes.SET_MOST_VALUABLE_CACHE: {
-		return lodash.set('mostValuableCache.' + action.payload.user, action.payload.mostValuable, state);
+	case ActionTypes.SET_MOST_VALUABLE: {
+		return lodash.set('mostValuable.' + action.payload.user, action.payload.mostValuable, state);
 	}
 
 	default:

@@ -9,6 +9,7 @@ import { Button } from 'reactstrap';
 import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 import { updateTeam } from '../../Services/Weeks/WeeksService';
 import TeamData from '../../Containers/Team/TeamData';
+import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 
 interface TransfersProps {
   accountId: string;
@@ -23,8 +24,8 @@ interface TransfersProps {
   setTransferMarket: (transferMarket: boolean) => void;
   transfersMarketOpen: boolean;
 
-  teamCache: { user: { weeks: { id: string; team: PlayerDTO[] } } }
-  setTeamCache: (user: string, week: number, team: PlayerDTO[]) => void;
+  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+  setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
 }
 
 interface TransfersState {
@@ -42,12 +43,21 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.onAddOrRemovePlayer = this.onAddOrRemovePlayer.bind(this);
 		this.canAdd = this.canAdd.bind(this);
 		this.removeFromPlayersBeingAdded = this.removeFromPlayersBeingAdded.bind(this);
+		this.findTeam = this.findTeam.bind(this);
 		this.state = {
 			teamUpdated: false,
 			errorMessage: '',
 			playersToAdd: [],
 			playersToRemove: []
 		};
+
+		this.findTeam();
+	}
+
+	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+		if (prevProps.accountId !== this.props.accountId) {
+			this.findTeam();
+		}
 	}
 
 	addToPlayerBeingRemoved (player: PlayerDTO) {
@@ -60,6 +70,16 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.setState(prevState => ({
 			playersToAdd: prevState.playersToAdd.concat(player)
 		}));
+	}
+
+	findTeam () {
+		if (this.props.accountId !== '') {
+			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
+				this.props.setTeam(this.props.accountId, -1, response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	removeFromPlayersBeingAdded (indexToRemove: number) {
@@ -80,7 +100,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	canAdd (player: PlayerDTO): boolean {
 		let numberInThatPosition: number = 0;
 		let playerExists: boolean = false;
-		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'];
 		currentTeam.forEach(element => {
 			if (element.position === player.position) {
 				numberInThatPosition += 1;
@@ -89,7 +109,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				playerExists = true;
 			}
 		});
-		console.log('player exists = ' + playerExists);
 		if (playerExists) {
 			return false;
 		}
@@ -114,16 +133,15 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				return false;
 			}
 		}
-		console.log('true');
 		return true;
 	}
 
 	onRemoveFromActiveTeam (id: string) {
-		let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'];
+		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'];
 
 		let newTeam = currentTeam.filter(x => x.id !== id);
 
-		this.props.setTeamCache(this.props.accountId, -1, newTeam);
+		this.props.setTeam(this.props.accountId, -1, newTeam);
 	}
 
 	onAddOrRemovePlayer (id: string, price: number, player: PlayerDTO) {
@@ -162,8 +180,8 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	onRowClick = (element: PlayerDTO) => {
 		const { remainingBudget } = this.props;
 		if (this.canAdd(element)) {
-			let currentTeam: PlayerDTO[] = this.props.teamCache[this.props.accountId]['week--1'].concat(element);
-			this.props.setTeamCache(this.props.accountId, -1, currentTeam);
+			let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['week--1'].concat(element);
+			this.props.setTeam(this.props.accountId, -1, currentTeam);
 
 			let removed: boolean = false;
 			this.state.playersToRemove.forEach((ele, index) => {
@@ -183,9 +201,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	render () {
-		let teamToRender = this.props.teamCache[this.props.accountId] !== undefined &&
-		this.props.teamCache[this.props.accountId]['week--1'] !== undefined
-			? this.props.teamCache[this.props.accountId]['week--1'] : [];
+		let teamToRender = this.props.team[this.props.accountId] !== undefined &&
+		this.props.team[this.props.accountId][-1] !== undefined
+			? this.props.team[this.props.accountId][-1] : [];
 
 		const { remainingBudget, transfersMarketOpen } = this.props;
 		const { teamUpdated, errorMessage } = this.state;

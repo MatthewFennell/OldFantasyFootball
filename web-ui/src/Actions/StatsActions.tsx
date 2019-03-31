@@ -4,15 +4,15 @@ import { MostValuable } from '../Models/Interfaces/MostValuable';
 
 export enum ActionTypes {
   SET_WEEK_BEING_VIEWED = 'SET_WEEK_BEING_VIEWED',
-  ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE = 'ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE',
-  ADD_TO_TOP_WEEKLY_PLAYERS_CACHE = 'ADD_TO_TOP_WEEKLY_PLAYERS_CACHE',
-  ADD_TO_TOP_WEEKLY_USERS_CACHE = 'ADD_TO_TOP_WEEKLY_USERS_CACHE',
+  ADD_TO_AVERAGE_WEEKLY_POINTS = 'ADD_TO_AVERAGE_WEEKLY_POINTS',
+  ADD_TO_TOP_WEEKLY_PLAYERS = 'ADD_TO_TOP_WEEKLY_PLAYERS',
+  ADD_TO_TOP_WEEKLY_USERS = 'ADD_TO_TOP_WEEKLY_USERS',
   SET_TOTAL_NUMBER_OF_WEEKS = 'SET_TOTAL_NUMBER_OF_WEEK;',
 	SET_MOST_VALUBLE = 'SET_MOST_VALUABLE',
-	SET_TOTAL_POINTS_CACHE = 'SET_TOTAL_POINTS_CACHE',
-	SET_WEEKLY_POINTS_CACHE = 'SET_WEEKLY_POINTS_CACHE',
+	SET_TOTAL_POINTS = 'SET_TOTAL_POINTS',
+	SET_WEEKLY_POINTS = 'SET_WEEKLY_POINTS',
 	SET_BUDGET = 'SET_BUDGET',
-	SET_MOST_VALUABLE_CACHE = 'SET_MOST_VALUABLE_CACHE'
+	SET_MOST_VALUABLE = 'SET_MOST_VALUABLE'
 }
 
 export interface SetWeekBeingViewed {
@@ -20,18 +20,18 @@ export interface SetWeekBeingViewed {
   payload: { week: number };
 }
 
-export interface AddToAverageWeeklyPointsCache {
-  type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE;
+export interface AddToAverageWeeklyPoints {
+  type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS;
   payload: { weekId: number; averageWeeklyPoints: number };
 }
 
-export interface AddToTopWeeklyPlayersCache {
-  type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE;
+export interface AddToTopWeeklyPlayers {
+  type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS;
   payload: { weekId: number; player: PlayerDTO };
 }
 
-export interface AddToTopWeeklyUsersCache {
-  type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE;
+export interface AddToTopWeeklyUsers {
+  type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS;
   payload: { weekId: number; user: TopWeeklyUser };
 }
 
@@ -40,18 +40,13 @@ export interface SetTotalNumberOfWeeks {
   payload: { numberOfWeeks: number };
 }
 
-export interface SetMostValuable {
-  type: ActionTypes.SET_MOST_VALUBLE;
-  payload: { mostValuable: MostValuable };
-}
-
-export interface SetTotalPointsCache {
-  type: ActionTypes.SET_TOTAL_POINTS_CACHE;
+export interface SetTotalPoints {
+  type: ActionTypes.SET_TOTAL_POINTS;
   payload: { user: string, points: number };
 }
 
-export interface SetWeeklyPointsCache {
-  type: ActionTypes.SET_WEEKLY_POINTS_CACHE;
+export interface SetWeeklyPoints {
+  type: ActionTypes.SET_WEEKLY_POINTS;
   payload: { user: string, points: number, week: number };
 }
 
@@ -60,8 +55,8 @@ export interface SetBudget {
   payload: { user: string, budget: number };
 }
 
-export interface SetMostValuableCache {
-  type: ActionTypes.SET_MOST_VALUABLE_CACHE;
+export interface SetMostValuablee {
+  type: ActionTypes.SET_MOST_VALUABLE;
   payload: { user: string, mostValuable: MostValuable };
 }
 
@@ -74,32 +69,32 @@ export const setWeekBeingViewed = (week: number): SetWeekBeingViewed => {
 	};
 };
 
-export const addToTopWeeklyPlayersCache = (
+export const addToTopWeeklyPlayers = (
 	weekId: number,
 	player: PlayerDTO
-): AddToTopWeeklyPlayersCache => {
+): AddToTopWeeklyPlayers => {
 	return {
-		type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS_CACHE,
+		type: ActionTypes.ADD_TO_TOP_WEEKLY_PLAYERS,
 		payload: { weekId, player }
 	};
 };
 
-export const addToAverageWeeklyPointsCache = (
+export const addToAverageWeeklyPoints = (
 	weekId: number,
 	averageWeeklyPoints: number
-): AddToAverageWeeklyPointsCache => {
+): AddToAverageWeeklyPoints => {
 	return {
-		type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS_CACHE,
+		type: ActionTypes.ADD_TO_AVERAGE_WEEKLY_POINTS,
 		payload: { weekId, averageWeeklyPoints }
 	};
 };
 
-export const addToTopWeeklyUsersCache = (
+export const addToTopWeeklyUsers = (
 	weekId: number,
 	user: TopWeeklyUser
-): AddToTopWeeklyUsersCache => {
+): AddToTopWeeklyUsers => {
 	return {
-		type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS_CACHE,
+		type: ActionTypes.ADD_TO_TOP_WEEKLY_USERS,
 		payload: { weekId, user }
 	};
 };
@@ -111,23 +106,16 @@ export const setTotalNumberOfWeeks = (numberOfWeeks: number): SetTotalNumberOfWe
 	};
 };
 
-export const setMostValuable = (mostValuable: MostValuable): SetMostValuable => {
+export const setTotalPoints = (user: string, points: number): SetTotalPoints => {
 	return {
-		type: ActionTypes.SET_MOST_VALUBLE,
-		payload: { mostValuable }
-	};
-};
-
-export const setTotalPointsCache = (user: string, points: number): SetTotalPointsCache => {
-	return {
-		type: ActionTypes.SET_TOTAL_POINTS_CACHE,
+		type: ActionTypes.SET_TOTAL_POINTS,
 		payload: { user, points }
 	};
 };
 
-export const setWeeklyPointsCache = (user: string, points: number, week: number): SetWeeklyPointsCache => {
+export const setWeeklyPoints = (user: string, points: number, week: number): SetWeeklyPoints => {
 	return {
-		type: ActionTypes.SET_WEEKLY_POINTS_CACHE,
+		type: ActionTypes.SET_WEEKLY_POINTS,
 		payload: { user, points, week }
 	};
 };
@@ -139,21 +127,20 @@ export const setBudget = (user: string, budget: number): SetBudget => {
 	};
 };
 
-export const setMostValuableCache = (user: string, mostValuable: MostValuable): SetMostValuableCache => {
+export const setMostValuable = (user: string, mostValuable: MostValuable): SetMostValuablee => {
 	return {
-		type: ActionTypes.SET_MOST_VALUABLE_CACHE,
+		type: ActionTypes.SET_MOST_VALUABLE,
 		payload: { user, mostValuable }
 	};
 };
 
 export type Action =
   | SetWeekBeingViewed
-  | AddToAverageWeeklyPointsCache
-  | AddToTopWeeklyPlayersCache
-  | AddToTopWeeklyUsersCache
+  | AddToAverageWeeklyPoints
+  | AddToTopWeeklyPlayers
+  | AddToTopWeeklyUsers
   | SetTotalNumberOfWeeks
-	| SetMostValuable
-	| SetTotalPointsCache
-	| SetWeeklyPointsCache
+	| SetTotalPoints
+	| SetWeeklyPoints
 	| SetBudget
-	| SetMostValuableCache;
+	| SetMostValuablee;

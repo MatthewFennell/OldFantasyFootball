@@ -18,6 +18,7 @@ import {
 } from '../../Actions/LeagueActions';
 import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
+import { getAccountId } from '../../Selectors/AccountSelector';
 
 const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
@@ -25,7 +26,8 @@ const mapStateToProps = (state: State) => ({
 	leaguePageBeingViewed: getLeaguePageBeingViewed(state),
 	leagueRankings: getLeagueRankings(state),
 	userBeingViewed: getUserBeingViewed(state),
-	leagues: getLeagues(state)
+	leagues: getLeagues(state),
+	accountId: getAccountId(state)
 });
 
 const mapDispatchToProps = {
