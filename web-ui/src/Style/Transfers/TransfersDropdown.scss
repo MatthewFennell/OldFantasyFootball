@@ -1,3 +1,4 @@
+@import '../Colors.scss';
 .position-dropdown {
   .position-menu{
       padding: 0px;
@@ -6,7 +7,7 @@
       width: 70%;
  }
   .position-menu-toggle {
-      color: #ffa260;
+      color: $strange-orange;
       outline: 0;
       align-content: center;
       padding: 0px;
@@ -14,10 +15,10 @@
       background: none;
  }
   .position-menu-toggle:focus {
-      color: rgb(148, 148, 14);
+      color: $strange-yellow;
  }
   .position-menu-toggle:hover {
-      color: rgb(148, 148, 14);
+      color: $strange-yellow;
  }
   .menu-items:hover {
       background: orange;

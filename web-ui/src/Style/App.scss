@@ -2,7 +2,7 @@
  body {
      margin: 0;
      padding: 0;
-     background-color: #222227;
+     background-color: $dark-black-background;
      font-family: 'Roboto', sans-serif;
 }
  .unselectable {
@@ -44,12 +44,12 @@
      width: 8px;
 }
  ::-webkit-scrollbar-track {
-     -webkit-box-shadow: inset 0 0 6px #ffa260;
+     -webkit-box-shadow: inset 0 0 6px $strange-orange;
      border-radius: 10px;
 }
  ::-webkit-scrollbar-thumb {
      border-radius: 10px;
-     -webkit-box-shadow: inset 0 0 6px #ffa260;
+     -webkit-box-shadow: inset 0 0 6px $strange-orange;
 }
  .list-of-transactions, .transaction-info-screen {
      padding-right: 0px;

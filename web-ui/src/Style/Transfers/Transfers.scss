@@ -1,20 +1,21 @@
+@import '../Colors.scss';
 .outer-transfer-columns {
   display: flex;
-  background-color: #222227;
+  background-color: $dark-black-background;
   justify-content: center;
   div.left-rows {
       display: flex;
       flex-direction: column;
-      background-color: #222227;
+      background-color: $dark-black-background;
       .transfer-info-row {
           display: flex;
           justify-content: center;
           font-size: 36px;
      }
       .transfer-info-row>div.info {
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
           margin-right: 5%;
           margin-left: 5%;
@@ -30,7 +31,7 @@
   div.right-rows {
       display: flex;
       flex-direction: column;
-      background-color: #222227;
+      background-color: $dark-black-background;
  }
   .div.right-rows>div {
       background-color: #f1f1f1;
@@ -57,14 +58,14 @@
   text-align: center;
 }
 #transfers-save-team {
-  color: #ffa260;
+  color: $strange-orange;
   display: table;
   margin: auto;
   border-radius: 35px;
   border-color: #e07c34 !important;
   width: 100%;
   font-weight: bold;
-  background-color: #222227;
+  background-color: $dark-black-background;
   padding: 13px 16px;
   border: 2px solid;
   &:focus {

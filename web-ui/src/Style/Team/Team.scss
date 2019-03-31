@@ -1,24 +1,26 @@
+@import '../Colors.scss';
+
 .outer-rows {
   display: flex;
   flex-direction: column;
   .row-1-info {
       flex-grow: 1;
       .total-points, .week-points, .dropdown{
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
-          background-color: #222227;
+          background-color: $dark-black-background;
      }
  }
   .row-2-stats{
       flex-grow: 1;
       .average-points, .player-most-points, .user-most-points{
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
-          background-color: #222227;
+          background-color: $dark-black-background;
      }
  }
   .row-3-squad-my-team{
@@ -33,27 +35,27 @@
 }
   .player-stats-sidebar{
       .stats-wrapper{
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
           padding: 15px;
-          background-color: #222227;
+          background-color: $dark-black-background;
           margin-left: 1vw;
           margin-right: 1vw;
      }
       .sidebar-stats-menu-toggle {
-          color: #ffa260;
+          color: $strange-orange;
           align-content: center;
           padding: 0px;
           margin: 0px;
-          background: #222227;
+          background: $dark-black-background;
      }
       div.week-menu{
           margin: 0px;
      }
       .sidebar-stats-menu-toggle:focus {
-          color: #ffa260;
+          color: $strange-orange;
      }
       .no-stats-message{
           text-align: left;
@@ -67,12 +69,12 @@
           font-size: 16px;
      }
       .click-player-message{
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
           padding: 15px;
-          background-color: #222227;
+          background-color: $dark-black-background;
           margin-left: 1vw;
           margin-right: 1vw;
           line-height: 40px;
@@ -95,7 +97,7 @@
                  }
                   td.stat-value{
                       padding-left: 30px;
-                      color: #ffa260;
+                      color: $strange-orange;
                  }
                   td.stat-title{
                       color: rgb(209, 209, 27);
@@ -115,11 +117,11 @@
       font-size: 18px;
       .league-table{
           padding-right: 15px;
-          color: #ffa260;
+          color: $strange-orange;
           border: 3px solid;
-          border-image: linear-gradient(to bottom, #ffa260 1%, rgb(148, 148, 14) 100%);
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
           border-image-slice: 1;
-          background-color: #222227;
+          background-color: $dark-black-background;
           margin-left: 2vw;
           .my-active-leagues-table{
               width: 100%;
