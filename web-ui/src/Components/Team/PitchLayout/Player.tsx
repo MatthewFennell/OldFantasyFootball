@@ -32,28 +32,49 @@ class Player extends React.Component<PlayerProps, {}> {
 	render () {
 		if (this.props.emptyPlayer) {
 			return (
-				<div className="empty-player">
-					<p className="name">No player selected</p>
+				<div className="player-wrapper">
+					<div className="image-empty" />
+					<div className="name">No player selected</div>
 				</div>
 			);
 		} else {
-			const { firstName, surname, weeklyPoints, price } = this.props.player;
+			const { firstName, surname, price, weeklyPoints } = this.props.player;
 			return (
 				<div
-					className="filled-player"
+					className="player-wrapper"
 					onClick={this.handleOnClick}
 				>
-					<p className="name">
-						{firstName} {surname}
-					</p>
+					{ this.props.player.position === 'GOALKEEPER'
+					 ? <div className="image-keeper" />
+					  : <div className="image" />}
+					<div className="name">
+						{firstName} {' '} {surname}
+					</div>
 					{this.props.transfer ? (
-						<p className="value">{'£' + price + 'm'}</p>
+						<div className="value">{'£' + price + 'm'}</div>
 					) : (
-						<p className="points">{weeklyPoints + ' pts'}</p>
+						<div className="points">{weeklyPoints + ' pts'}</div>
 					)}
+
 				</div>
+
 			);
 		}
 	}
 }
 export default Player;
+
+// <div
+// 	className="filled-player"
+// 	onClick={this.handleOnClick}
+// >
+// 	<div className="image" />
+// 	<p className="name">
+// 		{firstName} {surname}
+// 	</p>
+// 	{this.props.transfer ? (
+// 		<p className="value">{'£' + price + 'm'}</p>
+// 	) : (
+// 		<p className="points">{weeklyPoints + ' pts'}</p>
+// 	)}
+// </div>

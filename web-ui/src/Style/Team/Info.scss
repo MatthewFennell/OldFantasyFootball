@@ -50,7 +50,7 @@
   height: 100%;
 }
 .week-menu-item-true {
-  color: rgb(226, 226, 43);
+  color: $yellow-text;
   border: 0;
   outline: 0;
   background: none;
@@ -70,6 +70,6 @@
 .team-menu-items{
   margin: 0px;
   height: 30px;
-  background: #80808a;
+  background: $light-gray;
   line-height: 30px;
 }

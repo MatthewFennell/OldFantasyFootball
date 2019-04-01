@@ -2,7 +2,7 @@
 
 #create-league-form {
   height: 70vh;
-  background-color: #3c3c44;
+  background-color: $medium-dark-background;
   margin-left: 10%;
   margin-right: 10%;
   color: $strange-orange;
@@ -24,7 +24,7 @@
       display: table;
       margin: auto;
       border-radius: 35px;
-      border-color: #e07c34 !important;
+      border-color: $orange-border !important;
       width: 40%;
       font-weight: bold;
       background-color: $dark-black-background;
@@ -35,7 +35,7 @@
           outline: none;
      }
       &:hover {
-          color: rgb(209, 209, 27);
+          color: $strange-other-yellow;
           outline: none;
      }
  }

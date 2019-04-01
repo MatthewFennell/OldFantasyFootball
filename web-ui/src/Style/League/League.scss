@@ -85,7 +85,7 @@ div.league-table {
   display: table;
   margin: auto;
   border-radius: 35px;
-  border-color: #e07c34 !important;
+  border-color: $orange-border !important;
   width: 40%;
   font-weight: bold;
   background-color: $dark-black-background;
@@ -95,7 +95,7 @@ div.league-table {
       outline: none;
  }
   &:hover {
-      color: rgb(209, 209, 27);
+      color: $strange-other-yellow;
       outline: none;
  }
 }
@@ -104,7 +104,7 @@ div.league-table {
 }
 tr.league:hover {
   td {
-      background-color: #3c3c46;
+      background-color: $medium-dark-background;
  }
 }
 .my-leagues{
@@ -116,7 +116,7 @@ tr.league:hover {
   border: 3px solid;
   border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
-  background-color: #3c3c44;
+  background-color: $medium-dark-background;
   padding-right: 30px;
 }
 .huh, .container{
