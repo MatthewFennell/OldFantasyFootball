@@ -71,7 +71,7 @@ div.admin-form {
   display: table;
   margin: auto;
   border-radius: 35px;
-  border-color: #e07c34 !important;
+  border-color: $orange-border !important;
   width: 100%;
   font-weight: bold;
   background-color: $dark-black-background;;
@@ -81,7 +81,7 @@ div.admin-form {
       outline: none;
  }
   &:hover {
-      color: rgb(209, 209, 27);
+      color: $strange-other-yellow;
       outline: none;
  }
 }
@@ -90,7 +90,7 @@ div.admin-form {
   display: table;
   margin: auto;
   border-radius: 35px;
-  border-color: #e07c34 !important;
+  border-color: $orange-border !important;
   width: 20%;
   font-weight: bold;
   background-color: $dark-black-background;;
@@ -100,7 +100,7 @@ div.admin-form {
       outline: none;
  }
   &:hover {
-      color: rgb(209, 209, 27);
+      color: $strange-other-yellow;
       outline: none;
  }
 }

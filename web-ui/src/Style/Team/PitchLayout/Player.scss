@@ -1,25 +1,42 @@
-.player {
-  line-height: 25px;
-  height: 100%;
-  background-color: yellow;
-  width: 10%;
-  margin-left: 4%;
-  margin-right: 4%;
-  text-align: center;
-  line-height: 55px;
-  border-radius: 25px;
-  font-size: 16px;
-}
+@import '../../Colors.scss';
 .player-columns {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
   height: 100%;
 }
-.filled-player{
-  cursor: pointer;
+
+.player{
   height: 100%;
-  .name, .value{
-      margin-bottom: 0px;
- }
+  width: 10%;
+  margin-left: 4%;
+  margin-right: 4%;
+  cursor: pointer;
+  .image{
+    min-height: 100px;
+    background-image: url("./temp-kit.gif");
+    background-size: 100% 100%;
+  }
+  .image-keeper{
+    min-height: 100px;
+    background-image: url("./keeper.gif");
+    // For the image - put in publisher -> Picture Tools (top) -> Recolor -> Set transparent color
+    background-size: 100% 100%;
+  }
+  .image-empty{
+    min-height: 100px;
+    background-image: url("./empty-player.gif");
+    background-size: 100% 100%;
+  }
+  .player-wrapper{
+    .name, .points, .value{
+      font-size: 14px;
+      line-height: 20px;
+      background-color: $medium-dark-background;
+      color: $yellow-text;
+    }
+  }
+
+
 }
+

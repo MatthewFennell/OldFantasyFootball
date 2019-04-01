@@ -25,7 +25,7 @@
  }
   .row-3-squad-my-team{
       display: flex;
-      background-color: #3c3c44;
+      background-color: $medium-dark-background;
       flex-grow: 10;
  }
  .row-3-squad-other-team{
@@ -100,7 +100,7 @@
                       color: $strange-orange;
                  }
                   td.stat-title{
-                      color: rgb(209, 209, 27);
+                      color: $strange-other-yellow;
                  }
                   td.stat-title-no-wrap{
                       font-size: 14px;

@@ -34,7 +34,7 @@
       background-color: $dark-black-background;
  }
   .div.right-rows>div {
-      background-color: #f1f1f1;
+      background-color: $background-white;
       width: 100px;
       margin: 10px;
       text-align: center;
@@ -42,7 +42,7 @@
       font-size: 30px;
  }
   .div.left-rows>div {
-      background-color: #f1f1f1;
+      background-color: $background-white;
       width: 100px;
       margin: 10px;
       text-align: center;
@@ -51,7 +51,7 @@
  }
 }
 .outer-transfer-columns>div {
-  background-color: #f1f1f1;
+  background-color: $background-white;
   padding: 10px;
   font-size: 30px;
   width: 100%;
@@ -62,7 +62,7 @@
   display: table;
   margin: auto;
   border-radius: 35px;
-  border-color: #e07c34 !important;
+  border-color: $orange-border !important;
   width: 100%;
   font-weight: bold;
   background-color: $dark-black-background;
@@ -72,7 +72,7 @@
       outline: none;
  }
   &:hover {
-      color: rgb(209, 209, 27);
+      color: $strange-other-yellow;
       outline: none;
  }
 }
