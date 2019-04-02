@@ -63,6 +63,7 @@
  div#account {
      display: inline-flex;
      margin: auto;
+     margin-right: 100px;
 }
  div#avatar {
      border-radius: 35px;
@@ -179,5 +180,18 @@
 #categories, #transactions{
     h6{
         margin-left: 5px;
+    }
+}
+
+
+.custom-dropdown{
+    border: none !important;
+    color: black !important;
+
+    .custom-dropdown-menu-toggle{
+        color: black !important;
+    }
+    .custom-dropdown-menu-items{
+        width: 100px;
     }
 }
