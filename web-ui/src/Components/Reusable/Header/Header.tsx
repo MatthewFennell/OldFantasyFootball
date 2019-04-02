@@ -1,8 +1,9 @@
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
+import { clearSessionStorage } from '../../../Services/CredentialInputService';
 import ButtonPageSelector from './ButtonPageSelector';
 import { getUser } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
@@ -31,7 +32,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
 
   constructor (props: Props & RouteComponentProps) {
   	super(props);
-
+	  this.logout = this.logout.bind(this);
   	this.transfersRef = React.createRef<HTMLDivElement>();
   	this.leagueRef = React.createRef<HTMLDivElement>();
   	this.settingsRef = React.createRef<HTMLDivElement>();
@@ -70,6 +71,11 @@ class Header extends React.Component<Props & RouteComponentProps> {
   	});
   }
 
+  logout () {
+  	clearSessionStorage();
+  	this.props.history.push('/login');
+  }
+
   _select = (target: React.RefObject<HTMLDivElement>, name: string) => {
     this.teamRef.current!.classList.remove('selected');
     this.transfersRef.current!.classList.remove('selected');
@@ -84,7 +90,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   };
 
   render () {
-  	  const { firstname, surname } = this.props;
+  	//   const { firstname, surname } = this.props;
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">
@@ -95,7 +101,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						src="appIcon.jpg"
   					/>
   				</Col>
-  				<Col lg="9">
+  				<Col lg="11">
   					<div id="midOptions">
   						<Link to="/team">
   							<ButtonPageSelector
@@ -151,9 +157,19 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						) : null}
   					</div>
   				</Col>
-  				<Col lg="2" >
-				  <div>
-  						{firstname}{' '}{surname}
+  				<Col
+  					className="account-header"
+  					lg="2"
+  				>
+				  <div className="logout">
+						  {/* {firstname}{' '}{surname} */}
+						  <Button
+  								className=""
+  								id="btnAddResult"
+  								onClick={this.logout}
+						  >
+							Logout
+  							</Button>
   					</div>
   				</Col>
   			</Row>
