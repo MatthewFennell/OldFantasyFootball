@@ -15,6 +15,7 @@ interface Props {
   firstname: string;
   surname: string;
   roles: string[];
+  accountId: string;
 }
 class Header extends React.Component<Props & RouteComponentProps> {
   private transfersRef: React.RefObject<HTMLDivElement>;
@@ -79,6 +80,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
     }
     target.current!.classList.add('selected');
     this.props.setPageBeingViewed(name);
+    this.props.setUserBeingViewed(this.props.accountId);
   };
 
   render () {
