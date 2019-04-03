@@ -1,8 +1,9 @@
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
+import { clearSessionStorage } from '../../../Services/CredentialInputService';
 import ButtonPageSelector from './ButtonPageSelector';
 import { getUser } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
@@ -15,6 +16,8 @@ interface Props {
   firstname: string;
   surname: string;
   roles: string[];
+  accountId: string;
+  logout: () => void;
 }
 class Header extends React.Component<Props & RouteComponentProps> {
   private transfersRef: React.RefObject<HTMLDivElement>;
@@ -30,7 +33,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
 
   constructor (props: Props & RouteComponentProps) {
   	super(props);
-
+	  this.logout = this.logout.bind(this);
   	this.transfersRef = React.createRef<HTMLDivElement>();
   	this.leagueRef = React.createRef<HTMLDivElement>();
   	this.settingsRef = React.createRef<HTMLDivElement>();
@@ -69,6 +72,12 @@ class Header extends React.Component<Props & RouteComponentProps> {
   	});
   }
 
+  logout () {
+	  clearSessionStorage();
+	  this.props.logout();
+  	this.props.history.push('/login');
+  }
+
   _select = (target: React.RefObject<HTMLDivElement>, name: string) => {
     this.teamRef.current!.classList.remove('selected');
     this.transfersRef.current!.classList.remove('selected');
@@ -79,10 +88,11 @@ class Header extends React.Component<Props & RouteComponentProps> {
     }
     target.current!.classList.add('selected');
     this.props.setPageBeingViewed(name);
+    this.props.setUserBeingViewed(this.props.accountId);
   };
 
   render () {
-	  const { firstname, surname } = this.props;
+  	//   const { firstname, surname } = this.props;
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">
@@ -93,7 +103,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						src="appIcon.jpg"
   					/>
   				</Col>
-  				<Col lg="9">
+  				<Col lg="11">
   					<div id="midOptions">
   						<Link to="/team">
   							<ButtonPageSelector
@@ -149,14 +159,19 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						) : null}
   					</div>
   				</Col>
-  				<Col lg="2">
-  					<div id="account">
-  						<div id="avatar" />
-  						<h5 id="name">{firstname + ' ' + surname}</h5>
-  						<i
-  							aria-hidden="true"
-  							className="fa fa-caret-down cursor-pointer"
-  						/>
+  				<Col
+  					className="account-header"
+  					lg="2"
+  				>
+				  <div className="logout">
+						  {/* {firstname}{' '}{surname} */}
+						  <Button
+  								className=""
+  								id="logout-button"
+  								onClick={this.logout}
+						  >
+							Logout
+  							</Button>
   					</div>
   				</Col>
   			</Row>

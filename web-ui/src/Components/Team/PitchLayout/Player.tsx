@@ -63,18 +63,3 @@ class Player extends React.Component<PlayerProps, {}> {
 	}
 }
 export default Player;
-
-// <div
-// 	className="filled-player"
-// 	onClick={this.handleOnClick}
-// >
-// 	<div className="image" />
-// 	<p className="name">
-// 		{firstName} {surname}
-// 	</p>
-// 	{this.props.transfer ? (
-// 		<p className="value">{'£' + price + 'm'}</p>
-// 	) : (
-// 		<p className="points">{weeklyPoints + ' pts'}</p>
-// 	)}
-// </div>

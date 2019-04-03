@@ -6,6 +6,7 @@ interface CustomDropdownProps {
   setData: (position: any) => void;
   values: any[];
   title: string;
+  logout: boolean;
 }
 
 interface CustomDropdownState {
@@ -14,6 +15,7 @@ interface CustomDropdownState {
 }
 
 class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdownState> {
+	static defaultProps = { logout: false };
 	constructor (props: CustomDropdownProps) {
 		super(props);
 		this._toggleDropdown = this._toggleDropdown.bind(this);
@@ -69,7 +71,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 					isOpen={dropDownOpen}
 					toggle={this._toggleDropdown}
 				>
-					{title + ':'} {value}
+					{this.props.logout ? null : <div> {title + ':'} {value}</div>}
 					<DropdownToggle
 						caret
 						className="custom-dropdown-menu-toggle"

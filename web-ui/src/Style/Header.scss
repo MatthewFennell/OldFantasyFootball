@@ -63,6 +63,7 @@
  div#account {
      display: inline-flex;
      margin: auto;
+     margin-right: 100px;
 }
  div#avatar {
      border-radius: 35px;
@@ -180,4 +181,14 @@
     h6{
         margin-left: 5px;
     }
+}
+
+.logout{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+
+#logout-button{
+    
 }
