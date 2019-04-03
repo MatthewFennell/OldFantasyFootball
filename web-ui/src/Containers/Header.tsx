@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { State } from '../Reducers/root';
+import { State, logout } from '../Reducers/root';
 import Header from '../Components/Reusable/Header/Header';
 import { setAccount, setPageBeingViewed } from '../Actions/AccountActions';
 import {
@@ -22,7 +22,8 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = {
 	setAccount,
 	setPageBeingViewed,
-	setUserBeingViewed
+	setUserBeingViewed,
+	logout
 };
 
 export default connect<any, any, any>(

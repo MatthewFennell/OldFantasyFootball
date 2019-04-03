@@ -17,6 +17,7 @@ interface Props {
   surname: string;
   roles: string[];
   accountId: string;
+  logout: () => void;
 }
 class Header extends React.Component<Props & RouteComponentProps> {
   private transfersRef: React.RefObject<HTMLDivElement>;
@@ -72,7 +73,8 @@ class Header extends React.Component<Props & RouteComponentProps> {
   }
 
   logout () {
-  	clearSessionStorage();
+	  clearSessionStorage();
+	  this.props.logout();
   	this.props.history.push('/login');
   }
 
@@ -165,7 +167,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
 						  {/* {firstname}{' '}{surname} */}
 						  <Button
   								className=""
-  								id="btnAddResult"
+  								id="logout-button"
   								onClick={this.logout}
 						  >
 							Logout
