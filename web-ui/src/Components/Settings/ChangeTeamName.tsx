@@ -19,7 +19,7 @@ interface ChangeTeamNameState {
 class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamNameState> {
 	constructor (props: ChangeTeamNameProps) {
 		super(props);
-		this._handleCollegeName = this._handleCollegeName.bind(this);
+		this.handleTeamName = this.handleTeamName.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
@@ -31,8 +31,8 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 		};
 	}
 
-	_handleCollegeName (collegeName: string) {
-		this.setState({ teamNameValue: collegeName });
+	handleTeamName (teamNameValue: string) {
+		this.setState({ teamNameValue });
 	}
 
 	handleValidate () {
@@ -64,15 +64,15 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 	render () {
 		const { teamNameValue } = this.state;
 		return (
-			<div className="college-form">
-				<div className="college-form-row-one">
+			<div className="team-name-form">
+				<div className="team-name-form-row-one">
 					<TextInputForm
 						currentValue={teamNameValue}
-						setValue={this._handleCollegeName}
+						setValue={this.handleTeamName}
 						title="Team name"
 					/>
 				</div>
-				<div className="college-form-row-two">
+				<div className="team-name-form-row-two">
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"

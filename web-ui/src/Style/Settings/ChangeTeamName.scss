@@ -29,10 +29,10 @@ div.settings-form {
 
 
 
-  div.college-form {
+  div.team-name-form {
     display: flex;
     flex-direction: column;
-    .college-form-row-one {
+    .team-name-form-row-one {
         display: flex;
         background-color: $medium-dark-background;
         justify-content: center;
@@ -43,18 +43,18 @@ div.settings-form {
           border: none;
       }
    }
-    .college-form-row-one>div {
+    .team-name-form-row-one>div {
         background-color: $medium-dark-background;
         padding: 20px;
         font-size: 30px;
         width: 100%;
    }
-    .college-form-row-two {
+    .team-name-form-row-two {
         display: flex;
         background-color: $medium-dark-background;
         justify-content: center;
    }
-    .college-form-row-two>div {
+    .team-name-form-row-two>div {
         padding: 20px;
         font-size: 30px;
         width: 100%;        

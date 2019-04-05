@@ -10,6 +10,7 @@ import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 import { updateTeam } from '../../Services/Weeks/WeeksService';
 import TeamData from '../../Containers/Team/TeamData';
 import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
+import { getUserBudget } from '../../Services/User/UserService';
 
 interface TransfersProps {
   accountId: string;
@@ -44,6 +45,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.canAdd = this.canAdd.bind(this);
 		this.removeFromPlayersBeingAdded = this.removeFromPlayersBeingAdded.bind(this);
 		this.findTeam = this.findTeam.bind(this);
+		this.setInitialBudget = this.setInitialBudget.bind(this);
 		this.state = {
 			teamUpdated: false,
 			errorMessage: '',
@@ -52,11 +54,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		};
 
 		this.findTeam();
+		this.setInitialBudget();
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.accountId !== this.props.accountId) {
 			this.findTeam();
+			this.setInitialBudget();
 		}
 	}
 
@@ -95,6 +99,14 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				(item, index) => indexToRemove !== index
 			)
 		}));
+	}
+
+	setInitialBudget () {
+		getUserBudget(this.props.accountId).then(response => {
+			this.props.setBudget(this.props.accountId, response);
+		}).catch(error => {
+			console.log('error = ' + error);
+		});
 	}
 
 	canAdd (player: PlayerDTO): boolean {
