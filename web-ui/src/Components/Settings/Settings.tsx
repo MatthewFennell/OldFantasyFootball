@@ -1,5 +1,6 @@
 import * as React from 'react';
 import ChangeTeamName from './ChangeTeamName';
+import ChangePassword from './ChangePassword';
 import '../../Style/Settings/Settings.css';
 
 interface SettingsProps {
@@ -58,8 +59,9 @@ class Settings extends React.Component<SettingsProps, {}> {
 								onClick={this.handleSetPageBeingViewedDeletePlayer}
 							>
               Change team name
+			  <ChangeTeamName />
 							</div>
-							<ChangeTeamName />
+
 						</div>
 						<div className="settings-wrapper">
 							<div
@@ -67,8 +69,9 @@ class Settings extends React.Component<SettingsProps, {}> {
 								onClick={this.handleSetPageBeingViewedCreateCollegeTeam}
 							>
               Change password
+			  <ChangePassword />
 							</div>
-							<ChangeTeamName />
+
 						</div>
 					</div>
 

@@ -3,12 +3,13 @@ import { Button } from 'reactstrap';
 import { validCollegeName } from '../../Services/CredentialInputService';
 import TextInputForm from '../common/TexInputForm';
 import '../../Style/Settings/ChangeTeamName.css';
+import { patchTeamName } from '../../Services/User/UserService';
 
 interface CreateCollegeTeamProps {
 }
 
 interface CreateCollegeTeamState {
-  collegeNameValue: string;
+  teamNameValue: string;
   collegeTeamCreated: boolean;
   previousCollegeTeamMade: string;
   errorMessage: string;
@@ -23,7 +24,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
-			collegeNameValue: 'Please select a team',
+			teamNameValue: 'Please select a team',
 			collegeTeamCreated: false,
 			previousCollegeTeamMade: '',
 			errorMessage: ''
@@ -31,12 +32,12 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	_handleCollegeName (collegeName: string) {
-		this.setState({ collegeNameValue: collegeName });
+		this.setState({ teamNameValue: collegeName });
 	}
 
 	handleValidate () {
-		const { collegeNameValue } = this.state;
-		if (validCollegeName(collegeNameValue)) {
+		const { teamNameValue } = this.state;
+		if (validCollegeName(teamNameValue)) {
 			this._onSubmit();
 		} else {
 			this.setState({ errorMessage: 'College team name does not match regex (UI)' });
@@ -46,6 +47,13 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	_onSubmit () {
+		console.log('name value = ' + this.state.teamNameValue);
+		patchTeamName(this.state.teamNameValue).then(response => {
+			console.log('response = ' + response);
+		})
+			.catch(error => {
+				console.log('error = ' + error);
+			});
 	}
 
 	_removeErrorMessage () {
@@ -54,14 +62,14 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	render () {
-		const { collegeNameValue } = this.state;
+		const { teamNameValue } = this.state;
 		return (
 			<div className="college-form">
 				<div className="college-form-row-one">
 					<TextInputForm
-						currentValue={collegeNameValue}
+						currentValue={teamNameValue}
 						setValue={this._handleCollegeName}
-						title="Enter your new team name"
+						title="Team name"
 					/>
 				</div>
 				<div className="college-form-row-two">
