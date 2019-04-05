@@ -85,11 +85,13 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<TextInputForm
-						currentValue={collegeNameValue}
-						setValue={this._handleCollegeName}
-						title="College team name"
-					/>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={collegeNameValue}
+							setValue={this._handleCollegeName}
+							title="College team name"
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
 					<div>

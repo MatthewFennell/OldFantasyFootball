@@ -243,13 +243,19 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={this._handleCollegeTeam} />
-					<SelectPlayer setPlayerID={this._handlePlayerID} />
-					<TextInputForm
-						currentValue={week}
-						setValue={this._handleWeek}
-						title="Week"
-					/>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleCollegeTeam} />
+					</div>
+					<div className="admin-wrapper">
+						<SelectPlayer setPlayerID={this._handlePlayerID} />
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={week}
+							setValue={this._handleWeek}
+							title="Week"
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
 					{playerID !== '' && week !== '' ? (
@@ -322,42 +328,55 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 				<div className="admin-form-row-two">
 					{playerID !== '' && week !== '' ? (
 						<div className="admin-form-row-two">
-							<TextInputForm
-								currentValue={goals}
-								setValue={this._handleGoals}
-								title="Goals"
-							/>
-							<TextInputForm
-								currentValue={assists}
-								setValue={this._handleAssists}
-								title="Assists"
-							/>
-							<TextInputForm
-								currentValue={minutesPlayed}
-								setValue={this._handleMinutesPlayed}
-								title="Minutes played"
-							/>
-							<CustomDropdown
-								setData={this._handleYellowCards}
-								title="Yellow Cards"
-								values={['0', '1', '2']}
-							/>
-							<CustomDropdown
-								setData={this._handleManOfTheMatch}
-								title="Man of the Match"
-								values={['No', 'Yes']}
-							/>
-							<CustomDropdown
-								setData={this._handleRedCard}
-								title="Red Card"
-								values={['No', 'Yes']}
-							/>
+							<div className="admin-wrapper">
+								<TextInputForm
+									currentValue={goals}
+									setValue={this._handleGoals}
+									title="Goals"
+								/>
+							</div>
+							<div className="admin-wrapper">
+								<TextInputForm
+									currentValue={assists}
+									setValue={this._handleAssists}
+									title="Assists"
+								/>
+							</div>
+							<div className="admin-wrapper">
+								<TextInputForm
+									currentValue={minutesPlayed}
+									setValue={this._handleMinutesPlayed}
+									title="Minutes played"
+								/>
+							</div>
+							<div className="admin-wrapper">
+								<CustomDropdown
+									setData={this._handleYellowCards}
+									title="Yellow Cards"
+									values={['0', '1', '2']}
+								/>
+							</div>
+							<div className="admin-wrapper">
+								<CustomDropdown
+									setData={this._handleManOfTheMatch}
+									title="Man of the Match"
+									values={['No', 'Yes']}
+								/>
+							</div>
+							<div className="admin-wrapper">
+								<CustomDropdown
+									setData={this._handleRedCard}
+									title="Red Card"
+									values={['No', 'Yes']}
+								/>
+							</div>
 
-							{viewingDefender ? <CustomDropdown
-								setData={this._handleCleanSheet}
-								title="Clean Sheet"
-								values={['No', 'Yes']}
-							                   /> : null}
+							{viewingDefender ? <div className="admin-wrapper">
+								<CustomDropdown
+									setData={this._handleCleanSheet}
+									title="Clean Sheet"
+									values={['No', 'Yes']}
+								/> </div> : null}
 						</div>
 					) : null}
 				</div>

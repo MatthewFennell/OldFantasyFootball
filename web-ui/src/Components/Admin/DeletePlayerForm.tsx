@@ -79,11 +79,16 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={this._handleCollegeTeam} />
-					<SelectPlayer
-						onlyDefendwrs={false}
-						setPlayerID={this._handlePlayerID}
-					/>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleCollegeTeam} />
+					</div>
+					<div className="admin-wrapper">
+						<SelectPlayer
+							onlyDefenders={false}
+							setPlayerID={this._handlePlayerID}
+						/>
+					</div>
+
 				</div>
 				<div className="admin-form-row-two" />
 				<div>

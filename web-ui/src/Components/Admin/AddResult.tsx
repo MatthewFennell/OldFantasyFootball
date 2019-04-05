@@ -173,22 +173,30 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={this._handleCollegeTeam} />
-					<TextInputForm
-						currentValue={goalsFor}
-						setValue={this._handleGoalsFor}
-						title="Goals for"
-					/>
-					<TextInputForm
-						currentValue={goalsAgainst}
-						setValue={this._handleGoalsAgainst}
-						title="Goals against"
-					/>
-					<TextInputForm
-						currentValue={week}
-						setValue={this._handleWeek}
-						title="Week"
-					/>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleCollegeTeam} />
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={goalsFor}
+							setValue={this._handleGoalsFor}
+							title="Goals for"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={goalsAgainst}
+							setValue={this._handleGoalsAgainst}
+							title="Goals against"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={week}
+							setValue={this._handleWeek}
+							title="Week"
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">

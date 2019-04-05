@@ -198,52 +198,71 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={setTeam} />
-					<SelectPlayer setPlayerID={setPlayerID} />
-					<TextInputForm
-						currentValue={week}
-						setValue={this._handleWeek}
-						title="Week"
-					/>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={setTeam} />
+					</div>
+					<div className="admin-wrapper">
+						<SelectPlayer setPlayerID={setPlayerID} />
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={week}
+							setValue={this._handleWeek}
+							title="Week"
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
-					<TextInputForm
-						currentValue={goals}
-						setValue={this._handleGoals}
-						title="Goals"
-					/>
-					<TextInputForm
-						currentValue={assists}
-						setValue={this._handleAssists}
-						title="Assists"
-					/>
-					<TextInputForm
-						currentValue={minutesPlayed}
-						setValue={this._handleMinutesPlayed}
-						title="Minutes played"
-					/>
-					<CustomDropdown
-						setData={this._handleYellowCards}
-						title="Yellow Cards"
-						values={['0', '1', '2']}
-					/>
-					<CustomDropdown
-						setData={this._handleManOfTheMatch}
-						title="Man of the Match"
-						values={['No', 'Yes']}
-					/>
-					<CustomDropdown
-						setData={this._handleRedCard}
-						title="Red Card"
-						values={['No', 'Yes']}
-					/>
-
-					{viewingDefender ? (
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={goals}
+							setValue={this._handleGoals}
+							title="Goals"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={assists}
+							setValue={this._handleAssists}
+							title="Assists"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={minutesPlayed}
+							setValue={this._handleMinutesPlayed}
+							title="Minutes played"
+						/>
+					</div>
+					<div className="admin-wrapper">
 						<CustomDropdown
-							setData={this._handleCleanSheet}
-							title="Clean Sheet"
+							setData={this._handleYellowCards}
+							title="Yellow Cards"
+							values={['0', '1', '2']}
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<CustomDropdown
+							setData={this._handleManOfTheMatch}
+							title="Man of the Match"
 							values={['No', 'Yes']}
 						/>
+					</div>
+					<div className="admin-wrapper">
+						<CustomDropdown
+							setData={this._handleRedCard}
+							title="Red Card"
+							values={['No', 'Yes']}
+						/>
+					</div>
+
+					{viewingDefender ? (
+						<div className="admin-wrapper">
+							<CustomDropdown
+								setData={this._handleCleanSheet}
+								title="Clean Sheet"
+								values={['No', 'Yes']}
+							/> </div>
 					) : null}
 				</div>
 				<div>

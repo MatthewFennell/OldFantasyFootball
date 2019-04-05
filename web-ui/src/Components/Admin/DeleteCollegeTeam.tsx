@@ -74,7 +74,9 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={this._handleCollegeName} />
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleCollegeName} />
+					</div>
 				</div>
 				<div className="admin-form-row-two">
 					<div>

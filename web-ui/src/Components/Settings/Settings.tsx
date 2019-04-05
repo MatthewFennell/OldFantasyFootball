@@ -25,7 +25,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	_selectedOrNot (input: string) {
-		return input === this.state.lastClicked ? 'raise-selected' : 'raise';
+		return input === this.state.lastClicked ? 'raise-settings-selected' : 'raise-settings';
 	}
 
 	render () {

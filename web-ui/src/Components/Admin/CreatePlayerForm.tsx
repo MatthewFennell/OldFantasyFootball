@@ -147,29 +147,39 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<TextInputForm
-						currentValue={firstNameValue}
-						setValue={this._handleFirstName}
-						title="First name"
-					/>
-					<TextInputForm
-						currentValue={surnameValue}
-						setValue={this._handleSurname}
-						title="Surname"
-					/>
-					<CustomDropdown
-						setData={this._handlePositionChange}
-						title="Position"
-						values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
-					/>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={firstNameValue}
+							setValue={this._handleFirstName}
+							title="First name"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={surnameValue}
+							setValue={this._handleSurname}
+							title="Surname"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<CustomDropdown
+							setData={this._handlePositionChange}
+							title="Position"
+							values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
-					<TextInputForm
-						currentValue={priceValue}
-						setValue={this._handlePrice}
-						title="Price"
-					/>
-					<CollegeTeam setTeam={this._handleTeamChange} />
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={priceValue}
+							setValue={this._handlePrice}
+							title="Price"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleTeamChange} />
+					</div>
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"

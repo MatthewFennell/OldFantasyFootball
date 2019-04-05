@@ -89,3 +89,9 @@ div.raise-selected{
  }
  ;
 }
+
+.admin-wrapper{
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
