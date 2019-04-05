@@ -13,6 +13,7 @@ interface PlayerStatsProps {
 	userBeingViewed: string;
 	weekBeingViewed: number;
 	username: string;
+	teamName: string;
 }
 
 interface PlayerStatsState {
@@ -119,6 +120,9 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 			>
 				<div>
 				User : {this.props.username}
+				</div>
+				<div>
+					Team name : { this.props.teamName}
 				</div>
 				{this.props.statsBeingViewed ? (
 					<div className="stats-wrapper">

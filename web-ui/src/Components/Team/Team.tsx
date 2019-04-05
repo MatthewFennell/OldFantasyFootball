@@ -44,6 +44,7 @@ interface TeamProps {
 
 interface TeamState {
 	playerStatsBeingViewed: PlayerStatsDTO;
+	teamNameBeingViewed: string;
 	statsBeingViewed: boolean;
 	playerPointsBeingViewed: PlayerPointsDTO;
 	playerPointsViewed: boolean;
@@ -71,7 +72,8 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			playerPointsViewed: false,
 			playerSidebar: {} as any,
 			weekBeingViewed: this.props.totalNumberOfWeeks,
-			usernameBeingViewed: ''
+			usernameBeingViewed: '',
+			teamNameBeingViewed: ''
 		};
 		this.updateUserInfo();
 		this.findTeam();
@@ -127,6 +129,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	updateUserInfo () {
 		getUserInfo(this.props.userBeingViewed).then(response => {
 			this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
+			this.setState({ teamNameBeingViewed: response.teamName });
 		}).catch(error => {
 			console.log('error = ' + error);
 		});
@@ -248,6 +251,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 							playerPointsViewed={this.state.playerPointsViewed}
 							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
 							statsBeingViewed={this.state.statsBeingViewed}
+							teamName={this.state.teamNameBeingViewed}
 							totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 							userBeingViewed={this.props.userBeingViewed}
 							username={this.state.usernameBeingViewed}
