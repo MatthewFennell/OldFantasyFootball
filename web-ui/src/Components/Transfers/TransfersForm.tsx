@@ -33,10 +33,11 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this._handleMaximumPriceChange = this._handleMaximumPriceChange.bind(this);
 		this._handleSearchByNameValue = this._handleSearchByNameValue.bind(this);
 		this._getResults = this._getResults.bind(this);
+		this._checkIfActive = this._checkIfActive.bind(this);
 		this.state = {
 			positionValue: 'All',
 			teamValue: 'All teams',
-			sortByValue: 'TOTAL_POINTS',
+			sortByValue: 'Total score',
 			minimumPriceValue: 'No limit',
 			maximumPriceValue: 'No limit',
 			searchByNameValue: ''
@@ -106,66 +107,82 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this.setState({ searchByNameValue: searchByName }, this._getResults);
 	}
 
+	_checkIfActive () {
+
+	}
+
 	render () {
 		const { searchByNameValue } = this.state;
 		const { allCollegeTeams } = this.props;
 		return (
 			<div className="transfer-filter-rows">
 				<div className="transfer-form-row-one">
-					<CustomDropdown
-						setData={this._handlePositionChange}
-						title="Position"
-						values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
-					/>
-					<TeamDropDown
-						allCollegeTeams={allCollegeTeams}
-						setTeam={this._handleTeamChange}
-					/>
-					<CustomDropdown
-						setData={this._handleSortByChange}
-						title="Sort by"
-						values={['Total score', 'Goals', 'Assists', 'Price']}
-					/>
+					<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<CustomDropdown
+							setData={this._handlePositionChange}
+							title="Position"
+							values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
+						/>
+					</div>
+					<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<TeamDropDown
+							allCollegeTeams={allCollegeTeams}
+							setTeam={this._handleTeamChange}
+						/>
+					</div>
+					<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<CustomDropdown
+							setData={this._handleSortByChange}
+							title="Sort by"
+							values={['Total score', 'Goals', 'Assists', 'Price']}
+						/>
+					</div>
 				</div>
 				<div className="transfer-form-row-two">
-					<CustomDropdown
-						setData={this._handleMinimumPriceChange}
-						title="Minimum Price"
-						values={[
-							'No limit',
-							'5.0',
-							'6.0',
-							'7.0',
-							'8.0',
-							'9.0',
-							'10.0',
-							'11.0',
-							'12.0'
-						]}
-					/>
-					<CustomDropdown
-						setData={this._handleMaximumPriceChange}
-						title="Maximum Price"
-						values={[
-							'No limit',
-							'5.0',
-							'6.0',
-							'7.0',
-							'8.0',
-							'9.0',
-							'10.0',
-							'11.0',
-							'12.0',
-							'13.0',
-							'14.0'
+					<div className={this.state.minimumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<CustomDropdown
+							setData={this._handleMinimumPriceChange}
+							title="Minimum Price"
+							values={[
+								'No limit',
+								'5.0',
+								'6.0',
+								'7.0',
+								'8.0',
+								'9.0',
+								'10.0',
+								'11.0',
+								'12.0'
+							]}
+						/>
+					</div>
+					<div className={this.state.maximumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<CustomDropdown
+							setData={this._handleMaximumPriceChange}
+							title="Maximum Price"
+							values={[
+								'No limit',
+								'5.0',
+								'6.0',
+								'7.0',
+								'8.0',
+								'9.0',
+								'10.0',
+								'11.0',
+								'12.0',
+								'13.0',
+								'14.0'
 
-						]}
-					/>
-					<TextInputForm
-						currentValue={searchByNameValue}
-						setValue={this._handleSearchByNameValue}
-						title="Player name"
-					/>
+							]}
+						/>
+					</div>
+					<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
+						<TextInputForm
+							currentValue={searchByNameValue}
+							setValue={this._handleSearchByNameValue}
+							title="Player name"
+						/>
+					</div>
 				</div>
 			</div>
 		);

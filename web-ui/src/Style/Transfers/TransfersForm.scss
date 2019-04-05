@@ -47,3 +47,56 @@ div.transfer-filter-rows {
       font-weight: 400;
  }
 }
+
+
+.custom-dropdown, .team-dropdown, .create-player-form-outer{
+  border: none !important; 
+}
+
+
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  
+}
+$colors: ( raise-transfers: $strange-orange, );
+@each $button, $color in $colors {
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
+}
+div.raise-transfers {
+  color: var(--color);
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+}
+div.raise-transfers-selected{
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+  color: #fff;
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+}
