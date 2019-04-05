@@ -1,9 +1,12 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
 import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
@@ -67,11 +70,28 @@ public class ApplicationUserManager {
         applicationUserRepo.save(user);
     }
 
+    public void patchPassword(ApplicationUser user, PatchPassword dto){
+
+        if (BCrypt.checkpw(dto.getOriginalPassword(), user.getPassword())) {
+            System.out.println("correct password");
+            if (dto.getNewPasswordOne().equals(dto.getNewPasswordTwo())){
+                user.savePassword(dto.getNewPasswordOne());
+                applicationUserRepo.save(user);
+            }
+            else {
+                throw new IllegalArgumentException("Passwords don't match");
+            }
+
+        } else {
+            System.out.println("incorrect password");
+            throw new AuthenticationCredentialsNotFoundException("password");
+        }
+
+    }
+
     public void setTeamName(ApplicationUser user, String teamName) {
-        System.out.println("here");
         Optional<ApplicationUser> appUser = applicationUserRepo.findByUsername(user.getUsername());
         if (appUser.isPresent()) {
-            System.out.println("in here");
             ApplicationUser u = appUser.get();
             u.setTeamName(teamName);
             applicationUserRepo.save(u);

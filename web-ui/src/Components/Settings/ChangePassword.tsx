@@ -5,12 +5,11 @@ import '../../Style/Settings/ChangePassword.css';
 import { patchPassword } from '../../Services/User/UserService';
 import { PatchPassword } from '../../Models/Interfaces/PatchPassword';
 
-interface CreateCollegeTeamProps {
+interface ChangePasswordProps {
 }
 
-interface CreateCollegeTeamState {
-  teamNameValue: string;
-  collegeTeamCreated: boolean;
+interface ChangePasswordState {
+	passwordReset: boolean;
   previousCollegeTeamMade: string;
   errorMessage: string;
 
@@ -20,10 +19,9 @@ interface CreateCollegeTeamState {
 }
 
 // eslint-disable-next-line react/require-optimization
-class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
-	constructor (props: CreateCollegeTeamProps) {
+class ChangePassword extends React.Component<ChangePasswordProps, ChangePasswordState> {
+	constructor (props: ChangePasswordProps) {
 		super(props);
-		this._handleCollegeName = this._handleCollegeName.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
@@ -31,18 +29,13 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		this._handlePasswordOne = this._handlePasswordOne.bind(this);
 		this._handlePasswordTwo = this._handlePasswordTwo.bind(this);
 		this.state = {
-			teamNameValue: 'Please select a team',
 			originalPassword: '',
 			newPasswordOne: '',
 			newPasswordTwo: '',
-			collegeTeamCreated: false,
+			passwordReset: false,
 			previousCollegeTeamMade: '',
 			errorMessage: ''
 		};
-	}
-
-	_handleCollegeName (collegeName: string) {
-		this.setState({ teamNameValue: collegeName });
 	}
 
 	_handleOriginalPassword (originalPassword: string) {
@@ -62,10 +55,6 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	_onSubmit () {
-		console.log('original password = ' + this.state.originalPassword);
-		console.log('new password = ' + this.state.newPasswordOne);
-		console.log('new password = ' + this.state.newPasswordTwo);
-
 		const { originalPassword, newPasswordOne, newPasswordTwo } = this.state;
 
 		if (newPasswordOne === newPasswordTwo) {
@@ -74,9 +63,13 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 				newPasswordOne,
 				newPasswordTwo
 			};
-			console.log('trying to patch');
 			patchPassword(data).then(response => {
-				console.log('reponse = ' + response);
+				this.setState({
+					originalPassword: '',
+					newPasswordOne: '',
+					newPasswordTwo: '',
+					passwordReset: true
+				});
 			})
 				.catch(error => {
 					console.log('error = ' + error);
@@ -87,7 +80,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	}
 
 	_removeErrorMessage () {
-		this.setState({ collegeTeamCreated: false });
+		this.setState({ passwordReset: false });
 		this.setState({ errorMessage: '' });
 	}
 
@@ -128,8 +121,11 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 						</Button>
 					</div>
 				</div>
+				{this.state.passwordReset
+					? (<div className="password-reset-message">Password reset successfully </div>)
+					 : null }
 			</div>
 		);
 	}
 }
-export default CreateCollegeTeam;
+export default ChangePassword;

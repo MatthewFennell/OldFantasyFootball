@@ -5,10 +5,10 @@ import TextInputForm from '../common/TexInputForm';
 import '../../Style/Settings/ChangeTeamName.css';
 import { patchTeamName } from '../../Services/User/UserService';
 
-interface CreateCollegeTeamProps {
+interface ChangeTeamNameProps {
 }
 
-interface CreateCollegeTeamState {
+interface ChangeTeamNameState {
   teamNameValue: string;
   collegeTeamCreated: boolean;
   previousCollegeTeamMade: string;
@@ -16,8 +16,8 @@ interface CreateCollegeTeamState {
 }
 
 // eslint-disable-next-line react/require-optimization
-class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
-	constructor (props: CreateCollegeTeamProps) {
+class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamNameState> {
+	constructor (props: ChangeTeamNameProps) {
 		super(props);
 		this._handleCollegeName = this._handleCollegeName.bind(this);
 		this._removeErrorMessage = this._removeErrorMessage.bind(this);
@@ -87,4 +87,4 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		);
 	}
 }
-export default CreateCollegeTeam;
+export default ChangeTeamName;
