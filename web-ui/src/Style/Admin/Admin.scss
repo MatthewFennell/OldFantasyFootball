@@ -94,4 +94,5 @@ div.raise-selected{
   border: 3px solid;
   border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
+  background-color: $medium-dark-background !important;
 }

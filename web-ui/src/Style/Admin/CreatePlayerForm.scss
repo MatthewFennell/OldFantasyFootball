@@ -65,6 +65,7 @@ div.admin-form {
   border-image-slice: 1;
 }
 .edit-points-info, .add-result-goals-form-outer{
+  background-color: $medium-dark-background;
   color: $strange-orange;
   border: 3px solid;
   border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);

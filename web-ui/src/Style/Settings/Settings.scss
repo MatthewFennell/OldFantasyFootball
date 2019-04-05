@@ -70,7 +70,7 @@ div.raise-settings {
       border-color: var(--hover);
       color: #fff;
  }
-  background: none;
+ background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
@@ -78,6 +78,7 @@ div.raise-settings {
   padding: 1em;
 }
 div.raise-settings-selected{
+  background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
@@ -98,8 +99,10 @@ div.raise-settings-selected{
 .settings-wrapper{
     margin-left: 15px;
     margin-right: 15px;
+
 }
 
 .settings-header{
   padding-bottom: 15px;
 }
+

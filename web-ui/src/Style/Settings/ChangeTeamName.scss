@@ -34,7 +34,7 @@ div.settings-form {
     flex-direction: column;
     .college-form-row-one {
         display: flex;
-        background-color: $dark-black-background;;
+        background-color: $medium-dark-background;
         justify-content: center;
         margin-left: 15px;
       margin-right: 15px;
@@ -44,14 +44,14 @@ div.settings-form {
       }
    }
     .college-form-row-one>div {
-        background-color: $dark-black-background;;
+        background-color: $medium-dark-background;
         padding: 20px;
         font-size: 30px;
         width: 100%;
    }
     .college-form-row-two {
         display: flex;
-        background-color: $dark-black-background;;
+        background-color: $medium-dark-background;
         justify-content: center;
    }
     .college-form-row-two>div {
