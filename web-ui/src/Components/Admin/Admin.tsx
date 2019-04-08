@@ -72,12 +72,7 @@ class Admin extends React.Component<AdminProps, {}> {
 	}
 
 	_selectedOrNot (input: string) {
-		const { adminPageBeingViewed } = this.props;
-		if (input === adminPageBeingViewed) {
-			return 'raise-selected';
-		} else {
-			return 'raise';
-		}
+		return input === this.props.adminPageBeingViewed ? 'raise-selected' : 'raise';
 	}
 
 	render () {

@@ -3,6 +3,7 @@ import { Account } from '../../Models/Interfaces/Account';
 import { RegistrationDetails } from '../../Models/Interfaces/RegistrationDetails';
 import { Tokens } from '../../Models/Interfaces/Tokens';
 import { getBearerHeader } from '../CredentialInputService';
+import { PatchPassword } from '../../Models/Interfaces/PatchPassword';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
 	return fetch('/api/user', {
@@ -119,6 +120,45 @@ export const getUserBudget = (id: string): Promise<number> => {
 					return Promise.reject(json.message);
 				}
 			});
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const patchTeamName = (teamName: string): Promise<boolean> => {
+	return fetch('/api/user/teamName?teamName=' + teamName, {
+		method: 'PATCH',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const patchPassword = (data: PatchPassword): Promise<boolean> => {
+	return fetch('/api/user/password', {
+		method: 'PATCH',
+		body: JSON.stringify(data),
+		headers: { Authorization: getBearerHeader(), 'Content-Type': 'application/json' }
+	}).then(response => {
+		if (!response.ok) {
+			if (response.status === 403) {
+				throw new Error('Login Unsuccessful');
+			} else if (response.status === 500) {
+				throw new Error('Internal server error');
+			} else {
+				throw new Error(response.status.toString());
+			}
 		} else if (response.status === 200) {
 			return response.json();
 		}

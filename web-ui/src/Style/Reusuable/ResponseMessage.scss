@@ -1,0 +1,12 @@
+.error-response-message{
+    color: red;
+}
+
+.successful-response-message{
+    color: blue;
+}
+
+.successful-response-message, .error-response-message {
+    margin-top: 15px;
+    font-size: 14px;
+}

@@ -6,6 +6,7 @@ import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
 import { submitResult } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface TransfersFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -19,10 +20,9 @@ interface TransfersFormState {
   playerIDAssists: string[];
   playerIDCleanSheets: string[];
   teamName: string;
-  resultAdded: boolean;
-  previousTeamName: string;
-  previousWeek: string;
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -35,7 +35,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this._handlePlayerIDGoalscorers = this._handlePlayerIDGoalscorers.bind(this);
 		this._handlePlayerIDAssists = this._handlePlayerIDAssists.bind(this);
 		this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this.state = {
@@ -46,10 +45,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			playerIDAssists: [],
 			playerIDCleanSheets: [],
 			teamName: 'A',
-			resultAdded: false,
-			previousTeamName: '',
-			previousWeek: '',
-			errorMessage: ''
+			responseMessage: '',
+			isError: false
 		};
 	}
 
@@ -60,11 +57,6 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		});
 		newState.push(playerID);
 		this.setState({ playerIDGoals: newState });
-	}
-
-	_removeErrorMessage () {
-		this.setState({ resultAdded: false });
-		this.setState({ errorMessage: '' });
 	}
 
 	_handlePlayerIDAssists (playerID: string, previousID: string) {
@@ -121,10 +113,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		}
 
 		if (error) {
-			this.setState({ previousTeamName: '' });
-			this.setState({ previousWeek: '' });
-			this.setState({ errorMessage: message.substring(0, message.length - 2) });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: message.substring(0, message.length - 2) });
 		} else {
 			this._onSubmit();
 		}
@@ -143,16 +132,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		};
 
 		submitResult(data).then(response => {
-			this.setState({ resultAdded: true });
-			this.setState({ previousTeamName: teamName });
-			this.setState({ previousWeek: week });
-			this.setState({ errorMessage: '' });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ isError: false, responseMessage: 'Result added successfully' });
+		}).catch(error => {
+			this.setState({ isError: true, responseMessage: error });
 		});
 	}
 
 	render () {
-		const { goalsFor, goalsAgainst, week, resultAdded, previousTeamName, previousWeek, errorMessage } = this.state;
+		const { goalsFor, goalsAgainst, week } = this.state;
 		let goalScorers = [];
 		let assists = [];
 		let defenders = [];
@@ -173,22 +160,30 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<CollegeTeam setTeam={this._handleCollegeTeam} />
-					<TextInputForm
-						currentValue={goalsFor}
-						setValue={this._handleGoalsFor}
-						title="Goals for"
-					/>
-					<TextInputForm
-						currentValue={goalsAgainst}
-						setValue={this._handleGoalsAgainst}
-						title="Goals against"
-					/>
-					<TextInputForm
-						currentValue={week}
-						setValue={this._handleWeek}
-						title="Week"
-					/>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleCollegeTeam} />
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={goalsFor}
+							setValue={this._handleGoalsFor}
+							title="Goals for"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={goalsAgainst}
+							setValue={this._handleGoalsAgainst}
+							title="Goals against"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={week}
+							setValue={this._handleWeek}
+							title="Week"
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">
@@ -210,17 +205,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 						>
               Create result
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
-				{resultAdded ? (
-					<div className="error-message-animation">
-            Result added to team {previousTeamName} in week {previousWeek}
-					</div>
-				) : null}
 
-				{errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {errorMessage}</div>
-				) : null}
 			</div>
 		);
 	}

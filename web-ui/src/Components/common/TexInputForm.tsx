@@ -7,8 +7,10 @@ interface TextValueProps {
   setValue: (value: string) => void;
   currentValue: string;
   title: string;
+  password: boolean;
 }
 class TextValue extends React.Component<TextValueProps, {}> {
+	static defaultProps = { title: '', password: false };
 	_handleInput (eventTarget: HTMLInputElement) {
 		const { setValue } = this.props;
 		setValue(eventTarget.value);
@@ -35,7 +37,7 @@ class TextValue extends React.Component<TextValueProps, {}> {
 								id={title}
 								name={title}
 								onChange={e => this._handleInput(e!.target)}
-								type="text"
+								type={this.props.password ? 'password' : 'text'}
 							/>
 						</FormGroup>
 					</div>

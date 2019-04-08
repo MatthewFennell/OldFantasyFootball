@@ -8,6 +8,7 @@ import '../../Style/Admin/ErrorMessage.css';
 import { validPlayerFirstName, validPlayerSurname } from '../../Services/CredentialInputService';
 import '../../Style/Admin/CreatePlayerForm.css';
 import CustomDropdown from '../common/CustomDropdown';
+import ResponseMessage from '../common/ResponseMessage';
 
 import TextInputForm from '../common/TexInputForm';
 
@@ -21,9 +22,10 @@ interface CreatePlayerState {
   firstNameValue: string;
   surnameValue: string;
   priceValue: string;
-  playerCreated: boolean;
   previousValues: string[];
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerState> {
@@ -36,38 +38,20 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		this._handlePrice = this._handlePrice.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
+		this.determineResponseMessage = this.determineResponseMessage.bind(this);
 
 		const { allCollegeTeams } = this.props;
 
-		if (allCollegeTeams.length > 0) {
-			this.state = {
-				positionValue: 'Goalkeeper',
-				teamValue: allCollegeTeams[0].name,
-				firstNameValue: '',
-				surnameValue: '',
-				priceValue: '',
-				playerCreated: false,
-				previousValues: [],
-				errorMessage: ''
-			};
-		} else {
-			this.state = {
-				positionValue: 'Goalkeeper',
-				teamValue: 'No player selected',
-				firstNameValue: '',
-				surnameValue: '',
-				priceValue: '',
-				playerCreated: false,
-				previousValues: [],
-				errorMessage: ''
-			};
-		}
-	}
-
-	_removeErrorMessage () {
-		this.setState({ playerCreated: false });
-		this.setState({ errorMessage: '' });
+		this.state = {
+			positionValue: 'Goalkeeper',
+			teamValue: allCollegeTeams.length > 0 ? allCollegeTeams[0].name : '',
+			firstNameValue: '',
+			surnameValue: '',
+			priceValue: '',
+			previousValues: [],
+			responseMessage: '',
+			isError: false
+		};
 	}
 
 	_handlePositionChange (position: string) {
@@ -96,14 +80,10 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 			!validPlayerFirstName(firstNameValue) ||
       !validPlayerSurname(surnameValue)
 		) {
-			this.setState({ errorMessage: 'Invalid First name or Surname' });
-			this.setState({ playerCreated: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: 'Invalid First name or Surname', isError: true });
 		} else {
 			if (priceValue === '' || isNaN(parseFloat(priceValue))) {
-				this.setState({ errorMessage: 'Please enter a valid price' });
-				this.setState({ playerCreated: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: 'Please enter a valid price', isError: true });
 			} else {
 				this._onSubmit();
 			}
@@ -123,7 +103,6 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		};
 		createPlayer(data)
 			.then(response => {
-				this.setState({ playerCreated: true });
 				let values: string[] = [
 					firstNameValue,
 					surnameValue,
@@ -131,45 +110,64 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 					priceValue,
 					positionValue
 				];
-				this.setState({ previousValues: values });
-				this.setState({ errorMessage: '' });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ previousValues: values, isError: false });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ playerCreated: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: error, isError: true });
+				this.setState({ previousValues: [] });
 			});
 	}
 
+	determineResponseMessage (error: string) {
+		const { previousValues } = this.state;
+
+		if (previousValues.length === 0) {
+			return error;
+		}
+
+		return 'Player ' + previousValues[0] + ' ' + previousValues[1] +
+			'successfully created for team ' + previousValues[2] + ' with price' +
+			previousValues[3] + ' with position ' + previousValues[4];
+	}
+
 	render () {
-		const { firstNameValue, surnameValue, priceValue, playerCreated, previousValues, errorMessage } = this.state;
+		const { firstNameValue, surnameValue, priceValue } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<TextInputForm
-						currentValue={firstNameValue}
-						setValue={this._handleFirstName}
-						title="First name"
-					/>
-					<TextInputForm
-						currentValue={surnameValue}
-						setValue={this._handleSurname}
-						title="Surname"
-					/>
-					<CustomDropdown
-						setData={this._handlePositionChange}
-						title="Position"
-						values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
-					/>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={firstNameValue}
+							setValue={this._handleFirstName}
+							title="First name"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={surnameValue}
+							setValue={this._handleSurname}
+							title="Surname"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<CustomDropdown
+							setData={this._handlePositionChange}
+							title="Position"
+							values={['Goalkeeper', 'Defender', 'Midfielder', 'Attacker']}
+						/>
+					</div>
 				</div>
 				<div className="admin-form-row-two">
-					<TextInputForm
-						currentValue={priceValue}
-						setValue={this._handlePrice}
-						title="Price"
-					/>
-					<CollegeTeam setTeam={this._handleTeamChange} />
+					<div className="admin-wrapper">
+						<TextInputForm
+							currentValue={priceValue}
+							setValue={this._handlePrice}
+							title="Price"
+						/>
+					</div>
+					<div className="admin-wrapper">
+						<CollegeTeam setTeam={this._handleTeamChange} />
+					</div>
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
@@ -178,19 +176,13 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 						>
               Create Player
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.determineResponseMessage(this.state.responseMessage)}
+							shouldDisplay={this.determineResponseMessage.length > 0}
+						/>
 					</div>
 				</div>
-				{playerCreated ? (
-					<div className="error-message-animation">
-            Player {previousValues[0]} {previousValues[1]} successfully
-            created for team {previousValues[2]} with price{' '}
-						{previousValues[3]} with position {previousValues[4]}
-					</div>
-				) : null}
-
-				{errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {errorMessage}</div>
-				) : null}
 			</div>
 		);
 	}

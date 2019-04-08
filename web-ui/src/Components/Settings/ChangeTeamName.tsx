@@ -3,68 +3,66 @@ import { Button } from 'reactstrap';
 import { validCollegeName } from '../../Services/CredentialInputService';
 import TextInputForm from '../common/TexInputForm';
 import '../../Style/Settings/ChangeTeamName.css';
+import { patchTeamName } from '../../Services/User/UserService';
+import ResponseMessage from '../common/ResponseMessage';
 
-interface CreateCollegeTeamProps {
+interface ChangeTeamNameProps {
 }
 
-interface CreateCollegeTeamState {
-  collegeNameValue: string;
-  collegeTeamCreated: boolean;
-  previousCollegeTeamMade: string;
-  errorMessage: string;
+interface ChangeTeamNameState {
+  teamNameValue: string;
+  responseMessage: string;
+  isError: boolean;
 }
 
 // eslint-disable-next-line react/require-optimization
-class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
-	constructor (props: CreateCollegeTeamProps) {
+class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamNameState> {
+	constructor (props: ChangeTeamNameProps) {
 		super(props);
-		this._handleCollegeName = this._handleCollegeName.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
+		this.handleTeamName = this.handleTeamName.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
-			collegeNameValue: 'Please select a team',
-			collegeTeamCreated: false,
-			previousCollegeTeamMade: '',
-			errorMessage: ''
+			teamNameValue: 'Please select a team',
+			responseMessage: '',
+			isError: false
 		};
 	}
 
-	_handleCollegeName (collegeName: string) {
-		this.setState({ collegeNameValue: collegeName });
+	handleTeamName (teamNameValue: string) {
+		this.setState({ teamNameValue });
 	}
 
 	handleValidate () {
-		const { collegeNameValue } = this.state;
-		if (validCollegeName(collegeNameValue)) {
+		const { teamNameValue } = this.state;
+		if (validCollegeName(teamNameValue)) {
 			this._onSubmit();
 		} else {
-			this.setState({ errorMessage: 'College team name does not match regex (UI)' });
-			this.setState({ collegeTeamCreated: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: 'Team name does not match regex (UI)', isError: true });
 		}
 	}
 
 	_onSubmit () {
-	}
-
-	_removeErrorMessage () {
-		this.setState({ collegeTeamCreated: false });
-		this.setState({ errorMessage: '' });
+		patchTeamName(this.state.teamNameValue).then(response => {
+			this.setState({ responseMessage: 'Team name succesfully updated to ' + this.state.teamNameValue, isError: false });
+		})
+			.catch(error => {
+				this.setState({ responseMessage: error, isError: true });
+			});
 	}
 
 	render () {
-		const { collegeNameValue } = this.state;
+		const { teamNameValue } = this.state;
 		return (
-			<div className="college-form">
-				<div className="college-form-row-one">
+			<div className="team-name-form">
+				<div className="team-name-form-row-one">
 					<TextInputForm
-						currentValue={collegeNameValue}
-						setValue={this._handleCollegeName}
-						title="Enter your new team name"
+						currentValue={teamNameValue}
+						setValue={this.handleTeamName}
+						title="Team name"
 					/>
 				</div>
-				<div className="college-form-row-two">
+				<div className="team-name-form-row-two">
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
@@ -73,10 +71,15 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 						>
               			Submit
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
-export default CreateCollegeTeam;
+export default ChangeTeamName;

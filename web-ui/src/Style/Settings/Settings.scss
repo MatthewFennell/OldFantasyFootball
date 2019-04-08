@@ -36,7 +36,7 @@
   text-align: center;
 
 }
-.raise:hover, .raise:focus {
+.raise-settings:hover, .raise-settings:focus {
   cursor: pointer;
   box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
   transform: translateY(-0.25em);
@@ -47,7 +47,7 @@
       box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
  }
 }
-$colors: ( raise: $strange-orange, );
+$colors: ( raise-settings: $strange-orange, );
 @each $button, $color in $colors {
   .#{
      $button
@@ -63,21 +63,22 @@ $colors: ( raise: $strange-orange, );
      ;
  }
 }
-div.raise {
+div.raise-settings {
   color: var(--color);
   transition: 0.25s;
   &:hover, &:focus {
       border-color: var(--hover);
       color: #fff;
  }
-  background: none;
+ background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
   margin: 0.5em;
   padding: 1em;
 }
-div.raise-selected{
+div.raise-settings-selected{
+  background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
@@ -98,4 +99,10 @@ div.raise-selected{
 .settings-wrapper{
     margin-left: 15px;
     margin-right: 15px;
+
 }
+
+.settings-header{
+  padding-bottom: 15px;
+}
+

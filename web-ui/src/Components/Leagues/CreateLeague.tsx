@@ -7,11 +7,12 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { createLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-create.css';
 import { Col } from 'react-bootstrap';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface CreateLeagueState {
   leagueName: string;
-  error: string;
-  leagueCode: string;
+  responseMessage: string;
+  isError: boolean;
 }
 
 interface CreateGroupProps {
@@ -27,14 +28,13 @@ class CreateLeagueClass extends React.Component<
 		super(props);
 		this.state = {
 			leagueName: '',
-			error: '',
-			leagueCode: ''
+			responseMessage: '',
+			isError: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 	}
 
-	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+	_handleInput (eventName: any, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
 		} as Pick<CreateLeagueState, keyof CreateLeagueState>);
@@ -56,13 +56,11 @@ class CreateLeagueClass extends React.Component<
   			};
   			createLeague(data)
   				.then(response => {
-  					this.setState({ leagueCode: response.id });
-  					this.props.setLeagues(this.props.userBeingViewed, leagueName, 1);
+					  this.props.setLeagues(this.props.userBeingViewed, leagueName, 1);
+					  this.setState({ responseMessage: 'Created league ' + leagueName + ' successfully. The code to join is ' + response.id, isError: false });
   				})
   				.catch(error => {
-  					this.setState({ error });
-  					setTimeout(this._removeErrorMessage, 10000);
-  					console.log(error);
+  					this.setState({ responseMessage: error, isError: true });
   				});
   		}
   		break;
@@ -71,12 +69,7 @@ class CreateLeagueClass extends React.Component<
   	}
   };
 
-  _removeErrorMessage () {
-  	this.setState({ error: '' });
-  }
-
   render () {
-	  const { error, leagueCode, leagueName } = this.state;
   	return (
   		<Col
   			className="league-info-screen"
@@ -96,7 +89,6 @@ class CreateLeagueClass extends React.Component<
             Create your league!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{error}</Label>
   					<FormGroup>
   						<Label
   							className="unselectable"
@@ -121,15 +113,13 @@ class CreateLeagueClass extends React.Component<
   				>
             Create League
   				</Button>
-
-				  {leagueCode.length > 0 ? (
-  				<div className="league-code-join-message">
-  							<p>League created : {leagueName}.</p> <p>The code to join is {leagueCode}</p>
-  				</div>
-  			) : null}
-  			{error.length > 0 ? (
-  				<div className="error-message-animation">Error : {error} </div>
-  			) : null}
+				  <div className="create-league-response-wrapper">
+  						<ResponseMessage
+  							isError={this.state.isError}
+  							responseMessage={this.state.responseMessage}
+  							shouldDisplay={this.state.responseMessage.length > 0}
+  						/>
+					  </div>
   			</Form>
 
   		</div>

@@ -6,4 +6,5 @@ export interface Account {
   username: string;
   remainingBudget: number;
   roles: string[];
+  teamName: string;
 }

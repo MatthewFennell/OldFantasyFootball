@@ -57,7 +57,7 @@ div.transfers-table {
 #customer-container {
   margin-top: 0px;
 }
-tr.transfers-even:hover, tr.transfers-even:hover {
+tr.transfers-even:hover, tr.transfers-odd:hover {
   td {
       color: $strange-orange !important;
  }

@@ -10,6 +10,8 @@ import { UpdatePlayers } from '../../Models/Interfaces/UpdatePlayers';
 import { updateTeam } from '../../Services/Weeks/WeeksService';
 import TeamData from '../../Containers/Team/TeamData';
 import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
+import { getUserBudget } from '../../Services/User/UserService';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface TransfersProps {
   accountId: string;
@@ -29,10 +31,10 @@ interface TransfersProps {
 }
 
 interface TransfersState {
-  teamUpdated: boolean;
   errorMessage: string;
   playersToAdd: PlayerDTO[];
   playersToRemove: PlayerDTO[];
+  isError: boolean;
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
@@ -44,19 +46,22 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.canAdd = this.canAdd.bind(this);
 		this.removeFromPlayersBeingAdded = this.removeFromPlayersBeingAdded.bind(this);
 		this.findTeam = this.findTeam.bind(this);
+		this.setInitialBudget = this.setInitialBudget.bind(this);
 		this.state = {
-			teamUpdated: false,
 			errorMessage: '',
 			playersToAdd: [],
-			playersToRemove: []
+			playersToRemove: [],
+			isError: false
 		};
 
 		this.findTeam();
+		this.setInitialBudget();
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.accountId !== this.props.accountId) {
 			this.findTeam();
+			this.setInitialBudget();
 		}
 	}
 
@@ -95,6 +100,14 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				(item, index) => indexToRemove !== index
 			)
 		}));
+	}
+
+	setInitialBudget () {
+		getUserBudget(this.props.accountId).then(response => {
+			this.props.setBudget(this.props.accountId, response);
+		}).catch(error => {
+			console.log('error = ' + error);
+		});
 	}
 
 	canAdd (player: PlayerDTO): boolean {
@@ -167,13 +180,14 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
 		updateTeam(data)
 			.then(response => {
-				this.setState({ playersToAdd: [],
-					 			playersToRemove: [],
-					  			teamUpdated: true,
-					   			errorMessage: '' });
+				this.setState({
+					playersToAdd: [],
+					playersToRemove: [],
+					errorMessage: 'Team updated successfully',
+					isError: false });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error, teamUpdated: false });
+				this.setState({ errorMessage: error, isError: true });
 			});
 	}
 
@@ -206,7 +220,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			? this.props.team[this.props.accountId][-1] : [];
 
 		const { remainingBudget, transfersMarketOpen } = this.props;
-		const { teamUpdated, errorMessage } = this.state;
 		return (
 			<div className="outer-transfer-columns">
 				<TeamData />
@@ -234,10 +247,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 						</div>
 					</div>
 
-					{teamUpdated ? <div>Team updated successfully </div> : null}
-					{errorMessage.length > 0 ? (
-						<div>Error : {errorMessage} </div>
-					) : null}
+					<ResponseMessage
+						isError={this.state.isError}
+						responseMessage={this.state.errorMessage}
+						shouldDisplay={this.state.errorMessage.length > 0}
+					/>
 					<div className="pitch-value">
 						<Pitch
 							activeWeeklyTeam={teamToRender}

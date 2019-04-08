@@ -12,6 +12,7 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
@@ -108,10 +109,11 @@ public class User {
                     + "property"), @ApiResponse(code = 500, message = "Server Error")})
     @PatchMapping("/user/teamName")
     @PreAuthorize("hasRole('USER')")
-    public void patchTeamName(@AuthenticationPrincipal ApplicationUser user,
+    public boolean patchTeamName(@AuthenticationPrincipal ApplicationUser user,
                               String teamName, HttpServletResponse response) {
         try {
             applicationUserManager.setTeamName(user, teamName);
+            return true;
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
@@ -121,6 +123,7 @@ public class User {
             ExceptionLogger.logException(e);
             response.setStatus(500);
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key
@@ -147,6 +150,38 @@ public class User {
             ExceptionLogger.logException(e);
             response.setStatus(500);
         }
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Patches current user password", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User Successfully Patched"),
+            @ApiResponse(code = 400, message = "Patch property not valid"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
+                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+    @PatchMapping("/user/password")
+    @PreAuthorize("hasRole('USER')")
+    public boolean patchPassword(@AuthenticationPrincipal ApplicationUser user,
+                              @RequestBody PatchPassword dto, HttpServletResponse response) {
+        try {
+            System.out.println("trying to patch");
+            System.out.println("original = " + dto.getOriginalPassword());
+            applicationUserManager.patchPassword(user, dto);
+            return true;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+                ExceptionLogger.logException(e);
+                response.setStatus(500);
+            }
+        }
+        return false;
     }
 
     @ApiOperation(value = Icons.key
