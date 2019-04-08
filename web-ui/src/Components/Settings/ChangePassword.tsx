@@ -4,14 +4,15 @@ import TextInputForm from '../common/TexInputForm';
 import '../../Style/Settings/ChangePassword.css';
 import { patchPassword } from '../../Services/User/UserService';
 import { PatchPassword } from '../../Models/Interfaces/PatchPassword';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface ChangePasswordProps {
 }
 
 interface ChangePasswordState {
-	passwordReset: boolean;
-  previousCollegeTeamMade: string;
-  errorMessage: string;
+
+	responseMessage: string;
+	isError: boolean;
 
   originalPassword: string;
   newPasswordOne: string;
@@ -22,7 +23,6 @@ interface ChangePasswordState {
 class ChangePassword extends React.Component<ChangePasswordProps, ChangePasswordState> {
 	constructor (props: ChangePasswordProps) {
 		super(props);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this._handleOriginalPassword = this._handleOriginalPassword.bind(this);
@@ -32,9 +32,8 @@ class ChangePassword extends React.Component<ChangePasswordProps, ChangePassword
 			originalPassword: '',
 			newPasswordOne: '',
 			newPasswordTwo: '',
-			passwordReset: false,
-			previousCollegeTeamMade: '',
-			errorMessage: ''
+			responseMessage: '',
+			isError: false
 		};
 	}
 
@@ -68,20 +67,17 @@ class ChangePassword extends React.Component<ChangePasswordProps, ChangePassword
 					originalPassword: '',
 					newPasswordOne: '',
 					newPasswordTwo: '',
-					passwordReset: true
+					isError: false,
+					responseMessage: 'Password reset correctly'
 				});
 			})
+				// eslint-disable-next-line handle-callback-err
 				.catch(error => {
-					console.log('error = ' + error);
+					this.setState({ isError: true, responseMessage: 'Incorrect password' });
 				});
 		} else {
 			console.log("passwords don't match");
 		}
-	}
-
-	_removeErrorMessage () {
-		this.setState({ passwordReset: false });
-		this.setState({ errorMessage: '' });
 	}
 
 	render () {
@@ -119,11 +115,14 @@ class ChangePassword extends React.Component<ChangePasswordProps, ChangePassword
 						>
               			Submit
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
-				{this.state.passwordReset
-					? (<div className="password-reset-message">Password reset successfully </div>)
-					 : null }
+
 			</div>
 		);
 	}

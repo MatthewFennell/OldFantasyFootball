@@ -4,15 +4,15 @@ import { validCollegeName } from '../../Services/CredentialInputService';
 import TextInputForm from '../common/TexInputForm';
 import '../../Style/Settings/ChangeTeamName.css';
 import { patchTeamName } from '../../Services/User/UserService';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface ChangeTeamNameProps {
 }
 
 interface ChangeTeamNameState {
   teamNameValue: string;
-  collegeTeamCreated: boolean;
-  previousCollegeTeamMade: string;
-  errorMessage: string;
+  responseMessage: string;
+  isError: boolean;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -20,14 +20,12 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 	constructor (props: ChangeTeamNameProps) {
 		super(props);
 		this.handleTeamName = this.handleTeamName.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
 			teamNameValue: 'Please select a team',
-			collegeTeamCreated: false,
-			previousCollegeTeamMade: '',
-			errorMessage: ''
+			responseMessage: '',
+			isError: false
 		};
 	}
 
@@ -40,25 +38,18 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 		if (validCollegeName(teamNameValue)) {
 			this._onSubmit();
 		} else {
-			this.setState({ errorMessage: 'College team name does not match regex (UI)' });
-			this.setState({ collegeTeamCreated: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: 'Team name does not match regex (UI)', isError: true });
 		}
 	}
 
 	_onSubmit () {
 		console.log('name value = ' + this.state.teamNameValue);
 		patchTeamName(this.state.teamNameValue).then(response => {
-			console.log('response = ' + response);
+			this.setState({ responseMessage: 'Team name succesfully updated to ' + this.state.teamNameValue, isError: false });
 		})
 			.catch(error => {
-				console.log('error = ' + error);
+				this.setState({ responseMessage: error, isError: true });
 			});
-	}
-
-	_removeErrorMessage () {
-		this.setState({ collegeTeamCreated: false });
-		this.setState({ errorMessage: '' });
 	}
 
 	render () {
@@ -81,6 +72,11 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 						>
               			Submit
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
 			</div>

@@ -6,10 +6,13 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { joinLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
 import { Col } from 'react-bootstrap';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface JoinLeagueState {
   codeToJoin: string;
   error: string;
+  isError: boolean;
+  responseMessage: string;
 }
 
 interface JoinLeagueProps {
@@ -25,12 +28,14 @@ class JoinLeague extends React.Component<
 		super(props);
 		this.state = {
 			codeToJoin: '',
-			error: ''
+			error: '',
+			isError: false,
+			responseMessage: ''
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
 
-	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+	_handleInput (eventName: any, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
 		} as Pick<JoinLeagueState, keyof JoinLeagueState>);
@@ -44,15 +49,15 @@ class JoinLeague extends React.Component<
 	  const { codeToJoin } = this.state;
   	switch (event) {
   	case 'btnJoinLeague':
-  		console.log('join league button pressed');
   		const err = this._validate();
   		if (!err) {
   			joinLeague(codeToJoin)
   				.then(response => {
-  					this.props.setLeagues(this.props.userBeingViewed, response.leagueName, response.position);
+					  this.props.setLeagues(this.props.userBeingViewed, response.leagueName, response.position);
+					  this.setState({ responseMessage: 'Joined league ' + response.leagueName + ' successfully', isError: false });
   				})
   				.catch(error => {
-  					console.log(error);
+					  this.setState({ responseMessage: error, isError: true });
   				});
   		}
   		break;
@@ -107,6 +112,13 @@ class JoinLeague extends React.Component<
   				>
             		Join League
   				</Button>
+				  <div className="join-league-response-wrapper">
+				  <ResponseMessage
+  						isError={this.state.isError}
+  						responseMessage={this.state.responseMessage}
+  						shouldDisplay={this.state.responseMessage.length > 0}
+				  />
+				  </div>
   			</Form>
   		</div>
 		  </Col>

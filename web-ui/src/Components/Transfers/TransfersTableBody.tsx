@@ -19,6 +19,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 		this.handleSortByTotalScore = this.handleSortByTotalScore.bind(this);
 		this.handleSortByTeamName = this.handleSortByTeamName.bind(this);
 		this.handleSortByName = this.handleSortByName.bind(this);
+		this.handleSortByPosition = this.handleSortByPosition.bind(this);
 	}
 
 	handleSortByPrice () {

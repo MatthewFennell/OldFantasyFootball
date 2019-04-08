@@ -65,7 +65,7 @@ div.raise {
       border-color: var(--hover);
       color: #fff;
  }
-  background: none;
+  background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
@@ -73,6 +73,7 @@ div.raise {
   padding: 1em;
 }
 div.raise-selected{
+  background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
