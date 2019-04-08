@@ -8,6 +8,7 @@ import { addPlayerPoints } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import CustomDropdown from '../common/CustomDropdown';
 import TextInputForm from '../common/TexInputForm';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface AddPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -26,8 +27,9 @@ interface AddPointsFormState {
   playerID: string;
   week: string;
   viewingDefender: boolean;
-  pointsAdded: boolean;
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormState> {
@@ -43,7 +45,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this._handlePlayerID = this._handlePlayerID.bind(this);
 		this._handleWeek = this._handleWeek.bind(this);
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this.state = {
@@ -57,8 +58,8 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 			playerID: '',
 			week: '',
 			viewingDefender: true,
-			pointsAdded: false,
-			errorMessage: ''
+			responseMessage: '',
+			isError: false
 		};
 	}
 
@@ -148,9 +149,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		}
 
 		if (error) {
-			this.setState({ errorMessage: message.substring(0, message.length - 2) });
-			this.setState({ pointsAdded: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: message.substring(0, message.length - 2), isError: true });
 		} else {
 			this._onSubmit();
 		}
@@ -173,27 +172,18 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 
 		addPlayerPoints(data)
 			.then(response => {
-				this.setState({ pointsAdded: true });
-				this.setState({ errorMessage: '' });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ isError: false, responseMessage: 'Points added to player successfully' });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ pointsAdded: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ isError: true, responseMessage: error });
 			});
-	}
-
-	_removeErrorMessage () {
-		this.setState({ pointsAdded: false });
-		this.setState({ errorMessage: '' });
 	}
 
 	render () {
 		let setTeam = this._handleCollegeTeam;
 		let setPlayerID = this._handlePlayerID;
 
-		const { viewingDefender, pointsAdded, errorMessage, week, goals, assists, minutesPlayed } = this.state;
+		const { viewingDefender, week, goals, assists, minutesPlayed } = this.state;
 
 		return (
 			<div className="admin-form">
@@ -273,13 +263,14 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 					>
             Add Points
 					</Button>
+
+					<ResponseMessage
+						isError={this.state.isError}
+						responseMessage={this.state.responseMessage}
+						shouldDisplay={this.state.responseMessage.length > 0}
+					/>
 				</div>
-				{pointsAdded ? (
-					<div className="error-message-animation"> Points added successfully </div>
-				) : null}
-				{errorMessage.length > 0 ? (
-					<div className="error-message-animation"> Error : {errorMessage} </div>
-				) : null}
+
 			</div>
 		);
 	}

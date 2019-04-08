@@ -5,6 +5,7 @@ import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import '../../Style/Admin/ErrorMessage.css';
 import { validCollegeName } from '../../Services/CredentialInputService';
 import TextInputForm from '../common/TexInputForm';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -13,23 +14,21 @@ interface CreateCollegeTeamProps {
 
 interface CreateCollegeTeamState {
   collegeNameValue: string;
-  collegeTeamCreated: boolean;
-  previousCollegeTeamMade: string;
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
 	constructor (props: CreateCollegeTeamProps) {
 		super(props);
 		this._handleCollegeName = this._handleCollegeName.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
 			collegeNameValue: 'Please select a team',
-			collegeTeamCreated: false,
-			previousCollegeTeamMade: '',
-			errorMessage: ''
+			responseMessage: '',
+			isError: true
 		};
 	}
 
@@ -42,9 +41,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		if (validCollegeName(collegeNameValue)) {
 			this._onSubmit();
 		} else {
-			this.setState({ errorMessage: 'College team name does not match regex (UI)' });
-			this.setState({ collegeTeamCreated: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: 'College team name does not match regex (UI)', isError: true });
 		}
 	}
 
@@ -63,25 +60,15 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 				if (!alreadyThere) {
 					addCollegeTeam(response);
 				}
-				this.setState({ collegeTeamCreated: true });
-				this.setState({ previousCollegeTeamMade: collegeNameValue });
-				this.setState({ errorMessage: '' });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: 'Successfully made a college team called' + collegeNameValue, isError: false });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ collegeTeamCreated: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: error, isError: true });
 			});
 	}
 
-	_removeErrorMessage () {
-		this.setState({ collegeTeamCreated: false });
-		this.setState({ errorMessage: '' });
-	}
-
 	render () {
-		const { collegeNameValue, collegeTeamCreated, previousCollegeTeamMade, errorMessage } = this.state;
+		const { collegeNameValue } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
@@ -102,16 +89,14 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 						>
               			Create College Team
 						</Button>
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
-				{collegeTeamCreated ? (
-					<div className="error-message-animation">
-            College team created : {previousCollegeTeamMade}{' '}
-					</div>
-				) : null}
-				{errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {errorMessage} </div>
-				) : null}
+
 			</div>
 		);
 	}

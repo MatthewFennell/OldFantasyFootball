@@ -4,6 +4,7 @@ import { deleteCollegeTeam } from '../../Services/CollegeTeam/CollegeTeamService
 import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
 import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import '../../Style/Admin/ErrorMessage.css';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface DeleteCollegeTeamProps {
   allCollegeTeams: CT[];
@@ -12,34 +13,23 @@ interface DeleteCollegeTeamProps {
 
 interface DeleteCollegeTeamState {
   collegeNameValue: string;
-  collegeTeamDeleted: boolean;
-  previousCollegeName: string;
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCollegeTeamState> {
 	constructor (props: DeleteCollegeTeamProps) {
 		super(props);
 		this._handleCollegeName = this._handleCollegeName.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
-
+		this.handleSubmit = this.handleSubmit.bind(this);
 		const { allCollegeTeams } = this.props;
 
-		if (allCollegeTeams.length > 0) {
-			this.state = {
-				collegeNameValue: allCollegeTeams[0].name,
-				collegeTeamDeleted: false,
-				previousCollegeName: '',
-				errorMessage: ''
-			};
-		} else {
-			this.state = {
-				collegeNameValue: '',
-				collegeTeamDeleted: false,
-				previousCollegeName: '',
-				errorMessage: ''
-			};
-		}
+		this.state = {
+			collegeNameValue: allCollegeTeams.length > 0 ? allCollegeTeams[0].name : '',
+			responseMessage: '',
+			isError: false
+		};
 	}
 
 	_handleCollegeName (collegeName: string) {
@@ -47,30 +37,17 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 	}
 
 	handleSubmit () {
-		const { removeCollegeTeam } = this.props;
-		const { collegeNameValue } = this.state;
-		deleteCollegeTeam(collegeNameValue)
+		deleteCollegeTeam(this.state.collegeNameValue)
 			.then(response => {
-				this.setState({ collegeTeamDeleted: true });
-				this.setState({ previousCollegeName: collegeNameValue });
-				this.setState({ errorMessage: '' });
-				removeCollegeTeam(collegeNameValue);
-				setTimeout(this._removeErrorMessage, 10000);
+				this.props.removeCollegeTeam(this.state.collegeNameValue);
+				this.setState({ isError: false, responseMessage: 'Team successfully deleted (' + this.state.collegeNameValue + ')' });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ collegeTeamDeleted: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: error, isError: true });
 			});
 	}
 
-	_removeErrorMessage () {
-		this.setState({ collegeTeamDeleted: false });
-		this.setState({ errorMessage: '' });
-	}
-
 	render () {
-		const { collegeTeamDeleted, previousCollegeName, errorMessage } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
@@ -87,16 +64,14 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 						>
               Delete College Team
 						</Button>
+
+						<ResponseMessage
+							isError={this.state.isError}
+							responseMessage={this.state.responseMessage}
+							shouldDisplay={this.state.responseMessage.length > 0}
+						/>
 					</div>
 				</div>
-				{collegeTeamDeleted ? (
-					<div className="error-message-animation">
-            Deleted college team successfully : {previousCollegeName}{' '}
-					</div>
-				) : null}
-				{errorMessage.length > 0 ? (
-					<div className="error-message-animation">Error : {errorMessage} </div>
-				) : null}
 			</div>
 		);
 	}

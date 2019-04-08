@@ -9,6 +9,7 @@ import { editPlayerPoints, getPlayerStatsForWeek } from '../../Services/Player/P
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import CustomDropdown from '../common/CustomDropdown';
+import ResponseMessage from '../common/ResponseMessage';
 
 interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -29,8 +30,9 @@ interface EditPointsFormState {
   viewingDefender: boolean;
   playerName: string;
   playerStats: PlayerPoints;
-  pointsEdited: boolean;
-  errorMessage: string;
+
+  responseMessage: string;
+  isError: boolean;
 }
 
 class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsFormState> {
@@ -47,7 +49,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this._handleWeek = this._handleWeek.bind(this);
 		this._getResults = this._getResults.bind(this);
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
-		this._removeErrorMessage = this._removeErrorMessage.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
@@ -73,14 +74,9 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 				playerID: 'nobody',
 				week: 0
 			},
-			pointsEdited: false,
-			errorMessage: ''
+			responseMessage: '',
+			isError: false
 		};
-	}
-
-	_removeErrorMessage () {
-		this.setState({ pointsEdited: false });
-		this.setState({ errorMessage: '' });
 	}
 
 	_getResults () {
@@ -89,9 +85,9 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 			getPlayerStatsForWeek(parseInt(week), playerID)
 				.then(response => {
 					this.setState({ playerStats: response });
+					this.setState({ isError: false });
 				})
 				.catch(error => {
-					console.log(error);
 					this.setState({
 						playerStats: {
 							goals: 0,
@@ -102,7 +98,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 							yellowCards: 0,
 							cleanSheet: false,
 							playerID: 'nobody',
-							week: 0
+							week: 0,
+							responseMessage: error
 						}
 					});
 				});
@@ -203,9 +200,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		}
 
 		if (error) {
-			this.setState({ errorMessage: message.substring(0, message.length - 2) });
-			this.setState({ pointsEdited: false });
-			setTimeout(this._removeErrorMessage, 10000);
+			this.setState({ responseMessage: message.substring(0, message.length - 2), isError: true });
 		} else {
 			this._onSubmit();
 		}
@@ -227,19 +222,15 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 
 		editPlayerPoints(data)
 			.then(response => {
-				this.setState({ pointsEdited: true });
-				this.setState({ errorMessage: '' });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ isError: false, responseMessage: 'Points edited successfully' });
 			})
 			.catch(error => {
-				this.setState({ errorMessage: error });
-				this.setState({ pointsEdited: false });
-				setTimeout(this._removeErrorMessage, 10000);
+				this.setState({ responseMessage: error, isError: true });
 			});
 	}
 
 	render () {
-		const { week, playerID, playerName, playerStats, goals, assists, minutesPlayed, viewingDefender, pointsEdited, errorMessage } = this.state;
+		const { week, playerID, playerName, playerStats, goals, assists, minutesPlayed, viewingDefender } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
@@ -389,13 +380,14 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					>
             Edit Points
 					</Button>
+
+					<ResponseMessage
+						isError={this.state.isError}
+						responseMessage={this.state.responseMessage}
+						shouldDisplay={this.state.responseMessage.length > 0}
+					/>
 				</div>
-				{pointsEdited ? (
-					<div className="error-message-animation">Points edited successfully! </div>
-				) : null}
-				{errorMessage ? (
-					<div className="error-message-animation">Error : {errorMessage} </div>
-				) : null}
+
 			</div>
 		);
 	}

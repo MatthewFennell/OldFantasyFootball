@@ -43,7 +43,6 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 	}
 
 	_onSubmit () {
-		console.log('name value = ' + this.state.teamNameValue);
 		patchTeamName(this.state.teamNameValue).then(response => {
 			this.setState({ responseMessage: 'Team name succesfully updated to ' + this.state.teamNameValue, isError: false });
 		})
