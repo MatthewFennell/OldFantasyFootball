@@ -16,7 +16,6 @@
 }
 .flex-container-two {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   background-color: $dark-black-background;
 }
@@ -26,6 +25,7 @@
   text-align: center;
   line-height: 75px;
   font-size: 30px;
+  width: 30%;
   .create-league-button{
     margin-top: 10px;
   }
@@ -121,4 +121,64 @@ tr.league:hover {
 }
 .huh, .container{
   background-color: $dark-black-background;
+}
+
+.raise-league:hover, .raise-league:focus {
+  cursor: pointer;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  &:hover, &:focus {
+      box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+ }
+}
+$colors: ( raise-league: $strange-orange, );
+@each $button, $color in $colors {
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
+}
+div.raise-league {
+  color: var(--color);
+  transition: 0.25s;
+  &:hover, &:focus {
+      border-color: var(--hover);
+      color: #fff;
+ }
+ background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+}
+div.raise-league-selected{
+  background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+  color: #fff;
+  transform: translateY(-0.25em);
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
 }

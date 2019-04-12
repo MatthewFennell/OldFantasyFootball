@@ -7,7 +7,7 @@ import {
 } from '../../Services/League/LeagueService';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from './LeagueTableBody';
-import { Button, Container } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { Row, Col } from 'react-bootstrap';
 import CreateLeague from './CreateLeague';
 import JoinLeague from './JoinLeague';
@@ -135,6 +135,10 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		}
 	}
 
+	_selectedOrNot (input: string) {
+		return input === this.props.leaguePageBeingViewed ? 'raise-league-selected' : 'raise-league';
+	}
+
 	render () {
 		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 
@@ -167,27 +171,19 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 							<div>
 								<div className="flex-container-two">
 									<div className="create league">
-										<div className="create-league-button">
-											<Button
-												className="btn btn-default btn-round-lg btn-lg first"
-												id="btnCreateLeague"
-												onClick={this.handleCreateLeague}
-												type="submit"
-											>
-                        					Create league
-											</Button>
+										<div
+											className={this._selectedOrNot('create-league')}
+											onClick={this.handleCreateLeague}
+										>
+												Create league
 										</div>
 									</div>
 									<div className="join-league">
-										<div className="join-league-button">
-											<Button
-												className="btn btn-default btn-round-lg btn-lg first"
-												id="btnJoinLeague"
-												onClick={this.handleJoinLeague}
-												type="submit"
-											>
-                        					Join league
-											</Button>
+										<div
+											className={this._selectedOrNot('join-league')}
+											onClick={this.handleJoinLeague}
+										>
+												Join league
 										</div>
 									</div>
 								</div>
