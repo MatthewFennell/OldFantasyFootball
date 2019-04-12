@@ -102,11 +102,12 @@ public class LeagueController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/leave")
-    public void leaveLeague(@AuthenticationPrincipal ApplicationUser user,
+    public boolean leaveLeague(@AuthenticationPrincipal ApplicationUser user,
                             @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(200);
             leagueManager.leaveLeague(user, name);
+            return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             try {
@@ -118,6 +119,7 @@ public class LeagueController {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
+        return false;
     }
 
     @ApiOperation(value = Icons.key
