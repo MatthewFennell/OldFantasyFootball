@@ -67,6 +67,32 @@ export const joinLeague = (code: string): Promise<LeaguePositions> => {
 	});
 };
 
+export const leaveLeague = (leagueNameToLeave: string): Promise<boolean> => {
+	return fetch('/api/league/leave', {
+		method: 'POST',
+		body: leagueNameToLeave,
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (!response.ok) {
+			if (response.status === 400) {
+				return response.json().then(json => {
+					if (response.ok) {
+						return json;
+					} else {
+						return Promise.reject(json.message);
+					}
+				});
+			} else if (response.status === 500) {
+				throw new Error('Internal server error');
+			} else {
+				throw new Error(response.status.toString());
+			}
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
 export const getPositionsOfUsersInLeague = (leagueName: string): Promise<UserLeaguePosition[]> => {
 	return fetch('/api/league/name/' + leagueName + '/ranking', {
 		method: 'GET',
