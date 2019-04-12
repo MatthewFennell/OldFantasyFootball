@@ -101,7 +101,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   					<Image
   						alt="App Icon"
   						id="appIcon"
-  						src="appIcon.jpg"
+  						src="cwood_symbol.png"
   					/>
   				</Col>
   				<Col lg="11">
@@ -119,7 +119,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						<Link to="/transfers">
   							<ButtonPageSelector
 								  id="categories"
-  								imgSrc="Matt.png"
+  								imgSrc="black-white-pitch.png"
   								select={this._onTransfersSelect}
   								selected={this.props.location.pathname === '/transfers'}
   								setRef={() => this.transfersRef}
