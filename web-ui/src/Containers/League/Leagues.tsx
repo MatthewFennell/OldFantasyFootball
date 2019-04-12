@@ -14,7 +14,8 @@ import {
 	setLeagueRankings,
 	setIsLeagueAdmin,
 	setLeagueCode,
-	setLeagues
+	setLeagues,
+	removeLeagues
 } from '../../Actions/LeagueActions';
 import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
@@ -37,7 +38,8 @@ const mapDispatchToProps = {
 	setIsLeagueAdmin,
 	setUserBeingViewed,
 	setPageBeingViewed,
-	setLeagues
+	setLeagues,
+	removeLeagues
 };
 
 export default connect<any, any, any>(

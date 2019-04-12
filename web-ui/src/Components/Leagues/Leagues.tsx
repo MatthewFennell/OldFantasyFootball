@@ -16,6 +16,7 @@ import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition'
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { getUserInfo } from '../../Services/User/UserService';
+import LeaveLeague from './LeaveLeague';
 
 interface LeagueProps {
 	accountId: string;
@@ -30,6 +31,7 @@ interface LeagueProps {
 	setPageBeingViewed: (page: string) => void;
 	setUserBeingViewed: (user: string) => void;
 	setLeagues: (user: string, leagueName: string, position: number) => void;
+	removeLeagues: (user: string, leagueName: string) => void;
 	userBeingViewed: string;
 	leagues: { user: { league: { leagueName: string; position: number } } }
 }
@@ -48,6 +50,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.findLeaguesAndPositions = this.findLeaguesAndPositions.bind(this);
 		this.generateLeaguesMessage = this.generateLeaguesMessage.bind(this);
+		this.handleLeaveLeague = this.handleLeaveLeague.bind(this);
 		this.state = {
 			leaguesMessage: ''
 		};
@@ -93,13 +96,15 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 	}
 
 	handleCreateLeague () {
-		const { setLeaguePageBeingViewed } = this.props;
-		setLeaguePageBeingViewed('create-league');
+		this.props.setLeaguePageBeingViewed('create-league');
 	}
 
 	handleJoinLeague () {
-		const { setLeaguePageBeingViewed } = this.props;
-		setLeaguePageBeingViewed('join-league');
+		this.props.setLeaguePageBeingViewed('join-league');
+	}
+
+	handleLeaveLeague () {
+		this.props.setLeaguePageBeingViewed('leave-league');
 	}
 
 	handleViewUser (id: string) {
@@ -186,6 +191,14 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 												Join league
 										</div>
 									</div>
+									<div className="leave-league">
+										<div
+											className={this._selectedOrNot('leave-league')}
+											onClick={this.handleLeaveLeague}
+										>
+												Leave league
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -200,15 +213,23 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 								setLeagues={this.props.setLeagues}
 								userBeingViewed={this.props.userBeingViewed}
 							  />
-							: this.props.leaguePageBeingViewed !== 'home'
-								? <RankingsTableBody
-									code={this.props.leagueCode}
-									handleViewUser={this.handleViewUser}
-									isAdmin={this.props.isAdmin}
-									leagueBeingViewed={this.props.leaguePageBeingViewed}
-									leagueRankings={this.props.leagueRankings}
+							: this.props.leaguePageBeingViewed === 'leave-league'
+								? <LeaveLeague
+									leagues={this.props.leagues}
+									removeLeagues={this.props.removeLeagues}
+									setLeagues={this.props.setLeagues}
+									userBeingViewed={this.props.userBeingViewed}
 								  />
-								: null}
+
+								: this.props.leaguePageBeingViewed !== 'home'
+									? <RankingsTableBody
+										code={this.props.leagueCode}
+										handleViewUser={this.handleViewUser}
+										isAdmin={this.props.isAdmin}
+										leagueBeingViewed={this.props.leaguePageBeingViewed}
+										leagueRankings={this.props.leagueRankings}
+									  />
+									: null}
 				</Row>
 			</Container>
 		);

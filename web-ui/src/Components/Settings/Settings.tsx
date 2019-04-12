@@ -57,9 +57,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 								className={this._selectedOrNot('team-name')}
 							>
 								<div className="settings-header">
-              Change team name
-			  </div>
-			  <ChangeTeamName />
+              						Change team name
+			  					</div>
+			  						<ChangeTeamName />
 							</div>
 
 						</div>
