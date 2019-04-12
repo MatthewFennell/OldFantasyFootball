@@ -31,6 +31,7 @@ interface LeagueProps {
 	setPageBeingViewed: (page: string) => void;
 	setUserBeingViewed: (user: string) => void;
 	setLeagues: (user: string, leagueName: string, position: number) => void;
+	removeLeagues: (user: string, leagueName: string) => void;
 	userBeingViewed: string;
 	leagues: { user: { league: { leagueName: string; position: number } } }
 }
@@ -215,6 +216,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 							: this.props.leaguePageBeingViewed === 'leave-league'
 								? <LeaveLeague
 									leagues={this.props.leagues}
+									removeLeagues={this.props.removeLeagues}
 									setLeagues={this.props.setLeagues}
 									userBeingViewed={this.props.userBeingViewed}
 								  />

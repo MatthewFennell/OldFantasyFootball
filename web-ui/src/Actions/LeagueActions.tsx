@@ -6,7 +6,8 @@ export enum ActionTypes {
 	ADD_TO_LEAGUE_RANKINGS = 'ADD_TO_LEAGUE_RANKINGS',
 	SET_IS_LEAGUE_ADMIN = 'SET_IS_LEAGUE_ADMIN',
 	SET_LEAGUE_CODE = 'SET_LEAGUE_CODE',
-	SET_LEAGUES = 'SET_LEAGUES'
+	SET_LEAGUES = 'SET_LEAGUES',
+	REMOVE_LEAGUE = 'REMOVE_LEAGUE'
 }
 
 export interface SetLeaguePageBeingViewed {
@@ -37,6 +38,11 @@ export interface SetLeagueCode {
 export interface SetLeagues {
   type: ActionTypes.SET_LEAGUES;
   payload: { user: string, leagueName: string; position: number };
+}
+
+export interface RemoveLeague {
+  type: ActionTypes.REMOVE_LEAGUE;
+  payload: { user: string, leagueName: string };
 }
 
 export const setLeaguePageBeingViewed = (
@@ -83,10 +89,18 @@ export const setLeagues = (user: string, leagueName: string, position: number): 
 	};
 };
 
+export const removeLeagues = (user: string, leagueName: string): RemoveLeague => {
+	return {
+		type: ActionTypes.REMOVE_LEAGUE,
+		payload: { user, leagueName }
+	};
+};
+
 export type Action =
   | SetLeaguePageBeingViewed
   | SetLeagueRankings
 	| AddToLeagueRankings
 	| SetIsLeagueAdmin
 	| SetLeagueCode
-	| SetLeagues;
+	| SetLeagues
+	| RemoveLeague;

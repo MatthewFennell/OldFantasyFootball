@@ -47,6 +47,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('leagues.' + action.payload.user + '.' + action.payload.leagueName, action.payload.position, state);
 	}
 
+	case ActionTypes.REMOVE_LEAGUE: {
+		return lodash.unset('leagues.' + action.payload.user + '.' + action.payload.leagueName, state);
+	}
+
 	default:
 		return state;
 	}
