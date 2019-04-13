@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import { setStatsHistory } from '../../Actions/StatsActions';
-import { getStatsHistory } from '../../Selectors/StatsSelector';
+import { getStatsHistory, getTotalNumberOfWeeks } from '../../Selectors/StatsSelector';
 import Stats from '../../Components/Stats/Stats';
+import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
-	statsHistory: getStatsHistory(state)
+	statsHistory: getStatsHistory(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
+	allCollegeTeams: getAllCollegeTeams(state)
 });
 
 const mapDispatchToProps = {

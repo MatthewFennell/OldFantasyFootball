@@ -1,5 +1,5 @@
 export interface SingleHistory {
-    firstName: string;
+    firstname: string;
     surname: string;
     amount: number;
   }
