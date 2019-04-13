@@ -657,7 +657,7 @@ public class PlayerManager {
         }
     }
 
-    public HistoryDTO history(Integer week){
+    public List<TeamHistoryDTO> history(Integer week){
         List<PlayerPoints> playerPoints = playerPointsRepo.findByByWeek(week);
         Map<String, TeamHistoryDTO> history = new HashMap<>();
         for (PlayerPoints points : playerPoints){
@@ -678,9 +678,9 @@ public class PlayerManager {
                 }
             }
         }
-        HistoryDTO allHistory = new HistoryDTO(new ArrayList<>());
+        List<TeamHistoryDTO> allHistory = new ArrayList<>();
         for (Map.Entry<String, TeamHistoryDTO> stats : history.entrySet()) {
-            allHistory.addTeamHistory(stats.getValue());
+            allHistory.add(stats.getValue());
         }
         return allHistory;
     }

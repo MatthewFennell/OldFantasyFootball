@@ -191,11 +191,11 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "College team does not exist"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public HistoryDTO getHistory(
+    public List<TeamHistoryDTO> getHistory(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("id") Integer id) {
         try {
-            HistoryDTO historyDTO = playerManager.history(id);
+            List<TeamHistoryDTO> historyDTO = playerManager.history(id);
             response.setStatus(200);
             return historyDTO;
         } catch (IllegalArgumentException e) {
