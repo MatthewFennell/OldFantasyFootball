@@ -35,6 +35,8 @@ public class PlayerManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
 
+        history(0);
+
 //        CollegeTeam collegeTeam = new CollegeTeam("A");
 //        teamRepo.save(collegeTeam);
 //
@@ -655,7 +657,35 @@ public class PlayerManager {
         }
     }
 
-    //
+    public List<TeamHistoryDTO> history(Integer week){
+        List<PlayerPoints> playerPoints = playerPointsRepo.findByByWeek(week);
+        Map<String, TeamHistoryDTO> history = new HashMap<>();
+        for (PlayerPoints points : playerPoints){
+            if (points.getNumberOfGoals() > 0 || points.getNumberOfAssists() > 0){
+                Optional<Player> player = playerRepo.findById(points.getPlayer().getId());
+                if (!player.isPresent()){
+                    throw new IllegalArgumentException("Player does not exist");
+                }
+                String teamName = player.get().getActiveTeam().getName();
+                history.putIfAbsent(teamName, new TeamHistoryDTO(teamName, new ArrayList<>(), new ArrayList<>()));
+                if (points.getNumberOfGoals() > 0){
+                    SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfGoals());
+                    history.get(teamName).addGoalScorer(goalHistory);
+                }
+                if (points.getNumberOfAssists() > 0){
+                    SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfAssists());
+                    history.get(teamName).addAssist(goalHistory);
+                }
+            }
+        }
+        List<TeamHistoryDTO> allHistory = new ArrayList<>();
+        for (Map.Entry<String, TeamHistoryDTO> stats : history.entrySet()) {
+            allHistory.add(stats.getValue());
+        }
+        return allHistory;
+    }
+
+
     public void addPointsToPlayersWeek0() {
         Optional<Player> player1 = playerRepo.findByFirstName("John");
         player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 6, false, 90, 0, false, false, 0));

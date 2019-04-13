@@ -182,6 +182,31 @@ public class PlayerController {
         return null;
     }
 
+    @ApiOperation(value = Icons.key
+            + " Get the history for a week",
+            notes = "Requires User role", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @GetMapping("/player/history/week/{id}")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
+            @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PreAuthorize("hasRole('USER')")
+    public List<TeamHistoryDTO> getHistory(
+            @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
+            @PathVariable("id") Integer id) {
+        try {
+            List<TeamHistoryDTO> historyDTO = playerManager.history(id);
+            response.setStatus(200);
+            return historyDTO;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            log.debug(e.getMessage());
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+        return null;
+    }
+
     @ApiOperation(value = Icons.key + " Make a player ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
