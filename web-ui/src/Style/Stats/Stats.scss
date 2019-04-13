@@ -1,12 +1,12 @@
 @import '../Colors.scss';
 
 .stats-info-wrapper{
-    display: flex;
     margin-top: 4vh;
     
-    .stats-week-selector, .stats-team-selector{
+    .stats-week-selector{
+        margin: 0 auto;
+        width: 25%;
         display: table;
-        width: 50%;
         text-align: center;
         color: $strange-orange;
         border: 3px solid;
@@ -15,21 +15,13 @@
         background-color: $medium-dark-background;
         font-size: 30px;
         height: 100px;
-
-        .team-dropdown, .custom-dropdown{
+        .custom-dropdown{
             display: table-cell;
             vertical-align: middle;
+
+            .custom-dropdown-menu{
+                width: 20%;
+            }
         }
-
-    }
-
-    .stats-week-selector{
-        margin-left: 25%;
-        margin-right: 10%;
-    }
-
-    .stats-team-selector{
-        margin-right: 25%;
-        margin-left: 10%;
     }
 }
