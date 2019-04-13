@@ -39,3 +39,6 @@ export const getRemainingBudget = createSelector([getRemainingBudgetState], p =>
 
 const getMostValuableState = (state: State) => state.stats;
 export const getMostValuable = createSelector([getMostValuableState], p => p.mostValuable);
+
+const getStatsHistoryState = (state: State) => state.stats;
+export const getStatsHistory = createSelector([getStatsHistoryState], p => p.history);
