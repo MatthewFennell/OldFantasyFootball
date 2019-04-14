@@ -48,6 +48,25 @@ export const getPlayerStatsForWeek = (week: number, id: string): Promise<PlayerP
 	});
 };
 
+export const getStats = (week: number): Promise<any> => {
+	return fetch('/api/player/history/week/' + week, {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
 export const getPlayersWithMostPointsInWeek = (week: number): Promise<PlayerDTO> => {
 	return fetch('/api/player/points/week/' + week + '/most', {
 		method: 'GET',

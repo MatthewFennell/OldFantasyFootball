@@ -1,0 +1,114 @@
+@import '../Colors.scss';
+
+.stats-info-wrapper{
+    margin-top: 4vh;
+    
+    .stats-week-selector{
+        margin: 0 auto;
+        display: table;
+        text-align: center;
+        color: $strange-orange;
+        border: 3px solid;
+        border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+        border-image-slice: 1;
+        background-color: $medium-dark-background;
+        font-size: 30px;
+        height: 100px;
+        .custom-dropdown{
+            display: table-cell;
+            vertical-align: middle;
+
+            .custom-dropdown-menu{
+                width: 20%;
+            }
+        }
+    }
+}
+
+.stats-week-wrapper{
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 4vh;
+
+    .week-dev{
+        flex-grow: 1;
+        text-align: center;
+        color: $strange-orange;
+        border: 3px solid;
+        border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+        border-image-slice: 1;
+        background-color: $medium-dark-background;
+        margin: 5px;
+    }
+}
+
+
+.raise-week-dev:hover, .raise-week-dev:focus {
+    margin: 5px;
+    flex-grow: 1;
+    text-align: center;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.25em);
+    padding: 1em;
+  }
+  .offset {
+    box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+    &:hover, &:focus {
+        box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+   }
+  }
+  $colors: ( raise-week-dev: $strange-orange, );
+  @each $button, $color in $colors {
+    .#{
+       $button
+   }
+    {
+        --color: #{
+           $color
+       }
+       ;
+        --hover: #{
+           adjust-hue($color, 45deg)
+       }
+       ;
+   }
+  }
+  div.raise-week-dev {
+    margin: 5px;
+    padding: 1em;
+    flex-grow: 1;
+    height: 50px;
+    text-align: center;
+    color: var(--color);
+    transition: 0.25s;
+    &:hover, &:focus {
+        border-color: var(--hover);
+        color: #fff;
+   }
+    background-color: $medium-dark-background;
+    border: 2px solid;
+    font: inherit;
+  }
+  div.raise-week-dev-selected{
+    margin: 5px;
+    padding: 1em;
+    flex-grow: 1;
+    text-align: center;
+    background-color: $medium-dark-background;
+    border: 2px solid;
+    height: 50px;
+    font: inherit;
+    border-color: #{
+       adjust-hue($strange-orange, 45deg)
+   }
+   ;
+    color: #fff;
+    transform: translateY(-0.25em);
+    box-shadow: 0 0.5em 0.5em -0.4em #{
+       adjust-hue($strange-orange, 45deg)
+   }
+   ;
+  }

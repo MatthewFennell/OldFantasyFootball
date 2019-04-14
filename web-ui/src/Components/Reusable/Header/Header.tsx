@@ -25,11 +25,13 @@ class Header extends React.Component<Props & RouteComponentProps> {
   private settingsRef: React.RefObject<HTMLDivElement>;
   private teamRef: React.RefObject<HTMLDivElement>;
   private adminRef: React.RefObject<HTMLDivElement>;
+  private statsRef: React.RefObject<HTMLDivElement>;
   private _onTeamSelect: () => void;
   private _onSettingsSelect: () => void;
   private _onLeagueSelect: () => void;
   private _onTransfersSelect: () => void;
   private _onAdminSelect: () => void;
+  private _onStatsRef: () => void;
 
   constructor (props: Props & RouteComponentProps) {
   	super(props);
@@ -39,11 +41,13 @@ class Header extends React.Component<Props & RouteComponentProps> {
   	this.settingsRef = React.createRef<HTMLDivElement>();
   	this.teamRef = React.createRef<HTMLDivElement>();
   	this.adminRef = React.createRef<HTMLDivElement>();
+  	this.statsRef = React.createRef<HTMLDivElement>();
   	this._onTeamSelect = () => this._select(this.teamRef, 'Team');
   	this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
   	this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
   	this._onTransfersSelect = () => this._select(this.transfersRef, 'Transfers');
   	this._onAdminSelect = () => this._select(this.adminRef, 'Admin');
+  	this._onStatsRef = () => this._select(this.statsRef, 'Stats');
   }
 
   _isAdmin (): boolean {
@@ -84,6 +88,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
     this.transfersRef.current!.classList.remove('selected');
     this.leagueRef.current!.classList.remove('selected');
     this.settingsRef.current!.classList.remove('selected');
+    this.statsRef.current!.classList.remove('selected');
     if (this._isAdmin()) {
       this.adminRef.current!.classList.remove('selected');
     }
@@ -136,6 +141,16 @@ class Header extends React.Component<Props & RouteComponentProps> {
   								text="Leagues"
   							/>
   						</Link>
+						  <Link to="/stats">
+  							<ButtonPageSelector
+  								id="settings"
+  								imgSrc="stag.jpg"
+  								select={this._onStatsRef}
+  								selected={this.props.location.pathname === '/stats'}
+  								setRef={() => this.statsRef}
+  								text="Stats"
+  							/>
+  						</Link>
   						<Link to="/settings">
   							<ButtonPageSelector
   								id="settings"
@@ -165,7 +180,6 @@ class Header extends React.Component<Props & RouteComponentProps> {
   					lg="2"
   				>
 				  <div className="logout">
-						  {/* {firstname}{' '}{surname} */}
 						  <Button
   								className=""
   								id="logout-button"

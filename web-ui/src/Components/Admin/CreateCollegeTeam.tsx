@@ -60,7 +60,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 				if (!alreadyThere) {
 					addCollegeTeam(response);
 				}
-				this.setState({ responseMessage: 'Successfully made a college team called' + collegeNameValue, isError: false });
+				this.setState({ responseMessage: 'Successfully made a college team called ' + collegeNameValue, isError: false });
 			})
 			.catch(error => {
 				this.setState({ responseMessage: error, isError: true });

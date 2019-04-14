@@ -11,6 +11,7 @@ import Leagues from '../Containers/League/Leagues';
 import Admin from '../Containers/Admin/Admin';
 import Settings from '../Components/Settings/Settings';
 import Transfers from '../Containers/Transfers/Transfers';
+import Stats from '../Containers/Stats/Stats';
 
 const App: React.SFC = (props) => {
 	return (
@@ -56,6 +57,11 @@ const App: React.SFC = (props) => {
 					component={Settings}
 					exact
 					path="/settings"
+				/>
+				<Route
+					component={Stats}
+					exact
+					path="/stats"
 				/>
 				<PageBody />
 			</Switch>

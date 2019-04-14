@@ -2,6 +2,7 @@ import { ActionTypes, Action as StatsAction } from '../Actions/StatsActions';
 import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { MostValuable } from '../Models/Interfaces/MostValuable';
+import { TeamHistory } from '../Models/Interfaces/TeamHistory';
 import * as lodash from 'lodash/fp';
 
 type Action = StatsAction;
@@ -18,6 +19,8 @@ export interface State {
   totalPoints: {}
   weeklyPoints: {}
   mostValuable: {}
+
+  history: TeamHistory[][]
 }
 
 // Define our initialState
@@ -32,6 +35,8 @@ export const initialState: State = {
 	totalPoints: {} as { user: { id: string; points: number } },
 	weeklyPoints: {} as { user: { weeks: { id: string; points: number } } },
 	mostValuable: {} as { user: { id: string; mostValuable: MostValuable } },
+
+	history: []
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -74,6 +79,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.SET_MOST_VALUABLE: {
 		return lodash.set('mostValuable.' + action.payload.user, action.payload.mostValuable, state);
+	}
+
+	case ActionTypes.SET_STATS_HISTORY: {
+		return lodash.set('history.' + action.payload.week, action.payload.statsHistory, state);
 	}
 
 	default:
