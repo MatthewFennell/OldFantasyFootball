@@ -18,7 +18,7 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 			<div className="goals-assists-stats-wrapper">
 
 				<div className="stats-team-goalscorers">
-					<div className="stats-goalscorers-title">Goalscorers</div>
+					<div className="stats-goalscorers-title">Goals</div>
 					{props.goalScorers.map(goalScorer => (
 						<div
 							className="goalscorer-row"
