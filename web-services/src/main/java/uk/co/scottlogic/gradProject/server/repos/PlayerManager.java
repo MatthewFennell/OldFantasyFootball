@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
-import uk.co.scottlogic.gradProject.server.routers.User;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import java.util.*;
@@ -459,7 +458,6 @@ public class PlayerManager {
         }
     }
 
-
     private UUID findMostValuableID(HashMap<UUID, Integer> hashMap){
         UUID maxID = null;
         int currentMaxScore = -100;
@@ -658,7 +656,7 @@ public class PlayerManager {
     }
 
     public List<TeamHistoryDTO> history(Integer week){
-        List<PlayerPoints> playerPoints = playerPointsRepo.findByByWeek(week);
+        List<PlayerPoints> playerPoints = week != -1 ? playerPointsRepo.findByWeek(week) : playerPointsRepo.findAll();
         Map<String, TeamHistoryDTO> history = new HashMap<>();
         for (PlayerPoints points : playerPoints){
             if (points.getNumberOfGoals() > 0 || points.getNumberOfAssists() > 0){
@@ -680,8 +678,11 @@ public class PlayerManager {
         }
         List<TeamHistoryDTO> allHistory = new ArrayList<>();
         for (Map.Entry<String, TeamHistoryDTO> stats : history.entrySet()) {
+            stats.getValue().sortGoalScorers();
+            stats.getValue().sortAssists();
             allHistory.add(stats.getValue());
         }
+        allHistory.sort(Comparator.comparing(TeamHistoryDTO::getTeamName));
         return allHistory;
     }
 

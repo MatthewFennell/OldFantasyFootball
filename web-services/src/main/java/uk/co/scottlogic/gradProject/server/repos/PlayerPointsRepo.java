@@ -18,7 +18,10 @@ public interface PlayerPointsRepo extends CrudRepository<PlayerPoints, UUID> {
     Optional<PlayerPoints> findByPlayerByWeek(Player player, Integer week);
 
     @Query(value = "FROM PlayerPoints WHERE week = ?1")
-    List<PlayerPoints> findByByWeek(Integer week);
+    List<PlayerPoints> findByWeek(Integer week);
+
+    @Query(value = "FROM PlayerPoints")
+    List<PlayerPoints> findAll();
 
     @Query(value = "SELECT points FROM PlayerPoints WHERE player = ?1 AND week = ?2")
     Optional<Integer> findScoreByPlayerByWeek(Player player, Integer week);

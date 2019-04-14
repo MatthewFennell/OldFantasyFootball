@@ -144,7 +144,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
 						  <Link to="/stats">
   							<ButtonPageSelector
   								id="settings"
-  								imgSrc="stag.jpg"
+  								imgSrc="stats-icons.png"
   								select={this._onStatsRef}
   								selected={this.props.location.pathname === '/stats'}
   								setRef={() => this.statsRef}

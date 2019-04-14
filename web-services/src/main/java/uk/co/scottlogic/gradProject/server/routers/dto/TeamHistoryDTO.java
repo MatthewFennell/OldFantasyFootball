@@ -1,6 +1,7 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class TeamHistoryDTO {
 
@@ -43,6 +44,14 @@ public class TeamHistoryDTO {
 
     public ArrayList<SingleHistoryDTO> getAssists() {
         return assists;
+    }
+
+    public void sortGoalScorers(){
+        this.goalScorers.sort(Comparator.comparing(SingleHistoryDTO::getAmount).reversed());
+    }
+
+    public void sortAssists(){
+        this.assists.sort(Comparator.comparing(SingleHistoryDTO::getAmount).reversed());
     }
 
     public void setAssists(ArrayList<SingleHistoryDTO> assists) {

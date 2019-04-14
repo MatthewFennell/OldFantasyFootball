@@ -39,8 +39,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	_handleWeek (week: number) {
-		this.setState({ week });
-		this.getHistory(week);
+		if (week <= this.props.totalNumberOfWeeks) {
+			this.setState({ week });
+			this.getHistory(week);
+		}
 	}
 
 	generateColumns () {
@@ -79,22 +81,34 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 	}
 
 	_selectedOrNot (input: number) {
+		if (input > this.props.totalNumberOfWeeks) {
+			return 'week-unclickable';
+		}
 		return input === this.state.week ? 'raise-week-dev-selected' : 'raise-week-dev';
 	}
 
 	render () {
 		let columns = this.generateColumns();
-		let values = [...Array(20).keys()];
+		let values = [...Array(5).keys()];
 
 		return (
 			<div className="stats-wrapper">
 
 				<div className="stats-week-wrapper">
 
+					<div
+						className={this._selectedOrNot(-1)}
+						key="All"
+						onClick={() => { this._handleWeek(-1); }}
+					>
+            	Week: All
+					</div>
+
 					{values.map(index => (
 						<div
 							className={this._selectedOrNot(index)}
-							onClick={() => { this.setState({ week: index }); }}
+							key={index}
+							onClick={() => { this._handleWeek(index); }}
 						>
             	Week: {index}
 						</div>
