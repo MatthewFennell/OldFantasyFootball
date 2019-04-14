@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getStats } from '../../Services/Player/PlayerService';
 import { SingleHistory } from '../../Models/Interfaces/SingleHistory';
 import { TeamHistory } from '../../Models/Interfaces/TeamHistory';
-import CustomDropdown from '../common/CustomDropdown';
+// import WeekSelector from './WeekSelector';
 import '../../Style/Stats/Stats.css';
 import TeamStats from './TeamStats';
 
@@ -20,6 +20,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 	constructor (props: SettingsProps) {
 		super(props);
 		this._handleWeek = this._handleWeek.bind(this);
+		this.generateColumns = this.generateColumns.bind(this);
+		this._selectedOrNot = this._selectedOrNot.bind(this);
 		this.state = {
 			week: this.props.totalNumberOfWeeks,
 		};
@@ -41,62 +43,77 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		this.getHistory(week);
 	}
 
+	generateColumns () {
+		let columnOne:JSX.Element[] = [];
+		let columnTwo:JSX.Element[] = [];
+		let columnThree:JSX.Element[] = [];
+
+		if (this.props.statsHistory[this.state.week]) {
+			this.props.statsHistory[this.state.week].map((team, index) => {
+				if (index % 3 === 0) {
+					columnOne.push(<TeamStats
+						assists={team.assists}
+						goalScorers={team.goalScorers}
+						key={index}
+						teamName={team.teamName}
+					               />);
+				} else if (index % 3 === 1) {
+					columnTwo.push(<TeamStats
+						assists={team.assists}
+						goalScorers={team.goalScorers}
+						key={index}
+						teamName={team.teamName}
+					               />);
+				} else {
+					columnThree.push(<TeamStats
+						assists={team.assists}
+						goalScorers={team.goalScorers}
+						key={index}
+						teamName={team.teamName}
+					                 />);
+				}
+			});
+		}
+
+		return [columnOne, columnTwo, columnThree];
+	}
+
+	_selectedOrNot (input: number) {
+		return input === this.state.week ? 'raise-week-dev-selected' : 'raise-week-dev';
+	}
+
 	render () {
+		let columns = this.generateColumns();
+		let values = [...Array(20).keys()];
+
 		return (
 			<div className="stats-wrapper">
 
-				<div className="stats-info-wrapper">
-					<div className="stats-week-selector">
-						<CustomDropdown
-							setData={this._handleWeek}
-							title="Week"
-							values={[...Array(this.props.totalNumberOfWeeks + 1).keys()]}
-						/>
-					</div>
+				<div className="stats-week-wrapper">
+
+					{values.map(index => (
+						<div
+							className={this._selectedOrNot(index)}
+							onClick={() => { this.setState({ week: index }); }}
+						>
+            	Week: {index}
+						</div>
+					))}
+
 				</div>
 
 				<div className="all-team-stats-wrapper">
 
 					<div className="stats-history-columns">
-						{this.props.statsHistory[this.state.week]
-
-							? this.props.statsHistory[this.state.week].map((team, index) => (
-								index < this.props.statsHistory[this.state.week].length / 3
-									? <TeamStats
-										assists={team.assists}
-										goalScorers={team.goalScorers}
-										key="a"
-										teamName={team.teamName}
-									  /> : null))
-							: null}
+						{columns[0]}
 					</div>
 
 					<div className="stats-history-columns">
-						{this.props.statsHistory[this.state.week]
-
-							? this.props.statsHistory[this.state.week].map((team, index) => (
-								index >= this.props.statsHistory[this.state.week].length / 3 && index < this.props.statsHistory[this.state.week].length * 2 / 3
-									? <TeamStats
-										assists={team.assists}
-										goalScorers={team.goalScorers}
-										key="a"
-										teamName={team.teamName}
-									  /> : null))
-							: null}
+						{columns[1]}
 					</div>
 
 					<div className="stats-history-columns">
-						{this.props.statsHistory[this.state.week]
-
-							? this.props.statsHistory[this.state.week].map((team, index) => (
-								index >= this.props.statsHistory[this.state.week].length * 2 / 3
-									? <TeamStats
-										assists={team.assists}
-										goalScorers={team.goalScorers}
-										key="a"
-										teamName={team.teamName}
-									  /> : null))
-							: null}
+						{columns[2]}
 					</div>
 				</div>
 			</div>

@@ -20,7 +20,7 @@ export interface State {
   weeklyPoints: {}
   mostValuable: {}
 
-  history: TeamHistory[]
+  history: TeamHistory[][]
 }
 
 // Define our initialState
