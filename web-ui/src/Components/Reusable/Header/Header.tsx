@@ -112,7 +112,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   					<div className="fantasy-football-ccafc">
 						  CCAFC Fantasy Football
 					  </div>
-  				<Col lg="11">
+  				<Col lg="8">
   					<div id="midOptions">
   						<Link to="/team">
   							<ButtonPageSelector

@@ -26,15 +26,18 @@ public class PlayerManager {
 
     private ApplicationUserRepo applicationUserRepo;
 
+    private PercentageOfTeamsRepo percentageOfTeamsRepo;
+
     @Autowired
-    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo, PlayerPointsRepo playerPointsRepo, WeeklyTeamRepo weeklyTeamRepo, ApplicationUserRepo applicationUserRepo) {
+    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo,
+                         PlayerPointsRepo playerPointsRepo, WeeklyTeamRepo weeklyTeamRepo,
+                         ApplicationUserRepo applicationUserRepo, PercentageOfTeamsRepo percentageOfTeamsRepo) {
         this.teamRepo = teamRepo;
         this.playerRepo = playerRepo;
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
-
-        history(0);
+        this.percentageOfTeamsRepo = percentageOfTeamsRepo;
 
 //        CollegeTeam collegeTeam = new CollegeTeam("A");
 //        teamRepo.save(collegeTeam);
@@ -78,7 +81,7 @@ public class PlayerManager {
 //        playerRepo.save(p15);
 //        playerRepo.save(p16);
 
-        getPercentageOfTeamsPlayersIn();
+        setPercentagesOfPlayersInTeams();
 
     }
 
@@ -92,8 +95,6 @@ public class PlayerManager {
             throw new IllegalArgumentException("Invalid team");
         }
     }
-
-
 
     public void deletePlayer(String playerID) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
@@ -133,7 +134,6 @@ public class PlayerManager {
         for (ApplicationUser user : users){
             Optional<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findActiveTeam(user);
             if (!weeklyTeams.isPresent()){
-                System.out.println("user has no weekly teams");
                 UsersWeeklyTeam newUWT = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), newWeek);
                 weeklyTeamRepo.save(newUWT);
             }
@@ -665,19 +665,31 @@ public class PlayerManager {
     public List<PlayerDTO> generateDTOFilterReturns(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy){
         List<Player> filteredPlayers = formatFilter(team, position, min, max, name, sortBy);
         List<PlayerDTO> responses = new ArrayList<>();
-        HashMap<UUID, Double> percentages = getPercentageOfTeamsPlayersIn();
+        Map<UUID, Double> percentagesLookup = new HashMap<>();
+
+        if (sortBy.equals(Enums.SORT_BY.PERCENTAGE)){
+            List<PercentageOfTeams> allPercentages = percentageOfTeamsRepo.findAll();
+            for (PercentageOfTeams playersPercentage : allPercentages){
+                percentagesLookup.put(playersPercentage.getId(), playersPercentage.getPercentageTeamsIn());
+            }
+        }
+
         for (Player p : filteredPlayers) {
             PlayerDTO playerDTO = new PlayerDTO(p);
-            playerDTO.setPercentages(percentages.getOrDefault(p.getId(), 0.0));
+            playerDTO.setPercentages(percentagesLookup.getOrDefault(p.getId(), 0.0));
             responses.add(playerDTO);
         }
+
         if (sortBy.equals(Enums.SORT_BY.PERCENTAGE)){
             responses.sort(Comparator.comparing(PlayerDTO::getPercentages).reversed());
         }
+
         return responses;
     }
 
-    private HashMap<UUID, Double> getPercentageOfTeamsPlayersIn(){
+
+    private void setPercentagesOfPlayersInTeams(){
+        percentageOfTeamsRepo.deleteAll();
         List<UsersWeeklyTeam> allTeams = weeklyTeamRepo.findAllActiveTeams();
         Integer totalNumberOfTeams = allTeams.size();
 
@@ -690,12 +702,9 @@ public class PlayerManager {
         }
 
         for (Map.Entry<UUID, Double> stats : percentages.entrySet()) {
-            percentages.put(stats.getKey(), stats.getValue()/totalNumberOfTeams);
-            System.out.println("putting id " + stats.getKey());
-            System.out.println("value = " + stats.getValue());
+            percentages.put(stats.getKey(), 100*stats.getValue()/totalNumberOfTeams);
+            percentageOfTeamsRepo.save(new PercentageOfTeams(stats.getKey(), stats.getValue()));
         }
-
-        return percentages;
     }
 
     public List<TeamHistoryDTO> history(Integer week){

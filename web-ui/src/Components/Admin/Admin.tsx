@@ -9,6 +9,7 @@ import DeleteCollegeTeam from '../../Containers/Admin/DeleteCollegeTeam';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import AddResult from '../../Containers/Admin/AddResult';
+import TriggerWeek from './TriggerWeek';
 
 interface AdminProps {
   setAdminPageBeingViewed: (adminPageBeingViewed: string) => void;
@@ -29,6 +30,7 @@ class Admin extends React.Component<AdminProps, {}> {
 		this.handleSetPageBeingViewedAddPoints = this.handleSetPageBeingViewedAddPoints.bind(this);
 		this.handleSetPageBeingViewedAddResult = this.handleSetPageBeingViewedAddResult.bind(this);
 		this.handleSetPageBeingViewedEditStats = this.handleSetPageBeingViewedEditStats.bind(this);
+		this.handleTriggerWeek = this.handleTriggerWeek.bind(this);
 
 		const { allCollegeTeams, setAllCollegeTeams } = this.props;
 
@@ -69,6 +71,10 @@ class Admin extends React.Component<AdminProps, {}> {
 
 	handleSetPageBeingViewedAddResult () {
 		this.props.setAdminPageBeingViewed('add-result');
+	}
+
+	handleTriggerWeek () {
+		this.props.setAdminPageBeingViewed('trigger-week');
 	}
 
 	_selectedOrNot (input: string) {
@@ -123,6 +129,13 @@ class Admin extends React.Component<AdminProps, {}> {
 						>
               Create Results
 						</div>
+
+						<div
+							className={this._selectedOrNot('trigger-week')}
+							onClick={this.handleTriggerWeek}
+						>
+              Trigger new week
+						</div>
 					</div>
 					{adminPageBeingViewed === 'create' ? (
 						<CreatePlayerForm />
@@ -138,6 +151,8 @@ class Admin extends React.Component<AdminProps, {}> {
 						<DeleteCollegeTeam />
 					) : adminPageBeingViewed === 'add-result' ? (
 						<AddResult />
+					) : adminPageBeingViewed === 'trigger-week' ? (
+						<TriggerWeek />
 					) : null}
 				</div>
 			</div>

@@ -5,8 +5,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
-import static uk.co.scottlogic.gradProject.server.misc.Regex.COLLEGE_NAME_PATTERN;
-
 @Entity
 @Table(indexes = {
         @Index(name = "idx_percentage_percentageTeamsIn", columnList = "percentageTeamsIn")})
@@ -18,9 +16,10 @@ public class PercentageOfTeams {
     @Id
     @Column
     @Type(type = "uuid-char")
-    private UUID playerId;
+    private UUID id;
 
     public PercentageOfTeams(UUID playerId, double percentageTeamsIn) {
+        this.id = playerId;
         this.percentageTeamsIn = percentageTeamsIn;
     }
 
@@ -36,11 +35,11 @@ public class PercentageOfTeams {
         this.percentageTeamsIn = percentageTeamsIn;
     }
 
-    public UUID getPlayerId() {
-        return playerId;
+    public UUID getId() {
+        return id;
     }
 
-    public void setPlayerId(UUID playerId) {
-        this.playerId = playerId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

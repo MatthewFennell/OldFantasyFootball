@@ -38,16 +38,36 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 							onClick={() => this.handleLastClicked('rules')}
 						>
 							<div
-								className={this._selectedOrNot('rules')}
+								className="rules"
 							>
 								<div className="settings-header">
-              					Rules
-								  </div>
+              						Settings
+			  					</div>
+			  						<ul>
+										  <li>When the transfer window is open, you can make unlimited transfers</li>
+										  <li>Goals</li>
+										  <ul>
+											  <li>Attacker: 4 points</li>
+											  <li>Midfielder: 5 points</li>
+											  <li>Defender: 6 points</li>
+										  </ul>
+										  <li>Assists : 3 points</li>
+										  <li>Clean Sheet : 4 points</li>
+										  <li>NEED TO FETCH THESE PROPERLY</li>
+									  </ul>
 
+									  <hr className="settings-horizontal" />
+
+								<div className="settings-feature-request">
+									Please email m.fennell@live.co.uk if you
+									<ul>
+										<li>Found a bug	</li>
+										<li>Have a new idea for the site</li>
+										<li>Have an issue with your account</li>
+									</ul>
+									  </div>
 							</div>
-							<div className="settings-rules">
-								Some rules
-							</div>
+
 						</div>
 						<div
 							className="settings-wrapper"

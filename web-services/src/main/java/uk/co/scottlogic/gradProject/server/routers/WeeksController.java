@@ -59,7 +59,7 @@ public class WeeksController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key + " Delete a college team ", authorizations = {
+    @ApiOperation(value = Icons.key + " Trigger the next week ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -69,7 +69,7 @@ public class WeeksController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/week/trigger")
+    @PostMapping(value = "/weeks/trigger")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean updateWeek(@AuthenticationPrincipal ApplicationUser user,
                                      @RequestBody int week, HttpServletResponse response) {
