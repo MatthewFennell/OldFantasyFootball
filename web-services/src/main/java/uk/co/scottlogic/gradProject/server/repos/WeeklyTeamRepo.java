@@ -23,6 +23,9 @@ public interface WeeklyTeamRepo extends CrudRepository<UsersWeeklyTeam, UUID> {
     @Query(value = "FROM UsersWeeklyTeam WHERE week = -1 AND user = ?1")
     Optional<UsersWeeklyTeam> findActiveTeam(ApplicationUser user);
 
+    @Query(value = "FROM UsersWeeklyTeam WHERE week = -1")
+    List<UsersWeeklyTeam> findAllActiveTeams();
+
     @Query(value = "FROM UsersWeeklyTeam WHERE user = ?1 AND week = ?2")
     Optional<UsersWeeklyTeam> findByUserByWeek(ApplicationUser user, Integer week);
 

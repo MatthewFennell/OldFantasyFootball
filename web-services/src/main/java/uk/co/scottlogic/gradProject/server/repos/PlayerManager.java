@@ -78,6 +78,8 @@ public class PlayerManager {
 //        playerRepo.save(p15);
 //        playerRepo.save(p16);
 
+        getPercentageOfTeamsPlayersIn();
+
     }
 
     public void makePlayer(MakePlayerDTO makePlayerDTO) {
@@ -650,9 +652,50 @@ public class PlayerManager {
             return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
         } else if (sorting == Enums.SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
-        } else {
+        }
+        else if (sorting == Enums.SORT_BY.PERCENTAGE){
+            return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
+        }
+
+        else {
             return playerRepo.filterPlayersSortByPrice(team, position, minPrice, maxPrice, searchName);
         }
+    }
+
+    public List<PlayerDTO> generateDTOFilterReturns(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy){
+        List<Player> filteredPlayers = formatFilter(team, position, min, max, name, sortBy);
+        List<PlayerDTO> responses = new ArrayList<>();
+        HashMap<UUID, Double> percentages = getPercentageOfTeamsPlayersIn();
+        for (Player p : filteredPlayers) {
+            PlayerDTO playerDTO = new PlayerDTO(p);
+            playerDTO.setPercentages(percentages.getOrDefault(p.getId(), 0.0));
+            responses.add(playerDTO);
+        }
+        if (sortBy.equals(Enums.SORT_BY.PERCENTAGE)){
+            responses.sort(Comparator.comparing(PlayerDTO::getPercentages).reversed());
+        }
+        return responses;
+    }
+
+    private HashMap<UUID, Double> getPercentageOfTeamsPlayersIn(){
+        List<UsersWeeklyTeam> allTeams = weeklyTeamRepo.findAllActiveTeams();
+        Integer totalNumberOfTeams = allTeams.size();
+
+        HashMap<UUID, Double> percentages = new HashMap<>();
+
+        for (UsersWeeklyTeam team : allTeams){
+            for (Player player : team.getPlayers()){
+                percentages.put(player.getId(), percentages.getOrDefault(player.getId(), 0.0) + 1);
+            }
+        }
+
+        for (Map.Entry<UUID, Double> stats : percentages.entrySet()) {
+            percentages.put(stats.getKey(), stats.getValue()/totalNumberOfTeams);
+            System.out.println("putting id " + stats.getKey());
+            System.out.println("value = " + stats.getValue());
+        }
+
+        return percentages;
     }
 
     public List<TeamHistoryDTO> history(Integer week){

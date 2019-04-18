@@ -10,6 +10,7 @@ import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.TeamHistoryDTO;
 
 import java.util.*;
 
@@ -33,6 +34,8 @@ public class WeeklyTeamManager {
         this.playerRepo = playeRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
+
+
     }
 
     // Adds to the first weekly team it finds

@@ -23,7 +23,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		this.generateColumns = this.generateColumns.bind(this);
 		this._selectedOrNot = this._selectedOrNot.bind(this);
 		this.state = {
-			week: this.props.totalNumberOfWeeks,
+			week: -2,
 		};
 		this.getHistory(this.state.week);
 	}

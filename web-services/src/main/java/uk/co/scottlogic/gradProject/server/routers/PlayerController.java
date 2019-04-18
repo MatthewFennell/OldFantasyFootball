@@ -107,12 +107,7 @@ public class PlayerController {
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
-            List<Player> filteredPlayers = playerManager.formatFilter(team, position, min, max, name, sort);
-            List<PlayerDTO> responses = new ArrayList<>();
-            for (Player p : filteredPlayers) {
-                responses.add(new PlayerDTO(p));
-            }
-            return responses;
+            return playerManager.generateDTOFilterReturns(team, position, min, max, name, sort);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
