@@ -35,6 +35,7 @@ interface TransfersState {
   playersToAdd: PlayerDTO[];
   playersToRemove: PlayerDTO[];
   isError: boolean;
+  searchingByPercentage: boolean;
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
@@ -51,7 +52,8 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			errorMessage: '',
 			playersToAdd: [],
 			playersToRemove: [],
-			isError: false
+			isError: false,
+			searchingByPercentage: false
 		};
 
 		this.findTeam();
@@ -215,6 +217,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	render () {
+		console.log('searching by percentage = ' + this.state.searchingByPercentage);
 		let teamToRender = this.props.team[this.props.accountId] !== undefined &&
 		this.props.team[this.props.accountId][-1] !== undefined
 			? this.props.team[this.props.accountId][-1] : [];
@@ -265,13 +268,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				<div className="right-rows">
 					<div className="flex-container">
 						<div>
-							<TransfersForm />
+							<TransfersForm setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })} />
 						</div>
 						<div className="transfers-table-wrapper">
 							<div className="transfers-table">
 								<TransfersTableBody
 									handleRowClick={this.onRowClick}
-									index={0}
+									searchingByPercentage={this.state.searchingByPercentage}
 								/>
 							</div>
 						</div>

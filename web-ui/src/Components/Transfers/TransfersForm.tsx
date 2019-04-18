@@ -9,6 +9,7 @@ import TextInputForm from '../common/TexInputForm';
 import CustomDropdown from '../common/CustomDropdown';
 
 interface TransfersFormProps {
+  setSearchingByPercentage: (searchingByPercentage: boolean) => void;
   setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
   filteredPlayers: PlayerDTO[];
   allCollegeTeams: CollegeTeam[];
@@ -64,7 +65,14 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		let sortBy: string =
       sortByValue === 'Total score'
       	? 'TOTAL_POINTS'
-      	: sortByValue.toUpperCase();
+		  : sortByValue.toUpperCase();
+
+		if (sortBy === '% SELECTED') {
+			sortBy = 'PERCENTAGE';
+			this.props.setSearchingByPercentage(true);
+		} else {
+			this.props.setSearchingByPercentage(false);
+		}
 
 		let searchName: string =
       searchByNameValue.length === 0 ? 'null' : searchByNameValue;
@@ -134,7 +142,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 						<CustomDropdown
 							setData={this._handleSortByChange}
 							title="Sort by"
-							values={['Total score', 'Goals', 'Assists', 'Price']}
+							values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
 						/>
 					</div>
 				</div>
