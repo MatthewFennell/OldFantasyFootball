@@ -7,7 +7,6 @@ export const makeCollegeTeam = (name: string): Promise<CollegeTeam> => {
 		body: name,
 		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
 	}).then(response => {
-		console.log('MAKING COLLEGE TEAM');
 		if (!response.ok) {
 			if (response.status === 400) {
 				return response.json().then(json => {
@@ -23,8 +22,6 @@ export const makeCollegeTeam = (name: string): Promise<CollegeTeam> => {
 				throw new Error(response.status.toString());
 			}
 		} else if (response.status === 200) {
-			console.log('CAME IN FUCKING HERE');
-			console.log('made a team - response = ' + JSON.stringify(response));
 			return response.json();
 		}
 	});
