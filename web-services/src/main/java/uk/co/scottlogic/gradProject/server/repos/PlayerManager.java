@@ -26,15 +26,18 @@ public class PlayerManager {
 
     private ApplicationUserRepo applicationUserRepo;
 
+    private PercentageOfTeamsRepo percentageOfTeamsRepo;
+
     @Autowired
-    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo, PlayerPointsRepo playerPointsRepo, WeeklyTeamRepo weeklyTeamRepo, ApplicationUserRepo applicationUserRepo) {
+    public PlayerManager(CollegeTeamRepo teamRepo, PlayerRepo playerRepo,
+                         PlayerPointsRepo playerPointsRepo, WeeklyTeamRepo weeklyTeamRepo,
+                         ApplicationUserRepo applicationUserRepo, PercentageOfTeamsRepo percentageOfTeamsRepo) {
         this.teamRepo = teamRepo;
         this.playerRepo = playerRepo;
         this.playerPointsRepo = playerPointsRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
-
-        history(0);
+        this.percentageOfTeamsRepo = percentageOfTeamsRepo;
 
 //        CollegeTeam collegeTeam = new CollegeTeam("A");
 //        teamRepo.save(collegeTeam);
@@ -78,6 +81,8 @@ public class PlayerManager {
 //        playerRepo.save(p15);
 //        playerRepo.save(p16);
 
+        setPercentagesOfPlayersInTeams();
+
     }
 
     public void makePlayer(MakePlayerDTO makePlayerDTO) {
@@ -90,8 +95,6 @@ public class PlayerManager {
             throw new IllegalArgumentException("Invalid team");
         }
     }
-
-
 
     public void deletePlayer(String playerID) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
@@ -131,7 +134,6 @@ public class PlayerManager {
         for (ApplicationUser user : users){
             Optional<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findActiveTeam(user);
             if (!weeklyTeams.isPresent()){
-                System.out.println("user has no weekly teams");
                 UsersWeeklyTeam newUWT = new UsersWeeklyTeam(user, new Date(), new ArrayList<>(), newWeek);
                 weeklyTeamRepo.save(newUWT);
             }
@@ -650,8 +652,58 @@ public class PlayerManager {
             return playerRepo.filterPlayersSortByAssists(team, position, minPrice, maxPrice, searchName);
         } else if (sorting == Enums.SORT_BY.TOTAL_POINTS) {
             return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
-        } else {
+        }
+        else if (sorting == Enums.SORT_BY.PERCENTAGE){
+            return playerRepo.filterPlayersSortByScore(team, position, minPrice, maxPrice, searchName);
+        }
+
+        else {
             return playerRepo.filterPlayersSortByPrice(team, position, minPrice, maxPrice, searchName);
+        }
+    }
+
+    public List<PlayerDTO> generateDTOFilterReturns(String team, Enums.Position position, Integer min, Integer max, String name, Enums.SORT_BY sortBy){
+        List<Player> filteredPlayers = formatFilter(team, position, min, max, name, sortBy);
+        List<PlayerDTO> responses = new ArrayList<>();
+        Map<UUID, Double> percentagesLookup = new HashMap<>();
+
+        if (sortBy.equals(Enums.SORT_BY.PERCENTAGE)){
+            List<PercentageOfTeams> allPercentages = percentageOfTeamsRepo.findAll();
+            for (PercentageOfTeams playersPercentage : allPercentages){
+                percentagesLookup.put(playersPercentage.getId(), playersPercentage.getPercentageTeamsIn());
+            }
+        }
+
+        for (Player p : filteredPlayers) {
+            PlayerDTO playerDTO = new PlayerDTO(p);
+            playerDTO.setPercentages(percentagesLookup.getOrDefault(p.getId(), 0.0));
+            responses.add(playerDTO);
+        }
+
+        if (sortBy.equals(Enums.SORT_BY.PERCENTAGE)){
+            responses.sort(Comparator.comparing(PlayerDTO::getPercentages).reversed());
+        }
+
+        return responses;
+    }
+
+
+    private void setPercentagesOfPlayersInTeams(){
+        percentageOfTeamsRepo.deleteAll();
+        List<UsersWeeklyTeam> allTeams = weeklyTeamRepo.findAllActiveTeams();
+        Integer totalNumberOfTeams = allTeams.size();
+
+        HashMap<UUID, Double> percentages = new HashMap<>();
+
+        for (UsersWeeklyTeam team : allTeams){
+            for (Player player : team.getPlayers()){
+                percentages.put(player.getId(), percentages.getOrDefault(player.getId(), 0.0) + 1);
+            }
+        }
+
+        for (Map.Entry<UUID, Double> stats : percentages.entrySet()) {
+            percentages.put(stats.getKey(), 100*stats.getValue()/totalNumberOfTeams);
+            percentageOfTeamsRepo.save(new PercentageOfTeams(stats.getKey(), stats.getValue()));
         }
     }
 

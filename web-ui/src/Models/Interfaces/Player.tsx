@@ -10,4 +10,5 @@ export interface PlayerDTO {
   totalGoals: number;
   totalAssists: number;
   collegeTeam: string;
+  percentages: number;
 }

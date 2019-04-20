@@ -14,6 +14,7 @@ public class PlayerDTO {
     private Integer totalAssists;
     private Integer totalGoals;
     private String collegeTeam;
+    private Double percentages;
 
     public PlayerDTO(Player p) {
         this.id = p.getId().toString();
@@ -25,6 +26,7 @@ public class PlayerDTO {
         this.collegeTeam = p.getActiveTeam().getName();
         this.totalGoals = p.getTotalGoals();
         this.totalAssists = p.getTotalAssists();
+        this.percentages = 0.0;
     }
 
     public PlayerDTO(PlayerPoints playerPoints) {
@@ -37,6 +39,7 @@ public class PlayerDTO {
         this.totalGoals = playerPoints.getNumberOfGoals();
         this.totalAssists = playerPoints.getNumberOfAssists();
         this.price = playerPoints.getPlayer().getPrice();
+        this.percentages = 0.0;
     }
 
     public PlayerDTO(Player p, Integer points) {
@@ -50,12 +53,21 @@ public class PlayerDTO {
         this.totalGoals = p.getTotalGoals();
         this.totalAssists = p.getTotalAssists();
         this.weeklyPoints = points;
+        this.percentages = 0.0;
     }
 
     public PlayerDTO() {
 
     }
 
+    public Double getPercentages() {
+        return percentages;
+    }
+
+    public void setPercentages(Double percentages) {
+        System.out.println("value = " + percentages);
+        this.percentages = percentages;
+    }
 
     public String getId() {
         return id;

@@ -5,6 +5,7 @@ interface TransferRowProps {
   element: PlayerDTO;
   handleRowClick: (player: PlayerDTO) => void;
   index: number;
+  searchingByPercentage: boolean;
 }
 
 const calculateClassName = (rowNumber: number) => {
@@ -20,7 +21,8 @@ const TransferRow: React.SFC<TransferRowProps> = (props) => {
 		collegeTeam,
 		totalGoals,
 		totalAssists,
-		points
+		points,
+		percentages
 	} = props.element;
 	return (
 		<tr
@@ -34,7 +36,8 @@ const TransferRow: React.SFC<TransferRowProps> = (props) => {
 			<td className="price">{price.toFixed(1)}</td>
 			<td className="goals">{totalGoals}</td>
 			<td className="assists">{totalAssists}</td>
-			<td className="score">{points}</td>
+			{props.searchingByPercentage ? <td className="percentage">{percentages.toFixed(1)}</td>
+				: <td className="score">{points}</td>}
 		</tr>
 	);
 };

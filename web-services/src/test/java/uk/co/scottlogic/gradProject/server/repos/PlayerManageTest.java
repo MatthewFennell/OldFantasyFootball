@@ -34,12 +34,15 @@ public class PlayerManageTest {
     @Mock
     private ApplicationUserRepo applicationUserRepo;
 
+    @Mock
+    private PercentageOfTeamsRepo percentageOfTeamsRepo;
+
     private PlayerManager playerManager;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        playerManager = new PlayerManager(teamRepo, playerRepo, playerPointsRepo, weeklyTeamRepo, applicationUserRepo);
+        playerManager = new PlayerManager(teamRepo, playerRepo, playerPointsRepo, weeklyTeamRepo, applicationUserRepo, percentageOfTeamsRepo);
     }
 
     @Test

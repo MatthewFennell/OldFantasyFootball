@@ -102,14 +102,17 @@ class Header extends React.Component<Props & RouteComponentProps> {
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">
-  				<Col lg="2">
+  				<Col lg="1">
   					<Image
   						alt="App Icon"
   						id="appIcon"
   						src="cwood_symbol.png"
   					/>
   				</Col>
-  				<Col lg="11">
+  					<div className="fantasy-football-ccafc">
+						  CCAFC Fantasy Football
+					  </div>
+  				<Col lg="8">
   					<div id="midOptions">
   						<Link to="/team">
   							<ButtonPageSelector

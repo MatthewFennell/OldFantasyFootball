@@ -40,6 +40,8 @@ public class WeeksControllerTest {
     @Mock
     private ApplicationUserRepo applicationUserRepo;
 
+    @Mock
+    private PercentageOfTeamsRepo percentageOfTeamsRepo;
 
     private WeeksController weeksController;
 
@@ -47,7 +49,7 @@ public class WeeksControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        PlayerManager playerManager = new PlayerManager(teamRepo, playerRepo, playerPointsRepo, weeklyTeamRepo, applicationUserRepo);
+        PlayerManager playerManager = new PlayerManager(teamRepo, playerRepo, playerPointsRepo, weeklyTeamRepo, applicationUserRepo, percentageOfTeamsRepo);
         WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, playerRepo, weeklyTeamRepo, playerManager);
         weeksController = new WeeksController(weeklyTeamManager);
     }
