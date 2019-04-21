@@ -126,7 +126,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		}
 
 		return 'Player ' + previousValues[0] + ' ' + previousValues[1] +
-			'successfully created for team ' + previousValues[2] + ' with price ' +
+			' successfully created for team ' + previousValues[2] + ' with price ' +
 			previousValues[3] + ' with position ' + previousValues[4];
 	}
 
