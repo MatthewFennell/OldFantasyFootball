@@ -127,12 +127,12 @@ public class Authentication {
 
             // Make the first user the admin of the original league
             if (applicationUserRepo.count() == 1) {
-                League league = new League(user, "original", new ArrayList<>(), 0);
+                League league = new League(user, "Collingwood", new ArrayList<>(), 0);
                 league.addParticipant(user);
                 leagueRepo.save(league);
             } else {
                 // Add every user to the original league
-                Optional<League> league = leagueRepo.findByLeagueName("original");
+                Optional<League> league = leagueRepo.findByLeagueName("Collingwood");
                 if (league.isPresent()) {
                     League l = league.get();
                     l.addParticipant(user);
