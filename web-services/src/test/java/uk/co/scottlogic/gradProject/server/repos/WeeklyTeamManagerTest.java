@@ -177,67 +177,69 @@ public class WeeklyTeamManagerTest {
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
     }
 
-    @Test
-    public void teamIsInvalidWhenTooManyGoalkeepers() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenTooManyGoalkeepers() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+//        players.add(player_one);
+//        players.add(player_two);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
-    @Test
-    public void teamIsInvalidWhenTooManyDefenders() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        players.add(player_five);
-        players.add(player_six);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenTooManyDefenders() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_seven = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        players.add(player_six);
+//        players.add(player_seven);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
-    @Test
-    public void teamIsInvalidWhenTooManyMidfielders() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        players.add(player_five);
-        players.add(player_six);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenTooManyMidfielders() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        players.add(player_six);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
-    @Test
-    public void teamIsInvalidWhenTooManyAttackers() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenTooManyAttackers() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
     @Test
     public void normalTeamIsValid() {
@@ -265,18 +267,6 @@ public class WeeklyTeamManagerTest {
         players.add(player_nine);
         players.add(player_ten);
         players.add(player_eleven);
-        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
-    }
-
-    @Test
-    public void multiplePlayersFromSameCollegeTeam() {
-        CollegeTeam collegeTeam = new CollegeTeam("name");
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
-
-        players.add(player_one);
-        players.add(player_two);
         assertTrue(weeklyTeamManager.checkTeamIsValid(players));
     }
 

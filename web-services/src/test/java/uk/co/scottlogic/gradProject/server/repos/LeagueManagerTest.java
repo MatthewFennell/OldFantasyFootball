@@ -353,7 +353,7 @@ public class LeagueManagerTest {
         users.add(u3);
         users.add(u4);
 
-        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        League league_one = new League(u1, "league_one", new ArrayList<>(), 0);
         league_one.setParticipants(users);
 
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
@@ -361,7 +361,7 @@ public class LeagueManagerTest {
     }
 
     @Test
-    public void leavingLeagueThatThatTheUserIsInReducesItsLengthByOne(){
+    public void leavingLeagueThatThatTheUserIsInReducesItsLengthByOneIfTheyAreNotTheOwner(){
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
         ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
@@ -373,7 +373,7 @@ public class LeagueManagerTest {
         users.add(u3);
         users.add(u4);
 
-        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        League league_one = new League(u4, "league_one", new ArrayList<>(), 0);
         league_one.setParticipants(users);
 
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));

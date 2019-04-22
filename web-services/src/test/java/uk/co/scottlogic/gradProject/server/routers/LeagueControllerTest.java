@@ -131,7 +131,7 @@ public class LeagueControllerTest {
         users.add(u3);
         users.add(u4);
 
-        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        League league_one = new League(u4, "league_one", new ArrayList<>(), 0);
         league_one.setParticipants(users);
 
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
@@ -152,7 +152,7 @@ public class LeagueControllerTest {
         users.add(u3);
         users.add(u4);
 
-        League league_one = new League(null, "league_one", new ArrayList<>(), 0);
+        League league_one = new League(u4, "league_one", new ArrayList<>(), 0);
         league_one.setParticipants(users);
 
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league_one));
