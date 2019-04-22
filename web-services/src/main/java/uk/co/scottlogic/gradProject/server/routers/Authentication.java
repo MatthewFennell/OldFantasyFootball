@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
 import uk.co.scottlogic.gradProject.server.auth.TokenPair;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.LeagueRepo;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
@@ -127,12 +128,12 @@ public class Authentication {
 
             // Make the first user the admin of the original league
             if (applicationUserRepo.count() == 1) {
-                League league = new League(user, "Collingwood", new ArrayList<>(), 0);
+                League league = new League(user, Constants.INITIAL_LEAGUE_NAME, new ArrayList<>(), 0);
                 league.addParticipant(user);
                 leagueRepo.save(league);
             } else {
                 // Add every user to the original league
-                Optional<League> league = leagueRepo.findByLeagueName("Collingwood");
+                Optional<League> league = leagueRepo.findByLeagueName(Constants.INITIAL_LEAGUE_NAME);
                 if (league.isPresent()) {
                     League l = league.get();
                     l.addParticipant(user);

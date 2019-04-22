@@ -17,6 +17,7 @@ public class Constants {
     public static final Integer POINTS_PER_YELLOW_CARD = -2;
     public static final Integer MAN_OF_THE_MATCH_BONUS = 3;
     public static final Integer INITIAL_BUDGET = 100;
+    public static final String INITIAL_LEAGUE_NAME = "Collingwood";
     public static final boolean TRANSFER_MARKET_OPEN = true;
     private Constants() {
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
@@ -58,7 +59,7 @@ public class LeagueManager {
 
     public void leaveLeague(ApplicationUser user, String leagueName) {
 
-        if (leagueName.equals("original")) {
+        if (leagueName.equals(Constants.INITIAL_LEAGUE_NAME)) {
             log.debug("({}) ({}) attempted to leave the original league", user.getFirstName(), user.getSurname());
             throw new IllegalArgumentException("Can't leave this league");
         }
@@ -66,6 +67,12 @@ public class LeagueManager {
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
 
         if (league.isPresent()) {
+
+            if (league.get().getOwner().getId().equals(user.getId())){
+                log.debug("Admin ({}) ({}) cannot leave league ({})", user.getFirstName(), user.getSurname(), league.get().getLeagueName());
+                throw new IllegalArgumentException("An admin cannot leave the league!");
+            }
+
             boolean removed = false;
             int index = -1;
             int correct = -1;
