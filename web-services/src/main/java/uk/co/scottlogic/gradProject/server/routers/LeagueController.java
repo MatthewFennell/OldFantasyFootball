@@ -94,7 +94,7 @@ public class LeagueController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key + " Join a league ", authorizations = {
+    @ApiOperation(value = Icons.key + " Leave a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -107,6 +107,34 @@ public class LeagueController {
         try {
             response.setStatus(200);
             leagueManager.leaveLeague(user, name);
+            return true;
+        } catch (IllegalArgumentException e) {
+            response.setStatus(400);
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            log.debug(e.getMessage());
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key + " Delete a league ", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
+            @ApiResponse(code = 400, message = "You are already in that league"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/league/delete")
+    public boolean deleteLeague(@AuthenticationPrincipal ApplicationUser user,
+                               @RequestBody String name, HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            leagueManager.deleteLeague(user, name);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);

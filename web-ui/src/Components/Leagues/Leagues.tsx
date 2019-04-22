@@ -17,6 +17,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { getUserInfo } from '../../Services/User/UserService';
 import LeaveLeague from './LeaveLeague';
+import DeleteLeague from './DeleteLeague';
 
 interface LeagueProps {
 	accountId: string;
@@ -50,6 +51,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.findLeaguesAndPositions = this.findLeaguesAndPositions.bind(this);
 		this.generateLeaguesMessage = this.generateLeaguesMessage.bind(this);
+		this.handleDeleteLeague = this.handleDeleteLeague.bind(this);
 		this.handleLeaveLeague = this.handleLeaveLeague.bind(this);
 		this.state = {
 			leaguesMessage: ''
@@ -105,6 +107,10 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 
 	handleLeaveLeague () {
 		this.props.setLeaguePageBeingViewed('leave-league');
+	}
+
+	handleDeleteLeague () {
+		this.props.setLeaguePageBeingViewed('delete-league');
 	}
 
 	handleViewUser (id: string) {
@@ -199,6 +205,15 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 												Leave league
 										</div>
 									</div>
+
+									<div className="delete-league">
+										<div
+											className={this._selectedOrNot('delete-league')}
+											onClick={this.handleDeleteLeague}
+										>
+												Delete league
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -221,15 +236,23 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									userBeingViewed={this.props.userBeingViewed}
 								  />
 
-								: this.props.leaguePageBeingViewed !== 'home'
-									? <RankingsTableBody
-										code={this.props.leagueCode}
-										handleViewUser={this.handleViewUser}
-										isAdmin={this.props.isAdmin}
-										leagueBeingViewed={this.props.leaguePageBeingViewed}
-										leagueRankings={this.props.leagueRankings}
-									  />
-									: null}
+								  : this.props.leaguePageBeingViewed === 'delete-league'
+								  	? <DeleteLeague
+									  leagues={this.props.leagues}
+									  removeLeagues={this.props.removeLeagues}
+									  setLeagues={this.props.setLeagues}
+									  userBeingViewed={this.props.userBeingViewed}
+								  	  />
+
+									: this.props.leaguePageBeingViewed !== 'home'
+										? <RankingsTableBody
+											code={this.props.leagueCode}
+											handleViewUser={this.handleViewUser}
+											isAdmin={this.props.isAdmin}
+											leagueBeingViewed={this.props.leaguePageBeingViewed}
+											leagueRankings={this.props.leagueRankings}
+										  />
+										: null}
 				</Row>
 			</Container>
 		);

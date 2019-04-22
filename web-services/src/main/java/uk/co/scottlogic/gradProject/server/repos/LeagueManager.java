@@ -150,10 +150,6 @@ public class LeagueManager {
 
     private Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
         List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
-        for (UserInLeagueReturnDTO u : usersInLeague) {
-            System.out.println("Points = " + u.getPoints());
-            System.out.println("Name = " + u.getFirstName());
-        }
         int position = 0;
         for (UserInLeagueReturnDTO u : usersInLeague) {
             position += 1;
@@ -173,6 +169,27 @@ public class LeagueManager {
             else {
                 String leagueAdmin = league.get().getOwner().getFirstName() + " " + league.get().getOwner().getSurname();
                 return new LeagueAdminDTO(false, leagueAdmin);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("There is no league with that name");
+        }
+    }
+
+    public boolean deleteLeague(ApplicationUser user, String leagueName){
+        Optional<League> league = leagueRepo.findByLeagueName(leagueName);
+        if (league.isPresent()){
+            if (league.get().getOwner().getId().equals(user.getId())) {
+
+                if (league.get().getLeagueName().equals(Constants.INITIAL_LEAGUE_NAME)){
+                    throw new IllegalArgumentException("Even you can't delete the original league");
+                }
+
+                leagueRepo.delete(league.get());
+                return true;
+            }
+            else {
+                throw new IllegalArgumentException("You are not the admin of that league");
             }
         }
         else {
