@@ -136,15 +136,15 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				return false;
 			}
 		} else if (player.position === 'DEFENDER') {
-			if (numberInThatPosition > 3) {
+			if (numberInThatPosition > 4) {
 				return false;
 			}
 		} else if (player.position === 'MIDFIELDER') {
-			if (numberInThatPosition > 3) {
+			if (numberInThatPosition > 4) {
 				return false;
 			}
 		} else if (player.position === 'ATTACKER') {
-			if (numberInThatPosition > 1) {
+			if (numberInThatPosition > 2) {
 				return false;
 			}
 		}

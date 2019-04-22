@@ -42,3 +42,6 @@ export const getMostValuable = createSelector([getMostValuableState], p => p.mos
 
 const getStatsHistoryState = (state: State) => state.stats;
 export const getStatsHistory = createSelector([getStatsHistoryState], p => p.history);
+
+const getRulesState = (state: State) => state.stats;
+export const getRules = createSelector([getRulesState], p => p.rules);
