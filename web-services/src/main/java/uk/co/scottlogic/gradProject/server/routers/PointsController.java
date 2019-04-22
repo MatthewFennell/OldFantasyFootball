@@ -55,6 +55,7 @@ public class PointsController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
+            // TO:DO filter by more
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
             response.setStatus(200);

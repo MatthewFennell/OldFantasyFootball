@@ -177,72 +177,164 @@ public class WeeklyTeamManagerTest {
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
     }
 
-//    @Test
-//    public void teamIsInvalidWhenTooManyGoalkeepers() {
-//        List<Player> players = new ArrayList<>();
-//        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-//        Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-//        players.add(player_one);
-//        players.add(player_two);
-//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-//    }
-
-//    @Test
-//    public void teamIsInvalidWhenTooManyDefenders() {
-//        List<Player> players = new ArrayList<>();
-//        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        Player player_seven = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-//        players.add(player_one);
-//        players.add(player_two);
-//        players.add(player_three);
-//        players.add(player_four);
-//        players.add(player_five);
-//        players.add(player_six);
-//        players.add(player_seven);
-//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-//    }
-
-//    @Test
-//    public void teamIsInvalidWhenTooManyMidfielders() {
-//        List<Player> players = new ArrayList<>();
-//        Player player_one = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        Player player_two = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        Player player_three = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        Player player_four = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-//        players.add(player_one);
-//        players.add(player_two);
-//        players.add(player_three);
-//        players.add(player_four);
-//        players.add(player_five);
-//        players.add(player_six);
-//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-//    }
-
-//    @Test
-//    public void teamIsInvalidWhenTooManyAttackers() {
-//        List<Player> players = new ArrayList<>();
-//        Player player_one = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-//        Player player_two = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-//        Player player_three = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-//        Player player_four = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-//        Player player_five = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-//        players.add(player_one);
-//        players.add(player_two);
-//        players.add(player_three);
-//        players.add(player_four);
-//        players.add(player_five);
-//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-//    }
 
     @Test
-    public void normalTeamIsValid() {
+    public void formationOf541Valid() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
+        players.add(player_eleven);
+        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void formationOf640Invalid() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
+        players.add(player_eleven);
+        weeklyTeamManager.checkTeamIsValid(players);
+    }
+
+    @Test
+    public void formationOf532Valid() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
+        players.add(player_eleven);
+        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
+    }
+
+    @Test
+    public void formationOf343Valid() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
+        players.add(player_eleven);
+        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
+    }
+
+    @Test
+    public void formationOf352Valid() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
+        players.add(player_eleven);
+        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
+    }
+
+    @Test
+    public void formationOf442Valid() {
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
@@ -267,6 +359,35 @@ public class WeeklyTeamManagerTest {
         players.add(player_nine);
         players.add(player_ten);
         players.add(player_eleven);
+        assertTrue(weeklyTeamManager.checkTeamIsValid(players));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void teamMustHave11Players() {
+        List<Player> players = new ArrayList<>();
+        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+
+        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+
+        Player player_five = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+
+        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+        players.add(player_one);
+        players.add(player_two);
+        players.add(player_three);
+        players.add(player_four);
+        players.add(player_five);
+        players.add(player_six);
+        players.add(player_seven);
+        players.add(player_eight);
+        players.add(player_nine);
+        players.add(player_ten);
         assertTrue(weeklyTeamManager.checkTeamIsValid(players));
     }
 

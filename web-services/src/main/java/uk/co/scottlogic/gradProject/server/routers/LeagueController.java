@@ -172,7 +172,7 @@ public class LeagueController {
     }
 
     @ApiOperation(value = Icons.key
-            + " Gets the users and their positions in a league",
+            + " Gets the users and their positions in a specific league",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/name/{league-name}/ranking")
@@ -196,7 +196,7 @@ public class LeagueController {
     }
 
     @ApiOperation(value = Icons.key
-            + " Gets the users and their positions in a league",
+            + " Find who the admin of a league is, or what the code is to join if you are the admin",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/{league-name}/admin")

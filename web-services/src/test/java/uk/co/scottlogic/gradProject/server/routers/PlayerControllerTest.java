@@ -65,7 +65,7 @@ public class PlayerControllerTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(playerPointsRepo.findPlayerWithMostPoints(0)).thenReturn(points);
 
-        playerController.getUserPointsInWeek(user, response, 0);
+        playerController.getMostPlayerPointsInWeek(user, response, 0);
         TestCase.assertEquals(200, response.getStatus());
     }
 
@@ -75,7 +75,7 @@ public class PlayerControllerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(playerPointsRepo.findPlayerWithMostPoints(0)).thenReturn(points);
-        playerController.getUserPointsInWeek(user, response, 0);
+        playerController.getMostPlayerPointsInWeek(user, response, 0);
         TestCase.assertEquals(400, response.getStatus());
     }
 
