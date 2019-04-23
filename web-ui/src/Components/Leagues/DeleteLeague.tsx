@@ -7,7 +7,6 @@ import { deleteLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
 import { Col } from 'react-bootstrap';
 import ResponseMessage from '../common/ResponseMessage';
-import * as lodash from 'lodash/fp';
 
 interface DeleteLeagueState {
   leagueToDelete: string;
