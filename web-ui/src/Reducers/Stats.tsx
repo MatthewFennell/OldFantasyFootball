@@ -4,10 +4,10 @@ import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { MostValuable } from '../Models/Interfaces/MostValuable';
 import { TeamHistory } from '../Models/Interfaces/TeamHistory';
 import * as lodash from 'lodash/fp';
+import { Rules } from '../Models/Interfaces/Rules';
 
 type Action = StatsAction;
 
-// Define our State interface for the current reducer
 export interface State {
   weekBeingViewed: number;
   averageWeeklyPoints: {};
@@ -21,9 +21,9 @@ export interface State {
   mostValuable: {}
 
   history: TeamHistory[][]
+  rules: Rules
 }
 
-// Define our initialState
 export const initialState: State = {
 	weekBeingViewed: 0,
 	averageWeeklyPoints: {} as { averageWeeks: { id: number; points: number } },
@@ -36,7 +36,8 @@ export const initialState: State = {
 	weeklyPoints: {} as { user: { weeks: { id: string; points: number } } },
 	mostValuable: {} as { user: { id: string; mostValuable: MostValuable } },
 
-	history: []
+	history: [],
+	rules: {} as Rules
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -83,6 +84,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.SET_STATS_HISTORY: {
 		return lodash.set('history.' + action.payload.week, action.payload.statsHistory, state);
+	}
+
+	case ActionTypes.SET_RULES: {
+		return lodash.set('rules', action.payload.rules, state);
 	}
 
 	default:

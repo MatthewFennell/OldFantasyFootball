@@ -80,7 +80,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	_handleCollegeTeam (teamName: string) {
 		const { setTeamAddingPoints } = this.props;
 		setTeamAddingPoints(teamName);
-		this.setState({ teamName });
+		this.setState({ teamName, goalsFor: '', goalsAgainst: '' });
 	}
 
 	_handleGoalsFor (goalsFor: string) {

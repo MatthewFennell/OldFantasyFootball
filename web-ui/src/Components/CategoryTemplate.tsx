@@ -3,7 +3,7 @@ import Team from '../Containers/Team/Team';
 import SplashScreen from './Reusable/SplashScreen';
 import Transfers from '../Containers/Transfers/Transfers';
 import Leagues from '../Containers/League/Leagues';
-import Settings from './Settings/Settings';
+import Settings from '../Containers/Settings/Settings';
 import Admin from '../Containers/Admin/Admin';
 import Stats from '../Containers/Stats/Stats';
 

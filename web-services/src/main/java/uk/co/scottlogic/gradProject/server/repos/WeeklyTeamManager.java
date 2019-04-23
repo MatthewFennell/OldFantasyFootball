@@ -38,7 +38,6 @@ public class WeeklyTeamManager {
 
     }
 
-    // Adds to the first weekly team it finds
     void addPlayerToWeeklyTeam(ApplicationUser user, String id) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
 
@@ -118,16 +117,18 @@ public class WeeklyTeamManager {
     boolean checkTeamIsValid(List<Player> players) {
         double totalCost = 0;
 
-        Integer numberOfGoalkeepers = 0;
-        Integer numberOfDefenders = 0;
-        Integer numberOfMidfielders = 0;
-        Integer numberOfAttackers = 0;
+        int numberOfGoalkeepers = 0;
+        int numberOfDefenders = 0;
+        int numberOfMidfielders = 0;
+        int numberOfAttackers = 0;
 
         Map<UUID, Integer> numberInEachTeam = new HashMap<>();
         Map<UUID, Integer> playersAdded = new HashMap<>();
 
         for (Player p : players) {
             totalCost += p.getPrice();
+
+            // TO:DO This will need to change if player prices change
             if (totalCost > Constants.INITIAL_BUDGET) {
                 log.debug("Team too expensive");
                 return false;
@@ -135,24 +136,12 @@ public class WeeklyTeamManager {
 
             if (p.getPosition().equals(Enums.Position.GOALKEEPER)) {
                 numberOfGoalkeepers += 1;
-                if (numberOfGoalkeepers > Constants.MAX_GOALKEEPERS) {
-                    return false;
-                }
             } else if (p.getPosition().equals(Enums.Position.DEFENDER)) {
                 numberOfDefenders += 1;
-                if (numberOfDefenders > Constants.MAX_DEFENDERS) {
-                    return false;
-                }
             } else if (p.getPosition().equals(Enums.Position.MIDFIELDER)) {
                 numberOfMidfielders += 1;
-                if (numberOfMidfielders > Constants.MAX_MIDFIELDERS) {
-                    return false;
-                }
             } else if (p.getPosition().equals(Enums.Position.ATTACKER)) {
                 numberOfAttackers += 1;
-                if (numberOfAttackers > Constants.MAX_ATTACKERS) {
-                    return false;
-                }
             }
 
             UUID playerId = p.getId();
@@ -172,13 +161,28 @@ public class WeeklyTeamManager {
             } else {
                 numberInEachTeam.put(teamId, 1);
             }
+        }
 
+        if (numberOfGoalkeepers != 1){
+            throw new IllegalArgumentException("Must have one goalkeeper");
+        }
+        if (numberOfDefenders < 3 || numberOfDefenders > 5){
+            throw new IllegalArgumentException("Must have between 3 and 5 defenders");
+        }
+        if (numberOfMidfielders < 3 || numberOfMidfielders > 5){
+            throw new IllegalArgumentException("Must have between 3 and 5 midfielders");
+        }
+        if (numberOfAttackers < 1 || numberOfAttackers > 3){
+            throw new IllegalArgumentException("Must have between 1 and 3 attackers");
+        }
+
+        if (numberOfAttackers+numberOfMidfielders+numberOfDefenders+numberOfGoalkeepers != 11){
+            throw new IllegalArgumentException("Team must have 11 players");
         }
         return true;
     }
 
     public boolean update(ApplicationUser user, List<PlayerDTO> playersBeingAdded, List<PlayerDTO> playersBeingRemoved) {
-        System.out.println("came in here");
         double priceOfAdding = 0;
         double priceOfRemoving = 0;
 
@@ -186,16 +190,12 @@ public class WeeklyTeamManager {
             log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }
-        System.out.println("yo");
         if (playersBeingAdded.isEmpty()) {
             log.debug("Must attempt to transfer at least 1 player");
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
-        System.out.println("here");
         Optional<UsersWeeklyTeam> optionalActiveTeam = weeklyTeamRepo.findActiveTeam(user);
-        System.out.println("and here");
         if (!optionalActiveTeam.isPresent()){
-            System.out.println("inactive???");
             throw new IllegalArgumentException("User has no active team");
         }
         UsersWeeklyTeam activeTeam = optionalActiveTeam.get();

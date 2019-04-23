@@ -46,7 +46,7 @@ public class PlayerController {
             @ApiResponse(code = 400, message = "Unknown error"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
-    public PlayerDTO getUserPointsInWeek(
+    public PlayerDTO getMostPlayerPointsInWeek(
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
@@ -104,8 +104,6 @@ public class PlayerController {
             @PathVariable("sort") Enums.SORT_BY sort
     ) {
         try {
-            // Currently just returns the randomly first selected
-            // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
             return playerManager.generateDTOFilterReturns(team, position, min, max, name, sort);
         } catch (IllegalArgumentException e) {
@@ -121,7 +119,7 @@ public class PlayerController {
             + " Find all players in a team",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
-    @GetMapping("/player//team/{team}")
+    @GetMapping("/player/team/{team}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
             @ApiResponse(code = 500, message = "Server Error")})
@@ -131,15 +129,12 @@ public class PlayerController {
             @PathVariable("team") String team
     ) {
         try {
-            // Currently just returns the randomly first selected
-            // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
             List<Player> filteredPlayers = playerManager.findPlayersByCollegeTeam(team);
             List<PlayerDTO> responses = new ArrayList<>();
             for (Player p : filteredPlayers) {
                 responses.add(new PlayerDTO(p));
             }
-            System.out.println("responses = " + responses);
             return responses;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
@@ -279,14 +274,12 @@ public class PlayerController {
                              @RequestBody String id, HttpServletResponse response) {
         try {
             response.setStatus(200);
-            System.out.println("trying to delete " + id);
             playerManager.deletePlayer(id);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
             log.debug(e.getMessage());
             try {
-                System.out.println("message = " + e.getMessage());
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
                 log.debug(f.getMessage());
@@ -370,9 +363,6 @@ public class PlayerController {
 
         try {
             response.setStatus(201);
-            System.out.println("trying to edit points for " + dto.getPlayerID());
-            System.out.println("goals = " + dto.getGoals());
-            System.out.println("man of the match = " + dto.isManOfTheMatch());
             playerManager.editPoints(dto);
             return true;
         } catch (IllegalArgumentException e) {
@@ -412,7 +402,7 @@ public class PlayerController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key + " Add points to multiple players", authorizations = {
+    @ApiOperation(value = Icons.key + " Submit results for a team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Transfer request updated"),
@@ -426,13 +416,6 @@ public class PlayerController {
                              HttpServletResponse response) {
         try {
             response.setStatus(201);
-            System.out.println("Goals for = " + dto.getGoalsFor());
-            System.out.println("Goals against = " + dto.getGoalsAgainst());
-            System.out.println("Week = " + dto.getWeek());
-            System.out.println("goalscorers size = "  + dto.getGoalScorers().size());
-            System.out.println("assists size = " + dto.getAssists().size());
-            System.out.println("clean sheets size = " + dto.getCleanSheets());
-            System.out.println("team = " + dto.getTeamName());
             playerManager.submitResults(dto);
             return true;
 

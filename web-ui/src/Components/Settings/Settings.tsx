@@ -2,8 +2,12 @@ import * as React from 'react';
 import ChangeTeamName from './ChangeTeamName';
 import ChangePassword from './ChangePassword';
 import '../../Style/Settings/Settings.css';
+import { getRules } from '../../Services/Points/PointsService';
+import { Rules } from '../../Models/Interfaces/Rules';
 
 interface SettingsProps {
+	setRules: (rules: Rules) => void;
+	rules: Rules;
 }
 
 interface SettingsState {
@@ -15,9 +19,11 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 	constructor (props: SettingsProps) {
 		super(props);
 		this.handleLastClicked = this.handleLastClicked.bind(this);
+		this.getStatsRules = this.getStatsRules.bind(this);
 		this.state = {
 			lastClicked: ''
 		};
+		this.getStatsRules();
 	}
 
 	handleLastClicked (lastClicked: string) {
@@ -28,7 +34,22 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		return input === this.state.lastClicked ? 'raise-settings-selected' : 'raise-settings';
 	}
 
+	getStatsRules () {
+		if (Object.entries(this.props.rules).length === 0) {
+			getRules()
+				.then(response => {
+					console.log('reponse = ' + JSON.stringify(response));
+					this.props.setRules(response);
+				})
+				.catch(() => {
+					console.log('some error');
+				});
+		}
+	}
+
 	render () {
+		const { rules } = this.props;
+
 		return (
 			<div className="outer-settings-columns">
 				<div className="left-rows">
@@ -47,13 +68,15 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 										  <li>When the transfer window is open, you can make unlimited transfers</li>
 										  <li>Goals</li>
 										  <ul>
-											  <li>Attacker: 4 points</li>
-											  <li>Midfielder: 5 points</li>
-											  <li>Defender: 6 points</li>
+											  <li>Attacker: {rules.pointsPerAttackerGoal} points</li>
+											  <li>Midfielder: {rules.pointsPerMidfielderGoal} points</li>
+											  <li>Defender: {rules.pointsPerDefenderGoal} points</li>
 										  </ul>
-										  <li>Assists : 3 points</li>
-										  <li>Clean Sheet : 4 points</li>
-										  <li>NEED TO FETCH THESE PROPERLY</li>
+										  <li>Assists : {rules.pointsPerAssists} points</li>
+										  <li>Clean Sheet : {rules.pointsPerCleanSheet} points</li>
+										  <li>Yellow Card : {rules.pointsPerYellowCard} points</li>
+										  <li>Red Card : {rules.pointsPerRedCard} points</li>
+										  <li>Man of the Match : {rules.manOfTheMatchBonus} points</li>
 									  </ul>
 
 									  <hr className="settings-horizontal" />

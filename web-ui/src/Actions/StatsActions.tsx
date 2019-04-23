@@ -2,6 +2,7 @@ import { PlayerDTO } from '../Models/Interfaces/Player';
 import { TopWeeklyUser } from '../Models/Interfaces/TopWeeklyUser';
 import { MostValuable } from '../Models/Interfaces/MostValuable';
 import { TeamHistory } from '../Models/Interfaces/TeamHistory';
+import { Rules } from '../Models/Interfaces/Rules';
 
 export enum ActionTypes {
   SET_WEEK_BEING_VIEWED = 'SET_WEEK_BEING_VIEWED',
@@ -14,7 +15,13 @@ export enum ActionTypes {
 	SET_WEEKLY_POINTS = 'SET_WEEKLY_POINTS',
 	SET_BUDGET = 'SET_BUDGET',
 	SET_MOST_VALUABLE = 'SET_MOST_VALUABLE',
-	SET_STATS_HISTORY = 'SET_STATS_HISTORY'
+	SET_STATS_HISTORY = 'SET_STATS_HISTORY',
+	SET_RULES = 'SET_RULES'
+}
+
+export interface SetRules {
+  type: ActionTypes.SET_RULES;
+  payload: {rules: Rules};
 }
 
 export interface SetStatsHistory {
@@ -66,6 +73,15 @@ export interface SetMostValuablee {
   type: ActionTypes.SET_MOST_VALUABLE;
   payload: { user: string, mostValuable: MostValuable };
 }
+
+export const setRules = (rules: Rules): SetRules => {
+	return {
+		type: ActionTypes.SET_RULES,
+		payload: {
+			rules
+		}
+	};
+};
 
 export const setStatsHistory = (week:number, statsHistory: TeamHistory[]): SetStatsHistory => {
 	return {
@@ -160,4 +176,5 @@ export type Action =
 	| SetWeeklyPoints
 	| SetBudget
 	| SetMostValuablee
-	| SetStatsHistory;
+	| SetStatsHistory
+	| SetRules;

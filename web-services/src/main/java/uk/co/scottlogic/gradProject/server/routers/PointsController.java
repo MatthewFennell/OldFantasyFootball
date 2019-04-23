@@ -15,6 +15,7 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.routers.dto.RulesDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
@@ -54,6 +55,7 @@ public class PointsController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("week-id") Integer week) {
         try {
+            // TO:DO filter by more
             // Currently just returns the randomly first selected
             // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
@@ -171,5 +173,28 @@ public class PointsController {
         return 0;
     }
 
+    @ApiOperation(value = Icons.key
+            + " Returns the current rules and settings", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User obtained correctly"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @GetMapping("/points/rules")
+    @PreAuthorize("hasRole('USER')")
+    public RulesDTO getRules(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
+        try {
+            return new RulesDTO();
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (IOException e1) {
+                log.debug(e1.getMessage());
+            }
+            ExceptionLogger.logException(e);
+            response.setStatus(500);
+        }
+        return null;
+    }
 
 }

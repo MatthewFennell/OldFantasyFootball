@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.League;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
@@ -58,7 +59,7 @@ public class LeagueManager {
 
     public void leaveLeague(ApplicationUser user, String leagueName) {
 
-        if (leagueName.equals("original")) {
+        if (leagueName.equals(Constants.INITIAL_LEAGUE_NAME)) {
             log.debug("({}) ({}) attempted to leave the original league", user.getFirstName(), user.getSurname());
             throw new IllegalArgumentException("Can't leave this league");
         }
@@ -66,6 +67,12 @@ public class LeagueManager {
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
 
         if (league.isPresent()) {
+
+            if (league.get().getOwner().getId().equals(user.getId())){
+                log.debug("Admin ({}) ({}) cannot leave league ({})", user.getFirstName(), user.getSurname(), league.get().getLeagueName());
+                throw new IllegalArgumentException("An admin cannot leave the league!");
+            }
+
             boolean removed = false;
             int index = -1;
             int correct = -1;
@@ -143,10 +150,6 @@ public class LeagueManager {
 
     private Integer findPositionOfUserInLeague(ApplicationUser user, League league) {
         List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
-        for (UserInLeagueReturnDTO u : usersInLeague) {
-            System.out.println("Points = " + u.getPoints());
-            System.out.println("Name = " + u.getFirstName());
-        }
         int position = 0;
         for (UserInLeagueReturnDTO u : usersInLeague) {
             position += 1;
@@ -166,6 +169,27 @@ public class LeagueManager {
             else {
                 String leagueAdmin = league.get().getOwner().getFirstName() + " " + league.get().getOwner().getSurname();
                 return new LeagueAdminDTO(false, leagueAdmin);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("There is no league with that name");
+        }
+    }
+
+    public boolean deleteLeague(ApplicationUser user, String leagueName){
+        Optional<League> league = leagueRepo.findByLeagueName(leagueName);
+        if (league.isPresent()){
+            if (league.get().getOwner().getId().equals(user.getId())) {
+
+                if (league.get().getLeagueName().equals(Constants.INITIAL_LEAGUE_NAME)){
+                    throw new IllegalArgumentException("Even you can't delete the original league");
+                }
+
+                leagueRepo.delete(league.get());
+                return true;
+            }
+            else {
+                throw new IllegalArgumentException("You are not the admin of that league");
             }
         }
         else {

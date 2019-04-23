@@ -31,7 +31,7 @@ public class CollegeTeamController {
         this.collegeTeamManager = collegeTeamManager;
     }
 
-    @ApiOperation(value = Icons.key + " Make a college team SCARY", authorizations = {
+    @ApiOperation(value = Icons.key + " Make a college team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -95,7 +95,7 @@ public class CollegeTeamController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key + " Make a college team", authorizations = {
+    @ApiOperation(value = Icons.key + " Add stats to a college team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -125,7 +125,7 @@ public class CollegeTeamController {
         }
     }
 
-    @ApiOperation(value = Icons.key + " Edit a college team", authorizations = {
+    @ApiOperation(value = Icons.key + " Edit stats for a college team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -156,7 +156,7 @@ public class CollegeTeamController {
     }
 
     @ApiOperation(value = Icons.key
-            + " Find the player with the most points in a week",
+            + " Get all the college teams",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/college/all/sort/{sort-id}")

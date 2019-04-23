@@ -9,7 +9,7 @@ import '../Style/App.css';
 import PageBody from '../Containers/PageBody';
 import Leagues from '../Containers/League/Leagues';
 import Admin from '../Containers/Admin/Admin';
-import Settings from '../Components/Settings/Settings';
+import Settings from '../Containers/Settings/Settings';
 import Transfers from '../Containers/Transfers/Transfers';
 import Stats from '../Containers/Stats/Stats';
 

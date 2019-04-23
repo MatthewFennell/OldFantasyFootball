@@ -1,5 +1,6 @@
 import { getBearerHeader } from '.././CredentialInputService';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
+import { Rules } from '../../Models/Interfaces/Rules';
 
 export const getTotalPoints = (): Promise<number> => {
 	return fetch('/api/points/user/total', {
@@ -59,6 +60,25 @@ export const getUsersWithMostPointsInWeek = (week: number): Promise<TopWeeklyUse
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {
 		if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const getRules = (): Promise<Rules> => {
+	return fetch('/api/points/rules', {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
+		} else if (response.status === 200) {
 			return response.json();
 		}
 	});

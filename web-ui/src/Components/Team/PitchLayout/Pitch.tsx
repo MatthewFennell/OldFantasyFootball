@@ -64,9 +64,9 @@ class Pitch extends React.Component<PitchProps> {
 			});
 		}
 
-		let pitchAttackers = this.generatePlayers(attackers, 2);
-		let pitchMidfielders = this.generatePlayers(midfielders, 4);
-		let pitchDefenders = this.generatePlayers(defenders, 4);
+		let pitchAttackers = this.generatePlayers(attackers, 1);
+		let pitchMidfielders = this.generatePlayers(midfielders, 3);
+		let pitchDefenders = this.generatePlayers(defenders, 3);
 		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1);
 
 		return (
