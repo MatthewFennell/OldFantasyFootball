@@ -9,25 +9,25 @@ import { Col } from 'react-bootstrap';
 import ResponseMessage from '../common/ResponseMessage';
 import * as lodash from 'lodash/fp';
 
-interface LeaveLeagueState {
+interface DeleteLeagueState {
   leagueToDelete: string;
   error: string;
   isError: boolean;
   responseMessage: string;
 }
 
-interface LeaveLeagueProps {
+interface DeleteLeagueProps {
 	setLeagues: (user: string, leagueName: string, position: number) => void;
     userBeingViewed: string;
     leagues: { user: { league: { leagueName: string; position: number } } }
     removeLeagues: (user: string, leagueName: string) => void;
 }
 
-class LeaveLeague extends React.Component<
-	RoutedFormProps<RouteComponentProps> & LeaveLeagueProps,
-	LeaveLeagueState
+class DeleteLeague extends React.Component<
+	RoutedFormProps<RouteComponentProps> & DeleteLeagueProps,
+	DeleteLeagueState
 	> {
-	constructor (props: RoutedFormProps<RouteComponentProps> & LeaveLeagueProps) {
+	constructor (props: RoutedFormProps<RouteComponentProps> & DeleteLeagueProps) {
 		super(props);
 		this.state = {
 			leagueToDelete: '',
@@ -36,17 +36,12 @@ class LeaveLeague extends React.Component<
 			responseMessage: ''
 		};
 		this._onSubmit = this._onSubmit.bind(this);
-
-		let x = this.props.leagues;
-		console.log('x = ' + JSON.stringify(x));
-		let y = lodash.unset('cd442cf9-23f3-4a81-90aa-54f4c4dba5b4.ap', x);
-		console.log('removed = ' + JSON.stringify(y));
 	}
 
 	_handleInput (eventName: any, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
-		} as Pick<LeaveLeagueState, keyof LeaveLeagueState>);
+		} as Pick<DeleteLeagueState, keyof DeleteLeagueState>);
 	}
 
   _validate = () => {
@@ -137,5 +132,5 @@ class LeaveLeague extends React.Component<
 export default withRouter(
 	reduxForm<{}, any>({
 		form: 'login'
-	})(LeaveLeague)
+	})(DeleteLeague)
 );
