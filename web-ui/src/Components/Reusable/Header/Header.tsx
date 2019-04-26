@@ -167,8 +167,8 @@ class Header extends React.Component<Props & RouteComponentProps> {
   						{this._isAdmin() ? (
   							<Link to="/admin">
   								<ButtonPageSelector
-  									id="settings"
-  									imgSrc="Windy.png"
+  									id="admin"
+  									imgSrc="MF.png"
   									select={this._onAdminSelect}
   									selected={this.props.location.pathname === '/admin'}
   									setRef={() => this.adminRef}

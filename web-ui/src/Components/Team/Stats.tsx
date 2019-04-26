@@ -4,7 +4,7 @@ import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getUserBudget } from '../../Services/User/UserService';
 import { getMostValuableAssets } from '../../Services/Player/PlayerService';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
-import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+// import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 
 interface StatsProps {
@@ -73,8 +73,8 @@ class Stats extends React.Component<StatsProps> {
 		const mostValuablePlayer : PlayerDTO = this.props.mostValuable[this.props.userBeingViewed] !== undefined
 			? this.props.mostValuable[this.props.userBeingViewed]['mostValuablePlayer'] : null;
 
-		const mostValuableTeam : CollegeTeam = this.props.mostValuable[this.props.userBeingViewed] !== undefined
-			? this.props.mostValuable[this.props.userBeingViewed]['mostValuableCollegeTeam'] : null;
+		// const mostValuableTeam : CollegeTeam = this.props.mostValuable[this.props.userBeingViewed] !== undefined
+		// 	? this.props.mostValuable[this.props.userBeingViewed]['mostValuableCollegeTeam'] : null;
 
 		const topWeeklyPlayer : PlayerDTO = this.props.topWeeklyPlayer[week] !== undefined
 			? this.props.topWeeklyPlayer[week] : null;
@@ -103,11 +103,11 @@ class Stats extends React.Component<StatsProps> {
 					with {this.props.mostValuable[this.props.userBeingViewed]['mostValuablePlayerScore']}   points</div>
 					 : null}
 
-				{mostValuableTeam !== null
+				{/* {mostValuableTeam !== null
 					? <div className="player-most-points">
 					Your most valuable team is {mostValuableTeam.name}  with {' '}
 						{this.props.mostValuable[this.props.userBeingViewed]['mostValuableCollegeTeamScore']} points</div>
-					 : null}
+					 : null} */}
 
 				{topWeeklyPlayer !== null
 					? <div className="player-most-points"> Player of the Week :
