@@ -12,7 +12,7 @@ import {
 } from '../../Services/Points/PointsService';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 
-interface TransactionsProps {
+interface TeamDataProps {
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
   averageWeeklyPoints: any;
@@ -21,6 +21,7 @@ interface TransactionsProps {
   addToTopWeeklyPlayers: (id: number, player: PlayerDTO) => void;
   topWeeklyUsers: any;
   addToTopWeeklyUsers: (id: number, player: TopWeeklyUser) => void;
+  totalNumberOfWeeks: number;
 
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
   setTransferMarket: (transferMarket: boolean) => void;
@@ -31,8 +32,8 @@ interface TransactionsProps {
 
 }
 
-class Transactions extends React.Component<TransactionsProps> {
-	constructor (props: TransactionsProps) {
+class TeamData extends React.Component<TeamDataProps> {
+	constructor (props: TeamDataProps) {
 		super(props);
 		this._generate = this._generate.bind(this);
 	}
@@ -42,16 +43,18 @@ class Transactions extends React.Component<TransactionsProps> {
 		if (header != null) {
 			header.hidden = false;
 		}
-		this.props.setWeekBeingViewed(-1);
+		// this.props.setWeekBeingViewed(-1);
 
 		// Get the total number of weeks
-		getNumberOfWeeks().then(currentWeek => {
-			this.props.setTotalNumberOfWeeks(currentWeek);
+		if (this.props.totalNumberOfWeeks === 0) {
+			getNumberOfWeeks().then(currentWeek => {
+				this.props.setTotalNumberOfWeeks(currentWeek);
 
-			for (let x = 0; x <= currentWeek; x++) {
-				this._generate(x);
-			}
-		});
+				for (let x = 0; x <= currentWeek; x++) {
+					this._generate(x);
+				}
+			});
+		}
 
 		getTransferStatus().then(response => {
 			this.props.setTransferMarket(response);
@@ -95,4 +98,4 @@ class Transactions extends React.Component<TransactionsProps> {
 	}
 }
 
-export default Transactions;
+export default TeamData;

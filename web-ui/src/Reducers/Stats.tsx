@@ -25,7 +25,7 @@ export interface State {
 }
 
 export const initialState: State = {
-	weekBeingViewed: 0,
+	weekBeingViewed: -1,
 	averageWeeklyPoints: {} as { averageWeeks: { id: number; points: number } },
 	topWeeklyPlayers: {} as { topPlayers: { id: number; player: PlayerDTO } },
 	topWeeklyUsers: {} as { topUsers: { id: number; user: TopWeeklyUser } },

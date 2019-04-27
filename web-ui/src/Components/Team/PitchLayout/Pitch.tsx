@@ -5,6 +5,7 @@ import Player from './Player';
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
   transfer: boolean;
+  noPoints: boolean;
 
   addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
@@ -20,6 +21,7 @@ class Pitch extends React.Component<PitchProps> {
 					addOrRemovePlayer={this.props.addOrRemovePlayer}
 					emptyPlayer={false}
 					handleClickOnPlayer={this.props.handleClickOnPlayer}
+					noPoints={this.props.noPoints}
 					player={value}
 					removeFromActiveTeam={this.props.removeFromActiveTeam}
 					transfer={this.props.transfer}
@@ -33,6 +35,7 @@ class Pitch extends React.Component<PitchProps> {
 					addOrRemovePlayer={() => {}}
 					emptyPlayer
 					handleClickOnPlayer={() => {}}
+					noPoints={this.props.noPoints}
 					player={{} as any}
 					removeFromActiveTeam={() => {}}
 					transfer={this.props.transfer}

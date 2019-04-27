@@ -81,11 +81,21 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
 	findTeam () {
 		if (this.props.accountId !== '') {
-			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
-				this.props.setTeam(this.props.accountId, -1, response);
-			}).catch(error => {
-				console.log('error = ' + error);
-			});
+			try {
+				if (this.props.team[this.props.accountId][-1] === undefined) {
+					getTeamForUserInWeek(this.props.accountId, -1).then(response => {
+						this.props.setTeam(this.props.accountId, -1, response);
+					}).catch(error => {
+						console.log('error = ' + error);
+					});
+				}
+			} catch (error) {
+				getTeamForUserInWeek(this.props.accountId, -1).then(response => {
+					this.props.setTeam(this.props.accountId, -1, response);
+				}).catch(error => {
+					console.log('error = ' + error);
+				});
+			}
 		}
 	}
 
@@ -260,6 +270,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 							activeWeeklyTeam={teamToRender}
 							addOrRemovePlayer={this.onAddOrRemovePlayer}
 							handleClickOnPlayer={() => {}}
+							noPoints={false}
 							removeFromActiveTeam={this.onRemoveFromActiveTeam}
 							transfer
 						/>

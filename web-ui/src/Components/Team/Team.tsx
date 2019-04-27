@@ -60,11 +60,11 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.setLeague = this.setLeague.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
-		this.findTeam = this.findTeam.bind(this);
 		this.findMostValuable = this.findMostValuable.bind(this);
 		this.findLeagues = this.findLeagues.bind(this);
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.generateRowClassName = this.generateRowClassName.bind(this);
+		this.findAllTeams = this.findAllTeams.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -76,8 +76,8 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			teamNameBeingViewed: ''
 		};
 		this.updateUserInfo();
-		this.findTeam();
 		this.findLeagues();
+		this.findAllTeams(0);
 	}
 
 	componentDidMount () {
@@ -85,23 +85,38 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		if (header != null) {
 			header.hidden = false;
 		}
+		this.findAllTeams(0);
 	}
 
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
-			this.findTeam();
 			this.findLeagues();
+			this.findAllTeams(0);
+		}
+
+		if (prevProps.totalNumberOfWeeks !== this.props.totalNumberOfWeeks) {
+			this.findAllTeams(this.props.totalNumberOfWeeks);
 		}
 	}
 
-	findTeam () {
-		if (this.props.userBeingViewed !== '') {
-			getTeamForUserInWeek(this.props.userBeingViewed, -1).then(response => {
-				this.props.setTeam(this.props.userBeingViewed, -1, response);
-			}).catch(error => {
-				console.log('error = ' + error);
-			});
+	findAllTeams (numberOfWeeks: number) {
+		for (let week = -1; week <= numberOfWeeks; week++) {
+			try {
+				if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+					getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+						this.props.setTeam(this.props.userBeingViewed, week, response);
+					}).catch(error => {
+						console.log('error = ' + error);
+					});
+				}
+			} catch (error) {
+				getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+					this.props.setTeam(this.props.userBeingViewed, week, response);
+				}).catch(error => {
+					console.log('error = ' + error);
+				});
+			}
 		}
 	}
 
@@ -263,6 +278,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						activeWeeklyTeam={teamToRender}
 						addOrRemovePlayer={() => {}}
 						handleClickOnPlayer={this.handleClickOnPlayer}
+						noPoints={this.props.weekBeingViewed === -1}
 						removeFromActiveTeam={() => {}}
 						transfer={false}
 					/>
