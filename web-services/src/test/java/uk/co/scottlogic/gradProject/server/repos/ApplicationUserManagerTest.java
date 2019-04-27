@@ -27,6 +27,9 @@ public class ApplicationUserManagerTest {
     @Mock
     private WeeklyTeamRepo weeklyTeamRepo;
 
+    @Mock
+    private CollegeTeamRepo collegeTeamRepo;
+
 
     private ApplicationUserManager applicationUserManager;
 
@@ -35,7 +38,7 @@ public class ApplicationUserManagerTest {
         MockitoAnnotations.initMocks(this);
         WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, null, weeklyTeamRepo, null);
         applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo,
-                weeklyTeamManager);
+                weeklyTeamManager, collegeTeamRepo);
     }
 
     @Test
