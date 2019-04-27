@@ -7,7 +7,7 @@ import {
 	getTotalPoints,
 	getWeeklyPoints
 } from '../../Selectors/StatsSelector';
-import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
+import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
 
 import { setTeam } from '../../Actions/ActiveTeamActions';
 
@@ -15,6 +15,7 @@ import { setWeekBeingViewed, setTotalPoints, setWeeklyPoints } from '../../Actio
 
 const mapStateToProps = (state: State) => ({
 	weekBeingViewed: getWeekBeingViewed(state),
+	team: getTeam(state),
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 	totalPoints: getTotalPoints(state),
 	userBeingViewed: getUserBeingViewed(state),

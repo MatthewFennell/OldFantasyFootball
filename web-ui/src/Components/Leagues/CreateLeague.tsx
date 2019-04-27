@@ -13,6 +13,7 @@ interface CreateLeagueState {
   leagueName: string;
   responseMessage: string;
   isError: boolean;
+  startWeek: number;
 }
 
 interface CreateGroupProps {
@@ -29,7 +30,8 @@ class CreateLeagueClass extends React.Component<
 		this.state = {
 			leagueName: '',
 			responseMessage: '',
-			isError: false
+			isError: false,
+			startWeek: 0
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
@@ -45,19 +47,21 @@ class CreateLeagueClass extends React.Component<
   };
 
   _onSubmit = (event: string) => {
-	  const { leagueName } = this.state;
+	  const { leagueName, startWeek } = this.state;
   	switch (event) {
   	case 'btnCreateLeague':
   		const err = this._validate();
   		if (!err) {
   			const data: CreateLeague = {
-  				leagueName: leagueName,
-  				startWeek: 0
+  				leagueName,
+  				startWeek
   			};
   			createLeague(data)
   				.then(response => {
 					  this.props.setLeagues(this.props.userBeingViewed, leagueName, 1);
-					  this.setState({ responseMessage: 'Created league ' + leagueName + ' successfully. The code to join is ' + response.id, isError: false });
+					  this.setState({ responseMessage: 'Created league ' + leagueName + ' successfully with start week ' + startWeek +
+					  '. The code to join is ' + response.id,
+  					isError: false });
   				})
   				.catch(error => {
   					this.setState({ responseMessage: error, isError: true });
@@ -100,6 +104,21 @@ class CreateLeagueClass extends React.Component<
   							component="input"
   							id="leagueName"
   							name="leagueName"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
+  						/>
+
+  							<Label
+							  className="unselectable"
+  							for="startWeek"
+  							id="startWeekLabel"
+  							>
+                		Start Week
+  						</Label>
+  						<Field
+  							component="input"
+  							id="startWeek"
+  							name="startWeek"
   							onChange={e => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>

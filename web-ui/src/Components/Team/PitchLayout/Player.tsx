@@ -7,6 +7,7 @@ interface PlayerProps {
   handleClickOnPlayer: (player:PlayerDTO) => void;
   emptyPlayer: boolean;
   player: PlayerDTO;
+  noPoints: boolean;
 
   addOrRemovePlayer: (id: string, price: number, player:PlayerDTO) => void;
   removeFromActiveTeam: (id: string) => void;
@@ -38,7 +39,7 @@ class Player extends React.Component<PlayerProps, {}> {
 				</div>
 			);
 		} else {
-			const { firstName, surname, price, weeklyPoints } = this.props.player;
+			const { firstName, surname, price, weeklyPoints, collegeTeam } = this.props.player;
 			return (
 				<div
 					className="player-wrapper"
@@ -50,12 +51,11 @@ class Player extends React.Component<PlayerProps, {}> {
 					<div className="name">
 						{firstName} {' '} {surname}
 					</div>
-					{this.props.transfer ? (
-						<div className="value">{'£' + price + 'm'}</div>
-					) : (
-						<div className="points">{weeklyPoints + ' pts'}</div>
-					)}
 
+					{!this.props.noPoints ? this.props.transfer
+						? <div className="value">{'£' + price + 'm'}</div>
+						: <div className="points">{weeklyPoints + ' pts'}</div>
+						: <div className="points">{'Team: ' + collegeTeam}</div>}
 				</div>
 
 			);

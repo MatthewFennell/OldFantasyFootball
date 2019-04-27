@@ -9,6 +9,7 @@ interface StatsProps {
   weekBeingViewed: number;
   setWeekBeingViewed: (week: number) => void;
   setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
+  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
   totalNumberOfWeeks: number;
 
   userBeingViewed: string
@@ -40,17 +41,27 @@ class Info extends React.Component<StatsProps, InfoState> {
 	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateTotalPoints();
-			this.updateWeeklyPoints(0);
+			this.updateWeeklyPoints(this.props.weekBeingViewed);
 		}
 	}
 
 	updateWeeklyPoints (week: number) {
 		if (this.props.userBeingViewed !== '') {
-			getPointsForUserInWeek(this.props.userBeingViewed, week).then(response => {
-				this.props.setWeeklyPoints(this.props.userBeingViewed, response, week);
-			}).catch(error => {
-				console.log('error = ' + error);
-			});
+			try {
+				if (this.props.weeklyPoints[this.props.userBeingViewed][week] === undefined) {
+					getPointsForUserInWeek(this.props.userBeingViewed, week).then(response => {
+						this.props.setWeeklyPoints(this.props.userBeingViewed, response, week);
+					}).catch(error => {
+						console.log('error = ' + error);
+					});
+				}
+			  } catch (error) {
+				getPointsForUserInWeek(this.props.userBeingViewed, week).then(response => {
+					this.props.setWeeklyPoints(this.props.userBeingViewed, response, week);
+				}).catch(error => {
+					console.log('error = ' + error);
+				});
+			  }
 		}
 	}
 
@@ -64,9 +75,12 @@ class Info extends React.Component<StatsProps, InfoState> {
 
 	_handleWeekChange (week: number) {
 		this.props.setWeekBeingViewed(week);
-		getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
-			this.props.setTeam(this.props.userBeingViewed, week, response);
-		});
+		if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+			getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+				this.props.setTeam(this.props.userBeingViewed, week, response);
+			});
+		}
+		this.updateWeeklyPoints(week);
 	}
 
 	_toggle () {
@@ -122,8 +136,8 @@ class Info extends React.Component<StatsProps, InfoState> {
 				</Dropdown>
 
 				{this.props.weeklyPoints[this.props.userBeingViewed] !== undefined
-					? <div className="week-points">Week points : {this.props.weeklyPoints[this.props.userBeingViewed]['0']}
-					 </div> : <div className="week-points">Week points : </div>
+					? <div className="week-points">Week points: {this.props.weeklyPoints[this.props.userBeingViewed][this.props.weekBeingViewed]}
+					 </div> : <div className="week-points">Week points: </div>
 				}
 
 			</div>

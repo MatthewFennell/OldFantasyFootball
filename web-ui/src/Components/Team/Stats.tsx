@@ -68,7 +68,7 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	render () {
-		const week = this.props.weekBeingViewed === -1 ? this.props.totalNumberOfWeeks : this.props.weekBeingViewed;
+		const week = this.props.weekBeingViewed;
 
 		const mostValuablePlayer : PlayerDTO = this.props.mostValuable[this.props.userBeingViewed] !== undefined
 			? this.props.mostValuable[this.props.userBeingViewed]['mostValuablePlayer'] : null;
@@ -91,7 +91,7 @@ class Stats extends React.Component<StatsProps> {
 			<div className="stats-columns">
 				<div className="average-points">
 					{weekBeingViewed === -1 ? (
-						<div>Remaining Budget : £{this.props.remainingBudget[this.props.userBeingViewed]}  mil </div>
+						<div>Remaining Budget: £{this.props.remainingBudget[this.props.userBeingViewed]}  mil </div>
 					) : (
 						<div> Average Points: {averageWeeklyPoints[weekBeingViewed]}</div>
 					)}
@@ -110,7 +110,7 @@ class Stats extends React.Component<StatsProps> {
 					 : null} */}
 
 				{topWeeklyPlayer !== null
-					? <div className="player-most-points"> Player of the Week :
+					? <div className="player-most-points"> Player of the Week:
 						{topWeeklyPlayer.firstName}{' '}{topWeeklyPlayer.surname}{' '}
 						({topWeeklyPlayer.points} points) </div> : null}
 
@@ -118,7 +118,7 @@ class Stats extends React.Component<StatsProps> {
 					? <div
 						className="player-most-points"
 						onClick={this.handleViewTeamOfTheWeek}
-					  > Team of the Week :
+					  > Team of the Week:
 						{topWeeklyTeam.firstName}{' '}{topWeeklyTeam.surname}{' '}
 						({topWeeklyTeam.points} points) </div> : null}
 
