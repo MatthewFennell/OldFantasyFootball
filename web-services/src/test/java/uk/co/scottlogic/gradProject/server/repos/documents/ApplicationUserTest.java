@@ -23,7 +23,7 @@ public class ApplicationUserTest {
         String[] invalidUsernames = new String[]{"", "1\"", "r'", "ge54_-$", "🖤"};
         for (String username : invalidUsernames) {
             try {
-                new ApplicationUser(username, "123456", "a", "a", "a@a.com");
+                new ApplicationUser(username, "123456", "a", "a");
             } catch (IllegalArgumentException e) {
                 continue;
             }
@@ -36,7 +36,7 @@ public class ApplicationUserTest {
         String[] invalidPasswords = new String[]{"", "1", "11111", "a111111", "111a111", "111111a"};
         for (String password : invalidPasswords) {
             try {
-                new ApplicationUser("user", password, "a", "a", "a@a.com");
+                new ApplicationUser("user", password, "a", "a");
             } catch (IllegalArgumentException e) {
                 continue;
             }
@@ -49,145 +49,124 @@ public class ApplicationUserTest {
         String[] invalidUsernames = new String[]{"User1", "admin_1", "user_-.2"};
         for (String username : invalidUsernames) {
             try {
-                new ApplicationUser(username, "123456", "a", "a", "a@a.com");
+                new ApplicationUser(username, "123456", "a", "a");
             } catch (Exception e) {
                 Assert.fail("Creating user \"" + username + "\" threw error:\n" + e.getMessage());
             }
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void creatingUserWithEmailWithoutAtSymbolShouldFail() {
-        new ApplicationUser("user", "123456", "a", "a", "aa.com");
-    }
-
-    @Test
-    public void standardEmailShouldPass() {
-        new ApplicationUser("user", "123456", "a", "a", "user@test.com");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void settingUserEmailToStringWithoutAtSymbolShouldFail() {
-        ApplicationUser user = new ApplicationUser();
-        user.setEmail("aaaa");
-    }
-
-    @Test
-    public void settingUserEmailToStandardStringShouldPass() {
-        ApplicationUser user = new ApplicationUser();
-        user.setEmail("user@test.com");
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void makingUserWithPasswordGreaterThan6DigitsThrowsError() {
         String password = "1234567";
-        new ApplicationUser("user", password, "a", "a", "user@test.com");
+        new ApplicationUser("user", password, "a", "a");
     }
 
     @Test(expected = Exception.class)
     public void shouldNotCreateUserWithFirstNameLongerThan63Characters() {
         String firstName = StringGenerator.generateString(64);
-        new ApplicationUser("a", "123456", firstName, "a", "a@a.com");
+        new ApplicationUser("a", "123456", firstName, "a");
     }
 
     @Test
     public void shouldCreateUserWithFirstNameFewerThan64Characters() {
         String firstName = StringGenerator.generateString(63);
-        new ApplicationUser("a", "123456", firstName, "a", "a@a.com");
+        new ApplicationUser("a", "123456", firstName, "a");
     }
 
     @Test(expected = Exception.class)
     public void shouldNotCreateUserWithSurnameLongerThan63Characters() {
         String surname = StringGenerator.generateString(64);
-        new ApplicationUser("a", "123456", "a", surname, "a@a.com");
+        new ApplicationUser("a", "123456", "a", surname);
     }
 
     @Test
     public void shouldCreateUserWithSurnameFewerThan64Characters() {
         String surname = StringGenerator.generateString(63);
-        new ApplicationUser("a", "123456", "a", surname, "a@a.com");
+        new ApplicationUser("a", "123456", "a", surname);
     }
 
     @Test
     public void shouldCreateUserWhenFirstNameIncludesAccents() {
         String firstName = "Àéœôâêîôûŵŷäëé";
-        new ApplicationUser("a", "123456", firstName, "a", "a@a.com");
+        new ApplicationUser("a", "123456", firstName, "a");
     }
 
     @Test
     public void shouldCreateUserWhenSurnameIncludesAccents() {
         String surname = "Àéœôâêîôûŵŷäëé";
-        new ApplicationUser("a", "123456", "a", surname, "a@a.com");
+        new ApplicationUser("a", "123456", "a", surname);
     }
 
     @Test
     public void settingTeamNameIsOk() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s");
         user.setTeamName("Team name");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void settingTeamNameFailsForAnEmptyTeamName() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s");
         user.setTeamName("");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void settingTeamNameFailsForSpaceAtStartOfTeamName() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s");
         user.setTeamName(" abc");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void settingTeamNameFailsForSpecialCharacters() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s");
         user.setTeamName("£");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void settingTeamNameFailsForNumbers() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "s");
         user.setTeamName("123");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyUsernameShouldNotMakeAUser() {
-        new ApplicationUser("", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("", "123456", "a", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyFirstNameShouldNotMakeAUser() {
-        new ApplicationUser("123", "123456", "", "a", "a@a.com");
+        new ApplicationUser("123", "123456", "", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptySurnameShouldNotMakeAUser() {
-        new ApplicationUser("123", "123456", "a", "", "a@a.com");
+        new ApplicationUser("123", "123456", "a", "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void apostropheInUsernameShouldNotMakeAUser() {
-        new ApplicationUser("bob'", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("bob'", "123456", "a", "a");
     }
 
     @Test
     public void underscoreInUsernameShouldMakeAUser() {
-        new ApplicationUser("bob_", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("bob_", "123456", "a", "a");
     }
 
     @Test
     public void hyphenInUsernameShouldMakeAUser() {
-        new ApplicationUser("billy-", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("billy-", "123456", "a", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emojiInUsernameShouldNotMakeAUser() {
-        new ApplicationUser("🖤", "123456", "a", "a", "a@a.com");
+        new ApplicationUser("🖤", "123456", "a", "a");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyPasswordShouldNotMakeAUser() {
-        new ApplicationUser("user'", "", "a", "a", "a@a.com");
+        new ApplicationUser("user'", "", "a", "a");
     }
 
     @Test
@@ -195,7 +174,7 @@ public class ApplicationUserTest {
         String[] invalidPasswords = new String[]{"1", "12", "123", "1234", "12345"};
         for (String password : invalidPasswords) {
             try {
-                new ApplicationUser("user", password, "a", "a", "a@a.com");
+                new ApplicationUser("user", password, "a", "a");
                 fail("Invalid password did not throw error: " + password);
             } catch (IllegalArgumentException e) {
                 e.getMessage();
@@ -323,7 +302,7 @@ public class ApplicationUserTest {
 
     @Test
     public void changeRemainingBudget() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         double initialBudget = 10;
         double budgetChange = 5;
         user.setRemainingBudget(initialBudget);
@@ -333,7 +312,7 @@ public class ApplicationUserTest {
 
     @Test
     public void changeTotalPoints() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer initialPoints = 10;
         Integer pointsChange = 5;
         user.setTotalPoints(initialPoints);
@@ -343,7 +322,7 @@ public class ApplicationUserTest {
 
     @Test
     public void getAndSetPassword() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         String password = "password";
         user.setPassword(password);
         assertEquals(password, user.getPassword());
@@ -351,7 +330,7 @@ public class ApplicationUserTest {
 
     @Test
     public void getAndSetID() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         String id = UUID.randomUUID().toString();
         user.setId(id);
         assertEquals(id, user.getId());

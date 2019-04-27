@@ -85,21 +85,6 @@ public class PlayerPointsTest {
     }
 
     @Test
-    public void settingAndGettingMinutesPlayed() {
-        PlayerPoints playerPoints = new PlayerPoints();
-        Integer minutesPlayed = 90;
-        playerPoints.setMinutesPlayed(minutesPlayed);
-        assertEquals(minutesPlayed, playerPoints.getMinutesPlayed());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void settingMinutesPlayedFailsWhenNegative() {
-        PlayerPoints playerPoints = new PlayerPoints();
-        Integer minutesPlayed = -50;
-        playerPoints.setMinutesPlayed(minutesPlayed);
-    }
-
-    @Test
     public void settingAndGettingManOfTheMatch() {
         PlayerPoints playerPoints = new PlayerPoints();
         playerPoints.setManOfTheMatch(true);
@@ -147,14 +132,4 @@ public class PlayerPointsTest {
         playerPoints.setCleanSheet(false);
         assertFalse(playerPoints.isCleanSheet());
     }
-
-    @Test
-    public void settingAndGettingDate() {
-        PlayerPoints playerPoints = new PlayerPoints();
-        Date date = new DateTime(new Date()).minusMonths(10).toDate();
-        playerPoints.setDate(date);
-        assertEquals(date, playerPoints.getDate());
-    }
-
-
 }

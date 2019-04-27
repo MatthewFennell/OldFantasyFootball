@@ -39,7 +39,7 @@ public class LeagueControllerTest {
 
     @Test
     public void creatingALeagueReturns201() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", 0);
         leagueController.makeLeague(user, makeLeagueDTO, response);
@@ -48,7 +48,7 @@ public class LeagueControllerTest {
 
     @Test
     public void creatingTwoLeaguesWithSameNameReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakeLeagueDTO makeLeagueDTO = new MakeLeagueDTO("league name", 0);
 
@@ -66,7 +66,7 @@ public class LeagueControllerTest {
 
     @Test
     public void joiningLeagueReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         List<ApplicationUser> usersInLeague = new ArrayList<>();
         League league = new League(user, "league name", usersInLeague, 0);
@@ -77,7 +77,7 @@ public class LeagueControllerTest {
 
     @Test
     public void joiningLeagueUserAlreadyInReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         List<ApplicationUser> usersInLeague = new ArrayList<>();
         usersInLeague.add(user);
@@ -90,7 +90,7 @@ public class LeagueControllerTest {
     @Test
     public void findAllLeaguesUserIsInReturns200() {
         String id = UUID.randomUUID().toString();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(leagueRepo.findAll()).thenReturn(Collections.emptyList());
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(user));
@@ -100,7 +100,7 @@ public class LeagueControllerTest {
 
     @Test
     public void findAllUsersInSpecificLeagueAndTheirPositionsReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         League league = new League(user, "league name", new ArrayList<>(), 0);
         when(leagueRepo.findByLeagueName("league name")).thenReturn(Optional.of(league));
@@ -110,7 +110,7 @@ public class LeagueControllerTest {
 
     @Test
     public void findAllUsersInSpecificLeagueThatDoesNotExistReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(leagueRepo.findByLeagueName("league name")).thenReturn(Optional.empty());
         leagueController.getPositionsOfUsersInLeague(user, response, "league name");
@@ -120,10 +120,10 @@ public class LeagueControllerTest {
     @Test
     public void leavingLeagueSuccessfullyReturns200() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         List<ApplicationUser> users = new ArrayList<>();
         users.add(u1);
@@ -142,10 +142,10 @@ public class LeagueControllerTest {
     @Test
     public void leavingLeagueYouAreNotInReturns400() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         List<ApplicationUser> users = new ArrayList<>();
         users.add(u2);
@@ -163,7 +163,7 @@ public class LeagueControllerTest {
     @Test
     public void leavingLeagueThatDoesNotExistReturns400() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.empty());
         leagueController.leaveLeague(u1, "league", response);
         assertEquals(400, response.getStatus());
@@ -172,7 +172,7 @@ public class LeagueControllerTest {
     @Test
     public void leavingOriginalLeagueThrows400() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         leagueController.leaveLeague(u1, "original", response);
         assertEquals(400, response.getStatus());
     }

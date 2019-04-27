@@ -9,6 +9,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.LeagueRepo;
 import uk.co.scottlogic.gradProject.server.repos.RefreshTokenRepo;
@@ -54,7 +55,7 @@ public class AuthenticationTest {
 
     @Test
     public void registeringAUserWithValidDetailsReturnsA201() {
-        RegisterDTO registerDTO = new RegisterDTO("user", "123456", "first name", "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("user", "123456", "first name", "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(201, response.getStatus());
@@ -63,7 +64,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserReturnsUserObjectWithCorrectUsername() {
         String username = "username";
-        RegisterDTO registerDTO = new RegisterDTO(username, "123456", "first name", "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO(username, "123456", "first name", "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         UserReturnDTO returnUser = authentication.register(registerDTO, response);
         assertEquals(username, returnUser.getUsername());
@@ -72,7 +73,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserReturnsUserObjectWithCorrectFirstName() {
         String firstName = "first name";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstName, "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstName, "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         UserReturnDTO returnUser = authentication.register(registerDTO, response);
         assertEquals(firstName, returnUser.getFirstName());
@@ -81,25 +82,16 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserReturnsUserObjectWithCorrectSurname() {
         String surname = "surname";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "first name", surname, "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "first name", surname, Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         UserReturnDTO returnUser = authentication.register(registerDTO, response);
         assertEquals(surname, returnUser.getSurname());
     }
 
     @Test
-    public void registeringAUserReturnsUserObjectWithCorrectEmail() {
-        String email = "a@a.com";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "first name", "surname", email);
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        UserReturnDTO returnUser = authentication.register(registerDTO, response);
-        assertEquals(email, returnUser.getEmail());
-    }
-
-    @Test
     public void registeringAUserReturnsWithAPasswordGreaterThan6DigitsThrows400() {
         String password = "1234567";
-        RegisterDTO registerDTO = new RegisterDTO("username", password, "first name", "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", password, "first name", "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());
@@ -108,7 +100,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserWithAFirstNameWithAnEmojiReturns400() {
         String firstName = "❤";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstName, "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstName, "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());
@@ -117,7 +109,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserWithASurnameWithAnEmojiReturns400() {
         String surname = "❤";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "firstName", surname, "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "firstName", surname, Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());
@@ -126,7 +118,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserWithAUsernameWithAnEmojiReturns400() {
         String username = "❤";
-        RegisterDTO registerDTO = new RegisterDTO(username, "123456", "firstName", "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO(username, "123456", "firstName", "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());
@@ -135,7 +127,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserWithABlankSurnameReturns400() {
         String surname = "";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "firstName", surname, "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", "firstName", surname, Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());
@@ -144,7 +136,7 @@ public class AuthenticationTest {
     @Test
     public void registeringAUserWithABlankFirstNameReturns400() {
         String firstname = "";
-        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstname, "surname", "a@a.com");
+        RegisterDTO registerDTO = new RegisterDTO("username", "123456", firstname, "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);
         assertEquals(400, response.getStatus());

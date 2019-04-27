@@ -14,8 +14,6 @@ public interface ApplicationUserRepo extends CrudRepository<ApplicationUser, UUI
 
     Optional<ApplicationUser> findByUsername(String username);
 
-    Optional<ApplicationUser> findByEmail(String email);
-
     @Query(value = "FROM ApplicationUser WHERE totalPoints = (SELECT MAX(totalPoints) FROM ApplicationUser)")
     List<ApplicationUser> findUserWithMostPoints();
 }

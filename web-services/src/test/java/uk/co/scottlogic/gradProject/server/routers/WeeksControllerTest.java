@@ -56,7 +56,7 @@ public class WeeksControllerTest {
 
     @Test
     public void updatingWeeklyTeamByAddingNoPlayersReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
@@ -71,7 +71,7 @@ public class WeeksControllerTest {
     @Test
     public void validUpdateReturns200() {
 
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
@@ -123,7 +123,7 @@ public class WeeksControllerTest {
 
     @Test
     public void gettingNumberOfWeeksReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);

@@ -56,7 +56,7 @@ public class PointsControllerTest {
 
     @Test
     public void findingThePlayerWithTheMostPointsReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
@@ -72,7 +72,7 @@ public class PointsControllerTest {
 
     @Test
     public void findingThePlayerWithTheMostPointsReturns400IfThereAreNoWeeklyTeamsForThatWeek() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(weeklyTeamManager.findWeeklyTeamWithMostPoints(0)).thenReturn(Collections.emptyList());
         pointsController.getUserWithMostPointsInWeek(user, response, 0);
@@ -82,7 +82,7 @@ public class PointsControllerTest {
     @Test
     public void findingTheUserWithTheMostPointsReturns200() {
         List<ApplicationUser> users = new ArrayList<>();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         users.add(user);
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(applicationUserManager.findUsersWithLargestTotalPoints()).thenReturn(users);
@@ -94,7 +94,7 @@ public class PointsControllerTest {
     public void findingTheTotalPointsOfAUserReturns200() {
         String id = UUID.randomUUID().toString();
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         pointsController.totalPoints(user, response, id);
         TestCase.assertEquals(200, response.getStatus());
@@ -103,7 +103,7 @@ public class PointsControllerTest {
     @Test
     public void gettingThePointsForAUserInAWeekReturns200() {
         String id = UUID.randomUUID().toString();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(weeklyTeamRepo.findPointsInWeekByUser(user, 0)).thenReturn(Optional.of(0));
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -113,7 +113,7 @@ public class PointsControllerTest {
 
     @Test
     public void getTheAveragePointsForAllUsersInWeekReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(weeklyTeamRepo.findAveragePointsInWeek(0)).thenReturn(Double.valueOf(0));
         MockHttpServletResponse response = new MockHttpServletResponse();
         pointsController.getAveragePointsForWeek(user, response, 0);
