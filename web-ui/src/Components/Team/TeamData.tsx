@@ -49,7 +49,6 @@ class TeamData extends React.Component<TeamDataProps> {
 		if (this.props.totalNumberOfWeeks === 0) {
 			getNumberOfWeeks().then(currentWeek => {
 				this.props.setTotalNumberOfWeeks(currentWeek);
-
 				for (let x = 0; x <= currentWeek; x++) {
 					this._generate(x);
 				}

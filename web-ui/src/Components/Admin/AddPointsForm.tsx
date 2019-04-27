@@ -19,7 +19,6 @@ interface AddPointsFormProps {
 interface AddPointsFormState {
   goals: string;
   assists: string;
-  minutesPlayed: string;
   manOfTheMatch: boolean;
   yellowCards: string;
   cleanSheet: boolean;
@@ -37,7 +36,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		super(props);
 		this._handleGoals = this._handleGoals.bind(this);
 		this._handleAssists = this._handleAssists.bind(this);
-		this._handleMinutesPlayed = this._handleMinutesPlayed.bind(this);
 		this._handleManOfTheMatch = this._handleManOfTheMatch.bind(this);
 		this._handleYellowCards = this._handleYellowCards.bind(this);
 		this._handleCleanSheet = this._handleCleanSheet.bind(this);
@@ -50,7 +48,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.state = {
 			goals: '',
 			assists: '',
-			minutesPlayed: '',
 			manOfTheMatch: false,
 			yellowCards: '0',
 			cleanSheet: false,
@@ -97,10 +94,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.setState({ assists });
 	}
 
-	_handleMinutesPlayed (minutesPlayed: string) {
-		this.setState({ minutesPlayed });
-	}
-
 	_handleManOfTheMatch (manOfTheMatch: boolean) {
 		this.setState({ manOfTheMatch });
 	}
@@ -125,7 +118,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		let error: boolean = false;
 		let message: string = 'Please select a value for : ';
 
-		const { playerID, week, goals, assists, minutesPlayed } = this.state;
+		const { playerID, week, goals, assists } = this.state;
 
 		if (playerID === '') {
 			error = true;
@@ -143,10 +136,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 			error = true;
 			message += 'Assists, ';
 		}
-		if (minutesPlayed === '' || isNaN(parseFloat(minutesPlayed))) {
-			error = true;
-			message += 'Minutes Played, ';
-		}
 
 		if (error) {
 			this.setState({ responseMessage: message.substring(0, message.length - 2), isError: true });
@@ -156,12 +145,11 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	_onSubmit () {
-		const { goals, assists, minutesPlayed, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
+		const { goals, assists, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
 
 		let data: AddPoints = {
 			goals: goals,
 			assists: assists,
-			minutesPlayed: minutesPlayed,
 			manOfTheMatch: manOfTheMatch,
 			yellowCards: yellowCards,
 			cleanSheet: cleanSheet,
@@ -183,7 +171,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		let setTeam = this._handleCollegeTeam;
 		let setPlayerID = this._handlePlayerID;
 
-		const { viewingDefender, week, goals, assists, minutesPlayed } = this.state;
+		const { viewingDefender, week, goals, assists } = this.state;
 
 		return (
 			<div className="admin-form">
@@ -215,13 +203,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 							currentValue={assists}
 							setValue={this._handleAssists}
 							title="Assists"
-						/>
-					</div>
-					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={minutesPlayed}
-							setValue={this._handleMinutesPlayed}
-							title="Minutes played"
 						/>
 					</div>
 					<div className="admin-wrapper">

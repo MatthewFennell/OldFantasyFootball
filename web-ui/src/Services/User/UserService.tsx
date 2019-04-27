@@ -13,13 +13,15 @@ export const register = (data: RegistrationDetails): Promise<void> => {
 	}).then(response => {
 		if (!response.ok) {
 			if (response.status === 400) {
-				let msg: string = 'name or surname';
-				response.json().then(response => {
-					msg = response.message.toString();
+				return response.json().then(json => {
+					if (response.ok) {
+						return json;
+					} else {
+						return Promise.reject(json.message);
+					}
 				});
-				throw new Error('Invalid characters in ' + msg + '.');
 			} else if (response.status === 409) {
-				let msg: string = 'email or username';
+				let msg: string = 'username';
 				response.json().then(response => {
 					msg = response.message.toString();
 				});

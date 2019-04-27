@@ -11,10 +11,10 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 interface RegisterState {
   firstName: string;
   surname: string;
-  email: string;
   username: string;
   passcode: string;
-  error: string;
+	error: string;
+	keycode: string;
 }
 
 class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>, RegisterState> {
@@ -23,10 +23,10 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
 		this.state = {
 			firstName: '',
 			surname: '',
-			email: '',
 			username: '',
 			passcode: '',
-			error: ''
+			error: '',
+			keycode: ''
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
@@ -35,11 +35,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   	this.setState({ error: '' });
   	if (
   		RegisterService.emptyFields(
-  			this.state.firstName,
-  			this.state.surname,
-  			this.state.email,
-  			this.state.username,
-  			this.state.passcode
   		)
   	) {
   		this.setState({ error: 'All fields must be filled in' });
@@ -49,9 +44,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
       RegisterService.invalidName(this.state.surname)
   	) {
   		this.setState({ error: 'Invalid characters in name or surname' });
-  		return true;
-  	} else if (RegisterService.invalidEmail(this.state.email)) {
-  		this.setState({ error: 'Invalid email entered' });
   		return true;
   	} else if (RegisterService.invalidUsername(this.state.username)) {
   		this.setState({ error: 'Invalid username - must contain only alphanumeric characters' });
@@ -80,9 +72,9 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   			const data: RegistrationDetails = {
   				firstName: this.state.firstName,
   				surname: this.state.surname,
-  				email: this.state.email,
   				username: this.state.username,
-  				password: this.state.passcode
+  				password: this.state.passcode,
+  				keycode: this.state.keycode
   			};
   			register(data)
   				.then(() => (this.state.error === '' ? login(data) : Promise.reject(this.state.error)))
@@ -95,7 +87,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   						id: response.id,
   						firstName: response.firstName,
   						surname: response.surname,
-  						email: response.email,
   						username: response.username,
   						remainingBudget: response.remainingBudget,
   						roles: response.roles,
@@ -164,21 +155,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							type="text"
   						/>
   					</FormGroup>
-  					<FormGroup className="email">
-  						<Label
-  							className="unselectable"
-  							for="email"
-  						>
-                Email
-  						</Label>
-  						<Field
-  							component="input"
-  							id="email"
-  							name="email"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
-  							type="text"
-  						/>
-  					</FormGroup>
+  				</div>
+  				<div>
   					<FormGroup className="username">
   						<Label
   							className="unselectable"
@@ -207,6 +185,20 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							name="passcode"
   							onChange={e => this._handleInput(e!.target.name, e!.target)}
   							type="password"
+  						/>
+  						<Label
+  							className="unselectable"
+  							for="keycode"
+  							id="keycodeLabel"
+  						>
+                Keycode
+  						</Label>
+  						<Field
+  							component="input"
+  							id="keycode"
+  							name="keycode"
+  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							type="text"
   						/>
   					</FormGroup>
   				</div>

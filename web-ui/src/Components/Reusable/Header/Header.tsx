@@ -66,7 +66,6 @@ class Header extends React.Component<Props & RouteComponentProps> {
   				id: response.id,
   				firstName: response.firstName,
   				surname: response.surname,
-  				email: response.email,
   				username: response.username,
   				remainingBudget: response.remainingBudget,
 				  roles: response.roles,
