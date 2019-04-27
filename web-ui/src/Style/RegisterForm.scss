@@ -30,15 +30,12 @@
      margin-right: 7px;
 }
  #register-input-fields{
-     div.surname, div.email{
+     div.surname{
          margin-bottom: 20px;
     }
      div.username{
          margin-bottom: 40px;
     }
-}
- div#register-input-fields>div>input#email {
-     width: 279px;
 }
  @media screen and (max-width: 599px) {
      .position-relative.form-group {
@@ -58,4 +55,8 @@
      .position-relative.form-group {
          margin-bottom: 33px;
     }
+}
+
+.passcode{
+    margin-top: 10%;
 }

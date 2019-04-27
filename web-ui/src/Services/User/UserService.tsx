@@ -19,7 +19,7 @@ export const register = (data: RegistrationDetails): Promise<void> => {
 				});
 				throw new Error('Invalid characters in ' + msg + '.');
 			} else if (response.status === 409) {
-				let msg: string = 'email or username';
+				let msg: string = 'username';
 				response.json().then(response => {
 					msg = response.message.toString();
 				});

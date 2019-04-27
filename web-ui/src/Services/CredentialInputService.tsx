@@ -17,9 +17,6 @@ export const invalidPasscode = (pass: string): boolean => {
 export const passcodeTooShort = (pass: string): boolean => {
 	return pass.length < 6;
 };
-export const invalidEmail = (email: string): boolean => {
-	return !email.match(/^[^\s]+@[^\s]+\.[^\s]+$/);
-};
 export const invalidName = (name: string) => {
 	return !name.match(/^[^0-9]+$/);
 };
