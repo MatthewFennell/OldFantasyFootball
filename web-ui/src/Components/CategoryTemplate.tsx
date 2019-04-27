@@ -6,7 +6,7 @@ import Leagues from '../Containers/League/Leagues';
 import Settings from '../Containers/Settings/Settings';
 import Admin from '../Containers/Admin/Admin';
 import Stats from '../Containers/Stats/Stats';
-import Captain from '../Components/Captain/Captain';
+import Captain from '../Containers/Captain/Captain';
 
 interface CategoryTemplateProps {
   pageBeingViewed: string;

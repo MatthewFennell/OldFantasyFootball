@@ -12,9 +12,7 @@ import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -99,6 +97,24 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
+            + " Returns true if user is a captain", notes = "Requires User role", response =
+            UserReturnDTO.class, authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
+    @GetMapping("/user/isCaptain")
+    @PreAuthorize("hasRole('USER')")
+    public boolean getIsCaptain(@AuthenticationPrincipal ApplicationUser user,
+                              HttpServletResponse response) {
+        try {
+            return applicationUserManager.isCaptain(user);
+        } catch (Exception e) {
+            ExceptionLogger.logException(e);
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key
             + " Gets users remaining budget", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
@@ -114,6 +130,24 @@ public class User {
             ExceptionLogger.logException(e);
         }
         return 0;
+    }
+
+    @ApiOperation(value = Icons.key
+            + " Get the team a user is captain of", notes = "Requires User role", response =
+            UserReturnDTO.class, authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
+    @GetMapping("/user/team/captain")
+    @PreAuthorize("hasRole('USER')")
+    public CollegeTeamDTO getTeamUserCaptainOf(@AuthenticationPrincipal ApplicationUser user,
+                                               HttpServletResponse response) {
+        try {
+            return applicationUserManager.getTeamUserCaptainOf(user);
+        } catch (Exception e) {
+            ExceptionLogger.logException(e);
+        }
+        return null;
     }
 
     @ApiOperation(value = Icons.key
@@ -263,6 +297,38 @@ public class User {
             response.setStatus(500);
         }
         return 0;
+    }
+
+
+    @ApiOperation(value = Icons.key + " Submit results for a team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/user/makeCaptain")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean makeUserCaptain(@AuthenticationPrincipal ApplicationUser user,
+                                @RequestBody MakeCaptainDTO dto,
+                                HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            System.out.println("teamname = " + dto.getTeamname());
+            System.out.println("username = " + dto.getUsername());
+            applicationUserManager.makeUserCaptainOfTeam(dto.getUsername(), dto.getTeamname());
+            return true;
+
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+        return false;
     }
 
 

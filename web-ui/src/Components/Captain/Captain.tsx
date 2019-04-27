@@ -2,12 +2,15 @@ import * as React from 'react';
 import { Button } from 'reactstrap';
 import SelectPlayer from '../../Containers/Admin/SelectPlayer';
 import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
-import { submitResult } from '../../Services/Player/PlayerService';
+import { submitResultCaptain, findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import ResponseMessage from '../common/ResponseMessage';
+import { getTeamOfCaptain } from '../../Services/User/UserService';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface TransfersFormProps {
+	setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
 }
 
 interface TransfersFormState {
@@ -17,6 +20,7 @@ interface TransfersFormState {
   playerIDGoals: string[];
   playerIDAssists: string[];
   playerIDCleanSheets: string[];
+  teamName: string;
 
   responseMessage: string;
   isError: boolean;
@@ -41,8 +45,18 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			playerIDAssists: [],
 			playerIDCleanSheets: [],
 			responseMessage: '',
-			isError: false
+			isError: false,
+			teamName: ''
 		};
+		getTeamOfCaptain().then(response => {
+			this.setState({ teamName: response.name });
+			findPlayersInCollegeTeam(response.name).then(response => {
+				this.props.setPlayersInFilteredTeam(response);
+			});
+		})
+			.catch(error => {
+				this.setState({ isError: true, responseMessage: error });
+			});
 	}
 
 	_handlePlayerIDGoalscorers (playerID: string, previousID: string) {
@@ -109,7 +123,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_onSubmit () {
-		const { goalsFor, goalsAgainst, week, playerIDGoals, playerIDAssists, playerIDCleanSheets } = this.state;
+		const { goalsFor, goalsAgainst, week, playerIDGoals, playerIDAssists, playerIDCleanSheets, teamName } = this.state;
 		let data: SubmitResults = {
 			goalsFor: parseInt(goalsFor),
 			goalsAgainst: parseInt(goalsAgainst),
@@ -117,10 +131,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			goalScorers: playerIDGoals,
 			assists: playerIDAssists,
 			cleanSheets: playerIDCleanSheets,
-			teamName: ''
+			teamName: teamName
 		};
 
-		submitResult(data).then(response => {
+		submitResultCaptain(data).then(response => {
 			this.setState({ isError: false, responseMessage: 'Result added successfully' });
 		}).catch(error => {
 			this.setState({ isError: true, responseMessage: error });
@@ -148,7 +162,11 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 
 		return (
 			<div className="admin-form">
+				<div className="captain-of-which-team">
+						You are the captain of team: {this.state.teamName}
+				</div>
 				<div className="admin-form-row-one">
+
 					<div className="admin-wrapper">
 						<TextInputForm
 							currentValue={goalsFor}

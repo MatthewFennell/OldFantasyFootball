@@ -12,7 +12,7 @@ import Admin from '../Containers/Admin/Admin';
 import Settings from '../Containers/Settings/Settings';
 import Transfers from '../Containers/Transfers/Transfers';
 import Stats from '../Containers/Stats/Stats';
-import Captain from '../Components/Captain/Captain';
+import Captain from '../Containers/Captain/Captain';
 
 const App: React.SFC = (props) => {
 	return (

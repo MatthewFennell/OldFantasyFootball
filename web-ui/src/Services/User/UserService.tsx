@@ -4,6 +4,8 @@ import { RegistrationDetails } from '../../Models/Interfaces/RegistrationDetails
 import { Tokens } from '../../Models/Interfaces/Tokens';
 import { getBearerHeader } from '../CredentialInputService';
 import { PatchPassword } from '../../Models/Interfaces/PatchPassword';
+import { MakeCaptain } from '../../Models/Interfaces/MakeCaptain';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 
 export const register = (data: RegistrationDetails): Promise<void> => {
 	return fetch('/api/user', {
@@ -68,6 +70,28 @@ export const getUser = (): Promise<Account> => {
 
 export const getIsAdmin = (): Promise<boolean> => {
 	return fetch('/api/user/isAdmin', {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const getIsCaptain = (): Promise<boolean> => {
+	return fetch('/api/user/isCaptain', {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const getTeamOfCaptain = (): Promise<CollegeTeam> => {
+	return fetch('/api/user/team/captain', {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {
@@ -167,6 +191,32 @@ export const patchPassword = (data: PatchPassword): Promise<boolean> => {
 		if (!response.ok) {
 			if (response.status === 403) {
 				throw new Error('Login Unsuccessful');
+			} else if (response.status === 500) {
+				throw new Error('Internal server error');
+			} else {
+				throw new Error(response.status.toString());
+			}
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const makeCaptain = (data: MakeCaptain): Promise<any> => {
+	return fetch('/api/user/makeCaptain', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
+	}).then(response => {
+		if (!response.ok) {
+			if (response.status === 400) {
+				return response.json().then(json => {
+					if (response.ok) {
+						return json;
+					} else {
+						return Promise.reject(json.message);
+					}
+				});
 			} else if (response.status === 500) {
 				throw new Error('Internal server error');
 			} else {

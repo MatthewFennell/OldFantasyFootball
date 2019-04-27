@@ -6,7 +6,7 @@ import { Image } from 'react-bootstrap';
 import { clearSessionStorage } from '../../../Services/CredentialInputService';
 import ButtonPageSelector from './ButtonPageSelector';
 import { RoutedFormProps } from '../../../Models/Types/RoutedFormProps';
-import { getUser, getIsAdmin } from '../../../Services/User/UserService';
+import { getUser, getIsAdmin, getIsCaptain } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 
@@ -54,6 +54,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
 	  this.statsRef = React.createRef<HTMLDivElement>();
 	  this.captainRef = React.createRef<HTMLDivElement>();
 	  this._isAdmin = this._isAdmin.bind(this);
+	  this._isCaptain = this._isCaptain.bind(this);
   	this._onTeamSelect = () => this._select(this.teamRef, 'Team');
   	this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
   	this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
@@ -64,7 +65,9 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   	this.state = {
 		  isAdmin: false,
 		  isCaptain: true
-  	};
+	  };
+	  this._isAdmin();
+	  this._isCaptain();
   }
 
   _isAdmin (): void {
@@ -73,8 +76,15 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
 	  });
   }
 
+  _isCaptain (): void {
+  	getIsCaptain().then(response => {
+	   this.setState({ isCaptain: response });
+  	});
+  }
+
   componentDidMount () {
 	  this._isAdmin();
+	  this._isCaptain();
   	getUser().then(response => {
   		if (response !== undefined) {
   			this.props.setAccount({
@@ -88,6 +98,13 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
 			  this.props.setUserBeingViewed(response.id);
   		}
   	});
+  }
+
+  componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+  	if (prevProps.firstname !== this.props.firstname) {
+		  this._isAdmin();
+		  this._isCaptain();
+  	}
   }
 
   logout () {
@@ -179,6 +196,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   								text="Settings"
   							/>
   						</Link>
+						  {this.state.isCaptain ? (
 						  <Link to="/captain">
   							<ButtonPageSelector
   								id="settings"
@@ -188,7 +206,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   								setRef={() => this.captainRef}
   								text="Captain"
   							/>
-  						</Link>
+						  </Link>) : null}
   						{this.state.isAdmin ? (
   							<Link to="/admin">
   								<ButtonPageSelector

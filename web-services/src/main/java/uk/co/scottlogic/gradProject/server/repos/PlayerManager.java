@@ -100,6 +100,13 @@ public class PlayerManager {
         }
     }
 
+    public void checkValidityOfSubmitPoints(ApplicationUser user, SubmitPointsDTO submitPointsDTO){
+        if (!user.getCaptainOf().getName().equals(submitPointsDTO.getTeamName())){
+            throw new IllegalAccessError("That is not your team. Please stop that");
+        }
+        submitResults(submitPointsDTO);
+    }
+
     // Should only add results once per team per match
     // TO:DO - Change max week per team
     public void submitResults(SubmitPointsDTO pointsDTO){
