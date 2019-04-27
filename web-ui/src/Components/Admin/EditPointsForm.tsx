@@ -20,7 +20,6 @@ interface EditPointsFormProps {
 interface EditPointsFormState {
   goals: string;
   assists: string;
-  minutesPlayed: string;
   manOfTheMatch: boolean;
   yellowCards: string;
   cleanSheet: boolean;
@@ -40,7 +39,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		super(props);
 		this._handleGoals = this._handleGoals.bind(this);
 		this._handleAssists = this._handleAssists.bind(this);
-		this._handleMinutesPlayed = this._handleMinutesPlayed.bind(this);
 		this._handleManOfTheMatch = this._handleManOfTheMatch.bind(this);
 		this._handleYellowCards = this._handleYellowCards.bind(this);
 		this._handleCleanSheet = this._handleCleanSheet.bind(this);
@@ -54,7 +52,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this.state = {
 			goals: '',
 			assists: '',
-			minutesPlayed: '',
 			manOfTheMatch: false,
 			yellowCards: '0',
 			cleanSheet: false,
@@ -66,7 +63,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 			playerStats: {
 				goals: 0,
 				assists: 0,
-				minutesPlayed: 0,
 				manOfTheMatch: false,
 				redCard: false,
 				yellowCards: 0,
@@ -92,7 +88,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 						playerStats: {
 							goals: 0,
 							assists: 0,
-							minutesPlayed: 0,
 							manOfTheMatch: false,
 							redCard: false,
 							yellowCards: 0,
@@ -148,11 +143,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	_handleAssists (assists: string) {
 		this.setState({ assists });
 	}
-
-	_handleMinutesPlayed (minutesPlayed: string) {
-		this.setState({ minutesPlayed });
-	}
-
 	_handleManOfTheMatch (manOfTheMatch: boolean) {
 		this.setState({ manOfTheMatch });
 	}
@@ -174,7 +164,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	handleValidate () {
-		const { playerID, week, goals, assists, minutesPlayed } = this.state;
+		const { playerID, week, goals, assists } = this.state;
 		let error: boolean = false;
 		let message: string = 'Please select a value for : ';
 
@@ -194,10 +184,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 			error = true;
 			message += 'Assists, ';
 		}
-		if (minutesPlayed === '' || isNaN(parseFloat(minutesPlayed))) {
-			error = true;
-			message += 'Minutes Played, ';
-		}
 
 		if (error) {
 			this.setState({ responseMessage: message.substring(0, message.length - 2), isError: true });
@@ -207,11 +193,10 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	_onSubmit () {
-		const { goals, assists, minutesPlayed, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
+		const { goals, assists, manOfTheMatch, yellowCards, cleanSheet, redCard, playerID, week } = this.state;
 		let data: AddPoints = {
 			goals: goals,
 			assists: assists,
-			minutesPlayed: minutesPlayed,
 			manOfTheMatch: manOfTheMatch,
 			yellowCards: yellowCards,
 			cleanSheet: cleanSheet,
@@ -230,7 +215,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	render () {
-		const { week, playerID, playerName, playerStats, goals, assists, minutesPlayed, viewingDefender } = this.state;
+		const { week, playerID, playerName, playerStats, goals, assists, viewingDefender } = this.state;
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
@@ -263,12 +248,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					<div className="edit-points-info">
             Assists:
 						{playerStats.playerID !== 'nobody' ? playerStats.assists : null}
-					</div>
-					<div className="edit-points-info">
-            Minutes Played:
-						{playerStats.playerID !== 'nobody'
-							? playerStats.minutesPlayed
-							: null}
 					</div>
 					<div className="edit-points-info">
             Yellow Cards:
@@ -331,13 +310,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 									currentValue={assists}
 									setValue={this._handleAssists}
 									title="Assists"
-								/>
-							</div>
-							<div className="admin-wrapper">
-								<TextInputForm
-									currentValue={minutesPlayed}
-									setValue={this._handleMinutesPlayed}
-									title="Minutes played"
 								/>
 							</div>
 							<div className="admin-wrapper">

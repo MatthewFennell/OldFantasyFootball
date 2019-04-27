@@ -9,6 +9,7 @@ import {
 	getAverageWeeklyPoints,
 	getTopWeeklyPlayer,
 	getTopWeeklyUser,
+	getTotalNumberOfWeeks
 } from '../../Selectors/StatsSelector';
 import {
 	setWeekBeingViewed,
@@ -26,7 +27,8 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyPlayer: getTopWeeklyPlayer(state),
 	topWeeklyUsers: getTopWeeklyUser(state),
 	allCollegeTeams: getAllCollegeTeams(state),
-	userBeingViewed: getUserBeingViewed(state)
+	userBeingViewed: getUserBeingViewed(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 });
 
 const mapDispatchToProps = {
