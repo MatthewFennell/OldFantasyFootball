@@ -18,6 +18,8 @@ export const passcodeTooShort = (pass: string): boolean => {
 	return pass.length < 6;
 };
 export const invalidName = (name: string) => {
+	console.log('name = ' + name);
+	console.log('invalid name = ' + !name.match(/^[^0-9]+$/));
 	return !name.match(/^[^0-9]+$/);
 };
 export const emptyFields = (...inputs: string[]): boolean => !inputs.every(Boolean);

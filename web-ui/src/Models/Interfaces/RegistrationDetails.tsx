@@ -3,4 +3,5 @@ export interface RegistrationDetails {
   surname: string;
   username: string;
   password: string;
+  keycode: string;
 }
