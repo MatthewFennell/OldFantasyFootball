@@ -10,7 +10,6 @@ export interface State {
   username: string;
   pageBeingViewed: string;
   weekBeingViewed: number;
-  roles: string[];
 }
 
 // Define our initialState
@@ -21,7 +20,6 @@ export const initialState: State = {
 	username: '',
 	pageBeingViewed: 'Team',
 	weekBeingViewed: 0,
-	roles: []
 };
 
 export const reducer = (state: State = initialState, action: Action) => {
@@ -32,7 +30,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			firstName,
 			surname,
 			username,
-			roles
 		} = action.payload.account;
 
 		return {
@@ -40,7 +37,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 			firstName,
 			surname,
 			username,
-			roles
 		};
 	}
 

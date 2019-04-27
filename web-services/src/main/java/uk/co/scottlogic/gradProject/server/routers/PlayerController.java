@@ -425,7 +425,54 @@ public class PlayerController {
             } catch (Exception f) {
                 log.debug(f.getMessage());
             }
-        } catch (Exception e) {
+        }
+        catch (IllegalAccessError f){
+            try {
+                response.sendError(403, f.getMessage());
+            } catch (Exception ff) {
+                log.debug(f.getMessage());
+            }
+        }
+
+        catch (Exception e) {
+            response.setStatus(409);
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key + " Submit results for a team", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Transfer request updated"),
+            @ApiResponse(code = 400, message = "Invalid transfer request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/player/result/submit/captain")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
+    public boolean submitResultCaptain(@AuthenticationPrincipal ApplicationUser user,
+                                @RequestBody SubmitPointsDTO dto,
+                                HttpServletResponse response) {
+        try {
+            response.setStatus(201);
+            playerManager.checkValidityOfSubmitPoints(user, dto);
+            return true;
+
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+                log.debug(f.getMessage());
+            }
+        }
+        catch (IllegalAccessError f){
+            try {
+                response.sendError(403, f.getMessage());
+            } catch (Exception ff) {
+                log.debug(f.getMessage());
+            }
+        }
+
+        catch (Exception e) {
             response.setStatus(409);
         }
         return false;

@@ -6,6 +6,7 @@ import Leagues from '../Containers/League/Leagues';
 import Settings from '../Containers/Settings/Settings';
 import Admin from '../Containers/Admin/Admin';
 import Stats from '../Containers/Stats/Stats';
+import Captain from '../Containers/Captain/Captain';
 
 interface CategoryTemplateProps {
   pageBeingViewed: string;
@@ -35,6 +36,8 @@ class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
 				return <Admin />;
 			} else if (pageBeingViewed === 'Stats') {
 				return <Stats />;
+			} else if (pageBeingViewed === 'Captain') {
+				return <Captain />;
 			} else {
 				return <Team />;
 			}

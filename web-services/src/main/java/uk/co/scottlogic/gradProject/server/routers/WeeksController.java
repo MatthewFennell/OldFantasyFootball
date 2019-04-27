@@ -11,8 +11,6 @@ import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.routers.dto.AddMultiplePointsDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.SubmitPointsDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TransferDTO;
 
 import javax.servlet.http.HttpServletResponse;

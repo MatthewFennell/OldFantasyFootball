@@ -89,7 +89,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   						surname: response.surname,
   						username: response.username,
   						remainingBudget: response.remainingBudget,
-  						roles: response.roles,
   						teamName: response.teamName
   					});
   					this.props.setUserBeingViewed(response.id);

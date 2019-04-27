@@ -47,6 +47,10 @@ public class ApplicationUser implements UserDetails, Serializable {
     @Column(nullable = false)
     private Integer totalPoints;
 
+    @OneToOne
+    @JoinColumn(name = "captainOf")
+    private CollegeTeam captainOf;
+
     private boolean locked = false;
 
     private boolean enabled = true;
@@ -91,8 +95,16 @@ public class ApplicationUser implements UserDetails, Serializable {
         setSurname(surname);
         this.totalPoints = 0;
         this.teamName = "My Team";
+        this.captainOf = null;
     }
 
+    public CollegeTeam getCaptainOf() {
+        return captainOf;
+    }
+
+    public void setCaptainOf(CollegeTeam captainOf) {
+        this.captainOf = captainOf;
+    }
 
     public Collection<RefreshToken> getActiveTokens() {
         return activeTokens;

@@ -6,16 +6,12 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
+import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
-import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
-import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
-import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
+import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ApplicationUserManager {
@@ -26,13 +22,16 @@ public class ApplicationUserManager {
 
     private WeeklyTeamManager weeklyTeamManager;
 
+    private CollegeTeamRepo collegeTeamRepo;
+
 
     @Autowired
     public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo,
-                                  WeeklyTeamManager weeklyTeamManager) {
+                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
+        this.collegeTeamRepo = collegeTeamRepo;
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {
@@ -144,6 +143,49 @@ public class ApplicationUserManager {
         }
         else {
             throw new IllegalArgumentException("User does not exist");
+        }
+    }
+
+    public boolean isAdmin(ApplicationUser user){
+        Set<UserAuthority> roles = user.getAuthorityList();
+        for (UserAuthority authority : roles){
+            if (authority.getRole().equals(Constants.ADMIN_STRING)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isCaptain(ApplicationUser user){
+        Set<UserAuthority> roles = user.getAuthorityList();
+        for (UserAuthority authority : roles){
+            if (authority.getRole().equals(Constants.CAPTAIN_STRING)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void makeUserCaptainOfTeam(String username, String collegeTeam){
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
+        if (!user.isPresent()){
+            throw new IllegalArgumentException("User does not exist");
+        }
+        Optional<CollegeTeam> team = collegeTeamRepo.findByName(collegeTeam);
+        if (!team.isPresent()){
+            throw new IllegalArgumentException("College team does not exist");
+        }
+        user.get().addAuthority(new UserAuthority(Constants.CAPTAIN_STRING));
+        user.get().setCaptainOf(team.get());
+        applicationUserRepo.save(user.get());
+    }
+
+    public CollegeTeamDTO getTeamUserCaptainOf(ApplicationUser user){
+        if (user.getCaptainOf() == null){
+            return null;
+        }
+        else {
+            return new CollegeTeamDTO(user.getCaptainOf());
         }
     }
 }

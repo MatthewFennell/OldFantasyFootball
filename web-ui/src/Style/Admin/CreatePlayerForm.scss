@@ -1,6 +1,13 @@
 @import '../Colors.scss';
 
 div.admin-form {
+  .captain-of-which-team{
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+    padding: 50px;
+  }
   display: flex;
   flex-direction: column;
   .admin-form-row-one {
