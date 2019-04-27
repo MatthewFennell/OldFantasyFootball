@@ -44,8 +44,8 @@ public class UserTest {
     @Test
     public void standardPatchReturns200Code() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, null, null, null);
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, null, null);
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(userPatchDTO.getUsername())).thenReturn(
                 Optional.of(user));
         userController.patchCurrent(user, userPatchDTO, response);
@@ -56,20 +56,8 @@ public class UserTest {
     public void patchWithInvalidUsernameReturns400() {
         String username = "\uD83D\uDC40";
         MockHttpServletResponse response = new MockHttpServletResponse();
-        UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, username, null, null);
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        when(applicationUserRepo.findByUsername(userPatchDTO.getUsername())).thenReturn(
-                Optional.of(user));
-        userController.patchCurrent(user, userPatchDTO, response);
-        assertEquals(400, response.getStatus());
-    }
-
-    @Test
-    public void patchWithInvalidEmailReturns400() {
-        String email = "\uD83D\uDC40";
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, null, email, null);
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, username, null);
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(userPatchDTO.getUsername())).thenReturn(
                 Optional.of(user));
         userController.patchCurrent(user, userPatchDTO, response);
@@ -79,7 +67,7 @@ public class UserTest {
     @Test
     public void findAllUsersReturns200WhenNoErrors() {
         MockHttpServletResponse response = new MockHttpServletResponse();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         ArrayList<ApplicationUser> users = new ArrayList<>();
         users.add(user);
         when(applicationUserRepo.findAll()).thenReturn(users);
@@ -99,8 +87,8 @@ public class UserTest {
     public void patchWithEmojiInFirstNameReturns400() {
         String firstName = "❤";
         MockHttpServletResponse response = new MockHttpServletResponse();
-        UserPatchDTO userPatchDTO = new UserPatchDTO(firstName, null, null, null, null);
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        UserPatchDTO userPatchDTO = new UserPatchDTO(firstName, null, null, null);
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(userPatchDTO.getUsername())).thenReturn(
                 Optional.of(user));
         userController.patchCurrent(user, userPatchDTO, response);
@@ -111,8 +99,8 @@ public class UserTest {
     public void patchWithEmojiInSurnameReturns400() {
         String surname = "❤";
         MockHttpServletResponse response = new MockHttpServletResponse();
-        UserPatchDTO userPatchDTO = new UserPatchDTO(null, surname, null, null, null);
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        UserPatchDTO userPatchDTO = new UserPatchDTO(null, surname, null, null);
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(userPatchDTO.getUsername())).thenReturn(
                 Optional.of(user));
         userController.patchCurrent(user, userPatchDTO, response);

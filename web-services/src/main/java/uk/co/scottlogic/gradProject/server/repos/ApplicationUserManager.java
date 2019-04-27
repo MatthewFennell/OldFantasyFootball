@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
@@ -57,15 +58,6 @@ public class ApplicationUserManager {
                 user.setUsername(userPatchDTO.getUsername());
             }
         }
-        if (userPatchDTO.getEmail() != null) {
-            Optional<ApplicationUser> email = applicationUserRepo.findByEmail(userPatchDTO.getEmail());
-            if (email.isPresent()) {
-                throw new IllegalArgumentException("Email already exists");
-            } else {
-                user.setEmail(userPatchDTO.getEmail());
-            }
-        }
-
         // Will only update their details if there are no errors with any of their inputs
         applicationUserRepo.save(user);
     }
@@ -154,6 +146,4 @@ public class ApplicationUserManager {
             throw new IllegalArgumentException("User does not exist");
         }
     }
-
-
 }

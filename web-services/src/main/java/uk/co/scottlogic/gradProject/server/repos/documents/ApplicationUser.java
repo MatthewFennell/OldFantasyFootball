@@ -16,7 +16,6 @@ import static uk.co.scottlogic.gradProject.server.misc.Regex.*;
 @Entity
 @Table(indexes = {
         @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
-        @Index(name = "idx_applicationuser_email", columnList = "email", unique = true),
         @Index(name = "idx_applicationuser_total_points", columnList = "totalPoints")})
 public class ApplicationUser implements UserDetails, Serializable {
 
@@ -38,9 +37,6 @@ public class ApplicationUser implements UserDetails, Serializable {
     private Date credentialsExpiry;
 
     private String nickname;
-
-    @Column(nullable = false)
-    private String email;
 
     @Column(nullable = false)
     private String firstName;
@@ -73,10 +69,15 @@ public class ApplicationUser implements UserDetails, Serializable {
     }
 
     public ApplicationUser(RegisterDTO dto) {
-        this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname(), dto.getEmail());
+        this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname());
+        if (!dto.getKeycode().equals(Constants.REGISTER_KEY_CODE)){
+            System.out.println("invalid key");
+            System.out.println("key = " + dto.getKeycode());
+            throw new IllegalArgumentException("Invalid key code");
+        }
     }
 
-    public ApplicationUser(String username, String password, String firstname, String surname, String email) {
+    public ApplicationUser(String username, String password, String firstname, String surname) {
         Calendar expiry = Calendar.getInstance();
         expiry.add(Calendar.YEAR, 1000);
         accountExpiry = expiry.getTime();
@@ -88,7 +89,6 @@ public class ApplicationUser implements UserDetails, Serializable {
         this.remainingBudget = Constants.INITIAL_BUDGET;
         setFirstName(firstname);
         setSurname(surname);
-        setEmail(email);
         this.totalPoints = 0;
         this.teamName = "My Team";
     }
@@ -191,17 +191,6 @@ public class ApplicationUser implements UserDetails, Serializable {
             throw new IllegalArgumentException();
         }
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        if (!email.matches(EMAIL_PATTERN)) {
-            throw new IllegalArgumentException();
-        }
-        this.email = email;
     }
 
     public String getFirstName() {

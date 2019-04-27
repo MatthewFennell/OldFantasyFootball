@@ -25,7 +25,7 @@ public class LeagueTest {
 
     @Test
     public void getOwner() {
-        ApplicationUser owner = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser owner = new ApplicationUser("a", "123456", "a", "a");
         League league = new League(owner, "League name", Collections.emptyList(), 0);
         assertEquals(owner, league.getOwner());
     }
@@ -33,10 +33,10 @@ public class LeagueTest {
     @Test
     public void getParticipants() {
         ArrayList<ApplicationUser> users = new ArrayList<>();
-        users.add(new ApplicationUser("a", "123456", "a", "a", "a@a.com"));
-        users.add(new ApplicationUser("b", "123456", "b", "b", "b@b.com"));
-        users.add(new ApplicationUser("c", "123456", "c", "c", "c@c.com"));
-        users.add(new ApplicationUser("d", "123456", "d", "d", "d@d.com"));
+        users.add(new ApplicationUser("a", "123456", "a", "a"));
+        users.add(new ApplicationUser("b", "123456", "b", "b"));
+        users.add(new ApplicationUser("c", "123456", "c", "c"));
+        users.add(new ApplicationUser("d", "123456", "d", "d"));
 
         League league = new League(null, "League name", users, 0);
         assertEquals(users, league.getParticipants());
@@ -83,8 +83,8 @@ public class LeagueTest {
 
     @Test
     public void setOwnerChangesTheOwner() {
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
         Integer startWeek = 15;
         League league = new League(u1, "League name", null, startWeek);
         league.setOwner(u2);
@@ -94,12 +94,12 @@ public class LeagueTest {
     @Test
     public void addParticipant() {
         ArrayList<ApplicationUser> users = new ArrayList<>();
-        users.add(new ApplicationUser("a", "123456", "a", "a", "a@a.com"));
-        users.add(new ApplicationUser("b", "123456", "b", "b", "b@b.com"));
-        users.add(new ApplicationUser("c", "123456", "c", "c", "c@c.com"));
-        users.add(new ApplicationUser("d", "123456", "d", "d", "d@d.com"));
+        users.add(new ApplicationUser("a", "123456", "a", "a"));
+        users.add(new ApplicationUser("b", "123456", "b", "b"));
+        users.add(new ApplicationUser("c", "123456", "c", "c"));
+        users.add(new ApplicationUser("d", "123456", "d", "d"));
 
-        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new", "new@new.com");
+        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new");
 
         League league = new League(newUser, "League name", users, 0);
         league.addParticipant(newUser);
@@ -109,19 +109,19 @@ public class LeagueTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void creatingLeagueWithNoNameFails(){
-        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new", "new@new.com");
+        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new");
         new League(newUser, "", new ArrayList<>(), 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void creatingLeagueWithNumbersInLeagueName(){
-        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new", "new@new.com");
+        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new");
         new League(newUser, "123", new ArrayList<>(), 0);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void creatingLeagueWithSpecialCharsFails(){
-        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new", "new@new.com");
+        ApplicationUser newUser = new ApplicationUser("new", "123456", "new", "new");
         new League(newUser, "Lea&&", new ArrayList<>(), 0);
     }
 

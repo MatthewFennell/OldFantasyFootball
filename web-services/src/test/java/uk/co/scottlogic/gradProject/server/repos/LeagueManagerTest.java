@@ -42,10 +42,10 @@ public class LeagueManagerTest {
 
         League league_one = new League(null, "league_one", new ArrayList<>(), 0);
 
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         UsersWeeklyTeam uwt1 = new UsersWeeklyTeam(u1, new Date(), new ArrayList<>(), 0);
         UsersWeeklyTeam uwt2 = new UsersWeeklyTeam(u2, new Date(), new ArrayList<>(), 0);
@@ -112,7 +112,7 @@ public class LeagueManagerTest {
     @Test
     public void addPlayerToEmptyLeagueWithCorrectCode() {
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         when(leagueRepo.findByCodeToJoin(league.getId().toString())).thenReturn(Optional.of(league));
         LeagueReturnDTO dto = leagueManager.addPlayerToLeague(u1, league.getId().toString());
         List<ApplicationUser> users = league.getParticipants();
@@ -129,7 +129,7 @@ public class LeagueManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void addPlayerToLeagueHeIsAlreadyIn() {
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         league.addParticipant(u1);
         when(leagueRepo.findByCodeToJoin("code")).thenReturn(Optional.of(league));
         leagueManager.addPlayerToLeague(u1, "code");
@@ -138,10 +138,10 @@ public class LeagueManagerTest {
     @Test
     public void addPlayerToMiddleOfLeagueWithSeveralUsersReturnsTheCorrectPosition() {
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
         u1.setTotalPoints(120);
         u2.setTotalPoints(45);
         u3.setTotalPoints(150);
@@ -151,7 +151,7 @@ public class LeagueManagerTest {
         league.addParticipant(u3);
         league.addParticipant(u4);
 
-        ApplicationUser u5 = new ApplicationUser("e", "123456", "e", "e", "e@e.com");
+        ApplicationUser u5 = new ApplicationUser("e", "123456", "e", "e");
         u5.setTotalPoints(100);
 
         UsersWeeklyTeam uwt1 = new UsersWeeklyTeam();
@@ -205,14 +205,14 @@ public class LeagueManagerTest {
     @Test
     public void userDoesNotExistInLeague() {
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         assertFalse(leagueManager.userExistsInLeague(u1, league));
     }
 
     @Test
     public void userDoesExistInLeague() {
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         league.addParticipant(u1);
         assertTrue(leagueManager.userExistsInLeague(u1, league));
     }
@@ -225,7 +225,7 @@ public class LeagueManagerTest {
     public void findSingleLeagueUserIsIn() {
         String id = UUID.randomUUID().toString();
         League league = new League(null, "league", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         league.addParticipant(u1);
         Iterable<League> list = Collections.singletonList(league);
         when(leagueRepo.findAll()).thenReturn(list);
@@ -240,7 +240,7 @@ public class LeagueManagerTest {
         Iterable<League> list = Collections.singletonList(league);
         when(leagueRepo.findAll()).thenReturn(list);
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.of(league));
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         leagueManager.createLeague(u1, "league", 0);
     }
 
@@ -250,7 +250,7 @@ public class LeagueManagerTest {
         League league_one = new League(null, "league_one", new ArrayList<>(), 0);
         League league_two = new League(null, "league_two", new ArrayList<>(), 0);
         League league_three = new League(null, "league_three", new ArrayList<>(), 0);
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         league_one.addParticipant(u1);
         league_two.addParticipant(u1);
         league_three.addParticipant(u1);
@@ -275,10 +275,10 @@ public class LeagueManagerTest {
         League league_three = new League(null, "league_three", new ArrayList<>(), 0);
 
 
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         UsersWeeklyTeam uwt1 = new UsersWeeklyTeam(u1, new Date(), new ArrayList<>(), 0);
         UsersWeeklyTeam uwt2 = new UsersWeeklyTeam(u2, new Date(), new ArrayList<>(), 0);
@@ -336,17 +336,17 @@ public class LeagueManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void leavingLeagueThatDoesNotExistThrowsException(){
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         when(leagueRepo.findByLeagueName("league")).thenReturn(Optional.empty());
         leagueManager.leaveLeague(u1, "league");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void leavingLeagueThatThatTheUserIsNotInThrowsException(){
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         List<ApplicationUser> users = new ArrayList<>();
         users.add(u2);
@@ -362,10 +362,10 @@ public class LeagueManagerTest {
 
     @Test
     public void leavingLeagueThatThatTheUserIsInReducesItsLengthByOneIfTheyAreNotTheOwner(){
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
-        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b", "b@b.com");
-        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c", "c@c.com");
-        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d", "d@d.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
+        ApplicationUser u2 = new ApplicationUser("b", "123456", "b", "b");
+        ApplicationUser u3 = new ApplicationUser("c", "123456", "c", "c");
+        ApplicationUser u4 = new ApplicationUser("d", "123456", "d", "d");
 
         List<ApplicationUser> users = new ArrayList<>();
         users.add(u1);
@@ -383,7 +383,7 @@ public class LeagueManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void leavingTheOriginalLeagueThrowsAnException(){
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         leagueManager.leaveLeague(u1, "original");
     }
 

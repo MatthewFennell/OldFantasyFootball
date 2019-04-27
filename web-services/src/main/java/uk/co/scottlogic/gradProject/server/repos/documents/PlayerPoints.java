@@ -18,9 +18,6 @@ public class PlayerPoints {
     private Integer numberOfAssists;
 
     @Column(nullable = false)
-    private Integer minutesPlayed;
-
-    @Column(nullable = false)
     private boolean manOfTheMatch;
 
     @Column(nullable = false)
@@ -31,9 +28,6 @@ public class PlayerPoints {
 
     @Column(nullable = false)
     private boolean cleanSheet;
-
-    @Column(nullable = false)
-    private Date date;
 
     @Column(nullable = false)
     private Integer week;
@@ -50,36 +44,30 @@ public class PlayerPoints {
     @Column(nullable = false)
     private Integer points;
 
-    public PlayerPoints(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellow, boolean red, boolean clean, Date date, Player player, Integer week) {
+    public PlayerPoints(Integer goals, Integer assists, boolean motm, Integer yellow, boolean red, boolean clean, Player player, Integer week) {
         this.numberOfGoals = goals;
         this.numberOfAssists = assists;
-        this.minutesPlayed = mins;
         this.manOfTheMatch = motm;
         this.yellowCards = yellow;
         this.redCard = red;
         this.cleanSheet = clean;
-        this.date = date;
         id = UUID.randomUUID();
         this.player = player;
         this.week = week;
         this.points = 0;
-        this.date = new Date();
     }
 
     public PlayerPoints(PlayerPointsDTO dto, Player player) {
         this.numberOfGoals = dto.getGoals();
         this.numberOfAssists = dto.getAssists();
-        this.minutesPlayed = dto.getMinutesPlayed();
         this.manOfTheMatch = dto.isManOfTheMatch();
         this.yellowCards = dto.getYellowCards();
         this.redCard = dto.isRedCard();
         this.cleanSheet = dto.isCleanSheet();
-        this.minutesPlayed = dto.getMinutesPlayed();
         id = UUID.randomUUID();
         this.player = player;
         this.week = dto.getWeek();
         this.points = 0;
-        this.date = new Date();
     }
 
     public PlayerPoints() {
@@ -89,14 +77,11 @@ public class PlayerPoints {
     public void setValues(PlayerPoints playerPoints) {
         setNumberOfGoals(playerPoints.getNumberOfGoals());
         setNumberOfAssists(playerPoints.getNumberOfAssists());
-        setMinutesPlayed(playerPoints.getMinutesPlayed());
         setManOfTheMatch(playerPoints.isManOfTheMatch());
         setYellowCards(playerPoints.getYellowCards());
         setRedCard(playerPoints.isRedCard());
         setCleanSheet(playerPoints.isCleanSheet());
-        setDate(playerPoints.getDate());
         setPoints(playerPoints.getPoints());
-
     }
 
     public Integer getPoints() {
@@ -164,17 +149,6 @@ public class PlayerPoints {
         this.numberOfAssists = numberOfAssists;
     }
 
-    public Integer getMinutesPlayed() {
-        return minutesPlayed;
-    }
-
-    public void setMinutesPlayed(Integer minutesPlayed) {
-        if (minutesPlayed < 0) {
-            throw new IllegalArgumentException("Minutes played cannot be negative");
-        }
-        this.minutesPlayed = minutesPlayed;
-    }
-
     public boolean isManOfTheMatch() {
         return manOfTheMatch;
     }
@@ -212,13 +186,4 @@ public class PlayerPoints {
     public void setCleanSheet(boolean cleanSheet) {
         this.cleanSheet = cleanSheet;
     }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
 }

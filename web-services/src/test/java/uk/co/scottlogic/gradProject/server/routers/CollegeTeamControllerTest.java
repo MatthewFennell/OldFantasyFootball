@@ -40,7 +40,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void makingCollegeTeamReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         collegeTeamController.makeCollegeTeam(user, collegeTeamName, response);
@@ -49,7 +49,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void deletingCollegeTeamCorrectlyReturns204() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
@@ -62,7 +62,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void deletingCollegeTeamWhenPlayersInItReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
@@ -76,7 +76,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void deletingCollegeTeamThatDoesNotExistReturns400() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
@@ -86,7 +86,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void addStatsToCollegeTeamReturns200WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
@@ -101,7 +101,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void addStatsToCollegeTeamReturns400WhenCollegeTeamDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 0, 0, 0,0);
@@ -112,7 +112,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void editingCollegeStatsReturns200WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         Integer goalsFor = 10;
         Integer goalsAgainst = 5;
@@ -130,7 +130,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void editingCollegeStatsReturns400WhenCollegeTeamDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String collegeTeamName = "Men's A";
         CollegeTeamStatsDTO dto = new CollegeTeamStatsDTO(collegeTeamName, Enums.CollegeMatchResult.WIN, 10, 5, 2, 7,6);
@@ -141,7 +141,7 @@ public class CollegeTeamControllerTest {
 
     @Test
     public void gettingAllCollegeTeamReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         CollegeTeam collegeTeam_one = new CollegeTeam("A");
 

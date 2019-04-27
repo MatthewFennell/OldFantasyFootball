@@ -69,7 +69,7 @@ public class WeeklyTeamManagerTest {
     @Test
     public void addPlayerToTeam() {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
 
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(u1, new Date(), new ArrayList<>(), 0);
@@ -92,7 +92,7 @@ public class WeeklyTeamManagerTest {
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         Player player_three = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         List<Player> originalPlayers = new ArrayList<>();
         List<Player> playersAfterRemove = new ArrayList<>();
         originalPlayers.add(player_one);
@@ -114,7 +114,7 @@ public class WeeklyTeamManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void removePlayerFromTeamWhenUserHasNoWeeklyTeam() {
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
 
         when(playerRepo.findById(any())).thenReturn(Optional.of(player_one));
         when(weeklyTeamRepo.findActiveTeam(u1)).thenReturn(Optional.empty());
@@ -433,13 +433,13 @@ public class WeeklyTeamManagerTest {
         players.add(player_one);
         players.add(player_two);
 
-        PlayerPoints playerPoints_one = new PlayerPoints(2, 1, 0, false, 0, false, false, new Date(), player_one, 0);
-        PlayerPoints playerPoints_two = new PlayerPoints(4, 1, 0, false, 0, false, false, new Date(), player_two, 0);
+        PlayerPoints playerPoints_one = new PlayerPoints(2, 1, false, 0, false, false, player_one, 0);
+        PlayerPoints playerPoints_two = new PlayerPoints(4, 1, false, 0, false, false, player_two, 0);
 
-        playerManager.addPointsToPlayer(player_one, new Date(), 2, 1, false, 0, 0, false, false, 0);
-        playerManager.addPointsToPlayer(player_two, new Date(), 4, 1, false, 0, 0, false, false, 0);
+        playerManager.addPointsToPlayer(player_one, 2, 1, false, 0, false, false, 0);
+        playerManager.addPointsToPlayer(player_two, 4, 1, false, 0, false, false, 0);
 
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(u1, new Date(), players, 0);
 
@@ -457,7 +457,7 @@ public class WeeklyTeamManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void findPlayersInWeeklyTeamThrowsExceptionIfTeamDoesNotExist() {
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         when(weeklyTeamRepo.findByUserByWeek(u1, 0)).thenReturn(Optional.empty());
         weeklyTeamManager.findAllPlayersInWeeklyTeam("", 0);
 
@@ -553,7 +553,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addingElevenPlayersIsValid() {
-        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setPlayers(Collections.emptyList());
 
@@ -602,7 +602,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addingElevenPlayersIsInvalidDueToPrice() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setUser(user);
         weeklyTeam.setPlayers(Collections.emptyList());
@@ -693,7 +693,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void addAndRemoveTwoPlayersToFullSquadIsValid() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setUser(user);
 

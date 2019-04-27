@@ -93,7 +93,7 @@ public class JwtTokenProviderTest {
     @Test
     public void getAuthentication_ReturnsAUsernamePasswordAuthenticationToken_WhenUserExists() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         // Test
         var token = jwtTokenProvider.getAuthentication(testToken);
@@ -104,7 +104,7 @@ public class JwtTokenProviderTest {
     @Test
     public void getAuthentication_ReturnsAUsernamePasswordAuthenticationTokenContainsCorrectUsernameInPrincipal_WhenUserExists() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         // Test
         var token = jwtTokenProvider.getAuthentication(testToken);
@@ -115,7 +115,7 @@ public class JwtTokenProviderTest {
     @Test
     public void getAuthentication_ReturnsAUsernamePasswordAuthenticationTokenContainsCorrectUsernameInCredentials_WhenUserExists() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         // Test
         var token = jwtTokenProvider.getAuthentication(testToken);
@@ -140,7 +140,7 @@ public class JwtTokenProviderTest {
     @Test(expected = SignatureVerificationException.class)
     public void getAuthentication_ThrowsSignatureVerificationException_WhenTokenSignatureIsNotValid() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         Algorithm algorithm = Algorithm.HMAC256("adifferentsecret");
         var badActorToken = JWT.create()
@@ -157,7 +157,7 @@ public class JwtTokenProviderTest {
     @Test(expected = TokenExpiredException.class)
     public void getAuthentication_ThrowsException_WhenTokenHasExpired() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         Algorithm algorithm = Algorithm.HMAC256(secret_str);
         var oldToken = JWT.create()
@@ -174,7 +174,7 @@ public class JwtTokenProviderTest {
     @Test
     public void login_DoesCreateAccessToken_WhenUserExists() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(eq("a"))).thenReturn(Optional.of(returnedUser));
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         // Test
@@ -186,7 +186,7 @@ public class JwtTokenProviderTest {
     @Test
     public void login_DoesCreateRefreshToken_WhenUserExists() {
         // Setup
-        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser returnedUser = new ApplicationUser("a", "123456", "a", "a");
         when(applicationUserRepo.findByUsername(eq("a"))).thenReturn(Optional.of(returnedUser));
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(returnedUser));
         // Test

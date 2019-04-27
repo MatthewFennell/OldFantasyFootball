@@ -57,11 +57,11 @@ public class PlayerControllerTest {
     public void findingPlayerWithMostPointsInWeekReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
-        PlayerPoints playerPoints = new PlayerPoints(10, 5, 90, false, 0, false, false, new Date(), player, 0);
+        PlayerPoints playerPoints = new PlayerPoints(10, 5, false, 0, false, false, player, 0);
         List<PlayerPoints> points = new ArrayList<>();
         points.add(playerPoints);
 
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(playerPointsRepo.findPlayerWithMostPoints(0)).thenReturn(points);
 
@@ -72,7 +72,7 @@ public class PlayerControllerTest {
     @Test
     public void findingPlayerWithMostPointsInWeekReturnsThrowsExceptionIfNoPlayers() {
         List<PlayerPoints> points = new ArrayList<>();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(playerPointsRepo.findPlayerWithMostPoints(0)).thenReturn(points);
         playerController.getMostPlayerPointsInWeek(user, response, 0);
@@ -85,10 +85,10 @@ public class PlayerControllerTest {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
         List<Player> players = new ArrayList<>();
         Player p1 = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPoints playerPoints = new PlayerPoints(10, 5, 90, false, 0, false, false, new Date(), p1, 0);
+        PlayerPoints playerPoints = new PlayerPoints(10, 5, false, 0, false, false, p1, 0);
 
 
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam(user, new Date(), players, 0);
 
         when(weeklyTeamRepo.findByUserByWeek(any(), any())).thenReturn(Optional.of(weeklyTeam));
@@ -103,7 +103,7 @@ public class PlayerControllerTest {
     @Test
     public void gettingAllPlayersForAUserInAGivenWeekWhenNoTeamExistsReturns400() {
         String id = UUID.randomUUID().toString();
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(weeklyTeamRepo.findByUserByWeek(any(), any())).thenReturn(Optional.empty());
         when(applicationUserRepo.findById(any())).thenReturn(Optional.of(new ApplicationUser()));
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -114,7 +114,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersSortByPriceReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -125,7 +125,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersSortByGoalseReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -136,7 +136,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersSortByAssistsReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -147,7 +147,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersSortByTotalPointsReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -158,7 +158,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersGoalkeepersReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -169,7 +169,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersDefendersReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -180,7 +180,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersMidfieldersReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -191,7 +191,7 @@ public class PlayerControllerTest {
     @Test
     public void validFilteringOfPlayersAttackersReturns200() {
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.filterPlayersSortByScore(any(), any(), any(), any(), any())).thenReturn(Collections.emptyList());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -201,7 +201,7 @@ public class PlayerControllerTest {
 
     @Test
     public void filteringOfPlayersReturns400IfCollegeTeamDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(teamRepo.findByName(any())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.filterPlayersAll(user, response, 100, 0, "name", Enums.Position.ATTACKER, "team", Enums.SORT_BY.PRICE);
@@ -210,7 +210,7 @@ public class PlayerControllerTest {
 
     @Test
     public void deletePlayerReturns204WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(weeklyTeamRepo.findAll()).thenReturn(Collections.emptyList());
@@ -221,7 +221,7 @@ public class PlayerControllerTest {
 
     @Test
     public void deletePlayerReturns400WhenPlayerDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         when(playerRepo.findById(any())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.deletePlayer(user, UUID.randomUUID().toString(), response);
@@ -230,11 +230,11 @@ public class PlayerControllerTest {
 
     @Test
     public void addPointsToSinglePlayerReturns201WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -244,9 +244,9 @@ public class PlayerControllerTest {
 
     @Test
     public void addPointsToSinglePlayerReturns400WhenPlayerDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         String id = UUID.randomUUID().toString();
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.addPointsToSinglePlayer(user, playerPointsDTO, response);
@@ -255,11 +255,11 @@ public class PlayerControllerTest {
 
     @Test
     public void addPointsToSinglePlayerReturns400WhenTheyAlreadyHavePoints() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, 0, false, 0, false, false, id, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.of(new PlayerPoints()));
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -269,11 +269,11 @@ public class PlayerControllerTest {
 
     @Test
     public void editingPointsForPlayerReturns201WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, player.getId().toString(), 0);
-        PlayerPoints playerPoints = new PlayerPoints(3, 2, 0, false, 0, false, false, new Date(), player, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
+        PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
         playerManager.addPointsToPlayer(playerPoints);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
@@ -284,11 +284,11 @@ public class PlayerControllerTest {
 
     @Test
     public void editingPointsForPlayerReturns400WhenPlayerHasNoPoints() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, player.getId().toString(), 0);
-        PlayerPoints playerPoints = new PlayerPoints(3, 2, 0, false, 0, false, false, new Date(), player, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
+        PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
         playerManager.addPointsToPlayer(playerPoints);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
@@ -299,11 +299,11 @@ public class PlayerControllerTest {
 
     @Test
     public void editingPointsForPlayerReturns400WhenPlayerDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, 90, false, 0, false, false, player.getId().toString(), 0);
-        PlayerPoints playerPoints = new PlayerPoints(3, 2, 0, false, 0, false, false, new Date(), player, 0);
+        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
+        PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
         playerManager.addPointsToPlayer(playerPoints);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -313,7 +313,7 @@ public class PlayerControllerTest {
 
     @Test
     public void findingPlayersByCollegeTeamReturns201WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         CollegeTeam collegeTeam = new CollegeTeam("A");
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
@@ -329,7 +329,7 @@ public class PlayerControllerTest {
 
     @Test
     public void findingPlayersByCollegeTeamReturns400WhenCollegeTeamDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         when(teamRepo.findByName("A")).thenReturn(Optional.empty());
         playerController.findPlayersByCollegeTeam(user, response, "A");
@@ -338,7 +338,7 @@ public class PlayerControllerTest {
 
     @Test
     public void makingPlayerReturns201WhenSuccessful() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         CollegeTeam collegeTeam = new CollegeTeam("A");
@@ -349,7 +349,7 @@ public class PlayerControllerTest {
 
     @Test
     public void makingPlayerReturns400WhenInvalidCollegeTeam() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         when(teamRepo.findByName("A")).thenReturn(Optional.empty());
@@ -359,7 +359,7 @@ public class PlayerControllerTest {
 
     @Test
     public void changingPlayerCollegeTeamReturns200() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String id = UUID.randomUUID().toString();
         String name = "name";
@@ -374,7 +374,7 @@ public class PlayerControllerTest {
 
     @Test
     public void changingPlayerCollegeTeamReturns400WhenPlayerDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String id = UUID.randomUUID().toString();
         String name = "name";
@@ -386,7 +386,7 @@ public class PlayerControllerTest {
 
     @Test
     public void changingPlayerCollegeTeamReturns400WhenCollegeTeamDoesNotExist() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a", "a@a.com");
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
         String id = UUID.randomUUID().toString();
         String name = "name";

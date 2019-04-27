@@ -3,19 +3,25 @@ package uk.co.scottlogic.gradProject.server.routers.dto;
 public class RegisterDTO {
 
     private String username;
-
     private String password;
-
     private String firstName;
     private String surname;
-    private String email;
+    private String keycode;
 
-    public RegisterDTO(String username, String password, String firstName, String surname, String email) {
+    public RegisterDTO(String username, String password, String firstName, String surname, String keycode) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.surname = surname;
-        this.email = email;
+        this.keycode = keycode;
+    }
+
+    public String getKeycode() {
+        return keycode;
+    }
+
+    public void setKeyCode(String keycode) {
+        this.keycode = keycode;
     }
 
     public String getUsername() {
@@ -49,13 +55,4 @@ public class RegisterDTO {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 }

@@ -22,8 +22,6 @@ public class UserReturnDTO {
 
     private String surname;
 
-    private String email;
-
     private Integer totalPoints;
 
     private String teamName;
@@ -38,7 +36,6 @@ public class UserReturnDTO {
         this.nickname = user.getNickname();
         this.firstName = user.getFirstName();
         this.surname = user.getSurname();
-        this.email = user.getEmail();
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
         roles = new ArrayList<>();
@@ -86,10 +83,6 @@ public class UserReturnDTO {
 
     public String getSurname() {
         return surname;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Set<GrantedAuthority> getAuthoritySet() {

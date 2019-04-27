@@ -5,7 +5,6 @@ import uk.co.scottlogic.gradProject.server.repos.documents.PlayerPoints;
 public class PlayerPointsDTO {
     private Integer goals;
     private Integer assists;
-    private Integer minutesPlayed;
     private boolean manOfTheMatch;
     private Integer yellowCards;
     private boolean redCard;
@@ -13,10 +12,9 @@ public class PlayerPointsDTO {
     private String playerID;
     private Integer week;
 
-    public PlayerPointsDTO(Integer goals, Integer assists, Integer mins, boolean motm, Integer yellowCards, boolean red, boolean clean, String playerID, Integer week) {
+    public PlayerPointsDTO(Integer goals, Integer assists, boolean motm, Integer yellowCards, boolean red, boolean clean, String playerID, Integer week) {
         this.goals = goals;
         this.assists = assists;
-        this.minutesPlayed = mins;
         this.manOfTheMatch = motm;
         this.yellowCards = yellowCards;
         this.redCard = red;
@@ -28,7 +26,6 @@ public class PlayerPointsDTO {
     public PlayerPointsDTO(PlayerPoints playerPoints) {
         this.goals = playerPoints.getNumberOfGoals();
         this.assists = playerPoints.getNumberOfAssists();
-        this.minutesPlayed = playerPoints.getMinutesPlayed();
         this.manOfTheMatch = playerPoints.isManOfTheMatch();
         this.yellowCards = playerPoints.getYellowCards();
         this.redCard = playerPoints.isRedCard();
@@ -38,7 +35,6 @@ public class PlayerPointsDTO {
     }
 
     public void PlayerPointsDTO() {
-
     }
 
     public Integer getGoals() {
@@ -47,10 +43,6 @@ public class PlayerPointsDTO {
 
     public Integer getAssists() {
         return assists;
-    }
-
-    public Integer getMinutesPlayed() {
-        return minutesPlayed;
     }
 
     public boolean isManOfTheMatch() {

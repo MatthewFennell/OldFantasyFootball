@@ -38,51 +38,6 @@ public class PlayerManager {
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.applicationUserRepo = applicationUserRepo;
         this.percentageOfTeamsRepo = percentageOfTeamsRepo;
-
-//        CollegeTeam collegeTeam = new CollegeTeam("A");
-//        teamRepo.save(collegeTeam);
-//
-//        Player p = new Player(collegeTeam, Enums.Position.GOALKEEPER, 2, "a" ,"sn");
-//
-//        Player p1 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "b" ,"sn");
-//        Player p2 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "c" ,"sn");
-//        Player p3 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "d" ,"sn");
-//        Player p4 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "e" ,"sn");
-//        Player p5 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "f" ,"sn");
-//        Player p6 = new Player(collegeTeam, Enums.Position.DEFENDER, 2, "g" ,"sn");
-//
-//        Player p7 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "h" ,"sn");
-//        Player p8 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "i" ,"sn");
-//        Player p9 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "j" ,"sn");
-//        Player p10 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "k" ,"sn");
-//        Player p11 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "l" ,"sn");
-//        Player p12 = new Player(collegeTeam, Enums.Position.MIDFIELDER, 2, "m" ,"sn");
-//
-//        Player p13 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "n" ,"sn");
-//        Player p14 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "o" ,"sn");
-//        Player p15 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "p" ,"sn");
-//        Player p16 = new Player(collegeTeam, Enums.Position.ATTACKER, 2, "q" ,"sn");
-//
-//        playerRepo.save(p);
-//        playerRepo.save(p1);
-//        playerRepo.save(p2);
-//        playerRepo.save(p3);
-//        playerRepo.save(p4);
-//        playerRepo.save(p5);
-//        playerRepo.save(p6);
-//        playerRepo.save(p7);
-//        playerRepo.save(p8);
-//        playerRepo.save(p9);
-//        playerRepo.save(p10);
-//        playerRepo.save(p11);
-//        playerRepo.save(p12);
-//        playerRepo.save(p13);
-//        playerRepo.save(p14);
-//        playerRepo.save(p15);
-//        playerRepo.save(p16);
-
-        setPercentagesOfPlayersInTeams();
-
     }
 
     public void makePlayer(MakePlayerDTO makePlayerDTO) {
@@ -148,6 +103,8 @@ public class PlayerManager {
     // Should only add results once per team per match
     // TO:DO - Change max week per team
     public void submitResults(SubmitPointsDTO pointsDTO){
+
+        setPercentagesOfPlayersInTeams();
 
         Integer maxWeek = weeklyTeamRepo.findNumberOfWeeks();
         if (pointsDTO.getWeek() > maxWeek){
@@ -229,8 +186,8 @@ public class PlayerManager {
     // When adding points to a player
     // Add points to all the weekly teams they belong to for the correct week
     // Update the users total score as well
-    void addPointsToPlayer(Player player, Date date, Integer goals, Integer assists, Boolean cleanSheet, Integer minutesPlayed, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
-        PlayerPoints newPlayerPoints = new PlayerPoints(goals, assists, minutesPlayed, manOfTheMatch, yellowCards, redCard, cleanSheet, date, player, week);
+    void addPointsToPlayer(Player player, Integer goals, Integer assists, Boolean cleanSheet, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
+        PlayerPoints newPlayerPoints = new PlayerPoints(goals, assists, manOfTheMatch, yellowCards, redCard, cleanSheet, player, week);
         newPlayerPoints.setPoints(calculateScore(newPlayerPoints));
         playerPointsRepo.save(newPlayerPoints);
         Integer score = calculateScore(newPlayerPoints);
@@ -271,11 +228,6 @@ public class PlayerManager {
             total += playerPoints.getNumberOfGoals() * Constants.POINTS_PER_ATTACKER_GOAL;
         }
         total += playerPoints.getNumberOfAssists() * Constants.POINTS_PER_ASSIST;
-        if (playerPoints.getMinutesPlayed() > 60) {
-            total += 2;
-        } else if (playerPoints.getMinutesPlayed() > 0) {
-            total += 1;
-        }
         total += playerPoints.getYellowCards() * Constants.POINTS_PER_YELLOW_CARD;
         if (playerPoints.isRedCard()) {
             total += Constants.POINTS_PER_RED_CARD;
@@ -371,7 +323,7 @@ public class PlayerManager {
         }
         else {
             log.debug("player had no points object - made a new one");
-            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
             addGoalToPlayer(player, week);
         }
@@ -397,7 +349,7 @@ public class PlayerManager {
         }
         else {
             log.debug("player had no points object - made a new one with 1 assist");
-            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
             addAssistToPlayer(player, week);
         }
@@ -490,7 +442,7 @@ public class PlayerManager {
         }
         else {
             System.out.println("player had no points object - made a new one with a clean sheet");
-            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, 0, false, 0, false, false, new Date(), player, week);
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
             addCleanSheet(player, week);
         }
@@ -737,97 +689,6 @@ public class PlayerManager {
         allHistory.sort(Comparator.comparing(TeamHistoryDTO::getTeamName));
         return allHistory;
     }
-
-
-    public void addPointsToPlayersWeek0() {
-        Optional<Player> player1 = playerRepo.findByFirstName("John");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 6, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Phil");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 2, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Chris");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 1, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("David");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
-
-
-        player1 = playerRepo.findByFirstName("Bernado");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 5, 3, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Kevin");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Paul");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 1, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Paco");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 3, 4, false, 90, 0, false, false, 0));
-
-
-        player1 = playerRepo.findByFirstName("Marcus");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 4, 8, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Romelu");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 1, 5, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Dom");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 2, 2, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Ed");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 9, 3, false, 90, 0, false, false, 0));
-
-
-        player1 = playerRepo.findByFirstName("Joe");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 10, 0, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Stevie");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 70, 1, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Ollie");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 21, 3, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Eloka");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 72, 4, false, 90, 0, false, false, 0));
-
-
-        player1 = playerRepo.findByFirstName("Herbie");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 23, 5, false, 90, 0, false, false, 0));
-
-        player1 = playerRepo.findByFirstName("Eduardo");
-        player1.ifPresent(player -> addPointsToPlayer(player, new Date(), 43, 1, false, 90, 0, false, false, 0));
-
-    }
-
-    public void makePlayers() {
-        Optional<CollegeTeam> team = teamRepo.findByName("A");
-        if (!team.isEmpty()) {
-            makePlayer(team.get(), Enums.Position.DEFENDER, 7.2, "John", "Terry");
-            makePlayer(team.get(), Enums.Position.DEFENDER, 5.4, "Phil", "Jones");
-            makePlayer(team.get(), Enums.Position.DEFENDER, 5.7, "Chris", "Smalling");
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.5, "David", "Silva");
-
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 8.2, "Bernado", "Silva");
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.8, "Kevin", "DeBruyne");
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 9.9, "Paul", "Pogba");
-            makePlayer(team.get(), Enums.Position.ATTACKER, 8.8, "Paco", "");
-
-            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Marcus", "Rashford");
-            makePlayer(team.get(), Enums.Position.ATTACKER, 10.2, "Romelu", "Lukaku");
-            makePlayer(team.get(), Enums.Position.GOALKEEPER, 12.5, "Dom", "Beesley");
-            makePlayer(team.get(), Enums.Position.DEFENDER, 8.5, "Ed", "Main");
-
-            makePlayer(team.get(), Enums.Position.DEFENDER, 7.5, "Joe", "Sutton");
-            makePlayer(team.get(), Enums.Position.DEFENDER, 6.5, "Stevie", "");
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 7.5, "Ollie", "Ferrao");
-            makePlayer(team.get(), Enums.Position.MIDFIELDER, 6.5, "Eloka", "Philips");
-
-            makePlayer(team.get(), Enums.Position.DEFENDER, 9.5, "Herbie", "");
-            makePlayer(team.get(), Enums.Position.ATTACKER, 10.5, "Eduardo", "Garcia");
-        }
-    }
-
 
 }
 
