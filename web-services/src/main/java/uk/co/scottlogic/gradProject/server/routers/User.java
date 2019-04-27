@@ -81,6 +81,24 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
+            + " Returns true if user is an admin", notes = "Requires User role", response =
+            UserReturnDTO.class, authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action")})
+    @GetMapping("/user/isAdmin")
+    @PreAuthorize("hasRole('USER')")
+    public boolean getIsAdmin(@AuthenticationPrincipal ApplicationUser user,
+                                    HttpServletResponse response) {
+        try {
+            return applicationUserManager.isAdmin(user);
+        } catch (Exception e) {
+            ExceptionLogger.logException(e);
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key
             + " Gets users remaining budget", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})

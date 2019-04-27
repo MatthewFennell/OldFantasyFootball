@@ -65,7 +65,6 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   						surname: response.surname,
   						username: response.username,
   						remainingBudget: response.remainingBudget,
-  						roles: response.roles,
   						teamName: response.teamName
   					});
   					this.props.setUserBeingViewed(response.id);

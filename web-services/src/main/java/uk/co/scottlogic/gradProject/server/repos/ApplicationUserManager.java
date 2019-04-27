@@ -6,16 +6,14 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PatchPassword;
 import uk.co.scottlogic.gradProject.server.routers.dto.TopWeeklyUserReturnDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserPatchDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.UserReturnDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ApplicationUserManager {
@@ -145,5 +143,15 @@ public class ApplicationUserManager {
         else {
             throw new IllegalArgumentException("User does not exist");
         }
+    }
+
+    public boolean isAdmin(ApplicationUser user){
+        Set<UserAuthority> roles = user.getAuthorityList();
+        for (UserAuthority authority : roles){
+            if (authority.getRole().equals(Constants.ADMIN_STRING)){
+                return true;
+            }
+        }
+        return false;
     }
 }

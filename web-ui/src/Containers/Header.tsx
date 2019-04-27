@@ -6,7 +6,6 @@ import {
 	getSurname,
 	getFirstName,
 	getPageBeingViewed,
-	getRoles,
 	getAccountId
 } from '../Selectors/AccountSelector';
 import { setUserBeingViewed } from '../Actions/ActiveTeamActions';
@@ -15,7 +14,6 @@ const mapStateToProps = (state: State) => ({
 	firstname: getFirstName(state),
 	surname: getSurname(state),
 	pageBeingViewed: getPageBeingViewed(state),
-	roles: getRoles(state),
 	accountId: getAccountId(state)
 });
 

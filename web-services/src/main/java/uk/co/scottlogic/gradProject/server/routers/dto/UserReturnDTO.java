@@ -26,8 +26,6 @@ public class UserReturnDTO {
 
     private String teamName;
 
-    private List<String> roles;
-
     public UserReturnDTO(ApplicationUser user) {
         this.id = user.getUuid();
         this.username = user.getUsername();
@@ -38,19 +36,6 @@ public class UserReturnDTO {
         this.surname = user.getSurname();
         this.totalPoints = user.getTotalPoints();
         this.teamName = user.getTeamName();
-        roles = new ArrayList<>();
-
-        for (UserAuthority ua : user.getAuthorityList()) {
-            roles.add(ua.getRole());
-        }
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 
     public double getRemainingBudget() {

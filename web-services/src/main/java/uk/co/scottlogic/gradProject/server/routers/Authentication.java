@@ -118,11 +118,10 @@ public class Authentication {
                                   HttpServletResponse response) {
         try {
             ApplicationUser user = new ApplicationUser(registerDTO);
-            System.out.println("got here");
-            UserAuthority userRole = new UserAuthority("ROLE_USER");
+            UserAuthority userRole = new UserAuthority(Constants.USER_STRING);
             user.addAuthority(userRole);
             if (applicationUserRepo.count() == 0) {
-                user.addAuthority(new UserAuthority("ROLE_ADMIN"));
+                user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
 
             }
             applicationUserRepo.save(user);

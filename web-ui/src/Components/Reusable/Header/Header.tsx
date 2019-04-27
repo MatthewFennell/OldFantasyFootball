@@ -5,12 +5,13 @@ import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
 import { clearSessionStorage } from '../../../Services/CredentialInputService';
 import ButtonPageSelector from './ButtonPageSelector';
-import { getUser } from '../../../Services/User/UserService';
+import { RoutedFormProps } from '../../../Models/Types/RoutedFormProps';
+import { getUser, getIsAdmin } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 
 interface Props {
-	setUserBeingViewed: (user: string) => void;
+  setUserBeingViewed: (user: string) => void;
   setPageBeingViewed: (page: string) => void;
   setAccount: (account: Account) => void;
   firstname: string;
@@ -19,7 +20,13 @@ interface Props {
   accountId: string;
   logout: () => void;
 }
-class Header extends React.Component<Props & RouteComponentProps> {
+
+interface HeaderState{
+	isAdmin: boolean;
+}
+
+class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Props,
+	HeaderState> {
   private transfersRef: React.RefObject<HTMLDivElement>;
   private leagueRef: React.RefObject<HTMLDivElement>;
   private settingsRef: React.RefObject<HTMLDivElement>;
@@ -33,7 +40,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   private _onAdminSelect: () => void;
   private _onStatsRef: () => void;
 
-  constructor (props: Props & RouteComponentProps) {
+  constructor (props: RoutedFormProps<RouteComponentProps> & Props) {
   	super(props);
 	  this.logout = this.logout.bind(this);
   	this.transfersRef = React.createRef<HTMLDivElement>();
@@ -41,25 +48,27 @@ class Header extends React.Component<Props & RouteComponentProps> {
   	this.settingsRef = React.createRef<HTMLDivElement>();
   	this.teamRef = React.createRef<HTMLDivElement>();
   	this.adminRef = React.createRef<HTMLDivElement>();
-  	this.statsRef = React.createRef<HTMLDivElement>();
+	  this.statsRef = React.createRef<HTMLDivElement>();
+	  this._isAdmin = this._isAdmin.bind(this);
   	this._onTeamSelect = () => this._select(this.teamRef, 'Team');
   	this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
   	this._onLeagueSelect = () => this._select(this.leagueRef, 'Leagues');
   	this._onTransfersSelect = () => this._select(this.transfersRef, 'Transfers');
   	this._onAdminSelect = () => this._select(this.adminRef, 'Admin');
   	this._onStatsRef = () => this._select(this.statsRef, 'Stats');
+  	this.state = {
+  		isAdmin: false
+  	};
   }
 
-  _isAdmin (): boolean {
-  	for (let x = 0; x < this.props.roles.length; x++) {
-  		if (this.props.roles[x] === 'ROLE_ADMIN') {
-  			return true;
-  		}
-  	}
-  	return false;
+  _isAdmin (): void {
+  	 getIsAdmin().then(response => {
+  		this.setState({ isAdmin: response });
+	  });
   }
 
   componentDidMount () {
+	  this._isAdmin();
   	getUser().then(response => {
   		if (response !== undefined) {
   			this.props.setAccount({
@@ -68,7 +77,6 @@ class Header extends React.Component<Props & RouteComponentProps> {
   				surname: response.surname,
   				username: response.username,
   				remainingBudget: response.remainingBudget,
-				  roles: response.roles,
 				  teamName: response.teamName
 			  });
 			  this.props.setUserBeingViewed(response.id);
@@ -88,7 +96,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
     this.leagueRef.current!.classList.remove('selected');
     this.settingsRef.current!.classList.remove('selected');
     this.statsRef.current!.classList.remove('selected');
-    if (this._isAdmin()) {
+    if (this.state.isAdmin) {
       this.adminRef.current!.classList.remove('selected');
     }
     target.current!.classList.add('selected');
@@ -97,7 +105,6 @@ class Header extends React.Component<Props & RouteComponentProps> {
   };
 
   render () {
-  	//   const { firstname, surname } = this.props;
   	return (
   		<div id="header">
   			<Row className="categories-user unselectable">
@@ -163,7 +170,7 @@ class Header extends React.Component<Props & RouteComponentProps> {
   								text="Settings"
   							/>
   						</Link>
-  						{this._isAdmin() ? (
+  						{this.state.isAdmin ? (
   							<Link to="/admin">
   								<ButtonPageSelector
   									id="admin"

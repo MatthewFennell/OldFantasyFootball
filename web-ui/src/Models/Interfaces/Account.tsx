@@ -4,6 +4,5 @@ export interface Account {
   surname: string;
   username: string;
   remainingBudget: number;
-  roles: string[];
   teamName: string;
 }

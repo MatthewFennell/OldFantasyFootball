@@ -66,6 +66,17 @@ export const getUser = (): Promise<Account> => {
 	});
 };
 
+export const getIsAdmin = (): Promise<boolean> => {
+	return fetch('/api/user/isAdmin', {
+		method: 'GET',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
 export const getRemainingBudget = (): Promise<number> => {
 	return fetch('/api/user/budget', {
 		method: 'GET',
