@@ -23,6 +23,7 @@ interface Props {
 
 interface HeaderState{
 	isAdmin: boolean;
+	isCaptain: boolean;
 }
 
 class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Props,
@@ -33,12 +34,14 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   private teamRef: React.RefObject<HTMLDivElement>;
   private adminRef: React.RefObject<HTMLDivElement>;
   private statsRef: React.RefObject<HTMLDivElement>;
+  private captainRef: React.RefObject<HTMLDivElement>;
   private _onTeamSelect: () => void;
   private _onSettingsSelect: () => void;
   private _onLeagueSelect: () => void;
   private _onTransfersSelect: () => void;
   private _onAdminSelect: () => void;
   private _onStatsRef: () => void;
+  private _onCaptainSelect: () => void;
 
   constructor (props: RoutedFormProps<RouteComponentProps> & Props) {
   	super(props);
@@ -49,6 +52,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   	this.teamRef = React.createRef<HTMLDivElement>();
   	this.adminRef = React.createRef<HTMLDivElement>();
 	  this.statsRef = React.createRef<HTMLDivElement>();
+	  this.captainRef = React.createRef<HTMLDivElement>();
 	  this._isAdmin = this._isAdmin.bind(this);
   	this._onTeamSelect = () => this._select(this.teamRef, 'Team');
   	this._onSettingsSelect = () => this._select(this.settingsRef, 'Settings');
@@ -56,8 +60,10 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   	this._onTransfersSelect = () => this._select(this.transfersRef, 'Transfers');
   	this._onAdminSelect = () => this._select(this.adminRef, 'Admin');
   	this._onStatsRef = () => this._select(this.statsRef, 'Stats');
+  	this._onCaptainSelect = () => this._select(this.captainRef, 'Captain');
   	this.state = {
-  		isAdmin: false
+		  isAdmin: false,
+		  isCaptain: true
   	};
   }
 
@@ -99,6 +105,9 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
     if (this.state.isAdmin) {
       this.adminRef.current!.classList.remove('selected');
     }
+    if (this.state.isCaptain) {
+		this.captainRef.current!.classList.remove('selected');
+	  }
     target.current!.classList.add('selected');
     this.props.setPageBeingViewed(name);
     this.props.setUserBeingViewed(this.props.accountId);
@@ -168,6 +177,16 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   								selected={this.props.location.pathname === '/settings'}
   								setRef={() => this.settingsRef}
   								text="Settings"
+  							/>
+  						</Link>
+						  <Link to="/captain">
+  							<ButtonPageSelector
+  								id="settings"
+  								imgSrc="Settings.png"
+  								select={this._onCaptainSelect}
+  								selected={this.props.location.pathname === '/captain'}
+  								setRef={() => this.captainRef}
+  								text="Captain"
   							/>
   						</Link>
   						{this.state.isAdmin ? (
