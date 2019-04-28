@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletResponse;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.*;
 import uk.co.scottlogic.gradProject.server.repos.documents.*;
@@ -270,6 +271,7 @@ public class PlayerControllerTest {
     @Test
     public void editingPointsForPlayerReturns201WhenSuccessful() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+        user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
@@ -285,6 +287,7 @@ public class PlayerControllerTest {
     @Test
     public void editingPointsForPlayerReturns400WhenPlayerHasNoPoints() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+        user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
@@ -337,8 +340,9 @@ public class PlayerControllerTest {
     }
 
     @Test
-    public void makingPlayerReturns201WhenSuccessful() {
+    public void makingPlayerReturns201WhenSuccessfulAsAdmin() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+        user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         CollegeTeam collegeTeam = new CollegeTeam("A");
@@ -350,6 +354,7 @@ public class PlayerControllerTest {
     @Test
     public void makingPlayerReturns400WhenInvalidCollegeTeam() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+        user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
         MockHttpServletResponse response = new MockHttpServletResponse();
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         when(teamRepo.findByName("A")).thenReturn(Optional.empty());
