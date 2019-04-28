@@ -3,6 +3,7 @@ import { State } from '../../Reducers/root';
 import Captain from '../../Components/Captain/Captain';
 import { setPlayersInFilteredTeam, setCaptainPageBeingViewed } from '../../Actions/AdminActions';
 import { getCaptainPageBeingViewed, getPlayersInFilteredTeam } from '../../Selectors/AdminSelector';
+import { setPageBeingViewed } from '../../Actions/AccountActions';
 
 const mapStateToProps = (state: State) => ({
 	captainPageBeingViewed: getCaptainPageBeingViewed(state),
@@ -11,7 +12,8 @@ const mapStateToProps = (state: State) => ({
 
 const mapDispatchToProps = {
 	setCaptainPageBeingViewed,
-	setPlayersInFilteredTeam
+	setPlayersInFilteredTeam,
+	setPageBeingViewed
 };
 
 export default connect<any, any, any>(

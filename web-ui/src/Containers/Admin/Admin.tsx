@@ -3,6 +3,7 @@ import { State } from '../../Reducers/root';
 import Admin from '../../Components/Admin/Admin';
 import { getTeamAddingPoints, getPlayersInFilteredTeam, getAdminPageBeingViewed, getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import { addCollegeTeam, removeCollegeTeam, setAdminPageBeingViewed, setAllCollegeTeams, setTeamAddingPoints } from '../../Actions/AdminActions';
+import { setPageBeingViewed } from '../../Actions/AccountActions';
 
 const mapStateToProps = (state: State) => ({
 	adminPageBeingViewed: getAdminPageBeingViewed(state),
@@ -16,7 +17,8 @@ const mapDispatchToProps = {
 	removeCollegeTeam,
 	setAdminPageBeingViewed,
 	setAllCollegeTeams,
-	setTeamAddingPoints
+	setTeamAddingPoints,
+	setPageBeingViewed
 };
 
 export default connect<any, any, any>(

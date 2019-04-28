@@ -1,7 +1,7 @@
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
-import TransfersForm from '../../Containers/Transfers/TransfersForm';
-import TransfersTableBody from '../../Containers/Transfers/TransfersTableBody';
+import TransfersForm from './TransfersForm';
+import TransfersTableBody from './TransfersTableBody';
 import Pitch from '../Team/PitchLayout/Pitch';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import '../../Style/Transfers/PitchValue.css';
@@ -12,12 +12,15 @@ import TeamData from '../../Containers/Team/TeamData';
 import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 import { getUserBudget } from '../../Services/User/UserService';
 import ResponseMessage from '../common/ResponseMessage';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 
 interface TransfersProps {
   accountId: string;
   remainingBudget: { user: { id: string; budget: number } }
   setBudget: (user: string, budget:number) => void;
+  setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
 
+  allCollegeTeams: CollegeTeam[];
   filteredPlayers: PlayerDTO[];
 
   playersBeingAdded: PlayerDTO[];
@@ -287,11 +290,17 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				<div className="right-rows">
 					<div className="flex-container">
 						<div>
-							<TransfersForm setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })} />
+							<TransfersForm
+								allCollegeTeams={this.props.allCollegeTeams}
+								filteredPlayers={this.props.filteredPlayers}
+								setFilteredPlayers={this.props.setFilteredPlayers}
+								setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
+							/>
 						</div>
 						<div className="transfers-table-wrapper">
 							<div className="transfers-table">
 								<TransfersTableBody
+									filteredPlayers={this.props.filteredPlayers}
 									handleRowClick={this.onRowClick}
 									searchingByPercentage={this.state.searchingByPercentage}
 								/>

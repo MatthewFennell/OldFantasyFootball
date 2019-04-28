@@ -7,8 +7,6 @@ interface TransfersTableBodyProps {
   searchingByPercentage: boolean;
   filteredPlayers: PlayerDTO[];
   handleRowClick: (player: PlayerDTO) => void;
-  setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
-  reverseFilteredPlayers: () => void;
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
