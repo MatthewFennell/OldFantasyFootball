@@ -211,7 +211,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   							<Link to="/admin">
   								<ButtonPageSelector
   									id="admin"
-  									imgSrc="MF.png"
+  									imgSrc="Admin.png"
   									select={this._onAdminSelect}
   									selected={this.props.location.pathname === '/admin'}
   									setRef={() => this.adminRef}
