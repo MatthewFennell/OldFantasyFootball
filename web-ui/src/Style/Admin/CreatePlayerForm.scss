@@ -1,13 +1,7 @@
 @import '../Colors.scss';
 
 div.admin-form {
-  .captain-of-which-team{
-    color: white;
-    font-size: 30px;
-    text-align: center;
-    width: 100%;
-    padding: 50px;
-  }
+  
   display: flex;
   flex-direction: column;
   .admin-form-row-one {
@@ -77,6 +71,7 @@ div.admin-form {
   border: 3px solid;
   border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
   border-image-slice: 1;
+  
 }
 #btnCreatePlayer, #btnDeletePlayer, #btnAddResult {
   color: $strange-orange;
@@ -115,4 +110,22 @@ div.admin-form {
       color: $strange-other-yellow;
       outline: none;
  }
+}
+
+.edit-points-original-stats-wrapper{
+  display: flex;
+  justify-content: center;
+
+  .player-week-edit-points{
+    color: $yellow-text;
+    margin-bottom: 10px;
+  }
+ 
+  .edit-points-info{
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    font-size: 20px;
+    text-align: left;
+  }
 }

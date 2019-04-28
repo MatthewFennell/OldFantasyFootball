@@ -40,6 +40,36 @@ public class PlayerManager {
         this.percentageOfTeamsRepo = percentageOfTeamsRepo;
     }
 
+    public void checkCaptainDoingCorrectly(ApplicationUser user, String comparison){
+        if (!isAdmin(user)){
+            if (!user.getCaptainOf().getName().equals(comparison)){
+                throw new IllegalAccessError("That is forbidden");
+            }
+        }
+    }
+
+    public void checkPlayerBelongsToCaptain(ApplicationUser user, String playerID) {
+        if (!isAdmin(user)) {
+            Optional<Player> player = playerRepo.findById(UUID.fromString(playerID));
+            if (!player.isPresent()) {
+                throw new IllegalArgumentException("Player does not exist");
+            }
+            if (!player.get().getActiveTeam().getName().equals(user.getCaptainOf().getName())) {
+                throw new IllegalAccessError("That player does not belong to your team");
+            }
+        }
+    }
+
+    private boolean isAdmin(ApplicationUser user){
+        Set<UserAuthority> roles = user.getAuthorityList();
+        for (UserAuthority authority : roles){
+            if (authority.getRole().equals(Constants.ADMIN_STRING)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void makePlayer(MakePlayerDTO makePlayerDTO) {
         Optional<CollegeTeam> team = teamRepo.findByName(makePlayerDTO.getCollegeTeam());
         if (team.isPresent()) {

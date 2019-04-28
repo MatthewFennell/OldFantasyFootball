@@ -7,6 +7,12 @@ export const getAdminPageBeingViewed = createSelector(
 	p => p.adminPageBeingViewed
 );
 
+const getCaptainPageBeingViewedState = (state: State) => state.admin;
+export const getCaptainPageBeingViewed = createSelector(
+	[getCaptainPageBeingViewedState],
+	p => p.captainPageBeingViewed
+);
+
 const getTeamAddingPointsState = (state: State) => state.admin;
 export const getTeamAddingPoints = createSelector(
 	[getTeamAddingPointsState],

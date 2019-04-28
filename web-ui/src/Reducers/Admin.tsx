@@ -7,6 +7,7 @@ type Action = AdminAction;
 // Define our State interface for the current reducer
 export interface State {
   adminPageBeingViewed: string;
+  captainPageBeingViewed: string;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
   allCollegeTeams: CollegeTeam[];
@@ -15,6 +16,7 @@ export interface State {
 // Define our initialState
 export const initialState: State = {
 	adminPageBeingViewed: 'home',
+	captainPageBeingViewed: 'home',
 	teamAddingPoints: '',
 	playersInFilteredTeam: [],
 	allCollegeTeams: []
@@ -24,6 +26,10 @@ export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
 	case ActionTypes.SET_ADMIN_PAGE_BEING_VIEWED: {
 		return lodash.set('adminPageBeingViewed', action.payload.adminPageBeingViewed, state);
+	}
+
+	case ActionTypes.SET_CAPTAIN_PAGE_BEING_VIEWED: {
+		return lodash.set('captainPageBeingViewed', action.payload.captainPageBeingViewed, state);
 	}
 
 	case ActionTypes.SET_PLAYERS_IN_FILTERED_TEAM: {

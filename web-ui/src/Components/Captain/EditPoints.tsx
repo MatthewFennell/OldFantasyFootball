@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
 import SelectPlayer from '../../Containers/Admin/SelectPlayer';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { PlayerPoints } from '../../Models/Interfaces/PlayerPoints';
@@ -12,8 +11,6 @@ import CustomDropdown from '../common/CustomDropdown';
 import ResponseMessage from '../common/ResponseMessage';
 
 interface EditPointsFormProps {
-  setTeamAddingPoints: (team: string) => void;
-  teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
 }
 
@@ -46,7 +43,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this._handlePlayerID = this._handlePlayerID.bind(this);
 		this._handleWeek = this._handleWeek.bind(this);
 		this._getResults = this._getResults.bind(this);
-		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
@@ -135,11 +131,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		}
 	}
 
-	_handleCollegeTeam (team: string) {
-		const { setTeamAddingPoints } = this.props;
-		setTeamAddingPoints(team);
-	}
-
 	_handleAssists (assists: string) {
 		this.setState({ assists });
 	}
@@ -219,9 +210,6 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<div className="admin-wrapper">
-						<CollegeTeam setTeam={this._handleCollegeTeam} />
-					</div>
 					<div className="admin-wrapper">
 						<SelectPlayer setPlayerID={this._handlePlayerID} />
 					</div>

@@ -207,11 +207,12 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/make")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
     public boolean makePlayer(@AuthenticationPrincipal ApplicationUser user,
                            @RequestBody MakePlayerDTO dto, HttpServletResponse response) {
         try {
             response.setStatus(201);
+            playerManager.checkCaptainDoingCorrectly(user, dto.getCollegeTeam());
             playerManager.makePlayer(dto);
             return true;
         } catch (IllegalArgumentException e) {
@@ -356,13 +357,14 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/points/edit")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
     public boolean editPointsForPlayer(@AuthenticationPrincipal ApplicationUser user,
                                     @RequestBody PlayerPointsDTO dto,
                                     HttpServletResponse response) {
 
         try {
             response.setStatus(201);
+            playerManager.checkPlayerBelongsToCaptain(user, dto.getPlayerID());
             playerManager.editPoints(dto);
             return true;
         } catch (IllegalArgumentException e) {
@@ -410,12 +412,13 @@ public class PlayerController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/result/submit")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
     public boolean submitResult(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody SubmitPointsDTO dto,
                              HttpServletResponse response) {
         try {
             response.setStatus(201);
+            playerManager.checkCaptainDoingCorrectly(user, dto.getTeamName());
             playerManager.submitResults(dto);
             return true;
 
@@ -439,43 +442,4 @@ public class PlayerController {
         }
         return false;
     }
-
-    @ApiOperation(value = Icons.key + " Submit results for a team", authorizations = {
-            @Authorization(value = "jwtAuth")})
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Transfer request updated"),
-            @ApiResponse(code = 400, message = "Invalid transfer request"),
-            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 500, message = "Server Error")})
-    @PostMapping(value = "/player/result/submit/captain")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
-    public boolean submitResultCaptain(@AuthenticationPrincipal ApplicationUser user,
-                                @RequestBody SubmitPointsDTO dto,
-                                HttpServletResponse response) {
-        try {
-            response.setStatus(201);
-            playerManager.checkValidityOfSubmitPoints(user, dto);
-            return true;
-
-        } catch (IllegalArgumentException e) {
-            try {
-                response.sendError(400, e.getMessage());
-            } catch (Exception f) {
-                log.debug(f.getMessage());
-            }
-        }
-        catch (IllegalAccessError f){
-            try {
-                response.sendError(403, f.getMessage());
-            } catch (Exception ff) {
-                log.debug(f.getMessage());
-            }
-        }
-
-        catch (Exception e) {
-            response.setStatus(409);
-        }
-        return false;
-    }
-
 }

@@ -1,53 +1,34 @@
 import * as React from 'react';
-import { Button } from 'reactstrap';
-import SelectPlayer from '../../Containers/Admin/SelectPlayer';
-import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
-import { submitResultCaptain, findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
-import '../../Style/Admin/ErrorMessage.css';
-import TextInputForm from '../common/TexInputForm';
-import ResponseMessage from '../common/ResponseMessage';
+import '../../Style/Admin/Captain/Captain.css';
+import CreatePlayer from './CreatePlayer';
+import AddResult from './AddResult';
 import { getTeamOfCaptain } from '../../Services/User/UserService';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
+import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
+import EditPoints from './EditPoints';
 
-interface TransfersFormProps {
-	setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
+interface CaptainState {
+	teamName: string;
 }
 
-interface TransfersFormState {
-  goalsFor: string;
-  goalsAgainst: string;
-  week: string;
-  playerIDGoals: string[];
-  playerIDAssists: string[];
-  playerIDCleanSheets: string[];
-  teamName: string;
-
-  responseMessage: string;
-  isError: boolean;
+interface CaptainProps {
+  setCaptainPageBeingViewed: (captainPageBeingViewed: string) => void;
+  captainPageBeingViewed: string;
+  setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
+  playersInFilteredTeam: PlayerDTO[];
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-	constructor (props: TransfersFormProps) {
+class Captain extends React.Component<CaptainProps, CaptainState> {
+	constructor (props: CaptainProps) {
 		super(props);
-		this._handleGoalsFor = this._handleGoalsFor.bind(this);
-		this._handleGoalsAgainst = this._handleGoalsAgainst.bind(this);
-		this._handleWeek = this._handleWeek.bind(this);
-		this._handlePlayerIDGoalscorers = this._handlePlayerIDGoalscorers.bind(this);
-		this._handlePlayerIDAssists = this._handlePlayerIDAssists.bind(this);
-		this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
-		this._onSubmit = this._onSubmit.bind(this);
-		this.handleOnValidate = this.handleOnValidate.bind(this);
+		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
+		this.handleSetPageBeingViewedCreate = this.handleSetPageBeingViewedCreate.bind(this);
+		this.handleSetPageBeingViewedAddResult = this.handleSetPageBeingViewedAddResult.bind(this);
+		this.handleSetPageBeingViewedEditStats = this.handleSetPageBeingViewedEditStats.bind(this);
 		this.state = {
-			goalsFor: '',
-			goalsAgainst: '',
-			week: '',
-			playerIDGoals: [],
-			playerIDAssists: [],
-			playerIDCleanSheets: [],
-			responseMessage: '',
-			isError: false,
 			teamName: ''
 		};
+
 		getTeamOfCaptain().then(response => {
 			this.setState({ teamName: response.name });
 			findPlayersInCollegeTeam(response.name).then(response => {
@@ -55,170 +36,70 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			});
 		})
 			.catch(error => {
-				this.setState({ isError: true, responseMessage: error });
+				console.log('error = ' + error);
 			});
 	}
 
-	_handlePlayerIDGoalscorers (playerID: string, previousID: string) {
-		const { playerIDGoals } = this.state;
-		let newState: string[] = playerIDGoals.filter(value => {
-			return value !== previousID;
-		});
-		newState.push(playerID);
-		this.setState({ playerIDGoals: newState });
+	_setPageBeingViewed (pageToView: string) {
+		this.props.setCaptainPageBeingViewed(pageToView);
 	}
 
-	_handlePlayerIDAssists (playerID: string, previousID: string) {
-		const { playerIDAssists } = this.state;
-		let newState: string[] = playerIDAssists.filter(value => {
-			return value !== previousID;
-		});
-		newState.push(playerID);
-		this.setState({ playerIDAssists: newState });
+	handleSetPageBeingViewedCreate () {
+		this.props.setCaptainPageBeingViewed('create');
 	}
 
-	_handlePlayerIDCleanSheets (playerID: string, previousID: string) {
-		const { playerIDCleanSheets } = this.state;
-		let newState: string[] = playerIDCleanSheets.filter(value => {
-			return value !== previousID;
-		});
-		newState.push(playerID);
-		this.setState({ playerIDCleanSheets: newState });
+	handleSetPageBeingViewedAddResult () {
+		this.props.setCaptainPageBeingViewed('add-result');
 	}
 
-	_handleGoalsFor (goalsFor: string) {
-		this.setState({ goalsFor });
+	handleSetPageBeingViewedEditStats () {
+		this.props.setCaptainPageBeingViewed('edit-stats');
 	}
 
-	_handleGoalsAgainst (goalsAgainst: string) {
-		this.setState({ goalsAgainst });
-	}
-
-	_handleWeek (week: string) {
-		this.setState({ week });
-	}
-
-	handleOnValidate () {
-		const { week, goalsFor, goalsAgainst } = this.state;
-		let error: boolean = false;
-		let message: string = 'Please select a value for ';
-		if (week === '' || isNaN(parseFloat(week))) {
-			error = true;
-			message += 'Week, ';
-		}
-		if (goalsFor === '' || isNaN(parseFloat(goalsFor))) {
-			error = true;
-			message += 'Goals for, ';
-		}
-		if (goalsAgainst === '' || isNaN(parseFloat(goalsAgainst))) {
-			error = true;
-			message += 'Goals against, ';
-		}
-
-		if (error) {
-			this.setState({ responseMessage: message.substring(0, message.length - 2) });
-		} else {
-			this._onSubmit();
-		}
-	}
-
-	_onSubmit () {
-		const { goalsFor, goalsAgainst, week, playerIDGoals, playerIDAssists, playerIDCleanSheets, teamName } = this.state;
-		let data: SubmitResults = {
-			goalsFor: parseInt(goalsFor),
-			goalsAgainst: parseInt(goalsAgainst),
-			week: parseInt(week),
-			goalScorers: playerIDGoals,
-			assists: playerIDAssists,
-			cleanSheets: playerIDCleanSheets,
-			teamName: teamName
-		};
-
-		submitResultCaptain(data).then(response => {
-			this.setState({ isError: false, responseMessage: 'Result added successfully' });
-		}).catch(error => {
-			this.setState({ isError: true, responseMessage: error });
-		});
+	_selectedOrNot (input: string) {
+		return input === this.props.captainPageBeingViewed ? 'raise-selected' : 'raise';
 	}
 
 	render () {
-		const { goalsFor, goalsAgainst, week } = this.state;
-		let goalScorers = [];
-		let assists = [];
-		let defenders = [];
-		for (let i = 0; i < parseInt(goalsFor); i++) {
-			goalScorers.push(<SelectPlayer setPlayerID={this._handlePlayerIDGoalscorers} />);
-			assists.push(<SelectPlayer setPlayerID={this._handlePlayerIDAssists} />);
-		}
-
-		if (goalsAgainst === '0') {
-			for (let i = 0; i < 7; i++) {
-				defenders.push(<SelectPlayer
-					onlyDefenders
-					setPlayerID={this._handlePlayerIDCleanSheets}
-				               />);
-			}
-		}
-
+		const { captainPageBeingViewed } = this.props;
 		return (
-			<div className="admin-form">
-				<div className="captain-of-which-team">
-						You are the captain of team: {this.state.teamName}
-				</div>
-				<div className="admin-form-row-one">
-
-					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={goalsFor}
-							setValue={this._handleGoalsFor}
-							title="Goals for"
-						/>
-					</div>
-					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={goalsAgainst}
-							setValue={this._handleGoalsAgainst}
-							title="Goals against"
-						/>
-					</div>
-					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={week}
-							setValue={this._handleWeek}
-							title="Week"
-						/>
-					</div>
-				</div>
-				<div className="admin-form-row-two">
-					<div className="edit-points-info">
-            Goalscorers:
-						{goalScorers}
-					</div>
-					<div className="edit-points-info">
-            Assists:
-						{assists}
-					</div>
-					{goalsAgainst === '0' ? (
-						<div className="edit-points-info">Clean Sheets: {defenders} </div>
-					) : null}
-					<div>
-						<Button
-							className="btn btn-default btn-round-lg btn-lg second"
-							id="btnAddResult"
-							onClick={this.handleOnValidate}
+			<div className="outer-captain-columns">
+				<div className="left-rows">
+					<div className="captain-info-row">
+						<div
+							className={this._selectedOrNot('create')}
+							onClick={this.handleSetPageBeingViewedCreate}
 						>
-              Create result
-						</Button>
-						<ResponseMessage
-							isError={this.state.isError}
-							responseMessage={this.state.responseMessage}
-							shouldDisplay={this.state.responseMessage.length > 0}
-						/>
+              			Create Player
+						</div>
+						<div
+							className={this._selectedOrNot('add-result')}
+							onClick={this.handleSetPageBeingViewedAddResult}
+						>
+              			Create Result
+						</div>
+						<div
+							className={this._selectedOrNot('edit-stats')}
+							onClick={this.handleSetPageBeingViewedEditStats}
+						>
+              			Edit Stats
+						</div>
 					</div>
+					<div className="captain-of-which-team">
+						You are the captain of team: {this.state.teamName}
+					</div>
+					{captainPageBeingViewed === 'create' ? (
+						<CreatePlayer teamName={this.state.teamName} />
+					) : captainPageBeingViewed === 'add-result' ? (
+						<AddResult
+							teamName={this.state.teamName}
+						/>
+					) : captainPageBeingViewed === 'edit-stats' ? (
+						<EditPoints playersInFilteredTeam={this.props.playersInFilteredTeam} />
+					) : null}
 				</div>
-
 			</div>
 		);
 	}
 }
-export default TransfersForm;
+export default Captain;
