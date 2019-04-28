@@ -2,13 +2,16 @@ import * as React from 'react';
 import '../../Style/Admin/Captain/Captain.css';
 import CreatePlayer from '../Admin/CreatePlayerForm';
 import AddResult from '../Admin/AddResult';
-import { getTeamOfCaptain } from '../../Services/User/UserService';
+import { getTeamOfCaptain, getIsCaptain } from '../../Services/User/UserService';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
 import EditPoints from '../Admin/EditPointsForm';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 
 interface CaptainState {
 	teamName: string;
+	isCaptain: boolean;
 }
 
 interface CaptainProps {
@@ -16,14 +19,26 @@ interface CaptainProps {
   captainPageBeingViewed: string;
   setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
   playersInFilteredTeam: PlayerDTO[];
+
+  setPageBeingViewed: (page: string) => void;
 }
 
-class Captain extends React.Component<CaptainProps, CaptainState> {
-	constructor (props: CaptainProps) {
+class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & CaptainProps, CaptainState> {
+	constructor (props: RoutedFormProps<RouteComponentProps> & CaptainProps) {
 		super(props);
 		this.state = {
-			teamName: ''
+			teamName: '',
+			isCaptain: false
 		};
+
+		getIsCaptain().then(response => {
+			if (response === false) {
+				this.props.setPageBeingViewed('Team');
+				this.props.history.push('/team');
+			} else {
+				this.setState({ isCaptain: true });
+			}
+		});
 
 		getTeamOfCaptain().then(response => {
 			this.setState({ teamName: response.name });
@@ -43,30 +58,31 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 	render () {
 		const { captainPageBeingViewed } = this.props;
 		return (
-			<div className="outer-captain-columns">
+
+			this.state.isCaptain ? (<div className="outer-captain-columns">
 				<div className="left-rows">
 					<div className="captain-info-row">
 						<div
 							className={this._selectedOrNot('create-player')}
 							onClick={() => this.props.setCaptainPageBeingViewed('create-player')}
 						>
-              			Create Player
+					  Create Player
 						</div>
 						<div
 							className={this._selectedOrNot('add-result')}
 							onClick={() => this.props.setCaptainPageBeingViewed('add-result')}
 						>
-              			Create Result
+					  Create Result
 						</div>
 						<div
 							className={this._selectedOrNot('edit-stats')}
 							onClick={() => this.props.setCaptainPageBeingViewed('edit-stats')}
 						>
-              			Edit Stats
+					  Edit Stats
 						</div>
 					</div>
 					<div className="captain-of-which-team">
-						You are the captain of team: {this.state.teamName}
+					You are the captain of team: {this.state.teamName}
 					</div>
 					{captainPageBeingViewed === 'create-player' ? (
 						<CreatePlayer
@@ -87,8 +103,9 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 						/>
 					) : null}
 				</div>
-			</div>
+			</div>) : null
+
 		);
 	}
 }
-export default Captain;
+export default withRouter(Captain);

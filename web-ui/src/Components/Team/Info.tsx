@@ -37,13 +37,17 @@ class Info extends React.Component<StatsProps, InfoState> {
 			dropdownOpen: false
 		};
 		this.updateTotalPoints();
-		this.updateWeeklyPoints(0);
+		for (let week = 0; week <= this.props.totalNumberOfWeeks; week++) {
+			this.updateWeeklyPoints(week);
+		}
 	}
 
-	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
-		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
+	componentDidUpdate (prevProps:any) {
+		if (prevProps.userBeingViewed !== this.props.userBeingViewed || prevProps.totalNumberOfWeeks !== this.props.totalNumberOfWeeks) {
 			this.updateTotalPoints();
-			this.updateWeeklyPoints(this.props.weekBeingViewed);
+			for (let week = 0; week <= this.props.totalNumberOfWeeks; week++) {
+				this.updateWeeklyPoints(week);
+			}
 		}
 	}
 

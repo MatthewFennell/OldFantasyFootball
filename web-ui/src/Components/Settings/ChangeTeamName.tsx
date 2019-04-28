@@ -15,7 +15,6 @@ interface ChangeTeamNameState {
   isError: boolean;
 }
 
-// eslint-disable-next-line react/require-optimization
 class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamNameState> {
 	constructor (props: ChangeTeamNameProps) {
 		super(props);
@@ -43,7 +42,7 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 	}
 
 	_onSubmit () {
-		patchTeamName(this.state.teamNameValue).then(response => {
+		patchTeamName(this.state.teamNameValue).then(() => {
 			this.setState({ responseMessage: 'Team name succesfully updated to ' + this.state.teamNameValue, isError: false });
 		})
 			.catch(error => {

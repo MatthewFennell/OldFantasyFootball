@@ -22,14 +22,11 @@ interface TeamDataProps {
   topWeeklyUsers: any;
   addToTopWeeklyUsers: (id: number, player: TopWeeklyUser) => void;
   totalNumberOfWeeks: number;
-
   setTotalNumberOfWeeks: (numberOfWeeks: number) => void;
   setTransferMarket: (transferMarket: boolean) => void;
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
-
   userBeingViewed: string;
-
 }
 
 class TeamData extends React.Component<TeamDataProps> {
@@ -43,8 +40,6 @@ class TeamData extends React.Component<TeamDataProps> {
 		if (header != null) {
 			header.hidden = false;
 		}
-		// this.props.setWeekBeingViewed(-1);
-
 		// Get the total number of weeks
 		if (this.props.totalNumberOfWeeks === 0) {
 			getNumberOfWeeks().then(currentWeek => {
