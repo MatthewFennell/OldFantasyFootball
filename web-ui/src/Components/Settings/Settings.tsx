@@ -14,7 +14,6 @@ interface SettingsState {
 	lastClicked: string;
   }
 
-// eslint-disable-next-line react/require-optimization
 class Settings extends React.Component<SettingsProps, SettingsState> {
 	constructor (props: SettingsProps) {
 		super(props);
@@ -38,11 +37,9 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		if (Object.entries(this.props.rules).length === 0) {
 			getRules()
 				.then(response => {
-					console.log('reponse = ' + JSON.stringify(response));
 					this.props.setRules(response);
 				})
 				.catch(() => {
-					console.log('some error');
 				});
 		}
 	}

@@ -88,7 +88,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
 	render () {
 		let columns = this.generateColumns();
-		let values = [...Array(15).keys()];
+		let values = [...Array(this.props.totalNumberOfWeeks + 3).keys()];
 
 		return (
 			<div className="stats-wrapper">

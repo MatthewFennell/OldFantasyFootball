@@ -19,7 +19,6 @@ interface ChangePasswordState {
   newPasswordTwo: string;
 }
 
-// eslint-disable-next-line react/require-optimization
 class ChangePassword extends React.Component<ChangePasswordProps, ChangePasswordState> {
 	constructor (props: ChangePasswordProps) {
 		super(props);
@@ -71,8 +70,7 @@ class ChangePassword extends React.Component<ChangePasswordProps, ChangePassword
 					responseMessage: 'Password reset correctly'
 				});
 			})
-				// eslint-disable-next-line handle-callback-err
-				.catch(error => {
+				.catch(() => {
 					this.setState({ isError: true, responseMessage: 'Incorrect password' });
 				});
 		} else {

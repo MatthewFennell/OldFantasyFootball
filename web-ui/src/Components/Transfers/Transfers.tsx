@@ -173,9 +173,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
 	onRemoveFromActiveTeam (id: string) {
 		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['-1'];
-
 		let newTeam = currentTeam.filter(x => x.id !== id);
-
 		this.props.setTeam(this.props.accountId, -1, newTeam);
 	}
 
@@ -265,7 +263,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 								onClick={this.handleUpdateTeam}
 								type="submit"
 							>
-                			SAVE TEAM
+                			Save Team
 							</Button>
 						</div>
 					</div>

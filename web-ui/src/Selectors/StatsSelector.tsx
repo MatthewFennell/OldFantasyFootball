@@ -51,7 +51,18 @@ export const getTotalPointsForUser = createSelector([getTotalPointsForUserState]
 
 const getWeekPointsForUserState = (state: State) => state;
 export const getWeekPointsForUser = createSelector([getWeekPointsForUserState], p => {
-	return p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined ? p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed] : 0;
+	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
+	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
+	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
+	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
+	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
+	if (p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined && p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed] !== undefined) {
+		return p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed];
+	} else if (p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined && p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.totalNumberOfWeeks] !== undefined) {
+		return p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.totalNumberOfWeeks];
+	} else {
+		return 0;
+	}
 });
 
 const getMostValuablePlayerNameState = (state: State) => state;
@@ -67,24 +78,46 @@ export const getMostValuablePlayerPointsName = createSelector([getMostValuablePl
 
 const getTopWeeklyPlayerNameState = (state: State) => state;
 export const getTopWeeklyPlayerName = createSelector([getTopWeeklyPlayerNameState], p => {
-	return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].firstName +
-	' ' + p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].surname : '';
+	if (p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined) {
+		return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].firstName + ' ' + p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].surname;
+	} else if (p.stats.topWeeklyPlayers[p.stats.totalNumberOfWeeks] !== undefined) {
+		return p.stats.topWeeklyPlayers[p.stats.totalNumberOfWeeks].firstName + ' ' + p.stats.topWeeklyPlayers[p.stats.totalNumberOfWeeks].surname;
+	} else {
+		return '';
+	}
 });
 
 const getTopWeeklyPlayerPointsState = (state: State) => state;
 export const getTopWeeklyPlayerPoints = createSelector([getTopWeeklyPlayerPointsState], p => {
-	return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].points : '';
+	if (p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined) {
+		return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].points;
+	} else if (p.stats.topWeeklyPlayers[p.stats.totalNumberOfWeeks] !== undefined) {
+		return p.stats.topWeeklyPlayers[p.stats.totalNumberOfWeeks].points;
+	} else {
+		return '';
+	}
 });
 
 const getTopWeeklyUsersNameState = (state: State) => state;
 export const getTopWeeklyUserName = createSelector([getTopWeeklyUsersNameState], p => {
-	return p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyUsers[p.stats.weekBeingViewed].firstName +
-	' ' + p.stats.topWeeklyUsers[p.stats.weekBeingViewed].surname : '';
+	if (p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined) {
+		return p.stats.topWeeklyUsers[p.stats.weekBeingViewed].firstName + ' ' + p.stats.topWeeklyUsers[p.stats.weekBeingViewed].surname;
+	} else if (p.stats.topWeeklyUsers[p.stats.totalNumberOfWeeks] !== undefined) {
+		return p.stats.topWeeklyUsers[p.stats.totalNumberOfWeeks].firstName + ' ' + p.stats.topWeeklyUsers[p.stats.totalNumberOfWeeks].surname;
+	} else {
+		return '';
+	}
 });
 
 const getTopWeeklyUserPointsState = (state: State) => state;
 export const getTopWeeklyUserPoints = createSelector([getTopWeeklyUserPointsState], p => {
-	return p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyUsers[p.stats.weekBeingViewed].points : '';
+	if (p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined) {
+		return p.stats.topWeeklyUsers[p.stats.weekBeingViewed].points;
+	} else if (p.stats.topWeeklyUsers[p.stats.totalNumberOfWeeks] !== undefined) {
+		return p.stats.topWeeklyUsers[p.stats.totalNumberOfWeeks].points;
+	} else {
+		return '';
+	}
 });
 
 const getRemainingBudgetOfUserState = (state: State) => state;
