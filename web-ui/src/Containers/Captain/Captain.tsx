@@ -1,12 +1,16 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Captain from '../../Components/Captain/Captain';
-import { setPlayersInFilteredTeam } from '../../Actions/AdminActions';
+import { setPlayersInFilteredTeam, setCaptainPageBeingViewed } from '../../Actions/AdminActions';
+import { getCaptainPageBeingViewed, getPlayersInFilteredTeam } from '../../Selectors/AdminSelector';
 
 const mapStateToProps = (state: State) => ({
+	captainPageBeingViewed: getCaptainPageBeingViewed(state),
+	playersInFilteredTeam: getPlayersInFilteredTeam(state)
 });
 
 const mapDispatchToProps = {
+	setCaptainPageBeingViewed,
 	setPlayersInFilteredTeam
 };
 

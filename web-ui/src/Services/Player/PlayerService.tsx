@@ -85,7 +85,33 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
 		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
 	}).then(response => {
 		if (!response.ok) {
-			if (response.status === 400) {
+			if (response.status === 400 || response.status === 403) {
+				return response.json().then(json => {
+					if (response.ok) {
+						return json;
+					} else {
+						return Promise.reject(json.message);
+					}
+				});
+			} else if (response.status === 500) {
+				throw new Error('Internal server error');
+			} else {
+				throw new Error(response.status.toString());
+			}
+		} else if (response.status === 201) {
+			return response.json();
+		}
+	});
+};
+
+export const createPlayerAsCaptain = (data: CreatePlayer): Promise<any> => {
+	return fetch('/api/player/make/captain', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
+	}).then(response => {
+		if (!response.ok) {
+			if (response.status === 400 || response.status === 403) {
 				return response.json().then(json => {
 					if (response.ok) {
 						return json;
