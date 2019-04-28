@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Button } from 'reactstrap';
 import SelectPlayer from '../../Containers/Admin/SelectPlayer';
 import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
-import { submitResultCaptain } from '../../Services/Player/PlayerService';
+import { submitResult } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import ResponseMessage from '../common/ResponseMessage';
@@ -121,7 +121,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			teamName: this.props.teamName
 		};
 
-		submitResultCaptain(data).then(response => {
+		submitResult(data).then(response => {
 			this.setState({ isError: false, responseMessage: 'Result added successfully' });
 		}).catch(error => {
 			this.setState({ isError: true, responseMessage: error });

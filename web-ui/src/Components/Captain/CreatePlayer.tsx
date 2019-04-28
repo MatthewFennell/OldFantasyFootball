@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createPlayerAsCaptain } from '../../Services/Player/PlayerService';
+import { createPlayer } from '../../Services/Player/PlayerService';
 import { CreatePlayer } from '../../Models/Interfaces/CreatePlayer';
 import { Button } from 'reactstrap';
 import '../../Style/Admin/ErrorMessage.css';
@@ -90,7 +90,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 			firstName: firstNameValue,
 			surname: surnameValue
 		};
-		createPlayerAsCaptain(data)
+		createPlayer(data)
 			.then(response => {
 				let values: string[] = [
 					firstNameValue,

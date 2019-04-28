@@ -104,32 +104,6 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
 	});
 };
 
-export const createPlayerAsCaptain = (data: CreatePlayer): Promise<any> => {
-	return fetch('/api/player/make/captain', {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
-	}).then(response => {
-		if (!response.ok) {
-			if (response.status === 400 || response.status === 403) {
-				return response.json().then(json => {
-					if (response.ok) {
-						return json;
-					} else {
-						return Promise.reject(json.message);
-					}
-				});
-			} else if (response.status === 500) {
-				throw new Error('Internal server error');
-			} else {
-				throw new Error(response.status.toString());
-			}
-		} else if (response.status === 201) {
-			return response.json();
-		}
-	});
-};
-
 export const deletePlayer = (id: string): Promise<boolean> => {
 	console.log('id = ' + id);
 	return fetch('/api/player/delete', {
@@ -259,32 +233,6 @@ export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
 
 export const submitResult = (data: SubmitResults): Promise<any> => {
 	return fetch('/api/player/result/submit', {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
-	}).then(response => {
-		if (!response.ok) {
-			if (response.status === 400) {
-				return response.json().then(json => {
-					if (response.ok) {
-						return json;
-					} else {
-						return Promise.reject(json.message);
-					}
-				});
-			} else if (response.status === 500) {
-				throw new Error('Internal server error');
-			} else {
-				throw new Error(response.status.toString());
-			}
-		} else if (response.status === 201) {
-			return response.json();
-		}
-	});
-};
-
-export const submitResultCaptain = (data: SubmitResults): Promise<any> => {
-	return fetch('/api/player/result/submit/captain', {
 		method: 'POST',
 		body: JSON.stringify(data),
 		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
