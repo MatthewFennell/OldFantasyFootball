@@ -137,7 +137,7 @@ public class ApplicationUserManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldNotPatchPasswordIfJustPasswordBeingChangedAndPasswordTooLong() {
-        String password = "1234567";
+        String password = "a1234567890123456789012345678912";
         UserPatchDTO userPatchDTO = new UserPatchDTO(null, null, null, password);
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         applicationUserManager.patchUser(user, userPatchDTO);

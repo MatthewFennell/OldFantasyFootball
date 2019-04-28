@@ -33,7 +33,7 @@ public class ApplicationUserTest {
 
     @Test
     public void passwordOnlyAllowsValidChars() {
-        String[] invalidPasswords = new String[]{"", "1", "11111", "a111111", "111a111", "111111a"};
+        String[] invalidPasswords = new String[]{"", "1", "11111"};
         for (String password : invalidPasswords) {
             try {
                 new ApplicationUser("user", password, "a", "a");
@@ -58,8 +58,8 @@ public class ApplicationUserTest {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void makingUserWithPasswordGreaterThan6DigitsThrowsError() {
-        String password = "1234567";
+    public void makingUserWithPasswordGreaterThan31DigitsThrowsError() {
+        String password = "a1234567890123456789012345678912";
         new ApplicationUser("user", password, "a", "a");
     }
 

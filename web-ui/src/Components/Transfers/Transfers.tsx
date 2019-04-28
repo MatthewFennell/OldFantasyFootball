@@ -135,28 +135,38 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			}
 		});
 		if (playerExists) {
+			this.setState({ errorMessage: 'Cannot have the same player twice!', isError: true });
 			return false;
 		}
 		if (player.price !== undefined && player.price > this.props.remainingBudget[this.props.accountId]) {
+			this.setState({ errorMessage: 'Not enough money available', isError: true });
 			return false;
 		}
 
 		if (player.position === 'GOALKEEPER') {
 			if (numberInThatPosition > 0) {
+				this.setState({ errorMessage: 'You can only have a single keeper', isError: true });
 				return false;
 			}
 		} else if (player.position === 'DEFENDER') {
 			if (numberInThatPosition > 4) {
+				this.setState({ errorMessage: 'Cannot have more than 5 defenders', isError: true });
 				return false;
 			}
 		} else if (player.position === 'MIDFIELDER') {
 			if (numberInThatPosition > 4) {
+				this.setState({ errorMessage: 'Cannot have more than 5 midfielders', isError: true });
 				return false;
 			}
 		} else if (player.position === 'ATTACKER') {
 			if (numberInThatPosition > 2) {
+				this.setState({ errorMessage: 'Cannot have more than 3 attackers', isError: true });
 				return false;
 			}
+		}
+		if (currentTeam.length === 11) {
+			this.setState({ errorMessage: 'Cannot have more than 11 players', isError: true });
+			return false;
 		}
 		return true;
 	}

@@ -1,12 +1,28 @@
+@import '../Colors.scss';
+
 .error-response-message{
     color: red;
 }
 
 .successful-response-message{
-    color: blue;
+    color: $yellow-text;
+    animation-name: example;
+    animation-duration: 3s;
 }
 
 .successful-response-message, .error-response-message {
     margin-top: 15px;
     font-size: 14px;
 }
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+  
+  /* Standard syntax */
+  @keyframes example {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }

@@ -16,7 +16,8 @@ public class Regex {
 
     public static final String USERNAME_PATTERN = "^[\\w\\.\\-]+$";
 
-    public static final String PASSWORD_PATTERN = "^\\d{6}$";
+    // Password expression. Password must be between 6 and 31 digits long and include at least one numeric digit.
+    public static final String PASSWORD_PATTERN = "^(?=.*\\d).{6,31}$";
 
     //https://stackoverflow.com/questions/2721768/regular-expression-to-match-a-name
     //Allows latin alphabets, dashes, and apostrophes with commonly used latin accents.

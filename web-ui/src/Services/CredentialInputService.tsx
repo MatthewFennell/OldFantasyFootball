@@ -12,7 +12,7 @@ export const invalidUsername = (name: string): boolean => {
 	return !name.match(/^[0-9a-zA-Z]+$/);
 };
 export const invalidPasscode = (pass: string): boolean => {
-	return !pass.match(/^\d{6}$/);
+	return !pass.match(/^(?=.*\d).{4,8}$/);
 };
 export const passcodeTooShort = (pass: string): boolean => {
 	return pass.length < 6;
