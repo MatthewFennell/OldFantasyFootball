@@ -2,7 +2,6 @@ import * as React from 'react';
 import { getStats } from '../../Services/Player/PlayerService';
 import { SingleHistory } from '../../Models/Interfaces/SingleHistory';
 import { TeamHistory } from '../../Models/Interfaces/TeamHistory';
-// import WeekSelector from './WeekSelector';
 import '../../Style/Stats/Stats.css';
 import TeamStats from './TeamStats';
 

@@ -111,7 +111,7 @@ class Admin extends React.Component<AdminProps, {}> {
               Make Captain
 						</div>
 					</div>
-					{adminPageBeingViewed === 'create' ? (
+					{adminPageBeingViewed === 'create-player' ? (
 						<CreatePlayerForm
 							allCollegeTeams={this.props.allCollegeTeams}
 						/>

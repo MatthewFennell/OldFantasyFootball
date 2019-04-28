@@ -11,6 +11,8 @@ interface StatsProps {
   setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
   team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
   totalNumberOfWeeks: number;
+  totalPointsForUser: number;
+  weekPointsForUser: number;
 
   userBeingViewed: string
   totalPoints: { user: { id: string; points: number } }
@@ -116,7 +118,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 		const { dropdownOpen } = this.state;
 		return (
 			<div className="info-columns">
-				<div className="total-points">Total Points: {this.props.totalPoints[this.props.userBeingViewed]}</div>
+				<div className="total-points">Total Points: {this.props.totalPointsForUser}</div>
 
 				<Dropdown
 					isOpen={dropdownOpen}
@@ -134,12 +136,8 @@ class Info extends React.Component<StatsProps, InfoState> {
 					</DropdownToggle>
 					<DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
 				</Dropdown>
-
-				{this.props.weeklyPoints[this.props.userBeingViewed] !== undefined
-					? <div className="week-points">Week points: {this.props.weeklyPoints[this.props.userBeingViewed][this.props.weekBeingViewed]}
-					 </div> : <div className="week-points">Week points: </div>
-				}
-
+				<div className="week-points">Week points: {this.props.weekPointsForUser}
+				</div>
 			</div>
 		);
 	}

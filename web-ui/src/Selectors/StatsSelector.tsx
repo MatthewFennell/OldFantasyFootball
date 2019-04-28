@@ -45,3 +45,11 @@ export const getStatsHistory = createSelector([getStatsHistoryState], p => p.his
 
 const getRulesState = (state: State) => state.stats;
 export const getRules = createSelector([getRulesState], p => p.rules);
+
+const getTotalPointsForUserState = (state: State) => state;
+export const getTotalPointsForUser = createSelector([getTotalPointsForUserState], p => p.stats.totalPoints[p.teamInfo.userBeingViewed]);
+
+const getWeekPointsForUserState = (state: State) => state;
+export const getWeekPointsForUser = createSelector([getWeekPointsForUserState], p => {
+	return p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined ? p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed] : 0;
+});

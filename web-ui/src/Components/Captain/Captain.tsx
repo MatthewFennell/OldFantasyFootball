@@ -22,9 +22,6 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 	constructor (props: CaptainProps) {
 		super(props);
 		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
-		this.handleSetPageBeingViewedCreate = this.handleSetPageBeingViewedCreate.bind(this);
-		this.handleSetPageBeingViewedAddResult = this.handleSetPageBeingViewedAddResult.bind(this);
-		this.handleSetPageBeingViewedEditStats = this.handleSetPageBeingViewedEditStats.bind(this);
 		this.state = {
 			teamName: ''
 		};
@@ -44,18 +41,6 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 		this.props.setCaptainPageBeingViewed(pageToView);
 	}
 
-	handleSetPageBeingViewedCreate () {
-		this.props.setCaptainPageBeingViewed('create');
-	}
-
-	handleSetPageBeingViewedAddResult () {
-		this.props.setCaptainPageBeingViewed('add-result');
-	}
-
-	handleSetPageBeingViewedEditStats () {
-		this.props.setCaptainPageBeingViewed('edit-stats');
-	}
-
 	_selectedOrNot (input: string) {
 		return input === this.props.captainPageBeingViewed ? 'raise-selected' : 'raise';
 	}
@@ -67,20 +52,20 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 				<div className="left-rows">
 					<div className="captain-info-row">
 						<div
-							className={this._selectedOrNot('create')}
-							onClick={this.handleSetPageBeingViewedCreate}
+							className={this._selectedOrNot('create-player')}
+							onClick={() => this.props.setCaptainPageBeingViewed('create-player')}
 						>
               			Create Player
 						</div>
 						<div
 							className={this._selectedOrNot('add-result')}
-							onClick={this.handleSetPageBeingViewedAddResult}
+							onClick={() => this.props.setCaptainPageBeingViewed('add-result')}
 						>
               			Create Result
 						</div>
 						<div
 							className={this._selectedOrNot('edit-stats')}
-							onClick={this.handleSetPageBeingViewedEditStats}
+							onClick={() => this.props.setCaptainPageBeingViewed('edit-stats')}
 						>
               			Edit Stats
 						</div>
@@ -88,7 +73,7 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 					<div className="captain-of-which-team">
 						You are the captain of team: {this.state.teamName}
 					</div>
-					{captainPageBeingViewed === 'create' ? (
+					{captainPageBeingViewed === 'create-player' ? (
 						<CreatePlayer teamName={this.state.teamName} />
 					) : captainPageBeingViewed === 'add-result' ? (
 						<AddResult
