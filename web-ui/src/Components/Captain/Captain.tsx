@@ -1,11 +1,11 @@
 import * as React from 'react';
 import '../../Style/Admin/Captain/Captain.css';
-import CreatePlayer from './CreatePlayer';
-import AddResult from './AddResult';
+import CreatePlayer from '../Admin/CreatePlayerForm';
+import AddResult from '../Admin/AddResult';
 import { getTeamOfCaptain } from '../../Services/User/UserService';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
-import EditPoints from './EditPoints';
+import EditPoints from '../Admin/EditPointsForm';
 
 interface CaptainState {
 	teamName: string;
@@ -21,7 +21,6 @@ interface CaptainProps {
 class Captain extends React.Component<CaptainProps, CaptainState> {
 	constructor (props: CaptainProps) {
 		super(props);
-		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
 		this.state = {
 			teamName: ''
 		};
@@ -35,10 +34,6 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 			.catch(error => {
 				console.log('error = ' + error);
 			});
-	}
-
-	_setPageBeingViewed (pageToView: string) {
-		this.props.setCaptainPageBeingViewed(pageToView);
 	}
 
 	_selectedOrNot (input: string) {
@@ -74,13 +69,22 @@ class Captain extends React.Component<CaptainProps, CaptainState> {
 						You are the captain of team: {this.state.teamName}
 					</div>
 					{captainPageBeingViewed === 'create-player' ? (
-						<CreatePlayer teamName={this.state.teamName} />
+						<CreatePlayer
+							allCollegeTeams={[]}
+							collegeTeamName={this.state.teamName}
+						/>
 					) : captainPageBeingViewed === 'add-result' ? (
 						<AddResult
-							teamName={this.state.teamName}
+							allCollegeTeams={[]}
+							collegeTeamName={this.state.teamName}
+							setTeamAddingPoints={() => {}}
 						/>
 					) : captainPageBeingViewed === 'edit-stats' ? (
-						<EditPoints playersInFilteredTeam={this.props.playersInFilteredTeam} />
+						<EditPoints
+							collegeTeamName={this.state.teamName}
+							playersInFilteredTeam={this.props.playersInFilteredTeam}
+							setTeamAddingPoints={() => {}}
+						/>
 					) : null}
 				</div>
 			</div>

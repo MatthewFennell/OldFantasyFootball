@@ -32,17 +32,12 @@ interface AdminProps {
 class Admin extends React.Component<AdminProps, {}> {
 	constructor (props: AdminProps) {
 		super(props);
-		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
 		const { allCollegeTeams, setAllCollegeTeams } = this.props;
 		if (allCollegeTeams.length === 0) {
 			getCollegeTeams('alphabetical').then(response => {
 				setAllCollegeTeams(response);
 			});
 		}
-	}
-
-	_setPageBeingViewed (pageToView: string) {
-		this.props.setAdminPageBeingViewed(pageToView);
 	}
 
 	_selectedOrNot (input: string) {
@@ -114,6 +109,7 @@ class Admin extends React.Component<AdminProps, {}> {
 					{adminPageBeingViewed === 'create-player' ? (
 						<CreatePlayerForm
 							allCollegeTeams={this.props.allCollegeTeams}
+							collegeTeamName=''
 						/>
 					) : adminPageBeingViewed === 'add-points' ? (
 						<AddPointsForm
@@ -123,9 +119,9 @@ class Admin extends React.Component<AdminProps, {}> {
 						/>
 					) : adminPageBeingViewed === 'edit-stats' ? (
 						<EditPointsForm
+							collegeTeamName=''
 							playersInFilteredTeam={this.props.playersInFilteredTeam}
 							setTeamAddingPoints={this.props.setTeamAddingPoints}
-							teamAddingPoints={this.props.teamAddingPoints}
 						/>
 					) : adminPageBeingViewed === 'delete-player' ? (
 						<DeletePlayerForm
@@ -145,6 +141,8 @@ class Admin extends React.Component<AdminProps, {}> {
 						/>
 					) : adminPageBeingViewed === 'add-result' ? (
 						<AddResult
+							allCollegeTeams={this.props.allCollegeTeams}
+							collegeTeamName=''
 							setTeamAddingPoints={this.props.setTeamAddingPoints}
 						/>
 					) : adminPageBeingViewed === 'trigger-week' ? (

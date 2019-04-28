@@ -2,9 +2,7 @@ import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Stats from '../../Components/Team/Stats';
 import {
-	getAverageWeeklyPoints,
 	getWeekBeingViewed,
-	getTopWeeklyPlayer,
 	getTopWeeklyUser,
 	getRemainingBudget,
 	getMostValuable,
@@ -14,7 +12,9 @@ import {
 	getTopWeeklyPlayerName,
 	getTopWeeklyPlayerPoints,
 	getTopWeeklyUserName,
-	getTopWeeklyUserPoints
+	getTopWeeklyUserPoints,
+	getRemainingBudgetOfUser,
+	getAverageWeeklyPointsOfWeek
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
@@ -22,9 +22,7 @@ import { setBudget, setMostValuable } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
-	averageWeeklyPoints: getAverageWeeklyPoints(state),
 	weekBeingViewed: getWeekBeingViewed(state),
-	topWeeklyPlayer: getTopWeeklyPlayer(state),
 	topWeeklyUsers: getTopWeeklyUser(state),
 	userBeingViewed: getUserBeingViewed(state),
 	mostValuable: getMostValuable(state),
@@ -34,7 +32,9 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyPlayerName: getTopWeeklyPlayerName(state),
 	topWeeklyPlayerPoints: getTopWeeklyPlayerPoints(state),
 	topWeeklyUserName: getTopWeeklyUserName(state),
-	topWeeklyUserPoints: getTopWeeklyUserPoints(state)
+	topWeeklyUserPoints: getTopWeeklyUserPoints(state),
+	remainingBudgetOfUser: getRemainingBudgetOfUser(state),
+	averageWeeklyPointsOfWeek: getAverageWeeklyPointsOfWeek(state)
 });
 
 const mapDispatchToProps = {

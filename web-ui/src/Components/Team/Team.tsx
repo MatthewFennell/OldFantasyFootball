@@ -40,6 +40,7 @@ interface TeamProps {
 	setMostValuable: (user: string, mostValuable: MostValuable) => void;
 	setLeagues: (user: string, leagueName: string, position: number) => void;
 	leagues: { user: { league: { leagueName: string; position: number } } }
+	teamToRender: PlayerDTO[];
 }
 
 interface TeamState {
@@ -242,11 +243,6 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	}
 
 	render () {
-		this.generateLeaguePositions();
-		let teamToRender = this.props.team[this.props.userBeingViewed] !== undefined &&
-		this.props.team[this.props.userBeingViewed][this.props.weekBeingViewed] !== undefined
-			? this.props.team[this.props.userBeingViewed][this.props.weekBeingViewed] : [];
-
 		let leagues: LeaguePositions[] = this.generateLeaguePositions();
 		return (
 			<div className="outer-rows">
@@ -275,7 +271,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 					</div>
 
 					<Pitch
-						activeWeeklyTeam={teamToRender}
+						activeWeeklyTeam={this.props.teamToRender}
 						addOrRemovePlayer={() => {}}
 						handleClickOnPlayer={this.handleClickOnPlayer}
 						noPoints={this.props.weekBeingViewed === -1}
