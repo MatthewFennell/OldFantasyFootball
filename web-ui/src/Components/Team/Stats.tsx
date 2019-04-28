@@ -3,8 +3,6 @@ import '../../Style/Team/Stats.css';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getUserBudget } from '../../Services/User/UserService';
 import { getMostValuableAssets } from '../../Services/Player/PlayerService';
-import { PlayerDTO } from '../../Models/Interfaces/Player';
-// import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 
 interface StatsProps {
@@ -21,6 +19,12 @@ interface StatsProps {
   setUserBeingViewed: (user: string) => void;
   mostValuable: { user: { id: string; mostValuable: MostValuable } }
 
+  mostValuablePlayerName: string;
+  mostValuablePlayerScore: number;
+  topWeeklyPlayerName: string;
+  topWeeklyPlayerPoints: number;
+  topWeeklyUserName: string;
+  topWeeklyUserPoints: number;
 }
 
 class Stats extends React.Component<StatsProps> {
@@ -68,20 +72,6 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	render () {
-		const week = this.props.weekBeingViewed;
-
-		const mostValuablePlayer : PlayerDTO = this.props.mostValuable[this.props.userBeingViewed] !== undefined
-			? this.props.mostValuable[this.props.userBeingViewed]['mostValuablePlayer'] : null;
-
-		// const mostValuableTeam : CollegeTeam = this.props.mostValuable[this.props.userBeingViewed] !== undefined
-		// 	? this.props.mostValuable[this.props.userBeingViewed]['mostValuableCollegeTeam'] : null;
-
-		const topWeeklyPlayer : PlayerDTO = this.props.topWeeklyPlayer[week] !== undefined
-			? this.props.topWeeklyPlayer[week] : null;
-
-		const topWeeklyTeam : TopWeeklyUser = this.props.topWeeklyUsers[week] !== undefined
-			? this.props.topWeeklyUsers[week] : null;
-
 		const {
 			averageWeeklyPoints,
 			weekBeingViewed,
@@ -97,30 +87,21 @@ class Stats extends React.Component<StatsProps> {
 					)}
 				</div>
 
-				{mostValuablePlayer !== null
-					? <div className="player-most-points">
-					Your most valuable player is {mostValuablePlayer.firstName + ' ' + mostValuablePlayer.surname}  {' '}
-					with {this.props.mostValuable[this.props.userBeingViewed]['mostValuablePlayerScore']}   points</div>
-					 : null}
+				<div className="player-most-points">
+					Your most valuable player is {this.props.mostValuablePlayerName}{' '} with {this.props.mostValuablePlayerScore} points
+				</div>
 
-				{/* {mostValuableTeam !== null
-					? <div className="player-most-points">
-					Your most valuable team is {mostValuableTeam.name}  with {' '}
-						{this.props.mostValuable[this.props.userBeingViewed]['mostValuableCollegeTeamScore']} points</div>
-					 : null} */}
+				<div className="player-most-points">
+					Player of the Week: {' '}{this.props.topWeeklyPlayerName} ({this.props.topWeeklyPlayerPoints} points)
+				</div>
 
-				{topWeeklyPlayer !== null
-					? <div className="player-most-points"> Player of the Week:
-						{topWeeklyPlayer.firstName}{' '}{topWeeklyPlayer.surname}{' '}
-						({topWeeklyPlayer.points} points) </div> : null}
-
-				{topWeeklyTeam !== null
-					? <div
-						className="player-most-points"
-						onClick={this.handleViewTeamOfTheWeek}
-					  > Team of the Week:
-						{topWeeklyTeam.firstName}{' '}{topWeeklyTeam.surname}{' '}
-						({topWeeklyTeam.points} points) </div> : null}
+				 <div
+					className="player-most-points"
+					onClick={this.handleViewTeamOfTheWeek}
+				 >
+				 Team of the Week:
+					{' '}{this.props.topWeeklyUserName} ({this.props.topWeeklyUserPoints} points)
+				</div>
 
 			</div>
 		);

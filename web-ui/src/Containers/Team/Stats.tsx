@@ -8,7 +8,13 @@ import {
 	getTopWeeklyUser,
 	getRemainingBudget,
 	getMostValuable,
-	getTotalNumberOfWeeks
+	getTotalNumberOfWeeks,
+	getMostValuablePlayerName,
+	getMostValuablePlayerPointsName,
+	getTopWeeklyPlayerName,
+	getTopWeeklyPlayerPoints,
+	getTopWeeklyUserName,
+	getTopWeeklyUserPoints
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
 import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
@@ -22,7 +28,13 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyUsers: getTopWeeklyUser(state),
 	userBeingViewed: getUserBeingViewed(state),
 	mostValuable: getMostValuable(state),
-	totalNumberOfWeeks: getTotalNumberOfWeeks(state)
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
+	mostValuablePlayerName: getMostValuablePlayerName(state),
+	mostValuablePlayerScore: getMostValuablePlayerPointsName(state),
+	topWeeklyPlayerName: getTopWeeklyPlayerName(state),
+	topWeeklyPlayerPoints: getTopWeeklyPlayerPoints(state),
+	topWeeklyUserName: getTopWeeklyUserName(state),
+	topWeeklyUserPoints: getTopWeeklyUserPoints(state)
 });
 
 const mapDispatchToProps = {

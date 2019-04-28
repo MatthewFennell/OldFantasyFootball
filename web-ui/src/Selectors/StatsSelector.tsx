@@ -53,3 +53,36 @@ const getWeekPointsForUserState = (state: State) => state;
 export const getWeekPointsForUser = createSelector([getWeekPointsForUserState], p => {
 	return p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined ? p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed] : 0;
 });
+
+const getMostValuablePlayerNameState = (state: State) => state;
+export const getMostValuablePlayerName = createSelector([getMostValuablePlayerNameState], p => {
+	return p.stats.mostValuable[p.teamInfo.userBeingViewed] !== undefined ? p.stats.mostValuable[p.teamInfo.userBeingViewed]['mostValuablePlayer'].firstName + ' ' +
+	p.stats.mostValuable[p.teamInfo.userBeingViewed]['mostValuablePlayer'].surname : '';
+});
+
+const getMostValuablePlayerPointsState = (state: State) => state;
+export const getMostValuablePlayerPointsName = createSelector([getMostValuablePlayerPointsState], p => {
+	return p.stats.mostValuable[p.teamInfo.userBeingViewed] !== undefined ? p.stats.mostValuable[p.teamInfo.userBeingViewed]['mostValuablePlayerScore'] : '';
+});
+
+const getTopWeeklyPlayerNameState = (state: State) => state;
+export const getTopWeeklyPlayerName = createSelector([getTopWeeklyPlayerNameState], p => {
+	return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].firstName +
+	' ' + p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].surname : '';
+});
+
+const getTopWeeklyPlayerPointsState = (state: State) => state;
+export const getTopWeeklyPlayerPoints = createSelector([getTopWeeklyPlayerPointsState], p => {
+	return p.stats.topWeeklyPlayers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyPlayers[p.stats.weekBeingViewed].points : '';
+});
+
+const getTopWeeklyUsersNameState = (state: State) => state;
+export const getTopWeeklyUserName = createSelector([getTopWeeklyUsersNameState], p => {
+	return p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyUsers[p.stats.weekBeingViewed].firstName +
+	' ' + p.stats.topWeeklyUsers[p.stats.weekBeingViewed].surname : '';
+});
+
+const getTopWeeklyUserPointsState = (state: State) => state;
+export const getTopWeeklyUserPoints = createSelector([getTopWeeklyUserPointsState], p => {
+	return p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyUsers[p.stats.weekBeingViewed].points : '';
+});
