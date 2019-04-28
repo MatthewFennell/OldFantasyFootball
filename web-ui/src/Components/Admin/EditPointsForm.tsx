@@ -13,8 +13,8 @@ import ResponseMessage from '../common/ResponseMessage';
 
 interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
-  teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
+  collegeTeamName: string;
 }
 
 interface EditPointsFormState {
@@ -219,9 +219,9 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<div className="admin-wrapper">
+					{this.props.collegeTeamName === '' ? <div className="admin-wrapper">
 						<CollegeTeam setTeam={this._handleCollegeTeam} />
-					</div>
+					</div> : null}
 					<div className="admin-wrapper">
 						<SelectPlayer setPlayerID={this._handlePlayerID} />
 					</div>

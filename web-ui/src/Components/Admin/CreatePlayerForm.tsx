@@ -14,6 +14,7 @@ import TextInputForm from '../common/TexInputForm';
 
 interface CreatePlayerProps {
   allCollegeTeams: CT[];
+  collegeTeamName: string;
 }
 
 interface CreatePlayerState {
@@ -40,11 +41,11 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 		this.handleValidate = this.handleValidate.bind(this);
 		this.determineResponseMessage = this.determineResponseMessage.bind(this);
 
-		const { allCollegeTeams } = this.props;
+		const collegeName = this.props.allCollegeTeams.length > 0 ? this.props.allCollegeTeams[0].name : '';
 
 		this.state = {
 			positionValue: 'Goalkeeper',
-			teamValue: allCollegeTeams.length > 0 ? allCollegeTeams[0].name : '',
+			teamValue: this.props.collegeTeamName === '' ? collegeName : this.props.collegeTeamName,
 			firstNameValue: '',
 			surnameValue: '',
 			priceValue: '',
@@ -165,16 +166,16 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 							title="Price"
 						/>
 					</div>
-					<div className="admin-wrapper">
+					{this.props.collegeTeamName === '' ? <div className="admin-wrapper">
 						<CollegeTeam setTeam={this._handleTeamChange} />
-					</div>
+					</div> : null}
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreatePlayer"
 							onClick={this.handleValidate}
 						>
-              Create Player
+              				Create Player
 						</Button>
 						<ResponseMessage
 							isError={this.state.isError}

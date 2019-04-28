@@ -6,8 +6,6 @@ import { getMostValuableAssets } from '../../Services/Player/PlayerService';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
 
 interface StatsProps {
-  averageWeeklyPoints: any;
-  topWeeklyPlayer: any;
   weekBeingViewed: number;
   topWeeklyUsers: any;
   totalNumberOfWeeks: number;
@@ -25,6 +23,9 @@ interface StatsProps {
   topWeeklyPlayerPoints: number;
   topWeeklyUserName: string;
   topWeeklyUserPoints: number;
+
+  remainingBudgetOfUser: number;
+  averageWeeklyPointsOfWeek: number;
 }
 
 class Stats extends React.Component<StatsProps> {
@@ -73,7 +74,6 @@ class Stats extends React.Component<StatsProps> {
 
 	render () {
 		const {
-			averageWeeklyPoints,
 			weekBeingViewed,
 		} = this.props;
 
@@ -81,9 +81,9 @@ class Stats extends React.Component<StatsProps> {
 			<div className="stats-columns">
 				<div className="average-points">
 					{weekBeingViewed === -1 ? (
-						<div>Remaining Budget: £{this.props.remainingBudget[this.props.userBeingViewed]}  mil </div>
+						<div>Remaining Budget: £{this.props.remainingBudgetOfUser}  mil </div>
 					) : (
-						<div> Average Points: {averageWeeklyPoints[weekBeingViewed]}</div>
+						<div> Average Points: {this.props.averageWeeklyPointsOfWeek.toFixed(0)}</div>
 					)}
 				</div>
 

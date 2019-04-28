@@ -86,3 +86,13 @@ const getTopWeeklyUserPointsState = (state: State) => state;
 export const getTopWeeklyUserPoints = createSelector([getTopWeeklyUserPointsState], p => {
 	return p.stats.topWeeklyUsers[p.stats.weekBeingViewed] !== undefined ? p.stats.topWeeklyUsers[p.stats.weekBeingViewed].points : '';
 });
+
+const getRemainingBudgetOfUserState = (state: State) => state;
+export const getRemainingBudgetOfUser = createSelector([getRemainingBudgetOfUserState], p => {
+	return p.stats.budget[p.teamInfo.userBeingViewed];
+});
+
+const getAverageWeeklyPointsOfWeekState = (state: State) => state.stats;
+export const getAverageWeeklyPointsOfWeek = createSelector([getAverageWeeklyPointsOfWeekState], p => {
+	return p.averageWeeklyPoints[p.weekBeingViewed];
+});

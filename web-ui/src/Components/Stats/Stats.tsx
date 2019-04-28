@@ -88,7 +88,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
 	render () {
 		let columns = this.generateColumns();
-		let values = [...Array(5).keys()];
+		let values = [...Array(15).keys()];
 
 		return (
 			<div className="stats-wrapper">

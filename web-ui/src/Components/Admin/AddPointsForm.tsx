@@ -42,7 +42,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this._handleRedCard = this._handleRedCard.bind(this);
 		this._handlePlayerID = this._handlePlayerID.bind(this);
 		this._handleWeek = this._handleWeek.bind(this);
-		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this.state = {
@@ -84,10 +83,6 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 			this.setState({ viewingDefender: false });
 			this.setState({ cleanSheet: false });
 		}
-	}
-
-	_handleCollegeTeam (team: string) {
-		this.props.setTeamAddingPoints(team);
 	}
 
 	_handleAssists (assists: string) {
@@ -168,19 +163,15 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 	}
 
 	render () {
-		let setTeam = this._handleCollegeTeam;
-		let setPlayerID = this._handlePlayerID;
-
 		const { viewingDefender, week, goals, assists } = this.state;
-
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
 					<div className="admin-wrapper">
-						<CollegeTeam setTeam={setTeam} />
+						<CollegeTeam setTeam={this.props.setTeamAddingPoints} />
 					</div>
 					<div className="admin-wrapper">
-						<SelectPlayer setPlayerID={setPlayerID} />
+						<SelectPlayer setPlayerID={this._handlePlayerID} />
 					</div>
 					<div className="admin-wrapper">
 						<TextInputForm

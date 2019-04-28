@@ -6,10 +6,13 @@ import { SubmitResults } from '../../Models/Interfaces/SubmitResults';
 import { submitResult } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
+import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import ResponseMessage from '../common/ResponseMessage';
 
 interface TransfersFormProps {
   setTeamAddingPoints: (team: string) => void;
+  allCollegeTeams: CT[];
+  collegeTeamName: string;
 }
 
 interface TransfersFormState {
@@ -39,6 +42,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleOnValidate = this.handleOnValidate.bind(this);
 		this._handleManOfTheMatch = this._handleManOfTheMatch.bind(this);
+		const collegeName = this.props.allCollegeTeams.length > 0 ? this.props.allCollegeTeams[0].name : '';
 		this.state = {
 			goalsFor: '',
 			goalsAgainst: '',
@@ -46,7 +50,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			playerIDGoals: [],
 			playerIDAssists: [],
 			playerIDCleanSheets: [],
-			teamName: 'A',
+			teamName: this.props.collegeTeamName === '' ? collegeName : this.props.collegeTeamName,
 			responseMessage: '',
 			isError: false,
 			manOfTheMatch: ''
@@ -81,8 +85,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 	}
 
 	_handleCollegeTeam (teamName: string) {
-		const { setTeamAddingPoints } = this.props;
-		setTeamAddingPoints(teamName);
+		this.props.setTeamAddingPoints(teamName);
 		this.setState({ teamName, goalsFor: '', goalsAgainst: '' });
 	}
 
@@ -168,9 +171,11 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		return (
 			<div className="admin-form">
 				<div className="admin-form-row-one">
-					<div className="admin-wrapper">
+
+					{this.props.collegeTeamName === '' ? <div className="admin-wrapper">
 						<CollegeTeam setTeam={this._handleCollegeTeam} />
-					</div>
+					</div> : null}
+
 					<div className="admin-wrapper">
 						<TextInputForm
 							currentValue={goalsFor}

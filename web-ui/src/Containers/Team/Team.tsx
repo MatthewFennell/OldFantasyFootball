@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Team from '../../Components/Team/Team';
-import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
+import { getUserBeingViewed, getTeam, getTeamToRender } from '../../Selectors/ActiveTeamSelector';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
 import {
 	getWeekBeingViewed,
@@ -30,7 +30,8 @@ const mapStateToProps = (state: State) => ({
 	userBeingViewed: getUserBeingViewed(state),
 	team: getTeam(state),
 	leagues: getLeagues(state),
-	accountId: getAccountId(state)
+	accountId: getAccountId(state),
+	teamToRender: getTeamToRender(state)
 });
 
 const mapDispatchToProps = {
