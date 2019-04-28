@@ -199,8 +199,8 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
 						  {this.state.isCaptain ? (
 						  <Link to="/captain">
   							<ButtonPageSelector
-  								id="settings"
-  								imgSrc="Settings.png"
+  								id="captain"
+  								imgSrc="Captain.png"
   								select={this._onCaptainSelect}
   								selected={this.props.location.pathname === '/captain'}
   								setRef={() => this.captainRef}
@@ -211,7 +211,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   							<Link to="/admin">
   								<ButtonPageSelector
   									id="admin"
-  									imgSrc="MF.png"
+  									imgSrc="Admin.png"
   									select={this._onAdminSelect}
   									selected={this.props.location.pathname === '/admin'}
   									setRef={() => this.adminRef}

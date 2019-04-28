@@ -5,7 +5,9 @@ import {
 	getWeekBeingViewed,
 	getTotalNumberOfWeeks,
 	getTotalPoints,
-	getWeeklyPoints
+	getWeeklyPoints,
+	getTotalPointsForUser,
+	getWeekPointsForUser
 } from '../../Selectors/StatsSelector';
 import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
 
@@ -19,7 +21,9 @@ const mapStateToProps = (state: State) => ({
 	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 	totalPoints: getTotalPoints(state),
 	userBeingViewed: getUserBeingViewed(state),
-	weeklyPoints: getWeeklyPoints(state)
+	weeklyPoints: getWeeklyPoints(state),
+	totalPointsForUser: getTotalPointsForUser(state),
+	weekPointsForUser: getWeekPointsForUser(state)
 });
 
 const mapDispatchToProps = {

@@ -223,7 +223,16 @@ public class PlayerController {
             } catch (Exception f) {
                 log.debug(f.getMessage());
             }
-        } catch (Exception e) {
+        }
+        catch (IllegalAccessError f){
+            try {
+                response.sendError(403, f.getMessage());
+            } catch (Exception ff) {
+                log.debug(f.getMessage());
+            }
+        }
+
+        catch (Exception e) {
             response.setStatus(500);
             log.debug(e.getMessage());
         }
@@ -373,7 +382,15 @@ public class PlayerController {
             } catch (Exception f) {
                 log.debug(f.getMessage());
             }
-        } catch (Exception e) {
+        }
+        catch (IllegalAccessError f){
+            try {
+                response.sendError(403, f.getMessage());
+            } catch (Exception ff) {
+                log.debug(f.getMessage());
+            }
+        }
+        catch (Exception e) {
             response.setStatus(409);
         }
         return false;

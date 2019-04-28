@@ -148,6 +148,10 @@ public class PlayerManager {
             throw new IllegalArgumentException("Missing out a week of points. The next week should be " + (maxWeek));
         }
 
+        if (pointsDTO.getWeek() < 0){
+            throw new IllegalArgumentException("Cannot submit points for negative week");
+        }
+
         System.out.println("submitting results");
 
         Optional<Player> manOfTheMatchPlayer = playerRepo.findById(UUID.fromString(pointsDTO.getManOfTheMatch()));

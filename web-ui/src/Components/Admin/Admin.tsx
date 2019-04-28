@@ -1,41 +1,39 @@
 import * as React from 'react';
 import '../../Style/Admin/Admin.css';
-import CreatePlayerForm from '../../Containers/Admin/CreatePlayerForm';
-import AddPointsForm from '../../Containers/Admin/AddPointsForm';
-import EditPointsForm from '../../Containers/Admin/EditPointsForm';
-import DeletePlayerForm from '../../Containers/Admin/DeletePlayerForm';
-import CreateCollegeTeam from '../../Containers/Admin/CreateCollegeTeam';
-import DeleteCollegeTeam from '../../Containers/Admin/DeleteCollegeTeam';
+import CreatePlayerForm from './CreatePlayerForm';
+import AddPointsForm from './AddPointsForm';
+import EditPointsForm from './EditPointsForm';
+import DeletePlayerForm from './DeletePlayerForm';
+import CreateCollegeTeam from './CreateCollegeTeam';
+import DeleteCollegeTeam from './DeleteCollegeTeam';
 import { getCollegeTeams } from '../../Services/CollegeTeam/CollegeTeamService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
-import AddResult from '../../Containers/Admin/AddResult';
+import AddResult from './AddResult';
 import TriggerWeek from './TriggerWeek';
-import MakeCaptain from '../../Containers/Admin/MakeCaptain';
+import MakeCaptain from './MakeCaptain';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface AdminProps {
+  addCollegeTeam: (team: CollegeTeam) => void;
+  removeCollegeTeam: (teamName: string) => void;
+
   setAdminPageBeingViewed: (adminPageBeingViewed: string) => void;
   adminPageBeingViewed: string;
 
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
+
+  setTeamAddingPoints: (team: string) => void;
+  teamAddingPoints: string;
+  playersInFilteredTeam: PlayerDTO[];
+
 }
 
 class Admin extends React.Component<AdminProps, {}> {
 	constructor (props: AdminProps) {
 		super(props);
 		this._setPageBeingViewed = this._setPageBeingViewed.bind(this);
-		this.handleSetPageBeingViewedCreate = this.handleSetPageBeingViewedCreate.bind(this);
-		this.handleSetPageBeingViewedDeletePlayer = this.handleSetPageBeingViewedDeletePlayer.bind(this);
-		this.handleSetPageBeingViewedDeleteCollegeTeam = this.handleSetPageBeingViewedDeleteCollegeTeam.bind(this);
-		this.handleSetPageBeingViewedCreateCollegeTeam = this.handleSetPageBeingViewedCreateCollegeTeam.bind(this);
-		this.handleSetPageBeingViewedAddPoints = this.handleSetPageBeingViewedAddPoints.bind(this);
-		this.handleSetPageBeingViewedAddResult = this.handleSetPageBeingViewedAddResult.bind(this);
-		this.handleSetPageBeingViewedEditStats = this.handleSetPageBeingViewedEditStats.bind(this);
-		this.handleSetPageBeingViewedMakeCaptain = this.handleSetPageBeingViewedMakeCaptain.bind(this);
-		this.handleTriggerWeek = this.handleTriggerWeek.bind(this);
-
 		const { allCollegeTeams, setAllCollegeTeams } = this.props;
-
 		if (allCollegeTeams.length === 0) {
 			getCollegeTeams('alphabetical').then(response => {
 				setAllCollegeTeams(response);
@@ -45,42 +43,6 @@ class Admin extends React.Component<AdminProps, {}> {
 
 	_setPageBeingViewed (pageToView: string) {
 		this.props.setAdminPageBeingViewed(pageToView);
-	}
-
-	handleSetPageBeingViewedCreate () {
-		this.props.setAdminPageBeingViewed('create');
-	}
-
-	handleSetPageBeingViewedDeletePlayer () {
-		this.props.setAdminPageBeingViewed('delete-player');
-	}
-
-	handleSetPageBeingViewedCreateCollegeTeam () {
-		this.props.setAdminPageBeingViewed('create-college-team');
-	}
-
-	handleSetPageBeingViewedDeleteCollegeTeam () {
-		this.props.setAdminPageBeingViewed('delete-college-team');
-	}
-
-	handleSetPageBeingViewedAddPoints () {
-		this.props.setAdminPageBeingViewed('add-points');
-	}
-
-	handleSetPageBeingViewedEditStats () {
-		this.props.setAdminPageBeingViewed('edit-stats');
-	}
-
-	handleSetPageBeingViewedAddResult () {
-		this.props.setAdminPageBeingViewed('add-result');
-	}
-
-	handleSetPageBeingViewedMakeCaptain () {
-		this.props.setAdminPageBeingViewed('make-captain');
-	}
-
-	handleTriggerWeek () {
-		this.props.setAdminPageBeingViewed('trigger-week');
 	}
 
 	_selectedOrNot (input: string) {
@@ -94,79 +56,103 @@ class Admin extends React.Component<AdminProps, {}> {
 				<div className="left-rows">
 					<div className="admin-info-row">
 						<div
-							className={this._selectedOrNot('create')}
-							onClick={this.handleSetPageBeingViewedCreate}
+							className={this._selectedOrNot('create-player')}
+							onClick={() => this.props.setAdminPageBeingViewed('create-player')}
 						>
               Create Player
 						</div>
 						<div
 							className={this._selectedOrNot('delete-player')}
-							onClick={this.handleSetPageBeingViewedDeletePlayer}
+							onClick={() => this.props.setAdminPageBeingViewed('delete-player')}
 						>
               Delete Player
 						</div>
 						<div
 							className={this._selectedOrNot('create-college-team')}
-							onClick={this.handleSetPageBeingViewedCreateCollegeTeam}
+							onClick={() => this.props.setAdminPageBeingViewed('create-college-team')}
 						>
               Create College Team
 						</div>
 						<div
 							className={this._selectedOrNot('delete-college-team')}
-							onClick={this.handleSetPageBeingViewedDeleteCollegeTeam}
+							onClick={() => this.props.setAdminPageBeingViewed('delete-college-team')}
 						>
               Delete College Team
 						</div>
 						<div
 							className={this._selectedOrNot('add-points')}
-							onClick={this.handleSetPageBeingViewedAddPoints}
+							onClick={() => this.props.setAdminPageBeingViewed('add-points')}
 						>
               Add Points to Players
 						</div>
 						<div
 							className={this._selectedOrNot('edit-stats')}
-							onClick={this.handleSetPageBeingViewedEditStats}
+							onClick={() => this.props.setAdminPageBeingViewed('edit-stats')}
 						>
               Edit Player Stats
 						</div>
 						<div
 							className={this._selectedOrNot('add-result')}
-							onClick={this.handleSetPageBeingViewedAddResult}
+							onClick={() => this.props.setAdminPageBeingViewed('add-result')}
 						>
               Create Results
 						</div>
 
 						<div
 							className={this._selectedOrNot('trigger-week')}
-							onClick={this.handleTriggerWeek}
+							onClick={() => this.props.setAdminPageBeingViewed('trigger-week')}
 						>
               Trigger new week
 						</div>
 						<div
 							className={this._selectedOrNot('make-captain')}
-							onClick={this.handleSetPageBeingViewedMakeCaptain}
+							onClick={() => this.props.setAdminPageBeingViewed('make-captain')}
 						>
               Make Captain
 						</div>
 					</div>
-					{adminPageBeingViewed === 'create' ? (
-						<CreatePlayerForm />
+					{adminPageBeingViewed === 'create-player' ? (
+						<CreatePlayerForm
+							allCollegeTeams={this.props.allCollegeTeams}
+						/>
 					) : adminPageBeingViewed === 'add-points' ? (
-						<AddPointsForm />
+						<AddPointsForm
+							playersInFilteredTeam={this.props.playersInFilteredTeam}
+							setTeamAddingPoints={this.props.setTeamAddingPoints}
+							teamAddingPoints={this.props.teamAddingPoints}
+						/>
 					) : adminPageBeingViewed === 'edit-stats' ? (
-						<EditPointsForm />
+						<EditPointsForm
+							playersInFilteredTeam={this.props.playersInFilteredTeam}
+							setTeamAddingPoints={this.props.setTeamAddingPoints}
+							teamAddingPoints={this.props.teamAddingPoints}
+						/>
 					) : adminPageBeingViewed === 'delete-player' ? (
-						<DeletePlayerForm />
+						<DeletePlayerForm
+							playersInFilteredTeam={this.props.playersInFilteredTeam}
+							setTeamAddingPoints={this.props.setTeamAddingPoints}
+							teamAddingPoints={this.props.teamAddingPoints}
+						/>
 					) : adminPageBeingViewed === 'create-college-team' ? (
-						<CreateCollegeTeam />
+						<CreateCollegeTeam
+							addCollegeTeam={this.props.addCollegeTeam}
+							allCollegeTeams={this.props.allCollegeTeams}
+						/>
 					) : adminPageBeingViewed === 'delete-college-team' ? (
-						<DeleteCollegeTeam />
+						<DeleteCollegeTeam
+							allCollegeTeams={this.props.allCollegeTeams}
+							removeCollegeTeam={this.props.removeCollegeTeam}
+						/>
 					) : adminPageBeingViewed === 'add-result' ? (
-						<AddResult />
+						<AddResult
+							setTeamAddingPoints={this.props.setTeamAddingPoints}
+						/>
 					) : adminPageBeingViewed === 'trigger-week' ? (
 						<TriggerWeek />
 					) : adminPageBeingViewed === 'make-captain' ? (
-						<MakeCaptain />
+						<MakeCaptain
+							allCollegeTeams={this.props.allCollegeTeams}
+						/>
 					) : null}
 				</div>
 			</div>

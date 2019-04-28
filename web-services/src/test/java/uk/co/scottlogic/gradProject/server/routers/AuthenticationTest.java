@@ -89,8 +89,8 @@ public class AuthenticationTest {
     }
 
     @Test
-    public void registeringAUserReturnsWithAPasswordGreaterThan6DigitsThrows400() {
-        String password = "1234567";
+    public void registeringAUserReturnsWithAPasswordGreaterThan31DigitsThrows400() {
+        String password = "a1234567890123456789012345678912";
         RegisterDTO registerDTO = new RegisterDTO("username", password, "first name", "surname", Constants.REGISTER_KEY_CODE);
         MockHttpServletResponse response = new MockHttpServletResponse();
         authentication.register(registerDTO, response);

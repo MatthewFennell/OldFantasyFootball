@@ -197,6 +197,8 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 												Join league
 										</div>
 									</div>
+								</div>
+								<div className="flex-container-two">
 									<div className="leave-league">
 										<div
 											className={this._selectedOrNot('leave-league')}
