@@ -548,7 +548,7 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesCollegeWin(){
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
@@ -560,7 +560,7 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesCollegeDraw(){
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        SubmitPointsDTO dto = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
@@ -572,7 +572,7 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesCollegeLoss(){
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
@@ -584,7 +584,7 @@ public class PlayerManageTest {
     @Test
     public void submittingOneResultUpdatesCollegeGoalsForAndAgainst(){
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
-        SubmitPointsDTO dto = new SubmitPointsDTO(1532, 2710, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1532, 2710, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
@@ -600,7 +600,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -619,7 +619,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> assists = new ArrayList<>();
         assists.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -638,7 +638,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> cleanSheets = new ArrayList<>();
         cleanSheets.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -659,7 +659,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -681,7 +681,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0,0, false, 0, false, false, player, week);
         List<String> assists = new ArrayList<>();
         assists.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -703,7 +703,7 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> cleanSheets = new ArrayList<>();
         cleanSheets.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(),cleanSheets, "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(),cleanSheets, "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -736,7 +736,7 @@ public class PlayerManageTest {
         goalScorers.add(player2.getId().toString());
         goalScorers.add(player3.getId().toString());
         goalScorers.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -793,7 +793,7 @@ public class PlayerManageTest {
         assists.add(player2.getId().toString());
         assists.add(player3.getId().toString());
         assists.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -850,7 +850,7 @@ public class PlayerManageTest {
         cleanSheets.add(player2.getId().toString());
         cleanSheets.add(player3.getId().toString());
         cleanSheets.add(player4.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(5, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -937,7 +937,7 @@ public class PlayerManageTest {
         cleanSheets.add(player7.getId().toString());
 
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, assists, cleanSheets, "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, assists, cleanSheets, "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
@@ -1012,9 +1012,9 @@ public class PlayerManageTest {
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesCollegeResults(){
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
-        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(10, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
-        SubmitPointsDTO dto2 = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(10, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
+        SubmitPointsDTO dto2 = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         playerManager.submitResults(dto);
@@ -1033,8 +1033,8 @@ public class PlayerManageTest {
         PlayerPoints playerPoints = new PlayerPoints(0, 0, false, 0, false, false, player, week);
         List<String> goalScorers = new ArrayList<>();
         goalScorers.add(player.getId().toString());
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A", UUID.randomUUID().toString());
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A", UUID.randomUUID().toString());
 
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
@@ -1068,9 +1068,9 @@ public class PlayerManageTest {
         assists.add(player1.getId().toString());
         cleanSheets.add(player2.getId().toString());
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A");
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Woman's A");
-        SubmitPointsDTO dto2 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Woman's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(1, 0, week, goalScorers, new ArrayList<>(), new ArrayList<>(), "Woman's A", UUID.randomUUID().toString());
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), assists, new ArrayList<>(), "Woman's A", UUID.randomUUID().toString());
+        SubmitPointsDTO dto2 = new SubmitPointsDTO(1, 0, week, new ArrayList<>(), new ArrayList<>(), cleanSheets, "Woman's A", UUID.randomUUID().toString());
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(week);
         when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
@@ -1213,7 +1213,7 @@ public class PlayerManageTest {
 
         when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
 
-        SubmitPointsDTO dto = new SubmitPointsDTO(2, 0, 0, goalScorersWeekOne, assistsWeekOne, cleanSheets, "Woman's A");
+        SubmitPointsDTO dto = new SubmitPointsDTO(2, 0, 0, goalScorersWeekOne, assistsWeekOne, cleanSheets, "Woman's A", UUID.randomUUID().toString());
         playerManager.submitResults(dto);
 
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, playerPoints.getPoints());
@@ -1304,7 +1304,7 @@ public class PlayerManageTest {
 
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(1);
-        SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "Woman's A");
+        SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "Woman's A", UUID.randomUUID().toString());
         playerManager.submitResults(dto1);
 
         assertEquals(Integer.valueOf(1), playerPoints33.getNumberOfGoals());

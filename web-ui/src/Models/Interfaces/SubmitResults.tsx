@@ -6,4 +6,5 @@ export interface SubmitResults {
   assists: string[];
   cleanSheets: string[];
   teamName: string;
+  manOfTheMatch: string;
 }
