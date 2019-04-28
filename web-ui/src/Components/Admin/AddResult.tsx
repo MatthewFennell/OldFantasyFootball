@@ -23,6 +23,7 @@ interface TransfersFormState {
 
   responseMessage: string;
   isError: boolean;
+  manOfTheMatch: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
@@ -37,6 +38,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this._handlePlayerIDCleanSheets = this._handlePlayerIDCleanSheets.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleOnValidate = this.handleOnValidate.bind(this);
+		this._handleManOfTheMatch = this._handleManOfTheMatch.bind(this);
 		this.state = {
 			goalsFor: '',
 			goalsAgainst: '',
@@ -46,7 +48,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			playerIDCleanSheets: [],
 			teamName: 'A',
 			responseMessage: '',
-			isError: false
+			isError: false,
+			manOfTheMatch: ''
 		};
 	}
 
@@ -91,6 +94,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		this.setState({ goalsAgainst });
 	}
 
+	_handleManOfTheMatch (manOfTheMatch: string) {
+		this.setState({ manOfTheMatch });
+	}
+
 	_handleWeek (week: string) {
 		this.setState({ week });
 	}
@@ -128,7 +135,8 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 			goalScorers: playerIDGoals,
 			assists: playerIDAssists,
 			cleanSheets: playerIDCleanSheets,
-			teamName: teamName
+			teamName: teamName,
+			manOfTheMatch: this.state.manOfTheMatch
 		};
 
 		submitResult(data).then(response => {
@@ -197,6 +205,12 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 					{goalsAgainst === '0' ? (
 						<div className="edit-points-info">Clean Sheets: {defenders} </div>
 					) : null}
+					<div className="edit-points-info">
+						<div className="admin-man-of-the-match">
+						Man of the match
+						</div>
+						{<SelectPlayer setPlayerID={this._handleManOfTheMatch} />}
+					</div>
 					<div>
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"

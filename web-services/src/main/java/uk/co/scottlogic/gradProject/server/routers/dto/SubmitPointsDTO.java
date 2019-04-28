@@ -11,8 +11,9 @@ public class SubmitPointsDTO {
     private List<String> assists;
     private List<String> cleanSheets;
     private String teamName;
+    private String manOfTheMatch;
 
-    public SubmitPointsDTO(Integer goalsFor, Integer goalsAgainst, Integer week, List<String> goalScorers, List<String> assists, List<String> cleanSheets, String teamName) {
+    public SubmitPointsDTO(Integer goalsFor, Integer goalsAgainst, Integer week, List<String> goalScorers, List<String> assists, List<String> cleanSheets, String teamName, String manOfTheMatch) {
         this.goalsFor = goalsFor;
         this.goalsAgainst = goalsAgainst;
         this.week = week;
@@ -20,10 +21,19 @@ public class SubmitPointsDTO {
         this.assists = assists;
         this.cleanSheets = cleanSheets;
         this.teamName = teamName;
+        this.manOfTheMatch = manOfTheMatch;
     }
 
     public SubmitPointsDTO(){
 
+    }
+
+    public String getManOfTheMatch() {
+        return manOfTheMatch;
+    }
+
+    public void setManOfTheMatch(String manOfTheMatch) {
+        this.manOfTheMatch = manOfTheMatch;
     }
 
     public String getTeamName() {

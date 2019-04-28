@@ -149,6 +149,10 @@ public class PlayerManager {
         }
 
         System.out.println("submitting results");
+
+        Optional<Player> manOfTheMatchPlayer = playerRepo.findById(UUID.fromString(pointsDTO.getManOfTheMatch()));
+        manOfTheMatchPlayer.ifPresent(player1 -> addManOfTheMatch(player1, pointsDTO.getWeek()));
+
         Optional<CollegeTeam> collegeTeam = teamRepo.findByName(pointsDTO.getTeamName());
         if (collegeTeam.isPresent()){
 
@@ -363,6 +367,29 @@ public class PlayerManager {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
             addGoalToPlayer(player, week);
+        }
+    }
+
+    private void addManOfTheMatch(Player player, Integer week){
+        Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
+        if (playerPoints.isPresent()){
+            playerPoints.get().setManOfTheMatch(true);
+            playerPoints.get().setPoints(calculateScore(playerPoints.get()));
+            playerPointsRepo.save(playerPoints.get());
+            List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), week);
+            for (UsersWeeklyTeam uwt : weeklyTeams) {
+                ApplicationUser user = uwt.getUser();
+                uwt.changePoints(Constants.MAN_OF_THE_MATCH_BONUS);
+                user.changeTotalPoints(Constants.MAN_OF_THE_MATCH_BONUS);
+                weeklyTeamRepo.save(uwt);
+                applicationUserRepo.save(user);
+            }
+        }
+        else {
+            log.debug("player had no points object - made a new one");
+            PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
+            playerPointsRepo.save(playerPoints1);
+            addManOfTheMatch(player, week);
         }
     }
 
