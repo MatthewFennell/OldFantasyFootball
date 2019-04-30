@@ -19,7 +19,6 @@ interface CaptainProps {
   captainPageBeingViewed: string;
   setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
   playersInFilteredTeam: PlayerDTO[];
-
   setPageBeingViewed: (page: string) => void;
 }
 
@@ -49,7 +48,19 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 			.catch(error => {
 				console.log('error = ' + error);
 			});
+
+		const createHandler = (message: string) => () => this.props.setCaptainPageBeingViewed(message);
+		this.handlers = {
+			createPlayer: createHandler('create-player'),
+			editStats: createHandler('edit-stats'),
+			addResult: createHandler('add-result'),
+		};
 	}
+
+	handlers: { createPlayer: () => void;
+		editStats: () => void;
+		addResult: () => void;
+	};
 
 	_selectedOrNot (input: string) {
 		return input === this.props.captainPageBeingViewed ? 'raise-selected' : 'raise';
@@ -58,25 +69,24 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 	render () {
 		const { captainPageBeingViewed } = this.props;
 		return (
-
 			this.state.isCaptain ? (<div className="outer-captain-columns">
 				<div className="left-rows">
 					<div className="captain-info-row">
 						<div
 							className={this._selectedOrNot('create-player')}
-							onClick={() => this.props.setCaptainPageBeingViewed('create-player')}
+							onClick={this.handlers.createPlayer}
 						>
 					  Create Player
 						</div>
 						<div
 							className={this._selectedOrNot('add-result')}
-							onClick={() => this.props.setCaptainPageBeingViewed('add-result')}
+							onClick={this.handlers.addResult}
 						>
 					  Create Result
 						</div>
 						<div
 							className={this._selectedOrNot('edit-stats')}
-							onClick={() => this.props.setCaptainPageBeingViewed('edit-stats')}
+							onClick={this.handlers.editStats}
 						>
 					  Edit Stats
 						</div>
@@ -104,7 +114,6 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 					) : null}
 				</div>
 			</div>) : null
-
 		);
 	}
 }

@@ -38,16 +38,6 @@ interface AdminState {
 }
 
 class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & AdminProps, AdminState> {
-	handlers: { createPlayer: () => void;
-				deletePlayer: () => void;
-				createCollegeTeam: () => void;
-				deleteCollegeTeam: () => void;
-				addPoints: () => void;
-				editStats: () => void;
-				addResult: () => void;
-				triggerWeek: () => void;
-				makeCaptain: () => void;
-	};
 	constructor (props: RoutedFormProps<RouteComponentProps> & AdminProps) {
 		super(props);
 		const { allCollegeTeams, setAllCollegeTeams } = this.props;
@@ -81,6 +71,17 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 			makeCaptain: createHandler('make-captain'),
 		};
 	}
+
+	handlers: { createPlayer: () => void;
+		deletePlayer: () => void;
+		createCollegeTeam: () => void;
+		deleteCollegeTeam: () => void;
+		addPoints: () => void;
+		editStats: () => void;
+		addResult: () => void;
+		triggerWeek: () => void;
+		makeCaptain: () => void;
+	};
 
 	_selectedOrNot (input: string) {
 		return input === this.props.adminPageBeingViewed ? 'raise-selected' : 'raise';
