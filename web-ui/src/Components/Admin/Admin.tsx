@@ -57,6 +57,10 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 				this.setState({ isAdmin: true });
 			}
 		});
+		const createHandler = message => () => this.props.setAdminPageBeingViewed(message)
+		this.handlers = {
+			createPlayer: createHandler('create-player')
+		}
 	}
 
 	_selectedOrNot (input: string) {
@@ -72,7 +76,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 						<div className="admin-info-row">
 							<div
 								className={this._selectedOrNot('create-player')}
-								onClick={() => this.props.setAdminPageBeingViewed('create-player')}
+								onClick={this.handlers.createPlayer}
 							>
               					Create Player
 							</div>
