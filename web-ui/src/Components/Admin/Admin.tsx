@@ -57,7 +57,31 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 				this.setState({ isAdmin: true });
 			}
 		});
+
+		const createHandler = (message: string) => () => this.props.setAdminPageBeingViewed(message);
+		this.handlers = {
+			createPlayer: createHandler('create-player'),
+			deletePlayer: createHandler('delete-player'),
+			createCollegeTeam: createHandler('create-college-team'),
+			deleteCollegeTeam: createHandler('delete-college-team'),
+			addPoints: createHandler('add-points'),
+			editStats: createHandler('edit-stats'),
+			addResult: createHandler('add-result'),
+			triggerWeek: createHandler('trigger-week'),
+			makeCaptain: createHandler('make-captain'),
+		};
 	}
+
+	handlers: { createPlayer: () => void;
+		deletePlayer: () => void;
+		createCollegeTeam: () => void;
+		deleteCollegeTeam: () => void;
+		addPoints: () => void;
+		editStats: () => void;
+		addResult: () => void;
+		triggerWeek: () => void;
+		makeCaptain: () => void;
+	};
 
 	_selectedOrNot (input: string) {
 		return input === this.props.adminPageBeingViewed ? 'raise-selected' : 'raise';
@@ -72,56 +96,56 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 						<div className="admin-info-row">
 							<div
 								className={this._selectedOrNot('create-player')}
-								onClick={() => this.props.setAdminPageBeingViewed('create-player')}
+								onClick={this.handlers.createPlayer}
 							>
               					Create Player
 							</div>
 							<div
 								className={this._selectedOrNot('delete-player')}
-								onClick={() => this.props.setAdminPageBeingViewed('delete-player')}
+								onClick={this.handlers.deletePlayer}
 							>
               					Delete Player
 							</div>
 							<div
 								className={this._selectedOrNot('create-college-team')}
-								onClick={() => this.props.setAdminPageBeingViewed('create-college-team')}
+								onClick={this.handlers.createCollegeTeam}
 							>
               					Create College Team
 							</div>
 							<div
 								className={this._selectedOrNot('delete-college-team')}
-								onClick={() => this.props.setAdminPageBeingViewed('delete-college-team')}
+								onClick={this.handlers.deleteCollegeTeam}
 							>
               					Delete College Team
 							</div>
 							<div
 								className={this._selectedOrNot('add-points')}
-								onClick={() => this.props.setAdminPageBeingViewed('add-points')}
+								onClick={this.handlers.addPoints}
 							>
              					Add Points to Players
 							</div>
 							<div
 								className={this._selectedOrNot('edit-stats')}
-								onClick={() => this.props.setAdminPageBeingViewed('edit-stats')}
+								onClick={this.handlers.editStats}
 							>
               					Edit Player Stats
 							</div>
 							<div
 								className={this._selectedOrNot('add-result')}
-								onClick={() => this.props.setAdminPageBeingViewed('add-result')}
+								onClick={this.handlers.addResult}
 							>
               					Create Results
 							</div>
 
 							<div
 								className={this._selectedOrNot('trigger-week')}
-								onClick={() => this.props.setAdminPageBeingViewed('trigger-week')}
+								onClick={this.handlers.triggerWeek}
 							>
               					Trigger new week
 							</div>
 							<div
 								className={this._selectedOrNot('make-captain')}
-								onClick={() => this.props.setAdminPageBeingViewed('make-captain')}
+								onClick={this.handlers.makeCaptain}
 							>
               					Make Captain
 							</div>

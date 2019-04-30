@@ -45,16 +45,19 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 	constructor (props: RoutedFormProps<RouteComponentProps> & LeagueProps) {
 		super(props);
 		this._setLeagueBeingViewed = this._setLeagueBeingViewed.bind(this);
-		this.handleCreateLeague = this.handleCreateLeague.bind(this);
-		this.handleJoinLeague = this.handleJoinLeague.bind(this);
 		this.handleViewUser = this.handleViewUser.bind(this);
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.findLeaguesAndPositions = this.findLeaguesAndPositions.bind(this);
 		this.generateLeaguesMessage = this.generateLeaguesMessage.bind(this);
-		this.handleDeleteLeague = this.handleDeleteLeague.bind(this);
-		this.handleLeaveLeague = this.handleLeaveLeague.bind(this);
 		this.state = {
 			leaguesMessage: ''
+		};
+		const createHandler = (message: string) => () => this.props.setLeaguePageBeingViewed(message);
+		this.handlers = {
+			createLeague: createHandler('create-league'),
+			joinLeague: createHandler('join-league'),
+			leaveLeague: createHandler('leave-league'),
+			deleteLeague: createHandler('delete-league'),
 		};
 	}
 
@@ -71,6 +74,12 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 			this.generateLeaguesMessage();
 		}
 	}
+
+	handlers: { createLeague: () => void;
+		joinLeague: () => void;
+		leaveLeague: () => void;
+		deleteLeague: () => void;
+	};
 
 	findLeaguesAndPositions () {
 		getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
@@ -95,22 +104,6 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 			this.props.setIsLeagueAdmin(response.userIsAdmin);
 			this.props.setLeagueCode(response.code);
 		});
-	}
-
-	handleCreateLeague () {
-		this.props.setLeaguePageBeingViewed('create-league');
-	}
-
-	handleJoinLeague () {
-		this.props.setLeaguePageBeingViewed('join-league');
-	}
-
-	handleLeaveLeague () {
-		this.props.setLeaguePageBeingViewed('leave-league');
-	}
-
-	handleDeleteLeague () {
-		this.props.setLeaguePageBeingViewed('delete-league');
 	}
 
 	handleViewUser (id: string) {
@@ -184,7 +177,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									<div className="create league">
 										<div
 											className={this._selectedOrNot('create-league')}
-											onClick={this.handleCreateLeague}
+											onClick={this.handlers.createLeague}
 										>
 												Create league
 										</div>
@@ -192,7 +185,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									<div className="join-league">
 										<div
 											className={this._selectedOrNot('join-league')}
-											onClick={this.handleJoinLeague}
+											onClick={this.handlers.joinLeague}
 										>
 												Join league
 										</div>
@@ -202,7 +195,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									<div className="leave-league">
 										<div
 											className={this._selectedOrNot('leave-league')}
-											onClick={this.handleLeaveLeague}
+											onClick={this.handlers.leaveLeague}
 										>
 												Leave league
 										</div>
@@ -211,7 +204,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									<div className="delete-league">
 										<div
 											className={this._selectedOrNot('delete-league')}
-											onClick={this.handleDeleteLeague}
+											onClick={this.handlers.deleteLeague}
 										>
 												Delete league
 										</div>
