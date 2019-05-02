@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
 import { Row, Col, Button } from 'reactstrap';
@@ -100,7 +101,7 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   	});
   }
 
-  componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+  componentDidUpdate (prevProps:any) {
   	if (prevProps.firstname !== this.props.firstname) {
 		  this._isAdmin();
 		  this._isCaptain();

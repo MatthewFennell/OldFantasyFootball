@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from '../../Models/Interfaces/PlayerPointsType';

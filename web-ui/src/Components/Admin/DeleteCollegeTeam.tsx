@@ -40,7 +40,9 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		deleteCollegeTeam(this.state.collegeNameValue)
 			.then(response => {
 				this.props.removeCollegeTeam(this.state.collegeNameValue);
-				this.setState({ isError: false, responseMessage: 'Team successfully deleted (' + this.state.collegeNameValue + ')' });
+				this.setState(prevState => ({
+					isError: false, responseMessage: 'Team successfully deleted (' + prevState.collegeNameValue + ')'
+				}));
 			})
 			.catch(error => {
 				this.setState({ responseMessage: error, isError: true });

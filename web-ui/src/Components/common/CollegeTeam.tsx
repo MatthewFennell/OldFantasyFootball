@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';

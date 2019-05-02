@@ -18,7 +18,7 @@ interface ChangeTeamNameState {
 class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamNameState> {
 	constructor (props: ChangeTeamNameProps) {
 		super(props);
-		this.handleTeamName = this.handleTeamName.bind(this);
+		this.onHandleTeamName = this.onHandleTeamName.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
 		this.state = {
@@ -28,7 +28,7 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 		};
 	}
 
-	handleTeamName (teamNameValue: string) {
+	onHandleTeamName (teamNameValue: string) {
 		this.setState({ teamNameValue });
 	}
 
@@ -43,7 +43,8 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 
 	_onSubmit () {
 		patchTeamName(this.state.teamNameValue).then(() => {
-			this.setState({ responseMessage: 'Team name succesfully updated to ' + this.state.teamNameValue, isError: false });
+			this.setState(prevState => ({
+				responseMessage: 'Team name succesfully updated to ' + prevState.teamNameValue, isError: false }));
 		})
 			.catch(error => {
 				this.setState({ responseMessage: error, isError: true });
@@ -57,7 +58,7 @@ class ChangeTeamName extends React.Component<ChangeTeamNameProps, ChangeTeamName
 				<div className="team-name-form-row-one">
 					<TextInputForm
 						currentValue={teamNameValue}
-						setValue={this.handleTeamName}
+						setValue={this.onHandleTeamName}
 						title="Team name"
 					/>
 				</div>

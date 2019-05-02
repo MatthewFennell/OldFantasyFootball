@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import '../../Style/Team/Info.css';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';

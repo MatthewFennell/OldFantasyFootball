@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { getStats } from '../../Services/Player/PlayerService';
 import { SingleHistory } from '../../Models/Interfaces/SingleHistory';
@@ -55,21 +56,21 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 					columnOne.push(<TeamStats
 						assists={team.assists}
 						goalScorers={team.goalScorers}
-						key={index}
+						key={team.teamName}
 						teamName={team.teamName}
 					               />);
 				} else if (index % 3 === 1) {
 					columnTwo.push(<TeamStats
 						assists={team.assists}
 						goalScorers={team.goalScorers}
-						key={index}
+						key={team.teamName}
 						teamName={team.teamName}
 					               />);
 				} else {
 					columnThree.push(<TeamStats
 						assists={team.assists}
 						goalScorers={team.goalScorers}
-						key={index}
+						key={team.teamName}
 						teamName={team.teamName}
 					                 />);
 				}
