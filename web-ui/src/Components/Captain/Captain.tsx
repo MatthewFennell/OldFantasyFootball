@@ -8,6 +8,7 @@ import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
 import EditPoints from '../Admin/EditPointsForm';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
+import { noop } from 'lodash';
 
 interface CaptainState {
 	teamName: string;
@@ -103,13 +104,13 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 						<AddResult
 							allCollegeTeams={[]}
 							collegeTeamName={this.state.teamName}
-							setTeamAddingPoints={() => {}}
+							setTeamAddingPoints={noop}
 						/>
 					) : captainPageBeingViewed === 'edit-stats' ? (
 						<EditPoints
 							collegeTeamName={this.state.teamName}
 							playersInFilteredTeam={this.props.playersInFilteredTeam}
-							setTeamAddingPoints={() => {}}
+							setTeamAddingPoints={noop}
 						/>
 					) : null}
 				</div>
