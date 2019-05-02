@@ -189,10 +189,18 @@ export const patchPassword = (data: PatchPassword): Promise<boolean> => {
 		headers: { Authorization: getBearerHeader(), 'Content-Type': 'application/json' }
 	}).then(response => {
 		if (!response.ok) {
-			if (response.status === 403) {
-				throw new Error('Login Unsuccessful');
+			if (response.status === 400) {
+				return response.json().then(json => {
+					if (response.ok) {
+						return json;
+					} else {
+						return Promise.reject(json.message);
+					}
+				});
 			} else if (response.status === 500) {
 				throw new Error('Internal server error');
+			} else if (response.status === 403) {
+				throw new Error('Login unsuccessfull');
 			} else {
 				throw new Error(response.status.toString());
 			}
@@ -222,6 +230,25 @@ export const makeCaptain = (data: MakeCaptain): Promise<any> => {
 			} else {
 				throw new Error(response.status.toString());
 			}
+		} else if (response.status === 200) {
+			return response.json();
+		}
+	});
+};
+
+export const resetPassword = (username: string): Promise<boolean> => {
+	return fetch('/api/user/resetPassword?resetPassword=' + username, {
+		method: 'PATCH',
+		headers: { Authorization: getBearerHeader() }
+	}).then(response => {
+		if (response.status === 400) {
+			return response.json().then(json => {
+				if (response.ok) {
+					return json;
+				} else {
+					return Promise.reject(json.message);
+				}
+			});
 		} else if (response.status === 200) {
 			return response.json();
 		}

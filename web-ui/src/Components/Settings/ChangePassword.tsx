@@ -70,11 +70,11 @@ class ChangePassword extends React.Component<ChangePasswordProps, ChangePassword
 					responseMessage: 'Password reset correctly'
 				});
 			})
-				.catch(() => {
-					this.setState({ isError: true, responseMessage: 'Incorrect password' });
+				.catch(error => {
+					this.setState({ isError: true, responseMessage: error });
 				});
 		} else {
-			console.log("passwords don't match");
+			this.setState({ isError: true, responseMessage: "Passwords don't match" });
 		}
 	}
 

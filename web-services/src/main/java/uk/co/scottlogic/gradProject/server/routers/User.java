@@ -179,6 +179,34 @@ public class User {
     }
 
     @ApiOperation(value = Icons.key
+            + " Resets the users password", notes = "Requires User role", response = void.class,
+            authorizations = {
+                    @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Team Name Successfully Set"),
+            @ApiResponse(code = 400, message = "Team name property not valid"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
+                    + "property"), @ApiResponse(code = 500, message = "Server Error")})
+    @PatchMapping("/user/resetPassword")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean resetPassword(@AuthenticationPrincipal ApplicationUser user,
+                                 String resetPassword, HttpServletResponse response) {
+        try {
+            applicationUserManager.resetUserPassword(resetPassword);
+            return true;
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            ExceptionLogger.logException(e);
+            response.setStatus(500);
+        }
+        return false;
+    }
+
+    @ApiOperation(value = Icons.key
             + " Patches current user detail", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})
@@ -218,8 +246,6 @@ public class User {
     public boolean patchPassword(@AuthenticationPrincipal ApplicationUser user,
                               @RequestBody PatchPassword dto, HttpServletResponse response) {
         try {
-            System.out.println("trying to patch");
-            System.out.println("original = " + dto.getOriginalPassword());
             applicationUserManager.patchPassword(user, dto);
             return true;
         } catch (IllegalArgumentException e) {
