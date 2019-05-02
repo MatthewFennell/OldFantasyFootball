@@ -7,6 +7,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import * as RegisterService from '../../Services/CredentialInputService';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
+import ResponseMessage from '../../Components/common/ResponseMessage';
 
 interface RegisterState {
   firstName: string;
@@ -15,6 +16,7 @@ interface RegisterState {
   passcode: string;
 	error: string;
 	keycode: string;
+	isError: boolean;
 }
 
 class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>, RegisterState> {
@@ -26,7 +28,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
 			username: '',
 			passcode: '',
 			error: '',
-			keycode: ''
+			keycode: '',
+			isError: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
@@ -37,28 +40,28 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   		RegisterService.emptyFields(
   		)
   	) {
-  		this.setState({ error: 'All fields must be filled in' });
+  		this.setState({ error: 'All fields must be filled in', isError: true });
   		return true;
   	} else if (
   		RegisterService.invalidName(this.state.firstName) ||
       RegisterService.invalidName(this.state.surname)
   	) {
-  		this.setState({ error: 'Invalid characters in name or surname' });
+  		this.setState({ error: 'Invalid characters in name or surname', isError: true });
   		return true;
   	} else if (RegisterService.invalidUsername(this.state.username)) {
-  		this.setState({ error: 'Invalid username - must contain only alphanumeric characters' });
+  		this.setState({ error: 'Invalid username - must contain only alphanumeric characters', isError: true });
   		return true;
   	} else if (RegisterService.invalidPasscode(this.state.passcode)) {
-  		this.setState({ error: 'Invalid passcode - passcode must be 6 digits' });
+  		this.setState({ error: 'Invalid password - password must be between 6 and 31 characters, including at least 1 number', isError: true });
   		return true;
   	} else if (RegisterService.passcodeTooShort(this.state.passcode)) {
-  		this.setState({ error: 'Passcode is too short' });
+  		this.setState({ error: 'Passcode is too short', isError: true });
   		return true;
   	}
   	return false;
   };
 
-  _handleInput (eventName: string, eventTarget: HTMLInputElement) {
+  _handleInput (eventName: any, eventTarget: HTMLInputElement) {
   	this.setState({
   		[eventName]: eventTarget.value
   	} as Pick<RegisterState, keyof RegisterState>);
@@ -112,18 +115,26 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   render () {
   	return (
   		<div id="register-form">
+
   			<Form
   				id="register-form"
   				onSubmit={e => e.preventDefault()}
   			>
-  				<h1
+
+  				<ResponseMessage
+  					isError={this.state.isError}
+  					responseMessage={this.state.error}
+  					shouldDisplay={this.state.error.length > 0}
+  				/>
+
+  			<h1
   					className="text-center unselectable"
   					id="greeting"
-  				>
+  			>
             Sign Up:
   				</h1>
-  				<Label className="error-text">{this.state.error}</Label>
-  				<div id="register-input-fields">
+
+  				<div>
   					<FormGroup className="first-name">
   						<Label
   							className="unselectable"
@@ -154,8 +165,6 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							type="text"
   						/>
   					</FormGroup>
-  				</div>
-  				<div>
   					<FormGroup className="username">
   						<Label
   							className="unselectable"
@@ -216,6 +225,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   				>
             Log in
   				</Button>
+  				{/* <Label className="error-text">{this.state.error}</Label> */}
   			</Form>
   		</div>
   	);

@@ -15,6 +15,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { getIsAdmin } from '../../Services/User/UserService';
+import ResetPassword from './ResetPassword';
 
 interface AdminProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -69,6 +70,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 			addResult: createHandler('add-result'),
 			triggerWeek: createHandler('trigger-week'),
 			makeCaptain: createHandler('make-captain'),
+			resetPassword: createHandler('reset-password'),
 		};
 	}
 
@@ -81,6 +83,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 		addResult: () => void;
 		triggerWeek: () => void;
 		makeCaptain: () => void;
+		resetPassword: () => void;
 	};
 
 	_selectedOrNot (input: string) {
@@ -149,6 +152,12 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 							>
               					Make Captain
 							</div>
+							<div
+								className={this._selectedOrNot('reset-password')}
+								onClick={this.handlers.resetPassword}
+							>
+              					Reset Password
+							</div>
 						</div>
 						{adminPageBeingViewed === 'create-player' ? (
 							<CreatePlayerForm
@@ -195,7 +204,10 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 							<MakeCaptain
 								allCollegeTeams={this.props.allCollegeTeams}
 							/>
-						) : null}
+						) : adminPageBeingViewed === 'reset-password' ? (
+							<ResetPassword />)
+
+							: null}
 					</div>
 				</div>)
 

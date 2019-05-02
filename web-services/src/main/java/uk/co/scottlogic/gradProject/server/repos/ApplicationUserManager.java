@@ -64,7 +64,6 @@ public class ApplicationUserManager {
     public void patchPassword(ApplicationUser user, PatchPassword dto){
 
         if (BCrypt.checkpw(dto.getOriginalPassword(), user.getPassword())) {
-            System.out.println("correct password");
             if (dto.getNewPasswordOne().equals(dto.getNewPasswordTwo())){
                 user.savePassword(dto.getNewPasswordOne());
                 applicationUserRepo.save(user);
@@ -187,5 +186,14 @@ public class ApplicationUserManager {
         else {
             return new CollegeTeamDTO(user.getCaptainOf());
         }
+    }
+
+    public void resetUserPassword(String username){
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
+        if (!user.isPresent()){
+            throw new IllegalArgumentException("There is no account with that username");
+        }
+        user.get().savePassword("123456");
+        applicationUserRepo.save(user.get());
     }
 }
