@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import '../../Style/Transfers/Transfers.css';
 import TransfersForm from './TransfersForm';
@@ -13,6 +14,7 @@ import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 import { getUserBudget } from '../../Services/User/UserService';
 import ResponseMessage from '../common/ResponseMessage';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import { noop } from 'lodash';
 
 interface TransfersProps {
   accountId: string;
@@ -63,7 +65,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.setInitialBudget();
 	}
 
-	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+	componentDidUpdate (prevProps:any) {
 		if (prevProps.accountId !== this.props.accountId) {
 			this.findTeam();
 			this.setInitialBudget();
@@ -280,7 +282,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 						<Pitch
 							activeWeeklyTeam={teamToRender}
 							addOrRemovePlayer={this.onAddOrRemovePlayer}
-							handleClickOnPlayer={() => {}}
+							handleClickOnPlayer={noop}
 							noPoints={false}
 							removeFromActiveTeam={this.onRemoveFromActiveTeam}
 							transfer

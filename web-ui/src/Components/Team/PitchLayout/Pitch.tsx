@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
 import Player from './Player';
+import { noop } from 'lodash';
 
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
@@ -32,12 +33,12 @@ class Pitch extends React.Component<PitchProps> {
 		for (let x = 0; x < minimumNumberInRow - players.length; x++) {
 			playersToRender.push(<div className="player">
 				<Player
-					addOrRemovePlayer={() => {}}
+					addOrRemovePlayer={noop}
 					emptyPlayer
-					handleClickOnPlayer={() => {}}
+					handleClickOnPlayer={noop}
 					noPoints={this.props.noPoints}
 					player={{} as any}
-					removeFromActiveTeam={() => {}}
+					removeFromActiveTeam={noop}
 					transfer={this.props.transfer}
 				/>
 			</div>);

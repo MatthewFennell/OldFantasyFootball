@@ -23,7 +23,18 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 			lastClicked: ''
 		};
 		this.getStatsRules();
+		const createHandler = (message: string) => () => this.handleLastClicked(message);
+		this.handlers = {
+			handleRules: createHandler('rules'),
+			handleTeamName: createHandler('team-name'),
+			handlePassword: createHandler('password'),
+		};
 	}
+
+	handlers: { handleRules: () => void;
+		handleTeamName: () => void;
+		handlePassword: () => void;
+	};
 
 	handleLastClicked (lastClicked: string) {
 		this.setState({ lastClicked });
@@ -53,7 +64,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 					<div className="settings-info-row">
 						<div
 							className="settings-wrapper"
-							onClick={() => this.handleLastClicked('rules')}
+							onClick={this.handlers.handleRules}
 						>
 							<div
 								className="rules"
@@ -91,7 +102,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 						</div>
 						<div
 							className="settings-wrapper"
-							onClick={() => this.handleLastClicked('team-name')}
+							onClick={this.handlers.handleTeamName}
 						>
 							<div
 								className={this._selectedOrNot('team-name')}
@@ -105,7 +116,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 						</div>
 						<div
 							className="settings-wrapper"
-							onClick={() => this.handleLastClicked('password')}
+							onClick={this.handlers.handlePassword}
 						>
 							<div
 								className={this._selectedOrNot('password')}

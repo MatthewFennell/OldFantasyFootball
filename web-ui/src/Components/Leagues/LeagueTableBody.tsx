@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueRow from './LeagueRow';
+import { noop } from 'lodash';
 
 interface LeagueTableBodyProps {
 	leagues: LeaguePositions[];
@@ -36,7 +37,7 @@ const LeagueTableBody: React.SFC<LeagueTableBodyProps> = (props) => {
 
 LeagueTableBody.defaultProps = {
 	leagues: [],
-	setLeagueBeingViewed: () => {}
+	setLeagueBeingViewed: noop
 };
 
 export default LeagueTableBody;

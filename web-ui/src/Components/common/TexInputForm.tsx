@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { Form, FormGroup, Label } from 'reactstrap';
 import { Field, reduxForm } from 'redux-form';
@@ -10,7 +11,7 @@ interface TextValueProps {
   password: boolean;
 }
 class TextValue extends React.Component<TextValueProps, {}> {
-	static defaultProps = { title: '', password: false };
+	static defaultProps = { password: false, title: '' };
 	_handleInput (eventTarget: HTMLInputElement) {
 		const { setValue } = this.props;
 		setValue(eventTarget.value);

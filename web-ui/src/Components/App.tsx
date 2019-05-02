@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import Login from '../Containers/Login';
 import Register from '../Containers/Register';

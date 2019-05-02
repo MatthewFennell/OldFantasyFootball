@@ -20,6 +20,7 @@ import {
 } from '../../Services/League/LeagueService';
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 import { getUserInfo } from '../../Services/User/UserService';
+import { noop } from 'lodash';
 
 interface TeamProps {
 	accountId: string;
@@ -272,10 +273,10 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 
 					<Pitch
 						activeWeeklyTeam={this.props.teamToRender}
-						addOrRemovePlayer={() => {}}
+						addOrRemovePlayer={noop}
 						handleClickOnPlayer={this.handleClickOnPlayer}
 						noPoints={this.props.weekBeingViewed === -1}
-						removeFromActiveTeam={() => {}}
+						removeFromActiveTeam={noop}
 						transfer={false}
 					/>
 
