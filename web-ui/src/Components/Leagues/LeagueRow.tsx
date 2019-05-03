@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import * as React from 'react';
+import * as React, {useCallback} from 'react';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 
 interface LeagueRowProps {
@@ -14,11 +14,15 @@ const calculateClassName = (index:number) => {
 
 const LeagueRow: React.SFC<LeagueRowProps> = (props) => {
 	const { element } = props;
+	const setLeagueBeingViewed = useCallback(
+		() => props.setLeagueBeingViewed(element.leagueName),
+		[props.setLeagueBeingViewed, element.leagueName ]
+	)
 	return (
 		<tr
 			className={calculateClassName(props.index)}
 			key={element.leagueName}
-			onClick={() => props.setLeagueBeingViewed(element.leagueName)}
+			onClick={setLeagueBeingViewed}
 		>
 			<td className="league-name">{element.leagueName}</td>
 			<td className="position">{element.position}</td>
