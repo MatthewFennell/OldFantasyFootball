@@ -93,7 +93,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   	return (
   		<div
   			id="login-form"
-  			onSubmit={e => e.preventDefault()}
+  			onSubmit={(e:any) => e.preventDefault()}
   		>
   			<Form id="login-form">
   				<h1
@@ -122,7 +122,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   							component="input"
   							id="username"
   							name="username"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
@@ -138,7 +138,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   							component="input"
   							id="passcode"
   							name="passcode"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="password"
   						/>
   					</FormGroup>

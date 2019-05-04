@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import * as React from 'react';
 import { UserLeaguePosition } from '../../Models/Interfaces/UserLeaguePosition';
 
@@ -12,13 +11,17 @@ const calculateClassName = (index: number) => {
 	return index % 2 === 0 ? 'user-even' : 'user-odd';
 };
 
-const RankingsRow: React.SFC<RankingsRowProps> = (props) => {
+const RankingsRow: React.FC<RankingsRowProps> = (props) => {
 	const { firstName, surname, points, position, userID } = props.element;
+	const handleViewUser = React.useCallback(
+		() => props.handleViewUser(userID),
+		[ props.handleViewUser, userID ]
+	);
   	return (
   		<tr
   			className={calculateClassName(props.index)}
   			key={position}
-  			onClick={() => props.handleViewUser(userID)}
+  			onClick={handleViewUser}
   		>
   			<td className="name">
   				{firstName} {surname}

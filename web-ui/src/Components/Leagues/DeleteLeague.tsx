@@ -80,7 +80,7 @@ class DeleteLeague extends React.Component<
   		>
   		<div
   			className="join-league-form"
-  			onSubmit={e => e.preventDefault()}
+  			onSubmit={(e:any) => e.preventDefault()}
   		>
   			<Form id="join-league-form">
   				<h1
@@ -102,7 +102,7 @@ class DeleteLeague extends React.Component<
   							component="input"
   							id="leagueToDelete"
   							name="leagueToDelete"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
