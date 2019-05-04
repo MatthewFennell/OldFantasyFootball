@@ -14,7 +14,6 @@ interface CreateCollegeTeamProps {
 
 interface CreateCollegeTeamState {
   collegeNameValue: string;
-
   responseMessage: string;
   isError: boolean;
 }

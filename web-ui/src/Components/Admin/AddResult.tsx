@@ -9,13 +9,13 @@ import TextInputForm from '../common/TexInputForm';
 import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import ResponseMessage from '../common/ResponseMessage';
 
-interface TransfersFormProps {
+interface AddResultProps {
   setTeamAddingPoints: (team: string) => void;
   allCollegeTeams: CT[];
   collegeTeamName: string;
 }
 
-interface TransfersFormState {
+interface AddResultState {
   goalsFor: string;
   goalsAgainst: string;
   week: string;
@@ -23,14 +23,13 @@ interface TransfersFormState {
   playerIDAssists: string[];
   playerIDCleanSheets: string[];
   teamName: string;
-
   responseMessage: string;
   isError: boolean;
   manOfTheMatch: string;
 }
 
-class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
-	constructor (props: TransfersFormProps) {
+class AddResult extends React.Component<AddResultProps, AddResultState> {
+	constructor (props: AddResultProps) {
 		super(props);
 		this._handleCollegeTeam = this._handleCollegeTeam.bind(this);
 		this._handleGoalsFor = this._handleGoalsFor.bind(this);
@@ -236,4 +235,4 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		);
 	}
 }
-export default TransfersForm;
+export default AddResult;

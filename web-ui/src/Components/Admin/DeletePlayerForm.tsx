@@ -15,7 +15,6 @@ interface DeletePlayerProps {
 
 interface DeletePlayerState {
   playerID: string;
-
   responseMessage: string;
   isError: boolean;
 }

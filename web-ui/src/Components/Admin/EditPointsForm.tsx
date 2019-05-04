@@ -29,7 +29,6 @@ interface EditPointsFormState {
   viewingDefender: boolean;
   playerName: string;
   playerStats: PlayerPoints;
-
   responseMessage: string;
   isError: boolean;
 }

@@ -13,7 +13,6 @@ interface DeleteCollegeTeamProps {
 
 interface DeleteCollegeTeamState {
   collegeNameValue: string;
-
   responseMessage: string;
   isError: boolean;
 }
