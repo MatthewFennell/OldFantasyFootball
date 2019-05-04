@@ -10,13 +10,11 @@ interface ResetPasswordProps {
 
 interface ResetPasswordState {
   usernameValue: string;
-
   responseMessage: string;
   isError: boolean;
 }
 
-// eslint-disable-next-line react/require-optimization
-class CreateCollegeTeam extends React.Component<ResetPasswordProps, ResetPasswordState> {
+class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordState> {
 	constructor (props: ResetPasswordProps) {
 		super(props);
 		this.handleUsername = this.handleUsername.bind(this);
@@ -74,4 +72,4 @@ class CreateCollegeTeam extends React.Component<ResetPasswordProps, ResetPasswor
 		);
 	}
 }
-export default CreateCollegeTeam;
+export default ResetPassword;

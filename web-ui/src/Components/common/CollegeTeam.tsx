@@ -5,19 +5,19 @@ import { findPlayersInCollegeTeam } from '../../Services/Player/PlayerService';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 
-interface TeamDropdownProps {
+interface CollegeTeamProps {
   setTeam: (team: string) => void;
   setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
   allCollegeTeams: CollegeTeam[];
 }
 
-interface TeamDropdownState {
+interface CollegeTeamState {
   teamDropDownOpen: boolean;
   teamValue: string;
 }
 
-class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState> {
-	constructor (props: TeamDropdownProps) {
+class CollegeTeamDropdown extends React.Component<CollegeTeamProps, CollegeTeamState> {
+	constructor (props: CollegeTeamProps) {
 		super(props);
 		this._toggleTeam = this._toggleTeam.bind(this);
 
@@ -98,4 +98,4 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		);
 	}
 }
-export default TeamDropdown;
+export default CollegeTeamDropdown;

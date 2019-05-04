@@ -26,7 +26,6 @@ interface AddPointsFormState {
   playerID: string;
   week: string;
   viewingDefender: boolean;
-
   responseMessage: string;
   isError: boolean;
 }

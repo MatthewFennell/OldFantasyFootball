@@ -20,18 +20,14 @@ import ResetPassword from './ResetPassword';
 interface AdminProps {
   addCollegeTeam: (team: CollegeTeam) => void;
   removeCollegeTeam: (teamName: string) => void;
-
   setAdminPageBeingViewed: (adminPageBeingViewed: string) => void;
   adminPageBeingViewed: string;
-
   setAllCollegeTeams: (teams: CollegeTeam[]) => void;
   allCollegeTeams: CollegeTeam[];
-
   setTeamAddingPoints: (team: string) => void;
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
   setPageBeingViewed: (page: string) => void;
-
 }
 
 interface AdminState {
