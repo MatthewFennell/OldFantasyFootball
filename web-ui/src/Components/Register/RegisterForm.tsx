@@ -133,7 +133,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   			<div>
   			<Form
   				id="register-form"
-  				onSubmit={e => e.preventDefault()}
+  				onSubmit={(e:any) => e.preventDefault()}
   			>
 
   				<div className={classnames({
@@ -152,7 +152,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							component="input"
   							id="firstName"
   							name="firstName"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
@@ -168,7 +168,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							component="input"
   							id="surname"
   							name="surname"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
@@ -184,7 +184,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							component="input"
   							id="username"
   							name="username"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
@@ -200,7 +200,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							component="input"
   							id="passcode"
   							name="passcode"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="password"
   						/>
   						<Label
@@ -214,7 +214,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							component="input"
   							id="keycode"
   							name="keycode"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>

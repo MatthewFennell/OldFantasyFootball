@@ -22,7 +22,7 @@ class TextValue extends React.Component<TextValueProps, {}> {
 		return (
 			<div
 				className="create-player-form-outer"
-				onSubmit={e => e.preventDefault()}
+				onSubmit={(e:any) => e.preventDefault()}
 			>
 				<Form id="create-player-form">
 					<div id="login-input-fields">
@@ -37,7 +37,7 @@ class TextValue extends React.Component<TextValueProps, {}> {
 								component="input"
 								id={title}
 								name={title}
-								onChange={e => this._handleInput(e!.target)}
+								onChange={(e:any) => this._handleInput(e!.target)}
 								type={this.props.password ? 'password' : 'text'}
 							/>
 						</FormGroup>

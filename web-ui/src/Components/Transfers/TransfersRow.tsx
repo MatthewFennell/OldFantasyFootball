@@ -13,7 +13,7 @@ const calculateClassName = (rowNumber: number) => {
 	return rowNumber % 2 === 0 ? 'transfers-even' : 'transfers-odd';
 };
 
-const TransferRow: React.SFC<TransferRowProps> = (props) => {
+const TransferRow: React.FC<TransferRowProps> = (props) => {
 	const {
 		firstName,
 		surname,
@@ -25,11 +25,15 @@ const TransferRow: React.SFC<TransferRowProps> = (props) => {
 		points,
 		percentages
 	} = props.element;
+	const handleRowClick = React.useCallback(
+		() => props.handleRowClick(props.element),
+		[ props.handleRowClick, props.element ]
+	);
 	return (
 		<tr
 			className={calculateClassName(props.index)}
 			key={firstName + surname}
-			onClick={() => { props.handleRowClick(props.element); }}
+			onClick={handleRowClick}
 		>
 			<td className="name">{firstName + ' ' + surname}</td>
 			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>

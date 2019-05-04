@@ -84,7 +84,7 @@ class CreateLeagueClass extends React.Component<
   		>
   		<div
   			className="create-league-form"
-  			onSubmit={e => e.preventDefault()}
+  			onSubmit={(e:any) => e.preventDefault()}
   		>
   			<Form id="create-league-form">
   				<h1
@@ -105,7 +105,7 @@ class CreateLeagueClass extends React.Component<
   							component="input"
   							id="leagueName"
   							name="leagueName"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
 
@@ -120,7 +120,7 @@ class CreateLeagueClass extends React.Component<
   							component="input"
   							id="startWeek"
   							name="startWeek"
-  							onChange={e => this._handleInput(e!.target.name, e!.target)}
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="text"
   						/>
   					</FormGroup>
