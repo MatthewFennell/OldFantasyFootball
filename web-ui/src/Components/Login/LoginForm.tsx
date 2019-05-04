@@ -7,11 +7,13 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import * as LoginService from '../../Services/CredentialInputService';
+import ResponseMessage from '../../Components/common/ResponseMessage';
 
 interface LoginState {
   username: string;
   passcode: string;
-  error: string;
+	error: string;
+	isError: boolean;
 }
 
 class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, LoginState> {
@@ -20,12 +22,13 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
 		this.state = {
 			username: '',
 			passcode: '',
-			error: ''
+			error: '',
+			isError: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
 
-	_handleInput (eventName: string, eventTarget: HTMLInputElement) {
+	_handleInput (eventName: any, eventTarget: HTMLInputElement) {
 		this.setState({
 			[eventName]: eventTarget.value
 		} as Pick<LoginState, keyof LoginState>);
@@ -33,14 +36,14 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
 
   _validate = () => {
   	if (LoginService.emptyFields(this.state.username, this.state.passcode)) {
-  		this.setState({ error: 'All fields must be filled in' });
+  		this.setState({ error: 'All fields must be filled in', isError: true });
   		return true;
   	} else if (
   		LoginService.invalidUsername(this.state.username) ||
       LoginService.invalidPasscode(this.state.passcode) ||
       LoginService.passcodeTooShort(this.state.passcode)
   	) {
-  		this.setState({ error: 'Username or Passcode not recognised' });
+  		this.setState({ error: 'Username or Passcode not recognised', isError: true });
   		return true;
   	} else return false;
   };
@@ -100,11 +103,18 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
             Hi there!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{this.state.error}</Label>
+  					<div className="login-error-message">
+  					<ResponseMessage
+  						isError={this.state.isError}
+  						responseMessage={this.state.error}
+  						shouldDisplay
+  					/>
+  			</div>
   					<FormGroup>
   						<Label
   							className="unselectable"
   							for="username"
+  							id="usernameLabel"
   						>
                 Username
   						</Label>
@@ -120,6 +130,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   						<Label
   							className="unselectable"
   							for="passcode"
+  							id="passcodeLabel"
   						>
                 Passcode
   						</Label>
