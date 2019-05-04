@@ -1,4 +1,6 @@
 @import'Form.scss';
+@import './Colors.scss';
+
  div>form#login-form {
      &#login-input-fields {
          @include input-margins;
@@ -27,4 +29,9 @@
              margin-bottom: 20px;
         }
     }
+}
+
+#usernameLabel, #passcodeLabel {
+    margin-top: 2%;
+    color: $strange-other-yellow;
 }

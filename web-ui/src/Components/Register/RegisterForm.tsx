@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import * as RegisterService from '../../Services/CredentialInputService';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import ResponseMessage from '../../Components/common/ResponseMessage';
+import classnames from 'classnames';
 
 interface RegisterState {
   firstName: string;
@@ -114,31 +115,36 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
 
   render () {
   	return (
-  		<div id="register-form">
 
+  		<div id="register-form">
+  				<h1
+  					className="text-center unselectable"
+  					id="greeting"
+  				>
+            Sign Up:
+  				</h1>
+  			<div className="register-error-message">
+  					<ResponseMessage
+  						isError={this.state.isError}
+  						responseMessage={this.state.error}
+  						shouldDisplay
+  					/>
+  			</div>
+  			<div>
   			<Form
   				id="register-form"
   				onSubmit={e => e.preventDefault()}
   			>
 
-  				<ResponseMessage
-  					isError={this.state.isError}
-  					responseMessage={this.state.error}
-  					shouldDisplay={this.state.error.length > 0}
-  				/>
-
-  			<h1
-  					className="text-center unselectable"
-  					id="greeting"
-  			>
-            Sign Up:
-  				</h1>
-
-  				<div>
+  				<div className={classnames({
+  						registerFormWrapper: this.state.error.includes('between'),
+  					})}
+  				>
   					<FormGroup className="first-name">
   						<Label
-  							className="unselectable"
-  							for="firstName"
+  							className="register-label"
+  								for="firstName"
+  								id="firstNameLabel"
   						>
                 First name
   						</Label>
@@ -152,8 +158,9 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   					</FormGroup>
   					<FormGroup className="surname">
   						<Label
-  							className="unselectable"
-  							for="surname"
+  							className="register-label"
+  								for="surname"
+  								id="surnameLabel"
   						>
                 Surname
   						</Label>
@@ -167,8 +174,9 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   					</FormGroup>
   					<FormGroup className="username">
   						<Label
-  							className="unselectable"
-  							for="username"
+  							className="register-label"
+  								for="username"
+  								id="usernameLabel"
   						>
                 Username
   						</Label>
@@ -182,8 +190,9 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   					</FormGroup>
   					<FormGroup className="passcode">
   						<Label
-  							className="unselectable"
-  							for="passcode"
+  							className="register-label"
+  								for="passcode"
+  								id="passcodeLabel"
   						>
                 Passcode
   						</Label>
@@ -195,7 +204,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							type="password"
   						/>
   						<Label
-  							className="unselectable"
+  							className="register-label"
   							for="keycode"
   							id="keycodeLabel"
   						>
@@ -225,8 +234,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   				>
             Log in
   				</Button>
-  				{/* <Label className="error-text">{this.state.error}</Label> */}
   			</Form>
+  		</div>
   		</div>
   	);
   }
