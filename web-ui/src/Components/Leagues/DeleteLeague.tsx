@@ -113,7 +113,7 @@ class DeleteLeague extends React.Component<
   					onClick={(e: any) => this._onSubmit(e.target.id)}
   					type="submit"
   				>
-            		Leave League
+            		Delete League
   				</Button>
 				  <div className="join-league-response-wrapper">
 				  <ResponseMessage
