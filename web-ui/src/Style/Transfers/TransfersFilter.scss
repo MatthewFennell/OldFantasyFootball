@@ -1,0 +1,65 @@
+@import '../Colors.scss';
+.transfers-table-wrapper{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+  background-color: $medium-dark-background;
+  margin-top: 3vh;
+}
+div.transfers-table {
+  padding-right: 30px;
+  table{
+      width: 100%;
+ }
+  tbody {
+      display: block;
+      max-height: 450px;
+      overflow-y: scroll;
+      ::-webkit-scrollbar {
+          display: inline-table;
+     }
+ }
+  th, td {
+      width: 100%;
+      padding: 5px;
+      word-break: break-all;
+ }
+  tr {
+      display: table;
+      width: 100%;
+      box-sizing: border-box;
+ }
+  td {
+      text-align: center;
+      border-bottom: none;
+      border-left: none;
+      font-size: 16px;
+ }
+  tr.transfers-header {
+      td{
+          width: 10%;
+          color: rgb(197, 197, 21);
+          cursor: pointer;
+     }
+ }
+  tr.transfers-even, tr.transfers-odd{
+      cursor: pointer;
+      td{
+          width: 10%;
+          color: white;
+          word-break: break-word;
+     }
+ }
+  tr.transfers-even{
+      background-color: #49494d;
+ }
+}
+#customer-container {
+  margin-top: 0px;
+}
+tr.transfers-even:hover, tr.transfers-odd:hover {
+  td {
+      color: $strange-orange !important;
+ }
+}

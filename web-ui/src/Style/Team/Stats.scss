@@ -1,0 +1,22 @@
+@import '../Colors.scss';
+
+.stats-columns {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  height: 100%;
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+.stats-columns > div {
+  background-color: $background-white;
+  width: 30%;
+  margin: 10px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 16px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

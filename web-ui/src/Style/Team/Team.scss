@@ -1,0 +1,173 @@
+@import '../Colors.scss';
+
+.outer-rows {
+  display: flex;
+  flex-direction: column;
+  .row-1-info {
+      flex-grow: 1;
+      .total-points, .week-points, .dropdown{
+          color: $strange-orange;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+          border-image-slice: 1;
+          background-color: $dark-black-background;
+     }
+ }
+  .row-2-stats{
+      flex-grow: 1;
+      .average-points, .player-most-points, .user-most-points{
+          color: $strange-orange;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+          border-image-slice: 1;
+          background-color: $dark-black-background;
+     }
+ }
+  .row-3-squad-my-team{
+      display: flex;
+      background-color: $medium-dark-background;
+      flex-grow: 10;
+ }
+ .row-3-squad-other-team{
+    display: flex;
+    background-color: #444447;
+    flex-grow: 10;
+}
+  .player-stats-sidebar{
+      .stats-wrapper{
+          color: $strange-orange;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+          border-image-slice: 1;
+          padding: 15px;
+          background-color: $dark-black-background;
+          margin-left: 1vw;
+          margin-right: 1vw;
+     }
+      .sidebar-stats-menu-toggle {
+          color: $strange-orange;
+          align-content: center;
+          padding: 0px;
+          margin: 0px;
+          background: $dark-black-background;
+     }
+      div.week-menu{
+          margin: 0px;
+     }
+      .sidebar-stats-menu-toggle:focus {
+          color: $strange-orange;
+     }
+      .no-stats-message{
+          text-align: left;
+          font-size: 16px;
+          line-height: 30px;
+     }
+      hr{
+          width:150%;
+     }
+      .no-stats-message, .click-player-message{
+          font-size: 16px;
+     }
+      .click-player-message{
+          color: $strange-orange;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+          border-image-slice: 1;
+          padding: 15px;
+          background-color: $dark-black-background;
+          margin-left: 1vw;
+          margin-right: 1vw;
+          line-height: 40px;
+     }
+ }
+  .player-stats{
+      margin-top: 2vh;
+      width: 20vw;
+      color: white;
+      table{
+          width: 100%;
+          tbody{
+              tr{
+                  width: 100%;
+                  line-height: 4vh;
+                  td.stat-title, td.stat-value{
+                      font-size: 16px;
+                      text-align: left;
+                      width: 50%;
+                 }
+                  td.stat-value{
+                      padding-left: 30px;
+                      color: $strange-orange;
+                 }
+                  td.stat-title{
+                      color: $strange-other-yellow;
+                 }
+                  td.stat-title-no-wrap{
+                      font-size: 14px;
+                      text-align: left;
+                 }
+             }
+         }
+     }
+ }
+  .leagues-team {
+      margin-top: 10vh;
+      width: 20vw;
+      color: white;
+      font-size: 18px;
+      .league-table{
+          padding-right: 15px;
+          color: $strange-orange;
+          border: 3px solid;
+          border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+          border-image-slice: 1;
+          background-color: $dark-black-background;
+          margin-left: 2vw;
+          .my-active-leagues-table{
+              width: 100%;
+              tbody.my-active-leagues{
+                  min-height: 200px;
+                  max-height: 250px;
+             }
+              td.league-name{
+                  width: 70%;
+                  padding-left: 10px;
+                  text-align: left;
+             }
+              td.position{
+                  width: 30%;
+             }
+              tr.league-header{
+                  line-height: 6vh;
+                  font-size: 24px;
+             }
+              tr.league-even{
+                  background-color: #333336;
+             }
+              tr.league-odd, tr.league-even{
+                  line-height: 4vh;
+                  td.league-name, td.position{
+                      font-size: 18px;
+                 }
+             }
+         }
+     }
+ }
+}
+.outer-rows > div {
+  width: 100%;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+.testing-animation {
+  animation: pulse 5s infinite;
+}
+@keyframes pulse {
+  0% {
+      background-color: white;
+ }
+  100% {
+      background-color: green;
+ }
+}

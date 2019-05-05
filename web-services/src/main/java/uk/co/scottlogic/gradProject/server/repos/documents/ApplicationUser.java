@@ -1,290 +1,299 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
-import static uk.co.scottlogic.gradProject.server.misc.Regex.EMAIL_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.FIRST_NAME_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.PASSWORD_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.SURNAME_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.USERNAME_PATTERN;
-
-import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.*;
+
+import static uk.co.scottlogic.gradProject.server.misc.Regex.*;
 
 @Entity
 @Table(indexes = {
-    @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
-    @Index(name = "idx_applicationuser_email", columnList = "email", unique = true)})
+        @Index(name = "idx_applicationuser_username", columnList = "username", unique = true),
+        @Index(name = "idx_applicationuser_total_points", columnList = "totalPoints")})
 public class ApplicationUser implements UserDetails, Serializable {
 
-  @Id
-  @Column
-  @Type(type = "uuid-char")
-  private UUID id;
+    @Id
+    @Column
+    @Type(type = "uuid-char")
+    private UUID id;
 
-  @Column(nullable = false)
-  private String username;
+    @Column(nullable = false)
+    private String username;
 
-  @Column(nullable = false)
-  private String password;
+    @Column(nullable = false)
+    private String password;
 
-  @Column(nullable = false)
-  private Date accountExpiry;
+    @Column(nullable = false)
+    private Date accountExpiry;
 
-  @Column(nullable = false)
-  private Date credentialsExpiry;
+    @Column(nullable = false)
+    private Date credentialsExpiry;
 
-  private String displayName;
+    private String nickname;
 
-  private String nickname;
+    @Column(nullable = false)
+    private String firstName;
 
-  @Column(nullable = false)
-  private String email;
+    @Column(nullable = false)
+    private String surname;
 
-  @Column(nullable = false)
-  private String firstName;
+    @Column(nullable = false)
+    private Integer totalPoints;
 
-  @Column(nullable = false)
-  private String surname;
+    @OneToOne
+    @JoinColumn(name = "captainOf")
+    private CollegeTeam captainOf;
 
-  private boolean locked = false;
+    private boolean locked = false;
 
-  private boolean enabled = true;
+    private boolean enabled = true;
 
-  private long balance;
+    private double remainingBudget;
 
-  @Column
-  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
-  @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
-      , referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "userauthority_id",
-      referencedColumnName = "role"))
-  private Set<UserAuthority> authorityList = new HashSet<>();
+    private String teamName;
 
-  @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
-  private Collection<RefreshToken> activeTokens;
+    @Column
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "appuser_userauthority", joinColumns = @JoinColumn(name = "applicationuser_id"
+            , referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "userauthority_id",
+            referencedColumnName = "role"))
+    private Set<UserAuthority> authorityList = new HashSet<>();
 
-  public ApplicationUser() {
-  }
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
+    private Collection<RefreshToken> activeTokens;
 
-  public ApplicationUser(RegisterDTO dto) {
-    this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname(), dto.getEmail());
-  }
-
-  public ApplicationUser(String username, String password, String firstname, String surname, String email) {
-    Calendar expiry = Calendar.getInstance();
-    expiry.add(Calendar.YEAR, 1000);
-    accountExpiry = expiry.getTime();
-    credentialsExpiry = expiry.getTime();
-    setUsername(username);
-    savePassword(password);
-    id = UUID.randomUUID();
-    this.balance = 1000;
-    setFirstName(firstname);
-    setSurname(surname);
-    setEmail(email);
-  }
-
-  public Collection<RefreshToken> getActiveTokens() {
-    return activeTokens;
-  }
-
-  public void setActiveTokens(Collection<RefreshToken> activeTokens) {
-    this.activeTokens = activeTokens;
-  }
-
-  public boolean isLocked() {
-    return locked;
-  }
-
-  public void setLocked(boolean locked) {
-    this.locked = locked;
-  }
-
-  public Date getAccountExpiry() {
-    return accountExpiry;
-  }
-
-  public void setAccountExpiry(Date accountExpiry) {
-    this.accountExpiry = accountExpiry;
-  }
-
-  public Date getCredentialsExpiry() {
-    return credentialsExpiry;
-  }
-
-  public void setCredentialsExpiry(Date credentialsExpiry) {
-    this.credentialsExpiry = credentialsExpiry;
-  }
-
-  public Set<UserAuthority> getAuthorityList() {
-    return authorityList;
-  }
-
-  public void setAuthorityList(Set<UserAuthority> auths) {
-    this.authorityList = new HashSet<>(auths);
-  }
-
-  public void addAuthority(UserAuthority authority) {
-    authorityList.add(authority);
-  }
-
-  public void delAuthority(GrantedAuthority authority) {
-    if (authorityList.contains(authority)) {
-      this.authorityList.remove(authority);
+    public ApplicationUser() {
     }
-  }
 
-  @Override
-  public Set<? extends GrantedAuthority> getAuthorities() {
-    return new HashSet(authorityList);
-  }
-
-  public UUID getUuid() {
-    return id;
-  }
-
-  public String getId() {
-    return id.toString();
-  }
-
-  protected void setId(String id) {
-    this.id = UUID.fromString(id);
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
-
-  @Override
-  public String getPassword() {
-    return password;
-  }
-
-  void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void savePassword(String password) {
-    if (!password.matches(PASSWORD_PATTERN)) {
-      throw new IllegalArgumentException("password");
+    public ApplicationUser(RegisterDTO dto) {
+        this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname());
+        if (!dto.getKeycode().equals(Constants.REGISTER_KEY_CODE)){
+            System.out.println("invalid key");
+            System.out.println("key = " + dto.getKeycode());
+            throw new IllegalArgumentException("Invalid key code");
+        }
     }
-    this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
-  }
 
-  @Override
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    if (!username.matches(USERNAME_PATTERN)) {
-      throw new IllegalArgumentException();
+    public ApplicationUser(String username, String password, String firstname, String surname) {
+        Calendar expiry = Calendar.getInstance();
+        expiry.add(Calendar.YEAR, 1000);
+        accountExpiry = expiry.getTime();
+        credentialsExpiry = expiry.getTime();
+        setUsername(username);
+        savePassword(password);
+        id = UUID.randomUUID();
+        this.totalPoints = 0;
+        this.remainingBudget = Constants.INITIAL_BUDGET;
+        setFirstName(firstname);
+        setSurname(surname);
+        this.totalPoints = 0;
+        this.teamName = "My Team";
+        this.captainOf = null;
     }
-    this.username = username;
-  }
 
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    if (!email.matches(EMAIL_PATTERN)) {
-      throw new IllegalArgumentException();
+    public CollegeTeam getCaptainOf() {
+        return captainOf;
     }
-    this.email = email;
-  }
 
-  public String getFirstName() {
-    return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-    if (!firstName.matches(FIRST_NAME_PATTERN)) {
-      throw new IllegalArgumentException("firstname");
+    public void setCaptainOf(CollegeTeam captainOf) {
+        this.captainOf = captainOf;
     }
-    this.firstName = firstName;
-  }
 
-  public String getSurname() {
-    return surname;
-  }
-
-  public void setSurname(String surname) {
-    if (!surname.matches(SURNAME_PATTERN)) {
-      throw new IllegalArgumentException("surname");
+    public Collection<RefreshToken> getActiveTokens() {
+        return activeTokens;
     }
-    this.surname = surname;
-  }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return new Date().before(accountExpiry);
-  }
+    public void setActiveTokens(Collection<RefreshToken> activeTokens) {
+        this.activeTokens = activeTokens;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return !locked;
-  }
+    public boolean isLocked() {
+        return locked;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return new Date().before(credentialsExpiry);
-  }
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return enabled;
-  }
+    public Date getAccountExpiry() {
+        return accountExpiry;
+    }
 
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
+    public void setAccountExpiry(Date accountExpiry) {
+        this.accountExpiry = accountExpiry;
+    }
 
-  public long getBalance() {
-    return balance;
-  }
+    public Date getCredentialsExpiry() {
+        return credentialsExpiry;
+    }
 
-  public void setBalance(long balance) {
-    this.balance = balance;
-  }
+    public void setCredentialsExpiry(Date credentialsExpiry) {
+        this.credentialsExpiry = credentialsExpiry;
+    }
 
-  public void changeBalance(long change) {
-    balance += change;
-  }
+    public Set<UserAuthority> getAuthorityList() {
+        return authorityList;
+    }
 
-  public String getDisplayName() {
-    return displayName;
-  }
+    public void setAuthorityList(Set<UserAuthority> auths) {
+        this.authorityList = new HashSet<>(auths);
+    }
 
-  public void setDisplayName(String displayName) {
-    this.displayName = displayName;
-  }
+    public void addAuthority(UserAuthority authority) {
+        authorityList.add(authority);
+    }
 
-  public String getNickname() {
-    return nickname;
-  }
+    public void delAuthority(GrantedAuthority authority) {
+        if (authorityList.contains(authority)) {
+            this.authorityList.remove(authority);
+        }
+    }
 
-  public void setNickname(String nickname) {
-    this.nickname = nickname;
-  }
+    @Override
+    public Set<? extends GrantedAuthority> getAuthorities() {
+        return new HashSet(authorityList);
+    }
+
+    public UUID getUuid() {
+        return id;
+    }
+
+    public String getId() {
+        return id.toString();
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    protected void setId(String id) {
+        this.id = UUID.fromString(id);
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void savePassword(String password) {
+        if (!password.matches(PASSWORD_PATTERN)) {
+            throw new IllegalArgumentException("Password must be between 6 and 31 characters, including at least 1 number");
+        }
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        if (!username.matches(USERNAME_PATTERN)) {
+            throw new IllegalArgumentException();
+        }
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        if (!firstName.matches(FIRST_NAME_PATTERN)) {
+            throw new IllegalArgumentException("First name does not match regex");
+        }
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        if (!surname.matches(SURNAME_PATTERN)) {
+            throw new IllegalArgumentException("Surname does not match regex");
+        }
+        this.surname = surname;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        System.out.println("setting team name to " + teamName);
+        if (!teamName.matches(USER_TEAM_NAME_PATTERN)) {
+            throw new IllegalArgumentException("Team name does not match regex");
+        }
+        this.teamName = teamName;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return new Date().before(accountExpiry);
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return new Date().before(credentialsExpiry);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public double getRemainingBudget() {
+        return remainingBudget;
+    }
+
+    public void setRemainingBudget(double remainingBudget) {
+        this.remainingBudget = remainingBudget;
+    }
+
+    public void changeRemainingBudget(double change) {
+        this.remainingBudget += change;
+    }
+
+    public Integer getTotalPoints() {
+        return totalPoints;
+    }
+
+    public void setTotalPoints(Integer totalPoints) {
+        this.totalPoints = totalPoints;
+    }
+
+    public void changeTotalPoints(Integer totalPoints) {
+        this.totalPoints += totalPoints;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
 }

@@ -1,5 +1,39 @@
 version: 2
 jobs:
+  # deploy_fantasy_ui:
+  #   docker:
+  #     - image: circleci/python:3.6.6-jessie-browsers
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Build web-ui docker image
+  #         command: |
+  #           cd web-ui
+  #           echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+  #           docker build -t pampoomio/fantasy-ui:latest .
+  #           docker push pampoomio/fantasy-ui:latest
+
+  deploy_fantasy_ui:
+    working_directory: ~/web-ui
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-ui-repository
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/web-ui
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker image
+          working_directory: ~/web-ui
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker build -t pampoomio/fantasy-ui:latest .            
+            docker push pampoomio/fantasy-ui:latest
+
   build_web-services:
     working_directory: ~/grad-bank-app/web-services
     docker: # use the docker executor type; machine and macos executors are also supported
@@ -10,7 +44,7 @@ jobs:
           MYSQL_USER: gradapp
           MYSQL_PASSWORD: passwd
     steps:
-        # Checkout git project
+      # Checkout git project
       - checkout:
           path: ~/grad-bank-app
         # Clean
@@ -51,7 +85,7 @@ jobs:
       - run:
           name: Gradle test
           command: gradle check
-        # Store Unit test results
+      # Store Unit test results
       - store_artifacts:
           path: build/reports
           destination: reports
@@ -61,6 +95,32 @@ jobs:
           name: Kill Server
           command: killall java
           when: always
+
+  deploy_web-services:
+    working_directory: ~/web-services
+    docker:
+      - image: circleci/python:3.6.6-jessie-browsers
+    environment:
+      APPLICATION_NAME: gradbankapp-api-repository
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: ~/web-services
+      - run:
+          name: Install the AWS CLI
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install awscli
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Build Docker image
+          working_directory: ~/web-services
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker build -t pampoomio/fantasy-server:latest .            
+            docker push pampoomio/fantasy-server:latest
 
   build_web-ui:
     working_directory: ~/grad-bank-app/web-ui
@@ -105,7 +165,7 @@ jobs:
           path: reports
           destination: reports
       - store_test_results:
-          path: reports  
+          path: reports
 
 workflows:
   version: 2
@@ -113,3 +173,15 @@ workflows:
     jobs:
       - build_web-services
       - build_web-ui
+      - deploy_web-services:
+          requires:
+            - build_web-services
+          filters:
+            branches:
+              only: develop
+      - deploy_fantasy_ui:
+          requires:
+            - build_web-ui
+          filters:
+            branches:
+              only: develop

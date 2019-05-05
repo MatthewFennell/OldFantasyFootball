@@ -1,109 +1,93 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
+import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
+
+import java.util.*;
 
 public class UserReturnDTO {
 
-  private UUID id;
+    private UUID id;
 
-  private String username;
+    private String username;
 
-  private boolean accountExpired;
+    private Set<GrantedAuthority> authoritySet;
 
-  private boolean credentialsExpired;
+    private double remainingBudget;
 
-  private boolean locked;
+    private String nickname;
 
-  private boolean enabled;
+    private String firstName;
 
-  private Set<GrantedAuthority> authoritySet;
+    private String surname;
 
-  private double balance;
+    private Integer totalPoints;
 
-  private String displayName;
+    private String teamName;
 
-  private String nickname;
+    public UserReturnDTO(ApplicationUser user) {
+        this.id = user.getUuid();
+        this.username = user.getUsername();
+        this.authoritySet = new HashSet(user.getAuthorities());
+        this.remainingBudget = user.getRemainingBudget();
+        this.nickname = user.getNickname();
+        this.firstName = user.getFirstName();
+        this.surname = user.getSurname();
+        this.totalPoints = user.getTotalPoints();
+        this.teamName = user.getTeamName();
+    }
 
-  private String firstName;
+    public double getRemainingBudget() {
+        return remainingBudget;
+    }
 
-  private String surname;
+    public void setRemainingBudget(double remainingBudget) {
+        this.remainingBudget = remainingBudget;
+    }
 
-  private String email;
+    public String getTeamName() {
+        return teamName;
+    }
 
-  public UserReturnDTO(ApplicationUser user) {
-    this.id = user.getUuid();
-    this.username = user.getUsername();
-    this.accountExpired = !user.isAccountNonExpired();
-    this.credentialsExpired = !user.isCredentialsNonExpired();
-    this.locked = !user.isAccountNonLocked();
-    this.enabled = user.isEnabled();
-    this.authoritySet = new HashSet(user.getAuthorities());
-    this.balance = user.getBalance();
-    this.displayName = user.getDisplayName();
-    this.nickname = user.getNickname();
-    this.firstName = user.getFirstName();
-    this.surname = user.getSurname();
-    this.email = user.getEmail();
-  }
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public Integer getTotalPoints() {
+        return totalPoints;
+    }
 
-  public String getSurname() {
-    return surname;
-  }
+    public void setTotalPoints(Integer totalPoints) {
+        this.totalPoints = totalPoints;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public double getBalance() {
-    return balance;
-  }
+    public String getSurname() {
+        return surname;
+    }
 
-  public void setBalance(double balance) {
-    this.balance = balance;
-  }
+    public Set<GrantedAuthority> getAuthoritySet() {
+        return authoritySet;
+    }
 
-  public Set<GrantedAuthority> getAuthoritySet() {
-    return authoritySet;
-  }
+    public void setAuthoritySet(Set<GrantedAuthority> authoritySet) {
+        this.authoritySet = authoritySet;
+    }
 
-  public UUID getId() {
-    return id;
-  }
+    public UUID getId() {
+        return id;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public boolean isAccountExpired() {
-    return accountExpired;
-  }
-
-  public boolean isCredentialsExpired() {
-    return credentialsExpired;
-  }
-
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public boolean isLocked() {
-    return locked;
-  }
-
-  public String getDisplayName() {
-    return displayName;
-  }
-
-  public String getNickname() {
-    return nickname;
-  }
+    public String getNickname() {
+        return nickname;
+    }
 
 }

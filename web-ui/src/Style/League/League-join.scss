@@ -1,0 +1,49 @@
+@import '../Colors.scss';
+
+#join-league-form {
+  height: 70vh;
+  background-color: $medium-dark-background;
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+  margin-left: 10%;
+  margin-right: 10%;
+  h1, label, input, button, h1#greeting {
+      color: $strange-orange;
+      width: 80%;
+      margin-left: 10%;
+      font-size: 24px;
+ }
+  h1#greeting {
+      color: rgb(216, 216, 32);
+      padding-top: 100px;
+ }
+  #btnJoinLeague {
+      color: $strange-orange;
+      display: table;
+      margin: auto;
+      border-radius: 35px;
+      border-color: $orange-border !important;
+      width: 40%;
+      font-weight: bold;
+      background-color: $dark-black-background;;
+      padding: 13px 16px;
+      margin-top: 5vh;
+      border: 2px solid;
+      &:focus {
+          outline: none;
+     }
+      &:hover {
+          color: $strange-other-yellow;
+          outline: none;
+     }
+ }
+}
+
+.join-league-response-wrapper{
+    text-align: center;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }

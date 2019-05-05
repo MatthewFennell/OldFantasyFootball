@@ -1,0 +1,104 @@
+@import '../../Colors.scss';
+
+.outer-captain-columns {
+  display: flex;
+  background-color: $dark-black-background;
+  justify-content: center;
+  div.left-rows {
+      display: flex;
+      flex-direction: column;
+      background-color: $dark-black-background;
+      .captain-info-row {
+          display: flex;
+          justify-content: center;
+     }
+ }
+  .div.left-rows>div {
+      background-color: $background-white;
+      width: 100px;
+      margin: 10px;
+      text-align: center;
+      line-height: 75px;
+      font-size: 30px;
+ }
+}
+.outer-captain-columns>div {
+  background-color: $background-white;
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+  width: 100%;
+  text-align: center;
+}
+.raise:hover, .raise:focus {
+  cursor: pointer;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  &:hover, &:focus {
+      box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+ }
+}
+$colors: ( raise: $strange-orange, );
+@each $button, $color in $colors {
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
+}
+div.raise {
+  color: var(--color);
+  transition: 0.25s;
+  &:hover, &:focus {
+      border-color: var(--hover);
+      color: #fff;
+ }
+  background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+}
+div.raise-selected{
+  background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+  color: #fff;
+  transform: translateY(-0.25em);
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+}
+
+.captain-of-which-team{
+  color: $yellow-text;
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  padding: 50px;
+}
+
+.captain-man-of-the-match{
+  color: $strange-orange;
+  font-size: 20px;
+}

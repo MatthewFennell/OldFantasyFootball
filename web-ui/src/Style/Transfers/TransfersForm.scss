@@ -1,0 +1,102 @@
+@import '../Colors.scss';
+div.transfer-filter-rows {
+  display: flex;
+  flex-direction: column;
+  .transfer-form-row-one {
+      display: flex;
+      background-color: $dark-black-background;
+      justify-content: center;
+ }
+  .transfer-form-row-one>div {
+      margin: 10px;
+      padding: 20px;
+      font-size: 18px;
+      width: 100%;
+      color: $strange-orange;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+      border-image-slice: 1;
+ }
+  .transfer-form-row-two {
+      display: flex;
+      justify-content: center;
+ }
+  .transfer-form-row-two>div {
+      color: $strange-orange;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+      border-image-slice: 1;
+      margin: 10px;
+      padding: 20px;
+      font-size: 18px;
+      width: 100%;
+ }
+}
+.transfers-search-player-form-outer{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
+#transfers-search-by-name-form{
+  h1, label, input, button, h1#greeting {
+      color: $strange-orange;
+      width: 80%;
+      margin-left: 10%;
+      font-size: 24px;
+      font-weight: 400;
+ }
+}
+
+
+.custom-dropdown, .team-dropdown, .create-player-form-outer{
+  border: none !important; 
+}
+
+
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  
+}
+$colors: ( raise-transfers: $strange-orange, );
+@each $button, $color in $colors {
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
+}
+div.raise-transfers {
+  color: var(--color);
+  transition: 0.25s;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+}
+div.raise-transfers-selected{
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+  color: #fff;
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+}

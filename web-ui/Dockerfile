@@ -3,9 +3,9 @@ FROM node:10.11.0-slim
 ENV NODE_ENV=production
 ENV PORT=5000
 
-WORKDIR /grad-bank-app/server
+WORKDIR /fantasy/server
 
-COPY . /grad-bank-app
+COPY . /fantasy
 RUN npm i
 EXPOSE $PORT
 

@@ -1,10 +1,8 @@
 import { connect } from 'react-redux';
 import { State } from '../Reducers/root';
 import PageBody from '../Components/Reusable/PageBody';
-import { getViewingTransactions } from '../Selectors/TransactionSelector';
+import { getPageBeingViewed } from '../Selectors/AccountSelector';
 
-const mapStateToProps = (state: State) => ({
-  viewingTransactions: getViewingTransactions(state)
-});
+const mapStateToProps = (state: State) => ({ pageBeingViewed: getPageBeingViewed(state) });
 
 export default connect<any, any, any>(mapStateToProps as any)(PageBody);

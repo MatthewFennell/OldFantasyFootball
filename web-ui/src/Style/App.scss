@@ -1,65 +1,67 @@
 @import 'Colors.scss';
-body {
-  margin: 0;
-  padding: 0;
-  background-color: $color-white;
-  overflow: hidden;
-  font-family: 'Roboto', sans-serif;
+ body {
+     margin: 0;
+     padding: 0;
+     background-color: $dark-black-background;
+     font-family: 'Roboto', sans-serif;
 }
-
-.unselectable {
-  -webkit-user-select: none;
-  /* Safari */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE10+/Edge */
-  user-select: none;
-  /* Standard */
+ .unselectable {
+     -webkit-user-select: none;
+    /* Safari */
+     -moz-user-select: none;
+    /* Firefox */
+     -ms-user-select: none;
+    /* IE10+/Edge */
+     user-select: none;
+    /* Standard */
 }
-
-.cursor-pointer {
-  cursor: pointer;
+ .cursor-pointer {
+     cursor: pointer;
 }
-
-.shadow {
-  box-shadow: 0 0 25px $color-shadow;
+ .shadow {
+     box-shadow: 0 0 25px $color-shadow;
 }
-
-div#custom-container {
-  background-color: $color-white;
-  border-radius: 5px;
-  margin-top: 120px;
+ div#custom-container {
+     background-color: $color-white;
+     border-radius: 5px;
+     margin-top: 120px;
 }
-
-.container {
-  margin: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  width: 100%;
+ .container {
+     margin: 0px;
+     padding-left: 0px;
+     padding-right: 0px;
+     width: 100%;
+     height: 100%;
 }
-
-#transaction-table {
-  width: 100%;
+ #transaction-table {
+     width: 100%;
 }
-
-::-webkit-scrollbar {
-  display: none;
+ // ::-webkit-scrollbar {
+     // display: none;
+     // 
+// }
+ ::-webkit-scrollbar {
+     width: 8px;
 }
-
-.list-of-transactions,
-.transaction-info-screen {
-  padding-right: 0px;
-  padding-left: 0px;
+ ::-webkit-scrollbar-track {
+     -webkit-box-shadow: inset 0 0 6px $strange-orange;
+     border-radius: 10px;
 }
-
-.row {
-  margin-right: 0px;
-  margin-left: 0px;
+ ::-webkit-scrollbar-thumb {
+     border-radius: 10px;
+     -webkit-box-shadow: inset 0 0 6px $strange-orange;
 }
-
-.transaction-list-left {
-  padding-left: 0px;
-  padding-right: 0px;
-  line-height: 0px;
+ .list-of-transactions, .transaction-info-screen {
+     padding-right: 0px;
+     padding-left: 0px;
+}
+ .row {
+     margin-right: 0px;
+     margin-left: 0px;
+     height: 300px;
+}
+ .transaction-list-left {
+     padding-left: 0px;
+     padding-right: 0px;
+     line-height: 0px;
 }

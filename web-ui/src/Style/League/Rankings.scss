@@ -1,0 +1,98 @@
+@import '../Colors.scss';
+.league-info-screen {
+  margin-top: 10vh;
+  background-color: $dark-black-background;
+  padding-left: 0px;
+  padding-right: 0px;
+  .rankings-wrapper{
+      color: $strange-orange;
+      border: 3px solid;
+      border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+      border-image-slice: 1;
+      margin-left: 5vw;
+      margin-right: 5vw;
+      padding-bottom: 5vh;
+      padding-right: 30px;
+      background-color: #3c3c46;
+      table{
+          width: 100%;
+     }
+      tbody {
+          display: block;
+          max-height: 500px;
+          overflow-y: auto;
+          ::-webkit-scrollbar {
+              display: inline-table;
+         }
+     }
+      th, td {
+          padding: 5px;
+          word-break: break-all;
+     }
+      tr {
+          display: table;
+          width: 100%;
+          box-sizing: border-box;
+     }
+      td {
+          text-align: center;
+          border-bottom: none;
+          border-left: none;
+          font-size: 16px;
+          width: 33.333%;
+     }
+      .rankings{
+          display: flex;
+     }
+      tr.rankings{
+          color: rgb(197, 197, 21);
+     }
+      tbody.my-active-leagues{
+          tr.user-even{
+              background-color: #49494d;
+         }
+
+         tr.user-even:hover, tr.user-odd:hover{
+            color: #e96304;
+            cursor: pointer;
+         }
+     }
+ }
+  .current-league-name{
+      text-align: center;
+      font-size: 14px;
+      .info{
+          padding: 10px;
+          display: flex;
+          .league-name, .league-info{
+              width:50%;
+          }
+          .league-name{
+              font-size: 30px;
+          }
+      }
+
+ }
+  .league-rankings-table{
+      margin-top: 2vh;
+ }
+  tbody.league-rankings {
+      background-color: $dark-black-background;
+      color: red;
+      text-align: center;
+      tr {
+          width: 100%;
+          font-size: 20px;
+          td {
+              width: 30vw;
+              color: white;
+         }
+          td.points, td.position {
+              text-align: center;
+         }
+     }
+      tr.user-even:hover, tr.user-odd:hover {
+          background-color: $strange-orange;
+     }
+ }
+}

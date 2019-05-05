@@ -1,0 +1,83 @@
+@import '../Colors.scss';
+div.settings-form {
+    display: flex;
+    flex-direction: column;
+    .settings-form-row-one {
+        
+        background-color: $dark-black-background;;
+        justify-content: center;
+   }
+    .settings-form-row-one>div {
+        background-color: $dark-black-background;;
+        margin: 10px;
+        padding: 20px;
+        font-size: 30px;
+        width: 100%;
+   }
+    .settings-form-row-two {
+        display: flex;
+        background-color: $dark-black-background;;
+        justify-content: center;
+   }
+    .settings-form-row-two>div {
+        margin: 10px;
+        padding: 20px;
+        font-size: 30px;
+        width: 100%;
+   }
+  }
+
+
+
+  div.team-name-form {
+    display: flex;
+    flex-direction: column;
+    .team-name-form-row-one {
+        display: flex;
+        background-color: $medium-dark-background;
+        justify-content: center;
+        margin-left: 15px;
+      margin-right: 15px;
+
+      .create-player-form-outer{
+          border: none;
+      }
+   }
+    .team-name-form-row-one>div {
+        background-color: $medium-dark-background;
+        padding: 20px;
+        font-size: 30px;
+        width: 100%;
+   }
+    .team-name-form-row-two {
+        display: flex;
+        background-color: $medium-dark-background;
+        justify-content: center;
+   }
+    .team-name-form-row-two>div {
+        padding: 20px;
+        font-size: 30px;
+        width: 100%;        
+   }
+  }
+
+  #btnChangeTeamName {
+    color: $strange-orange;
+    display: table;
+    margin: auto;
+    border-radius: 35px;
+    border-color: $orange-border !important;
+    width: 60%;
+    font-weight: bold;
+    background-color: $dark-black-background;;
+    padding: 13px 16px;
+    border: 2px solid;
+    &:focus {
+        outline: none;
+   }
+    &:hover {
+        color: $strange-other-yellow;
+        outline: none;
+   }
+  }
+

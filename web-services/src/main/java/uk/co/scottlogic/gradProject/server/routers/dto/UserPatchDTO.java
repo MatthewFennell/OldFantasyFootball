@@ -1,68 +1,49 @@
 package uk.co.scottlogic.gradProject.server.routers.dto;
 
-import static uk.co.scottlogic.gradProject.server.misc.Regex.EMAIL_PATTERN;
-import static uk.co.scottlogic.gradProject.server.misc.Regex.USERNAME_PATTERN;
-
 import io.swagger.annotations.ApiModel;
+
+import static uk.co.scottlogic.gradProject.server.misc.Regex.USERNAME_PATTERN;
 
 @ApiModel(value = "UserPatch", description = "Body for User Patch Request")
 public class UserPatchDTO {
 
-  private String firstName;
+    private String firstName;
+    private String surname;
+    private String username;
+    private String password;
 
-  private String surname;
-
-  private String username;
-
-  private String email;
-
-  private String password;
-
-  public UserPatchDTO(String firstName, String surname, String username, String email,
-      String password) {
-    this.firstName = firstName;
-    this.surname = surname;
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
-
-  public boolean isValid(){
-    return userNameIsValid() && emailIsValid();
-  }
-
-  private boolean userNameIsValid(){
-    if (username != null) {
-      return username.matches(USERNAME_PATTERN);
+    public UserPatchDTO(String firstName, String surname, String username, String password) {
+        this.firstName = firstName;
+        this.surname = surname;
+        this.username = username;
+        this.password = password;
     }
-    return true;
-  }
 
-  private boolean emailIsValid(){
-    if (email != null) {
-      return email.matches(EMAIL_PATTERN);
+    public boolean isValid() {
+        return userNameIsValid();
     }
-    return true;
-  }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    private boolean userNameIsValid() {
+        if (username != null) {
+            return username.matches(USERNAME_PATTERN);
+        }
+        return true;
+    }
 
-  public String getSurname() {
-    return surname;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public String getSurname() {
+        return surname;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getPassword() {
+        return password;
+    }
 
 }

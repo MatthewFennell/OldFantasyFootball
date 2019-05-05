@@ -1,0 +1,80 @@
+@import '../Colors.scss';
+
+.info-columns {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  height: 100%;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  .week-menu{
+    margin: 0px;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border: none;
+  }
+}
+.info-columns>div {
+  width: 30%;
+  margin: 10px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.week-menu-toggle {
+  color: $strange-orange;
+  outline: 0;
+  align-content: center;
+  padding: 0px;
+  margin: 0px;
+  background: $dark-black-background;
+}
+.week-menu-toggle:focus {
+  color: green;
+}
+.week-menu-toggle:hover {
+  color: green;
+}
+.menu-items:hover {
+  background: green;
+}
+.week-menu-item-false {
+  color: white;
+  border: 0;
+  outline: 0;
+  background: none;
+  font-weight: normal;
+  width: 100%;
+  padding: 0px;
+  height: 100%;
+}
+.week-menu-item-true {
+  color: $yellow-text;
+  border: 0;
+  outline: 0;
+  background: none;
+  font-weight: normal;
+  width: 100%;
+  padding: 0px;
+  height: 100%;
+}
+.week-menu {
+  min-width: 100px;
+  padding: 0px;
+}
+.week-change-error {
+  font-weight: bold;
+  min-height: 24px;
+}
+.team-menu-items{
+  margin: 0px;
+  height: 30px;
+  background: $light-gray;
+  line-height: 30px;
+}

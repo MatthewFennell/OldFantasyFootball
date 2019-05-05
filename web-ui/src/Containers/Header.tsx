@@ -1,16 +1,27 @@
 import { connect } from 'react-redux';
-import { State } from '../Reducers/root';
+import { State, logout } from '../Reducers/root';
 import Header from '../Components/Reusable/Header/Header';
-import { setAccount } from '../Actions/AccountActions';
-import { getSurname, getFirstName } from '../Selectors/AccountSelector';
+import { setAccount, setPageBeingViewed } from '../Actions/AccountActions';
+import {
+	getSurname,
+	getFirstName,
+	getPageBeingViewed,
+	getAccountId
+} from '../Selectors/AccountSelector';
+import { setUserBeingViewed } from '../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({
-  firstname: getFirstName(state),
-  surname: getSurname(state)
+	firstname: getFirstName(state),
+	surname: getSurname(state),
+	pageBeingViewed: getPageBeingViewed(state),
+	accountId: getAccountId(state)
 });
 
 const mapDispatchToProps = {
-  setAccount
+	setAccount,
+	setPageBeingViewed,
+	setUserBeingViewed,
+	logout
 };
 
 export default connect<any, any, any>(

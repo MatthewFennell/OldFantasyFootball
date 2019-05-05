@@ -1,0 +1,50 @@
+/* eslint-disable react/jsx-no-bind */
+import * as React from 'react';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
+
+interface TransferRowProps {
+  element: PlayerDTO;
+  handleRowClick: (player: PlayerDTO) => void;
+  index: number;
+  searchingByPercentage: boolean;
+}
+
+const calculateClassName = (rowNumber: number) => {
+	return rowNumber % 2 === 0 ? 'transfers-even' : 'transfers-odd';
+};
+
+const TransferRow: React.FC<TransferRowProps> = (props) => {
+	const {
+		firstName,
+		surname,
+		position,
+		price,
+		collegeTeam,
+		totalGoals,
+		totalAssists,
+		points,
+		percentages
+	} = props.element;
+	const handleRowClick = React.useCallback(
+		() => props.handleRowClick(props.element),
+		[ props.handleRowClick, props.element ]
+	);
+	return (
+		<tr
+			className={calculateClassName(props.index)}
+			key={firstName + surname}
+			onClick={handleRowClick}
+		>
+			<td className="name">{firstName + ' ' + surname}</td>
+			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>
+			<td className="team">{collegeTeam}</td>
+			<td className="price">{price.toFixed(1)}</td>
+			<td className="goals">{totalGoals}</td>
+			<td className="assists">{totalAssists}</td>
+			{props.searchingByPercentage ? <td className="percentage">{percentages.toFixed(1)}</td>
+				: <td className="score">{points}</td>}
+		</tr>
+	);
+};
+
+export default TransferRow;

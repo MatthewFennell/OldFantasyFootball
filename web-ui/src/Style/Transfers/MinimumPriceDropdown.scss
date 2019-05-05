@@ -1,0 +1,65 @@
+@import '../Colors.scss';
+.minimum-price-dropdown {
+  .minimum-price-menu{
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+      width: 70%;
+ }
+  .minimum-price-menu-toggle {
+      color: $strange-orange;
+      outline: 0;
+      align-content: center;
+      padding: 0px;
+      margin: 0px;
+      background: none;
+ }
+  .minimum-price-menu-toggle:focus {
+      color: $strange-yellow;
+ }
+  .minimum-price-toggle:hover {
+      color: $strange-yellow;
+ }
+  .minimum-price:hover {
+      background: orange;
+ }
+  .minimum-price-menu-item-false {
+      color: white;
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
+  .minimum-price-menu-item-true {
+      color: $yellow-text;
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
+  .minimum-price-menu {
+      min-width: 0px;
+ }
+  .minimum-price-change-error {
+      font-weight: bold;
+      min-height: 24px;
+ }
+}
+.minimum-menu-items{
+  margin: 0px;
+  height: 30px;
+  background: $light-gray;
+}
+.minimum-menu-items:hover {
+  background: $darker-gray;
+}
+p.menu-items{
+  margin: 0px;
+  height: 30px;
+}

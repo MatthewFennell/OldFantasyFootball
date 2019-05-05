@@ -1,0 +1,79 @@
+version: "3.1"
+
+services:
+  ui:
+    container_name: fantasy-ui
+    image: pampoomio/fantasy-ui:latest
+    ports:
+      - "5000:5000"
+    environment:
+      PROXY: http://server:8080
+    depends_on:
+      - db
+      - server
+
+  db:
+    container_name: database
+    image: mariadb
+    restart: always
+    volumes:
+      - /var/lib/mariadb/data
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: fantasy
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: fantasy
+    ports:
+      - 3307:3306
+  server:
+    container_name: fantasy-server
+    image: pampoomio/fantasy-server:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/fantasy
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_USERNAME: fantasy
+      SERVER_TOMCAT_MAXTHREADS: 5
+      #https://download.docker.com/linux/debian/dists/ - for GCP
+      #http://35.246.91.112:8080/swagger-ui.html#/
+# mysql -u fantasy -ppassword
+# USE fantasy
+# SELECT * from application_user;
+# sudo apt-get update
+# sudo apt-get install libltdl7
+# wget https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/docker-ce_18.06.1~ce~3-0~debian_amd64.deb
+# sudo dpkg -i docker-ce_18.06.1~ce~3-0~debian_amd64.deb
+
+# wget https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/containerd.io_1.2.2-1_amd64.deb
+# sudo dpkg -i containerd.io_1.2.2-1_amd64.deb
+
+# sudo usermod -aG docker mfennell
+# sudo apt-get install docker
+# sudo apt-get install docker-compose
+
+# vim docker-compose.yml -> : set paste -> ctrl-v the .yml file in (check version at top - should be 2)
+
+# restart the ssh session
+# running 'top' shows CPU usage
+# docker ps - should show no containers running (and work)
+# docker-compose up should load everything
+
+# create a firewall rule ->
+# target = All instances in the network
+# ip range = 0.0.0.0/0
+# allow all ports
+
+# https://certbot.eff.org/lets-encrypt/debianstretch-other
+# http://man7.org/linux/man-pages/man5/crontab.5.html
+
+# run 'docker-compose stop' to bring the site down
+# then run 'docker ps --filter "status=exited"' to get the stopped containers
+# get the id for fantasy-ui and fantasy-server and run 'docker rm CONTAINER_ID'
+# then run 'docker images' to get all of the images
+# then for fantasy-ui and fantasy-server,  copy the image ID and run 'docker rmi IMAGE_ID' for both
+# running 'docker-compose up' should bring the site up with new images, whilst maintaining the database
+
+# delete all images - docker rmi $(docker images -q)

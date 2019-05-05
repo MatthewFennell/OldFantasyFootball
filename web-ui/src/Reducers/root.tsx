@@ -1,23 +1,56 @@
 import { combineReducers } from 'redux';
-import { reducer as transactions, State as TransactionsState } from './Transactions';
-import { reducer as categories, State as CategoriesState } from './Categories';
 import { reducer as account, State as AccountState } from './Account';
-import { reducer as payee, State as PayeeState } from './Payee';
+import { reducer as teamInfo, State as teamInfoState } from './ActiveTeam';
+import { reducer as stats, State as statsState } from './Stats';
+import { reducer as league, State as leagueState } from './League';
+import { reducer as admin, State as adminState } from './Admin';
+import { reducer as transfers, State as transfersState } from './Transfers';
 import { reducer as formReducer, FormReducer } from 'redux-form';
+
+export enum ActionTypes {
+  LOGOUT = 'LOGOUT'
+}
+
+export interface Logout {
+  type: ActionTypes.LOGOUT;
+  payload: { };
+}
+
+export const logout = (): Logout => {
+	return {
+		type: ActionTypes.LOGOUT,
+		payload: {}
+	};
+};
+
+export type Action =
+  | Logout;
 
 export interface State {
   account: AccountState;
-  transactions: TransactionsState;
-  payee: PayeeState;
   formReducer: FormReducer;
-  categories: CategoriesState;
+  teamInfo: teamInfoState;
+  stats: statsState;
+  league: leagueState;
+  transfers: transfersState;
+  admin: adminState;
 }
 
 const rootReducer = combineReducers<State>({
-  account,
-  transactions,
-  payee,
-  form: formReducer,
-  categories
+	account,
+	teamInfo,
+	stats,
+	league,
+	transfers,
+	admin,
+	form: formReducer
 } as any);
-export default rootReducer;
+
+const root = (state: any, action: any) => {
+	if (action.type === ActionTypes.LOGOUT) {
+		state = undefined;
+	}
+	return rootReducer(state, action);
+};
+
+export default root;

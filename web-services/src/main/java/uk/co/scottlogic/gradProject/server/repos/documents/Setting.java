@@ -1,53 +1,53 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import java.io.Serializable;
 
 @Entity
 public class Setting {
 
-  @Id
-  private String option;
+    @Id
+    private String option;
 
-  @Lob
-  private Serializable value;
+    @Lob
+    private Serializable value;
 
-  public Setting() {
-  }
+    public Setting() {
+    }
 
-  public Setting(String option) {
-    this.option = option;
-  }
+    public Setting(String option) {
+        this.option = option;
+    }
 
-  public Setting(String option, Serializable value) {
-    this.option = option;
-    this.value = value;
-  }
+    public Setting(String option, Serializable value) {
+        this.option = option;
+        this.value = value;
+    }
 
-  public Object getValue() {
-    return value;
-  }
+    public Object getValue() {
+        return value;
+    }
 
-  public void setValue(Serializable value) {
-    this.value = value;
-  }
+    public void setValue(Serializable value) {
+        this.value = value;
+    }
 
-  public boolean getBool() {
-    return (boolean) value;
-  }
+    public boolean getBool() {
+        return (boolean) value;
+    }
 
-  public String getOption() {
-    return option;
-  }
+    public String getOption() {
+        return option;
+    }
 
-  public void setOption(String option) {
-    this.option = option;
-  }
+    public void setOption(String option) {
+        this.option = option;
+    }
 
-  public String getStr() {
-    return (String) value;
-  }
+    public String getStr() {
+        return (String) value;
+    }
 
 }

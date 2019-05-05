@@ -1,19 +1,49 @@
 import * as React from 'react';
-import Transactions from '../Containers/Transactions';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Team from '../Containers/Team/Team';
 import SplashScreen from './Reusable/SplashScreen';
+import Transfers from '../Containers/Transfers/Transfers';
+import Leagues from '../Containers/League/Leagues';
+import Settings from '../Containers/Settings/Settings';
+import Admin from '../Containers/Admin/Admin';
+import Stats from '../Containers/Stats/Stats';
+import Captain from '../Containers/Captain/Captain';
 
-class CategoryTemplate extends React.Component<RouteComponentProps, {}> {
-  public render() {
-    let header = document.getElementById('header');
-    if (header != null) {
-      header.hidden = false;
-    }
-    if (sessionStorage.access !== undefined) {
-      return <Transactions />;
-    } else {
-      return <SplashScreen redirect={'/login'} />;
-    }
-  }
+interface CategoryTemplateProps {
+  pageBeingViewed: string;
 }
-export default withRouter(CategoryTemplate);
+
+class CategoryTemplate extends React.Component<CategoryTemplateProps, {}> {
+	shouldComponentUpdate () {
+		return true;
+	}
+
+	public render () {
+		let header = document.getElementById('header');
+		if (header != null) {
+			header.hidden = false;
+		}
+		if (sessionStorage.access !== undefined) {
+			let pageBeingViewed = this.props.pageBeingViewed;
+			if (pageBeingViewed === 'Team') {
+				return <Team />;
+			} else if (pageBeingViewed === 'Transfers') {
+				return <Transfers />;
+			} else if (pageBeingViewed === 'Leagues') {
+				return <Leagues />;
+			} else if (pageBeingViewed === 'Settings') {
+				return <Settings />;
+			} else if (pageBeingViewed === 'Admin') {
+				return <Admin />;
+			} else if (pageBeingViewed === 'Stats') {
+				return <Stats />;
+			} else if (pageBeingViewed === 'Captain') {
+				return <Captain />;
+			} else {
+				return <Team />;
+			}
+		} else {
+			return <SplashScreen redirect="/login" />;
+		}
+	}
+}
+export default CategoryTemplate;

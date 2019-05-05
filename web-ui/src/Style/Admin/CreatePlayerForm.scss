@@ -1,0 +1,131 @@
+@import '../Colors.scss';
+
+div.admin-form {
+  
+  display: flex;
+  flex-direction: column;
+  .admin-form-row-one {
+      display: flex;
+      background-color: $dark-black-background;;
+      justify-content: center;
+ }
+  .admin-form-row-one>div {
+      background-color: $dark-black-background;;
+      margin: 10px;
+      padding: 20px;
+      font-size: 30px;
+      width: 100%;
+ }
+  .admin-form-row-two {
+      display: flex;
+      background-color: $dark-black-background;;
+      justify-content: center;
+ }
+  .admin-form-row-two>div {
+      margin: 10px;
+      padding: 20px;
+      font-size: 30px;
+      width: 100%;
+ }
+}
+#create-player-form, #create-college-team-form, #add-points-week-form, #add-points-goals, #add-points-assists, #add-points-minutes, #add-result-goals-form {
+  h1, label, input, button, h1#greeting {
+      color: $strange-orange;
+      width: 80%;
+      font-size: 18px;
+      font-weight: 400;
+ }
+ label{
+   text-align: left;
+   margin-left: auto;
+   margin-right: auto;
+ }
+}
+.position-dropdown{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
+.team-dropdown{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
+.create-player-form-outer, .add-points-assists-outer, .add-points-minutes-outer{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
+.create-college-team-form-outer, .add-points-week-outer, .add-points-goals-outer{
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+}
+.edit-points-info, .add-result-goals-form-outer{
+  background-color: $medium-dark-background;
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+  
+}
+#btnCreatePlayer, #btnDeletePlayer, #btnAddResult {
+  color: $strange-orange;
+  display: table;
+  margin: auto;
+  border-radius: 35px;
+  border-color: $orange-border !important;
+  width: 100%;
+  font-weight: bold;
+  background-color: $dark-black-background;;
+  padding: 13px 16px;
+  border: 2px solid;
+  &:focus {
+      outline: none;
+ }
+  &:hover {
+      color: $strange-other-yellow;
+      outline: none;
+ }
+}
+#btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints, #btnEditPoints {
+  color: $strange-orange;
+  display: table;
+  margin: auto;
+  border-radius: 35px;
+  border-color: $orange-border !important;
+  width: 20%;
+  font-weight: bold;
+  background-color: $dark-black-background;;
+  padding: 13px 16px;
+  border: 2px solid;
+  &:focus {
+      outline: none;
+ }
+  &:hover {
+      color: $strange-other-yellow;
+      outline: none;
+ }
+}
+
+.edit-points-original-stats-wrapper{
+  display: flex;
+  justify-content: center;
+
+  .player-week-edit-points{
+    color: $yellow-text;
+    margin-bottom: 10px;
+  }
+ 
+  .edit-points-info{
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    font-size: 20px;
+    text-align: left;
+  }
+}

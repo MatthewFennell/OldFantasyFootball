@@ -81,14 +81,14 @@ div#bubbles {
     border-radius: 50%;
     display: flex;
     &.bubble-green {
-        background-color: $color-primary-turquoise;
+        background-image: linear-gradient(to top, #290000 , #b20000);
         z-index: 1;
     }
     &.bubble-red {
-        background-color: $color-primary-hot-pink;
+        background-image: linear-gradient(to top, #290000 , #b20000);
     }
     &.bubble-blue {
-        background-color: $color-primary-light-blue;
+        background-image: linear-gradient(to top, #b20000 , #290000);
     }
 }
 

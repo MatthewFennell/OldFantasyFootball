@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { State } from '../Reducers/root';
 import Login from '../Components/Login/View';
 import { setAccount } from '../Actions/AccountActions';
-import { setButtonMonthInfo } from '../Actions/TransactionActions';
+import { setUserBeingViewed } from '../Actions/ActiveTeamActions';
 
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = {
-  setAccount,
-  setButtonMonthInfo
+	setAccount,
+	setUserBeingViewed
 };
 
 export default connect<any, any, any>(

@@ -1,0 +1,16 @@
+.error-message-animation {
+  animation: pulse 10s infinite;
+}
+@keyframes pulse {
+  0% {
+      color: yellow;
+ }
+  50% {
+      color:yellow;
+      font-size: 100%;
+ }
+  100% {
+      color: yellow;
+      font-size: 0%;
+ }
+}

@@ -6,9 +6,13 @@ interface BubbleProps {
   children?: React.ReactNode;
 }
 
-class Bubble extends React.Component<BubbleProps, {}> {
-  render() {
-    return <div className={'bubble shadow ' + this.props.className}>{this.props.children}</div>;
-  }
-}
+const Bubble: React.SFC<BubbleProps> = (props) => {
+	const { className, children } = props;
+	return <div className={'bubble shadow ' + className}>{children}</div>;
+};
+
+Bubble.defaultProps = {
+	className: ''
+};
+
 export default Bubble;

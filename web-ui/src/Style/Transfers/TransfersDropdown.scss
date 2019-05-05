@@ -1,0 +1,61 @@
+@import '../Colors.scss';
+.position-dropdown {
+  .position-menu{
+      padding: 0px;
+      margin: 0px;
+      border: 0px;
+      width: 70%;
+ }
+  .position-menu-toggle {
+      color: $strange-orange;
+      outline: 0;
+      align-content: center;
+      padding: 0px;
+      margin: 0px;
+      background: none;
+ }
+  .position-menu-toggle:focus {
+      color: $strange-yellow;
+ }
+  .position-menu-toggle:hover {
+      color: $strange-yellow;
+ }
+  .menu-items:hover {
+      background: orange;
+ }
+  .position-menu-item-false {
+      color: white;
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
+  .position-menu-item-true {
+      color: $yellow-text;
+      border: 0;
+      outline: 0;
+      background: none;
+      font-weight: normal;
+      width: 100%;
+      padding: 0px;
+      height: 100%;
+ }
+  .position-menu {
+      min-width: 0px;
+ }
+  .position-change-error {
+      font-weight: bold;
+      min-height: 24px;
+ }
+}
+.position-menu-items{
+  margin: 0px;
+  height: 30px;
+  background: $light-gray;
+}
+.position-menu-items:hover {
+  background: $darker-gray;
+}

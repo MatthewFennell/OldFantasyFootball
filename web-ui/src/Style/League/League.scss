@@ -1,0 +1,184 @@
+@import '../Colors.scss';
+
+.outer-league-rows {
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $dark-black-background;
+  width: 100%;
+}
+.my-leagues-column-one{
+  padding-right: 0px;
+  padding-left: 0px;
+}
+.outer-league-rows>div {
+  font-size: 30px;
+}
+.flex-container-two {
+  display: flex;
+  justify-content: center;
+  background-color: $dark-black-background;
+}
+.flex-container-two>div {
+  background-color: $dark-black-background;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  width: 30%;
+  .create-league-button{
+    margin-top: 10px;
+  }
+}
+div.league-table {
+  margin-right: 2vw;
+  table{
+      width: 100%;
+ }
+  tbody {
+      display: block;
+      max-height: 150px;
+      overflow-y: auto;
+      ::-webkit-scrollbar {
+          display: inline-table;
+     }
+ }
+  th, td {
+      padding: 5px;
+      word-break: break-all;
+ }
+  tr {
+      display: table;
+      width: 100%;
+      box-sizing: border-box;
+ }
+  td {
+      text-align: center;
+      border-bottom: none;
+      border-left: none;
+      font-size: 16px;
+      width: 50%;
+ }
+  tr.league-header{
+      color: rgb(197, 197, 21);
+ }
+  tbody.my-active-leagues{
+      // cursor: pointer;
+      tr.league-even{
+          background-color: #49494d;
+     }
+
+     tr.league-even, tr.league-odd{
+       cursor: pointer;
+     }
+
+     tr.league-even:hover, tr.league-odd:hover{
+       td.league-name, td.position{
+         color: #e96304;
+       }
+     }
+
+ }
+}
+#btnCreateLeague, #btnJoinLeague {
+  color: $strange-orange;
+  display: table;
+  margin: auto;
+  border-radius: 35px;
+  border-color: $orange-border !important;
+  width: 40%;
+  font-weight: bold;
+  background-color: $dark-black-background;
+  padding: 13px 16px;
+  border: 2px solid;
+  &:focus {
+      outline: none;
+ }
+  &:hover {
+      color: $strange-other-yellow;
+      outline: none;
+ }
+}
+#customer-container {
+  margin-top: 0px;
+}
+tr.league:hover {
+  td {
+      background-color: $medium-dark-background;
+ }
+}
+.my-leagues{
+  margin-left: 5vw;
+  margin-right: 5vw;
+  padding-bottom: 5vh;
+  text-align: center;
+  color: $strange-orange;
+  border: 3px solid;
+  border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+  border-image-slice: 1;
+  background-color: $medium-dark-background;
+  padding-right: 30px;
+}
+.huh, .container{
+  background-color: $dark-black-background;
+}
+
+.raise-league:hover, .raise-league:focus {
+  cursor: pointer;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+.offset {
+  box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
+  &:hover, &:focus {
+      box-shadow: 0 0 0 0 var(--hover), inset 6em 3.5em 0 0 var(--hover);
+ }
+}
+$colors: ( raise-league: $strange-orange, );
+@each $button, $color in $colors {
+  .#{
+     $button
+ }
+  {
+      --color: #{
+         $color
+     }
+     ;
+      --hover: #{
+         adjust-hue($color, 45deg)
+     }
+     ;
+ }
+}
+div.raise-league {
+  color: var(--color);
+  transition: 0.25s;
+  &:hover, &:focus {
+      border-color: var(--hover);
+      color: #fff;
+ }
+ background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+}
+div.raise-league-selected{
+  background-color: $medium-dark-background;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em;
+  border-color: #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+  color: #fff;
+  transform: translateY(-0.25em);
+  box-shadow: 0 0.5em 0.5em -0.4em #{
+     adjust-hue($strange-orange, 45deg)
+ }
+ ;
+}

@@ -8,20 +8,24 @@ interface Props {
 }
 
 class BubbleAnimationWrapper extends React.Component<Props, {}> {
-  render() {
-    const { transitionName, children } = this.props;
+	shouldComponentUpdate () {
+		return false;
+	}
 
-    return (
-      <CSSTransitionGroup
-        transitionName={transitionName}
-        transitionAppear={true}
-        transitionAppearTimeout={1000}
-        transitionEnter={false}
-        transitionLeave={false}
-      >
-        {children}
-      </CSSTransitionGroup>
-    );
-  }
+	render () {
+		const { transitionName, children } = this.props;
+
+		return (
+			<CSSTransitionGroup
+				transitionAppear
+				transitionAppearTimeout={1000}
+				transitionEnter={false}
+				transitionLeave={false}
+				transitionName={transitionName}
+			>
+				{children}
+			</CSSTransitionGroup>
+		);
+	}
 }
 export default BubbleAnimationWrapper;
