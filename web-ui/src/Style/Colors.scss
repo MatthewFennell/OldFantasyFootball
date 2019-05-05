@@ -25,3 +25,28 @@ $orange-border: #e07c34;
 $light-gray: #80808a;
 $darker-gray: #616168;
 
+@mixin color-border {
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
+    border-image-slice: 1;
+    background-color: $dark-black-background;
+}
+
+@mixin week-menu-items {
+    border: 0;
+    outline: 0;
+    background: none;
+    font-weight: normal;
+    width: 100%;
+    padding: 0px;
+    height: 100%;
+}
+
+@mixin week-menu-toggle {
+    color: $strange-orange;
+    outline: 0;
+    align-content: center;
+    padding: 0px;
+    margin: 0px;
+    background: $dark-black-background;
+  }

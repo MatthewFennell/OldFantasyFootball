@@ -17,4 +17,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $strange-orange;
+  @include color-border;
 }
