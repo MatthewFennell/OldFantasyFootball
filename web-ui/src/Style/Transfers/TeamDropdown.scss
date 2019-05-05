@@ -25,24 +25,11 @@
       background: orange;
  }
   .team-menu-item-false {
-      color: white;
-      border: 0;
-      outline: 0;
-      background: none;
-      font-weight: normal;
-      width: 100%;
-      padding: 0px;
-      height: 100%;
+      @include week-menu-items;
  }
   .team-menu-item-true {
       color: $yellow-text;
-      border: 0;
-      outline: 0;
-      background: none;
-      font-weight: normal;
-      width: 100%;
-      padding: 0px;
-      height: 100%;
+      @include week-menu-items;
  }
   .team-menu {
       min-width: 0px;
