@@ -9,14 +9,15 @@
   margin-right: 10vw;
 }
 .stats-columns > div {
-  background-color: $background-white;
-  width: 30%;
+  width: 100%;
   margin: 10px;
-  text-align: center;
   line-height: 20px;
   font-size: 16px;
-  padding-right: 15px;
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $strange-orange;
+  @include color-border;
+  text-align: center;
 }

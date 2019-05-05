@@ -24,7 +24,6 @@ interface CreatePlayerState {
   surnameValue: string;
   priceValue: string;
   previousValues: string[];
-
   responseMessage: string;
   isError: boolean;
 }

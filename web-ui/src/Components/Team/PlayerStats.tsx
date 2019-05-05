@@ -119,10 +119,10 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 			<div
 				className="player-stats-sidebar"
 			>
-				<div>
+				<div className="player-stats-username">
 				User : {this.props.username}
 				</div>
-				<div>
+				<div className="player-stats-teamname">
 					Team name : { this.props.teamName}
 				</div>
 				{this.props.statsBeingViewed ? (
