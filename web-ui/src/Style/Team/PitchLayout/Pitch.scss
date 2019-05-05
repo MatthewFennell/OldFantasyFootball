@@ -7,20 +7,12 @@
   flex-direction: column;
   flex-grow: 5;
   padding-bottom: 7vh;
+  > div{
+    text-align: center;
+    font-size: 30px;
+  }
+  .attackers, .midfielders, .defenders, .goalkeeper{
+    margin-top: 5%;
+  }
 }
-.pitch-with-players>div {
-  text-align: center;
-  font-size: 30px;
-}
-.attackers{
-  margin-top: 5%;
-}
-.midfielders{
-  margin-top: 5%;
-}
-.defenders{
-  margin-top: 5%;
-}
-.goalkeeper{
-  margin-top: 5%;
-}
+
