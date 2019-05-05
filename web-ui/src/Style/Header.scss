@@ -12,7 +12,6 @@
      width: 100%;
      &>div {
          width: 100%;
-         border-bottom: 1px solid $color-shadow;
          background-color: $color-white;
          &>div.row {
              &>div {
@@ -88,14 +87,14 @@
      color: $color-grey-dark;
 }
  div {
-     &#transactions, &#settings, &#categories, &#admin, &#captain {
+     &#team, &#transfers, &#leagues, &#stats, &#settings, &#admin, &#captain {
          background-color: $color-white;
          display: inline-flex;
-         margin-right: 33px;
          border-bottom: 5px solid $color-white;
          padding-top: 15px;
          padding-bottom: 8px;
          opacity: 0.4;
+         cursor: pointer;
          &.selected {
              border-bottom: 4px solid $color-primary-violet;
              opacity: 1;
@@ -129,11 +128,6 @@
      margin-left: 0px;
      display: flex;
 }
- .months.unselectable.row {
-     overflow: hidden;
-     height: 55px;
-     white-space: nowrap;
-}
  .col-lg-2, .col-lg-9 {
      display: flex;
 }
@@ -141,36 +135,10 @@
      padding: 0;
 }
  img {
-     height: 37px;
+     height: 30px;
 }
  .categories-user.unselectable.row {
      height: 65px;
-}
- tr.selectedMonth, tr.selectedMonth>td.date {
-     -webkit-animation: pulse 3s;
-     -moz-animation: pulse 3s;
-     -ms-animation: pulse 3s;
-     -o-animation: pulse 3s;
-     animation: pulse 3s;
-     -webkit-animation-delay: 0.3s;
-     -moz-animation-delay: 0.3s;
-     -ms-animation-delay: 0.3s;
-     -o-animation-delay: 0.3s;
-     animation-delay: 0.3s;
-}
- @-webkit-keyframes pulse {
-     0% {
-         color: $color-transaction-text-date;
-         background-color: $color-white;
-    }
-     50.0% {
-         color: $color-white;
-         background-color: $color-primary-hot-pink;
-    }
-     100.0% {
-         color: $color-transaction-text-date;
-         background-color: $color-white;
-    }
 }
  .message-for-no-header {
      font-size: 18px;
@@ -178,30 +146,47 @@
  a{
      margin-right: 50px;
 }
- #transactions, #categories, #settings{
-     width: 100%;
-     margin-right: 0px !important;
-}
- 
-
-#categories, #transactions{
-    h6{
-        margin-left: 5px;
-    }
-}
 
 .logout{
     margin-top: auto;
     margin-bottom: auto;
+    text-align: right;
+    margin-right: 20px;
 }
 
-#admin{
+#admin, #captain, #team, #transfers, #stats, #settings{
     h6{
         margin-left: 5px;
     }
 }
-#captain{
-    h6{
-        margin-left: 5px;
+
+.header-wrapper{
+    display: flex;
+    background-color: $color-white;
+    flex-direction: row;
+
+    .image-fantasy{
+        display: flex;
+    }
+
+    .ccafc-fantasy{
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 10px;
+    }
+
+    >div{
+        flex-grow: 1;
+        flex-basis: 0;
+    }
+
+    .header-tab-wrapper{
+        flex-grow: 2;
+        display:flex;
+        > div {
+            margin-right: 20px;
+        }
     }
 }

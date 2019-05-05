@@ -1,7 +1,7 @@
 import { Tokens } from '../Models/Interfaces/Tokens';
 
 export const isLoggedIn = (): boolean => {
-	console.log('logged in?');
+	console.log('checking');
 	return sessionStorage.access !== undefined;
 };
 export const setTokens = (tokens: Tokens): void => {

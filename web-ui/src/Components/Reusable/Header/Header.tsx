@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/sort-comp */
 import * as React from 'react';
-import { Row, Col, Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 import '../../../Style/Header.css';
 import { Image } from 'react-bootstrap';
 import { clearSessionStorage } from '../../../Services/CredentialInputService';
@@ -133,110 +133,123 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
 
   render () {
   	return (
-  		<div id="header">
-  			<Row className="categories-user unselectable">
-  				<Col lg="1">
+  		<div
+  			className="header-wrapper"
+  			id="header"
+  		>
+		  <div className="image-fantasy">
+		  		<div>
   					<Image
   						alt="App Icon"
   						id="appIcon"
   						src="cwood_symbol.png"
   					/>
-  				</Col>
-  					<div className="fantasy-football-ccafc">
-						  CCAFC Fantasy Football
+  				</div>
+				  <div className="ccafc-fantasy">
+				  CCAFC Fantasy Football
+				  </div>
+  			</div>
+			  <div className="header-tab-wrapper">
+  			<div>
+  				<Link to="/team">
+  					<ButtonPageSelector
+  						id="team"
+  						imgSrc="Home.png"
+  						select={this._onTeamSelect}
+  						selected={this.props.location.pathname === '/team' || this.props.location.pathname === '/login'}
+  						setRef={() => this.teamRef}
+  						text="Team"
+  					/>
+  				</Link>
+  			</div>
+  			<div>
+  				<Link to="/transfers">
+  					<ButtonPageSelector
+  						id="transfers"
+  						imgSrc="black-white-pitch.png"
+  						select={this._onTransfersSelect}
+  						selected={this.props.location.pathname === '/transfers'}
+  						setRef={() => this.transfersRef}
+  						text="Transfers"
+  					/>
+  				</Link>
+  			</div>
+  			<div>
+  				<Link to="/leagues">
+  					<ButtonPageSelector
+  						id="leagues"
+  						imgSrc="stag.jpg"
+  						select={this._onLeagueSelect}
+  						selected={this.props.location.pathname === '/leagues'}
+  						setRef={() => this.leagueRef}
+  						text="Leagues"
+  					/>
+  				</Link>
+  			</div>
+  			<div>
+  				<Link to="/stats">
+  					<ButtonPageSelector
+  						id="stats"
+  						imgSrc="stats-icons.png"
+  						select={this._onStatsRef}
+  						selected={this.props.location.pathname === '/stats'}
+  						setRef={() => this.statsRef}
+  						text="Stats"
+  					/>
+  				</Link>
+  			</div>
+  			<div>
+  				<Link to="/settings">
+  					<ButtonPageSelector
+  						id="settings"
+  						imgSrc="Settings.png"
+  						select={this._onSettingsSelect}
+  						selected={this.props.location.pathname === '/settings'}
+  						setRef={() => this.settingsRef}
+  						text="Settings"
+  					/>
+  				</Link>
+  			</div>
+
+  				{this.state.isCaptain ? (
+					  <div>
+  					<Link to="/captain">
+  						<ButtonPageSelector
+  							id="captain"
+  							imgSrc="Captain.png"
+  							select={this._onCaptainSelect}
+  							selected={this.props.location.pathname === '/captain'}
+  							setRef={() => this.captainRef}
+  							text="Captain"
+  						/>
+  					</Link>
+					  </div>) : null}
+  			<div>
+  				{this.state.isAdmin ? (
+					  <div>
+  					<Link to="/admin">
+  						<ButtonPageSelector
+  							id="admin"
+  							imgSrc="Admin.png"
+  							select={this._onAdminSelect}
+  							selected={this.props.location.pathname === '/admin'}
+  							setRef={() => this.adminRef}
+  							text="Admin"
+  						/>{' '}
+  					</Link>
 					  </div>
-  				<Col lg="8">
-  					<div id="midOptions">
-  						<Link to="/team">
-  							<ButtonPageSelector
-  								id="transactions"
-  								imgSrc="Home.png"
-  								select={this._onTeamSelect}
-  								selected={this.props.location.pathname === '/team' || this.props.location.pathname === '/login'}
-  								setRef={() => this.teamRef}
-  								text="Team"
-  							/>
-  						</Link>
-  						<Link to="/transfers">
-  							<ButtonPageSelector
-								  id="categories"
-  								imgSrc="black-white-pitch.png"
-  								select={this._onTransfersSelect}
-  								selected={this.props.location.pathname === '/transfers'}
-  								setRef={() => this.transfersRef}
-  								text="Transfers"
-  							/>
-  						</Link>
-  						<Link to="/leagues">
-  							<ButtonPageSelector
-  								id="settings"
-  								imgSrc="stag.jpg"
-  								select={this._onLeagueSelect}
-  								selected={this.props.location.pathname === '/leagues'}
-  								setRef={() => this.leagueRef}
-  								text="Leagues"
-  							/>
-  						</Link>
-						  <Link to="/stats">
-  							<ButtonPageSelector
-  								id="settings"
-  								imgSrc="stats-icons.png"
-  								select={this._onStatsRef}
-  								selected={this.props.location.pathname === '/stats'}
-  								setRef={() => this.statsRef}
-  								text="Stats"
-  							/>
-  						</Link>
-  						<Link to="/settings">
-  							<ButtonPageSelector
-  								id="settings"
-  								imgSrc="Settings.png"
-  								select={this._onSettingsSelect}
-  								selected={this.props.location.pathname === '/settings'}
-  								setRef={() => this.settingsRef}
-  								text="Settings"
-  							/>
-  						</Link>
-						  {this.state.isCaptain ? (
-						  <Link to="/captain">
-  							<ButtonPageSelector
-  								id="captain"
-  								imgSrc="Captain.png"
-  								select={this._onCaptainSelect}
-  								selected={this.props.location.pathname === '/captain'}
-  								setRef={() => this.captainRef}
-  								text="Captain"
-  							/>
-						  </Link>) : null}
-  						{this.state.isAdmin ? (
-  							<Link to="/admin">
-  								<ButtonPageSelector
-  									id="admin"
-  									imgSrc="Admin.png"
-  									select={this._onAdminSelect}
-  									selected={this.props.location.pathname === '/admin'}
-  									setRef={() => this.adminRef}
-  									text="Admin"
-  								/>{' '}
-  							</Link>
-  						) : null}
-  					</div>
-  				</Col>
-  				<Col
-  					className="account-header"
-  					lg="2"
+  				) : null}
+  			</div>
+			  </div>
+  			<div className="logout">
+  				<Button
+  					className=""
+  					id="logout-button"
+  					onClick={this.logout}
   				>
-				  <div className="logout">
-						  <Button
-  								className=""
-  								id="logout-button"
-  								onClick={this.logout}
-						  >
-							Logout
-  							</Button>
-  					</div>
-  				</Col>
-  			</Row>
+				Logout
+  				</Button>
+  			</div>
   		</div>
   	);
   }

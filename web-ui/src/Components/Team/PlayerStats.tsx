@@ -43,6 +43,18 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 
 	render () {
 		let totalStats: JSX.Element[] = [];
+		console.log('Player stats being viewed = ' + JSON.stringify(this.props.playerStatsBeingViewed));
+		if (this.props.playerStatsBeingViewed.position !== undefined) {
+			if (this.props.playerStatsBeingViewed.position === 'ATTACKER') {
+				this.props.playerStatsBeingViewed.position = 'Atk';
+			} else if (this.props.playerStatsBeingViewed.position === 'MIDFIELDER') {
+				this.props.playerStatsBeingViewed.position = 'Mid';
+			} else if (this.props.playerStatsBeingViewed.position === 'DEFENDER') {
+				this.props.playerStatsBeingViewed.position = 'Def';
+			} else if (this.props.playerStatsBeingViewed.position === 'GOALKEEPER') {
+				this.props.playerStatsBeingViewed.position = 'Gk';
+			}
+		}
 
 		let info: String[] = ['First name', 'Surname', 'Position', 'Total points', 'Price', 'Total Goals', 'Total Assists'];
 		let index: number = -1;
