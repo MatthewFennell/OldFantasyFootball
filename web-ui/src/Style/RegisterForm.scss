@@ -30,8 +30,12 @@
     }
 }
  @media screen and (max-width: 599px) {
+    #passcodeLabel, #keycodeLabel, #usernameLabel, #surnameLabel, #firstNameLabel{
+        margin: 0px !important;
+        margin-top: 5px !important;
+    }
      .position-relative.form-group {
-         margin-bottom: 28px;
+        //  margin-bottom: 28px;
     }
      div#register-input-fields {
          margin-top: 0px;
