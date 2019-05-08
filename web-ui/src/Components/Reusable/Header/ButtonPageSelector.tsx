@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import Media from 'react-media';
 
 interface ButtonPageSelectorProps {
   select: () => void;
@@ -26,7 +27,15 @@ class ButtonPageSelector extends React.Component<ButtonPageSelectorProps> {
 				ref={this.props.setRef()}
 			>
 				<img src={this.props.imgSrc} />
-				<h6>{this.props.text}</h6>
+				<Media query="(max-width: 899px)">
+					{matches =>
+						matches ? (
+							null
+						) : (
+							<h6>{this.props.text}</h6>
+						)
+					}
+				</Media>
 			</div>
 		);
 	}

@@ -10,6 +10,7 @@ import { RoutedFormProps } from '../../../Models/Types/RoutedFormProps';
 import { getUser, getIsAdmin, getIsCaptain } from '../../../Services/User/UserService';
 import { Account } from '../../../Models/Interfaces/Account';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
+import Media from 'react-media';
 
 interface Props {
   setUserBeingViewed: (user: string) => void;
@@ -145,9 +146,17 @@ class Header extends React.Component<RoutedFormProps<RouteComponentProps> & Prop
   						src="cwood_symbol.png"
   					/>
   				</div>
-				  <div className="ccafc-fantasy">
-				  CCAFC Fantasy Football
-				  </div>
+				  <Media query="(max-width: 800px)">
+  					{matches =>
+  						matches ? (
+  							null
+  						) : (
+  							<div className="ccafc-fantasy">
+				CCAFC Fantasy Football
+  							</div>
+  						)
+  					}
+  				</Media>
   			</div>
 			  <div className="header-tab-wrapper">
   			<div>
