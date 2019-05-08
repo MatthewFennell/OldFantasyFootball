@@ -21,6 +21,7 @@ import {
 import { UserLeaguePosition } from '../..//Models/Interfaces/UserLeaguePosition';
 import { getUserInfo } from '../../Services/User/UserService';
 import { noop } from 'lodash';
+import Media from 'react-media';
 
 interface TeamProps {
 	accountId: string;
@@ -256,20 +257,28 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 				</div>
 				<div className={this.generateRowClassName()}>
 
-					<div className="player-stats">
-						<PlayerStats
-							handleWeek={this.onHandleWeek}
-							playerPointsBeingViewed={this.state.playerPointsBeingViewed}
-							playerPointsViewed={this.state.playerPointsViewed}
-							playerStatsBeingViewed={this.state.playerStatsBeingViewed}
-							statsBeingViewed={this.state.statsBeingViewed}
-							teamName={this.state.teamNameBeingViewed}
-							totalNumberOfWeeks={this.props.totalNumberOfWeeks}
-							userBeingViewed={this.props.userBeingViewed}
-							username={this.state.usernameBeingViewed}
-							weekBeingViewed={this.state.weekBeingViewed}
-						/>
-					</div>
+					<Media query="(max-width: 800px)">
+						{matches =>
+							matches ? (
+								null
+							) : (
+								<div className="player-stats">
+									<PlayerStats
+										handleWeek={this.onHandleWeek}
+										playerPointsBeingViewed={this.state.playerPointsBeingViewed}
+										playerPointsViewed={this.state.playerPointsViewed}
+										playerStatsBeingViewed={this.state.playerStatsBeingViewed}
+										statsBeingViewed={this.state.statsBeingViewed}
+										teamName={this.state.teamNameBeingViewed}
+										totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+										userBeingViewed={this.props.userBeingViewed}
+										username={this.state.usernameBeingViewed}
+										weekBeingViewed={this.state.weekBeingViewed}
+									/>
+								</div>
+							)
+						}
+					</Media>
 
 					<Pitch
 						activeWeeklyTeam={this.props.teamToRender}
@@ -280,14 +289,23 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						transfer={false}
 					/>
 
-					<div className="leagues-team">
-						<div className="league-table">
-							<LeagueTableBody
-								leagues={leagues}
-								setLeagueBeingViewed={this.setLeague}
-							/>
-						</div>
-					</div>
+					<Media query="(max-width: 800px)">
+						{matches =>
+							matches ? (
+								null
+							) : (
+								<div className="leagues-team">
+									<div className="league-table">
+										<LeagueTableBody
+											leagues={leagues}
+											setLeagueBeingViewed={this.setLeague}
+										/>
+									</div>
+								</div>
+							)
+						}
+					</Media>
+
 				</div>
 			</div>
 		);
