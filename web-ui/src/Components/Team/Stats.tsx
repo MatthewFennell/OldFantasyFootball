@@ -88,7 +88,7 @@ class Stats extends React.Component<StatsProps> {
 				</div>
 
 				<div className="player-most-points">
-					Your most valuable player is {this.props.mostValuablePlayerName}{' '} with {this.props.mostValuablePlayerScore} points
+					Most valuable player: {this.props.mostValuablePlayerName}{' '} ({this.props.mostValuablePlayerScore}) points
 				</div>
 
 				<div className="player-most-points">

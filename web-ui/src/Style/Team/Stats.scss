@@ -5,8 +5,8 @@
   flex-wrap: nowrap;
   justify-content: center;
   height: 100%;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
 .stats-columns > div {
   width: 100%;
@@ -20,4 +20,10 @@
   color: $strange-orange;
   @include color-border;
   text-align: center;
+
+  @media screen and (max-width: 800px) {
+    font-size: 10px;
+    padding: 5px;
+    margin: 5px;
+  }
 }
