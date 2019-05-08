@@ -160,13 +160,20 @@
     }
 }
 
+.header-wrapper::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+
 .header-wrapper{
     display: flex;
     background-color: $color-white;
     flex-direction: row;
+    overflow-x: scroll;
 
     .image-fantasy{
         display: flex;
+        margin-right: 10px;
     }
 
     .ccafc-fantasy{
