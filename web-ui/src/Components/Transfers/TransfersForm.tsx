@@ -7,6 +7,7 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import TextInputForm from '../common/TexInputForm';
 import CustomDropdown from '../common/CustomDropdown';
+import Media from 'react-media';
 
 interface TransfersFormProps {
   setSearchingByPercentage: (searchingByPercentage: boolean) => void;
@@ -123,76 +124,118 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		const { searchByNameValue } = this.state;
 		const { allCollegeTeams } = this.props;
 		return (
-			<div className="transfer-filter-rows">
-				<div className="transfer-form-row-one">
-					<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<CustomDropdown
-							setData={this._handlePositionChange}
-							title="Position"
-							values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
-						/>
-					</div>
-					<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<TeamDropDown
-							allCollegeTeams={allCollegeTeams}
-							setTeam={this._handleTeamChange}
-						/>
-					</div>
-					<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<CustomDropdown
-							setData={this._handleSortByChange}
-							title="Sort by"
-							values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
-						/>
-					</div>
-				</div>
-				<div className="transfer-form-row-two">
-					<div className={this.state.minimumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<CustomDropdown
-							setData={this._handleMinimumPriceChange}
-							title="Minimum Price"
-							values={[
-								'No limit',
-								'5.0',
-								'6.0',
-								'7.0',
-								'8.0',
-								'9.0',
-								'10.0',
-								'11.0',
-								'12.0'
-							]}
-						/>
-					</div>
-					<div className={this.state.maximumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<CustomDropdown
-							setData={this._handleMaximumPriceChange}
-							title="Maximum Price"
-							values={[
-								'No limit',
-								'5.0',
-								'6.0',
-								'7.0',
-								'8.0',
-								'9.0',
-								'10.0',
-								'11.0',
-								'12.0',
-								'13.0',
-								'14.0'
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
+						<div className="transfer-filter-rows">
+							<div className="transfer-form-row-one">
+								<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handlePositionChange}
+										title="Position"
+										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
+									/>
+								</div>
+								<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<TeamDropDown
+										allCollegeTeams={allCollegeTeams}
+										setTeam={this._handleTeamChange}
+									/>
+								</div>
 
-							]}
-						/>
-					</div>
-					<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
-						<TextInputForm
-							currentValue={searchByNameValue}
-							setValue={this._handleSearchByNameValue}
-							title="Player name"
-						/>
-					</div>
-				</div>
-			</div>
+							</div>
+							<div className="transfer-form-row-two">
+								<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handleSortByChange}
+										title="Sort by"
+										values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
+									/>
+								</div>
+								<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<TextInputForm
+										currentValue={searchByNameValue}
+										setValue={this._handleSearchByNameValue}
+										title="Player name"
+									/>
+								</div>
+							</div>
+						</div>
+					) : (
+						<div className="transfer-filter-rows">
+							<div className="transfer-form-row-one">
+								<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handlePositionChange}
+										title="Position"
+										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
+									/>
+								</div>
+								<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<TeamDropDown
+										allCollegeTeams={allCollegeTeams}
+										setTeam={this._handleTeamChange}
+									/>
+								</div>
+								<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handleSortByChange}
+										title="Sort by"
+										values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
+									/>
+								</div>
+							</div>
+							<div className="transfer-form-row-two">
+								<div className={this.state.minimumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handleMinimumPriceChange}
+										title="Min Price"
+										values={[
+											'No limit',
+											'5.0',
+											'6.0',
+											'7.0',
+											'8.0',
+											'9.0',
+											'10.0',
+											'11.0',
+											'12.0'
+										]}
+									/>
+								</div>
+								<div className={this.state.maximumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<CustomDropdown
+										setData={this._handleMaximumPriceChange}
+										title="Max Price"
+										values={[
+											'No limit',
+											'5.0',
+											'6.0',
+											'7.0',
+											'8.0',
+											'9.0',
+											'10.0',
+											'11.0',
+											'12.0',
+											'13.0',
+											'14.0'
+
+										]}
+									/>
+								</div>
+								<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
+									<TextInputForm
+										currentValue={searchByNameValue}
+										setValue={this._handleSearchByNameValue}
+										title="Player name"
+									/>
+								</div>
+							</div>
+						</div>
+					)
+				}
+			</Media>
+
 		);
 	}
 }

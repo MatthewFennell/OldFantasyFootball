@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
+import Media from 'react-media';
 
 interface TransferRowProps {
   element: PlayerDTO;
@@ -13,7 +14,7 @@ const calculateClassName = (rowNumber: number) => {
 };
 
 const TransferRow: React.FC<TransferRowProps> = (props) => {
-	const {
+	let {
 		firstName,
 		surname,
 		position,
@@ -28,6 +29,17 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 		() => props.handleRowClick(props.element),
 		[ props.handleRowClick, props.element ]
 	);
+	if (position !== undefined) {
+		if (position === 'ATTACKER') {
+			position = 'Atk';
+		} else if (position === 'MIDFIELDER') {
+			position = 'Mid';
+		} else if (position === 'DEFENDER') {
+			position = 'Def';
+		} else if (position === 'GOALKEEPER') {
+			position = 'Gk';
+		}
+	}
 	return (
 		<tr
 			className={calculateClassName(props.index)}
@@ -35,11 +47,21 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 			onClick={handleRowClick}
 		>
 			<td className="name">{firstName + ' ' + surname}</td>
-			<td className="position">{position[0] + position.substring(1).toLowerCase()}</td>
+			<td className="position">{position}</td>
 			<td className="team">{collegeTeam}</td>
 			<td className="price">{price.toFixed(1)}</td>
 			<td className="goals">{totalGoals}</td>
-			<td className="assists">{totalAssists}</td>
+
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
+						null
+					) : (
+						<td className="assists">{totalAssists}</td>
+					)
+				}
+			</Media>
+
 			{props.searchingByPercentage ? <td className="percentage">{percentages.toFixed(1)}</td>
 				: <td className="score">{points}</td>}
 		</tr>

@@ -74,3 +74,90 @@
       outline: none;
  }
 }
+
+@media screen and (max-width: 590px) {
+    .outer-transfer-columns{
+        flex-direction: column;
+        display: flex;
+        .transfer-info-row{
+            background-color: $dark-black-background !important;
+            display: flex;
+            border-bottom: 1px solid $strange-other-yellow;
+            .info{
+                font-size: 14px;
+                color: $strange-orange;
+            }
+            #transfers-save-team{
+                padding: 10px;   
+            }
+            .save-changes{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        .pitch-value{
+            padding: 0px;
+            margin-top: 0px;
+        }
+        .error-response-message, .successful-response-message{
+          padding: 0px;  
+          font-size: 14px;
+          background-color: $dark-black-background;
+          min-height: 20px;
+        }
+        .transfer-filter-rows{
+            padding: 0px;
+            .transfer-form-row-one, .transfer-form-row-two{
+                background-color: $dark-black-background;
+                .raise-transfers, .raise-transfers-selected{
+                    padding: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .custom-dropdown-menu{
+                        width: 80%;
+                    }
+                }
+                .position-relative{
+                    margin: 0px;
+                }
+                label{
+                    width: 100% !important;
+                    margin: 0px;
+                    margin-left: 0px !important;
+                    margin-right: 0px !important;
+                    text-align: center !important;
+                }
+            }            
+        }
+        .transfers-table-wrapper{
+            padding: 0px;
+            margin-top: 0px;
+            padding-right: 0px;
+            border: 0px;
+            .transfers-table{
+                padding-right: 0px;
+                tr.transfers-even, tr.transfers-odd{
+                    height: 50px;
+                }
+                td{
+                    padding: 0px;
+                    font-size: 14px;
+                }
+                tr.transfers-odd{
+                    background-color: $medium-dark-background;
+                }
+                tr.transfers-header{
+                    background-color: $medium-dark-background;
+                    td {
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+
+}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { PlayerDTO } from '../../Models/Interfaces/Player';
 import TransfersRow from './TransfersRow';
 import '../../Style/Transfers/TransfersFilter.css';
+import Media from 'react-media';
 
 interface TransfersTableBodyProps {
   searchingByPercentage: boolean;
@@ -11,10 +12,6 @@ interface TransfersTableBodyProps {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
-	// constructor (props: TransfersTableBodyProps) {
-	// 	super(props);
-	// }
-
 	render () {
 		const { filteredPlayers } = this.props;
 		return (
@@ -50,11 +47,20 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 							>
 								{'Goals'}
 							</td>
-							<td
-								className="assists"
-							>
-								{'Assists'}
-							</td>
+
+							<Media query="(max-width: 599px)">
+								{matches =>
+									matches ? (
+										null
+									) : (
+										<td
+											className="assists"
+										>
+											{'Assists'}
+										</td>
+									)
+								}
+							</Media>
 
 							{this.props.searchingByPercentage ? <td
 								className="percentage"
