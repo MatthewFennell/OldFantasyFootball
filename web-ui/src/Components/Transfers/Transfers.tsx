@@ -15,6 +15,7 @@ import { getUserBudget } from '../../Services/User/UserService';
 import ResponseMessage from '../common/ResponseMessage';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import { noop } from 'lodash';
+import Media from 'react-media';
 
 interface TransfersProps {
   accountId: string;
@@ -240,77 +241,140 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	render () {
-		console.log('searching by percentage = ' + this.state.searchingByPercentage);
 		let teamToRender = this.props.team[this.props.accountId] !== undefined &&
 		this.props.team[this.props.accountId][-1] !== undefined
 			? this.props.team[this.props.accountId][-1] : [];
 
 		const { remainingBudget, transfersMarketOpen } = this.props;
 		return (
-			<div className="outer-transfer-columns">
-				<TeamData />
-				<div className="left-rows">
-					<div className="transfer-info-row">
-						<div className="info">
-							{remainingBudget[this.props.accountId] !== undefined
-								? 'Remaining Budget: £' + remainingBudget[this.props.accountId].toFixed(1) + 'mil'
-								: 'Remaining Budget: £0 mil' }
-						</div>
-						{transfersMarketOpen ? (
-							<div className="info">Transfer Market: Open</div>
-						) : (
-							<div className="info">Transfer Market: Closed</div>
-						)}
-						<div className="save-changes">
-							<Button
-								className="btn btn-default btn-round-lg btn-lg first"
-								id="transfers-save-team"
-								onClick={this.handleUpdateTeam}
-								type="submit"
-							>
-                			Save Team
-							</Button>
-						</div>
-					</div>
 
-					<ResponseMessage
-						isError={this.state.isError}
-						responseMessage={this.state.errorMessage}
-						shouldDisplay={this.state.errorMessage.length > 0}
-					/>
-					<div className="pitch-value">
-						<Pitch
-							activeWeeklyTeam={teamToRender}
-							addOrRemovePlayer={this.onAddOrRemovePlayer}
-							handleClickOnPlayer={noop}
-							noPoints={false}
-							removeFromActiveTeam={this.onRemoveFromActiveTeam}
-							transfer
-						/>
-					</div>
-				</div>
-				<div className="right-rows">
-					<div className="flex-container">
-						<div>
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
+						<div className="outer-transfer-columns">
+							<TeamData />
+							<div className="transfer-info-row">
+								<div className="info">
+									{remainingBudget[this.props.accountId] !== undefined
+										? 'Remaining Budget £' + remainingBudget[this.props.accountId].toFixed(1) + 'mil'
+										: 'Remaining Budget £0 mil' }
+								</div>
+								{transfersMarketOpen ? (
+									<div className="info">Transfer Market Open</div>
+								) : (
+									<div className="info">Transfer Market Closed</div>
+								)}
+								<div className="save-changes">
+									<Button
+										className="btn btn-default btn-round-lg btn-lg first"
+										id="transfers-save-team"
+										onClick={this.handleUpdateTeam}
+										type="submit"
+									>
+                				Save Team
+									</Button>
+								</div>
+							</div>
+
+							<div className="pitch-value">
+								<Pitch
+									activeWeeklyTeam={teamToRender}
+									addOrRemovePlayer={this.onAddOrRemovePlayer}
+									handleClickOnPlayer={noop}
+									noPoints={false}
+									removeFromActiveTeam={this.onRemoveFromActiveTeam}
+									transfer
+								/>
+							</div>
 							<TransfersForm
 								allCollegeTeams={this.props.allCollegeTeams}
 								filteredPlayers={this.props.filteredPlayers}
 								setFilteredPlayers={this.props.setFilteredPlayers}
 								setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
 							/>
-						</div>
-						<div className="transfers-table-wrapper">
-							<div className="transfers-table">
-								<TransfersTableBody
-									filteredPlayers={this.props.filteredPlayers}
-									handleRowClick={this.onRowClick}
-									searchingByPercentage={this.state.searchingByPercentage}
-								/>
+							<ResponseMessage
+								isError={this.state.isError}
+								responseMessage={this.state.errorMessage}
+								shouldDisplay
+							/>
+							<div className="transfers-table-wrapper">
+								<div className="transfers-table">
+									<TransfersTableBody
+										filteredPlayers={this.props.filteredPlayers}
+										handleRowClick={this.onRowClick}
+										searchingByPercentage={this.state.searchingByPercentage}
+									/>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
+					) : (
+						<div className="outer-transfer-columns">
+							<TeamData />
+							<div className="left-rows">
+								<div className="transfer-info-row">
+									<div className="info">
+										{remainingBudget[this.props.accountId] !== undefined
+											? 'Remaining Budget: £' + remainingBudget[this.props.accountId].toFixed(1) + 'mil'
+											: 'Remaining Budget: £0 mil' }
+									</div>
+									{transfersMarketOpen ? (
+										<div className="info">Transfer Market: Open</div>
+									) : (
+										<div className="info">Transfer Market: Closed</div>
+									)}
+									<div className="save-changes">
+										<Button
+											className="btn btn-default btn-round-lg btn-lg first"
+											id="transfers-save-team"
+											onClick={this.handleUpdateTeam}
+											type="submit"
+										>
+                				Save Team
+										</Button>
+									</div>
+								</div>
+
+								<ResponseMessage
+									isError={this.state.isError}
+									responseMessage={this.state.errorMessage}
+									shouldDisplay={this.state.errorMessage.length > 0}
+								/>
+								<div className="pitch-value">
+									<Pitch
+										activeWeeklyTeam={teamToRender}
+										addOrRemovePlayer={this.onAddOrRemovePlayer}
+										handleClickOnPlayer={noop}
+										noPoints={false}
+										removeFromActiveTeam={this.onRemoveFromActiveTeam}
+										transfer
+									/>
+								</div>
+							</div>
+							<div className="right-rows">
+								<div className="flex-container">
+									<div>
+										<TransfersForm
+											allCollegeTeams={this.props.allCollegeTeams}
+											filteredPlayers={this.props.filteredPlayers}
+											setFilteredPlayers={this.props.setFilteredPlayers}
+											setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
+										/>
+									</div>
+									<div className="transfers-table-wrapper">
+										<div className="transfers-table">
+											<TransfersTableBody
+												filteredPlayers={this.props.filteredPlayers}
+												handleRowClick={this.onRowClick}
+												searchingByPercentage={this.state.searchingByPercentage}
+											/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					)
+				}
+			</Media>
 		);
 	}
 }

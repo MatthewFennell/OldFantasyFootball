@@ -30,6 +30,7 @@ class TextValue extends React.Component<TextValueProps, {}> {
 							<Label
 								className="unselectable"
 								for="firstName"
+								id={title}
 							>
 								{title}
 							</Label>
