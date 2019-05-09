@@ -122,6 +122,11 @@
      height: 50px;
      margin-left: 15px;
      margin-top:10px;
+     margin-right: 5px;
+     @media screen and (max-width: 590px) {
+        width: 30px;
+        height: 40px;
+     }
 }
  .unselectable.row {
      margin-right: 0px;

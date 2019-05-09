@@ -31,13 +31,13 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 	);
 	if (position !== undefined) {
 		if (position === 'ATTACKER') {
-			position = 'Atk';
+			position = 'ATK';
 		} else if (position === 'MIDFIELDER') {
-			position = 'Mid';
+			position = 'MID';
 		} else if (position === 'DEFENDER') {
-			position = 'Def';
+			position = 'DEF';
 		} else if (position === 'GOALKEEPER') {
-			position = 'Gk';
+			position = 'GK';
 		}
 	}
 	return (
