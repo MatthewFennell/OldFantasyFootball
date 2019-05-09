@@ -2,6 +2,15 @@
 @import './Colors.scss';
 
  div>form#login-form {
+    @media screen and (max-width: 590px) {
+        #login-input-fields{
+            text-align: center;
+        }
+        margin-top: 30%;
+        h1{
+            color: $strange-orange;
+        }
+    }
      &#login-input-fields {
          @include input-margins;
          margin-top: 37.82px;
@@ -34,4 +43,8 @@
 #usernameLabel, #passcodeLabel {
     margin-top: 2%;
     color: $strange-other-yellow;
+    font-size: 16px;
+    font-weight: bold;
 }
+
+

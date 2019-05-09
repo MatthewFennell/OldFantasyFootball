@@ -9,6 +9,7 @@ import * as RegisterService from '../../Services/CredentialInputService';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import ResponseMessage from '../../Components/common/ResponseMessage';
 import classnames from 'classnames';
+import '../../Style/RegisterForm.css';
 
 interface RegisterState {
   firstName: string;
@@ -117,12 +118,11 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   	return (
 
   		<div id="register-form">
-  				<h1
-  					className="text-center unselectable"
-  					id="greeting"
+  				<div
+  					className="signup"
   				>
-            Sign Up:
-  				</h1>
+            Collingwood Sign Up
+  				</div>
   			<div className="register-error-message">
   					<ResponseMessage
   						isError={this.state.isError}
@@ -203,6 +203,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="password"
   						/>
+  						</FormGroup>
+  						<FormGroup>
   						<Label
   							className="register-label"
   							for="keycode"

@@ -8,6 +8,7 @@ import LoginForm from './LoginForm';
 import { isLoggedIn } from '../../Services/CredentialInputService';
 import { UserProps } from '../../Models/Interfaces/UserProps';
 import '../../Style/LoginForm.css';
+import Media from 'react-media';
 
 interface LoginProps {
   location: any;
@@ -42,25 +43,37 @@ class Login extends React.Component<UserProps & LoginProps> {
 	render () {
 		if (!isLoggedIn()) {
 			return (
-				<div id="bubbles">
-					<Bubble className="bubble-medium bubble-red">
-						<TextScottCash />
-					</Bubble>
-					{this._renderAnimatedWrapper(
-						'bubble-smallest',
-						<Bubble className="bubble-smallest bubble-blue" />
-					)}
-					{this._renderAnimatedWrapper(
-						'bubble-largest',
-						<Bubble className="bubble-largest bubble-green">
+				<Media query="(max-width: 599px)">
+					{matches =>
+						matches ? (
 							<LoginForm
 								setAccount={this.props.setAccount}
 								setRemainingBudget={this.props.setRemainingBudget}
 								setUserBeingViewed={this.props.setUserBeingViewed}
 							/>
-						</Bubble>
-					)}
-				</div>
+						) : (
+							<div id="bubbles">
+								<Bubble className="bubble-medium bubble-red">
+									<TextScottCash />
+								</Bubble>
+								{this._renderAnimatedWrapper(
+									'bubble-smallest',
+									<Bubble className="bubble-smallest bubble-blue" />
+								)}
+								{this._renderAnimatedWrapper(
+									'bubble-largest',
+									<Bubble className="bubble-largest bubble-green">
+										<LoginForm
+											setAccount={this.props.setAccount}
+											setRemainingBudget={this.props.setRemainingBudget}
+											setUserBeingViewed={this.props.setUserBeingViewed}
+										/>
+									</Bubble>
+								)}
+							</div>
+						)
+					}
+				</Media>
 			);
 		} else {
 			return <SplashScreen redirect="/team" />;
