@@ -1,6 +1,12 @@
 @import'Form.scss';
 @import './Colors.scss';
  div>form#register-form {
+    @media screen and (max-width: 590px) {
+        text-align: center;
+        h1{
+            color: $strange-orange;
+        }
+    }
      &#register-input-fields {
          @include input-margins;
          margin-top: 21.82px;
@@ -46,13 +52,15 @@
 }
  @media screen and (max-width: 358px), screen and (max-height: 710px) {
      .position-relative.form-group {
-         margin-bottom: 33px;
+         margin-bottom: 15px;
     }
 }
 
 #passcodeLabel, #keycodeLabel, #usernameLabel, #surnameLabel, #firstNameLabel{
     margin-top: 3%;
     color: $strange-other-yellow;
+    font-weight: bold;
+    font-size: 14px !important;
 }
 
 .registerFormWrapper{
@@ -65,4 +73,14 @@
     margin-top: 0px;
     height: 20px;
     text-align: center;
+}
+
+.signup{
+    color: white;
+    text-align: center;
+    margin-top: 5%;
+    font-size: 24px;
+    @media screen and (max-width: 590px) {
+        color: $strange-orange;
+    }
 }

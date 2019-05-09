@@ -8,6 +8,7 @@ import { Field, reduxForm } from 'redux-form';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import * as LoginService from '../../Services/CredentialInputService';
 import ResponseMessage from '../../Components/common/ResponseMessage';
+import '../../Style/LoginForm.css';
 
 interface LoginState {
   username: string;
@@ -100,7 +101,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   					className="text-center unselectable"
   					id="greeting"
   				>
-            Hi there!
+            Collingwood Fantasy
   				</h1>
   				<div id="login-input-fields">
   					<div className="login-error-message">

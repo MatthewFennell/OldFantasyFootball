@@ -7,6 +7,7 @@ import RegisterForm from './RegisterForm';
 import { clearSessionStorage } from '../../Services/CredentialInputService';
 import '../../Style/RegisterForm.css';
 import { Account } from '../../Models/Interfaces/Account';
+import Media from 'react-media';
 
 interface RegisterProps {
   resetAccount: () => void;
@@ -50,25 +51,38 @@ class Register extends React.Component<RegisterProps, {}> {
 
 	render () {
 		return (
-			<div id="bubbles">
-				<Bubble className="bubble-medium bubble-red">
-					<TextScottCash />
-				</Bubble>
-				{this._renderAnimatedWrapper(
-					'bubble-smallest',
-					<Bubble className="bubble-smallest bubble-green" />
-				)}
-				{this._renderAnimatedWrapper(
-					'bubble-largest',
-					<Bubble className="bubble-largest bubble-blue">
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
 						<RegisterForm
 							setAccount={this.props.setAccount}
 							setRemainingBudget={this.props.setRemainingBudget}
 							setUserBeingViewed={this.props.setUserBeingViewed}
 						/>
-					</Bubble>
-				)}
-			</div>
+					) : (
+						<div id="bubbles">
+							<Bubble className="bubble-medium bubble-red">
+								<TextScottCash />
+							</Bubble>
+							{this._renderAnimatedWrapper(
+								'bubble-smallest',
+								<Bubble className="bubble-smallest bubble-green" />
+							)}
+							{this._renderAnimatedWrapper(
+								'bubble-largest',
+								<Bubble className="bubble-largest bubble-blue">
+									<RegisterForm
+										setAccount={this.props.setAccount}
+										setRemainingBudget={this.props.setRemainingBudget}
+										setUserBeingViewed={this.props.setUserBeingViewed}
+									/>
+								</Bubble>
+							)}
+						</div>
+					)
+				}
+			</Media>
+
 		);
 	}
 }
