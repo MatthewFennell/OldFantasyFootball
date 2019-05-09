@@ -121,7 +121,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   				<div
   					className="signup"
   				>
-            Collingwood Fantasy Footy Sign Up
+            Collingwood Sign Up
   				</div>
   			<div className="register-error-message">
   					<ResponseMessage
