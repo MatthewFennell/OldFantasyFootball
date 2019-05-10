@@ -11,7 +11,6 @@ import ResponseMessage from '../common/ResponseMessage';
 
 interface DeleteLeagueState {
   leagueToDelete: string;
-  error: string;
   isError: boolean;
   responseMessage: string;
 }
@@ -31,7 +30,6 @@ class DeleteLeague extends React.Component<
 		super(props);
 		this.state = {
 			leagueToDelete: '',
-			error: '',
 			isError: false,
 			responseMessage: ''
 		};
@@ -70,7 +68,6 @@ class DeleteLeague extends React.Component<
   };
 
   render () {
-	  const { error } = this.state;
   	return (
   		<Col
   			className="league-info-screen"
@@ -90,7 +87,7 @@ class DeleteLeague extends React.Component<
             Delete a league! (Admin of league only)
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{error}</Label>
+  					{/* <Label className="error-text">{error}</Label> */}
   					<FormGroup>
   						<Label
   							className="unselectable"

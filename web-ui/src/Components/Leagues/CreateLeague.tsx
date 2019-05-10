@@ -137,7 +137,7 @@ class CreateLeagueClass extends React.Component<
   						<ResponseMessage
   							isError={this.state.isError}
   							responseMessage={this.state.responseMessage}
-  							shouldDisplay={this.state.responseMessage.length > 0}
+  							shouldDisplay
   						/>
 					  </div>
   			</Form>
