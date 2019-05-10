@@ -8,7 +8,6 @@ import { leaveLeague } from '../../Services/League/LeagueService';
 import '../../Style/League/League-join.css';
 import { Col } from 'react-bootstrap';
 import ResponseMessage from '../common/ResponseMessage';
-import * as lodash from 'lodash/fp';
 
 interface LeaveLeagueState {
   leagueToLeave: string;
@@ -37,11 +36,6 @@ class LeaveLeague extends React.Component<
 			responseMessage: ''
 		};
 		this._onSubmit = this._onSubmit.bind(this);
-
-		let x = this.props.leagues;
-		console.log('x = ' + JSON.stringify(x));
-		let y = lodash.unset('cd442cf9-23f3-4a81-90aa-54f4c4dba5b4.ap', x);
-		console.log('removed = ' + JSON.stringify(y));
 	}
 
 	_handleInput (eventName: any, eventTarget: HTMLInputElement) {
@@ -61,7 +55,6 @@ class LeaveLeague extends React.Component<
   		if (!err) {
   			leaveLeague(this.state.leagueToLeave)
   				.then(response => {
-  					// TO:DO -> Remove league
   					this.props.removeLeagues(this.props.userBeingViewed, this.state.leagueToLeave);
 					  this.setState({ responseMessage: 'Left league successfully', isError: false });
   				})
@@ -76,7 +69,6 @@ class LeaveLeague extends React.Component<
   };
 
   render () {
-	  const { error } = this.state;
   	return (
   		<Col
   			className="league-info-screen"
@@ -96,7 +88,7 @@ class LeaveLeague extends React.Component<
             Leave a league!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{error}</Label>
+  					{/* <Label className="error-text">{error}</Label> */}
   					<FormGroup>
   						<Label
   							className="unselectable"

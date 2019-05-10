@@ -162,7 +162,7 @@ div.raise-league {
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 1em;
+  padding: 10px;
 }
 div.raise-league-selected{
   background-color: $medium-dark-background;
@@ -170,7 +170,7 @@ div.raise-league-selected{
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 1em;
+  padding: 10px;
   border-color: #{
      adjust-hue($strange-orange, 45deg)
  }
@@ -181,4 +181,111 @@ div.raise-league-selected{
      adjust-hue($strange-orange, 45deg)
  }
  ;
+}
+
+@media screen and (max-width: 590px) {
+  .leagues-mobile-wrapper{
+    .leagues-header{
+      color: $yellow-text;
+      font-size: 36px;
+      text-align: center;
+      padding: 15px;
+    }
+    .flex-container-two{
+      display: flex;
+      .raise-league, .raise-league-selected{
+        margin: 0px;
+      }
+      > div {
+        font-size: 16px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+    }
+    .my-active-leagues-table{
+      border: 3px solid $strange-yellow;
+      width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 10%;
+      margin-bottom: 10%;
+      td{
+        color: $yellow-text;
+        text-align: center;
+      }
+      tr.league-header{
+        td{
+          color: white;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+      td.league-name, td.position{
+        width: 50%;
+      }
+      tr{
+        height: 30px;
+      }
+      tr.league-header{
+        height: 50px;
+      }
+      tr.league-odd, tr.league-header{
+        background-color: $medium-dark-background;
+      }
+      tr.league-even{
+        background-color: #49494d;
+      }
+    }
+
+    .league-info-screen{
+      margin-top: 10px;
+      width: 100%;
+      #create-league-form, #join-league-form {
+        margin-top: 10%;
+        margin-bottom: 10%;
+        input{
+          color: white;
+        }
+        height: auto;
+        h1#greeting {
+          height: auto;
+          width: 100%;
+          margin: 0px;
+          padding-top: 0px;
+          padding: 30px;
+        }
+      }
+      .create-league-response-wrapper, .join-league-response-wrapper{
+        width: 90%;
+        .successful-response-message, .error-response-message{
+          height: auto;
+          margin-bottom: 10px;
+        }
+      }
+
+      .rankings-wrapper{
+        padding: 0px;
+        .current-league-name{
+          border-bottom: 3px solid $strange-yellow;
+          .info{
+            .league-name{
+              font-size: 18px;
+            }
+          }          
+        }
+        .my-active-leagues-table{
+          border: 0px;
+          margin-top:5%;          
+          td.name, td.user-name{
+            width: 50%
+          }
+          td.points, td.position{
+            width: 25%;
+          }
+        }
+      }
+
+
+    }
+  }
 }

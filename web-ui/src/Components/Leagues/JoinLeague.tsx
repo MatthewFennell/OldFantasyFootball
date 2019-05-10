@@ -68,7 +68,6 @@ class JoinLeague extends React.Component<
   };
 
   render () {
-	  const { error } = this.state;
   	return (
   		<Col
   			className="league-info-screen"
@@ -88,7 +87,7 @@ class JoinLeague extends React.Component<
             Join a league!
   				</h1>
   				<div id="login-input-fields">
-  					<Label className="error-text">{error}</Label>
+  					{/* <Label className="error-text">{error}</Label> */}
   					<FormGroup>
   						<Label
   							className="unselectable"

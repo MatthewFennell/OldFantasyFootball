@@ -18,6 +18,7 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { getUserInfo } from '../../Services/User/UserService';
 import LeaveLeague from './LeaveLeague';
 import DeleteLeague from './DeleteLeague';
+import Media from 'react-media';
 
 interface LeagueProps {
 	accountId: string;
@@ -49,11 +50,15 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.findLeaguesAndPositions = this.findLeaguesAndPositions.bind(this);
 		this.generateLeaguesMessage = this.generateLeaguesMessage.bind(this);
+		this.checkingOtherLeague = this.checkingOtherLeague.bind(this);
 		this.state = {
 			leaguesMessage: ''
 		};
-		const createHandler = (message: string) => () => this.props.setLeaguePageBeingViewed(message);
+		const createHandler = (message: string) => () => {
+			this.props.setLeaguePageBeingViewed(message);
+		};
 		this.handlers = {
+			home: createHandler('home'),
 			createLeague: createHandler('create-league'),
 			joinLeague: createHandler('join-league'),
 			leaveLeague: createHandler('leave-league'),
@@ -75,7 +80,27 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		}
 	}
 
+	checkingOtherLeague () {
+		if (this.props.leaguePageBeingViewed === 'home') {
+			return false;
+		}
+		if (this.props.leaguePageBeingViewed === 'create-league') {
+			return false;
+		}
+		if (this.props.leaguePageBeingViewed === 'join-league') {
+			return false;
+		}
+		if (this.props.leaguePageBeingViewed === 'leave-league') {
+			return false;
+		}
+		if (this.props.leaguePageBeingViewed === 'delete-league') {
+			return false;
+		}
+		return true;
+	}
+
 	handlers: { createLeague: () => void;
+		home: () => void;
 		joinLeague: () => void;
 		leaveLeague: () => void;
 		deleteLeague: () => void;
@@ -150,86 +175,188 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		const width = this.props.leaguePageBeingViewed === 'home' ? 6 : 6;
 
 		return (
-			<Container>
-				<Row>
-					<Col
-						className="my-leagues-column-one"
-						lg={width}
-						lgOffset={offSet}
-						md={width}
-						mdOffset={offSet}
-						xs={width}
-						xsOffset={offSet}
-					>
-						<div className="outer-league-rows">
-							<div className="my-leagues">
-                				{this.state.leaguesMessage}
-								<div className="league-table">
+
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
+						<div className="leagues-mobile-wrapper">
+							<div className="leagues-header">
+							Leagues
+							</div>
+							<div className="flex-container-two">
+								<div className="create league">
+									<div
+										className={this._selectedOrNot('home')}
+										onClick={this.handlers.home}
+									>
+										Home
+									</div>
+								</div>
+								<div className="create league">
+									<div
+										className={this._selectedOrNot('create-league')}
+										onClick={this.handlers.createLeague}
+									>
+										Create
+									</div>
+								</div>
+								<div className="join-league">
+									<div
+										className={this._selectedOrNot('join-league')}
+										onClick={this.handlers.joinLeague}
+									>
+										Join
+									</div>
+								</div>
+							</div>
+							<div className="flex-container-two">
+								<div className="leave-league">
+									<div
+										className={this._selectedOrNot('leave-league')}
+										onClick={this.handlers.leaveLeague}
+									>
+										Leave
+									</div>
+								</div>
+
+								<div className="delete-league">
+									<div
+										className={this._selectedOrNot('delete-league')}
+										onClick={this.handlers.deleteLeague}
+									>
+										Delete
+									</div>
+								</div>
+								<div className="delete-league">
+									<div
+										className={this.checkingOtherLeague() ? 'raise-league-selected' : 'raise-league'}
+										onClick={() => this._setLeagueBeingViewed('Collingwood')}
+									>
+										Rankings
+									</div>
+								</div>
+							</div>
+							{this.props.leaguePageBeingViewed === 'home'
+								? <div className="league-wrapper">
 									<LeagueTableBody
 										leagues={leagues}
 										setLeagueBeingViewed={this._setLeagueBeingViewed}
-									/>
-								</div>
-							</div>
-
-							<div>
-								<div className="flex-container-two">
-									<div className="create league">
-										<div
-											className={this._selectedOrNot('create-league')}
-											onClick={this.handlers.createLeague}
-										>
-												Create league
-										</div>
-									</div>
-									<div className="join-league">
-										<div
-											className={this._selectedOrNot('join-league')}
-											onClick={this.handlers.joinLeague}
-										>
-												Join league
-										</div>
-									</div>
-								</div>
-								<div className="flex-container-two">
-									<div className="leave-league">
-										<div
-											className={this._selectedOrNot('leave-league')}
-											onClick={this.handlers.leaveLeague}
-										>
-												Leave league
-										</div>
-									</div>
-
-									<div className="delete-league">
-										<div
-											className={this._selectedOrNot('delete-league')}
-											onClick={this.handlers.deleteLeague}
-										>
-												Delete league
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</Col>
-					{this.props.leaguePageBeingViewed === 'create-league'
-						? <CreateLeague
-							setLeagues={this.props.setLeagues}
-							userBeingViewed={this.props.userBeingViewed}
-						  />
-						: this.props.leaguePageBeingViewed === 'join-league'
-							? <JoinLeague
-								setLeagues={this.props.setLeagues}
-								userBeingViewed={this.props.userBeingViewed}
-							  />
-							: this.props.leaguePageBeingViewed === 'leave-league'
+									/></div> : null}
+							{this.props.leaguePageBeingViewed === 'create-league'
+							 	? <CreateLeague
+								 setLeagues={this.props.setLeagues}
+								 userBeingViewed={this.props.userBeingViewed}
+								   /> : null }
+							{this.props.leaguePageBeingViewed === 'join-league'
+								? <JoinLeague
+									setLeagues={this.props.setLeagues}
+									userBeingViewed={this.props.userBeingViewed}
+								  /> : null }
+							{this.props.leaguePageBeingViewed === 'leave-league'
 								? <LeaveLeague
 									leagues={this.props.leagues}
 									removeLeagues={this.props.removeLeagues}
 									setLeagues={this.props.setLeagues}
 									userBeingViewed={this.props.userBeingViewed}
-								  />
+								  /> : null}
+							{ this.props.leaguePageBeingViewed === 'delete-league'
+								  	? <DeleteLeague
+									  leagues={this.props.leagues}
+									  removeLeagues={this.props.removeLeagues}
+									  setLeagues={this.props.setLeagues}
+									  userBeingViewed={this.props.userBeingViewed}
+								  	  /> : null}
+
+							{ this.checkingOtherLeague()
+								? <RankingsTableBody
+									code={this.props.leagueCode}
+									handleViewUser={this.handleViewUser}
+									isAdmin={this.props.isAdmin}
+									leagueBeingViewed={this.props.leaguePageBeingViewed}
+									leagueRankings={this.props.leagueRankings}
+								  /> : null}
+						</div>
+					) : (
+						<Container>
+							<Row>
+								<Col
+									className="my-leagues-column-one"
+									lg={width}
+									lgOffset={offSet}
+									md={width}
+									mdOffset={offSet}
+									xs={width}
+									xsOffset={offSet}
+								>
+									<div className="outer-league-rows">
+										<div className="my-leagues">
+                				{this.state.leaguesMessage}
+											<div className="league-table">
+												<LeagueTableBody
+													leagues={leagues}
+													setLeagueBeingViewed={this._setLeagueBeingViewed}
+												/>
+											</div>
+										</div>
+
+										<div>
+											<div className="flex-container-two">
+												<div className="create league">
+													<div
+														className={this._selectedOrNot('create-league')}
+														onClick={this.handlers.createLeague}
+													>
+												Create league
+													</div>
+												</div>
+												<div className="join-league">
+													<div
+														className={this._selectedOrNot('join-league')}
+														onClick={this.handlers.joinLeague}
+													>
+												Join league
+													</div>
+												</div>
+											</div>
+											<div className="flex-container-two">
+												<div className="leave-league">
+													<div
+														className={this._selectedOrNot('leave-league')}
+														onClick={this.handlers.leaveLeague}
+													>
+												Leave league
+													</div>
+												</div>
+
+												<div className="delete-league">
+													<div
+														className={this._selectedOrNot('delete-league')}
+														onClick={this.handlers.deleteLeague}
+													>
+												Delete league
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</Col>
+								{this.props.leaguePageBeingViewed === 'create-league'
+									? <CreateLeague
+										setLeagues={this.props.setLeagues}
+										userBeingViewed={this.props.userBeingViewed}
+									  />
+									: this.props.leaguePageBeingViewed === 'join-league'
+										? <JoinLeague
+											setLeagues={this.props.setLeagues}
+											userBeingViewed={this.props.userBeingViewed}
+										  />
+										: this.props.leaguePageBeingViewed === 'leave-league'
+											? <LeaveLeague
+												leagues={this.props.leagues}
+												removeLeagues={this.props.removeLeagues}
+												setLeagues={this.props.setLeagues}
+												userBeingViewed={this.props.userBeingViewed}
+											  />
 
 								  : this.props.leaguePageBeingViewed === 'delete-league'
 								  	? <DeleteLeague
@@ -239,17 +366,21 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 									  userBeingViewed={this.props.userBeingViewed}
 								  	  />
 
-									: this.props.leaguePageBeingViewed !== 'home'
-										? <RankingsTableBody
-											code={this.props.leagueCode}
-											handleViewUser={this.handleViewUser}
-											isAdmin={this.props.isAdmin}
-											leagueBeingViewed={this.props.leaguePageBeingViewed}
-											leagueRankings={this.props.leagueRankings}
-										  />
-										: null}
-				</Row>
-			</Container>
+												: this.props.leaguePageBeingViewed !== 'home'
+													? <RankingsTableBody
+														code={this.props.leagueCode}
+														handleViewUser={this.handleViewUser}
+														isAdmin={this.props.isAdmin}
+														leagueBeingViewed={this.props.leaguePageBeingViewed}
+														leagueRankings={this.props.leagueRankings}
+													  />
+													: null}
+							</Row>
+						</Container>
+					)
+				}
+			</Media>
+
 		);
 	}
 }
