@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../Style/Stats/TeamStats.css';
 import { SingleHistory } from '../../Models/Interfaces/SingleHistory';
+import classnames from 'classnames';
 
 interface TeamStatsProps {
     teamName: string;
@@ -19,9 +20,13 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 
 				<div className="stats-team-goalscorers">
 					<div className="stats-goalscorers-title">Goals</div>
-					{props.goalScorers.map(goalScorer => (
+					{props.goalScorers.map((goalScorer, index) => (
 						<div
-							className="goalscorer-row"
+							className={classnames({
+								goalScorerRow: true,
+								goalScorerEven: index % 2 !== 0,
+								goalScorerOdd: index % 2 === 0
+							})}
 							key={goalScorer.firstname + goalScorer.surname}
 						>
 
@@ -38,9 +43,13 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 
 				<div className="stats-team-assist">
 					<div className="stats-assist-title">Assists</div>
-					{props.assists.map(assist => (
+					{props.assists.map((assist, index) => (
 						<div
-							className="assist-row"
+							className={classnames({
+								assistRow: true,
+								assistEven: index % 2 !== 0,
+								assistOdd: index % 2 === 0
+							})}
 							key={assist.firstname + assist.surname}
 						>
 

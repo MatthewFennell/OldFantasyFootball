@@ -41,6 +41,40 @@
         background-color: $medium-dark-background;
         margin: 5px;
     }
+
+    .dropdown .week-menu{
+        margin: 0px;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border: none;
+      }
+      .week-menu-toggle {
+        @include week-menu-toggle;
+      }
+      .week-menu-item-false {
+        color: white;
+        @include week-menu-items;
+      }
+      .week-menu-item-true {
+        color: $yellow-text;
+        @include week-menu-items;
+      }
+      .week-menu {
+        min-width: 100px;
+        padding: 0px;
+      }
+      .week-change-error {
+        font-weight: bold;
+        min-height: 24px;
+      }
+      .team-menu-items{
+        margin: 0px;
+        height: 30px;
+        background: $light-gray;
+        line-height: 30px;
+      }
 }
 
 
@@ -137,3 +171,98 @@
     border: 2px solid gray;
     color: gray;
   }
+
+@media screen and (max-width: 590px) {
+  .stats-mobile-wrapper{
+    margin-bottom: 30px;
+    .stats-title{
+      color: $yellow-text;
+      font-size: 36px;
+      text-align: center;
+      padding: 15px;
+    }
+    .stats-week-dropdown, .stats-college-dropdown{
+      text-align: center;
+      padding: 10px;
+      .dropdown{
+        color: $strange-orange;
+        font-size: 24px;
+      }
+      .dropdown .week-menu{
+        margin: 0px;
+        border-top-width: 0px;
+        border-bottom-width: 0px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border: none;
+      }
+      .week-menu-toggle {
+        @include week-menu-toggle;
+      }
+      .week-menu-item-false {
+        color: white;
+        @include week-menu-items;
+      }
+      .week-menu-item-true {
+        color: $yellow-text;
+        @include week-menu-items;
+      }
+      .week-menu {
+        min-width: 100px;
+        padding: 0px;
+      }
+      .week-change-error {
+        font-weight: bold;
+        min-height: 24px;
+      }
+      .team-menu-items{
+        margin: 0px;
+        height: 30px;
+        background: $light-gray;
+        line-height: 30px;
+      }
+      .custom-dropdown-menu{
+        width: 30%;
+      }
+    }
+    .stats-selectors{
+      display: flex;
+      .stats-week-dropdown, .stats-college-dropdown{
+        text-align: center;
+      }
+      .stats-week-dropdown{
+        width: 35%;
+      }
+      .stats-college-dropdown{
+        width: 65%;
+      }
+    }
+    .team-stats-wrapper{
+      .goals-assists-stats-wrapper{
+        display: block;
+        .stats-team-goalscorers, .stats-team-assist{
+          .stats-goalscorers-title, .stats-assist-title{
+            margin: 0px;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+          }
+          width: 100%;
+          .goalScorerRow, .assistRow{
+            .goalscorer-name, .assist-name{
+              width: 70%;
+            }
+            .goalscorer-amount, .assist-amount{
+              width: 30%;
+            }
+          }
+          .goalScorerOdd, .assistOdd{
+            background-color: #49494d;
+          }
+        }
+      }
+      
+    }
+  }
+
+}
