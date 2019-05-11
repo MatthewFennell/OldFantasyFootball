@@ -22,7 +22,6 @@
         color: white;
         text-align: center;
         margin-top: 10px;
-        margin-bottom: 10px;
         font-size: 24px;
     }
 
@@ -30,7 +29,7 @@
         display: flex;
 
         .stats-team-goalscorers, .stats-team-assist{
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             font-size: 20px;
             width: 50%;
 
@@ -39,7 +38,7 @@
                 color: $yellow-text;
             }
 
-            .goalscorer-row, .assist-row{
+            .goalScorerRow, .assistRow{
                 display:flex;
 
                 .goalscorer-amount, .assist-amount{

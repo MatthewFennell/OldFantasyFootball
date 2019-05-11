@@ -5,15 +5,22 @@ import { SingleHistory } from '../../Models/Interfaces/SingleHistory';
 import { TeamHistory } from '../../Models/Interfaces/TeamHistory';
 import '../../Style/Stats/Stats.css';
 import TeamStats from './TeamStats';
+import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import Media from 'react-media';
+import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
+import CustomDropdown from '../common/CustomDropdown';
 
 interface SettingsProps {
     setStatsHistory: (week:number, statsHistory: SingleHistory) => void;
     statsHistory: TeamHistory[][];
-    totalNumberOfWeeks: number;
+		totalNumberOfWeeks: number;
+		allCollegeTeams: CollegeTeam[];
 }
 
 interface SettingsState {
 		week: number;
+		dropdownOpen: boolean;
+		collegeTeam: string;
   }
 
 class Settings extends React.Component<SettingsProps, SettingsState> {
@@ -22,8 +29,13 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		this._handleWeek = this._handleWeek.bind(this);
 		this.generateColumns = this.generateColumns.bind(this);
 		this._selectedOrNot = this._selectedOrNot.bind(this);
+		this._toggle = this._toggle.bind(this);
+		this.setCollegeTeam = this.setCollegeTeam.bind(this);
+		this.generateFilteredColumns = this.generateFilteredColumns.bind(this);
 		this.state = {
-			week: -2,
+			week: -1,
+			dropdownOpen: false,
+			collegeTeam: 'All'
 		};
 		this.getHistory(this.state.week);
 	}
@@ -38,11 +50,47 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		}
 	}
 
+	_toggle () {
+		this.setState(prevState => ({
+			dropdownOpen: !prevState.dropdownOpen
+		}));
+	}
+
+	setCollegeTeam (collegeTeam: string) {
+		this.setState({ collegeTeam });
+	}
+
 	_handleWeek (week: number) {
 		if (week <= this.props.totalNumberOfWeeks) {
 			this.setState({ week });
 			this.getHistory(week);
 		}
+	}
+
+	generateFilteredColumns () {
+		let teamStats:JSX.Element[] = [];
+		if (this.props.statsHistory[this.state.week]) {
+			if (this.state.collegeTeam === 'All') {
+				this.props.statsHistory[this.state.week].map(team => {
+					teamStats.push(<TeamStats
+						assists={team.assists}
+						goalScorers={team.goalScorers}
+						key={team.teamName}
+						teamName={team.teamName}
+					               />);
+				});
+			} else {
+				this.props.statsHistory[this.state.week].filter(team => team.teamName === this.state.collegeTeam).map(team => {
+					teamStats.push(<TeamStats
+						assists={team.assists}
+						goalScorers={team.goalScorers}
+						key={team.teamName}
+						teamName={team.teamName}
+					               />);
+				});
+			}
+		}
+		return teamStats;
 	}
 
 	generateColumns () {
@@ -91,46 +139,110 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		let columns = this.generateColumns();
 		let values = [...Array(this.props.totalNumberOfWeeks + 3).keys()];
 
+		let allWeeks: number[] = [];
+		allWeeks.push(-1);
+		for (let x = 1; x <= this.props.totalNumberOfWeeks; x++) {
+			allWeeks.push(x);
+		}
+
+		const weekOptions = allWeeks.map(week => (
+			<p
+				className="team-menu-items"
+				key={week}
+			>
+				<DropdownItem
+					className={'week-menu-item-' + (week === this.state.week)}
+					key={week}
+					onClick={() => this._handleWeek(week)}
+					value={week}
+				>
+					{week === -1 ? 'All weeks' : 'Week ' + week}
+				</DropdownItem>
+			</p>
+		));
+
 		return (
-			<div className="stats-wrapper">
 
-				<div className="stats-week-wrapper">
+			<Media query="(max-width: 599px)">
+				{matches =>
+					matches ? (
+						<div className="stats-mobile-wrapper">
+							<div className="stats-title">
+								Stats
+							</div>
+							<div className="stats-week-dropdown">
+								<Dropdown
+									isOpen={this.state.dropdownOpen}
+									toggle={this._toggle}
+								>
+									{this.state.week === -1
+										? 'All weeks'
+										: 'Week : ' + this.state.week}
+									<DropdownToggle
+										caret
+										className="week-menu-toggle"
+									>
+										{' '}
+										{' ▼'}
+									</DropdownToggle>
+									<DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
+								</Dropdown>
+							</div>
 
-					<div
-						className={this._selectedOrNot(-1)}
-						key="All"
-						onClick={() => { this._handleWeek(-1); }}
-					>
-            	Week: All
-					</div>
-
-					{values.map(index => (
-						<div
-							className={this._selectedOrNot(index)}
-							key={index}
-							onClick={() => { this._handleWeek(index); }}
-						>
-            	Week: {index}
+							<div className="stats-college-dropdown">
+								<CustomDropdown
+									setData={this.setCollegeTeam}
+									title="Team"
+									values={['All'].concat(this.props.allCollegeTeams.map(team => team.name))}
+								/>
+							</div>
+							<div className="team-histories">
+								{this.generateFilteredColumns()}
+							</div>
 						</div>
-					))}
+					) : (
+						<div className="stats-wrapper">
 
-				</div>
+							<div className="stats-week-wrapper">
+								<div
+									className={this._selectedOrNot(-1)}
+									key="All"
+									onClick={() => { this._handleWeek(-1); }}
+								>
+            	Week: All
+								</div>
 
-				<div className="all-team-stats-wrapper">
+								{values.map(index => (
+									<div
+										className={this._selectedOrNot(index)}
+										key={index}
+										onClick={() => { this._handleWeek(index); }}
+									>
+            	Week: {index}
+									</div>
+								))}
 
-					<div className="stats-history-columns">
-						{columns[0]}
-					</div>
+							</div>
 
-					<div className="stats-history-columns">
-						{columns[1]}
-					</div>
+							<div className="all-team-stats-wrapper">
 
-					<div className="stats-history-columns">
-						{columns[2]}
-					</div>
-				</div>
-			</div>
+								<div className="stats-history-columns">
+									{columns[0]}
+								</div>
+
+								<div className="stats-history-columns">
+									{columns[1]}
+								</div>
+
+								<div className="stats-history-columns">
+									{columns[2]}
+								</div>
+							</div>
+						</div>
+					)
+				}
+			</Media>
+
 		);
 	}
 }
