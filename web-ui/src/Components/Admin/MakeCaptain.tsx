@@ -74,7 +74,7 @@ class MakeCaptain extends React.Component<MakeCaptainProps, MakeCaptainState> {
 					<div className="admin-wrapper">
 						<CollegeTeam setTeam={this._handleTeamChange} />
 					</div>
-					<div>
+					<div className="admin-submit-button">
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreatePlayer"

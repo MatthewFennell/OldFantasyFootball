@@ -127,7 +127,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 
 		return 'Player ' + previousValues[0] + ' ' + previousValues[1] +
 			' successfully created for team ' + previousValues[2] + ' with price ' +
-			previousValues[3] + ' with position ' + previousValues[4];
+			previousValues[3] + ' and position ' + previousValues[4];
 	}
 
 	render () {
@@ -168,7 +168,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 					{this.props.collegeTeamName === '' ? <div className="admin-wrapper">
 						<CollegeTeam setTeam={this._handleTeamChange} />
 					</div> : null}
-					<div>
+					<div className="admin-submit-button">
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreatePlayer"

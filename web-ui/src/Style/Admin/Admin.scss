@@ -24,6 +24,7 @@
       font-size: 30px;
  }
 }
+
 .outer-admin-columns>div {
   background-color: $background-white;
   margin: 10px;
@@ -92,6 +93,41 @@ div.raise-selected{
  ;
 }
 
+.outer-admin-columns{
+  .left-rows{
+    .admin-form-row-three{
+      margin-left: 10%;
+      margin-right: 10%;
+
+      .edit-player-new-stats{
+        .admin-wrapper{
+          margin-top: 10px;
+          padding: 20px;
+          #create-player-form{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            input{
+              color: white;
+              width: 100%;
+            }
+            #Goals, #Assists{
+              text-align: center;
+            }
+          }
+          .custom-dropdown{
+            text-align: center;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    #btnEditPoints{
+      margin-top: 20px;
+    }
+  }
+}
+
 .admin-wrapper{
   border: 3px solid;
   border-image: linear-gradient(to bottom, $strange-orange 1%, $strange-yellow 100%);
@@ -101,5 +137,95 @@ div.raise-selected{
   .admin-man-of-the-match{
     color: $strange-orange;
     font-size: 20px;
+  }
+}
+
+
+@media screen and (max-width: 590px) {
+  .admin-mobile-wrapper{
+    .admin-header{
+      color: $yellow-text;
+      font-size: 20px;
+      text-align: center;
+      padding: 15px;
+    }
+    .admin-page-selector{
+      text-align: center;
+      font-size: 14px;
+    }
+    .admin-form{
+      .team-menu{
+        max-height: 200px;
+        overflow-y: scroll;
+      }
+
+      .admin-form-row-one, .admin-form-row-two{
+        flex-direction: column;
+        margin-left: 10%;
+        margin-right: 10%;
+        .admin-wrapper{
+          margin: 0px;
+          margin-top: 15px;
+          padding: 15px;
+          #create-player-form{
+            input{
+              color: white;
+              width: 100%;
+            }
+            height: auto;
+            label{
+              text-align: center;
+            }
+          }
+          .custom-dropdown, .team-dropdown{
+            text-align: center;
+            font-size: 18px;
+          }
+        }  
+        .successful-response-message, .error-response-message{
+          margin-top: 10px;
+          height: auto;
+          margin-bottom: 10px;
+        }   
+        .admin-submit-button{
+          padding: 0px;
+          margin: 0px;
+        }   
+        
+      }
+      .admin-form-row-three{
+        margin-left: 10%;
+        margin-right: 10%;
+  
+        .edit-player-new-stats{
+          .admin-wrapper{
+            margin-top: 10px;
+            padding: 20px;
+            #create-player-form{
+              width: 50%;
+              margin-left: auto;
+              margin-right: auto;
+              input{
+                color: white;
+                width: 100%;
+              }
+              #Goals, #Assists{
+                text-align: center;
+              }
+            }
+            .custom-dropdown{
+              text-align: center;
+              font-size: 18px;
+            }
+          }
+        }
+      }
+      #btnCreatePlayer, #btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints
+      , #btnEditPoints {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        width: auto;
+      }
+    }
   }
 }

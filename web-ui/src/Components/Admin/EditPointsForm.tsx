@@ -305,7 +305,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 					) : null}
 				</div>
 
-				<div>
+				<div className="admin-submit-button">
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnEditPoints"
