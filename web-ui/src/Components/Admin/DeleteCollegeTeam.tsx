@@ -57,7 +57,7 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 					</div>
 				</div>
 				<div className="admin-form-row-two">
-					<div>
+					<div className="admin-submit-button">
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnDeleteCollegeTeam"

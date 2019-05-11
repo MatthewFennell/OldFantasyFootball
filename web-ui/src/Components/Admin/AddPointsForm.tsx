@@ -226,7 +226,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 							/> </div>
 					) : null}
 				</div>
-				<div>
+				<div className="admin-submit-button">
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnAddPoints"

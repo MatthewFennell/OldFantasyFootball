@@ -78,7 +78,7 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 
 				</div>
 				<div className="admin-form-row-two" />
-				<div>
+				<div className="admin-submit-button">
 					<Button
 						className="btn btn-default btn-round-lg btn-lg second"
 						id="btnDeletePlayer"

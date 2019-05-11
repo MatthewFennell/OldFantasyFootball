@@ -127,7 +127,7 @@ class CreateLeagueClass extends React.Component<
 
   	return 'Player ' + previousValues[0] + ' ' + previousValues[1] +
 			' successfully created for team ' + previousValues[2] + ' with price ' +
-			previousValues[3] + ' with position ' + previousValues[4];
+			previousValues[3] + ' and position ' + previousValues[4];
   }
 
   render () {

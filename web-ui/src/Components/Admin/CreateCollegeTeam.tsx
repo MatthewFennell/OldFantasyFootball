@@ -80,7 +80,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 					</div>
 				</div>
 				<div className="admin-form-row-two">
-					<div>
+					<div className="admin-submit-button">
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnCreateCollegeTeam"
