@@ -103,6 +103,13 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 								<CreatePlayer
 									collegeTeam={this.state.teamName}
 								/>) : null}
+							{captainPageBeingViewed === 'add-result' ? (
+								<AddResult
+									allCollegeTeams={[]}
+									collegeTeamName={this.state.teamName}
+									setTeamAddingPoints={noop}
+								/>) : null
+							}
 						</div> : null
 					) : (
 						this.state.isCaptain ? (<div className="outer-captain-columns">

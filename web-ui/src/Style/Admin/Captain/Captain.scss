@@ -140,6 +140,7 @@ div.raise-selected{
         margin: 0px;
         padding-top: 0px;
         padding: 30px;
+        padding-bottom: 0px;
       }
       #firstNameValueLabel, #surnameValueLabel, #priceValueLabel{
         margin-top: 10px;
@@ -187,6 +188,53 @@ div.raise-selected{
     .successful-response-message, .error-response-message{
       height: auto;
       margin-bottom: 10px;
+    }
+  }
+  .admin-form{
+    .admin-form-row-one{
+      .admin-wrapper{
+        padding: 10px;
+        font-size: 18px;
+        #create-player-form
+          input{
+            width: 100%;
+          }
+          #Goalsagainst, #Goalsfor, #GameWeek{
+            text-align: center;
+          }
+      }
+    }
+    .admin-form-row-two{
+      margin-left: 10%;
+      margin-right: 10%;
+      flex-direction: column;
+      .edit-points-info{
+        width: auto;
+        .addResultGoalscorers, .addResultAssists, .addResultCleanSheet, .addResultManOfTheMatch{
+          font-size: 20px;
+          color: $yellow-text;
+          text-align: center;
+        }
+        .team-dropdown{
+          padding: 10px; 
+          text-align: center;
+          font-size: 18px;
+        }
+        .team-menu-items{
+          height: auto;
+          padding-top: 10px;
+        }
+        .team-menu{
+          max-height: 200px;
+          overflow-y: scroll;
+        }
+      }
+      .submit-button-add-result{
+        padding: 0px;
+        margin: 0px;
+        margin-top: 10px;
+        margin-bottom: 50px;
+      }
     }
   }
 }
