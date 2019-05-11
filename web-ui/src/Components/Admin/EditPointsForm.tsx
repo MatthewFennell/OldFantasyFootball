@@ -15,6 +15,7 @@ interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
   playersInFilteredTeam: PlayerDTO[];
   collegeTeamName: string;
+  totalNumberOfWeeks: number;
 }
 
 interface EditPointsFormState {
@@ -214,6 +215,10 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	}
 
 	render () {
+		let allWeeks: number[] = [];
+		for (let x = 1; x <= this.props.totalNumberOfWeeks; x++) {
+			allWeeks.push(x);
+		}
 		const { week, playerID, playerName, playerStats, goals, assists, viewingDefender } = this.state;
 		return (
 			<div className="admin-form">
@@ -225,10 +230,11 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 						<SelectPlayer setPlayerID={this._handlePlayerID} />
 					</div>
 					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={week}
-							setValue={this._handleWeek}
+						<CustomDropdown
+							setData={this._handleWeek}
+							startAtEnd
 							title="Week"
+							values={allWeeks}
 						/>
 					</div>
 				</div>

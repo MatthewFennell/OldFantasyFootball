@@ -18,6 +18,7 @@ import { getIsAdmin } from '../../Services/User/UserService';
 import ResetPassword from './ResetPassword';
 import Media from 'react-media';
 import CustomDropdown from '../common/CustomDropdown';
+import TeamData from '../../Containers/Team/TeamData';
 
 interface AdminProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -30,6 +31,7 @@ interface AdminProps {
   teamAddingPoints: string;
   playersInFilteredTeam: PlayerDTO[];
   setPageBeingViewed: (page: string) => void;
+  totalNumberOfWeeks: number;
 }
 
 interface AdminState {
@@ -96,6 +98,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 				{matches =>
 					matches ? (
 						<div className="admin-mobile-wrapper">
+							<TeamData />
 							<div className="admin-header">
 						Admin
 							</div>
@@ -126,12 +129,14 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 									playersInFilteredTeam={this.props.playersInFilteredTeam}
 									setTeamAddingPoints={this.props.setTeamAddingPoints}
 									teamAddingPoints={this.props.teamAddingPoints}
+									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 								/>
 							) : adminPageBeingViewed === 'edit-stats' ? (
 								<EditPointsForm
 									collegeTeamName=''
 									playersInFilteredTeam={this.props.playersInFilteredTeam}
 									setTeamAddingPoints={this.props.setTeamAddingPoints}
+									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 								/>
 							) : adminPageBeingViewed === 'delete-player' ? (
 								<DeletePlayerForm
@@ -154,6 +159,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 									allCollegeTeams={this.props.allCollegeTeams}
 									collegeTeamName=''
 									setTeamAddingPoints={this.props.setTeamAddingPoints}
+									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 								/>
 							) : adminPageBeingViewed === 'trigger-week' ? (
 								<TriggerWeek />
@@ -169,6 +175,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 					) : (
 						this.state.isAdmin
 							? (<div className="outer-admin-columns">
+								<TeamData />
 								<div className="left-rows">
 									<div className="admin-info-row">
 										<div
@@ -243,12 +250,14 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 											playersInFilteredTeam={this.props.playersInFilteredTeam}
 											setTeamAddingPoints={this.props.setTeamAddingPoints}
 											teamAddingPoints={this.props.teamAddingPoints}
+											totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 										/>
 									) : adminPageBeingViewed === 'edit-stats' ? (
 										<EditPointsForm
 											collegeTeamName=''
 											playersInFilteredTeam={this.props.playersInFilteredTeam}
 											setTeamAddingPoints={this.props.setTeamAddingPoints}
+											totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 										/>
 									) : adminPageBeingViewed === 'delete-player' ? (
 										<DeletePlayerForm
@@ -271,6 +280,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 											allCollegeTeams={this.props.allCollegeTeams}
 											collegeTeamName=''
 											setTeamAddingPoints={this.props.setTeamAddingPoints}
+											totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 										/>
 									) : adminPageBeingViewed === 'trigger-week' ? (
 										<TriggerWeek />

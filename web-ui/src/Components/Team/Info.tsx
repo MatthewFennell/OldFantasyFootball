@@ -99,7 +99,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 	render () {
 		let allWeeks: number[] = [];
 		allWeeks.push(-1);
-		for (let x = 0; x <= this.props.totalNumberOfWeeks; x++) {
+		for (let x = 1; x <= this.props.totalNumberOfWeeks; x++) {
 			allWeeks.push(x);
 		}
 

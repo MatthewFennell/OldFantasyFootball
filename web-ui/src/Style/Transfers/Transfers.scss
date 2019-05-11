@@ -83,6 +83,8 @@
             background-color: $dark-black-background !important;
             display: flex;
             border-bottom: 1px solid $strange-other-yellow;
+            align-items: center;
+            justify-content: center;
             .info{
                 font-size: 14px;
                 color: $strange-orange;

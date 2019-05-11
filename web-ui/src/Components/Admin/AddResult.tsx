@@ -8,11 +8,13 @@ import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import ResponseMessage from '../common/ResponseMessage';
+import CustomDropdown from '../common/CustomDropdown';
 
 interface AddResultProps {
   setTeamAddingPoints: (team: string) => void;
   allCollegeTeams: CT[];
   collegeTeamName: string;
+  totalNumberOfWeeks: number;
 }
 
 interface AddResultState {
@@ -149,7 +151,7 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 	}
 
 	render () {
-		const { goalsFor, goalsAgainst, week } = this.state;
+		const { goalsFor, goalsAgainst } = this.state;
 		let goalScorers = [];
 		let assists = [];
 		let defenders = [];
@@ -171,6 +173,11 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 					setPlayerID={this._handlePlayerIDCleanSheets}
 				               />);
 			}
+		}
+
+		let allWeeks: number[] = [];
+		for (let x = 1; x <= this.props.totalNumberOfWeeks; x++) {
+			allWeeks.push(x);
 		}
 
 		return (
@@ -196,10 +203,11 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 						/>
 					</div>
 					<div className="admin-wrapper">
-						<TextInputForm
-							currentValue={week}
-							setValue={this._handleWeek}
-							title="Game Week"
+						<CustomDropdown
+							setData={this._handleWeek}
+							startAtEnd
+							title="Week"
+							values={allWeeks}
 						/>
 					</div>
 				</div>
