@@ -180,6 +180,7 @@
       font-size: 36px;
       text-align: center;
       padding: 15px;
+      padding-bottom: 0px;
     }
     .stats-week-dropdown, .stats-college-dropdown{
       text-align: center;
@@ -224,6 +225,9 @@
       .custom-dropdown-menu{
         width: 30%;
       }
+    }
+    .stats-week-dropdown{
+      padding-bottom: 0px;
     }
     .stats-selectors{
       display: flex;

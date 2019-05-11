@@ -73,6 +73,12 @@ public class PlayerManager {
     public void makePlayer(MakePlayerDTO makePlayerDTO) {
         Optional<CollegeTeam> team = teamRepo.findByName(makePlayerDTO.getCollegeTeam());
         if (team.isPresent()) {
+
+            Optional<Player> p = playerRepo.findByCollegeTeamByFirstnameBySurname(team.get(), makePlayerDTO.getFirstName(), makePlayerDTO.getSurname());
+            if (p.isPresent()){
+                throw new IllegalArgumentException("Cannot have two players with the same name in the same team");
+            }
+
             Player player = new Player(team.get(), makePlayerDTO.getPosition(), makePlayerDTO.getPrice(), makePlayerDTO.getFirstName(), makePlayerDTO.getSurname());
             playerRepo.save(player);
         } else {

@@ -163,6 +163,10 @@ div.raise-selected{
         flex-direction: column;
         margin-left: 10%;
         margin-right: 10%;
+        .edit-points-info{
+          margin: 0px;
+          margin-top: 10px;
+        }
         .admin-wrapper{
           margin: 0px;
           margin-top: 15px;
@@ -191,6 +195,9 @@ div.raise-selected{
           padding: 0px;
           margin: 0px;
         }   
+        .custom-dropdown-menu{
+          width: 40%;
+        }
         
       }
       .admin-form-row-three{
@@ -220,8 +227,7 @@ div.raise-selected{
           }
         }
       }
-      #btnCreatePlayer, #btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints
-      , #btnEditPoints {
+      #btnCreatePlayer, #btnDeletePlayer, #btnCreateCollegeTeam, #btnDeleteCollegeTeam, #btnAddPoints , #btnEditPoints {
         margin-top: 20px;
         margin-bottom: 10px;
         width: auto;

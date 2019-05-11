@@ -8,6 +8,7 @@ interface CustomDropdownProps {
   values: any[];
   title: string;
   logout: boolean;
+  startAtEnd: boolean;
 }
 
 interface CustomDropdownState {
@@ -16,7 +17,7 @@ interface CustomDropdownState {
 }
 
 class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdownState> {
-	static defaultProps = { logout: false };
+	static defaultProps = { logout: false, startAtEnd: false };
 	constructor (props: CustomDropdownProps) {
 		super(props);
 		this._toggleDropdown = this._toggleDropdown.bind(this);
@@ -25,7 +26,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 		if (values.length > 0) {
 			this.state = {
 				dropDownOpen: false,
-				value: values[0]
+				value: this.props.startAtEnd ? values[this.props.values.length - 1] : values[0]
 			};
 		} else {
 			this.state = {

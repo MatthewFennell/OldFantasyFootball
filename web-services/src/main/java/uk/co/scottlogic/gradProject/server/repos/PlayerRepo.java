@@ -18,6 +18,9 @@ public interface PlayerRepo extends CrudRepository<Player, UUID> {
     @Query(value = "FROM Player WHERE college_team = ?1 ORDER BY surname")
     List<Player> findByCollegeTeam(CollegeTeam team);
 
+    @Query(value = "FROM Player WHERE college_team = ?1 AND firstName = ?2 and surname = ?3")
+    Optional<Player> findByCollegeTeamByFirstnameBySurname(CollegeTeam team, String firstName, String surname);
+
     @Query(value = "FROM Player WHERE ( ?1 IS NULL OR college_team = ?1 ) AND ( ?2 IS NULL OR position = ?2 ) AND ( ?3 IS NULL OR price >= ?3) AND ( ?4 IS NULL OR price <= ?4 ) AND (first_name LIKE ?5 OR surname LIKE ?5) ORDER BY price DESC")
     List<Player> test(CollegeTeam team, Integer position, double minPrice, double maxPrice, String name);
 

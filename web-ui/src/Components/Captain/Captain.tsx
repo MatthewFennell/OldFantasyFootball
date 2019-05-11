@@ -10,6 +10,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import { noop } from 'lodash';
 import Media from 'react-media';
+import TeamData from '../../Containers/Team/TeamData';
 
 interface CaptainState {
 	teamName: string;
@@ -22,6 +23,7 @@ interface CaptainProps {
   setPlayersInFilteredTeam: (players: PlayerDTO[]) => void;
   playersInFilteredTeam: PlayerDTO[];
   setPageBeingViewed: (page: string) => void;
+  totalNumberOfWeeks: number;
 }
 
 class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & CaptainProps, CaptainState> {
@@ -76,6 +78,7 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 				{matches =>
 					matches ? (
 						this.state.isCaptain ? <div className="captain-mobile-wrapper">
+							<TeamData />
 							<div className="captain-header">
 							You are the captain of team: {this.state.teamName}
 							</div>
@@ -108,6 +111,7 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 									allCollegeTeams={[]}
 									collegeTeamName={this.state.teamName}
 									setTeamAddingPoints={noop}
+									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 								/>) : null
 							}
 							{captainPageBeingViewed === 'edit-stats' ? (
@@ -116,10 +120,12 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 										collegeTeamName={this.state.teamName}
 										playersInFilteredTeam={this.props.playersInFilteredTeam}
 										setTeamAddingPoints={noop}
+										totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 									/></div>) : null}
 						</div> : null
 					) : (
 						this.state.isCaptain ? (<div className="outer-captain-columns">
+							<TeamData />
 							<div className="left-rows">
 								<div className="captain-info-row">
 									<div
@@ -154,12 +160,14 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 										allCollegeTeams={[]}
 										collegeTeamName={this.state.teamName}
 										setTeamAddingPoints={noop}
+										totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 									/>
 								) : captainPageBeingViewed === 'edit-stats' ? (
 									<EditPoints
 										collegeTeamName={this.state.teamName}
 										playersInFilteredTeam={this.props.playersInFilteredTeam}
 										setTeamAddingPoints={noop}
+										totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 									/>
 								) : null}
 							</div>

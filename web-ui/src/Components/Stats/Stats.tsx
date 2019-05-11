@@ -9,6 +9,7 @@ import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap
 import Media from 'react-media';
 import { CollegeTeam } from '../../Models/Interfaces/CollegeTeam';
 import CustomDropdown from '../common/CustomDropdown';
+import TeamData from '../../Containers/Team/TeamData';
 
 interface SettingsProps {
     setStatsHistory: (week:number, statsHistory: SingleHistory) => void;
@@ -167,6 +168,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 				{matches =>
 					matches ? (
 						<div className="stats-mobile-wrapper">
+							<TeamData />
 							<div className="stats-title">
 								Stats
 							</div>
@@ -202,7 +204,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 						</div>
 					) : (
 						<div className="stats-wrapper">
-
+							<TeamData />
 							<div className="stats-week-wrapper">
 								<div
 									className={this._selectedOrNot(-1)}

@@ -4,10 +4,12 @@ import Captain from '../../Components/Captain/Captain';
 import { setPlayersInFilteredTeam, setCaptainPageBeingViewed } from '../../Actions/AdminActions';
 import { getCaptainPageBeingViewed, getPlayersInFilteredTeam } from '../../Selectors/AdminSelector';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
+import { getTotalNumberOfWeeks } from '../../Selectors/StatsSelector';
 
 const mapStateToProps = (state: State) => ({
 	captainPageBeingViewed: getCaptainPageBeingViewed(state),
-	playersInFilteredTeam: getPlayersInFilteredTeam(state)
+	playersInFilteredTeam: getPlayersInFilteredTeam(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 });
 
 const mapDispatchToProps = {

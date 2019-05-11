@@ -4,12 +4,14 @@ import Admin from '../../Components/Admin/Admin';
 import { getTeamAddingPoints, getPlayersInFilteredTeam, getAdminPageBeingViewed, getAllCollegeTeams } from '../../Selectors/AdminSelector';
 import { addCollegeTeam, removeCollegeTeam, setAdminPageBeingViewed, setAllCollegeTeams, setTeamAddingPoints } from '../../Actions/AdminActions';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
+import { getTotalNumberOfWeeks } from '../../Selectors/StatsSelector';
 
 const mapStateToProps = (state: State) => ({
 	adminPageBeingViewed: getAdminPageBeingViewed(state),
 	allCollegeTeams: getAllCollegeTeams(state),
 	teamAddingPoints: getTeamAddingPoints(state),
-	playersInFilteredTeam: getPlayersInFilteredTeam(state)
+	playersInFilteredTeam: getPlayersInFilteredTeam(state),
+	totalNumberOfWeeks: getTotalNumberOfWeeks(state),
 });
 
 const mapDispatchToProps = {

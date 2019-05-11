@@ -73,7 +73,7 @@ public class ApplicationUserManager {
             }
 
         } else {
-            throw new IllegalArgumentException("That is not you password");
+            throw new IllegalArgumentException("That is not your password");
         }
 
     }
