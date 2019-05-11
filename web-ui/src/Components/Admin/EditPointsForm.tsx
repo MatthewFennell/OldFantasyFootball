@@ -248,15 +248,17 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 									<li>{viewingDefender ? (<div> Clean Sheet: {playerStats.playerID !== 'nobody' ? (playerStats.cleanSheet ? ('Yes') : ('No')) : null}
 									</div>) : null}	</li>
 			  				</ul>
-							  Edit their stats below!
+							  <div className="edit-stats-message">
+							  	Edit their stats below!
+							  </div>
 							</div>
 						</div>
 					) : null}
 				</div>
 
-				<div className="admin-form-row-two">
+				<div className="admin-form-row-three">
 					{playerID !== '' && week !== '' ? (
-						<div className="admin-form-row-two">
+						<div className="edit-player-new-stats">
 							<div className="admin-wrapper">
 								<TextInputForm
 									currentValue={goals}

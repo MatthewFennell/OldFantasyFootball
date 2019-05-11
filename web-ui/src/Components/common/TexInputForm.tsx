@@ -30,7 +30,7 @@ class TextValue extends React.Component<TextValueProps, {}> {
 							<Label
 								className="unselectable"
 								for="firstName"
-								id={title}
+								id={title.split(' ').join('')}
 							>
 								{title}
 							</Label>

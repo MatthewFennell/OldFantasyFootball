@@ -154,8 +154,14 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 		let assists = [];
 		let defenders = [];
 		for (let i = 0; i < parseInt(goalsFor); i++) {
-			goalScorers.push(<SelectPlayer setPlayerID={this._handlePlayerIDGoalscorers} />);
-			assists.push(<SelectPlayer setPlayerID={this._handlePlayerIDAssists} />);
+			goalScorers.push(<SelectPlayer
+				key={i}
+				setPlayerID={this._handlePlayerIDGoalscorers}
+			                 />);
+			assists.push(<SelectPlayer
+				key={i}
+				setPlayerID={this._handlePlayerIDAssists}
+			             />);
 		}
 
 		if (goalsAgainst === '0') {
@@ -193,29 +199,29 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 						<TextInputForm
 							currentValue={week}
 							setValue={this._handleWeek}
-							title="Week"
+							title="Game Week"
 						/>
 					</div>
 				</div>
 				<div className="admin-form-row-two">
 					<div className="edit-points-info">
-            Goalscorers:
+						<div className="addResultGoalscorers">Goalscorers</div>
 						{goalScorers}
 					</div>
 					<div className="edit-points-info">
-            Assists:
+						<div className="addResultAssists">Assists</div>
 						{assists}
 					</div>
 					{goalsAgainst === '0' ? (
-						<div className="edit-points-info">Clean Sheets: {defenders} </div>
+						<div className="edit-points-info"><div className="addResultCleanSheet">Clean Sheets</div> {defenders} </div>
 					) : null}
 					<div className="edit-points-info">
 						<div className="admin-man-of-the-match">
-						Man of the match
+							<div className="addResultManOfTheMatch">Man of the Match</div>
 						</div>
 						{<SelectPlayer setPlayerID={this._handleManOfTheMatch} />}
 					</div>
-					<div>
+					<div className="submit-button-add-result">
 						<Button
 							className="btn btn-default btn-round-lg btn-lg second"
 							id="btnAddResult"

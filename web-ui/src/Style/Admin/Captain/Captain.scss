@@ -102,3 +102,214 @@ div.raise-selected{
   color: $strange-orange;
   font-size: 20px;
 }
+
+@media screen and (max-width: 590px) {
+  .captain-mobile-wrapper{
+    .captain-header{
+      color: $yellow-text;
+      font-size: 20px;
+      text-align: center;
+      padding: 15px;
+    }
+    .captain-info-row{
+      display: flex;
+      >div{
+        width: 33.3%;
+      }
+      .raise, .raise-selected{
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  .league-info-screen{
+    margin-top: 10px;
+      width: 100%;
+    #create-league-form, #join-league-form {
+      margin-top: 10%;
+      margin-bottom: 10%;
+      input{
+        color: white;
+      }
+      height: auto;
+      h1#greeting {
+        height: auto;
+        width: 100%;
+        margin: 0px;
+        padding-top: 0px;
+        padding: 30px;
+        padding-bottom: 0px;
+      }
+      #firstNameValueLabel, #surnameValueLabel, #priceValueLabel{
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      .custom-dropdown{
+        margin-top: 15px;
+        text-align: center;
+        font-size: 18px;
+      }
+      .custom-dropdown-menu-toggle{
+        width: auto;
+        text-align: left;
+        margin-left: 0px;
+      }
+      .custom-dropdown-menu-items{
+        height: auto;
+      }
+      .custom-dropdown-menu-item-false {
+        color: white;
+        border: 0;
+        outline: 0;
+        background: none;
+        font-weight: normal;
+        width: 100%;
+        padding: 0px;
+        height: 100%;
+        margin: 0px;
+   }
+    .custom-dropdown-menu-item-true {
+        color: $yellow-text;
+        border: 0;
+        outline: 0;
+        background: none;
+        font-weight: normal;
+        width: 100%;
+        padding: 0px;
+        height: 100%;
+        margin: 0px;
+   }
+    }
+  }
+  .create-league-response-wrapper, .join-league-response-wrapper{
+    width: 90%;
+    .successful-response-message, .error-response-message{
+      height: auto;
+      margin-bottom: 10px;
+    }
+  }
+  .admin-form{
+    .admin-form-row-one{
+      .admin-wrapper{
+        padding: 10px;
+        font-size: 18px;
+        #create-player-form
+          input{
+            width: 100%;
+          }
+          #Goalsagainst, #Goalsfor, #GameWeek{
+            text-align: center;
+          }
+      }
+    }
+    .admin-form-row-two{
+      margin-left: 10%;
+      margin-right: 10%;
+      flex-direction: column;
+      .edit-points-info{
+        width: auto;
+        .addResultGoalscorers, .addResultAssists, .addResultCleanSheet, .addResultManOfTheMatch{
+          font-size: 20px;
+          color: $yellow-text;
+          text-align: center;
+        }
+        .team-dropdown{
+          padding: 10px; 
+          text-align: center;
+          font-size: 18px;
+        }
+        .team-menu-items{
+          height: auto;
+          padding-top: 10px;
+        }
+        .team-menu{
+          max-height: 200px;  
+          overflow-y: scroll;
+        }
+      }
+      .submit-button-add-result{
+        padding: 0px;
+        margin: 0px;
+        margin-top: 10px;
+        margin-bottom: 50px;
+      }
+    }    
+  }
+  .edit-stats-captain{
+    .admin-form-row-one{
+      .team-dropdown{
+        text-align: center;  
+        .team-menu{
+          max-height: 200px;
+          overflow-y: scroll;
+        }      
+      }
+      #create-player-form{
+        input{
+          color: white;
+        }
+        height: auto;
+        #Week{
+          text-align: center;
+        }
+      }
+    }
+    #btnEditPoints{
+      width: auto;
+    }
+    .admin-form-row-two{
+      .edit-points-original-stats-wrapper{
+        padding: 0px;
+        margin: 0px;
+        .edit-points-info{
+          margin: 0px;
+          margin-top: 20px;
+          .player-week-edit-points{
+            font-size: 18px;
+            text-align: center;            
+          }
+          .edit-stats-message{
+            text-align: center;
+            color: $yellow-text;
+          }
+          li{
+            padding-top: 5px;
+          }
+        }
+      }
+    }
+    .admin-form-row-three{
+      margin-left: 10%;
+      margin-right: 10%;
+
+      .edit-player-new-stats{
+        .admin-wrapper{
+          margin-top: 10px;
+          padding: 20px;
+          #create-player-form{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            input{
+              color: white;
+              width: 100%;
+            }
+            #Goals, #Assists{
+              text-align: center;
+            }
+          }
+          .custom-dropdown{
+            text-align: center;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    #btnEditPoints{
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+  }
+}
