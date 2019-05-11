@@ -110,6 +110,13 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 									setTeamAddingPoints={noop}
 								/>) : null
 							}
+							{captainPageBeingViewed === 'edit-stats' ? (
+								<div className="edit-stats-captain">
+									<EditPoints
+										collegeTeamName={this.state.teamName}
+										playersInFilteredTeam={this.props.playersInFilteredTeam}
+										setTeamAddingPoints={noop}
+									/></div>) : null}
 						</div> : null
 					) : (
 						this.state.isCaptain ? (<div className="outer-captain-columns">

@@ -225,7 +225,7 @@ div.raise-selected{
           padding-top: 10px;
         }
         .team-menu{
-          max-height: 200px;
+          max-height: 200px;  
           overflow-y: scroll;
         }
       }
@@ -235,6 +235,81 @@ div.raise-selected{
         margin-top: 10px;
         margin-bottom: 50px;
       }
+    }    
+  }
+  .edit-stats-captain{
+    .admin-form-row-one{
+      .team-dropdown{
+        text-align: center;  
+        .team-menu{
+          max-height: 200px;
+          overflow-y: scroll;
+        }      
+      }
+      #create-player-form{
+        input{
+          color: white;
+        }
+        height: auto;
+        #Week{
+          text-align: center;
+        }
+      }
+    }
+    #btnEditPoints{
+      width: auto;
+    }
+    .admin-form-row-two{
+      .edit-points-original-stats-wrapper{
+        padding: 0px;
+        margin: 0px;
+        .edit-points-info{
+          margin: 0px;
+          margin-top: 20px;
+          .player-week-edit-points{
+            font-size: 18px;
+            text-align: center;            
+          }
+          .edit-stats-message{
+            text-align: center;
+            color: $yellow-text;
+          }
+          li{
+            padding-top: 5px;
+          }
+        }
+      }
+    }
+    .admin-form-row-three{
+      margin-left: 10%;
+      margin-right: 10%;
+
+      .edit-player-new-stats{
+        .admin-wrapper{
+          margin-top: 10px;
+          padding: 20px;
+          #create-player-form{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            input{
+              color: white;
+              width: 100%;
+            }
+            #Goals, #Assists{
+              text-align: center;
+            }
+          }
+          .custom-dropdown{
+            text-align: center;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+    #btnEditPoints{
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 }
