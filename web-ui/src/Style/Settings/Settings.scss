@@ -131,3 +131,60 @@ div.raise-settings-selected{
     margin-right: 15px;
   }
 }
+
+@media screen and (max-width: 590px) {
+  .settings-mobile-wrapper{
+  .settings-header{
+    color: $yellow-text;
+    font-size: 36px;
+    text-align: center;
+    padding: 15px;    
+  }
+  .flex-container-two{
+    .raise-settings, .raise-settings-selected{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .rules{
+    font-size: 16px;
+    margin-left: 10%;
+    margin-right: 10%;
+    li{
+      margin-top: 10px;
+    }
+  }
+  .league-info-screen{
+    width: 100%;
+    margin-top: 10px;
+    #create-league-form, #join-league-form {
+      margin-top: 10%;
+      margin-bottom: 10%;
+      input{
+        color: white;
+      }
+      height: auto;
+      h1#greeting {
+        height: auto;
+        width: 100%;
+        margin: 0px;
+        padding-top: 0px;
+        padding: 30px;
+      }
+      #originalPass, #newPasswordOneLabel, #newPasswordTwoLabel{
+        margin-top: 10px;
+        font-size: 16px;
+      }
+    }
+    .create-league-response-wrapper, .join-league-response-wrapper{
+      width: 90%;
+      .successful-response-message, .error-response-message{
+        height: auto;
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+}

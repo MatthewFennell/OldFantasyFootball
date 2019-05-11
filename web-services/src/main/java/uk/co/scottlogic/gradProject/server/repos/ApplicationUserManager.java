@@ -73,8 +73,7 @@ public class ApplicationUserManager {
             }
 
         } else {
-            System.out.println("incorrect password");
-            throw new AuthenticationCredentialsNotFoundException("password");
+            throw new IllegalArgumentException("That is not you password");
         }
 
     }
