@@ -102,3 +102,91 @@ div.raise-selected{
   color: $strange-orange;
   font-size: 20px;
 }
+
+@media screen and (max-width: 590px) {
+  .captain-mobile-wrapper{
+    .captain-header{
+      color: $yellow-text;
+      font-size: 20px;
+      text-align: center;
+      padding: 15px;
+    }
+    .captain-info-row{
+      display: flex;
+      >div{
+        width: 33.3%;
+      }
+      .raise, .raise-selected{
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+  .league-info-screen{
+    margin-top: 10px;
+      width: 100%;
+    #create-league-form, #join-league-form {
+      margin-top: 10%;
+      margin-bottom: 10%;
+      input{
+        color: white;
+      }
+      height: auto;
+      h1#greeting {
+        height: auto;
+        width: 100%;
+        margin: 0px;
+        padding-top: 0px;
+        padding: 30px;
+      }
+      #firstNameValueLabel, #surnameValueLabel, #priceValueLabel{
+        margin-top: 10px;
+        font-size: 16px;
+      }
+      .custom-dropdown{
+        margin-top: 15px;
+        text-align: center;
+        font-size: 18px;
+      }
+      .custom-dropdown-menu-toggle{
+        width: auto;
+        text-align: left;
+        margin-left: 0px;
+      }
+      .custom-dropdown-menu-items{
+        height: auto;
+      }
+      .custom-dropdown-menu-item-false {
+        color: white;
+        border: 0;
+        outline: 0;
+        background: none;
+        font-weight: normal;
+        width: 100%;
+        padding: 0px;
+        height: 100%;
+        margin: 0px;
+   }
+    .custom-dropdown-menu-item-true {
+        color: $yellow-text;
+        border: 0;
+        outline: 0;
+        background: none;
+        font-weight: normal;
+        width: 100%;
+        padding: 0px;
+        height: 100%;
+        margin: 0px;
+   }
+    }
+  }
+  .create-league-response-wrapper, .join-league-response-wrapper{
+    width: 90%;
+    .successful-response-message, .error-response-message{
+      height: auto;
+      margin-bottom: 10px;
+    }
+  }
+}
