@@ -121,11 +121,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	setInitialBudget () {
-		getUserBudget(this.props.accountId).then(response => {
-			this.props.setBudget(this.props.accountId, response);
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
+		if (this.props.accountId !== '') {
+			getUserBudget(this.props.accountId).then(response => {
+				this.props.setBudget(this.props.accountId, response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	canAdd (player: PlayerDTO): boolean {
@@ -284,6 +286,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 									noPoints={false}
 									removeFromActiveTeam={this.onRemoveFromActiveTeam}
 									transfer
+
 								/>
 							</div>
 							<TransfersForm

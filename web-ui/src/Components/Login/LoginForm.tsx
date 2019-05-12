@@ -9,12 +9,16 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import * as LoginService from '../../Services/CredentialInputService';
 import ResponseMessage from '../../Components/common/ResponseMessage';
 import '../../Style/LoginForm.css';
+import { getTeamForUserInWeek, getMostValuableAssets } from '../../Services/Player/PlayerService';
+import { Image } from 'react-bootstrap';
 
 interface LoginState {
   username: string;
   passcode: string;
 	error: string;
 	isError: boolean;
+
+	tryingToLogin: boolean;
 }
 
 class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, LoginState> {
@@ -24,7 +28,8 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
 			username: '',
 			passcode: '',
 			error: '',
-			isError: false
+			isError: false,
+			tryingToLogin: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
@@ -44,7 +49,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
       LoginService.invalidPasscode(this.state.passcode) ||
       LoginService.passcodeTooShort(this.state.passcode)
   	) {
-  		this.setState({ error: 'Username or Passcode not recognised', isError: true });
+  		this.setState({ error: 'Invalid username or password', isError: true });
   		return true;
   	} else return false;
   };
@@ -58,6 +63,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   				username: this.state.username,
   				password: this.state.passcode
   			};
+  			this.setState({ tryingToLogin: true });
   			login(data)
   				.then(function (response) {
   					LoginService.setTokens(response);
@@ -73,12 +79,19 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   						teamName: response.teamName
   					});
   					this.props.setUserBeingViewed(response.id);
+  						getTeamForUserInWeek(response.id, -1).then(teamResponse => {
+  							this.props.setTeam(response.id, -1, teamResponse);
+  						}).then(() => {
+  						getMostValuableAssets(response.id).then(mostValuableResponse => {
+  							this.props.setMostValuable(response.id, mostValuableResponse);
+  						}).then(() => {
+  							this.props.history.push('/team');
+  						});
+  					});
   				})
-  				.then(() => {
-  					this.props.history.push('/team');
-  				})
+
   				.catch(error => {
-  					this.setState({ error: LoginService.formatError(error.toString()) });
+  					this.setState({ error: LoginService.formatError(error.toString()), tryingToLogin: false, isError: true });
   				});
   		}
   		break;
@@ -133,7 +146,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   							for="passcode"
   							id="passcodeLabel"
   						>
-                Passcode
+                Password
   						</Label>
   						<Field
   							component="input"
@@ -144,6 +157,14 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   						/>
   					</FormGroup>
   				</div>
+  				<div className="loading-spinner-wrapper">{this.state.tryingToLogin ? <div className="loading-spinner">
+  					<Image
+  						alt="Loading Spinner"
+  						className="loading-spinner"
+  						src="Spinner.svg"
+  					/>
+  				</div> : null } </div>
+
   				<Button
   					className="btn btn-default btn-round-lg btn-lg first"
   					id="btnLogin"
@@ -159,7 +180,9 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   				>
             Sign Up
   				</Button>
+
   			</Form>
+
   		</div>
   	);
   }

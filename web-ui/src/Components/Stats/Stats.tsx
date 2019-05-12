@@ -41,6 +41,8 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		this.getHistory(this.state.week);
 	}
 	getHistory (week: number) {
+		console.log('given week ' + week);
+		console.log('previous stats = ' + JSON.stringify(this.props.statsHistory[week]));
 		if (!this.props.statsHistory[week]) {
 			getStats(week).then(response => {
 				this.props.setStatsHistory(week, response);

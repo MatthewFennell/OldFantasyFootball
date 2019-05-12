@@ -48,7 +48,9 @@ class Login extends React.Component<UserProps & LoginProps> {
 						matches ? (
 							<LoginForm
 								setAccount={this.props.setAccount}
+								setMostValuable={this.props.setMostValuable}
 								setRemainingBudget={this.props.setRemainingBudget}
+								setTeam={this.props.setTeam}
 								setUserBeingViewed={this.props.setUserBeingViewed}
 							/>
 						) : (
@@ -65,7 +67,9 @@ class Login extends React.Component<UserProps & LoginProps> {
 									<Bubble className="bubble-largest bubble-green">
 										<LoginForm
 											setAccount={this.props.setAccount}
+											setMostValuable={this.props.setMostValuable}
 											setRemainingBudget={this.props.setRemainingBudget}
+											setTeam={this.props.setTeam}
 											setUserBeingViewed={this.props.setUserBeingViewed}
 										/>
 									</Bubble>

@@ -2,13 +2,16 @@ import { connect } from 'react-redux';
 import { State } from '../Reducers/root';
 import Login from '../Components/Login/View';
 import { setAccount } from '../Actions/AccountActions';
-import { setUserBeingViewed } from '../Actions/ActiveTeamActions';
+import { setUserBeingViewed, setTeam } from '../Actions/ActiveTeamActions';
+import { setMostValuable } from '../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = {
 	setAccount,
-	setUserBeingViewed
+	setUserBeingViewed,
+	setTeam,
+	setMostValuable
 };
 
 export default connect<any, any, any>(

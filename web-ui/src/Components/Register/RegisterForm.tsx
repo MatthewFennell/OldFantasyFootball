@@ -10,15 +10,19 @@ import { RoutedFormProps } from '../../Models/Types/RoutedFormProps';
 import ResponseMessage from '../../Components/common/ResponseMessage';
 import classnames from 'classnames';
 import '../../Style/RegisterForm.css';
+import { Image } from 'react-bootstrap';
 
 interface RegisterState {
   firstName: string;
   surname: string;
   username: string;
-  passcode: string;
+	passcode: string;
+	passcodeTwo: string;
 	error: string;
 	keycode: string;
 	isError: boolean;
+
+	tryingToRegister: boolean;
 }
 
 class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>, RegisterState> {
@@ -29,9 +33,11 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
 			surname: '',
 			username: '',
 			passcode: '',
+			passcodeTwo: '',
 			error: '',
 			keycode: '',
-			isError: false
+			isError: false,
+			tryingToRegister: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 	}
@@ -57,7 +63,10 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   		this.setState({ error: 'Invalid password - password must be between 6 and 31 characters, including at least 1 number', isError: true });
   		return true;
   	} else if (RegisterService.passcodeTooShort(this.state.passcode)) {
-  		this.setState({ error: 'Passcode is too short', isError: true });
+  		this.setState({ error: 'Password is too short', isError: true });
+  		return true;
+  	} else if (this.state.passcode !== this.state.passcodeTwo) {
+  		this.setState({ error: 'Passwords do not match', isError: true });
   		return true;
   	}
   	return false;
@@ -72,8 +81,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   _onSubmit = (event: string) => {
   	switch (event) {
   	case 'btnRegister':
-  		const err = this._validate();
-  		if (!err) {
+  		const invalid = this._validate();
+  		if (!invalid) {
   			const data: RegistrationDetails = {
   				firstName: this.state.firstName,
   				surname: this.state.surname,
@@ -81,6 +90,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   				password: this.state.passcode,
   				keycode: this.state.keycode
   			};
+  			this.setState({ tryingToRegister: true });
   			register(data)
   				.then(() => (this.state.error === '' ? login(data) : Promise.reject(this.state.error)))
   				.then(response => {
@@ -102,7 +112,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   					this.props.history.push('/team');
   				})
   				.catch(error => {
-  					this.setState({ error: RegisterService.formatError(error.toString()) });
+  					this.setState({ error: RegisterService.formatError(error.toString()), isError: true, tryingToRegister: false });
   				});
   		}
   		break;
@@ -194,12 +204,26 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   								for="passcode"
   								id="passcodeLabel"
   						>
-                Passcode
+                Password
   						</Label>
   						<Field
   							component="input"
   							id="passcode"
   							name="passcode"
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
+  							type="password"
+  						/>
+  							<Label
+  							className="register-label"
+  								for="passcodeTwo"
+  								id="passcodeTwoLabel"
+  							>
+                Please repeat your password
+  						</Label>
+  						<Field
+  							component="input"
+  							id="passcodeTwo"
+  							name="passcodeTwo"
   							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="password"
   						/>
@@ -221,6 +245,13 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   						/>
   					</FormGroup>
   				</div>
+  					<div className="loading-spinner-wrapper">{this.state.tryingToRegister ? <div className="loading-spinner">
+  					<Image
+  						alt="Loading Spinner"
+  						className="loading-spinner"
+  						src="Spinner.svg"
+  					/>
+  				</div> : null } </div>
   				<Button
   					className="btn btn-default btn-round-lg btn-lg first"
   					id="btnRegister"
