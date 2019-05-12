@@ -91,7 +91,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.findAllTeams(0);
 	}
 
-	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+	componentDidUpdate (prevProps:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findLeagues();
@@ -104,21 +104,23 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	}
 
 	findAllTeams (numberOfWeeks: number) {
-		for (let week = -1; week <= numberOfWeeks; week++) {
-			try {
-				if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+		if (this.props.userBeingViewed !== '') {
+			for (let week = -1; week <= numberOfWeeks; week++) {
+				try {
+					if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+						getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+							this.props.setTeam(this.props.userBeingViewed, week, response);
+						}).catch(error => {
+							console.log('error = ' + error);
+						});
+					}
+				} catch (error) {
 					getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
 						this.props.setTeam(this.props.userBeingViewed, week, response);
 					}).catch(error => {
 						console.log('error = ' + error);
 					});
 				}
-			} catch (error) {
-				getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
-					this.props.setTeam(this.props.userBeingViewed, week, response);
-				}).catch(error => {
-					console.log('error = ' + error);
-				});
 			}
 		}
 	}
@@ -145,12 +147,14 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	}
 
 	updateUserInfo () {
-		getUserInfo(this.props.userBeingViewed).then(response => {
-			this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
-			this.setState({ teamNameBeingViewed: response.teamName });
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
+		if (this.props.userBeingViewed !== '') {
+			getUserInfo(this.props.userBeingViewed).then(response => {
+				this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
+				this.setState({ teamNameBeingViewed: response.teamName });
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	onHandleWeek (week: number) {

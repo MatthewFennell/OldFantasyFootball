@@ -43,7 +43,7 @@ class Stats extends React.Component<StatsProps> {
 		return true;
 	}
 
-	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+	componentDidUpdate (prevProps:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.setBudget();
 			this.findMostValuable();
@@ -51,19 +51,23 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	setBudget () {
-		getUserBudget(this.props.userBeingViewed).then(response => {
-			this.props.setBudget(this.props.userBeingViewed, response);
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
+		if (this.props.userBeingViewed !== '') {
+			getUserBudget(this.props.userBeingViewed).then(response => {
+				this.props.setBudget(this.props.userBeingViewed, response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	findMostValuable () {
-		getMostValuableAssets(this.props.userBeingViewed).then(response => {
-			this.props.setMostValuable(this.props.userBeingViewed, response);
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
+		if (this.props.userBeingViewed !== '') {
+			getMostValuableAssets(this.props.userBeingViewed).then(response => {
+				this.props.setMostValuable(this.props.userBeingViewed, response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	handleViewTeamOfTheWeek () {

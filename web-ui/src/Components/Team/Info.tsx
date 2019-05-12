@@ -73,11 +73,13 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	updateTotalPoints () {
-		getTotalPointsById(this.props.userBeingViewed).then(response => {
-			this.props.setTotalPoints(this.props.userBeingViewed, response);
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
+		if (this.props.userBeingViewed !== '') {
+			getTotalPointsById(this.props.userBeingViewed).then(response => {
+				this.props.setTotalPoints(this.props.userBeingViewed, response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
 	}
 
 	_handleWeekChange (week: number) {

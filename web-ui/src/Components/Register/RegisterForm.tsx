@@ -15,7 +15,8 @@ interface RegisterState {
   firstName: string;
   surname: string;
   username: string;
-  passcode: string;
+	passcode: string;
+	passcodeTwo: string;
 	error: string;
 	keycode: string;
 	isError: boolean;
@@ -29,6 +30,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
 			surname: '',
 			username: '',
 			passcode: '',
+			passcodeTwo: '',
 			error: '',
 			keycode: '',
 			isError: false
@@ -57,7 +59,10 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   		this.setState({ error: 'Invalid password - password must be between 6 and 31 characters, including at least 1 number', isError: true });
   		return true;
   	} else if (RegisterService.passcodeTooShort(this.state.passcode)) {
-  		this.setState({ error: 'Passcode is too short', isError: true });
+  		this.setState({ error: 'Password is too short', isError: true });
+  		return true;
+  	} else if (this.state.passcode !== this.state.passcodeTwo) {
+  		this.setState({ error: 'Passwords do not match', isError: true });
   		return true;
   	}
   	return false;
@@ -72,8 +77,8 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   _onSubmit = (event: string) => {
   	switch (event) {
   	case 'btnRegister':
-  		const err = this._validate();
-  		if (!err) {
+  		const invalid = this._validate();
+  		if (!invalid) {
   			const data: RegistrationDetails = {
   				firstName: this.state.firstName,
   				surname: this.state.surname,
@@ -102,7 +107,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   					this.props.history.push('/team');
   				})
   				.catch(error => {
-  					this.setState({ error: RegisterService.formatError(error.toString()) });
+  					this.setState({ error: RegisterService.formatError(error.toString()), isError: true });
   				});
   		}
   		break;
@@ -194,12 +199,26 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   								for="passcode"
   								id="passcodeLabel"
   						>
-                Passcode
+                Password
   						</Label>
   						<Field
   							component="input"
   							id="passcode"
   							name="passcode"
+  							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
+  							type="password"
+  						/>
+  							<Label
+  							className="register-label"
+  								for="passcodeTwo"
+  								id="passcodeTwoLabel"
+  							>
+                Please repeat your password
+  						</Label>
+  						<Field
+  							component="input"
+  							id="passcodeTwo"
+  							name="passcodeTwo"
   							onChange={(e:any) => this._handleInput(e!.target.name, e!.target)}
   							type="password"
   						/>
