@@ -51,11 +51,6 @@ export const getTotalPointsForUser = createSelector([getTotalPointsForUserState]
 
 const getWeekPointsForUserState = (state: State) => state;
 export const getWeekPointsForUser = createSelector([getWeekPointsForUserState], p => {
-	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
-	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
-	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
-	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
-	console.log(p.stats.weeklyPoints[p.teamInfo.userBeingViewed]);
 	if (p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined && p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed] !== undefined) {
 		return p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.weekBeingViewed];
 	} else if (p.stats.weeklyPoints[p.teamInfo.userBeingViewed] !== undefined && p.stats.weeklyPoints[p.teamInfo.userBeingViewed][p.stats.totalNumberOfWeeks] !== undefined) {

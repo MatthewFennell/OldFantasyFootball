@@ -10,7 +10,7 @@ import TeamData from '../../Containers/Team/TeamData';
 import { LeaguePositions } from '../../Models/Interfaces/LeaguePositions';
 import LeagueTableBody from '../Leagues/LeagueTableBody';
 import PlayerStats from './PlayerStats';
-import { getPlayerStatsForWeek, getTeamForUserInWeek, getMostValuableAssets } from '../../Services/Player/PlayerService';
+import { getPlayerStatsForWeek, getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from '../../Models/Interfaces/PlayerPointsType';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -63,7 +63,6 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.onHandleWeek = this.onHandleWeek.bind(this);
 		this.setLeague = this.setLeague.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
-		this.findMostValuable = this.findMostValuable.bind(this);
 		this.findLeagues = this.findLeagues.bind(this);
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.generateRowClassName = this.generateRowClassName.bind(this);
@@ -76,7 +75,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			playerSidebar: {} as any,
 			weekBeingViewed: this.props.totalNumberOfWeeks,
 			usernameBeingViewed: '',
-			teamNameBeingViewed: ''
+			teamNameBeingViewed: '',
 		};
 		this.updateUserInfo();
 		this.findLeagues();
@@ -123,14 +122,6 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 				}
 			}
 		}
-	}
-
-	findMostValuable () {
-		getMostValuableAssets(this.props.userBeingViewed).then(response => {
-			this.props.setMostValuable(this.props.userBeingViewed, response);
-		}).catch(error => {
-			console.log('error = ' + error);
-		});
 	}
 
 	findLeagues () {

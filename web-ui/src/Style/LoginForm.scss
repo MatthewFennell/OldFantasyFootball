@@ -21,7 +21,7 @@
     }
      &>button {
          &#btnLogin {
-             margin-top: 30px;
+             margin-top: 35px;
              margin-bottom: 25px;
         }
          &.second {
@@ -35,7 +35,16 @@
     }
      .position-relative{
          input#username{
+             width: 100%;
              margin-bottom: 20px;
+        }
+        input#passcode{
+            width: 100%;
+        }
+        @media screen and (max-width: 590px) {
+            input#username, input#passcode{
+                width: 50%;
+           }
         }
     }
 }
@@ -46,5 +55,26 @@
     font-size: 16px;
     font-weight: bold;
 }
+.loading-spinner-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    position: relative;
+    .loading-spinner {
+        position: absolute;
+        -webkit-animation: spin 1.5s linear infinite;
+        -moz-animation: spin 1.5s linear infinite;
+        animation: spin 1.5s linear infinite;
+        height: 24px;
+        width: 24px;
+    }
+}
 
-
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

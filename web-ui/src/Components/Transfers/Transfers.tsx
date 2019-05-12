@@ -286,6 +286,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 									noPoints={false}
 									removeFromActiveTeam={this.onRemoveFromActiveTeam}
 									transfer
+
 								/>
 							</div>
 							<TransfersForm
