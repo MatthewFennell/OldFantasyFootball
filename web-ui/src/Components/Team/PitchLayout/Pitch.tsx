@@ -8,12 +8,16 @@ interface PitchProps {
   transfer: boolean;
   noPoints: boolean;
 
+  username: string;
+  teamName: string;
+
   addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
   removeFromActiveTeam: (id: string) => void;
 }
 
 class Pitch extends React.Component<PitchProps> {
+	static defaultProps = { username: '', teamName: '' };
 	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
@@ -95,6 +99,15 @@ class Pitch extends React.Component<PitchProps> {
 						{pitchGoalkeepers}
 					</div>
 				</div>
+				{ this.props.teamName && this.props.username
+					? <div className="team-and-username-pitch">
+						<div className="pitchUsername">
+							{this.props.username}
+						</div>
+						<div className="pitchTeamName">
+							{this.props.teamName}
+						</div>
+					</div> : null}
 			</div>
 		);
 	}
