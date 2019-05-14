@@ -340,7 +340,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 								<ResponseMessage
 									isError={this.state.isError}
 									responseMessage={this.state.errorMessage}
-									shouldDisplay={this.state.errorMessage.length > 0}
+									shouldDisplay
 								/>
 								<div className="pitch-value">
 									<Pitch

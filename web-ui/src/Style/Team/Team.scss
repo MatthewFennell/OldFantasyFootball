@@ -107,15 +107,21 @@
               tr{
                   width: 100%;
                   line-height: 4vh;
-                  td.stat-title, td.stat-value{
+                  td.stat-title, td.statValue{
                       font-size: 16px;
                       text-align: left;
                       width: 50%;
                  }
-                  td.stat-value{
+                  td.statValue{
                       padding-left: 30px;
                       color: $strange-orange;
                       overflow: hidden;
+                 }
+                 td.statOverflow{
+                     overflow: visible;
+                     .week-menu{
+                         border-bottom-width: 0px;
+                     }
                  }
                   td.stat-title{
                       color: $strange-other-yellow;
