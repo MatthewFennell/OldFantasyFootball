@@ -1,14 +1,10 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
-import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
-import uk.co.scottlogic.gradProject.server.repos.documents.UserAuthority;
-import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.routers.dto.*;
 
 import java.util.*;
@@ -17,21 +13,21 @@ import java.util.*;
 public class ApplicationUserManager {
 
     private ApplicationUserRepo applicationUserRepo;
-
     private WeeklyTeamRepo weeklyTeamRepo;
-
     private WeeklyTeamManager weeklyTeamManager;
-
     private CollegeTeamRepo collegeTeamRepo;
-
+    private TransferMarketRepo transferMarketRepo;
 
     @Autowired
     public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo,
-                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo) {
+                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo, TransferMarketRepo transferMarketRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
         this.collegeTeamRepo = collegeTeamRepo;
+        this.transferMarketRepo = transferMarketRepo;
+
+
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {

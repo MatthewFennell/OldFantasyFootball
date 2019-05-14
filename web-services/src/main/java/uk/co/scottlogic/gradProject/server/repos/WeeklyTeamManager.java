@@ -8,6 +8,7 @@ import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
+import uk.co.scottlogic.gradProject.server.repos.documents.TransferMarketOpen;
 import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TeamHistoryDTO;
@@ -20,22 +21,26 @@ public class WeeklyTeamManager {
     private static final Logger log = LoggerFactory.getLogger(WeeklyTeamManager.class);
 
     private PlayerRepo playerRepo;
-
     private ApplicationUserRepo applicationUserRepo;
-
     private WeeklyTeamRepo weeklyTeamRepo;
-
     private PlayerManager playerManager;
+    private TransferMarketRepo transferMarketRepo;
 
     @Autowired
     public WeeklyTeamManager(ApplicationUserRepo applicationUserRepo, PlayerRepo playeRepo,
-                             WeeklyTeamRepo weeklyTeamRepo, PlayerManager playerManager) {
+                             WeeklyTeamRepo weeklyTeamRepo, PlayerManager playerManager, TransferMarketRepo transferMarketRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.playerRepo = playeRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.playerManager = playerManager;
+        this.transferMarketRepo = transferMarketRepo;
 
 
+        List<TransferMarketOpen> marketOpen = this.transferMarketRepo.findAll();
+        if (marketOpen.size() == 0){
+            TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+            transferMarketRepo.save(transferMarketOpen);
+        }
     }
 
     void addPlayerToWeeklyTeam(ApplicationUser user, String id) {
@@ -54,6 +59,12 @@ public class WeeklyTeamManager {
             log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
+    }
+
+    public void setTransferMarket(boolean transferMarket){
+        TransferMarketOpen transferMarketOpen = transferMarketRepo.findFirstByOrderByIsOpenAsc();
+        transferMarketOpen.setOpen(transferMarket);
+        transferMarketRepo.save(transferMarketOpen);
     }
 
     public void updateAllWeeklyTeams(int week){
@@ -186,7 +197,9 @@ public class WeeklyTeamManager {
         double priceOfAdding = 0;
         double priceOfRemoving = 0;
 
-        if (!Constants.TRANSFER_MARKET_OPEN) {
+        TransferMarketOpen transferMarketOpen = transferMarketRepo.findFirstByOrderByIsOpenAsc();
+
+        if (!transferMarketOpen.getOpen()) {
             log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }
@@ -268,71 +281,6 @@ public class WeeklyTeamManager {
         }
         else {
             throw new IllegalArgumentException("User does not exist");
-        }
-    }
-
-    public void addPlayersToWeeklyTeam() {
-        Optional<ApplicationUser> user = applicationUserRepo.findByUsername("a");
-        if (user.isPresent()) {
-            ApplicationUser u = user.get();
-            Optional<Player> player = playerRepo.findByFirstName("Ollie");
-
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Eloka");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Herbie");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Eduardo");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-
-            player = playerRepo.findByFirstName("John");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Phil");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Chris");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("David");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-
-            player = playerRepo.findByFirstName("Bernado");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Kevin");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Paul");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Paco");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-
-            player = playerRepo.findByFirstName("Marcus");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Romelu");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Dom");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Ed");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-
-            player = playerRepo.findByFirstName("Joe");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
-
-            player = playerRepo.findByFirstName("Stevie");
-            player.ifPresent(player1 -> addPlayerToWeeklyTeam(u, player1.getId().toString()));
         }
     }
 }
