@@ -11,7 +11,6 @@ import ResponseMessage from '../common/ResponseMessage';
 
 interface LeaveLeagueState {
   leagueToLeave: string;
-  error: string;
   isError: boolean;
   responseMessage: string;
 }
@@ -31,7 +30,6 @@ class LeaveLeague extends React.Component<
 		super(props);
 		this.state = {
 			leagueToLeave: '',
-			error: '',
 			isError: false,
 			responseMessage: ''
 		};
