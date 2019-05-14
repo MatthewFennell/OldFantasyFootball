@@ -17,7 +17,7 @@ interface PitchProps {
 }
 
 class Pitch extends React.Component<PitchProps> {
-	static defaultProps = { username: '', teamName: '' };
+	static defaultProps = { teamName: '', username: '' };
 	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
