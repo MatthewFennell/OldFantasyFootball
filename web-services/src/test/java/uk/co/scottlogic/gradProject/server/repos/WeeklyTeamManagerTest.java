@@ -469,6 +469,8 @@ public class WeeklyTeamManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void whenUserHasNoTeamThrowIllegalArgumentWhenTryingToUpdate() {
         when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.empty());
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
         List<PlayerDTO> playersBeingAdded = new ArrayList<>();
         playersBeingAdded.add(new PlayerDTO());
         playersBeingAdded.add(new PlayerDTO());
@@ -477,12 +479,16 @@ public class WeeklyTeamManagerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void failUpdateWhenPlayersToBeAddedListIsEmpty() {
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
         weeklyTeamManager.update(null, Collections.emptyList(), null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void failIfSquadSizeAfterChangesIsNotElevenExtraAddition() {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -520,6 +526,8 @@ public class WeeklyTeamManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void failIfSquadSizeAfterChangesIsNotElevenExtraRemoval() {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -559,6 +567,9 @@ public class WeeklyTeamManagerTest {
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setPlayers(Collections.emptyList());
+
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
@@ -610,6 +621,9 @@ public class WeeklyTeamManagerTest {
         weeklyTeam.setUser(user);
         weeklyTeam.setPlayers(Collections.emptyList());
 
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
+
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
         Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
@@ -656,6 +670,8 @@ public class WeeklyTeamManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void failWhenAddingAPlayerThatDoesNotExist() {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -699,6 +715,8 @@ public class WeeklyTeamManagerTest {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setUser(user);
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
@@ -750,6 +768,9 @@ public class WeeklyTeamManagerTest {
     @Test(expected = IllegalArgumentException.class)
     public void playerBeingRemovedDoesNotExist() {
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         List<Player> players = new ArrayList<>();
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
