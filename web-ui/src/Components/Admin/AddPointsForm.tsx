@@ -223,14 +223,14 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 						/>
 					</div>
 
-					{viewingDefender ? (
+					{viewingDefender && (
 						<div className="admin-wrapper">
 							<CustomDropdown
 								setData={this._handleCleanSheet}
 								title="Clean Sheet"
 								values={['No', 'Yes']}
 							/> </div>
-					) : null}
+					)}
 				</div>
 				<div className="admin-submit-button">
 					<Button

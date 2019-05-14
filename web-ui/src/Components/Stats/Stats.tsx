@@ -41,8 +41,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 		this.getHistory(this.state.week);
 	}
 	getHistory (week: number) {
-		console.log('given week ' + week);
-		console.log('previous stats = ' + JSON.stringify(this.props.statsHistory[week]));
 		if (!this.props.statsHistory[week]) {
 			getStats(week).then(response => {
 				this.props.setStatsHistory(week, response);
@@ -140,7 +138,10 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 
 	render () {
 		let columns = this.generateColumns();
-		let values = [...Array(this.props.totalNumberOfWeeks + 3).keys()];
+		let values: number[] = [...Array(this.props.totalNumberOfWeeks + 3).keys()];
+		if (values.length > 0) {
+			values.shift();
+		}
 
 		let allWeeks: number[] = [];
 		allWeeks.push(-1);

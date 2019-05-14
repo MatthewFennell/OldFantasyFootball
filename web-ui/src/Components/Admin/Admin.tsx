@@ -19,6 +19,7 @@ import ResetPassword from './ResetPassword';
 import Media from 'react-media';
 import CustomDropdown from '../common/CustomDropdown';
 import TeamData from '../../Containers/Team/TeamData';
+import SetTransfer from './SetTransfer';
 
 interface AdminProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -71,6 +72,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 			triggerWeek: createHandler('trigger-week'),
 			makeCaptain: createHandler('make-captain'),
 			resetPassword: createHandler('reset-password'),
+			setTransfer: createHandler('set-transfer'),
 		};
 	}
 
@@ -84,6 +86,7 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 		triggerWeek: () => void;
 		makeCaptain: () => void;
 		resetPassword: () => void;
+		setTransfer: () => void;
 	};
 
 	_selectedOrNot (input: string) {
@@ -115,7 +118,8 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 										'add-result',
 										'trigger-week',
 										'make-captain',
-										'reset-password'
+										'reset-password',
+										'set-transfer'
 								 ]}
 								/>
 							</div>
@@ -169,8 +173,9 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 								/>
 							) : adminPageBeingViewed === 'reset-password' ? (
 								<ResetPassword />)
-
-								: null}
+								: adminPageBeingViewed === 'set-transfer' ? (
+									<SetTransfer />
+								) : null}
 						</div>
 					) : (
 						this.state.isAdmin
@@ -239,6 +244,12 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 										>
               					Reset Password
 										</div>
+										<div
+											className={this._selectedOrNot('set-transfer')}
+											onClick={this.handlers.setTransfer}
+										>
+              					Set Transfer
+										</div>
 									</div>
 									{adminPageBeingViewed === 'create-player' ? (
 										<CreatePlayerForm
@@ -291,7 +302,9 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 									) : adminPageBeingViewed === 'reset-password' ? (
 										<ResetPassword />)
 
-										: null}
+										: adminPageBeingViewed === 'set-transfer' ? (
+											<SetTransfer />
+										) : null}
 								</div>
 							</div>)
 

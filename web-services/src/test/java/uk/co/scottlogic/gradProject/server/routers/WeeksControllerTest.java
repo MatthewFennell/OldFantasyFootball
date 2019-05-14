@@ -8,10 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletResponse;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 import uk.co.scottlogic.gradProject.server.repos.*;
-import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
-import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
-import uk.co.scottlogic.gradProject.server.repos.documents.Player;
-import uk.co.scottlogic.gradProject.server.repos.documents.UsersWeeklyTeam;
+import uk.co.scottlogic.gradProject.server.repos.documents.*;
 import uk.co.scottlogic.gradProject.server.routers.dto.PlayerDTO;
 import uk.co.scottlogic.gradProject.server.routers.dto.TransferDTO;
 
@@ -43,6 +40,9 @@ public class WeeksControllerTest {
     @Mock
     private PercentageOfTeamsRepo percentageOfTeamsRepo;
 
+    @Mock
+    private TransferMarketRepo transferMarketRepo;
+
     private WeeksController weeksController;
 
 
@@ -50,7 +50,7 @@ public class WeeksControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         PlayerManager playerManager = new PlayerManager(teamRepo, playerRepo, playerPointsRepo, weeklyTeamRepo, applicationUserRepo, percentageOfTeamsRepo);
-        WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, playerRepo, weeklyTeamRepo, playerManager);
+        WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, playerRepo, weeklyTeamRepo, playerManager, transferMarketRepo);
         weeksController = new WeeksController(weeklyTeamManager);
     }
 
@@ -58,6 +58,9 @@ public class WeeksControllerTest {
     public void updatingWeeklyTeamByAddingNoPlayersReturns400() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         MockHttpServletResponse response = new MockHttpServletResponse();
+
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         List<UsersWeeklyTeam> weeklyTeams = new ArrayList<>();
@@ -76,6 +79,9 @@ public class WeeksControllerTest {
 
         UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
         weeklyTeam.setPlayers(Collections.emptyList());
+
+        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
 
         Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 1, "firstname", "surname");
         Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 1, "firstname", "surname");

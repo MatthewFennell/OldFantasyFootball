@@ -3,6 +3,7 @@ import * as React from 'react';
 import { PlayerStatsDTO } from './PlayerStatsType';
 import { PlayerPointsDTO } from '../../Models/Interfaces/PlayerPointsType';
 import { DropdownItem, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import classnames from 'classnames';
 
 interface PlayerStatsProps {
 	handleWeek: (week:number) => void;
@@ -13,8 +14,6 @@ interface PlayerStatsProps {
 	totalNumberOfWeeks: number;
 	userBeingViewed: string;
 	weekBeingViewed: number;
-	username: string;
-	teamName: string;
 }
 
 interface PlayerStatsState {
@@ -66,7 +65,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 				key={key}
 			                >
 				<td className="stat-title">{info[index]}</td>
-				<td className="stat-value">{value}</td>
+				<td className="statValue">{value}</td>
 			</tr>);
 		  }
 
@@ -81,7 +80,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 					key={key}
 				                >
 					<td className="stat-title">{weeklyInfo[weeklyIndex]}</td>
-					<td className="stat-value">{value}</td>
+					<td className="statValue">{value}</td>
 				</tr>);
 			}
 		  }
@@ -111,32 +110,31 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 			key="week"
 		                >
 			<td className="stat-title">Week</td>
-			<td className="stat-value">{<Dropdown
-				isOpen={this.state.dropdownOpen}
-				toggle={this._toggle}
-			                            >
-				<DropdownToggle
-					caret
-					className="sidebar-stats-menu-toggle"
-				>
-					{this.props.weekBeingViewed}
-					{' '}
-					{' ▼'}
-				</DropdownToggle>
-				<DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
-			</Dropdown>}</td>
+			<td className={classnames({
+				statValue: true,
+				statOverflow: true
+			})}
+			>{<Dropdown
+					isOpen={this.state.dropdownOpen}
+					toggle={this._toggle}
+			  >
+					<DropdownToggle
+						caret
+						className="sidebar-stats-menu-toggle"
+					>
+						{this.props.weekBeingViewed}
+						{' '}
+						{' ▼'}
+					</DropdownToggle>
+					<DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
+				</Dropdown>}</td>
 		</tr>);
 
 		return (
 			<div
 				className="player-stats-sidebar"
 			>
-				<div className="player-stats-username">
-				User : {this.props.username}
-				</div>
-				<div className="player-stats-teamname">
-					Team name : { this.props.teamName}
-				</div>
+
 				{this.props.statsBeingViewed ? (
 					<div className="stats-wrapper">
 

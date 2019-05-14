@@ -73,7 +73,12 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 					isOpen={dropDownOpen}
 					toggle={this._toggleDropdown}
 				>
-					{this.props.logout ? null : title + ':'} {value}
+					{this.props.logout ? null
+						: <span
+							className="bollocks"
+							onClick={this._toggleDropdown}
+						  >{title}:{' '}{value}</span>}
+
 					<DropdownToggle
 						caret
 						className="custom-dropdown-menu-toggle"

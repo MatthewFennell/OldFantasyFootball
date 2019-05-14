@@ -264,10 +264,8 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 										playerPointsViewed={this.state.playerPointsViewed}
 										playerStatsBeingViewed={this.state.playerStatsBeingViewed}
 										statsBeingViewed={this.state.statsBeingViewed}
-										teamName={this.state.teamNameBeingViewed}
 										totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 										userBeingViewed={this.props.userBeingViewed}
-										username={this.state.usernameBeingViewed}
 										weekBeingViewed={this.state.weekBeingViewed}
 									/>
 								</div>
@@ -281,7 +279,9 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						handleClickOnPlayer={this.handleClickOnPlayer}
 						noPoints={this.props.weekBeingViewed === -1}
 						removeFromActiveTeam={noop}
+						teamName={this.state.teamNameBeingViewed}
 						transfer={false}
+						username={this.state.usernameBeingViewed}
 					/>
 
 					<Media query="(max-width: 800px)">
