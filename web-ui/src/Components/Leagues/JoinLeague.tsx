@@ -11,7 +11,6 @@ import ResponseMessage from '../common/ResponseMessage';
 
 interface JoinLeagueState {
   codeToJoin: string;
-  error: string;
   isError: boolean;
   responseMessage: string;
 }
@@ -29,7 +28,6 @@ class JoinLeague extends React.Component<
 		super(props);
 		this.state = {
 			codeToJoin: '',
-			error: '',
 			isError: false,
 			responseMessage: ''
 		};
