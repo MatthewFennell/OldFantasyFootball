@@ -16,18 +16,14 @@ public class ApplicationUserManager {
     private WeeklyTeamRepo weeklyTeamRepo;
     private WeeklyTeamManager weeklyTeamManager;
     private CollegeTeamRepo collegeTeamRepo;
-    private TransferMarketRepo transferMarketRepo;
 
     @Autowired
     public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo,
-                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo, TransferMarketRepo transferMarketRepo) {
+                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
         this.collegeTeamRepo = collegeTeamRepo;
-        this.transferMarketRepo = transferMarketRepo;
-
-
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {

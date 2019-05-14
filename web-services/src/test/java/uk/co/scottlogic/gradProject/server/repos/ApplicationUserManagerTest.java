@@ -30,13 +30,16 @@ public class ApplicationUserManagerTest {
     @Mock
     private CollegeTeamRepo collegeTeamRepo;
 
+    @Mock
+    private TransferMarketRepo transferMarketRepo;
+
 
     private ApplicationUserManager applicationUserManager;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, null, weeklyTeamRepo, null);
+        WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, null, weeklyTeamRepo, null, transferMarketRepo);
         applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo,
                 weeklyTeamManager, collegeTeamRepo);
     }
