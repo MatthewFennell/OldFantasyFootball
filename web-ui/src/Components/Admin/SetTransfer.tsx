@@ -4,6 +4,7 @@ import { setTransferMarket } from '../../Services/Weeks/WeeksService';
 import '../../Style/Admin/ErrorMessage.css';
 import CustomDropdown from '../common/CustomDropdown';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface SetTransferProps {
 }
@@ -12,6 +13,7 @@ interface SetTransferState {
   transferOpen: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class SetTransfer extends React.Component<SetTransferProps, SetTransferState> {
@@ -23,7 +25,8 @@ class SetTransfer extends React.Component<SetTransferProps, SetTransferState> {
 		this.state = {
 			transferOpen: '',
 			responseMessage: '',
-			isError: true
+			isError: true,
+			isLoading: false
 		};
 	}
 
@@ -38,12 +41,13 @@ class SetTransfer extends React.Component<SetTransferProps, SetTransferState> {
 	_onSubmit () {
 		const { transferOpen } = this.state;
 		const setTransferOpen = transferOpen === 'true';
+		this.setState({ isLoading: true });
 		setTransferMarket(setTransferOpen)
 			.then(() => {
-				this.setState({ responseMessage: 'Transfer market open = ' + transferOpen, isError: false });
+				this.setState({ responseMessage: 'Transfer market open = ' + transferOpen, isError: false, isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -73,6 +77,7 @@ class SetTransfer extends React.Component<SetTransferProps, SetTransferState> {
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 

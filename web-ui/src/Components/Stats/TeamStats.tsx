@@ -15,9 +15,7 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 			<div className="stats-teamname">
                 Team : {props.teamName}
 			</div>
-
 			<div className="goals-assists-stats-wrapper">
-
 				<div className="stats-team-goalscorers">
 					<div className="stats-goalscorers-title">Goals</div>
 					{props.goalScorers.map((goalScorer, index) => (
@@ -27,16 +25,14 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 								goalScorerEven: index % 2 !== 0,
 								goalScorerOdd: index % 2 === 0
 							})}
-							key={goalScorer.firstname + goalScorer.surname}
+							key={goalScorer.firstname + goalScorer.surname + goalScorer.amount}
 						>
-
 							<div className="goalscorer-name">
 								{goalScorer.firstname}{' '}{goalScorer.surname}
 							</div>
 							<div className="goalscorer-amount">
 								{goalScorer.amount}
 							</div>
-
 						</div>
 					))}
 				</div>
@@ -50,7 +46,7 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 								assistEven: index % 2 !== 0,
 								assistOdd: index % 2 === 0
 							})}
-							key={assist.firstname + assist.surname}
+							key={assist.firstname + assist.surname + assist.amount}
 						>
 
 							<div className="assist-name">
@@ -64,7 +60,6 @@ const TeamStats: React.SFC<TeamStatsProps> = (props) => {
 					))}
 				</div>
 			</div>
-
 		</div>
 	);
 };

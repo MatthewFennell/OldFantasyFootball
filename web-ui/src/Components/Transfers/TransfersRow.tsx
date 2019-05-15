@@ -43,7 +43,7 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 	return (
 		<tr
 			className={calculateClassName(props.index)}
-			key={firstName + surname}
+			key={firstName + surname + position + collegeTeam}
 			onClick={handleRowClick}
 		>
 			<td className="name">{firstName + ' ' + surname}</td>

@@ -5,6 +5,7 @@ import CollegeTeam from '../../Containers/Admin/AddPointsCollegeTeam';
 import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import '../../Style/Admin/ErrorMessage.css';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface DeleteCollegeTeamProps {
   allCollegeTeams: CT[];
@@ -15,6 +16,7 @@ interface DeleteCollegeTeamState {
   collegeNameValue: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCollegeTeamState> {
@@ -27,7 +29,8 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 		this.state = {
 			collegeNameValue: allCollegeTeams.length > 0 ? allCollegeTeams[0].name : '',
 			responseMessage: '',
-			isError: false
+			isError: false,
+			isLoading: false
 		};
 	}
 
@@ -40,11 +43,11 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 			.then(response => {
 				this.props.removeCollegeTeam(this.state.collegeNameValue);
 				this.setState(prevState => ({
-					isError: false, responseMessage: 'Team successfully deleted (' + prevState.collegeNameValue + ')'
+					isLoading: false, isError: false, responseMessage: 'Team successfully deleted (' + prevState.collegeNameValue + ')'
 				}));
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -71,6 +74,7 @@ class DeleteCollegeTeam extends React.Component<DeleteCollegeTeamProps, DeleteCo
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 			</div>

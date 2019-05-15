@@ -4,6 +4,7 @@ import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import ResponseMessage from '../common/ResponseMessage';
 import { resetPassword } from '../../Services/User/UserService';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface ResetPasswordProps {
 }
@@ -12,6 +13,7 @@ interface ResetPasswordState {
   usernameValue: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordState> {
@@ -22,7 +24,8 @@ class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordSta
 		this.state = {
 			usernameValue: '',
 			responseMessage: '',
-			isError: true
+			isError: true,
+			isLoading: false
 		};
 	}
 
@@ -31,11 +34,12 @@ class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordSta
 	}
 
 	_onSubmit () {
+		this.setState({ isLoading: true });
 		resetPassword(this.state.usernameValue).then(response => {
-			this.setState({ isError: false, responseMessage: 'Reset password successfully' });
+			this.setState({ isError: false, responseMessage: 'Reset password successfully', isLoading: false });
 		})
 			.catch(error => {
-				this.setState({ isError: true, responseMessage: error });
+				this.setState({ isError: true, responseMessage: error, isLoading: false });
 			});
 	}
 
@@ -66,6 +70,7 @@ class ResetPassword extends React.Component<ResetPasswordProps, ResetPasswordSta
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 			</div>

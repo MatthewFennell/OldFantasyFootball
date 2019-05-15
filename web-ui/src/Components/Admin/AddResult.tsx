@@ -9,6 +9,7 @@ import TextInputForm from '../common/TexInputForm';
 import { CollegeTeam as CT } from '../../Models/Interfaces/CollegeTeam';
 import ResponseMessage from '../common/ResponseMessage';
 import CustomDropdown from '../common/CustomDropdown';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface AddResultProps {
   setTeamAddingPoints: (team: string) => void;
@@ -28,6 +29,7 @@ interface AddResultState {
   responseMessage: string;
   isError: boolean;
   manOfTheMatch: string;
+  isLoading: boolean;
 }
 
 class AddResult extends React.Component<AddResultProps, AddResultState> {
@@ -54,7 +56,8 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 			teamName: this.props.collegeTeamName === '' ? collegeName : this.props.collegeTeamName,
 			responseMessage: '',
 			isError: false,
-			manOfTheMatch: ''
+			manOfTheMatch: '',
+			isLoading: false
 		};
 	}
 
@@ -142,11 +145,11 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 			teamName: teamName,
 			manOfTheMatch: this.state.manOfTheMatch
 		};
-
+		this.setState({ isLoading: true });
 		submitResult(data).then(response => {
-			this.setState({ isError: false, responseMessage: 'Result added successfully' });
+			this.setState({ isError: false, responseMessage: 'Result added successfully', isLoading: false });
 		}).catch(error => {
-			this.setState({ isError: true, responseMessage: error });
+			this.setState({ isError: true, responseMessage: error, isLoading: false });
 		});
 	}
 
@@ -242,7 +245,9 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
+
 				</div>
 
 			</div>

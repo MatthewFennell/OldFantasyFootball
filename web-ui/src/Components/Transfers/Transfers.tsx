@@ -336,12 +336,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 										</Button>
 									</div>
 								</div>
-
-								<ResponseMessage
-									isError={this.state.isError}
-									responseMessage={this.state.errorMessage}
-									shouldDisplay
-								/>
 								<div className="pitch-value">
 									<Pitch
 										activeWeeklyTeam={teamToRender}
@@ -363,6 +357,11 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 											setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
 										/>
 									</div>
+									<ResponseMessage
+										isError={this.state.isError}
+										responseMessage={this.state.errorMessage}
+										shouldDisplay
+									/>
 									<div className="transfers-table-wrapper">
 										<div className="transfers-table">
 											<TransfersTableBody

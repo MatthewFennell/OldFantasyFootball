@@ -11,6 +11,7 @@ import { validPlayerFirstName, validPlayerSurname } from '../../Services/Credent
 import { Col } from 'react-bootstrap';
 import CustomDropdown from '../common/CustomDropdown';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface CreatePlayerState {
     positionValue: string;
@@ -20,7 +21,8 @@ interface CreatePlayerState {
     priceValue: string;
     previousValues: string[];
     responseMessage: string;
-    isError: boolean;
+		isError: boolean;
+		isLoading: boolean;
 }
 
 interface CreatePlayerProps {
@@ -42,6 +44,7 @@ class CreateLeagueClass extends React.Component<
 			previousValues: [],
 			responseMessage: '',
 			isError: false,
+			isLoading: false
 		};
 		this._onSubmit = this._onSubmit.bind(this);
 		this._handlePositionChange = this._handlePositionChange.bind(this);
@@ -56,18 +59,15 @@ class CreateLeagueClass extends React.Component<
 
 	_validate (): boolean {
 		const { firstNameValue, surnameValue, priceValue } = this.state;
-		console.log('state ' + JSON.stringify(this.state));
 		if (
 			!validPlayerFirstName(firstNameValue) ||
       !validPlayerSurname(surnameValue)
 		) {
 			this.setState({ responseMessage: 'Invalid First name or Surname', isError: true });
-			console.log('invalid first or surname');
 			return false;
 		} else {
 			if (priceValue === '' || isNaN(parseFloat(priceValue))) {
 				this.setState({ responseMessage: 'Please enter a valid price', isError: true });
-				console.log('invalid price');
 				return false;
 			} else {
 				return true;
@@ -80,15 +80,12 @@ class CreateLeagueClass extends React.Component<
 	}
 
   _onSubmit = (event: string) => {
-  	console.log('submitted');
   	switch (event) {
   	case 'btnCreateLeague':
   		const valid = this._validate();
   		if (valid) {
-  			console.log('validated');
   			const { positionValue, teamValue, priceValue, firstNameValue, surnameValue } = this.state;
   			let position: string = positionValue.toUpperCase();
-  			console.log('state = ' + JSON.stringify(this.state));
   			let data: CreatePlayer = {
   				position: position,
   				collegeTeam: teamValue,
@@ -96,6 +93,7 @@ class CreateLeagueClass extends React.Component<
   				firstName: firstNameValue,
   				surname: surnameValue
   			};
+  			this.setState({ isLoading: true });
   			createPlayer(data)
   				.then(response => {
   					let values: string[] = [
@@ -105,11 +103,10 @@ class CreateLeagueClass extends React.Component<
   						priceValue,
   						positionValue
   					];
-  					this.setState({ previousValues: values, isError: false });
+  					this.setState({ previousValues: values, isError: false, isLoading: false });
   				})
   				.catch(error => {
-  					this.setState({ responseMessage: error, isError: true });
-  					this.setState({ previousValues: [] });
+  					this.setState({ responseMessage: error, isError: true, isLoading: false, previousValues: [] });
   				});
   		}
   		break;
@@ -216,6 +213,7 @@ class CreateLeagueClass extends React.Component<
   							responseMessage={this.determineResponseMessage(this.state.responseMessage)}
   							shouldDisplay={this.determineResponseMessage.length > 0}
   						/>
+  						<LoadingSpinner isLoading={this.state.isLoading} />
 					  </div>
   			</Form>
   		</div>

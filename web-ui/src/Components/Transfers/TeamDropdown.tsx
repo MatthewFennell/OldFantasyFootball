@@ -42,7 +42,7 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		const teamOptions = allCollegeTeams.map(team => (
 			<p
 				className="team-menu-items"
-				key={team.id}
+				key={team.id + team}
 			>
 				<DropdownItem
 					className={'team-menu-item-' + (team.name === teamValue)}
@@ -56,7 +56,10 @@ class TeamDropdown extends React.Component<TeamDropdownProps, TeamDropdownState>
 		));
 
 		teamOptions.unshift(
-			<p className="team-menu-items">
+			<p
+				className="team-menu-items"
+				key="All teams"
+			>
 				<DropdownItem
 					className={'team-menu-item-' + (teamValue === 'All teams')}
 					key="All teams"
