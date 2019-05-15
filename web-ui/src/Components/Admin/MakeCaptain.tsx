@@ -8,6 +8,7 @@ import ResponseMessage from '../common/ResponseMessage';
 import TextInputForm from '../common/TexInputForm';
 import { makeCaptain } from '../../Services/User/UserService';
 import { MakeCaptain as MakeCaptainDTO } from '../../Models/Interfaces/MakeCaptain';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface MakeCaptainProps {
   allCollegeTeams: CT[];
@@ -18,6 +19,7 @@ interface MakeCaptainState {
   captainsUsername: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -34,7 +36,8 @@ class MakeCaptain extends React.Component<MakeCaptainProps, MakeCaptainState> {
 			teamValue: allCollegeTeams.length > 0 ? allCollegeTeams[0].name : '',
 			captainsUsername: '',
 			responseMessage: '',
-			isError: false
+			isError: false,
+			isLoading: false
 		};
 	}
 
@@ -51,11 +54,12 @@ class MakeCaptain extends React.Component<MakeCaptainProps, MakeCaptainState> {
 			username: this.state.captainsUsername,
 			teamname: this.state.teamValue
 		};
+		this.setState({ isLoading: true });
 		makeCaptain(captainInfo).then(response => {
-			this.setState({ isError: false, responseMessage: 'Captain successfully set' });
+			this.setState({ isError: false, responseMessage: 'Captain successfully set', isLoading: false });
 		})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -87,6 +91,7 @@ class MakeCaptain extends React.Component<MakeCaptainProps, MakeCaptainState> {
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 			</div>

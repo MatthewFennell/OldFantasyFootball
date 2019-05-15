@@ -9,6 +9,7 @@ import { validPlayerFirstName, validPlayerSurname } from '../../Services/Credent
 import '../../Style/Admin/CreatePlayerForm.css';
 import CustomDropdown from '../common/CustomDropdown';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 import TextInputForm from '../common/TexInputForm';
 
@@ -26,6 +27,7 @@ interface CreatePlayerState {
   previousValues: string[];
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerState> {
@@ -50,7 +52,8 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 			priceValue: '',
 			previousValues: [],
 			responseMessage: '',
-			isError: false
+			isError: false,
+			isLoading: false
 		};
 	}
 
@@ -101,6 +104,7 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 			firstName: firstNameValue,
 			surname: surnameValue
 		};
+		this.setState({ isLoading: true });
 		createPlayer(data)
 			.then(response => {
 				let values: string[] = [
@@ -110,11 +114,10 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 					priceValue,
 					positionValue
 				];
-				this.setState({ previousValues: values, isError: false });
+				this.setState({ previousValues: values, isError: false, isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
-				this.setState({ previousValues: [] });
+				this.setState({ responseMessage: error, isError: true, isLoading: false, previousValues: [] });
 			});
 	}
 
@@ -176,11 +179,13 @@ class CreatePlayerForm extends React.Component<CreatePlayerProps, CreatePlayerSt
 						>
               				Create Player
 						</Button>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 						<ResponseMessage
 							isError={this.state.isError}
 							responseMessage={this.determineResponseMessage(this.state.responseMessage)}
 							shouldDisplay={this.determineResponseMessage.length > 0}
 						/>
+
 					</div>
 				</div>
 			</div>

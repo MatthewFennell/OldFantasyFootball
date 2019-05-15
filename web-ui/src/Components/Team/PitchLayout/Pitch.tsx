@@ -18,14 +18,18 @@ interface PitchProps {
 
 class Pitch extends React.Component<PitchProps> {
 	static defaultProps = { teamName: '', username: '' };
-	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number) {
+	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number, position: string) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
-			playersToRender.push(<div className="player">
+			playersToRender.push(<div
+				className="player"
+				key={value.id}
+			                     >
 				<Player
 					addOrRemovePlayer={this.props.addOrRemovePlayer}
 					emptyPlayer={false}
 					handleClickOnPlayer={this.props.handleClickOnPlayer}
+					key={value.id}
 					noPoints={this.props.noPoints}
 					player={value}
 					removeFromActiveTeam={this.props.removeFromActiveTeam}
@@ -35,17 +39,22 @@ class Pitch extends React.Component<PitchProps> {
 		});
 
 		for (let x = 0; x < minimumNumberInRow - players.length; x++) {
-			playersToRender.push(<div className="player">
-				<Player
-					addOrRemovePlayer={noop}
-					emptyPlayer
-					handleClickOnPlayer={noop}
-					noPoints={this.props.noPoints}
-					player={{} as any}
-					removeFromActiveTeam={noop}
-					transfer={this.props.transfer}
-				/>
-			</div>);
+			playersToRender.push(
+				<div
+					className="player"
+					key={position + x}
+				>
+					<Player
+						addOrRemovePlayer={noop}
+						emptyPlayer
+						handleClickOnPlayer={noop}
+						key={position + x}
+						noPoints={this.props.noPoints}
+						player={{} as any}
+						removeFromActiveTeam={noop}
+						transfer={this.props.transfer}
+					/>
+				</div>);
 		}
 
 		return playersToRender;
@@ -72,10 +81,10 @@ class Pitch extends React.Component<PitchProps> {
 			});
 		}
 
-		let pitchAttackers = this.generatePlayers(attackers, 1);
-		let pitchMidfielders = this.generatePlayers(midfielders, 3);
-		let pitchDefenders = this.generatePlayers(defenders, 3);
-		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1);
+		let pitchAttackers = this.generatePlayers(attackers, 1, 'attackers');
+		let pitchMidfielders = this.generatePlayers(midfielders, 3, 'midfielders');
+		let pitchDefenders = this.generatePlayers(defenders, 3, 'defenders');
+		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'goalkeepers');
 
 		return (
 			<div className="pitch-with-players">

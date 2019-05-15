@@ -6,6 +6,7 @@ import { PlayerDTO } from '../../Models/Interfaces/Player';
 import { deletePlayer } from '../../Services/Player/PlayerService';
 import '../../Style/Admin/ErrorMessage.css';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface DeletePlayerProps {
   setTeamAddingPoints: (team: string) => void;
@@ -17,6 +18,7 @@ interface DeletePlayerState {
   playerID: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState> {
@@ -29,7 +31,8 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 		this.state = {
 			playerID: 'No player selected',
 			responseMessage: '',
-			isError: false
+			isError: false,
+			isLoading: false
 		};
 	}
 
@@ -53,12 +56,13 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 
 	_onSubmit () {
 		const { playerID } = this.state;
+		this.setState({ isLoading: true });
 		deletePlayer(playerID)
 			.then(response => {
-				this.setState({ responseMessage: 'Player deleted successfully', isError: false });
+				this.setState({ responseMessage: 'Player deleted successfully', isError: false, isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -92,6 +96,7 @@ class DeletePlayer extends React.Component<DeletePlayerProps, DeletePlayerState>
 					responseMessage={this.state.responseMessage}
 					shouldDisplay={this.state.responseMessage.length > 0}
 				/>
+				<LoadingSpinner isLoading={this.state.isLoading} />
 			</div>
 		);
 	}

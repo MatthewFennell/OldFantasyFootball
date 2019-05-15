@@ -107,13 +107,16 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 	};
 
 	findLeaguesAndPositions () {
-		getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
-			for (let x = 0; x < leagueAndPositionsArray.length; x++) {
-				this.props.setLeagues(this.props.userBeingViewed,
-					leagueAndPositionsArray[x].leagueName,
-					leagueAndPositionsArray[x].position);
-			}
-		});
+		const activeLeagues = this.props.leagues[this.props.userBeingViewed];
+		if (activeLeagues === undefined || Object.entries(activeLeagues).length === 0) {
+			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
+				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
+					this.props.setLeagues(this.props.userBeingViewed,
+						leagueAndPositionsArray[x].leagueName,
+						leagueAndPositionsArray[x].position);
+				}
+			});
+		}
 	}
 
 	_setLeagueBeingViewed (leagueToView: string) {

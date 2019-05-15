@@ -79,7 +79,7 @@ class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
 								element={datum}
 								handleRowClick={this.props.handleRowClick}
 								index={index}
-								key={datum.firstName + datum.surname}
+								key={datum.id}
 								searchingByPercentage={this.props.searchingByPercentage}
 							/>
 						))}

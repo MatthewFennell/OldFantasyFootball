@@ -10,6 +10,7 @@ import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import CustomDropdown from '../common/CustomDropdown';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface EditPointsFormProps {
   setTeamAddingPoints: (team: string) => void;
@@ -32,6 +33,7 @@ interface EditPointsFormState {
   playerStats: PlayerPoints;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsFormState> {
@@ -71,7 +73,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 				week: 0
 			},
 			responseMessage: '',
-			isError: false
+			isError: false,
+			isLoading: false
 		};
 	}
 
@@ -80,8 +83,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		if (playerID !== '' && week !== '') {
 			getPlayerStatsForWeek(parseInt(week), playerID)
 				.then(response => {
-					this.setState({ playerStats: response });
-					this.setState({ isError: false });
+					this.setState({ playerStats: response, isError: false });
 				})
 				.catch(error => {
 					this.setState({
@@ -204,13 +206,13 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 			playerID: playerID,
 			week: week
 		};
-
+		this.setState({ isLoading: true });
 		editPlayerPoints(data)
 			.then(response => {
-				this.setState({ isError: false, responseMessage: 'Points edited successfully' });
+				this.setState({ isError: false, responseMessage: 'Points edited successfully', isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -325,6 +327,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 						responseMessage={this.state.responseMessage}
 						shouldDisplay={this.state.responseMessage.length > 0}
 					/>
+					<LoadingSpinner isLoading={this.state.isLoading} />
 				</div>
 
 			</div>

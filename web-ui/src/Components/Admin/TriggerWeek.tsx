@@ -4,6 +4,7 @@ import { triggerWeek } from '../../Services/Weeks/WeeksService';
 import '../../Style/Admin/ErrorMessage.css';
 import TextInputForm from '../common/TexInputForm';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface TriggerWeekProps {
 }
@@ -12,6 +13,7 @@ interface TriggerWeekState {
   weekNumber: number;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
@@ -23,7 +25,8 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 		this.state = {
 			weekNumber: 0,
 			responseMessage: '',
-			isError: true
+			isError: true,
+			isLoading: false
 		};
 	}
 
@@ -37,12 +40,13 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 
 	_onSubmit () {
 		const { weekNumber } = this.state;
+		this.setState({ isLoading: true });
 		triggerWeek(weekNumber)
 			.then(() => {
-				this.setState({ responseMessage: 'Successfully triggered a new week - ' + weekNumber, isError: false });
+				this.setState({ responseMessage: 'Successfully triggered a new week - ' + weekNumber, isError: false, isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -73,6 +77,7 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 

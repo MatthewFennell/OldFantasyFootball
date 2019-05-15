@@ -6,6 +6,7 @@ import '../../Style/Admin/ErrorMessage.css';
 import { validCollegeName } from '../../Services/CredentialInputService';
 import TextInputForm from '../common/TexInputForm';
 import ResponseMessage from '../common/ResponseMessage';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 interface CreateCollegeTeamProps {
   addCollegeTeam: (team: CollegeTeam) => void;
@@ -16,6 +17,7 @@ interface CreateCollegeTeamState {
   collegeNameValue: string;
   responseMessage: string;
   isError: boolean;
+  isLoading: boolean;
 }
 
 class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCollegeTeamState> {
@@ -27,7 +29,8 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 		this.state = {
 			collegeNameValue: 'Please select a team',
 			responseMessage: '',
-			isError: true
+			isError: true,
+			isLoading: false
 		};
 	}
 
@@ -47,6 +50,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 	_onSubmit () {
 		const { allCollegeTeams, addCollegeTeam } = this.props;
 		const { collegeNameValue } = this.state;
+		this.setState({ isLoading: true });
 		makeCollegeTeam(collegeNameValue)
 			.then(response => {
 				let alreadyThere: boolean = false;
@@ -59,10 +63,10 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 				if (!alreadyThere) {
 					addCollegeTeam(response);
 				}
-				this.setState({ responseMessage: 'Successfully made a college team called ' + collegeNameValue, isError: false });
+				this.setState({ responseMessage: 'Successfully made a college team called ' + collegeNameValue, isError: false, isLoading: false });
 			})
 			.catch(error => {
-				this.setState({ responseMessage: error, isError: true });
+				this.setState({ responseMessage: error, isError: true, isLoading: false });
 			});
 	}
 
@@ -93,6 +97,7 @@ class CreateCollegeTeam extends React.Component<CreateCollegeTeamProps, CreateCo
 							responseMessage={this.state.responseMessage}
 							shouldDisplay={this.state.responseMessage.length > 0}
 						/>
+						<LoadingSpinner isLoading={this.state.isLoading} />
 					</div>
 				</div>
 
