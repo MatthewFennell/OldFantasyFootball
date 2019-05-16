@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { State } from '../../Reducers/root';
 import Transfers from '../../Components/Transfers/Transfers';
-import { setTeam } from '../../Actions/ActiveTeamActions';
+import { setTeam, addPlayer } from '../../Actions/ActiveTeamActions';
 import {
 	getFilteredPlayers,
 	getTransferMarketOpen,
@@ -29,6 +29,7 @@ const mapDispatchToProps = {
 	setBudget,
 	setTeam,
 	setFilteredPlayers,
+	addPlayer
 };
 
 export default connect<any, any, any>(

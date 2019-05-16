@@ -34,6 +34,8 @@ interface TransfersProps {
 
   team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
   setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
+
+  addPlayer: (user: string, week: number, player: PlayerDTO) => void;
 }
 
 interface TransfersState {
@@ -135,7 +137,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		let playerExists: boolean = false;
 		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['-1'];
 		currentTeam.forEach(element => {
-			if (element.position === player.position) {
+			if (element.position === player.position && element.firstName !== 'empty') {
 				numberInThatPosition += 1;
 			}
 			if (element.id === player.id) {
@@ -172,7 +174,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				return false;
 			}
 		}
-		if (currentTeam.length === 11) {
+		let sizeOfTeam = 0;
+		for (let x = 0; x < currentTeam.length; x++) {
+			if (currentTeam[x].firstName !== 'empty') {
+				sizeOfTeam += 1;
+			}
+		}
+		if (sizeOfTeam === 11) {
 			this.setState({ errorMessage: 'Cannot have more than 11 players', isError: true });
 			return false;
 		}
@@ -181,7 +189,13 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 
 	onRemoveFromActiveTeam (id: string) {
 		let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['-1'];
-		let newTeam = currentTeam.filter(x => x.id !== id);
+		let playerBeingRemoved = currentTeam.find(x => x.id === id);
+		// let newTeam = currentTeam.filter(x => x.id !== id);
+		let newTeam = currentTeam.map(x => x.id !== id ? x : {
+			position: playerBeingRemoved !== undefined ? playerBeingRemoved.position : '',
+			firstName: 'empty',
+			id: playerBeingRemoved !== undefined ? playerBeingRemoved.id + 'buffer' : 'id',
+		} as PlayerDTO);
 		this.props.setTeam(this.props.accountId, -1, newTeam);
 	}
 
@@ -222,8 +236,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	onRowClick = (element: PlayerDTO) => {
 		const { remainingBudget } = this.props;
 		if (this.canAdd(element)) {
-			let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['-1'].concat(element);
-			this.props.setTeam(this.props.accountId, -1, currentTeam);
+			// let currentTeam: PlayerDTO[] = this.props.team[this.props.accountId]['-1'].concat(element);
+			// this.props.setTeam(this.props.accountId, -1, currentTeam);
+			this.props.addPlayer(this.props.accountId, -1, element);
 
 			let removed: boolean = false;
 			this.state.playersToRemove.forEach((ele, index) => {

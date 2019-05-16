@@ -25,6 +25,28 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('team.' + user + '.' + week, team, state);
 	}
 
+	case ActionTypes.ADD_PLAYER: {
+		const { user, week, player } = action.payload;
+		const team = state.team[user][week];
+
+		const hasEmptyPerson = team.find((x:PlayerDTO) => x.position === player.position && x.firstName === 'empty') !== undefined;
+		console.log('Has empty person = ' + hasEmptyPerson);
+
+		if (hasEmptyPerson) {
+			let indexOfThem = 0;
+			for (let x = 0; x < team.length; x++) {
+				if (team[x].position === player.position && team[x].firstName === 'empty') {
+					indexOfThem = x;
+					break;
+				}
+				console.log('their index = ' + indexOfThem);
+			}
+			return lodash.set('team.' + user + '.' + week, team.map((originalPlayer:PlayerDTO, index:number) => index === indexOfThem ? player : originalPlayer), state);
+		} else {
+			return lodash.set('team.' + user + '.' + week, team.concat(player), state);
+		}
+	}
+
 	default:
 		return state;
 	}
