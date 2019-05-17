@@ -56,10 +56,8 @@ export const reducer = (state: State = initialState, action: Action) => {
 			player => player.id === playerToRemove.id ? { id: playerToRemove.id, position: playerToRemove.position, firstName: 'REMOVED' } : player), state);
 
 		if (playerAlreadyBeingAdded === undefined) {
-			console.log('Player being removed was not previously being added');
 			return lodash.set('playersToRemove', state.playersToRemove.concat([playerToRemove]), stateWithoutPlayer);
 		} else {
-			console.log('Player being removed previously being added');
 			return lodash.set('playersToAdd', state.playersToAdd.filter(player => player.id !== playerToRemove.id), stateWithoutPlayer);
 		}
 	}
@@ -78,11 +76,6 @@ export const reducer = (state: State = initialState, action: Action) => {
 		const numberOfSpareMidfielders = state.currentTransferTeam.filter(x => x.firstName === 'REMOVED' && x.position === 'MIDFIELDER').length;
 		const numberOfSpareAttackers = state.currentTransferTeam.filter(x => x.firstName === 'REMOVED' && x.position === 'ATTACKER').length;
 
-		console.log('Number of valid spots left = ' + numberOfValidRemainingSpots);
-		console.log('Number of spare defenders = ' + numberOfSpareDefenders);
-		console.log('Number of spare Midfielders = ' + numberOfSpareMidfielders);
-		console.log('Number of spare Attackers = ' + numberOfSpareAttackers);
-
 		if (numberOfSpareDefenders > numberOfValidRemainingSpots) {
 			const location = state.currentTransferTeam.findIndex(x => x.firstName === 'REMOVED' && x.position === 'DEFENDER');
 			state = lodash.set('currentTransferTeam', state.currentTransferTeam.filter((player, index) => index !== location), state);
@@ -99,10 +92,8 @@ export const reducer = (state: State = initialState, action: Action) => {
 		}
 
 		if (playerAlreadyBeingRemoved === undefined) {
-			console.log('Player being added was not previously being removed');
 			return lodash.set('playersToAdd', state.playersToAdd.concat([playerToAdd]), state);
 		} else {
-			console.log('Player being added was previously being removed');
 			return lodash.set('playersToRemove', state.playersToRemove.filter(player => player.id !== playerToAdd.id), state);
 		}
 	}
