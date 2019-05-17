@@ -5,6 +5,10 @@ import { setTeam } from '../../Actions/ActiveTeamActions';
 import {
 	getFilteredPlayers,
 	getTransferMarketOpen,
+	getCurrentTransferTeam,
+	getOriginalTransferTeam,
+	getPlayersToAdd,
+	getPlayersToRemove
 } from '../../Selectors/TransfersSelector';
 import { getTeam } from '../../Selectors/ActiveTeamSelector';
 
@@ -14,7 +18,14 @@ import { setBudget } from '../../Actions/StatsActions';
 import { getAccountId } from '../../Selectors/AccountSelector';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
-import { setFilteredPlayers } from '../../Actions/TransferActions';
+import
+{	setFilteredPlayers,
+	setCurrentTransferTeam,
+	setOriginalTransferTeam,
+	removePlayer,
+	addPlayer
+}
+	from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
@@ -22,13 +33,21 @@ const mapStateToProps = (state: State) => ({
 	transfersMarketOpen: getTransferMarketOpen(state),
 	accountId: getAccountId(state),
 	team: getTeam(state),
-	allCollegeTeams: getAllCollegeTeams(state)
+	allCollegeTeams: getAllCollegeTeams(state),
+	currentTransferTeam: getCurrentTransferTeam(state),
+	originalTransferTeam: getOriginalTransferTeam(state),
+	playersToAdd: getPlayersToAdd(state),
+	playersToRemove: getPlayersToRemove(state)
 });
 
 const mapDispatchToProps = {
 	setBudget,
 	setTeam,
 	setFilteredPlayers,
+	setOriginalTransferTeam,
+	setCurrentTransferTeam,
+	removePlayer,
+	addPlayer
 };
 
 export default connect<any, any, any>(

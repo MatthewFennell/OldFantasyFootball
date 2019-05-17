@@ -11,7 +11,7 @@ interface PitchProps {
   username: string;
   teamName: string;
 
-  addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
+  removePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
   removeFromActiveTeam: (id: string) => void;
 }
@@ -21,41 +21,59 @@ class Pitch extends React.Component<PitchProps> {
 	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number, position: string) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
-			playersToRender.push(<div
-				className="player"
-				key={value.id}
-			                     >
-				<Player
-					addOrRemovePlayer={this.props.addOrRemovePlayer}
-					emptyPlayer={false}
-					handleClickOnPlayer={this.props.handleClickOnPlayer}
-					key={value.id}
-					noPoints={this.props.noPoints}
-					player={value}
-					removeFromActiveTeam={this.props.removeFromActiveTeam}
-					transfer={this.props.transfer}
-				/>
-			</div>);
-		});
-
-		for (let x = 0; x < minimumNumberInRow - players.length; x++) {
-			playersToRender.push(
-				<div
+			if (value.firstName !== 'REMOVED') {
+				playersToRender.push(<div
 					className="player"
-					key={position + x}
-				>
+					key={value.id}
+				                     >
 					<Player
-						addOrRemovePlayer={noop}
-						emptyPlayer
-						handleClickOnPlayer={noop}
-						key={position + x}
+						emptyPlayer={false}
+						handleClickOnPlayer={this.props.handleClickOnPlayer}
+						key={value.id}
 						noPoints={this.props.noPoints}
-						player={{} as any}
-						removeFromActiveTeam={noop}
+						player={value}
+						removeFromActiveTeam={this.props.removeFromActiveTeam}
+						removePlayer={this.props.removePlayer}
 						transfer={this.props.transfer}
 					/>
 				</div>);
-		}
+			} else {
+				playersToRender.push(
+					<div
+						className="player"
+						key={value.id}
+					>
+						<Player
+							emptyPlayer
+							handleClickOnPlayer={noop}
+							noPoints={this.props.noPoints}
+							player={{} as any}
+							removeFromActiveTeam={noop}
+							removePlayer={noop}
+							transfer={this.props.transfer}
+						/>
+					</div>);
+			}
+		});
+
+		// for (let x = 0; x < minimumNumberInRow - players.length; x++) {
+		// 	playersToRender.push(
+		// 		<div
+		// 			className="player"
+		// 			key={position + x}
+		// 		>
+		// 			<Player
+		// 				emptyPlayer
+		// 				handleClickOnPlayer={noop}
+		// 				key={position + x}
+		// 				noPoints={this.props.noPoints}
+		// 				player={{} as any}
+		// 				removeFromActiveTeam={noop}
+		// 				removePlayer={noop}
+		// 				transfer={this.props.transfer}
+		// 			/>
+		// 		</div>);
+		// }
 
 		return playersToRender;
 	}
@@ -85,6 +103,7 @@ class Pitch extends React.Component<PitchProps> {
 		let pitchMidfielders = this.generatePlayers(midfielders, 3, 'midfielders');
 		let pitchDefenders = this.generatePlayers(defenders, 3, 'defenders');
 		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'goalkeepers');
+		console.log('pitch length = ' + pitchAttackers.length);
 
 		return (
 			<div className="pitch-with-players">
