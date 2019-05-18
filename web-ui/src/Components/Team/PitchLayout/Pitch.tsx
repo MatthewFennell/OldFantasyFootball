@@ -19,11 +19,23 @@ interface PitchProps {
 class Pitch extends React.Component<PitchProps> {
 	static defaultProps = { teamName: '', username: '' };
 
-	numberOfSpareSpots (): number {
-		return this.props.activeWeeklyTeam.filter(x => x.firstName === 'REMOVED').length;
+	numberOfSpareSpots (position: string): number {
+		const numberOfAttackersIHaveToAdd = Math.max(1 - this.props.activeWeeklyTeam.filter(x => x.position === 'ATTACKER' && x.firstName !== 'REMOVED').length, 0);
+		const numberOfMidfieldersIHaveToAdd = Math.max(3 - this.props.activeWeeklyTeam.filter(x => x.position === 'MIDFIELDER' && x.firstName !== 'REMOVED').length, 0);
+		const numberOfDefendersIHaveToAdd = Math.max(3 - this.props.activeWeeklyTeam.filter(x => x.position === 'DEFENDER' && x.firstName !== 'REMOVED').length, 0);
+
+		if (position === 'ATTACKER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd;
+		} else if (position === 'MIDFIELDER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfAttackersIHaveToAdd - numberOfDefendersIHaveToAdd;
+		} else if (position === 'DEFENDER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd;
+		} else {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length;
+		}
 	}
 
-	generatePlayers (players: PlayerDTO[], maximumNumberInRow: number, position: string, numberOfEmpty: number, emptyGoalkeepers: number) {
+	generatePlayers (players: PlayerDTO[], maximumNumberInRow: number, position: string, numberOfEmpty: number, emptyGoalkeepers: number, shouldPrevent: boolean) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
 			if (value.firstName !== 'REMOVED') {
@@ -42,7 +54,7 @@ class Pitch extends React.Component<PitchProps> {
 						transfer={this.props.transfer}
 					/>
 				</div>);
-			} else {
+			} else if (!shouldPrevent) {
 				playersToRender.push(
 					<div
 						className="player"
@@ -61,34 +73,28 @@ class Pitch extends React.Component<PitchProps> {
 			}
 		});
 
-		console.log('Position = ' + position);
-		console.log('Number removed = ' + this.numberOfSpareSpots());
-		console.log('Row max = ' + maximumNumberInRow);
-		console.log('Number of players in row = ' + players.filter(x => x.position === position && x.firstName !== 'REMOVED').length);
-		console.log('Number removed in row = ' + numberOfEmpty);
-		console.log('Number of extra players to render = ' + (Math.min(maximumNumberInRow - players.length, this.numberOfSpareSpots()) - numberOfEmpty));
-		console.log('empty goalkeepers = ' + emptyGoalkeepers);
-		console.log('');
-
-		for (let x = 0; x < Math.min(Math.min(maximumNumberInRow - players.filter(x => x.position === position && x.firstName !== 'REMOVED').length, this.numberOfSpareSpots()) - numberOfEmpty, this.numberOfSpareSpots() - emptyGoalkeepers); x++) {
-			playersToRender.push(
-				<div
-					className="player"
-					key={position + x}
-				>
-					<Player
-						emptyPlayer
-						handleClickOnPlayer={noop}
+		if (!shouldPrevent) {
+			for (let x = 0; x < Math.min(
+				Math.min(maximumNumberInRow - players.filter(x => x.position === position && x.firstName !== 'REMOVED').length,	this.numberOfSpareSpots(position)) - numberOfEmpty,
+				  this.numberOfSpareSpots(position) - emptyGoalkeepers - numberOfEmpty); x++) {
+				playersToRender.push(
+					<div
+						className="player"
 						key={position + x}
-						noPoints={this.props.noPoints}
-						player={{} as any}
-						removeFromActiveTeam={noop}
-						removePlayer={noop}
-						transfer={this.props.transfer}
-					/>
-				</div>);
+					>
+						<Player
+							emptyPlayer
+							handleClickOnPlayer={noop}
+							key={position + x}
+							noPoints={this.props.noPoints}
+							player={{} as any}
+							removeFromActiveTeam={noop}
+							removePlayer={noop}
+							transfer={this.props.transfer}
+						/>
+					</div>);
+			}
 		}
-
 		return playersToRender;
 	}
 
@@ -129,11 +135,15 @@ class Pitch extends React.Component<PitchProps> {
 				}
 			});
 		}
+		const numberOfAttackers = attackers.length - numberOfEmptyAttackers;
+		const numberOfMidfielders = midfielders.length - numberOfEmptyMidfielders;
+		const preventEmptyAttackers = numberOfAttackers === 2 && numberOfMidfielders === 5;
+		const preventEmptyMidfielders = numberOfMidfielders === 4 && numberOfAttackers === 3;
 
-		let pitchAttackers = this.generatePlayers(attackers, 3, 'ATTACKER', numberOfEmptyAttackers, numberOfEmptyGoalkeepers);
-		let pitchMidfielders = this.generatePlayers(midfielders, 5, 'MIDFIELDER', numberOfEmptyMidfielders, numberOfEmptyGoalkeepers);
-		let pitchDefenders = this.generatePlayers(defenders, 5, 'DEFENDER', numberOfEmptyDefenders, numberOfEmptyGoalkeepers);
-		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'GOALKEEPER', numberOfEmptyGoalkeepers, numberOfEmptyGoalkeepers);
+		let pitchAttackers = this.generatePlayers(attackers, 3, 'ATTACKER', numberOfEmptyAttackers, numberOfEmptyGoalkeepers, preventEmptyAttackers);
+		let pitchMidfielders = this.generatePlayers(midfielders, 5, 'MIDFIELDER', numberOfEmptyMidfielders, numberOfEmptyGoalkeepers, preventEmptyMidfielders);
+		let pitchDefenders = this.generatePlayers(defenders, 5, 'DEFENDER', numberOfEmptyDefenders, numberOfEmptyGoalkeepers, false);
+		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'GOALKEEPER', numberOfEmptyGoalkeepers, numberOfEmptyGoalkeepers, false);
 
 		return (
 			<div className="pitch-with-players">

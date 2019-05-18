@@ -191,6 +191,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			if (numberOfDefenders > 4) {
 				this.setState({ errorMessage: 'Cannot have more than 5 defenders', isError: true });
 				return false;
+			} else if (numberOfDefenders === 4 && numberOfMidfielders === 5) {
+				this.setState({ errorMessage: 'Cannot have 5 defenders and 5 midfielders', isError: true });
+				return false;
 			}
 		} else if (player.position === 'MIDFIELDER') {
 			if (numberOfMidfielders > 4) {
@@ -198,6 +201,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				return false;
 			} else if (numberOfMidfielders === 4 && numberOfAttackers > 2) {
 				this.setState({ errorMessage: 'Cannot have more 5 attackers and more than 2 strikers', isError: true });
+				return false;
+			} else if (numberOfDefenders === 5 && numberOfMidfielders === 4) {
+				this.setState({ errorMessage: 'Cannot have 5 midfielders and 5 defenders', isError: true });
 				return false;
 			}
 		} else if (player.position === 'ATTACKER') {
