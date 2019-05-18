@@ -11,52 +11,86 @@ interface PitchProps {
   username: string;
   teamName: string;
 
-  addOrRemovePlayer: (id:string, price:number, player:PlayerDTO) => void;
+  removePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
-  removeFromActiveTeam: (id: string) => void;
 }
 
 class Pitch extends React.Component<PitchProps> {
 	static defaultProps = { teamName: '', username: '' };
-	generatePlayers (players: PlayerDTO[], minimumNumberInRow: number, position: string) {
+
+	numberOfSpareSpots (position: string): number {
+		const numberOfAttackersIHaveToAdd = Math.max(1 - this.props.activeWeeklyTeam.filter(x => x.position === 'ATTACKER' && x.firstName !== 'REMOVED').length, 0);
+		const numberOfMidfieldersIHaveToAdd = Math.max(3 - this.props.activeWeeklyTeam.filter(x => x.position === 'MIDFIELDER' && x.firstName !== 'REMOVED').length, 0);
+		const numberOfDefendersIHaveToAdd = Math.max(3 - this.props.activeWeeklyTeam.filter(x => x.position === 'DEFENDER' && x.firstName !== 'REMOVED').length, 0);
+
+		if (position === 'ATTACKER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfMidfieldersIHaveToAdd - numberOfDefendersIHaveToAdd;
+		} else if (position === 'MIDFIELDER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfAttackersIHaveToAdd - numberOfDefendersIHaveToAdd;
+		} else if (position === 'DEFENDER') {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length - numberOfAttackersIHaveToAdd - numberOfMidfieldersIHaveToAdd;
+		} else {
+			return 11 - this.props.activeWeeklyTeam.filter(x => x.firstName !== 'REMOVED').length;
+		}
+	}
+
+	generatePlayers (players: PlayerDTO[], maximumNumberInRow: number, position: string, numberOfEmpty: number, emptyGoalkeepers: number, shouldPrevent: boolean) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
-			playersToRender.push(<div
-				className="player"
-				key={value.id}
-			                     >
-				<Player
-					addOrRemovePlayer={this.props.addOrRemovePlayer}
-					emptyPlayer={false}
-					handleClickOnPlayer={this.props.handleClickOnPlayer}
-					key={value.id}
-					noPoints={this.props.noPoints}
-					player={value}
-					removeFromActiveTeam={this.props.removeFromActiveTeam}
-					transfer={this.props.transfer}
-				/>
-			</div>);
-		});
-
-		for (let x = 0; x < minimumNumberInRow - players.length; x++) {
-			playersToRender.push(
-				<div
+			if (value.firstName !== 'REMOVED') {
+				playersToRender.push(<div
 					className="player"
-					key={position + x}
-				>
+					key={value.id}
+				                     >
 					<Player
-						addOrRemovePlayer={noop}
-						emptyPlayer
-						handleClickOnPlayer={noop}
-						key={position + x}
+						emptyPlayer={false}
+						handleClickOnPlayer={this.props.handleClickOnPlayer}
+						key={value.id}
 						noPoints={this.props.noPoints}
-						player={{} as any}
-						removeFromActiveTeam={noop}
+						player={value}
+						removePlayer={this.props.removePlayer}
 						transfer={this.props.transfer}
 					/>
 				</div>);
-		}
+			} else if (!shouldPrevent) {
+				playersToRender.push(
+					<div
+						className="player"
+						key={value.id}
+					>
+						<Player
+							emptyPlayer
+							handleClickOnPlayer={noop}
+							noPoints={this.props.noPoints}
+							player={{} as any}
+							removePlayer={noop}
+							transfer={this.props.transfer}
+						/>
+					</div>);
+			}
+		});
 
+		if (!shouldPrevent) {
+			for (let x = 0; x < Math.min(
+				Math.min(maximumNumberInRow - players.filter(x => x.position === position && x.firstName !== 'REMOVED').length,	this.numberOfSpareSpots(position)) - numberOfEmpty,
+				  this.numberOfSpareSpots(position) - emptyGoalkeepers - numberOfEmpty); x++) {
+				playersToRender.push(
+					<div
+						className="player"
+						key={position + x}
+					>
+						<Player
+							emptyPlayer
+							handleClickOnPlayer={noop}
+							key={position + x}
+							noPoints={this.props.noPoints}
+							player={{} as any}
+							removePlayer={noop}
+							transfer={this.props.transfer}
+						/>
+					</div>);
+			}
+		}
 		return playersToRender;
 	}
 
@@ -67,24 +101,45 @@ class Pitch extends React.Component<PitchProps> {
 		let midfielders: PlayerDTO[] = [];
 		let attackers: PlayerDTO[] = [];
 
+		let numberOfEmptyGoalkeepers: number = 0;
+		let numberOfEmptyDefenders: number = 0;
+		let numberOfEmptyMidfielders: number = 0;
+		let numberOfEmptyAttackers: number = 0;
+
 		if (activeWeeklyTeam !== undefined) {
 			activeWeeklyTeam.forEach(element => {
 				if (element.position === 'GOALKEEPER') {
 					goalKeeper.push(element);
+					if (element.firstName === 'REMOVED') {
+						numberOfEmptyGoalkeepers += 1;
+					}
 				} else if (element.position === 'DEFENDER') {
 					defenders.push(element);
+					if (element.firstName === 'REMOVED') {
+						numberOfEmptyDefenders += 1;
+					}
 				} else if (element.position === 'MIDFIELDER') {
 					midfielders.push(element);
+					if (element.firstName === 'REMOVED') {
+						numberOfEmptyMidfielders += 1;
+					}
 				} else if (element.position === 'ATTACKER') {
 					attackers.push(element);
+					if (element.firstName === 'REMOVED') {
+						numberOfEmptyAttackers += 1;
+					}
 				}
 			});
 		}
+		const numberOfAttackers = attackers.length - numberOfEmptyAttackers;
+		const numberOfMidfielders = midfielders.length - numberOfEmptyMidfielders;
+		const preventEmptyAttackers = numberOfAttackers === 2 && numberOfMidfielders === 5;
+		const preventEmptyMidfielders = numberOfMidfielders === 4 && numberOfAttackers === 3;
 
-		let pitchAttackers = this.generatePlayers(attackers, 1, 'attackers');
-		let pitchMidfielders = this.generatePlayers(midfielders, 3, 'midfielders');
-		let pitchDefenders = this.generatePlayers(defenders, 3, 'defenders');
-		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'goalkeepers');
+		let pitchAttackers = this.generatePlayers(attackers, 3, 'ATTACKER', numberOfEmptyAttackers, numberOfEmptyGoalkeepers, preventEmptyAttackers);
+		let pitchMidfielders = this.generatePlayers(midfielders, 5, 'MIDFIELDER', numberOfEmptyMidfielders, numberOfEmptyGoalkeepers, preventEmptyMidfielders);
+		let pitchDefenders = this.generatePlayers(defenders, 5, 'DEFENDER', numberOfEmptyDefenders, numberOfEmptyGoalkeepers, false);
+		let pitchGoalkeepers = this.generatePlayers(goalKeeper, 1, 'GOALKEEPER', numberOfEmptyGoalkeepers, numberOfEmptyGoalkeepers, false);
 
 		return (
 			<div className="pitch-with-players">

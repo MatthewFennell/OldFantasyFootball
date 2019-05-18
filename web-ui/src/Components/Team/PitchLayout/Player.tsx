@@ -9,8 +9,7 @@ interface PlayerProps {
   player: PlayerDTO;
   noPoints: boolean;
 
-  addOrRemovePlayer: (id: string, price: number, player:PlayerDTO) => void;
-  removeFromActiveTeam: (id: string) => void;
+  removePlayer: (id: string, price: number, player:PlayerDTO) => void;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -23,8 +22,7 @@ class Player extends React.Component<PlayerProps, {}> {
 	handleOnClick () {
 		if (this.props.transfer) {
 			const { price, id } = this.props.player;
-			this.props.removeFromActiveTeam(id);
-			this.props.addOrRemovePlayer(id, price, this.props.player);
+			this.props.removePlayer(id, price, this.props.player);
 		} else {
 			this.props.handleClickOnPlayer(this.props.player);
 		}

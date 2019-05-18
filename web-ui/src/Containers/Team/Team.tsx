@@ -12,12 +12,21 @@ import { setTeam } from '../../Actions/ActiveTeamActions';
 import { getAccountId } from '../../Selectors/AccountSelector';
 
 import {
+	getOriginalTransferTeam
+} from '../../Selectors/TransfersSelector';
+
+import {
 	setLeaguePageBeingViewed,
 	setLeagueRankings,
 	setIsLeagueAdmin,
 	setLeagueCode,
 	setLeagues
 } from '../../Actions/LeagueActions';
+
+import {
+	setCurrentTransferTeam,
+	setOriginalTransferTeam,
+}	from '../../Actions/TransferActions';
 
 import { getIsLeagueAdmin,
 	getLeagueCode, getLeagues } from '../../Selectors/LeagueSelector';
@@ -31,7 +40,8 @@ const mapStateToProps = (state: State) => ({
 	team: getTeam(state),
 	leagues: getLeagues(state),
 	accountId: getAccountId(state),
-	teamToRender: getTeamToRender(state)
+	teamToRender: getTeamToRender(state),
+	originalTransferTeam: getOriginalTransferTeam(state)
 });
 
 const mapDispatchToProps = {
@@ -41,7 +51,9 @@ const mapDispatchToProps = {
 	setIsLeagueAdmin,
 	setLeagueRankings,
 	setTeam,
-	setLeagues
+	setLeagues,
+	setOriginalTransferTeam,
+	setCurrentTransferTeam,
 };
 
 export default connect<any, any, any>(
