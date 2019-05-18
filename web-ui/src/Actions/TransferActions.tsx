@@ -8,6 +8,12 @@ export enum ActionTypes {
   SET_ORIGINAL_TRANSFER_TEAM = 'SET_ORIGINAL_TRANSFER_TEAM',
   REMOVE_PLAYER = 'REMOVE_PLAYER',
   ADD_PLAYER = 'ADD_PLAYER',
+  CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED',
+}
+
+export interface ClearPlayersBeingAddedAndRemoved {
+  type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED;
+  payload: { };
 }
 
 export interface AddPlayer {
@@ -94,6 +100,13 @@ export const reverseFilteredPlayers = (): ReverseFilteredPlayers => {
 	};
 };
 
+export const clearPlayersBeingAddedAndRemoved = (): ClearPlayersBeingAddedAndRemoved => {
+	return {
+		type: ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED,
+		payload: {}
+	};
+};
+
 export type Action =
   | SetFilteredPlayers
   | SetTransferMarket
@@ -101,4 +114,5 @@ export type Action =
   | SetCurrentTransferTeam
   | SetOriginalTransferTeam
   | RemovePlayer
-  | AddPlayer;
+  | AddPlayer
+  | ClearPlayersBeingAddedAndRemoved;

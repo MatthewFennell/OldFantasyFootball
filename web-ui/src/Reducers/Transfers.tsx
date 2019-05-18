@@ -7,11 +7,9 @@ type Action = AccountAction;
 export interface State {
   filteredPlayers: PlayerDTO[];
   transferMarketOpen: boolean;
-
   originalTransferTeam: PlayerDTO[];
   playersToAdd: PlayerDTO[];
   playersToRemove: PlayerDTO[];
-
   currentTransferTeam: PlayerDTO[];
 }
 
@@ -45,6 +43,13 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.SET_ORIGINAL_TRANSFER_TEAM: {
 		return lodash.set('originalTransferTeam', action.payload.originalTransferTeam, state);
+	}
+
+	case ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED: {
+		state = lodash.set('playersToAdd', [], state);
+		state = lodash.set('playersToRemove', [], state);
+		state = lodash.set('currentTransferTeam', state.currentTransferTeam.filter(player => player.firstName !== 'REMOVED'), state);
+		return state;
 	}
 
 	case ActionTypes.REMOVE_PLAYER: {

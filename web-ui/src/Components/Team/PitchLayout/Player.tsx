@@ -10,7 +10,6 @@ interface PlayerProps {
   noPoints: boolean;
 
   removePlayer: (id: string, price: number, player:PlayerDTO) => void;
-  removeFromActiveTeam: (id: string) => void;
 }
 
 // eslint-disable-next-line react/require-optimization
@@ -23,7 +22,6 @@ class Player extends React.Component<PlayerProps, {}> {
 	handleOnClick () {
 		if (this.props.transfer) {
 			const { price, id } = this.props.player;
-			this.props.removeFromActiveTeam(id);
 			this.props.removePlayer(id, price, this.props.player);
 		} else {
 			this.props.handleClickOnPlayer(this.props.player);

@@ -22,7 +22,7 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.SET_TEAM: {
 		const { user, week, team } = action.payload;
-		return lodash.set('team.' + user + '.' + week, team, state);
+		return lodash.set('team.' + user + '.' + 'week-' + week, team, state);
 	}
 
 	default:

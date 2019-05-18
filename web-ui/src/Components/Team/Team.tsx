@@ -43,6 +43,9 @@ interface TeamProps {
 	setLeagues: (user: string, leagueName: string, position: number) => void;
 	leagues: { user: { league: { leagueName: string; position: number } } }
 	teamToRender: PlayerDTO[];
+	originalTransferTeam: PlayerDTO[];
+	setCurrentTransferTeam: (currentTransferTeam: PlayerDTO[]) => void;
+  setOriginalTransferTeam: (originalTransferTeam: PlayerDTO[]) => void;
 }
 
 interface TeamState {
@@ -67,6 +70,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.generateLeaguePositions = this.generateLeaguePositions.bind(this);
 		this.generateRowClassName = this.generateRowClassName.bind(this);
 		this.findAllTeams = this.findAllTeams.bind(this);
+		this.findTransferTeam = this.findTransferTeam.bind(this);
 		this.state = {
 			playerStatsBeingViewed: {} as any,
 			statsBeingViewed: false,
@@ -97,6 +101,10 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			this.findAllTeams(0);
 		}
 
+		if (prevProps.accountId !== this.props.accountId) {
+			this.findTransferTeam();
+		}
+
 		if (prevProps.totalNumberOfWeeks !== this.props.totalNumberOfWeeks) {
 			this.findAllTeams(this.props.totalNumberOfWeeks);
 		}
@@ -106,7 +114,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		if (this.props.userBeingViewed !== '') {
 			for (let week = -1; week <= numberOfWeeks; week++) {
 				try {
-					if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+					if (this.props.team[this.props.userBeingViewed]['week-' + week] === undefined) {
 						getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
 							this.props.setTeam(this.props.userBeingViewed, week, response);
 						}).catch(error => {
@@ -124,8 +132,18 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		}
 	}
 
+	findTransferTeam () {
+		if (this.props.accountId !== '' && Object.entries(this.props.originalTransferTeam).length === 0) {
+			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
+				this.props.setOriginalTransferTeam(response);
+				this.props.setCurrentTransferTeam(response);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		}
+	}
+
 	findLeagues () {
-		console.log('user is ' + this.props.userBeingViewed);
 		if (this.props.userBeingViewed !== '') {
 			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
 				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
@@ -277,7 +295,6 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						activeWeeklyTeam={this.props.teamToRender}
 						handleClickOnPlayer={this.handleClickOnPlayer}
 						noPoints={this.props.weekBeingViewed === -1}
-						removeFromActiveTeam={noop}
 						removePlayer={noop}
 						teamName={this.state.teamNameBeingViewed}
 						transfer={false}

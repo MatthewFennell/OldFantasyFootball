@@ -18,14 +18,13 @@ import { setBudget } from '../../Actions/StatsActions';
 import { getAccountId } from '../../Selectors/AccountSelector';
 import { getAllCollegeTeams } from '../../Selectors/AdminSelector';
 
-import
-{	setFilteredPlayers,
+import {	setFilteredPlayers,
 	setCurrentTransferTeam,
 	setOriginalTransferTeam,
 	removePlayer,
-	addPlayer
-}
-	from '../../Actions/TransferActions';
+	addPlayer,
+	clearPlayersBeingAddedAndRemoved
+}	from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
@@ -47,7 +46,8 @@ const mapDispatchToProps = {
 	setOriginalTransferTeam,
 	setCurrentTransferTeam,
 	removePlayer,
-	addPlayer
+	addPlayer,
+	clearPlayersBeingAddedAndRemoved
 };
 
 export default connect<any, any, any>(
