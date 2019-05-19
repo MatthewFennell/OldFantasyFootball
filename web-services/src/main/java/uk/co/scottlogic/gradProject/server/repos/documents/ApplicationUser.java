@@ -10,7 +10,9 @@ import uk.co.scottlogic.gradProject.server.routers.dto.RegisterDTO;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Stream;
 
+import static uk.co.scottlogic.gradProject.server.misc.Constants.PROFANITIES;
 import static uk.co.scottlogic.gradProject.server.misc.Regex.*;
 
 @Entity
@@ -202,6 +204,11 @@ public class ApplicationUser implements UserDetails, Serializable {
         if (!username.matches(USERNAME_PATTERN)) {
             throw new IllegalArgumentException();
         }
+        for (String PROFANITY : PROFANITIES) {
+            if (username.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException("No profanities plz");
+            }
+        }
         this.username = username;
     }
 
@@ -212,6 +219,11 @@ public class ApplicationUser implements UserDetails, Serializable {
     public void setFirstName(String firstName) {
         if (!firstName.matches(FIRST_NAME_PATTERN)) {
             throw new IllegalArgumentException("First name does not match regex");
+        }
+        for (String PROFANITY : PROFANITIES) {
+            if (username.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException(Constants.PROFANITY_ERROR_MESSAGE);
+            }
         }
         this.firstName = firstName;
     }
@@ -224,6 +236,11 @@ public class ApplicationUser implements UserDetails, Serializable {
         if (!surname.matches(SURNAME_PATTERN)) {
             throw new IllegalArgumentException("Surname does not match regex");
         }
+        for (String PROFANITY : PROFANITIES) {
+            if (username.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException(Constants.PROFANITY_ERROR_MESSAGE);
+            }
+        }
         this.surname = surname;
     }
 
@@ -235,6 +252,11 @@ public class ApplicationUser implements UserDetails, Serializable {
         System.out.println("setting team name to " + teamName);
         if (!teamName.matches(USER_TEAM_NAME_PATTERN)) {
             throw new IllegalArgumentException("Team name does not match regex");
+        }
+        for (String PROFANITY : PROFANITIES) {
+            if (username.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException("No profanities plz");
+            }
         }
         this.teamName = teamName;
     }

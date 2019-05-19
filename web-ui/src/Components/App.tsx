@@ -18,7 +18,7 @@ import Captain from '../Containers/Captain/Captain';
 const App: React.SFC = (props) => {
 	return (
 		<React.Fragment>
-			{ isLoggedIn() ? <Header /> : null}
+			{ isLoggedIn() ? <Header /> : <Redirect to="/login" />}
 			<Switch>
 				<Route
 					component={() => (isLoggedIn ? <Redirect to="/team" /> : <Redirect to="/login" />)}

@@ -21,6 +21,11 @@ public class Constants {
     public static final String USER_STRING = "ROLE_USER";
     public static final String CAPTAIN_STRING = "ROLE_CAPTAIN";
 
+    public static final String PROFANITY_ERROR_MESSAGE = "No profanities plz, or thou shalt be banned";
+    public static final String[] PROFANITIES = {"fuck", "shit", "cunt", "nigga", "nigger", "fuker", "sh!t"};
+
+
+
     private Constants() {
 
     }

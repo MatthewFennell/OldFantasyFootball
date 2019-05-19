@@ -12,7 +12,7 @@
   padding-left: 0px;
 }
 .outer-league-rows>div {
-  font-size: 30px;
+  // font-size: 30px;
 }
 .flex-container-two {
   display: flex;
@@ -24,7 +24,6 @@
   margin: 10px;
   text-align: center;
   line-height: 75px;
-  font-size: 30px;
   width: 30%;
   .create-league-button{
     margin-top: 10px;
@@ -162,15 +161,17 @@ div.raise-league {
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 10px;
+  padding: 20px;
+  font-size: 20px !important;
 }
 div.raise-league-selected{
+  font-size: 20px !important;
   background-color: $medium-dark-background;
   border: 2px solid;
   font: inherit;
   line-height: 1;
   margin: 0.5em;
-  padding: 10px;
+  padding: 20px;
   border-color: #{
      adjust-hue($strange-orange, 45deg)
  }

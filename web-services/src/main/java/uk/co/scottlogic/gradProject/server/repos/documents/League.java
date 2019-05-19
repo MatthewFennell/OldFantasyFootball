@@ -1,11 +1,13 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.UUID;
 
+import static uk.co.scottlogic.gradProject.server.misc.Constants.PROFANITIES;
 import static uk.co.scottlogic.gradProject.server.misc.Regex.LEAGUE_NAME_PATTERN;
 
 @Entity
@@ -60,6 +62,11 @@ public class League {
     public void setLeagueName(String leagueName) {
         if (!leagueName.matches(LEAGUE_NAME_PATTERN)) {
             throw new IllegalArgumentException("League name does not match regex");
+        }
+        for (String PROFANITY : PROFANITIES) {
+            if (leagueName.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException(Constants.PROFANITY_ERROR_MESSAGE);
+            }
         }
 
         this.leagueName = leagueName;
