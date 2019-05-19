@@ -249,12 +249,11 @@ public class ApplicationUser implements UserDetails, Serializable {
     }
 
     public void setTeamName(String teamName) {
-        System.out.println("setting team name to " + teamName);
         if (!teamName.matches(USER_TEAM_NAME_PATTERN)) {
             throw new IllegalArgumentException("Team name does not match regex");
         }
         for (String PROFANITY : PROFANITIES) {
-            if (username.toLowerCase().contains(PROFANITY)) {
+            if (teamName.toLowerCase().contains(PROFANITY)) {
                 throw new IllegalArgumentException("No profanities plz");
             }
         }
