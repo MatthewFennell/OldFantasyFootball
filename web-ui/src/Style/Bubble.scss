@@ -105,7 +105,6 @@ div#bubbles {
 }
 
 .bubble.bubble-smallest {
-    z-index: -1;
     @include dimensions-bubble($diameter-bubble-smallest-desktop);
     @include position-bubble( $position-left-bubble-smallest-desktop, $position-top-bubble-smallest-desktop, $diameter-bubble-smallest-desktop);
 }

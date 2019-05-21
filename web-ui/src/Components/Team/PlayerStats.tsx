@@ -86,7 +86,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 		  }
 
 		const allWeeks: number[] = [];
-		  for (let x = 0; x <= this.props.totalNumberOfWeeks; x++) {
+		  for (let x = 1; x <= this.props.totalNumberOfWeeks; x++) {
 			  allWeeks.push(x);
 		  }
 		  const weekOptions = allWeeks.map(week => (

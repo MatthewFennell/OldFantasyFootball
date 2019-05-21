@@ -68,9 +68,9 @@ public class LeagueManager {
 
         if (league.isPresent()) {
 
-            if (league.get().getOwner().getId().equals(user.getId())){
+            if (league.get().getOwner().getId().equals(user.getId()) && league.get().getParticipants().size() > 1){
                 log.debug("Admin ({}) ({}) cannot leave league ({})", user.getFirstName(), user.getSurname(), league.get().getLeagueName());
-                throw new IllegalArgumentException("An admin cannot leave the league!");
+                throw new IllegalArgumentException("An admin cannot leave the league if other players are in it!");
             }
 
             boolean removed = false;

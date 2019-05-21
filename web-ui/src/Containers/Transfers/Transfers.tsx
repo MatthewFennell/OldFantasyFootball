@@ -23,7 +23,8 @@ import {	setFilteredPlayers,
 	setOriginalTransferTeam,
 	removePlayer,
 	addPlayer,
-	clearPlayersBeingAddedAndRemoved
+	clearPlayersBeingAddedAndRemoved,
+	resetChanges
 }	from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
@@ -47,6 +48,7 @@ const mapDispatchToProps = {
 	setCurrentTransferTeam,
 	removePlayer,
 	addPlayer,
+	resetChanges,
 	clearPlayersBeingAddedAndRemoved
 };
 

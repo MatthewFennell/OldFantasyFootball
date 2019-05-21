@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../../Style/Team/PitchLayout/Player.css';
 import { PlayerDTO } from '../../../Models/Interfaces/Player';
+import classnames from 'classnames';
 
 interface PlayerProps {
   transfer: boolean;
@@ -8,6 +9,8 @@ interface PlayerProps {
   emptyPlayer: boolean;
   player: PlayerDTO;
   noPoints: boolean;
+
+  newPlayer: boolean;
 
   removePlayer: (id: string, price: number, player:PlayerDTO) => void;
 }
@@ -45,7 +48,11 @@ class Player extends React.Component<PlayerProps, {}> {
 				>
 					{ this.props.player.position === 'GOALKEEPER'
 					 ? <div className="image-keeper" />
-					  : <div className="image" />}
+					  : <div className={classnames({
+							image: !this.props.newPlayer,
+							newPlayer: this.props.newPlayer
+						})}
+					    />}
 					<div className="name">
 						{firstName} {' '} {surname}
 					</div>

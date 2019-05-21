@@ -287,7 +287,7 @@ public class ApplicationUserTest {
     @Test
     public void settingAndGettingTeamName() {
         ApplicationUser user = new ApplicationUser();
-        String teamName = "team name";
+        String teamName = "teamname";
         user.setTeamName(teamName);
         assertEquals(teamName, user.getTeamName());
     }

@@ -34,7 +34,6 @@ $animation-time: 1s;
   .bubble.bubble-smallest.bubble-smallest-appear {
     @include dimensions-bubble($diameter-bubble-largest);
     @include position-bubble( $position-left-bubble-largest, $position-top-bubble-largest, $diameter-bubble-largest);
-    z-index: -1;
     div {
         opacity: 0.1;
     }

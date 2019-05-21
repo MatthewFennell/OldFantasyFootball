@@ -1,11 +1,13 @@
 package uk.co.scottlogic.gradProject.server.repos.documents;
 
 import org.hibernate.annotations.Type;
+import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+import static uk.co.scottlogic.gradProject.server.misc.Constants.PROFANITIES;
 import static uk.co.scottlogic.gradProject.server.misc.Regex.PLAYER_FIRST_NAME_PATTERN;
 import static uk.co.scottlogic.gradProject.server.misc.Regex.PLAYER_SURNAME_PATTERN;
 
@@ -131,6 +133,11 @@ public class Player {
         if (!firstName.matches(PLAYER_FIRST_NAME_PATTERN)) {
             throw new IllegalArgumentException("Players first name does not match regex");
         }
+        for (String PROFANITY : PROFANITIES) {
+            if (firstName.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException(Constants.PROFANITY_ERROR_MESSAGE);
+            }
+        }
         this.firstName = firstName;
     }
 
@@ -142,6 +149,11 @@ public class Player {
 
         if (!surname.matches(PLAYER_SURNAME_PATTERN)) {
             throw new IllegalArgumentException("Players first name does not match regex");
+        }
+        for (String PROFANITY : PROFANITIES) {
+            if (surname.toLowerCase().contains(PROFANITY)) {
+                throw new IllegalArgumentException(Constants.PROFANITY_ERROR_MESSAGE);
+            }
         }
         this.surname = surname;
     }

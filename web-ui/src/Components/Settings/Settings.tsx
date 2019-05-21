@@ -115,7 +115,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 													Please email m.fennell@live.co.uk if you
 										<ul>
 											<li>Found a bug	</li>
-											<li>Have a new idea for the site</li>
 											<li>Have an issue with your account</li>
 										</ul>
 									  		</div>
@@ -160,7 +159,6 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 													Please email m.fennell@live.co.uk if you
 												<ul>
 													<li>Found a bug	</li>
-													<li>Have a new idea for the site</li>
 													<li>Have an issue with your account</li>
 												</ul>
 									  		</div>
