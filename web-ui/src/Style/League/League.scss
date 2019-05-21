@@ -106,7 +106,7 @@ tr.league:hover {
       background-color: $medium-dark-background;
  }
 }
-.my-leagues{
+.my-leagues{  
   margin-left: 5vw;
   margin-right: 5vw;
   padding-bottom: 5vh;
@@ -117,6 +117,12 @@ tr.league:hover {
   border-image-slice: 1;
   background-color: $medium-dark-background;
   padding-right: 30px;
+  .my-leagues-header{
+    color: $yellow-text;
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+  }
 }
 .huh, .container{
   background-color: $dark-black-background;

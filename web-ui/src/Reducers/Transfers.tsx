@@ -33,6 +33,15 @@ export const reducer = (state: State = initialState, action: Action) => {
 		return lodash.set('transferMarketOpen', action.payload.transferMarketOpen, state);
 	}
 
+	case ActionTypes.RESET_CHANGES: {
+		return {
+			...state,
+			playersToAdd: [],
+			playersToRemove: [],
+			currentTransferTeam: state.originalTransferTeam
+		};
+	}
+
 	case ActionTypes.REVERSE_FILTERED_PLAYERS: {
 		return lodash.set('filteredPlayers', state.filteredPlayers.reverse(), state);
 	}

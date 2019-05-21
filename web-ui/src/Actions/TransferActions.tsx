@@ -9,6 +9,12 @@ export enum ActionTypes {
   REMOVE_PLAYER = 'REMOVE_PLAYER',
   ADD_PLAYER = 'ADD_PLAYER',
   CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED',
+  RESET_CHANGES = 'RESET_CHANGES',
+}
+
+export interface ResetChanges {
+  type: ActionTypes.RESET_CHANGES;
+  payload: { };
 }
 
 export interface ClearPlayersBeingAddedAndRemoved {
@@ -50,6 +56,13 @@ export interface ReverseFilteredPlayers {
   type: ActionTypes.REVERSE_FILTERED_PLAYERS;
   payload: {};
 }
+
+export const resetChanges = (): ResetChanges => {
+	return {
+		type: ActionTypes.RESET_CHANGES,
+		payload: { }
+	};
+};
 
 export const addPlayer = (playerToAdd: PlayerDTO): AddPlayer => {
 	return {
@@ -115,4 +128,5 @@ export type Action =
   | SetOriginalTransferTeam
   | RemovePlayer
   | AddPlayer
-  | ClearPlayersBeingAddedAndRemoved;
+  | ClearPlayersBeingAddedAndRemoved
+  | ResetChanges;

@@ -293,7 +293,9 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 								>
 									<div className="outer-league-rows">
 										<div className="my-leagues">
+											<div className="my-leagues-header">
                 				{this.state.leaguesMessage}
+											</div>
 											<div className="league-table">
 												<LeagueTableBody
 													leagues={leagues}

@@ -48,6 +48,7 @@ interface TransfersProps {
   addPlayer: (playerToRemove: PlayerDTO) => void;
 
   clearPlayersBeingAddedAndRemoved: () => void;
+  resetChanges: () => void;
 }
 
 interface TransfersState {
@@ -64,6 +65,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.canAdd = this.canAdd.bind(this);
 		this.findTeam = this.findTeam.bind(this);
 		this.setInitialBudget = this.setInitialBudget.bind(this);
+		this.undoChanges = this.undoChanges.bind(this);
 		this.state = {
 			errorMessage: '',
 			isError: false,
@@ -93,6 +95,10 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				console.log('error = ' + error);
 			});
 		}
+	}
+
+	undoChanges () {
+		this.props.resetChanges();
 	}
 
 	setInitialBudget () {
@@ -251,6 +257,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 									activeWeeklyTeam={this.props.currentTransferTeam}
 									handleClickOnPlayer={noop}
 									noPoints={false}
+									originalTransferTeam={this.props.originalTransferTeam}
 									removePlayer={this.onRemovePlayer}
 									transfer
 
@@ -302,12 +309,23 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
                 				Save Team
 										</Button>
 									</div>
+									<div className="save-changes">
+										<Button
+											className="btn btn-default btn-round-lg btn-lg first"
+											id="transfers-save-team"
+											onClick={this.undoChanges}
+											type="submit"
+										>
+                				Undo changes
+										</Button>
+									</div>
 								</div>
 								<div className="pitch-value">
 									<Pitch
 										activeWeeklyTeam={this.props.currentTransferTeam}
 										handleClickOnPlayer={noop}
 										noPoints={false}
+										originalTransferTeam={this.props.originalTransferTeam}
 										removePlayer={this.onRemovePlayer}
 										transfer
 									/>

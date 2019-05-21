@@ -5,6 +5,7 @@ import { noop } from 'lodash';
 
 interface PitchProps {
   activeWeeklyTeam: PlayerDTO[];
+  originalTransferTeam: PlayerDTO[];
   transfer: boolean;
   noPoints: boolean;
 
@@ -34,6 +35,10 @@ class Pitch extends React.Component<PitchProps> {
 		}
 	}
 
+	playerExistsInOriginalTeam (id: string) {
+		return this.props.originalTransferTeam.find(x => x.id === id) !== undefined;
+	}
+
 	generatePlayers (players: PlayerDTO[], maximumNumberInRow: number, position: string, numberOfEmpty: number, emptyGoalkeepers: number, shouldPrevent: boolean) {
 		let playersToRender: JSX.Element[] = [];
 		players.map(value => {
@@ -46,6 +51,7 @@ class Pitch extends React.Component<PitchProps> {
 						emptyPlayer={false}
 						handleClickOnPlayer={this.props.handleClickOnPlayer}
 						key={value.id}
+						newPlayer={!this.playerExistsInOriginalTeam(value.id)}
 						noPoints={this.props.noPoints}
 						player={value}
 						removePlayer={this.props.removePlayer}
@@ -61,6 +67,7 @@ class Pitch extends React.Component<PitchProps> {
 						<Player
 							emptyPlayer
 							handleClickOnPlayer={noop}
+							newPlayer={false}
 							noPoints={this.props.noPoints}
 							player={{} as any}
 							removePlayer={noop}
@@ -83,6 +90,7 @@ class Pitch extends React.Component<PitchProps> {
 							emptyPlayer
 							handleClickOnPlayer={noop}
 							key={position + x}
+							newPlayer={false}
 							noPoints={this.props.noPoints}
 							player={{} as any}
 							removePlayer={noop}

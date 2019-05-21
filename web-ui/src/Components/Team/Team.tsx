@@ -295,6 +295,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						activeWeeklyTeam={this.props.teamToRender}
 						handleClickOnPlayer={this.handleClickOnPlayer}
 						noPoints={this.props.weekBeingViewed === -1}
+						originalTransferTeam={this.props.originalTransferTeam}
 						removePlayer={noop}
 						teamName={this.state.teamNameBeingViewed}
 						transfer={false}
