@@ -49,6 +49,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 							<LoginForm
 								setAccount={this.props.setAccount}
 								setMostValuable={this.props.setMostValuable}
+								setOriginalTransferTeam={this.props.setOriginalTransferTeam}
 								setRemainingBudget={this.props.setRemainingBudget}
 								setTeam={this.props.setTeam}
 								setUserBeingViewed={this.props.setUserBeingViewed}
@@ -68,6 +69,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 										<LoginForm
 											setAccount={this.props.setAccount}
 											setMostValuable={this.props.setMostValuable}
+											setOriginalTransferTeam={this.props.setOriginalTransferTeam}
 											setRemainingBudget={this.props.setRemainingBudget}
 											setTeam={this.props.setTeam}
 											setUserBeingViewed={this.props.setUserBeingViewed}
