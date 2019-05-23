@@ -83,7 +83,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	findTeam () {
-		if (this.props.accountId !== '' && Object.entries(this.props.originalTransferTeam).length === 0) {
+		if (this.props.accountId !== '' && (Object.entries(this.props.originalTransferTeam).length === 0 || Object.entries(this.props.currentTransferTeam).length === 0)) {
 			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
 				this.props.setOriginalTransferTeam(response);
 				this.props.setCurrentTransferTeam(response);
@@ -98,6 +98,9 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	undoChanges () {
+		const addedSum = this.props.playersToAdd.reduce((a: number, b: PlayerDTO) => a + b.price, 0);
+		const removedSum = this.props.playersToRemove.reduce((a: number, b: PlayerDTO) => a + b.price, 0);
+		this.props.setBudget(this.props.accountId, this.props.remainingBudget[this.props.accountId] + addedSum - removedSum);
 		this.props.resetChanges();
 	}
 
