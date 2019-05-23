@@ -9,9 +9,7 @@ interface PlayerProps {
   emptyPlayer: boolean;
   player: PlayerDTO;
   noPoints: boolean;
-
   newPlayer: boolean;
-
   removePlayer: (id: string, price: number, player:PlayerDTO) => void;
 }
 
@@ -48,13 +46,13 @@ class Player extends React.Component<PlayerProps, {}> {
 				>
 					{ this.props.player.position === 'GOALKEEPER'
 					 ? <div className={classnames({
-							imageKeeper: !this.props.newPlayer,
-							imageKeeperNew: this.props.newPlayer
+							imageKeeper: !this.props.newPlayer || !this.props.transfer,
+							imageKeeperNew: this.props.newPlayer && this.props.transfer
 						})}
 					   />
 					  : <div className={classnames({
-							image: !this.props.newPlayer,
-							newPlayer: this.props.newPlayer
+							image: !this.props.newPlayer || !this.props.transfer,
+							newPlayer: this.props.newPlayer && this.props.transfer
 						})}
 					    />}
 					<div className="name">
