@@ -76,9 +76,10 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.setInitialBudget();
 	}
 
-	componentDidUpdate (prevProps:any, prevState:any, snapshot:any) {
+	componentDidUpdate (prevProps:any) {
 		if (prevProps.accountId !== this.props.accountId) {
 			this.findTeam();
+			this.setInitialBudget();
 		}
 	}
 

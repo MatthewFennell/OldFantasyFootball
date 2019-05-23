@@ -30,8 +30,17 @@
         height: 7vh;
       }
     }
-    .image-keeper{
+    .imageKeeper{
       background-image: url("./keeper.gif");
+      // For the image - put in publisher -> Picture Tools (top) -> Recolor -> Set transparent color
+      background-size: 100% 100%;
+      height: 10vh;
+      @media screen and (max-width: 800px) {
+        height: 7vh;
+      }
+    }
+    .imageKeeperNew{
+      background-image: url("./keeper-outline.gif");
       // For the image - put in publisher -> Picture Tools (top) -> Recolor -> Set transparent color
       background-size: 100% 100%;
       height: 10vh;

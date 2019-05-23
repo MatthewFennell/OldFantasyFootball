@@ -47,7 +47,11 @@ class Player extends React.Component<PlayerProps, {}> {
 					onClick={this.handleOnClick}
 				>
 					{ this.props.player.position === 'GOALKEEPER'
-					 ? <div className="image-keeper" />
+					 ? <div className={classnames({
+							imageKeeper: !this.props.newPlayer,
+							imageKeeperNew: this.props.newPlayer
+						})}
+					   />
 					  : <div className={classnames({
 							image: !this.props.newPlayer,
 							newPlayer: this.props.newPlayer
