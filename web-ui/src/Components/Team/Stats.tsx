@@ -77,14 +77,12 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	render () {
-		const {
-			weekBeingViewed,
-		} = this.props;
+		console.log('potw = ' + this.props.topWeeklyPlayerName);
 
 		return (
 			<div className="stats-columns">
 				<div className="average-points">
-					{weekBeingViewed === -1 ? (
+					{this.props.weekBeingViewed === -1 ? (
 						<div>Remaining Budget: £{this.props.remainingBudgetOfUser}  mil </div>
 					) : (
 						<div> Average Points: {this.props.averageWeeklyPointsOfWeek.toFixed(0)}</div>
@@ -95,9 +93,9 @@ class Stats extends React.Component<StatsProps> {
 					Most valuable player: {this.props.mostValuablePlayerName}{' '} ({this.props.mostValuablePlayerScore}) points
 				</div>
 
-				<div className="player-most-points">
-					Player of the Week: {' '}{this.props.topWeeklyPlayerName} ({this.props.topWeeklyPlayerPoints} points)
-				</div>
+				{this.props.topWeeklyPlayerName.length > 0 && <div className="player-most-points">
+					Player of the Week: {' '}{this.props.topWeeklyPlayerName} ({this.props.topWeeklyPlayerPoints}points)
+				</div> }
 
 				 <div
 					className="player-most-points"
