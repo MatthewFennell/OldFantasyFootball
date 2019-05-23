@@ -37,6 +37,12 @@ services:
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATASOURCE_USERNAME: fantasy
       SERVER_TOMCAT_MAXTHREADS: 5
+  watchtower:
+   image: containrrr/watchtower
+   volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /root/.docker/config.json:/config.json
+   command: --interval 30
       #https://download.docker.com/linux/debian/dists/ - for GCP
       #http://35.246.91.112:8080/swagger-ui.html#/
 # mysql -u fantasy -ppassword
