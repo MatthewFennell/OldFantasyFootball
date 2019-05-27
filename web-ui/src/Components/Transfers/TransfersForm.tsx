@@ -14,42 +14,36 @@ interface TransfersFormProps {
   setFilteredPlayers: (filteredTeam: PlayerDTO[]) => void;
   filteredPlayers: PlayerDTO[];
   allCollegeTeams: CollegeTeam[];
+  setPositionValue: (position: string) => void;
+  setTeamValue: (team: string) => void;
+  setSortByValue: (sortBy: string) => void;
+  setMinPrice: (minPrice: string) => void;
+  setMaxPrice: (maxPrice: string) => void;
+  setSearchByName: (name: string) => void;
+  filters: { positionValue: string, teamValue: string, sortByValue: string, minimumPriceValue: string,
+	maximumPriceValue: string, searchByNameValue: string};
 }
 
 interface TransfersFormState {
-  positionValue: string;
-  teamValue: string;
-  sortByValue: string;
-  minimumPriceValue: string;
-  maximumPriceValue: string;
-  searchByNameValue: string;
 }
 
 class TransfersForm extends React.Component<TransfersFormProps, TransfersFormState> {
 	constructor (props: TransfersFormProps) {
 		super(props);
-		this._handlePositionChange = this._handlePositionChange.bind(this);
-		this._handleTeamChange = this._handleTeamChange.bind(this);
-		this._handleSortByChange = this._handleSortByChange.bind(this);
-		this._handleMinimumPriceChange = this._handleMinimumPriceChange.bind(this);
-		this._handleMaximumPriceChange = this._handleMaximumPriceChange.bind(this);
-		this._handleSearchByNameValue = this._handleSearchByNameValue.bind(this);
 		this._getResults = this._getResults.bind(this);
-		this._checkIfActive = this._checkIfActive.bind(this);
-		this.state = {
-			positionValue: 'All',
-			teamValue: 'All teams',
-			sortByValue: 'Total score',
-			minimumPriceValue: 'No limit',
-			maximumPriceValue: 'No limit',
-			searchByNameValue: ''
-		};
 
 		this._getResults();
 	}
 
+	componentDidUpdate (prevProps:any) {
+		if (prevProps.filters !== this.props.filters) {
+			this._getResults();
+		}
+	}
+
 	_getResults () {
-		const { minimumPriceValue, maximumPriceValue, positionValue, sortByValue, searchByNameValue, teamValue } = this.state;
+		const { minimumPriceValue, maximumPriceValue, positionValue, sortByValue, searchByNameValue, teamValue } = this.props.filters;
+
 		const { setFilteredPlayers } = this.props;
 		let minPrice: number =
       minimumPriceValue === 'No limit' ? 0 : Number(minimumPriceValue);
@@ -92,36 +86,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 		});
 	}
 
-	_handlePositionChange (position: string) {
-		this.setState({ positionValue: position }, this._getResults);
-	}
-
-	_handleTeamChange (team: string) {
-		this.setState({ teamValue: team }, this._getResults);
-	}
-
-	_handleSortByChange (sortBy: string) {
-		this.setState({ sortByValue: sortBy }, this._getResults);
-	}
-
-	_handleMinimumPriceChange (minimumPrice: string) {
-		this.setState({ minimumPriceValue: minimumPrice }, this._getResults);
-	}
-
-	_handleMaximumPriceChange (maximumPrice: string) {
-		this.setState({ maximumPriceValue: maximumPrice }, this._getResults);
-	}
-
-	_handleSearchByNameValue (searchByName: string) {
-		this.setState({ searchByNameValue: searchByName }, this._getResults);
-	}
-
-	_checkIfActive () {
-
-	}
-
 	render () {
-		const { searchByNameValue } = this.state;
 		const { allCollegeTeams } = this.props;
 		return (
 			<Media query="(max-width: 599px)">
@@ -129,33 +94,33 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 					matches ? (
 						<div className="transfer-filter-rows">
 							<div className="transfer-form-row-one">
-								<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handlePositionChange}
+										setData={this.props.setPositionValue}
 										title="Position"
 										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
 									/>
 								</div>
-								<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<TeamDropDown
 										allCollegeTeams={allCollegeTeams}
-										setTeam={this._handleTeamChange}
+										setTeam={this.props.setTeamValue}
 									/>
 								</div>
 
 							</div>
 							<div className="transfer-form-row-two">
-								<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handleSortByChange}
+										setData={this.props.setSortByValue}
 										title="Sort by"
 										values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
 									/>
 								</div>
-								<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<TextInputForm
-										currentValue={searchByNameValue}
-										setValue={this._handleSearchByNameValue}
+										currentValue={this.props.filters.searchByNameValue}
+										setValue={this.props.setSearchByName}
 										title="Player name"
 									/>
 								</div>
@@ -164,31 +129,31 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 					) : (
 						<div className="transfer-filter-rows">
 							<div className="transfer-form-row-one">
-								<div className={this.state.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.positionValue === 'All' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handlePositionChange}
+										setData={this.props.setPositionValue}
 										title="Position"
 										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
 									/>
 								</div>
-								<div className={this.state.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.teamValue === 'All teams' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<TeamDropDown
 										allCollegeTeams={allCollegeTeams}
-										setTeam={this._handleTeamChange}
+										setTeam={this.props.setTeamValue}
 									/>
 								</div>
-								<div className={this.state.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.sortByValue === 'Total score' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handleSortByChange}
+										setData={this.props.setSortByValue}
 										title="Sort by"
 										values={['Total score', 'Goals', 'Assists', 'Price', '% selected']}
 									/>
 								</div>
 							</div>
 							<div className="transfer-form-row-two">
-								<div className={this.state.minimumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.minimumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handleMinimumPriceChange}
+										setData={this.props.setMinPrice}
 										title="Min Price"
 										values={[
 											'No limit',
@@ -203,9 +168,9 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 										]}
 									/>
 								</div>
-								<div className={this.state.maximumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.maximumPriceValue === 'No limit' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<CustomDropdown
-										setData={this._handleMaximumPriceChange}
+										setData={this.props.setMaxPrice}
 										title="Max Price"
 										values={[
 											'No limit',
@@ -223,10 +188,10 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 										]}
 									/>
 								</div>
-								<div className={this.state.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
+								<div className={this.props.filters.searchByNameValue === '' ? 'raise-transfers' : 'raise-transfers-selected'}>
 									<TextInputForm
-										currentValue={searchByNameValue}
-										setValue={this._handleSearchByNameValue}
+										currentValue={this.props.filters.searchByNameValue}
+										setValue={this.props.setSearchByName}
 										title="Player name"
 									/>
 								</div>

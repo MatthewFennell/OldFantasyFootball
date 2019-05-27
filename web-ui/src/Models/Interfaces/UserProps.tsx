@@ -9,4 +9,5 @@ export interface UserProps {
   setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
   setMostValuable: (user: string, mostValuable: MostValuable) => void;
   setOriginalTransferTeam: (originalTransferTeam: PlayerDTO[]) => void;
+  setCurrentTransferTeam: (currentTransferTeam: PlayerDTO[]) => void;
 }

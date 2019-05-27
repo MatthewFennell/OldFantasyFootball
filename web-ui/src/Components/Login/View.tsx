@@ -48,6 +48,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 						matches ? (
 							<LoginForm
 								setAccount={this.props.setAccount}
+								setCurrentTransferTeam={this.props.setCurrentTransferTeam}
 								setMostValuable={this.props.setMostValuable}
 								setOriginalTransferTeam={this.props.setOriginalTransferTeam}
 								setRemainingBudget={this.props.setRemainingBudget}
@@ -68,6 +69,7 @@ class Login extends React.Component<UserProps & LoginProps> {
 									<Bubble className="bubble-largest bubble-green">
 										<LoginForm
 											setAccount={this.props.setAccount}
+											setCurrentTransferTeam={this.props.setCurrentTransferTeam}
 											setMostValuable={this.props.setMostValuable}
 											setOriginalTransferTeam={this.props.setOriginalTransferTeam}
 											setRemainingBudget={this.props.setRemainingBudget}

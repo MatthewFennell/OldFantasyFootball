@@ -4,7 +4,7 @@ import Login from '../Components/Login/View';
 import { setAccount } from '../Actions/AccountActions';
 import { setUserBeingViewed, setTeam } from '../Actions/ActiveTeamActions';
 import { setMostValuable } from '../Actions/StatsActions';
-import { setOriginalTransferTeam } from '../Actions/TransferActions';
+import { setOriginalTransferTeam, setCurrentTransferTeam } from '../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({});
 
@@ -13,7 +13,8 @@ const mapDispatchToProps = {
 	setUserBeingViewed,
 	setTeam,
 	setMostValuable,
-	setOriginalTransferTeam
+	setOriginalTransferTeam,
+	setCurrentTransferTeam
 };
 
 export default connect<any, any, any>(

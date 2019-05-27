@@ -12,6 +12,7 @@ interface PitchProps {
   username: string;
   teamName: string;
 
+  setPositionFilter: (pos:string) => void;
   removePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
 }
