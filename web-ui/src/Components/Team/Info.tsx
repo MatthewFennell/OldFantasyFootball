@@ -73,7 +73,7 @@ class Info extends React.Component<StatsProps, InfoState> {
 	}
 
 	updateTotalPoints () {
-		if (this.props.userBeingViewed !== '') {
+		if (this.props.userBeingViewed !== '' && this.props.totalPointsForUser === undefined) {
 			getTotalPointsById(this.props.userBeingViewed).then(response => {
 				this.props.setTotalPoints(this.props.userBeingViewed, response);
 			}).catch(error => {

@@ -45,7 +45,8 @@ interface TeamProps {
 	teamToRender: PlayerDTO[];
 	originalTransferTeam: PlayerDTO[];
 	setCurrentTransferTeam: (currentTransferTeam: PlayerDTO[]) => void;
-  setOriginalTransferTeam: (originalTransferTeam: PlayerDTO[]) => void;
+    setOriginalTransferTeam: (originalTransferTeam: PlayerDTO[]) => void;
+    firstName: string;
 }
 
 interface TeamState {
@@ -84,6 +85,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		this.updateUserInfo();
 		this.findLeagues();
 		this.findAllTeams(0);
+		this.findTransferTeam();
 	}
 
 	componentDidMount () {
@@ -144,7 +146,8 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 	}
 
 	findLeagues () {
-		if (this.props.userBeingViewed !== '') {
+		if (this.props.userBeingViewed !== '' &&
+		this.props.leagues[this.props.userBeingViewed] === undefined) {
 			getLeaguesAndPositions(this.props.userBeingViewed).then(leagueAndPositionsArray => {
 				for (let x = 0; x < leagueAndPositionsArray.length; x++) {
 					this.props.setLeagues(this.props.userBeingViewed,

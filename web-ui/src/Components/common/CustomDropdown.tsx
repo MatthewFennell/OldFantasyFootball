@@ -38,7 +38,7 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 	}
 
 	componentDidUpdate (prevProps:any) {
-		if (prevProps.updatePosition !== this.state.value) {
+		if (prevProps.updatePosition !== this.state.value && prevProps.updatePosition.length > 0) {
 			this.setState({ value: prevProps.updatePosition });
 		}
 	}

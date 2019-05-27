@@ -1,11 +1,7 @@
 import { Tokens } from '../Models/Interfaces/Tokens';
 
 export const isLoggedIn = (): boolean => {
-	console.log('checking');
-	console.log('is logged in = ' + sessionStorage.access !== undefined);
-	console.log('session storage access = ' + sessionStorage.access);
 	if (sessionStorage.length === 0) {
-		console.log('should log out');
 		return false;
 	}
 
@@ -25,8 +21,6 @@ export const passcodeTooShort = (pass: string): boolean => {
 	return pass.length < 6;
 };
 export const invalidName = (name: string) => {
-	console.log('name = ' + name);
-	console.log('invalid name = ' + !name.match(/^[^0-9]+$/));
 	return !name.match(/^[^0-9]+$/);
 };
 export const emptyFields = (...inputs: string[]): boolean => !inputs.every(Boolean);
