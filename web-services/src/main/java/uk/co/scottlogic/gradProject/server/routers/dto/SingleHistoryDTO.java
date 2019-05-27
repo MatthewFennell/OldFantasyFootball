@@ -38,4 +38,5 @@ public class SingleHistoryDTO {
     public void setAmount(Integer amount) {
         this.amount = amount;
     }
+    
 }

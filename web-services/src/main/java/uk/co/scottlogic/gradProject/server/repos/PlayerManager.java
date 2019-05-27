@@ -745,12 +745,30 @@ public class PlayerManager {
                 String teamName = player.get().getActiveTeam().getName();
                 history.putIfAbsent(teamName, new TeamHistoryDTO(teamName, new ArrayList<>(), new ArrayList<>()));
                 if (points.getNumberOfGoals() > 0){
-                    SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfGoals());
-                    history.get(teamName).addGoalScorer(goalHistory);
+                    boolean addedGoalscorer = false;
+                    for (SingleHistoryDTO stat : history.get(teamName).getGoalScorers()){
+                            if (stat.getFirstname().equals(player.get().getFirstName()) && stat.getSurname().equals(player.get().getSurname())){
+                                stat.setAmount(stat.getAmount() + points.getNumberOfGoals());
+                                addedGoalscorer = true;
+                            }
+                    }
+                    if (!addedGoalscorer) {
+                        SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfGoals());
+                        history.get(teamName).addGoalScorer(goalHistory);
+                    }
                 }
                 if (points.getNumberOfAssists() > 0){
-                    SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfAssists());
-                    history.get(teamName).addAssist(goalHistory);
+                    boolean addedAssist = false;
+                    for (SingleHistoryDTO stat : history.get(teamName).getAssists()){
+                        if (stat.getFirstname().equals(player.get().getFirstName()) && stat.getSurname().equals(player.get().getSurname())){
+                            stat.setAmount(stat.getAmount() + points.getNumberOfAssists());
+                            addedAssist = true;
+                        }
+                    }
+                    if (!addedAssist) {
+                        SingleHistoryDTO goalHistory = new SingleHistoryDTO(player.get().getFirstName(), player.get().getSurname(), points.getNumberOfAssists());
+                        history.get(teamName).addAssist(goalHistory);
+                    }
                 }
             }
         }
