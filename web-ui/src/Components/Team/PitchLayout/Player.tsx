@@ -10,14 +10,23 @@ interface PlayerProps {
   player: PlayerDTO;
   noPoints: boolean;
   newPlayer: boolean;
-  removePlayer: (id: string, price: number, player:PlayerDTO) => void;
+	removePlayer: (id: string, price: number, player:PlayerDTO) => void;
+	setPositionFilter: (pos: string) => void;
 }
 
 // eslint-disable-next-line react/require-optimization
 class Player extends React.Component<PlayerProps, {}> {
+	static defaultProps = { setPositionFilter: () => {} };
 	constructor (props: PlayerProps) {
 		super(props);
 		this.handleOnClick = this.handleOnClick.bind(this);
+		this.clickEmptyPlayer = this.clickEmptyPlayer.bind(this);
+	}
+
+	clickEmptyPlayer () {
+		const string = this.props.player.position.charAt(0) + this.props.player.position.slice(1, this.props.player.position.length).toLowerCase() + 's';
+
+		this.props.setPositionFilter(string);
 	}
 
 	handleOnClick () {
@@ -32,7 +41,10 @@ class Player extends React.Component<PlayerProps, {}> {
 	render () {
 		if (this.props.emptyPlayer) {
 			return (
-				<div className="player-wrapper">
+				<div
+					className="player-wrapper"
+					onClick={this.clickEmptyPlayer}
+				>
 					<div className="image-empty" />
 					<div className="name">No player selected</div>
 				</div>

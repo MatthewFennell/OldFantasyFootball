@@ -101,7 +101,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	setPositionFilter (pos: string) {
-		console.log('pos = ' + pos);
+
 	}
 
 	setPositionValue (position: string) {
@@ -321,7 +321,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 									noPoints={false}
 									originalTransferTeam={this.props.originalTransferTeam}
 									removePlayer={this.onRemovePlayer}
-									setPositionFilter={this.setPositionFilter}
+									setPositionFilter={this.setPositionValue}
 									transfer
 
 								/>
@@ -397,7 +397,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 										noPoints={false}
 										originalTransferTeam={this.props.originalTransferTeam}
 										removePlayer={this.onRemovePlayer}
-										setPositionFilter={this.setPositionFilter}
+										setPositionFilter={this.setPositionValue}
 										transfer
 									/>
 								</div>

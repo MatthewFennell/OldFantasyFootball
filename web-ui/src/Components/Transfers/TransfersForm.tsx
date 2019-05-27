@@ -98,6 +98,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 									<CustomDropdown
 										setData={this.props.setPositionValue}
 										title="Position"
+										updatePosition={this.props.filters.positionValue}
 										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
 									/>
 								</div>
@@ -133,6 +134,7 @@ class TransfersForm extends React.Component<TransfersFormProps, TransfersFormSta
 									<CustomDropdown
 										setData={this.props.setPositionValue}
 										title="Position"
+										updatePosition={this.props.filters.positionValue}
 										values={['All', 'Goalkeepers', 'Defenders', 'Midfielders', 'Attackers']}
 									/>
 								</div>
