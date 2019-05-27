@@ -69,7 +69,6 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 			</tr>);
 		  }
 
-		totalStats.push(<hr />);
 		let weeklyInfo: String[] = ['Weekly Goals', 'Weekly Assists', 'Man of the Match', 'Yellow Cards', 'Red Card'];
 		let weeklyIndex:number = -1;
 		for (const [key, value] of Object.entries(this.props.playerPointsBeingViewed)) {
@@ -99,9 +98,7 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 					key={week}
 					onClick={() => this._handleWeekChange(week)}
 					value={week}
-				>
-					{'Week ' + week}
-				</DropdownItem>
+				>{'Week ' + week}</DropdownItem>
 			</p>
 		));
 
@@ -139,19 +136,19 @@ class PlayerStats extends React.Component<PlayerStatsProps, PlayerStatsState> {
 					<div className="stats-wrapper">
 
 						<table>
-							<tbody> {totalStats} </tbody>
+							<tbody>{totalStats}</tbody>
 						</table>
 
 						<div className="no-stats-message">
 
 							{!this.props.playerPointsViewed ? (<div>No stats for {this.props.playerStatsBeingViewed.firstName}{' '}
-								{this.props.playerStatsBeingViewed.surname} in week {this.props.weekBeingViewed} </div>) : (<div />)}
+								{this.props.playerStatsBeingViewed.surname} in week {this.props.weekBeingViewed}</div>) : (<div />)}
 
 						</div>
 
 					</div>
 				)
-				 : (<div className="click-player-message"> Click on a player to view their stats </div>)}
+				 : (<div className="click-player-message">Click on a player to view their stats</div>)}
 
 			</div>
 		);

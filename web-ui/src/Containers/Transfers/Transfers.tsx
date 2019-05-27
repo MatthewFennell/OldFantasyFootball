@@ -12,7 +12,7 @@ import {
 } from '../../Selectors/TransfersSelector';
 import { getTeam } from '../../Selectors/ActiveTeamSelector';
 
-import { getRemainingBudget } from '../../Selectors/StatsSelector';
+import { getRemainingBudget, getRemainingBudgetOfUser } from '../../Selectors/StatsSelector';
 
 import { setBudget } from '../../Actions/StatsActions';
 import { getAccountId } from '../../Selectors/AccountSelector';
@@ -37,7 +37,8 @@ const mapStateToProps = (state: State) => ({
 	currentTransferTeam: getCurrentTransferTeam(state),
 	originalTransferTeam: getOriginalTransferTeam(state),
 	playersToAdd: getPlayersToAdd(state),
-	playersToRemove: getPlayersToRemove(state)
+	playersToRemove: getPlayersToRemove(state),
+	remainingBudgetOfUser: getRemainingBudgetOfUser(state),
 });
 
 const mapDispatchToProps = {

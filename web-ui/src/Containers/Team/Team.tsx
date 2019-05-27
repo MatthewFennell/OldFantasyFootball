@@ -9,7 +9,7 @@ import {
 } from '../../Selectors/StatsSelector';
 
 import { setTeam } from '../../Actions/ActiveTeamActions';
-import { getAccountId } from '../../Selectors/AccountSelector';
+import { getAccountId, getFirstName } from '../../Selectors/AccountSelector';
 
 import {
 	getOriginalTransferTeam
@@ -41,7 +41,8 @@ const mapStateToProps = (state: State) => ({
 	leagues: getLeagues(state),
 	accountId: getAccountId(state),
 	teamToRender: getTeamToRender(state),
-	originalTransferTeam: getOriginalTransferTeam(state)
+	originalTransferTeam: getOriginalTransferTeam(state),
+	firstName: getFirstName(state)
 });
 
 const mapDispatchToProps = {

@@ -51,7 +51,8 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	setBudget () {
-		if (this.props.userBeingViewed !== '') {
+		if (this.props.userBeingViewed !== '' && this.props.remainingBudgetOfUser === undefined) {
+			alert('heya');
 			getUserBudget(this.props.userBeingViewed).then(response => {
 				this.props.setBudget(this.props.userBeingViewed, response);
 			}).catch(error => {
@@ -61,7 +62,7 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	findMostValuable () {
-		if (this.props.userBeingViewed !== '') {
+		if (this.props.userBeingViewed !== '' && Object.entries(this.props.mostValuable).length === 0) {
 			getMostValuableAssets(this.props.userBeingViewed).then(response => {
 				this.props.setMostValuable(this.props.userBeingViewed, response);
 			}).catch(error => {
@@ -77,8 +78,6 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	render () {
-		console.log('potw = ' + this.props.topWeeklyPlayerName);
-
 		return (
 			<div className="stats-columns">
 				<div className="average-points">

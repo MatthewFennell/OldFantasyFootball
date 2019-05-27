@@ -11,9 +11,6 @@
   padding-right: 0px;
   padding-left: 0px;
 }
-.outer-league-rows>div {
-  // font-size: 30px;
-}
 .flex-container-two {
   display: flex;
   justify-content: center;
@@ -277,6 +274,7 @@ div.raise-league-selected{
           .info{
             .league-name{
               font-size: 18px;
+              color: $yellow-text;
             }
           }          
         }

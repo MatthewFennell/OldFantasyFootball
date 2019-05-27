@@ -49,6 +49,8 @@ interface TransfersProps {
 
   clearPlayersBeingAddedAndRemoved: () => void;
   resetChanges: () => void;
+
+  remainingBudgetOfUser: number;
 }
 
 interface TransfersState {
@@ -74,7 +76,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.setMinPrice = this.setMinPrice.bind(this);
 		this.setMaxPrice = this.setMaxPrice.bind(this);
 		this.setSearchByName = this.setSearchByName.bind(this);
-		this.setPositionFilter = this.setPositionFilter.bind(this);
 		this.state = {
 			errorMessage: '',
 			isError: false,
@@ -98,10 +99,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			this.findTeam();
 			this.setInitialBudget();
 		}
-	}
-
-	setPositionFilter (pos: string) {
-
 	}
 
 	setPositionValue (position: string) {
@@ -164,7 +161,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	setInitialBudget () {
-		if (this.props.accountId !== '') {
+		if (this.props.accountId !== '' && this.props.remainingBudget[this.props.accountId] === undefined) {
 			getUserBudget(this.props.accountId).then(response => {
 				this.props.setBudget(this.props.accountId, response);
 			}).catch(error => {

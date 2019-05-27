@@ -65,6 +65,7 @@
           padding: 10px;
           display: flex;
           .league-name, .league-info{
+            color: $yellow-text;
               width:50%;
           }
           .league-name{
