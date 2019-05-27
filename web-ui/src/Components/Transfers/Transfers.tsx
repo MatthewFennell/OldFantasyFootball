@@ -55,6 +55,8 @@ interface TransfersState {
   errorMessage: string;
   isError: boolean;
   searchingByPercentage: boolean;
+  filters: { positionValue: string, teamValue: string, sortByValue: string, minimumPriceValue: string,
+			maximumPriceValue: string, searchByNameValue: string};
 }
 
 class Transfers extends React.Component<TransfersProps, TransfersState> {
@@ -66,10 +68,25 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.findTeam = this.findTeam.bind(this);
 		this.setInitialBudget = this.setInitialBudget.bind(this);
 		this.undoChanges = this.undoChanges.bind(this);
+		this.setPositionValue = this.setPositionValue.bind(this);
+		this.setTeamValue = this.setTeamValue.bind(this);
+		this.setSortByValue = this.setSortByValue.bind(this);
+		this.setMinPrice = this.setMinPrice.bind(this);
+		this.setMaxPrice = this.setMaxPrice.bind(this);
+		this.setSearchByName = this.setSearchByName.bind(this);
+		this.setPositionFilter = this.setPositionFilter.bind(this);
 		this.state = {
 			errorMessage: '',
 			isError: false,
-			searchingByPercentage: false
+			searchingByPercentage: false,
+			filters: {
+				positionValue: 'All',
+				teamValue: 'All teams',
+				sortByValue: 'Total score',
+				minimumPriceValue: 'No limit',
+				maximumPriceValue: 'No limit',
+				searchByNameValue: ''
+			}
 		};
 
 		this.findTeam();
@@ -81,6 +98,47 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 			this.findTeam();
 			this.setInitialBudget();
 		}
+	}
+
+	setPositionFilter (pos: string) {
+
+	}
+
+	setPositionValue (position: string) {
+		console.log('Pos = ' + position);
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, positionValue: position }
+		}));
+	}
+
+	setTeamValue (team: string) {
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, teamValue: team }
+		}));
+	}
+
+	setSortByValue (sortBy: string) {
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, sortByValue: sortBy }
+		}));
+	}
+
+	setMinPrice (minPrice: string) {
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, minimumPriceValue: minPrice }
+		}));
+	}
+
+	setMaxPrice (maxPrice: string) {
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, maximumPriceValue: maxPrice }
+		}));
+	}
+
+	setSearchByName (name: string) {
+		this.setState(prevState => ({
+			filters: { ...prevState.filters, searchByNameValue: name }
+		}));
 	}
 
 	findTeam () {
@@ -263,6 +321,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 									noPoints={false}
 									originalTransferTeam={this.props.originalTransferTeam}
 									removePlayer={this.onRemovePlayer}
+									setPositionFilter={this.setPositionValue}
 									transfer
 
 								/>
@@ -270,8 +329,15 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 							<TransfersForm
 								allCollegeTeams={this.props.allCollegeTeams}
 								filteredPlayers={this.props.filteredPlayers}
+								filters={this.state.filters}
 								setFilteredPlayers={this.props.setFilteredPlayers}
+								setMaxPrice={this.setMaxPrice}
+								setMinPrice={this.setMinPrice}
+								setPositionValue={this.setPositionValue}
+								setSearchByName={this.setSearchByName}
 								setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
+								setSortByValue={this.setSortByValue}
+								setTeamValue={this.setTeamValue}
 							/>
 							<ResponseMessage
 								isError={this.state.isError}
@@ -331,6 +397,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 										noPoints={false}
 										originalTransferTeam={this.props.originalTransferTeam}
 										removePlayer={this.onRemovePlayer}
+										setPositionFilter={this.setPositionValue}
 										transfer
 									/>
 								</div>
@@ -341,8 +408,15 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 										<TransfersForm
 											allCollegeTeams={this.props.allCollegeTeams}
 											filteredPlayers={this.props.filteredPlayers}
+											filters={this.state.filters}
 											setFilteredPlayers={this.props.setFilteredPlayers}
+											setMaxPrice={this.setMaxPrice}
+											setMinPrice={this.setMinPrice}
+											setPositionValue={this.setPositionValue}
+											setSearchByName={this.setSearchByName}
 											setSearchingByPercentage={(e:boolean) => this.setState({ searchingByPercentage: e })}
+											setSortByValue={this.setSortByValue}
+											setTeamValue={this.setTeamValue}
 										/>
 									</div>
 									<ResponseMessage

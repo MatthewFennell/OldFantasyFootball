@@ -82,6 +82,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   						getTeamForUserInWeek(response.id, -1).then(teamResponse => {
   						this.props.setTeam(response.id, -1, teamResponse);
   						this.props.setOriginalTransferTeam(teamResponse);
+  						this.props.setCurrentTransferTeam(teamResponse);
   						}).then(() => {
   						getMostValuableAssets(response.id).then(mostValuableResponse => {
   							this.props.setMostValuable(response.id, mostValuableResponse);

@@ -297,6 +297,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						noPoints={this.props.weekBeingViewed === -1}
 						originalTransferTeam={this.props.originalTransferTeam}
 						removePlayer={noop}
+						setPositionFilter={() => {}}
 						teamName={this.state.teamNameBeingViewed}
 						transfer={false}
 						username={this.state.usernameBeingViewed}

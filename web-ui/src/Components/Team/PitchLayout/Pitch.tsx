@@ -12,6 +12,7 @@ interface PitchProps {
   username: string;
   teamName: string;
 
+  setPositionFilter: (pos:string) => void;
   removePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
 }
@@ -69,8 +70,9 @@ class Pitch extends React.Component<PitchProps> {
 							handleClickOnPlayer={noop}
 							newPlayer={false}
 							noPoints={this.props.noPoints}
-							player={{} as any}
+							player={{ position: position } as any}
 							removePlayer={noop}
+							setPositionFilter={this.props.setPositionFilter}
 							transfer={this.props.transfer}
 						/>
 					</div>);
@@ -92,8 +94,9 @@ class Pitch extends React.Component<PitchProps> {
 							key={position + x}
 							newPlayer={false}
 							noPoints={this.props.noPoints}
-							player={{} as any}
+							player={{ position: position } as any}
 							removePlayer={noop}
+							setPositionFilter={this.props.setPositionFilter}
 							transfer={this.props.transfer}
 						/>
 					</div>);
