@@ -52,7 +52,6 @@ class Stats extends React.Component<StatsProps> {
 
 	setBudget () {
 		if (this.props.userBeingViewed !== '' && this.props.remainingBudgetOfUser === undefined) {
-			alert('heya');
 			getUserBudget(this.props.userBeingViewed).then(response => {
 				this.props.setBudget(this.props.userBeingViewed, response);
 			}).catch(error => {
