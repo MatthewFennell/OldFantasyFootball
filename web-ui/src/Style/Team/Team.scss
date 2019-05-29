@@ -9,6 +9,17 @@
   .row-2-stats{
       flex-grow: 1;
  }
+ .row-3-stats{
+     margin-left: auto;
+     margin-right: auto;
+    .team-and-username-pitch{
+        text-align: center;
+        .pitchUsername, .pitchTeamName{
+          font-size: 16px;
+          color: $yellow-text;
+        }
+      }
+ }
   .row-3-squad-my-team{
       display: flex;
       background-color: $medium-dark-background;

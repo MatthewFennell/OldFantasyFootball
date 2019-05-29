@@ -59,7 +59,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 			cleanSheet: false,
 			redCard: false,
 			playerID: '',
-			week: '',
+			week: this.props.totalNumberOfWeeks.toString(),
 			viewingDefender: true,
 			playerName: '',
 			playerStats: {

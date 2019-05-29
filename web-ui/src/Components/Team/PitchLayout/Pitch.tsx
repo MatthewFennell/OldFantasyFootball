@@ -9,17 +9,12 @@ interface PitchProps {
   transfer: boolean;
   noPoints: boolean;
 
-  username: string;
-  teamName: string;
-
   setPositionFilter: (pos:string) => void;
   removePlayer: (id:string, price:number, player:PlayerDTO) => void;
   handleClickOnPlayer: (player:PlayerDTO) => void;
 }
 
 class Pitch extends React.Component<PitchProps> {
-	static defaultProps = { teamName: '', username: '' };
-
 	numberOfSpareSpots (position: string): number {
 		const numberOfAttackersIHaveToAdd = Math.max(1 - this.props.activeWeeklyTeam.filter(x => x.position === 'ATTACKER' && x.firstName !== 'REMOVED').length, 0);
 		const numberOfMidfieldersIHaveToAdd = Math.max(3 - this.props.activeWeeklyTeam.filter(x => x.position === 'MIDFIELDER' && x.firstName !== 'REMOVED').length, 0);
@@ -174,15 +169,6 @@ class Pitch extends React.Component<PitchProps> {
 						{pitchGoalkeepers}
 					</div>
 				</div>
-				{ this.props.teamName && this.props.username
-					? <div className="team-and-username-pitch">
-						<div className="pitchUsername">
-							{this.props.username}
-						</div>
-						<div className="pitchTeamName">
-							{this.props.teamName}
-						</div>
-					</div> : null}
 			</div>
 		);
 	}
