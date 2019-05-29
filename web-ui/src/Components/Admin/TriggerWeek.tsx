@@ -16,6 +16,7 @@ interface TriggerWeekState {
   responseMessage: string;
   isError: boolean;
   isLoading: boolean;
+  confirmOpen: boolean;
 }
 
 class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
@@ -24,11 +25,13 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 		this._handleCollegeName = this._handleCollegeName.bind(this);
 		this._onSubmit = this._onSubmit.bind(this);
 		this.handleValidate = this.handleValidate.bind(this);
+		this.confirm = this.confirm.bind(this);
 		this.state = {
 			weekNumber: this.props.totalNumberOfWeeks + 1,
 			responseMessage: '',
 			isError: true,
-			isLoading: false
+			isLoading: false,
+			confirmOpen: false
 		};
 	}
 
@@ -41,6 +44,10 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 	}
 
 	_onSubmit () {
+		this.setState({ confirmOpen: true });
+	}
+
+	confirm () {
 		const { weekNumber } = this.state;
 		this.setState({ isLoading: true });
 		triggerWeek(weekNumber)
@@ -75,6 +82,15 @@ class TriggerWeek extends React.Component<TriggerWeekProps, TriggerWeekState> {
 						>
               			Trigger new week
 						</Button>
+						<div className="trigger-confirm-button">
+							{ this.state.confirmOpen && <Button
+								className="btn btn-default btn-round-lg btn-lg second"
+								id="btnCreateCollegeTeam"
+								onClick={this.confirm}
+						                            >
+              			Confirm
+							</Button> }
+						</div>
 						<ResponseMessage
 							isError={this.state.isError}
 							responseMessage={this.state.responseMessage}

@@ -139,6 +139,11 @@ div.raise-selected{
     font-size: 20px;
   }
 }
+.admin-form-row-two{
+  .trigger-confirm-button{
+    margin-top: 15px;
+  }
+}
 
 
 @media screen and (max-width: 590px) {
@@ -162,7 +167,7 @@ div.raise-selected{
       .admin-form-row-one, .admin-form-row-two{
         flex-direction: column;
         margin-left: 10%;
-        margin-right: 10%;
+        margin-right: 10%;        
         .edit-points-info{
           margin: 0px;
           margin-top: 10px;
