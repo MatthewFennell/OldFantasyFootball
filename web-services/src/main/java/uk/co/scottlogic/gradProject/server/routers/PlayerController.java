@@ -411,6 +411,10 @@ public class PlayerController {
         try {
             response.setStatus(200);
             PlayerPoints playerPoints = playerManager.findStatsForPlayerInWeek(id, week);
+            if (playerPoints == null){
+                response.setStatus(204);
+                return null;
+            }
             return new PlayerPointsDTO(playerPoints);
         } catch (IllegalArgumentException e) {
             log.debug(e.getMessage());

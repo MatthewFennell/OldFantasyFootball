@@ -271,6 +271,17 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 				<div className="row-2-stats">
 					<Stats />
 				</div>
+				<div className="row-3-stats">
+					{ this.state.teamNameBeingViewed && this.state.usernameBeingViewed
+						? <div className="team-and-username-pitch">
+							<div className="pitchUsername">
+								User : {this.state.usernameBeingViewed}
+							</div>
+							<div className="pitchTeamName">
+								Team name : {this.state.teamNameBeingViewed}
+							</div>
+						</div> : null}
+				</div>
 				<div className={this.generateRowClassName()}>
 
 					<Media query="(max-width: 800px)">
@@ -301,9 +312,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 						originalTransferTeam={this.props.originalTransferTeam}
 						removePlayer={noop}
 						setPositionFilter={() => {}}
-						teamName={this.state.teamNameBeingViewed}
 						transfer={false}
-						username={this.state.usernameBeingViewed}
 					/>
 
 					<Media query="(max-width: 800px)">

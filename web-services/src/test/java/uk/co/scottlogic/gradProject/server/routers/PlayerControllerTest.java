@@ -288,22 +288,6 @@ public class PlayerControllerTest {
     }
 
     @Test
-    public void editingPointsForPlayerReturns400WhenPlayerHasNoPoints() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
-        user.addAuthority(new UserAuthority(Constants.ADMIN_STRING));
-        Integer newGoals = 250;
-        Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
-        PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
-        when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
-        when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        playerController.editPointsForPlayer(user, playerPointsDTO, response);
-        TestCase.assertEquals(400, response.getStatus());
-    }
-
-    @Test
     public void editingPointsForPlayerReturns400WhenPlayerDoesNotExist() {
         ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer newGoals = 250;

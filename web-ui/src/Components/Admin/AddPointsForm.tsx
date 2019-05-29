@@ -55,7 +55,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 			cleanSheet: false,
 			redCard: false,
 			playerID: '',
-			week: '',
+			week: this.props.totalNumberOfWeeks.toString(),
 			viewingDefender: true,
 			responseMessage: '',
 			isError: false,

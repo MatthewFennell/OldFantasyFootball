@@ -68,4 +68,36 @@ public class PlayerPointsDTO {
     public Integer getWeek() {
         return week;
     }
+
+    public void setGoals(Integer goals) {
+        this.goals = goals;
+    }
+
+    public void setAssists(Integer assists) {
+        this.assists = assists;
+    }
+
+    public void setManOfTheMatch(boolean manOfTheMatch) {
+        this.manOfTheMatch = manOfTheMatch;
+    }
+
+    public void setYellowCards(Integer yellowCards) {
+        this.yellowCards = yellowCards;
+    }
+
+    public void setRedCard(boolean redCard) {
+        this.redCard = redCard;
+    }
+
+    public void setCleanSheet(boolean cleanSheet) {
+        this.cleanSheet = cleanSheet;
+    }
+
+    public void setPlayerID(String playerID) {
+        this.playerID = playerID;
+    }
+
+    public void setWeek(Integer week) {
+        this.week = week;
+    }
 }
