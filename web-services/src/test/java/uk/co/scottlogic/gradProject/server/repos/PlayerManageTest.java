@@ -465,14 +465,15 @@ public class PlayerManageTest {
         playerManager.findStatsForPlayerInWeek(id, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void findingStatsForPlayerInWeekThrowsExceptionIfPlayerHasNoPointsThatWeek(){
+    @Test
+    public void findingStatsForPlayerInWeekReturnsNullIfPlayerHasNoPointsThatWeek(){
         CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
-        playerManager.findStatsForPlayerInWeek(id, 0);
+        assertEquals(null,playerManager.findStatsForPlayerInWeek(id, 0));
+
     }
 
     @Test
