@@ -49,7 +49,7 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 		this.state = {
 			goalsFor: '',
 			goalsAgainst: '',
-			week: '',
+			week: props.totalNumberOfWeeks.toString(),
 			playerIDGoals: [],
 			playerIDAssists: [],
 			playerIDCleanSheets: [],
@@ -110,7 +110,7 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 	}
 
 	handleOnValidate () {
-		const { week, goalsFor, goalsAgainst } = this.state;
+		const { week, goalsFor, goalsAgainst, manOfTheMatch } = this.state;
 		let error: boolean = false;
 		let message: string = 'Please select a value for ';
 		if (week === '' || isNaN(parseFloat(week))) {
@@ -125,9 +125,13 @@ class AddResult extends React.Component<AddResultProps, AddResultState> {
 			error = true;
 			message += 'Goals against, ';
 		}
+		if (manOfTheMatch === '') {
+			error = true;
+			message += 'Man of the match, ';
+		}
 
 		if (error) {
-			this.setState({ responseMessage: message.substring(0, message.length - 2) });
+			this.setState({ responseMessage: message.substring(0, message.length - 2), isError: true });
 		} else {
 			this._onSubmit();
 		}

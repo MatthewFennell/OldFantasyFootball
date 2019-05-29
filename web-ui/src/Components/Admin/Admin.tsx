@@ -33,6 +33,7 @@ interface AdminProps {
   playersInFilteredTeam: PlayerDTO[];
   setPageBeingViewed: (page: string) => void;
   totalNumberOfWeeks: number;
+  setTotalNumberOfWeeks: (week: number) => void;
 }
 
 interface AdminState {
@@ -166,7 +167,10 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 								/>
 							) : adminPageBeingViewed === 'trigger-week' ? (
-								<TriggerWeek />
+								<TriggerWeek
+									setTotalNumberOfWeeks={this.props.setTotalNumberOfWeeks}
+									totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+								/>
 							) : adminPageBeingViewed === 'make-captain' ? (
 								<MakeCaptain
 									allCollegeTeams={this.props.allCollegeTeams}
@@ -294,7 +298,10 @@ class Admin extends React.Component<RoutedFormProps<RouteComponentProps> & Admin
 											totalNumberOfWeeks={this.props.totalNumberOfWeeks}
 										/>
 									) : adminPageBeingViewed === 'trigger-week' ? (
-										<TriggerWeek />
+										<TriggerWeek
+											setTotalNumberOfWeeks={this.props.setTotalNumberOfWeeks}
+											totalNumberOfWeeks={this.props.totalNumberOfWeeks}
+										/>
 									) : adminPageBeingViewed === 'make-captain' ? (
 										<MakeCaptain
 											allCollegeTeams={this.props.allCollegeTeams}

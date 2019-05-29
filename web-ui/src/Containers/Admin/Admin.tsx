@@ -5,6 +5,7 @@ import { getTeamAddingPoints, getPlayersInFilteredTeam, getAdminPageBeingViewed,
 import { addCollegeTeam, removeCollegeTeam, setAdminPageBeingViewed, setAllCollegeTeams, setTeamAddingPoints } from '../../Actions/AdminActions';
 import { setPageBeingViewed } from '../../Actions/AccountActions';
 import { getTotalNumberOfWeeks } from '../../Selectors/StatsSelector';
+import { setTotalNumberOfWeeks } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	adminPageBeingViewed: getAdminPageBeingViewed(state),
@@ -20,7 +21,8 @@ const mapDispatchToProps = {
 	setAdminPageBeingViewed,
 	setAllCollegeTeams,
 	setTeamAddingPoints,
-	setPageBeingViewed
+	setPageBeingViewed,
+	setTotalNumberOfWeeks
 };
 
 export default connect<any, any, any>(

@@ -158,7 +158,9 @@ public class PlayerManager {
             throw new IllegalArgumentException("Cannot submit points for negative week");
         }
 
-        System.out.println("submitting results");
+        if (pointsDTO.getManOfTheMatch().equals("")) {
+            throw new IllegalArgumentException("Must select a man of the match");
+        }
 
         Optional<Player> manOfTheMatchPlayer = playerRepo.findById(UUID.fromString(pointsDTO.getManOfTheMatch()));
         manOfTheMatchPlayer.ifPresent(player1 -> addManOfTheMatch(player1, pointsDTO.getWeek()));
@@ -167,27 +169,20 @@ public class PlayerManager {
         if (collegeTeam.isPresent()){
 
             if (pointsDTO.getGoalsFor().equals(pointsDTO.getGoalsAgainst())){
-                System.out.println("added a college draw");
                 collegeTeam.get().addDraw();
             }
             else if (pointsDTO.getGoalsFor() > pointsDTO.getGoalsAgainst()){
-                System.out.println("added a college win");
                 collegeTeam.get().addWin();
             }
             else {
-                System.out.println("added a college loss");
                 collegeTeam.get().addLoss();
             }
-            System.out.println("added " + pointsDTO.getGoalsFor() + " goals for");
             collegeTeam.get().addGoalsFor(pointsDTO.getGoalsFor());
-
-            System.out.println("added " + pointsDTO.getGoalsAgainst() + " goals against");
             collegeTeam.get().addGoalsAgainst(pointsDTO.getGoalsAgainst());
 
             for (String goalScorerID : pointsDTO.getGoalScorers()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(goalScorerID));
                 if (player.isPresent()){
-                    System.out.println("adding a goal to " + player.get().getFirstName() + "  " + player.get().getSurname());
                     addGoalToPlayer(player.get(), pointsDTO.getWeek());
                 }
                 else {
@@ -198,7 +193,6 @@ public class PlayerManager {
             for (String assistsID : pointsDTO.getAssists()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(assistsID));
                 if (player.isPresent()){
-                    System.out.println("adding an assist to " + player.get().getFirstName() + "  " + player.get().getSurname());
                     addAssistToPlayer(player.get(), pointsDTO.getWeek());
                 }
                 else {
@@ -209,7 +203,6 @@ public class PlayerManager {
             for (String cleanSheetID : pointsDTO.getCleanSheets()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(cleanSheetID));
                 if (player.isPresent()){
-                    System.out.println("adding a clean sheet to " + player.get().getFirstName() + "  " + player.get().getSurname());
                     addCleanSheet(player.get(), pointsDTO.getWeek());
                 }
                 else {
@@ -556,7 +549,12 @@ public class PlayerManager {
                 }
             } else {
                 log.debug("Player ({}) already has points associated for week ({})", player.get().getFirstName(), dto.getWeek());
-                throw new IllegalArgumentException("Player " + player.get().getFirstName() + " does not have points assigned for week " + dto.getWeek());
+                Optional<Player> newPlayer = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
+                if (!newPlayer.isPresent()){
+                    throw new IllegalArgumentException("Player does not exist");
+                }
+                PlayerPoints newStats = new PlayerPoints(dto.getGoals(), dto.getAssists(), dto.isManOfTheMatch(), dto.getYellowCards(), dto.isRedCard(), dto.isCleanSheet(), newPlayer.get(), dto.getWeek());
+                addPointsToPlayer(newStats);
             }
         } else {
             log.debug("Player does not exist");
@@ -596,7 +594,8 @@ public class PlayerManager {
                 return playerPoints.get();
             } else {
                 log.debug("Player has no points for week ({})", week);
-                throw new IllegalArgumentException("This player does not have any points for that week");
+                return null;
+//                throw new IllegalArgumentException("This player does not have any points for that week");
             }
         } else {
             throw new IllegalArgumentException("Player does not exist");
