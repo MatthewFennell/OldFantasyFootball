@@ -19,6 +19,8 @@ import { getUserInfo } from '../../Services/User/UserService';
 import LeaveLeague from './LeaveLeague';
 import DeleteLeague from './DeleteLeague';
 import Media from 'react-media';
+import { getTeamForUserInWeek } from '../../Services/Player/PlayerService';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface LeagueProps {
 	accountId: string;
@@ -36,6 +38,9 @@ interface LeagueProps {
 	removeLeagues: (user: string, leagueName: string) => void;
 	userBeingViewed: string;
 	leagues: { user: { league: { leagueName: string; position: number } } }
+	weekBeingViewed: number;
+	team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+    setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
 }
 
 interface LeaguesState {
@@ -135,9 +140,21 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 	}
 
 	handleViewUser (id: string) {
-		this.props.setUserBeingViewed(id);
-		this.props.setPageBeingViewed('Team');
-		this.props.history.push('/team');
+		if (this.props.team[id] === undefined ||
+			this.props.team[id]['week-' + this.props.weekBeingViewed] === undefined) {
+			getTeamForUserInWeek(id, this.props.weekBeingViewed).then(response => {
+				this.props.setTeam(id, this.props.weekBeingViewed, response);
+				this.props.setUserBeingViewed(id);
+				this.props.setPageBeingViewed('Team');
+				this.props.history.push('/team');
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		} else {
+			this.props.setUserBeingViewed(id);
+			this.props.setPageBeingViewed('Team');
+			this.props.history.push('/team');
+		}
 	}
 
 	generateLeaguePositions () {

@@ -16,9 +16,9 @@ import {
 	getRemainingBudgetOfUser,
 	getAverageWeeklyPointsOfWeek
 } from '../../Selectors/StatsSelector';
-import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
-import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
-import { setBudget, setMostValuable } from '../../Actions/StatsActions';
+import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
+import { setUserBeingViewed, setTeam } from '../../Actions/ActiveTeamActions';
+import { setBudget, setMostValuable, setWeekBeingViewed } from '../../Actions/StatsActions';
 
 const mapStateToProps = (state: State) => ({
 	remainingBudget: getRemainingBudget(state),
@@ -34,13 +34,16 @@ const mapStateToProps = (state: State) => ({
 	topWeeklyUserName: getTopWeeklyUserName(state),
 	topWeeklyUserPoints: getTopWeeklyUserPoints(state),
 	remainingBudgetOfUser: getRemainingBudgetOfUser(state),
-	averageWeeklyPointsOfWeek: getAverageWeeklyPointsOfWeek(state)
+	averageWeeklyPointsOfWeek: getAverageWeeklyPointsOfWeek(state),
+	team: getTeam(state),
 });
 
 const mapDispatchToProps = {
 	setBudget,
 	setMostValuable,
-	setUserBeingViewed
+	setUserBeingViewed,
+	setWeekBeingViewed,
+	setTeam
 };
 
 export default connect<any, any, any>(

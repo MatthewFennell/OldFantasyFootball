@@ -182,7 +182,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 								>
 									{this.state.week === -1
 										? 'All weeks'
-										: 'Week : ' + this.state.week}
+										: 'Week: ' + this.state.week}
 									<DropdownToggle
 										caret
 										className="week-menu-toggle"

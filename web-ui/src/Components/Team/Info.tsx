@@ -132,8 +132,14 @@ class Info extends React.Component<StatsProps, InfoState> {
 					toggle={this._toggle}
 				>
 					{weekBeingViewed === -1
-						? 'Active Team'
-						: 'Week : ' + weekBeingViewed}
+						? <span
+							className="customDropdownText"
+							onClick={this._toggle}
+						  >Active Team</span>
+						: <span
+							className="customDropdownText"
+							onClick={this._toggle}
+						  >Week: {weekBeingViewed} </span>}
 					<DropdownToggle
 						caret
 						className="week-menu-toggle"
@@ -143,7 +149,8 @@ class Info extends React.Component<StatsProps, InfoState> {
 					</DropdownToggle>
 					<DropdownMenu className="week-menu">{weekOptions}</DropdownMenu>
 				</Dropdown>
-				<div className="week-points">Week points: {this.props.weekPointsForUser}
+				<div className="week-points">Week points: { this.props.weekBeingViewed === -1 ? 'N/A'
+				 : this.props.weekPointsForUser}
 				</div>
 			</div>
 		);

@@ -1,5 +1,8 @@
 @import '../Colors.scss';
 .team-dropdown {
+  .toggle-team{
+    cursor: pointer;
+  }
   .team-menu{
       padding: 0px;
       margin: 0px;
