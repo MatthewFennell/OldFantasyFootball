@@ -266,10 +266,10 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 					{ this.state.teamNameBeingViewed && this.state.usernameBeingViewed
 						? <div className="team-and-username-pitch">
 							<div className="pitchUsername">
-								User : {this.state.usernameBeingViewed}
+								User: {this.state.usernameBeingViewed}
 							</div>
 							<div className="pitchTeamName">
-								Team name : {this.state.teamNameBeingViewed}
+								Team name: {this.state.teamNameBeingViewed}
 							</div>
 						</div> : <div className="team-and-username-pitch" />}
 				</div>
