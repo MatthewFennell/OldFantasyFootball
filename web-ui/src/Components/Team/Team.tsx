@@ -84,7 +84,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		};
 		this.updateUserInfo();
 		this.findLeagues();
-		this.findAllTeams(0);
+		this.findAllTeams();
 		this.findTransferTeam();
 	}
 
@@ -93,14 +93,14 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		if (header != null) {
 			header.hidden = false;
 		}
-		this.findAllTeams(0);
+		this.findAllTeams();
 	}
 
 	componentDidUpdate (prevProps:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findLeagues();
-			this.findAllTeams(0);
+			this.findAllTeams();
 		}
 
 		if (prevProps.accountId !== this.props.accountId) {
@@ -108,28 +108,19 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		}
 
 		if (prevProps.totalNumberOfWeeks !== this.props.totalNumberOfWeeks) {
-			this.findAllTeams(this.props.totalNumberOfWeeks);
+			this.findAllTeams();
 		}
 	}
 
-	findAllTeams (numberOfWeeks: number) {
-		if (this.props.userBeingViewed !== '') {
-			for (let week = -1; week <= numberOfWeeks; week++) {
-				try {
-					if (this.props.team[this.props.userBeingViewed]['week-' + week] === undefined) {
-						getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
-							this.props.setTeam(this.props.userBeingViewed, week, response);
-						}).catch(error => {
-							console.log('error = ' + error);
-						});
-					}
-				} catch (error) {
-					getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
-						this.props.setTeam(this.props.userBeingViewed, week, response);
-					}).catch(error => {
-						console.log('error = ' + error);
-					});
-				}
+	findAllTeams () {
+		for (let week = -1; week <= this.props.totalNumberOfWeeks; week++) {
+			if (this.props.team[this.props.userBeingViewed] === undefined ||
+					this.props.team[this.props.userBeingViewed]['week-' + week] === undefined) {
+				getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
+					this.props.setTeam(this.props.userBeingViewed, week, response);
+				}).catch(error => {
+					console.log('error = ' + error);
+				});
 			}
 		}
 	}
@@ -275,12 +266,12 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 					{ this.state.teamNameBeingViewed && this.state.usernameBeingViewed
 						? <div className="team-and-username-pitch">
 							<div className="pitchUsername">
-								User : {this.state.usernameBeingViewed}
+								User: {this.state.usernameBeingViewed}
 							</div>
 							<div className="pitchTeamName">
-								Team name : {this.state.teamNameBeingViewed}
+								Team name: {this.state.teamNameBeingViewed}
 							</div>
-						</div> : null}
+						</div> : <div className="team-and-username-pitch" />}
 				</div>
 				<div className={this.generateRowClassName()}>
 

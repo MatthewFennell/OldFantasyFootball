@@ -2,8 +2,9 @@ import * as React from 'react';
 import '../../Style/Team/Stats.css';
 import { MostValuable } from '../../Models/Interfaces/MostValuable';
 import { getUserBudget } from '../../Services/User/UserService';
-import { getMostValuableAssets } from '../../Services/Player/PlayerService';
+import { getMostValuableAssets, getTeamForUserInWeek } from '../../Services/Player/PlayerService';
 import { TopWeeklyUser } from '../../Models/Interfaces/TopWeeklyUser';
+import { PlayerDTO } from '../../Models/Interfaces/Player';
 
 interface StatsProps {
   weekBeingViewed: number;
@@ -23,9 +24,11 @@ interface StatsProps {
   topWeeklyPlayerPoints: number;
   topWeeklyUserName: string;
   topWeeklyUserPoints: number;
-
   remainingBudgetOfUser: number;
   averageWeeklyPointsOfWeek: number;
+  setWeekBeingViewed: (week: number) => void;
+  team: { user: { weeks: { id: string; team: PlayerDTO[] } } }
+  setTeam: (user: string, week: number, team: PlayerDTO[]) => void;
 }
 
 class Stats extends React.Component<StatsProps> {
@@ -73,7 +76,19 @@ class Stats extends React.Component<StatsProps> {
 	handleViewTeamOfTheWeek () {
 		const week: number = this.props.weekBeingViewed === -1 ? this.props.totalNumberOfWeeks : this.props.weekBeingViewed;
 		const teamOfTheWeekId : TopWeeklyUser = this.props.topWeeklyUsers[week];
-		this.props.setUserBeingViewed(teamOfTheWeekId.id);
+		if (this.props.team[teamOfTheWeekId.id] === undefined ||
+			this.props.team[teamOfTheWeekId.id]['week-' + week] === undefined) {
+			getTeamForUserInWeek(teamOfTheWeekId.id, week).then(response => {
+				this.props.setTeam(teamOfTheWeekId.id, week, response);
+				this.props.setWeekBeingViewed(week);
+				this.props.setUserBeingViewed(teamOfTheWeekId.id);
+			}).catch(error => {
+				console.log('error = ' + error);
+			});
+		} else {
+			this.props.setWeekBeingViewed(week);
+			this.props.setUserBeingViewed(teamOfTheWeekId.id);
+		}
 	}
 
 	render () {
@@ -96,7 +111,7 @@ class Stats extends React.Component<StatsProps> {
 				</div> }
 
 				 <div
-					className="player-most-points"
+					className="team-of-the-week"
 					onClick={this.handleViewTeamOfTheWeek}
 				 >
 				 Team of the Week:

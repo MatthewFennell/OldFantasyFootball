@@ -48,6 +48,7 @@ div.transfer-filter-rows {
 }
 
 
+
 .offset {
   box-shadow: 0.3em 0.3em 0 0 var(--color), inset 0.3em 0.3em 0 0 var(--color);
   
@@ -77,6 +78,9 @@ div.raise-transfers {
   line-height: 1;
   margin: 0.5em;
   padding: 1em;
+  .bollocks{
+    cursor: pointer;
+  }
 }
 div.raise-transfers-selected{
   border: 2px solid;

@@ -17,9 +17,11 @@ import {
 	setLeagues,
 	removeLeagues
 } from '../../Actions/LeagueActions';
-import { setUserBeingViewed } from '../../Actions/ActiveTeamActions';
-import { getUserBeingViewed } from '../../Selectors/ActiveTeamSelector';
+import { setUserBeingViewed, setTeam } from '../../Actions/ActiveTeamActions';
+import { getUserBeingViewed, getTeam } from '../../Selectors/ActiveTeamSelector';
 import { getAccountId } from '../../Selectors/AccountSelector';
+
+import { getWeekBeingViewed } from '../../Selectors/StatsSelector';
 
 const mapStateToProps = (state: State) => ({
 	isAdmin: getIsLeagueAdmin(state),
@@ -28,7 +30,9 @@ const mapStateToProps = (state: State) => ({
 	leagueRankings: getLeagueRankings(state),
 	userBeingViewed: getUserBeingViewed(state),
 	leagues: getLeagues(state),
-	accountId: getAccountId(state)
+	accountId: getAccountId(state),
+	weekBeingViewed: getWeekBeingViewed(state),
+	team: getTeam(state)
 });
 
 const mapDispatchToProps = {
@@ -39,7 +43,8 @@ const mapDispatchToProps = {
 	setUserBeingViewed,
 	setPageBeingViewed,
 	setLeagues,
-	removeLeagues
+	removeLeagues,
+	setTeam
 };
 
 export default connect<any, any, any>(

@@ -84,7 +84,10 @@ class CollegeTeamDropdown extends React.Component<CollegeTeamProps, CollegeTeamS
 					isOpen={teamDropDownOpen}
 					toggle={this._toggleTeam}
 				>
-					{'Team: '} {teamValue}
+					<span
+						className="toggle-team"
+						onClick={this._toggleTeam}
+					>{'Team: '} {teamValue} </span>
 					<DropdownToggle
 						caret
 						className="team-menu-toggle"

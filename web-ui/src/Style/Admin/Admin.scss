@@ -145,6 +145,20 @@ div.raise-selected{
   }
 }
 
+.selectPlayerDropdown{
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.edit-points-info{
+  .team-dropdown{
+    .dropdown-menu{
+      max-height: 400px;
+      overflow: auto;
+    }
+  }
+}
+
 
 @media screen and (max-width: 590px) {
   .admin-mobile-wrapper{

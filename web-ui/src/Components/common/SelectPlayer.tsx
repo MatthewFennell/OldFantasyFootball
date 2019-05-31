@@ -78,7 +78,10 @@ class SelectPlayer extends React.Component<SelectPlayerProps, SelectPlayerState>
 					isOpen={selectPlayerOpen}
 					toggle={this._toggleTeam}
 				>
-					{'Player: '} {playerSelected}
+					<span
+						className="selectPlayerDropdown"
+						onClick={this._toggleTeam}
+					>Player:  {playerSelected}</span>
 					<DropdownToggle
 						caret
 						className="team-menu-toggle"
