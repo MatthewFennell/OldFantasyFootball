@@ -23,6 +23,13 @@ export const initialState: State = {
 	currentTransferTeam: []
 };
 
+const posRanks = {
+	GOALKEEPER: 0,
+	DEFENDER: 1,
+	MIDFIELDER: 2,
+	ATTACKER: 3
+};
+
 export const reducer = (state: State = initialState, action: Action) => {
 	switch (action.type) {
 	case ActionTypes.SET_FILTERED_PLAYERS: {
@@ -52,6 +59,55 @@ export const reducer = (state: State = initialState, action: Action) => {
 
 	case ActionTypes.SET_ORIGINAL_TRANSFER_TEAM: {
 		return lodash.set('originalTransferTeam', action.payload.originalTransferTeam, state);
+	}
+
+	case ActionTypes.SORT_FILTERED_PLAYERS: {
+		if (action.payload.sortBy === 'position') {
+			const isPositionAscending = () => {
+				return state.filteredPlayers.every(function (x, i) {
+					return i === 0 || posRanks[x.position] <= posRanks[state.filteredPlayers[i - 1].position];
+				});
+			};
+			let returnedTarget: PlayerDTO[] = JSON.parse(JSON.stringify(state.filteredPlayers));
+			if (isPositionAscending()) {
+				returnedTarget = returnedTarget.sort((a, b) => (posRanks[a[action.payload.sortBy]] > posRanks[b[action.payload.sortBy]]) ? 1 : -1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			} else {
+				returnedTarget = returnedTarget.sort((a, b) => (posRanks[a[action.payload.sortBy]] > posRanks[b[action.payload.sortBy]]) ? -1 : 1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			}
+		}
+
+		const isAscending = (sortBy: string) => {
+			if (action.payload.sortBy !== 'firstName') {
+				return state.filteredPlayers.every(function (x, i) {
+					return i === 0 || x[sortBy] <= state.filteredPlayers[i - 1][sortBy];
+				});
+			} else {
+				return state.filteredPlayers.every(function (x, i) {
+					return i === 0 || x[sortBy] >= state.filteredPlayers[i - 1][sortBy];
+				});
+			}
+		};
+		const alreadyAscended = isAscending(action.payload.sortBy);
+		let returnedTarget: PlayerDTO[] = JSON.parse(JSON.stringify(state.filteredPlayers));
+		if (!alreadyAscended) {
+			if (action.payload.sortBy !== 'firstName') {
+				returnedTarget = returnedTarget.sort((a, b) => (a[action.payload.sortBy] > b[action.payload.sortBy]) ? -1 : 1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			} else {
+				returnedTarget = returnedTarget.sort((a, b) => (a[action.payload.sortBy] > b[action.payload.sortBy]) ? 1 : -1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			}
+		} else {
+			if (action.payload.sortBy !== 'firstName') {
+				returnedTarget = returnedTarget.sort((a, b) => (a[action.payload.sortBy] > b[action.payload.sortBy]) ? 1 : -1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			} else {
+				returnedTarget = returnedTarget.sort((a, b) => (a[action.payload.sortBy] > b[action.payload.sortBy]) ? -1 : 1);
+				return lodash.set('filteredPlayers', returnedTarget, state);
+			}
+		}
 	}
 
 	case ActionTypes.CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED: {

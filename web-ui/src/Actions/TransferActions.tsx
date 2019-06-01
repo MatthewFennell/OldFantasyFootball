@@ -10,6 +10,12 @@ export enum ActionTypes {
   ADD_PLAYER = 'ADD_PLAYER',
   CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED = 'CLEAR_PLAYERS_BEING_ADDED_AND_REMOVED',
   RESET_CHANGES = 'RESET_CHANGES',
+  SORT_FILTERED_PLAYERS = 'SORT_FILTERED_PLAYERS',
+}
+
+export interface SortFilteredPlayers {
+  type: ActionTypes.SORT_FILTERED_PLAYERS;
+  payload: { sortBy: string };
 }
 
 export interface ResetChanges {
@@ -56,6 +62,13 @@ export interface ReverseFilteredPlayers {
   type: ActionTypes.REVERSE_FILTERED_PLAYERS;
   payload: {};
 }
+
+export const sortFilteredPlayers = (sortBy: string): SortFilteredPlayers => {
+	return {
+		type: ActionTypes.SORT_FILTERED_PLAYERS,
+		payload: { sortBy }
+	};
+};
 
 export const resetChanges = (): ResetChanges => {
 	return {
@@ -129,4 +142,5 @@ export type Action =
   | RemovePlayer
   | AddPlayer
   | ClearPlayersBeingAddedAndRemoved
-  | ResetChanges;
+  | ResetChanges
+  | SortFilteredPlayers;

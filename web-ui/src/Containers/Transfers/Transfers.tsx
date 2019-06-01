@@ -24,7 +24,8 @@ import {	setFilteredPlayers,
 	removePlayer,
 	addPlayer,
 	clearPlayersBeingAddedAndRemoved,
-	resetChanges
+	resetChanges,
+	sortFilteredPlayers
 }	from '../../Actions/TransferActions';
 
 const mapStateToProps = (state: State) => ({
@@ -50,7 +51,8 @@ const mapDispatchToProps = {
 	removePlayer,
 	addPlayer,
 	resetChanges,
-	clearPlayersBeingAddedAndRemoved
+	clearPlayersBeingAddedAndRemoved,
+	sortFilteredPlayers
 };
 
 export default connect<any, any, any>(
