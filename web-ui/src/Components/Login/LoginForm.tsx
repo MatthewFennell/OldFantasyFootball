@@ -116,7 +116,7 @@ class LoginForm extends React.Component<RoutedFormProps<RouteComponentProps>, Lo
   					className="text-center unselectable"
   					id="greeting"
   				>
-            Collingwood Footy
+            Collingwood Football
   				</h1>
   				<div id="login-input-fields">
   					<div className="login-error-message">
