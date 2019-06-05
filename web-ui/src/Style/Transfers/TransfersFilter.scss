@@ -42,6 +42,10 @@ div.transfers-table {
           color: rgb(197, 197, 21);
           cursor: pointer;
      }
+     td:hover{
+         font-weight: bold;
+         color: $yellow-text;
+     }
  }
   tr.transfers-even, tr.transfers-odd{
       cursor: pointer;

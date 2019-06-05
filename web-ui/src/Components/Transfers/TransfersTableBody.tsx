@@ -8,85 +8,107 @@ interface TransfersTableBodyProps {
   searchingByPercentage: boolean;
   filteredPlayers: PlayerDTO[];
   handleRowClick: (player: PlayerDTO) => void;
+  sortByColumnHeader: (columnHeader: string) => void;
 }
 
 // eslint-disable-next-line react/prefer-stateless-function
-class TransfersTableBody extends React.Component<TransfersTableBodyProps> {
-	render () {
-		const { filteredPlayers } = this.props;
-		return (
-			<div>
-				<table>
-					<thead>
-						<tr
-							className="transfers-header"
-							key="header"
+const TransfersTableBody: React.FC<TransfersTableBodyProps> = (props) => {
+	const memoizedSortByFirstname = React.useCallback(
+		() => props.sortByColumnHeader('firstName'), []);
+
+	const memoizedSortByCollegeTeam = React.useCallback(
+		() => props.sortByColumnHeader('collegeTeam'), []);
+
+	const memoizedSortByPrice = React.useCallback(
+		() => props.sortByColumnHeader('price'), []);
+
+	const memoizedSortByGoals = React.useCallback(
+		() => props.sortByColumnHeader('totalGoals'), []);
+
+	const memoizedSortByAssists = React.useCallback(
+		() => props.sortByColumnHeader('totalAssists'), []);
+
+	const memoizedSortByPosition = React.useCallback(
+		() => props.sortByColumnHeader('position'), []);
+
+	return (
+		<div>
+			<table>
+				<thead>
+					<tr
+						className="transfers-header"
+						key="header"
+					>
+						<td
+							className="name"
+							onClick={memoizedSortByFirstname}
 						>
-							<td
-								className="name"
-							>
-								{'Name'}
-							</td>
-							<td
-								className="position"
-							>
-								{'Position'}
-							</td>
-							<td
-								className="team"
-							>
-								{'Team'}
-							</td>
-							<td
-								className="price"
-							>
-								{'Price'}
-							</td>
-							<td
-								className="goals"
-							>
-								{'Goals'}
-							</td>
+							{'Name'}
+						</td>
+						<td
+							className="position"
+							onClick={memoizedSortByPosition}
+						>
+							{'Position'}
+						</td>
+						<td
+							className="team"
+							onClick={memoizedSortByCollegeTeam}
+						>
+							{'Team'}
+						</td>
+						<td
+							className="price"
+							onClick={memoizedSortByPrice}
+						>
+							{'Price'}
+						</td>
+						<td
+							className="goals"
+							onClick={memoizedSortByGoals}
+						>
+							{'Goals'}
+						</td>
 
-							<Media query="(max-width: 599px)">
-								{matches =>
-									matches ? (
-										null
-									) : (
-										<td
-											className="assists"
-										>
-											{'Assists'}
-										</td>
-									)
-								}
-							</Media>
+						<Media query="(max-width: 599px)">
+							{matches =>
+								matches ? (
+									null
+								) : (
+									<td
+										className="assists"
+										onClick={memoizedSortByAssists}
+									>
+										{'Assists'}
+									</td>
+								)
+							}
+						</Media>
 
-							{this.props.searchingByPercentage ? <td
-								className="percentage"
-							                                    >
-								{'Percentage'}{' '}
-							</td> : <td
-								className="score"
-							        >
-								{'Score'}{' '}
-							</td>}
-						</tr>
-					</thead>
-					<tbody>
-						{filteredPlayers.map((datum, index) => (
-							<TransfersRow
-								element={datum}
-								handleRowClick={this.props.handleRowClick}
-								index={index}
-								key={datum.id}
-								searchingByPercentage={this.props.searchingByPercentage}
-							/>
-						))}
-					</tbody>
-				</table>
-			</div>
-		);
-	}
-}
+						{props.searchingByPercentage ? <td
+							className="percentage"
+						                               >
+							{'Percentage'}{' '}
+						</td> : <td
+							className="score"
+						        >
+							{'Score'}{' '}
+						</td>}
+					</tr>
+				</thead>
+				<tbody>
+					{props.filteredPlayers.map((datum, index) => (
+						<TransfersRow
+							element={datum}
+							handleRowClick={props.handleRowClick}
+							index={index}
+							key={datum.id}
+							searchingByPercentage={props.searchingByPercentage}
+						/>
+					))}
+				</tbody>
+			</table>
+		</div>
+	);
+};
 export default TransfersTableBody;

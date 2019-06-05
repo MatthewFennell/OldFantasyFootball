@@ -51,6 +51,8 @@ interface TransfersProps {
   resetChanges: () => void;
 
   remainingBudgetOfUser: number;
+
+  sortFilteredPlayers: (sortBy: string) => void;
 }
 
 interface TransfersState {
@@ -76,6 +78,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		this.setMinPrice = this.setMinPrice.bind(this);
 		this.setMaxPrice = this.setMaxPrice.bind(this);
 		this.setSearchByName = this.setSearchByName.bind(this);
+		this.sortByColumnHeader = this.sortByColumnHeader.bind(this);
 		this.state = {
 			errorMessage: '',
 			isError: false,
@@ -102,7 +105,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	}
 
 	setPositionValue (position: string) {
-		console.log('Pos = ' + position);
 		this.setState(prevState => ({
 			filters: { ...prevState.filters, positionValue: position }
 		}));
@@ -280,6 +282,14 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		}
 	};
 
+	sortByColumnHeader (header: string) {
+		console.log('Header = ' + header);
+		// if (header === 'firstName') {
+		// 	this.props.sortFilteredPlayers('firstName');
+		// }
+		this.props.sortFilteredPlayers(header);
+	}
+
 	render () {
 		const { remainingBudget, transfersMarketOpen } = this.props;
 		return (
@@ -347,6 +357,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 										filteredPlayers={this.props.filteredPlayers}
 										handleRowClick={this.onRowClick}
 										searchingByPercentage={this.state.searchingByPercentage}
+										sortByColumnHeader={this.sortByColumnHeader}
 									/>
 								</div>
 							</div>
@@ -427,6 +438,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 												filteredPlayers={this.props.filteredPlayers}
 												handleRowClick={this.onRowClick}
 												searchingByPercentage={this.state.searchingByPercentage}
+												sortByColumnHeader={this.sortByColumnHeader}
 											/>
 										</div>
 									</div>
