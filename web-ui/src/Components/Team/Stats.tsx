@@ -64,7 +64,8 @@ class Stats extends React.Component<StatsProps> {
 	}
 
 	findMostValuable () {
-		if (this.props.userBeingViewed !== '' && Object.entries(this.props.mostValuable).length === 0) {
+		if (this.props.mostValuable[this.props.userBeingViewed] === undefined &&
+			this.props.userBeingViewed !== '') {
 			getMostValuableAssets(this.props.userBeingViewed).then(response => {
 				this.props.setMostValuable(this.props.userBeingViewed, response);
 			}).catch(error => {
@@ -107,7 +108,7 @@ class Stats extends React.Component<StatsProps> {
 				</div>
 
 				{this.props.topWeeklyPlayerName.length > 0 && <div className="player-most-points">
-					Player of the Week: {' '}{this.props.topWeeklyPlayerName} ({this.props.topWeeklyPlayerPoints}points)
+					Player of the Week: {' '}{this.props.topWeeklyPlayerName} ({this.props.topWeeklyPlayerPoints} points)
 				</div> }
 
 				 <div

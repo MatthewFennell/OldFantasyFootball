@@ -31,6 +31,12 @@ const TransfersTableBody: React.FC<TransfersTableBodyProps> = (props) => {
 	const memoizedSortByPosition = React.useCallback(
 		() => props.sortByColumnHeader('position'), []);
 
+	const memoizedSortByScore = React.useCallback(
+		() => props.sortByColumnHeader('points'), []);
+
+	const memoizedSortByPercentage = React.useCallback(
+		() => props.sortByColumnHeader('percentages'), []);
+
 	return (
 		<div>
 			<table>
@@ -85,15 +91,18 @@ const TransfersTableBody: React.FC<TransfersTableBodyProps> = (props) => {
 							}
 						</Media>
 
-						{props.searchingByPercentage ? <td
-							className="percentage"
-						                               >
-							{'Percentage'}{' '}
-						</td> : <td
-							className="score"
-						        >
-							{'Score'}{' '}
-						</td>}
+						{props.searchingByPercentage
+							? <td
+								className="percentage"
+								onClick={memoizedSortByPercentage}
+							  >
+								{'Percentage'}
+							</td> : <td
+								className="score"
+								onClick={memoizedSortByScore}
+							        >
+								{'Score'}
+							</td>}
 					</tr>
 				</thead>
 				<tbody>
