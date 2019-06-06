@@ -9,14 +9,10 @@ public class MostValuableDTO {
     private Player mostValuablePlayer;
     private int mostValuablePlayerScore;
 
-    private CollegeTeam mostValuableCollegeTeam;
-    private int mostValuableCollegeTeamScore;
 
-    public MostValuableDTO(Player mostValuablePlayer, int mostValuablePlayerScore, CollegeTeam mostValuableCollegeTeam, int mostValuableCollegeTeamScore) {
+    public MostValuableDTO(Player mostValuablePlayer, int mostValuablePlayerScore) {
         this.mostValuablePlayer = mostValuablePlayer;
         this.mostValuablePlayerScore = mostValuablePlayerScore;
-        this.mostValuableCollegeTeam = mostValuableCollegeTeam;
-        this.mostValuableCollegeTeamScore = mostValuableCollegeTeamScore;
     }
 
     public MostValuableDTO() {
@@ -38,19 +34,4 @@ public class MostValuableDTO {
         this.mostValuablePlayerScore = mostValuablePlayerScore;
     }
 
-    public CollegeTeam getMostValuableCollegeTeam() {
-        return mostValuableCollegeTeam;
-    }
-
-    public void setMostValuableCollegeTeam(CollegeTeam mostValuableCollegeTeam) {
-        this.mostValuableCollegeTeam = mostValuableCollegeTeam;
-    }
-
-    public int getMostValuableCollegeTeamScore() {
-        return mostValuableCollegeTeamScore;
-    }
-
-    public void setMostValuableCollegeTeamScore(int mostValuableCollegeTeamScore) {
-        this.mostValuableCollegeTeamScore = mostValuableCollegeTeamScore;
-    }
 }
