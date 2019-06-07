@@ -159,7 +159,7 @@ public class User {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
                     + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @PatchMapping("/user/teamName")
+    @PostMapping("/user/teamName")
     @PreAuthorize("hasRole('USER')")
     public boolean patchTeamName(@AuthenticationPrincipal ApplicationUser user,
                               String teamName, HttpServletResponse response) {
@@ -187,7 +187,7 @@ public class User {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
                     + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @PatchMapping("/user/resetPassword")
+    @PostMapping("/user/resetPassword")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean resetPassword(@AuthenticationPrincipal ApplicationUser user,
                                  String resetPassword, HttpServletResponse response) {

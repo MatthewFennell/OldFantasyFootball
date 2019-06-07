@@ -165,7 +165,7 @@ export const getUserBudget = (id: string): Promise<number> => {
 
 export const patchTeamName = (teamName: string): Promise<boolean> => {
 	return fetch('/api/user/teamName?teamName=' + teamName, {
-		method: 'PATCH',
+		method: 'POST',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {
 		if (response.status === 400) {
@@ -238,7 +238,7 @@ export const makeCaptain = (data: MakeCaptain): Promise<any> => {
 
 export const resetPassword = (username: string): Promise<boolean> => {
 	return fetch('/api/user/resetPassword?resetPassword=' + username, {
-		method: 'PATCH',
+		method: 'POST',
 		headers: { Authorization: getBearerHeader() }
 	}).then(response => {
 		if (response.status === 400) {
