@@ -184,7 +184,7 @@ export const patchTeamName = (teamName: string): Promise<boolean> => {
 
 export const patchPassword = (data: PatchPassword): Promise<boolean> => {
 	return fetch('/api/user/password', {
-		method: 'PATCH',
+		method: 'POST',
 		body: JSON.stringify(data),
 		headers: { Authorization: getBearerHeader(), 'Content-Type': 'application/json' }
 	}).then(response => {
