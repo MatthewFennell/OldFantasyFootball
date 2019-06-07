@@ -49,15 +49,12 @@ public class CollegeTeamController {
             return collegeTeamManager.makeTeam(name);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return null;
     }
@@ -78,19 +75,16 @@ public class CollegeTeamController {
                               @RequestBody String name, HttpServletResponse response) {
         try {
             response.setStatus(201);
-            collegeTeamManager.deleteTeam(name);
+            collegeTeamManager.deleteTeam(user, name);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -113,15 +107,12 @@ public class CollegeTeamController {
             collegeTeamManager.addStatsToCollegeTeam(dto);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
     }
 
@@ -143,15 +134,12 @@ public class CollegeTeamController {
             collegeTeamManager.editCollegeTeamStats(dto);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
     }
 

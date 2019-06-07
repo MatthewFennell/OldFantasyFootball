@@ -49,7 +49,6 @@ public class WeeksController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(409);
@@ -73,19 +72,16 @@ public class WeeksController {
                                      @RequestBody int week, HttpServletResponse response) {
         try {
             response.setStatus(201);
-            weeklyTeamManager.updateAllWeeklyTeams(week);
+            weeklyTeamManager.updateAllWeeklyTeams(user, week);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -106,19 +102,16 @@ public class WeeksController {
                               @RequestBody boolean transferMarketOpen, HttpServletResponse response) {
         try {
             response.setStatus(201);
-            weeklyTeamManager.setTransferMarket(transferMarketOpen);
+            weeklyTeamManager.setTransferMarket(user, transferMarketOpen);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -139,7 +132,6 @@ public class WeeksController {
             response.setStatus(200);
             return Constants.TRANSFER_MARKET_OPEN;
         } catch (Exception e) {
-            log.debug(e.getMessage());
             response.setStatus(400);
         }
         return false;
@@ -161,7 +153,6 @@ public class WeeksController {
             response.setStatus(200);
             return weeklyTeamManager.getTotalNumberOfWeeks();
         } catch (Exception e) {
-            log.debug(e.getMessage());
             response.setStatus(400);
         }
         return 0;

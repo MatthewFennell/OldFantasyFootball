@@ -65,7 +65,6 @@ public class PlayerDTO {
     }
 
     public void setPercentages(Double percentages) {
-        System.out.println("value = " + percentages);
         this.percentages = percentages;
     }
 

@@ -1,5 +1,7 @@
 package uk.co.scottlogic.gradProject.server.repos;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,8 @@ import java.util.*;
 
 @Service
 public class ApplicationUserManager {
+
+    private static final Logger log = LoggerFactory.getLogger(ApplicationUserManager.class);
 
     private ApplicationUserRepo applicationUserRepo;
     private WeeklyTeamRepo weeklyTeamRepo;
@@ -156,7 +160,7 @@ public class ApplicationUserManager {
         return false;
     }
 
-    public void makeUserCaptainOfTeam(String username, String collegeTeam){
+    public void makeUserCaptainOfTeam(ApplicationUser requestMaker, String username, String collegeTeam){
         Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
         if (!user.isPresent()){
             throw new IllegalArgumentException("User does not exist");
@@ -168,6 +172,7 @@ public class ApplicationUserManager {
         user.get().addAuthority(new UserAuthority(Constants.CAPTAIN_STRING));
         user.get().setCaptainOf(team.get());
         applicationUserRepo.save(user.get());
+        log.info("Username " + requestMaker.getUsername() + " made " + username + " a captain of " + collegeTeam);
     }
 
     public CollegeTeamDTO getTeamUserCaptainOf(ApplicationUser user){

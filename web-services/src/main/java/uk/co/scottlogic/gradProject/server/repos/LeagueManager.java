@@ -18,8 +18,6 @@ import java.util.*;
 @Service
 public class LeagueManager {
 
-    private static final Logger log = LoggerFactory.getLogger(LeagueManager.class);
-
     private LeagueRepo leagueRepo;
     private WeeklyTeamRepo weeklyTeamRepo;
     private ApplicationUserRepo applicationUserRepo;
@@ -58,21 +56,14 @@ public class LeagueManager {
     }
 
     public void leaveLeague(ApplicationUser user, String leagueName) {
-
         if (leagueName.equals(Constants.INITIAL_LEAGUE_NAME)) {
-            log.debug("({}) ({}) attempted to leave the original league", user.getFirstName(), user.getSurname());
             throw new IllegalArgumentException("Can't leave this league");
         }
-
         Optional<League> league = leagueRepo.findByLeagueName(leagueName);
-
         if (league.isPresent()) {
-
             if (league.get().getOwner().getId().equals(user.getId()) && league.get().getParticipants().size() > 1){
-                log.debug("Admin ({}) ({}) cannot leave league ({})", user.getFirstName(), user.getSurname(), league.get().getLeagueName());
                 throw new IllegalArgumentException("An admin cannot leave the league if other players are in it!");
             }
-
             boolean removed = false;
             int index = -1;
             int correct = -1;
@@ -87,11 +78,9 @@ public class LeagueManager {
                 league.get().getParticipants().remove(correct);
                 leagueRepo.save(league.get());
             } else {
-                log.debug("User ({}) ({}) is not in a league by name ){})", user.getFirstName(), user.getSurname(), leagueName);
                 throw new IllegalArgumentException("User can't leave league because they are not in it");
             }
         } else {
-            log.debug("League does not exist");
             throw new IllegalArgumentException("League does not exist");
         }
     }
@@ -117,7 +106,6 @@ public class LeagueManager {
         if (league.isPresent()) {
             League l = league.get();
             if (userExistsInLeague(user, l)) {
-                log.debug("User ({}) ({}) is already in league ({})", user.getFirstName(), user.getSurname(), l.getLeagueName());
                 throw new IllegalArgumentException("You are already in that league");
             }
             String leagueCode = l.getCodeToJoin();
@@ -127,17 +115,14 @@ public class LeagueManager {
                 int position = findPositionOfUserInLeague(user, l);
                 return new LeagueReturnDTO(l.getLeagueName(), position, l.getCodeToJoin());
             } else {
-                log.debug("Invalid code");
                 throw new IllegalArgumentException("Invalid code for league");  // Never happens?
             }
         } else {
-            log.debug("Invalid code for league");
             throw new IllegalArgumentException("Invalid code for league");
         }
     }
 
     boolean userExistsInLeague(ApplicationUser user, League league) {
-
         // Should make this not use the sorting method
         List<UserInLeagueReturnDTO> usersInLeague = findUsersInLeague(league);
         for (UserInLeagueReturnDTO u : usersInLeague) {
@@ -197,7 +182,6 @@ public class LeagueManager {
         }
     }
 
-
     // TO:DO
     // SURELY this can be improved
     public List<LeagueReturnDTO> findLeaguesPlayerIsIn(String id) {
@@ -228,5 +212,4 @@ public class LeagueManager {
             throw new IllegalArgumentException("User does not exist");
         }
     }
-
 }

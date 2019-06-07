@@ -88,7 +88,6 @@ public class PointsController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (IOException e1) {
-                log.debug(e1.getMessage());
             }
             ExceptionLogger.logException(e);
             response.setStatus(500);
@@ -140,7 +139,6 @@ public class PointsController {
             return applicationUserManager.findPointsInWeek(id, week);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -167,7 +165,6 @@ public class PointsController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         }
         return 0;
@@ -189,7 +186,6 @@ public class PointsController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (IOException e1) {
-                log.debug(e1.getMessage());
             }
             ExceptionLogger.logException(e);
             response.setStatus(500);

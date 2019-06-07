@@ -250,12 +250,9 @@ public class User {
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
-                ExceptionLogger.logException(e);
                 response.setStatus(500);
             }
         }
@@ -293,7 +290,6 @@ public class User {
             return applicationUserManager.findUserStats(id);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -318,7 +314,6 @@ public class User {
             return applicationUserManager.findRemainingBalance(id);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -340,16 +335,13 @@ public class User {
                                 HttpServletResponse response) {
         try {
             response.setStatus(200);
-            System.out.println("teamname = " + dto.getTeamname());
-            System.out.println("username = " + dto.getUsername());
-            applicationUserManager.makeUserCaptainOfTeam(dto.getUsername(), dto.getTeamname());
+            applicationUserManager.makeUserCaptainOfTeam(user, dto.getUsername(), dto.getTeamname());
             return true;
 
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(409);

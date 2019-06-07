@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
+import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
@@ -42,28 +43,30 @@ public class CollegeTeamManagerTest {
     public void deletingCollegeTeamThatDoesNotExistThrowsException(){
         String collegeTeamName = "Men's A";
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.empty());
-        collegeTeamManager.deleteTeam(collegeTeamName);
+        collegeTeamManager.deleteTeam(null, collegeTeamName);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void deletingCollegeTeamThatExistsWithPlayersInItReturnsThrowsException(){
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a");
         String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
         players.add(new Player());
         when(playerRepo.findByCollegeTeam(collegeTeam)).thenReturn(players);
-        collegeTeamManager.deleteTeam(collegeTeamName);
+        collegeTeamManager.deleteTeam(user, collegeTeamName);
     }
 
     @Test
     public void deletingCollegeTeamThatExistsWithNoPlayersInItReturnsCorrectly(){
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a");
         String collegeTeamName = "Men's A";
         CollegeTeam collegeTeam = new CollegeTeam(collegeTeamName);
         when(teamRepo.findByName(collegeTeamName)).thenReturn(Optional.of(collegeTeam));
         List<Player> players = new ArrayList<>();
         when(playerRepo.findByCollegeTeam(collegeTeam)).thenReturn(players);
-        collegeTeamManager.deleteTeam(collegeTeamName);
+        collegeTeamManager.deleteTeam(user, collegeTeamName);
     }
 
     @Test
