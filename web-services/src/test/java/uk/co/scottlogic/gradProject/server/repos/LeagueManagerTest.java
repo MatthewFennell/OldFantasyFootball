@@ -323,11 +323,6 @@ public class LeagueManagerTest {
 
         List<LeagueReturnDTO> leaguesUserIsIn = leagueManager.findLeaguesPlayerIsIn(id);
 
-
-        for (LeagueReturnDTO dto : leaguesUserIsIn){
-            System.out.println("league name = " + dto.getLeagueName() + ", position = " + dto.getPosition());
-        }
-
         assertEquals(Integer.valueOf(4), leaguesUserIsIn.get(0).getPosition());
         assertEquals(Integer.valueOf(2), leaguesUserIsIn.get(1).getPosition());
         assertEquals(Integer.valueOf(3), leaguesUserIsIn.get(2).getPosition());

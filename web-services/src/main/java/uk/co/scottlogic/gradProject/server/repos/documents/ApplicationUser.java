@@ -77,8 +77,6 @@ public class ApplicationUser implements UserDetails, Serializable {
     public ApplicationUser(RegisterDTO dto) {
         this(dto.getUsername(), dto.getPassword(), dto.getFirstName(), dto.getSurname());
         if (!dto.getKeycode().equals(Constants.REGISTER_KEY_CODE)){
-            System.out.println("invalid key");
-            System.out.println("key = " + dto.getKeycode());
             throw new IllegalArgumentException("Invalid key code");
         }
     }

@@ -77,7 +77,6 @@ public class PlayerController {
             response.setStatus(200);
             return weeklyTeamManager.findAllPlayersInWeeklyTeam(id, week);
         } catch (IllegalArgumentException e) {
-            log.debug(e.getMessage());
             response.setStatus(400);
         } catch (Exception e) {
             response.setStatus(500);
@@ -108,7 +107,6 @@ public class PlayerController {
             return playerManager.generateDTOFilterReturns(team, position, min, max, name, sort);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -138,7 +136,6 @@ public class PlayerController {
             return responses;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -165,7 +162,6 @@ public class PlayerController {
             return mostValuableDTO;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -190,7 +186,6 @@ public class PlayerController {
             return historyDTO;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -213,28 +208,24 @@ public class PlayerController {
         try {
             response.setStatus(201);
             playerManager.checkCaptainDoingCorrectly(user, dto.getCollegeTeam());
-            playerManager.makePlayer(dto);
+            playerManager.makePlayer(user, dto);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         }
         catch (IllegalAccessError f){
             try {
                 response.sendError(403, f.getMessage());
             } catch (Exception ff) {
-                log.debug(f.getMessage());
             }
         }
 
         catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -257,15 +248,12 @@ public class PlayerController {
             playerManager.changePlayersCollegeTeam(dto.getPlayerID(), dto.getCollegeName());
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
     }
 
@@ -284,19 +272,16 @@ public class PlayerController {
                              @RequestBody String id, HttpServletResponse response) {
         try {
             response.setStatus(200);
-            playerManager.deletePlayer(id);
+            playerManager.deletePlayer(user, id);
             return true;
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -321,7 +306,6 @@ public class PlayerController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(409);
@@ -344,13 +328,11 @@ public class PlayerController {
         try {
             response.setStatus(201);
             playerManager.addPointsToSinglePlayer(dto);
-            System.out.println("returning true");
             return true;
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(409);
@@ -380,14 +362,12 @@ public class PlayerController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         }
         catch (IllegalAccessError f){
             try {
                 response.sendError(403, f.getMessage());
             } catch (Exception ff) {
-                log.debug(f.getMessage());
             }
         }
         catch (Exception e) {
@@ -417,7 +397,6 @@ public class PlayerController {
             }
             return new PlayerPointsDTO(playerPoints);
         } catch (IllegalArgumentException e) {
-            log.debug(e.getMessage());
             response.setStatus(400);
         } catch (Exception e) {
             response.setStatus(500);
@@ -447,14 +426,12 @@ public class PlayerController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         }
         catch (IllegalAccessError f){
             try {
                 response.sendError(403, f.getMessage());
             } catch (Exception ff) {
-                log.debug(f.getMessage());
             }
         }
 

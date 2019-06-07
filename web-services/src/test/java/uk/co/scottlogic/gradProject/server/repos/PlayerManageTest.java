@@ -46,19 +46,6 @@ public class PlayerManageTest {
     }
 
     @Test
-    public void makePlayerForValidTeam() {
-        CollegeTeam collegeTeam = new CollegeTeam();
-        when(teamRepo.findById(any())).thenReturn(Optional.of(collegeTeam));
-        playerManager.makePlayer(collegeTeam, Enums.Position.DEFENDER, 0, "firstname", "surname");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void makePlayerForInvalidTeam() {
-        when(teamRepo.findById(any())).thenReturn(Optional.empty());
-        playerManager.makePlayer(new CollegeTeam(), Enums.Position.DEFENDER, 0, "firstname", "surname");
-    }
-
-    @Test
     public void addingPointsToPlayerChangesTheirWeeklyScore() {
         Integer goals = 5;
         Integer assists = 4;
@@ -365,10 +352,11 @@ public class PlayerManageTest {
 
     @Test
     public void playerIsDeletedIfTheyAreNotInAnyWeeklyTeam(){
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a");
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(weeklyTeamRepo.findAll()).thenReturn(Collections.emptyList());
-        playerManager.deletePlayer(player.getId().toString());
+        playerManager.deletePlayer(user, player.getId().toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -382,29 +370,30 @@ public class PlayerManageTest {
         teams.add(weeklyTeam);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(weeklyTeamRepo.findAll()).thenReturn(teams);
-        playerManager.deletePlayer(player.getId().toString());
+        playerManager.deletePlayer(null, player.getId().toString());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void deletePlayerThrowsExceptionIfTheyDoNotExist(){
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
-        playerManager.deletePlayer(player.getId().toString());
+        playerManager.deletePlayer(null, player.getId().toString());
     }
 
     @Test
     public void canMakePlayerWithDTO(){
+        ApplicationUser user = new ApplicationUser("username", "123456", "a", "a");
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         CollegeTeam collegeTeam = new CollegeTeam("A");
         when(teamRepo.findByName("A")).thenReturn(Optional.of(collegeTeam));
-        playerManager.makePlayer(playerDTO);
+        playerManager.makePlayer(user, playerDTO);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void makingPlayerWithDTOThrowsExceptionIfCollegeTeamDoesNotExist(){
         MakePlayerDTO playerDTO = new MakePlayerDTO("firstname", "surname", Enums.Position.ATTACKER, "A", 5.5);
         when(teamRepo.findByName("A")).thenReturn(Optional.empty());
-        playerManager.makePlayer(playerDTO);
+        playerManager.makePlayer(null, playerDTO);
     }
 
     @Test

@@ -49,18 +49,14 @@ public class LeagueController {
             return leagueManager.createLeague(user, dto.getLeagueName(), dto.getStartWeek());
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (DuplicateKeyException e) {
             response.setStatus(409);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return null;
     }
@@ -85,11 +81,9 @@ public class LeagueController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return null;
     }
@@ -113,11 +107,9 @@ public class LeagueController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -141,11 +133,9 @@ public class LeagueController {
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);
-            log.debug(e.getMessage());
         }
         return false;
     }
@@ -188,7 +178,6 @@ public class LeagueController {
             return leagueManager.findUsersInLeagueAndPositions(leagueName);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
         } catch (Exception e) {
             response.setStatus(500);
         }
@@ -212,11 +201,9 @@ public class LeagueController {
             return leagueManager.isLeagueAdmin(user, leagueName);
         } catch (IllegalArgumentException e) {
             response.setStatus(400);
-            log.debug(e.getMessage());
             try {
                 response.sendError(400, e.getMessage());
             } catch (Exception f) {
-                log.debug(f.getMessage());
             }
         } catch (Exception e) {
             response.setStatus(500);

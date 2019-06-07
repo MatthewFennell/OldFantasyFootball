@@ -53,37 +53,31 @@ public class WeeklyTeamManager {
                 UsersWeeklyTeam team = teams.get();
                 team.getPlayers().add(p);
                 weeklyTeamRepo.save(team);
-                log.debug("Added player {} to user {}", p.getFirstName(), user.getFirstName());
             }
         } else {
-            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
 
-    public void setTransferMarket(boolean transferMarket){
+    public void setTransferMarket(ApplicationUser user, boolean transferMarket){
         TransferMarketOpen transferMarketOpen = transferMarketRepo.findFirstByOrderByIsOpenAsc();
         transferMarketOpen.setOpen(transferMarket);
         transferMarketRepo.save(transferMarketOpen);
+        log.info("Username " + user.getUsername() + " set the transfer market to " + transferMarket);
     }
 
-    public void updateAllWeeklyTeams(int week){
-
+    public void updateAllWeeklyTeams(ApplicationUser requestMaker, int week){
         int maxWeek = weeklyTeamRepo.findNumberOfWeeks();
-
         if (week != maxWeek + 1){
             throw new IllegalArgumentException("The next week should be " + (maxWeek+1) + ", not " + week);
         }
-
         Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
         List<ApplicationUser> users = new ArrayList<>();
         allUsers.forEach(users::add);
         for (ApplicationUser user : users){
-
             if (weeklyTeamRepo.findByUserByWeek(user, week).isPresent()){
                 throw new IllegalArgumentException("There is already a weekly team for this week");
             }
-
             Optional<UsersWeeklyTeam> uwt = weeklyTeamRepo.findByUserByWeek(user, -1);
             if (uwt.isPresent()){
                 UsersWeeklyTeam newTeam = new UsersWeeklyTeam(user, new Date(), uwt.get().getPlayers(), week);
@@ -93,6 +87,7 @@ public class WeeklyTeamManager {
                 throw new IllegalArgumentException("User has no active team");
             }
         }
+        log.info("Username " + requestMaker.getUsername() + " triggered week " + week);
     }
 
     public Integer getTotalNumberOfWeeks() {
@@ -100,22 +95,18 @@ public class WeeklyTeamManager {
     }
 
     void removePlayerFromWeeklyTeam(ApplicationUser user, String id) {
-
         Optional<Player> player = playerRepo.findById(UUID.fromString(id));
         if (player.isPresent()) {
             Player p = player.get();
             Optional<UsersWeeklyTeam> teams = weeklyTeamRepo.findActiveTeam(user);
-            if (!teams.isEmpty()) {
+            if (teams.isPresent()) {
                 UsersWeeklyTeam team = teams.get();
                 team.getPlayers().remove(p);
                 weeklyTeamRepo.save(team);
-                log.debug("Removed player {} from user {}", p.getFirstName(), user.getFirstName());
             } else {
-                log.debug("Player ({}) ({}) does not have a weekly team", player.get().getFirstName(), player.get().getSurname());
                 throw new IllegalArgumentException("Player does not have a weekly team");
             }
         } else {
-            log.debug("Player does not exist");
             throw new IllegalArgumentException("Player does not exist");
         }
     }
@@ -141,7 +132,6 @@ public class WeeklyTeamManager {
 
             // TO:DO This will need to change if player prices change
             if (totalCost > Constants.INITIAL_BUDGET) {
-                log.debug("Team too expensive");
                 return false;
             }
 
@@ -200,11 +190,9 @@ public class WeeklyTeamManager {
         TransferMarketOpen transferMarketOpen = transferMarketRepo.findFirstByOrderByIsOpenAsc();
 
         if (!transferMarketOpen.getOpen()) {
-            log.debug("Transfer market is closed");
             throw new IllegalArgumentException("Transfer market is closed");
         }
         if (playersBeingAdded.isEmpty()) {
-            log.debug("Must attempt to transfer at least 1 player");
             throw new IllegalArgumentException("Must attempt to transfer at least 1 player");
         }
         Optional<UsersWeeklyTeam> optionalActiveTeam = weeklyTeamRepo.findActiveTeam(user);
@@ -214,7 +202,6 @@ public class WeeklyTeamManager {
         UsersWeeklyTeam activeTeam = optionalActiveTeam.get();
 
         if (activeTeam.getPlayers().size() + playersBeingAdded.size() - playersBeingRemoved.size() != Constants.MAX_TEAM_SIZE) {
-            log.debug("Invalid team size");
             throw new IllegalArgumentException("Invalid team size");
         }
 
@@ -225,7 +212,6 @@ public class WeeklyTeamManager {
                 players.add(p.get());
                 priceOfAdding += p.get().getPrice();
             } else {
-                log.debug("Player being added does not exist");
                 throw new IllegalArgumentException("Player being added does not exist");
             }
         }
@@ -235,7 +221,6 @@ public class WeeklyTeamManager {
                 players.remove(p.get());
                 priceOfRemoving += p.get().getPrice();
             } else {
-                log.debug("Player being removed does not exist");
                 throw new IllegalArgumentException("Player being removed does not exist");
             }
         }
@@ -259,24 +244,18 @@ public class WeeklyTeamManager {
     public List<PlayerDTO> findAllPlayersInWeeklyTeam(String id, Integer week) {
         Optional<ApplicationUser> user = applicationUserRepo.findById(UUID.fromString(id));
         if (user.isPresent()) {
-            System.out.println("searching for week " + week);
             Optional<UsersWeeklyTeam> team = weeklyTeamRepo.findByUserByWeek(user.get(), week);
             List<PlayerDTO> playersToReturn = new ArrayList<>();
 
             if (team.isPresent()) {
-                System.out.println("team is present");
                 List<Player> players = team.get().getPlayers();
                 for (Player p : players) {
                     playersToReturn.add(new PlayerDTO(p, playerManager.findPointsForPlayerInWeek(p, week)));
-                    System.out.println("added DTO");
                 }
             } else {
-                log.debug("No weekly team for that user and week");
                 throw new IllegalArgumentException("No weekly team for that user and week");
             }
             playersToReturn.sort(Comparator.comparing(PlayerDTO::getPosition));
-            System.out.println("sorted them by position");
-
             return playersToReturn;
         }
         else {

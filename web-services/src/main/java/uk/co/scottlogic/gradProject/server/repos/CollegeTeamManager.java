@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.scottlogic.gradProject.server.misc.Enums;
+import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
 import uk.co.scottlogic.gradProject.server.repos.documents.CollegeTeam;
 import uk.co.scottlogic.gradProject.server.repos.documents.Player;
 import uk.co.scottlogic.gradProject.server.routers.dto.CollegeTeamDTO;
@@ -38,19 +39,18 @@ public class CollegeTeamManager {
         return new CollegeTeamDTO(team);
     }
 
-    public void deleteTeam(String name) {
+    public void deleteTeam(ApplicationUser user, String name) {
         Optional<CollegeTeam> collegeTeam = teamRepo.findByName(name);
 
         if (collegeTeam.isPresent()) {
             List<Player> players = playerRepo.findByCollegeTeam(collegeTeam.get());
 
             if (!players.isEmpty()) {
-                log.debug("Can't delete a college team that has players associated with it");
                 throw new IllegalArgumentException("Can't delete a college team that has players associated with it");
             }
             teamRepo.delete(collegeTeam.get());
+            log.info("Username " + user.getUsername() + " deleted college team " + name);
         } else {
-            log.debug("No college team exists by name ({})", name);
             throw new IllegalArgumentException("No college team with that name exists");
         }
     }
@@ -68,10 +68,8 @@ public class CollegeTeamManager {
             } else if (dto.getResult().equals(Enums.CollegeMatchResult.LOSS)) {
                 collegeTeam.get().addLoss();
             }
-
             teamRepo.save(collegeTeam.get());
         } else {
-            log.debug("No college team exists by name ({})", dto.getCollegeName());
             throw new IllegalArgumentException("College team does not exist");
         }
     }
@@ -88,7 +86,6 @@ public class CollegeTeamManager {
 
             teamRepo.save(collegeTeam.get());
         } else {
-            log.debug("No college team exists by name ({})", dto.getCollegeName());
             throw new IllegalArgumentException("College team does not exist");
         }
     }
@@ -137,13 +134,11 @@ public class CollegeTeamManager {
         for (CollegeTeam ct : allCollegeTeams) {
             teamsOrderedByPoints.add(new CollegeTeamDTO(ct));
         }
-
         if (sortBy.equals("points")) {
             teamsOrderedByPoints.sort(this::compareByPoints);
         } else {
             teamsOrderedByPoints.sort(this::compareByAlphabet);
         }
-
         return teamsOrderedByPoints;
     }
 }
