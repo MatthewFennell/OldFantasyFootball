@@ -241,7 +241,7 @@ public class User {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 409, message = "Patch property conflicts with existing resource or "
                     + "property"), @ApiResponse(code = 500, message = "Server Error")})
-    @PatchMapping("/user/password")
+    @PostMapping("/user/password")
     @PreAuthorize("hasRole('USER')")
     public boolean patchPassword(@AuthenticationPrincipal ApplicationUser user,
                               @RequestBody PatchPassword dto, HttpServletResponse response) {
