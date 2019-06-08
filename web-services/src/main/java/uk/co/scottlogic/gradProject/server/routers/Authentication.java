@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.co.scottlogic.gradProject.server.auth.JwtTokenProvider;
 import uk.co.scottlogic.gradProject.server.auth.TokenPair;
 import uk.co.scottlogic.gradProject.server.misc.Constants;
+import uk.co.scottlogic.gradProject.server.repos.ApplicationUserManager;
 import uk.co.scottlogic.gradProject.server.repos.ApplicationUserRepo;
 import uk.co.scottlogic.gradProject.server.repos.LeagueRepo;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamRepo;
@@ -42,21 +43,20 @@ public class Authentication {
     private static final Logger log = LoggerFactory.getLogger(Authentication.class);
 
     private JwtTokenProvider jwtTokenProvider;
-
     private ApplicationUserRepo applicationUserRepo;
-
     private WeeklyTeamRepo weeklyTeamRepo;
-
     private LeagueRepo leagueRepo;
+    private ApplicationUserManager applicationUserManager;
 
     @Autowired
     public Authentication(ApplicationUserRepo applicationUserRepo,
                           JwtTokenProvider jwtTokenProvider, WeeklyTeamRepo weeklyTeamRepo,
-                          LeagueRepo leagueRepo) {
+                          LeagueRepo leagueRepo, ApplicationUserManager applicationUserManager) {
         this.applicationUserRepo = applicationUserRepo;
         this.jwtTokenProvider = jwtTokenProvider;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.leagueRepo = leagueRepo;
+        this.applicationUserManager = applicationUserManager;
     }
 
     @ApiOperation(value = "Login: Fetches a token pair for the user, either pass refresh token or "
@@ -90,6 +90,7 @@ public class Authentication {
                     return null;
                 }
                 response.setStatus(201); //
+                applicationUserManager.saveLogin(loginDTO.getUsername());
                 return new TokenReturnDTO(returnable);
             } else {
                 TokenPair returnable = jwtTokenProvider.login(loginDTO.getUsername(),
@@ -99,6 +100,7 @@ public class Authentication {
                     return null;
                 }
                 response.setStatus(201); //
+                applicationUserManager.saveLogin(loginDTO.getUsername());
                 return new TokenReturnDTO(returnable);
             }
         } catch (AuthenticationCredentialsNotFoundException E) {
