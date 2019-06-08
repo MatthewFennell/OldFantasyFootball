@@ -35,9 +35,12 @@ public class UserTest {
     @Mock
     private CollegeTeamRepo collegeTeamRepo;
 
+    @Mock
+    private LoginsPerDayRepo loginsPerDayRepo;
+
     @Before
     public void setUp() {
-        ApplicationUserManager applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager, collegeTeamRepo);
+        ApplicationUserManager applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo, weeklyTeamManager, collegeTeamRepo, loginsPerDayRepo);
         userController = new User(applicationUserRepo, applicationUserManager);
     }
 

@@ -31,9 +31,10 @@ public class ApplicationUserManagerTest {
     private CollegeTeamRepo collegeTeamRepo;
 
     @Mock
+    private LoginsPerDayRepo loginsPerDayRepo;
+
+    @Mock
     private TransferMarketRepo transferMarketRepo;
-
-
     private ApplicationUserManager applicationUserManager;
 
     @Before
@@ -41,7 +42,7 @@ public class ApplicationUserManagerTest {
         MockitoAnnotations.initMocks(this);
         WeeklyTeamManager weeklyTeamManager = new WeeklyTeamManager(applicationUserRepo, null, weeklyTeamRepo, null, transferMarketRepo);
         applicationUserManager = new ApplicationUserManager(applicationUserRepo, weeklyTeamRepo,
-                weeklyTeamManager, collegeTeamRepo);
+                weeklyTeamManager, collegeTeamRepo, loginsPerDayRepo);
     }
 
     @Test
