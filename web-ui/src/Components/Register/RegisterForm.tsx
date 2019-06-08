@@ -60,7 +60,7 @@ class RegisterForm extends React.Component<RoutedFormProps<RouteComponentProps>,
   		this.setState({ error: 'Invalid username - must contain only alphanumeric characters', isError: true });
   		return true;
   	} else if (RegisterService.invalidPasscode(this.state.passcode)) {
-  		this.setState({ error: 'Invalid password - password must be between 6 and 31 characters, including at least 1 number', isError: true });
+  		this.setState({ error: 'Invalid password - password must be between 6 and 31 alphanumeric characters, including at least 1 number', isError: true });
   		return true;
   	} else if (RegisterService.passcodeTooShort(this.state.passcode)) {
   		this.setState({ error: 'Password is too short', isError: true });
