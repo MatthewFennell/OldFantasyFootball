@@ -52,8 +52,9 @@ public class PlayerManageTest {
         Integer assists = 4;
         CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
+        PlayerPoints playerPoints = new PlayerPoints(goals, assists, false, 0, false, false, player, 0);
         Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
-        playerManager.addPointsToPlayer(user, player, goals, assists, false, 0, false, false, 0);
+        playerManager.addPointsToPlayer(user, playerPoints);
         assertEquals(score, player.getTotalScore());
     }
 
@@ -76,7 +77,8 @@ public class PlayerManageTest {
         Integer goals = 5;
         Integer assists = 1;
         Integer expectedScore = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
-        playerManager.addPointsToPlayer(player, goals, assists, false, 0, false, false, 0);
+        PlayerPoints playerPoints = new PlayerPoints(goals, assists, false, 0, false, false, player, 0);
+        playerManager.addPointsToPlayer(user, playerPoints);
 
         assertEquals(expectedScore, weeklyTeam_one.getPoints());
         assertEquals(expectedScore, weeklyTeam_two.getPoints());
@@ -84,13 +86,14 @@ public class PlayerManageTest {
 
     @Test
     public void addingPointsToPlayerChangesTheirWeeklyScoreObject() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer goals = 5;
         Integer assists = 4;
         CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
         PlayerPoints playerPoints = new PlayerPoints(goals,assists, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
+        playerManager.addPointsToPlayer(user, playerPoints);
         assertEquals(score, player.getTotalScore());
     }
 
@@ -114,7 +117,7 @@ public class PlayerManageTest {
         Integer assists = 1;
         Integer expectedScore = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
         PlayerPoints playerPoints = new PlayerPoints(goals,assists, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
+        playerManager.addPointsToPlayer(user, playerPoints);
         assertEquals(expectedScore, weeklyTeam_one.getPoints());
         assertEquals(expectedScore, weeklyTeam_two.getPoints());
     }
@@ -295,17 +298,19 @@ public class PlayerManageTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void addingPointsToSeveralPlayersThrowsIllegalArgumentIfPlayerDoesNotExist() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, false, 0, false, false, "id", 0);
         List<PlayerPointsDTO> playerPointsDTOS = new ArrayList<>();
         playerPointsDTOS.add(playerPointsDTO);
         AddMultiplePointsDTO dto = new AddMultiplePointsDTO(playerPointsDTOS);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
-        playerManager.addPointsToSeveralPlayers(dto);
+        playerManager.addPointsToSeveralPlayers(user, dto);
     }
 
     @Test
     public void addingPointsToSinglePlayerGivesThemPoints() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer goals = 10;
         Integer assists = 5;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
@@ -315,39 +320,42 @@ public class PlayerManageTest {
         AddMultiplePointsDTO dto = new AddMultiplePointsDTO(playerPointsDTOS);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
-        playerManager.addPointsToSeveralPlayers(dto);
+        playerManager.addPointsToSeveralPlayers(user, dto);
         assertEquals(goals, player.getTotalGoals());
         assertEquals(assists, player.getTotalAssists());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void editingPointsOfPlayerWhoHasNoneInThatWeekThrowsIllegalArgument() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, false, 0, false, false, "id", 0);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.empty());
-        playerManager.editPoints(playerPointsDTO);
+        playerManager.editPoints(user, playerPointsDTO);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void editingPointsOfPlayerWhoDoesNotExistThrowsIllegalArgument() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 10, false, 0, false, false, "id", 0);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
-        playerManager.editPoints(playerPointsDTO);
+        playerManager.editPoints(user, playerPointsDTO);
     }
 
     @Test
     public void editingPointsOfPlayerUpdatesTheirPointsObject() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer newGoals = 250;
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
         PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
+        playerManager.addPointsToPlayer(user, playerPoints);
 
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
-        playerManager.editPoints(playerPointsDTO);
+        playerManager.editPoints(user, playerPointsDTO);
         assertEquals(newGoals, player.getTotalGoals());
     }
 
@@ -418,34 +426,37 @@ public class PlayerManageTest {
 
     @Test
     public void addingPointsToSinglePlayerPerformsCorrectlyIfTheyHaveNoPointsForThatWeekAlready(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.empty());
-        playerManager.addPointsToSinglePlayer(playerPointsDTO);
+        playerManager.addPointsToSinglePlayer(user, playerPointsDTO);
         assertEquals(Integer.valueOf(10), player.getTotalGoals());
         assertEquals(Integer.valueOf(5), player.getTotalAssists());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void addingPointsToSinglePlayerThrowsExceptionIfTheyAlreadyHavePoints(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("A");
         String id = UUID.randomUUID().toString();
         Player player = new Player(collegeTeam, Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(any(), any())).thenReturn(Optional.of(new PlayerPoints()));
-        playerManager.addPointsToSinglePlayer(playerPointsDTO);
+        playerManager.addPointsToSinglePlayer(user, playerPointsDTO);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void addingPointsToSinglePlayerThrowsExceptionIfThePlayerDoesNotExist(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         String id = UUID.randomUUID().toString();
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(10, 5, false, 0, false, false, id, 0);
         when(playerRepo.findById(UUID.fromString(id))).thenReturn(Optional.empty());
-        playerManager.addPointsToSinglePlayer(playerPointsDTO);
+        playerManager.addPointsToSinglePlayer(user, playerPointsDTO);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -538,11 +549,12 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCollegeWin(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
         SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1), collegeTeam.getWins());
         assertEquals(Integer.valueOf(0), collegeTeam.getDraws());
         assertEquals(Integer.valueOf(0), collegeTeam.getLosses());
@@ -550,11 +562,12 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCollegeDraw(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
         SubmitPointsDTO dto = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(0), collegeTeam.getWins());
         assertEquals(Integer.valueOf(1), collegeTeam.getDraws());
         assertEquals(Integer.valueOf(0), collegeTeam.getLosses());
@@ -562,11 +575,12 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCollegeLoss(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("college_team");
         SubmitPointsDTO dto = new SubmitPointsDTO(1, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "college_team", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("college_team")).thenReturn(Optional.of(collegeTeam));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(0), collegeTeam.getWins());
         assertEquals(Integer.valueOf(0), collegeTeam.getDraws());
         assertEquals(Integer.valueOf(1), collegeTeam.getLosses());
@@ -574,17 +588,19 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCollegeGoalsForAndAgainst(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         SubmitPointsDTO dto = new SubmitPointsDTO(1532, 2710, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1532), collegeTeam.getGoalsFor());
         assertEquals(Integer.valueOf(2710), collegeTeam.getGoalsAgainst());
     }
 
     @Test
     public void submittingOneResultUpdatesGoalsForGoalscorer(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
@@ -596,7 +612,7 @@ public class PlayerManageTest {
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1), player.getTotalGoals());
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfGoals());
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, playerPoints.getPoints());
@@ -604,6 +620,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesAssistsForAssistMaker(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
@@ -615,7 +632,7 @@ public class PlayerManageTest {
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1), player.getTotalAssists());
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfAssists());
         assertEquals(Constants.POINTS_PER_ASSIST, playerPoints.getPoints());
@@ -623,6 +640,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesCleanSheetsForCleanSheetsDefenders(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p", "s");
@@ -634,7 +652,7 @@ public class PlayerManageTest {
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertTrue(playerPoints.isCleanSheet());
         assertEquals(Constants.POINTS_PER_CLEAN_SHEET, playerPoints.getPoints());
     }
@@ -656,7 +674,7 @@ public class PlayerManageTest {
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, uwt.getPoints());
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, user.getTotalPoints());
     }
@@ -678,7 +696,7 @@ public class PlayerManageTest {
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Constants.POINTS_PER_ASSIST, uwt.getPoints());
         assertEquals(Constants.POINTS_PER_ASSIST, user.getTotalPoints());
     }
@@ -700,13 +718,14 @@ public class PlayerManageTest {
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 0)).thenReturn(Collections.singletonList(uwt));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Constants.POINTS_PER_CLEAN_SHEET, uwt.getPoints());
         assertEquals(Constants.POINTS_PER_CLEAN_SHEET, user.getTotalPoints());
     }
 
     @Test
     public void submittingOneResultUpdatesPointsForMultipleGoalscorers(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
@@ -740,7 +759,7 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player2, week)).thenReturn(Optional.of(playerPoints2));
         when(playerPointsRepo.findByPlayerByWeek(player3, week)).thenReturn(Optional.of(playerPoints3));
         when(playerPointsRepo.findByPlayerByWeek(player4, week)).thenReturn(Optional.of(playerPoints4));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1), player.getTotalGoals());
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfGoals());
 
@@ -764,6 +783,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesPointsForMultipleAssists(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "p", "s");
@@ -797,7 +817,7 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player2, week)).thenReturn(Optional.of(playerPoints2));
         when(playerPointsRepo.findByPlayerByWeek(player3, week)).thenReturn(Optional.of(playerPoints3));
         when(playerPointsRepo.findByPlayerByWeek(player4, week)).thenReturn(Optional.of(playerPoints4));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertEquals(Integer.valueOf(1), player.getTotalAssists());
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfAssists());
 
@@ -821,6 +841,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingOneResultUpdatesPointsForMultipleCleanSheetsAndZeroPointsIfTheyAreAnAttacker(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         Player player = new Player(collegeTeam, Enums.Position.DEFENDER, 10, "p", "s");
@@ -854,7 +875,7 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player2, week)).thenReturn(Optional.of(playerPoints2));
         when(playerPointsRepo.findByPlayerByWeek(player3, week)).thenReturn(Optional.of(playerPoints3));
         when(playerPointsRepo.findByPlayerByWeek(player4, week)).thenReturn(Optional.of(playerPoints4));
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
         assertTrue(playerPoints.isCleanSheet());
         assertTrue(playerPoints1.isCleanSheet());
         assertTrue(playerPoints2.isCleanSheet());
@@ -952,7 +973,7 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player7, week)).thenReturn(Optional.of(playerPoints7));
 
         when(weeklyTeamRepo.findByPlayersAndWeek(any(), any())).thenReturn(weeklyTeams);
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
 
         assertEquals(Integer.valueOf(3), player.getTotalGoals());
         assertEquals(Integer.valueOf(1), player1.getTotalGoals());
@@ -1002,15 +1023,16 @@ public class PlayerManageTest {
 
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesCollegeResults(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         CollegeTeam collegeTeam = new CollegeTeam("Men's A");
         SubmitPointsDTO dto = new SubmitPointsDTO(100, 10, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         SubmitPointsDTO dto1 = new SubmitPointsDTO(10, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         SubmitPointsDTO dto2 = new SubmitPointsDTO(100, 100, 0, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "Men's A", UUID.randomUUID().toString());
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(0);
         when(teamRepo.findByName("Men's A")).thenReturn(Optional.of(collegeTeam));
-        playerManager.submitResults(dto);
-        playerManager.submitResults(dto1);
-        playerManager.submitResults(dto2);
+        playerManager.submitResults(user, dto);
+        playerManager.submitResults(user, dto1);
+        playerManager.submitResults(user, dto2);
         assertEquals(Integer.valueOf(1), collegeTeam.getWins());
         assertEquals(Integer.valueOf(1), collegeTeam.getDraws());
         assertEquals(Integer.valueOf(1), collegeTeam.getLosses());
@@ -1018,6 +1040,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesGoalsForGoalscorer(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
@@ -1032,8 +1055,8 @@ public class PlayerManageTest {
         when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
-        playerManager.submitResults(dto);
-        playerManager.submitResults(dto1);
+        playerManager.submitResults(user, dto);
+        playerManager.submitResults(user, dto1);
         assertEquals(Integer.valueOf(2), player.getTotalGoals());
         assertEquals(Integer.valueOf(2), playerPoints.getNumberOfGoals());
         assertEquals(Integer.valueOf(Constants.POINTS_PER_ATTACKER_GOAL*2), playerPoints.getPoints());
@@ -1041,6 +1064,7 @@ public class PlayerManageTest {
 
     @Test
     public void submittingMultipleResultsForSameWeekUpdatesMultiplePoints(){
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer week = 0;
         CollegeTeam collegeTeam = new CollegeTeam("Woman's A");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
@@ -1073,9 +1097,9 @@ public class PlayerManageTest {
         when(playerPointsRepo.findByPlayerByWeek(player, week)).thenReturn(Optional.of(playerPoints));
         when(playerPointsRepo.findByPlayerByWeek(player1, week)).thenReturn(Optional.of(playerPoints1));
         when(playerPointsRepo.findByPlayerByWeek(player2, week)).thenReturn(Optional.of(playerPoints2));
-        playerManager.submitResults(dto);
-        playerManager.submitResults(dto1);
-        playerManager.submitResults(dto2);
+        playerManager.submitResults(user, dto);
+        playerManager.submitResults(user, dto1);
+        playerManager.submitResults(user, dto2);
         assertEquals(Integer.valueOf(1), player.getTotalGoals());
         assertEquals(Integer.valueOf(1), playerPoints.getNumberOfGoals());
 
@@ -1205,7 +1229,7 @@ public class PlayerManageTest {
         when(teamRepo.findByName("Woman's A")).thenReturn(Optional.of(collegeTeam));
 
         SubmitPointsDTO dto = new SubmitPointsDTO(2, 0, 0, goalScorersWeekOne, assistsWeekOne, cleanSheets, "Woman's A", UUID.randomUUID().toString());
-        playerManager.submitResults(dto);
+        playerManager.submitResults(user, dto);
 
         assertEquals(Constants.POINTS_PER_ATTACKER_GOAL, playerPoints.getPoints());
         assertEquals(Integer.valueOf(0), playerPoints1.getPoints());
@@ -1296,7 +1320,7 @@ public class PlayerManageTest {
 
         when(weeklyTeamRepo.findNumberOfWeeks()).thenReturn(1);
         SubmitPointsDTO dto1 = new SubmitPointsDTO(2, 0, 1, goalScorersWeekTwo, assistsWeekTwo, cleanSheetsWeekTwo, "Woman's A", UUID.randomUUID().toString());
-        playerManager.submitResults(dto1);
+        playerManager.submitResults(user, dto1);
 
         assertEquals(Integer.valueOf(1), playerPoints33.getNumberOfGoals());
         assertEquals(Integer.valueOf(3), playerPoints77.getNumberOfGoals());
@@ -1381,7 +1405,7 @@ public class PlayerManageTest {
         when(weeklyTeamRepo.findByPlayersAndWeek(player, 1)).thenReturn(Collections.singletonList(uwt1));
 
         PlayerPointsDTO editPoints = new PlayerPointsDTO(10,3,true,1,true,false, player.getId().toString(), 1);
-        playerManager.editPoints(editPoints);
+        playerManager.editPoints(user, editPoints);
 
         Integer newScore = Constants.POINTS_PER_ATTACKER_GOAL*10 + Constants.POINTS_PER_ASSIST*3+Constants.MAN_OF_THE_MATCH_BONUS + Constants.POINTS_PER_YELLOW_CARD + Constants.POINTS_PER_RED_CARD;
         assertEquals(newScore, playerPoints1.getPoints());
