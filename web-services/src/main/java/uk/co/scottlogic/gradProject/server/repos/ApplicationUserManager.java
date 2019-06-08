@@ -20,14 +20,17 @@ public class ApplicationUserManager {
     private WeeklyTeamRepo weeklyTeamRepo;
     private WeeklyTeamManager weeklyTeamManager;
     private CollegeTeamRepo collegeTeamRepo;
+    private LoginsPerDayRepo loginsPerDayRepo;
 
     @Autowired
     public ApplicationUserManager(ApplicationUserRepo applicationUserRepo, WeeklyTeamRepo weeklyTeamRepo,
-                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo) {
+                                  WeeklyTeamManager weeklyTeamManager, CollegeTeamRepo collegeTeamRepo,
+                                  LoginsPerDayRepo loginsPerDayRepo) {
         this.applicationUserRepo = applicationUserRepo;
         this.weeklyTeamRepo = weeklyTeamRepo;
         this.weeklyTeamManager = weeklyTeamManager;
         this.collegeTeamRepo = collegeTeamRepo;
+        this.loginsPerDayRepo = loginsPerDayRepo;
     }
 
     public void patchUser(ApplicationUser user, UserPatchDTO userPatchDTO) {
@@ -55,6 +58,11 @@ public class ApplicationUserManager {
         }
         // Will only update their details if there are no errors with any of their inputs
         applicationUserRepo.save(user);
+    }
+
+    public void saveLogin(String username){
+        LoginsPerDay login = new LoginsPerDay(username);
+        loginsPerDayRepo.save(login);
     }
 
     public void patchPassword(ApplicationUser user, PatchPassword dto){
