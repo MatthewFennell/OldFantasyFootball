@@ -192,7 +192,7 @@ public class User {
     public boolean resetPassword(@AuthenticationPrincipal ApplicationUser user,
                                  String resetPassword, HttpServletResponse response) {
         try {
-            applicationUserManager.resetUserPassword(resetPassword);
+            applicationUserManager.resetUserPassword(user, resetPassword);
             return true;
         } catch (IllegalArgumentException e) {
             try {

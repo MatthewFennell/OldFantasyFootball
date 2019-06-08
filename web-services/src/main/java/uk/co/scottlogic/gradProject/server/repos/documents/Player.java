@@ -177,5 +177,8 @@ public class Player {
         return false;
     }
 
+    public String toString(){
+        return "Name: " + this.firstName + " " + this.surname + ", Team: " + this.activeTeam.getName();
+    }
 
 }

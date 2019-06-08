@@ -21,10 +21,10 @@ interface AddPointsFormProps {
 interface AddPointsFormState {
   goals: string;
   assists: string;
-  manOfTheMatch: boolean;
+  manOfTheMatch: string;
   yellowCards: string;
-  cleanSheet: boolean;
-  redCard: boolean;
+  cleanSheet: string;
+  redCard: string;
   playerID: string;
   week: string;
   viewingDefender: boolean;
@@ -50,10 +50,10 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.state = {
 			goals: '',
 			assists: '',
-			manOfTheMatch: false,
+			manOfTheMatch: 'No',
 			yellowCards: '0',
-			cleanSheet: false,
-			redCard: false,
+			cleanSheet: 'No',
+			redCard: 'No',
 			playerID: '',
 			week: this.props.totalNumberOfWeeks.toString(),
 			viewingDefender: true,
@@ -85,7 +85,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		}
 		if (!haveSet) {
 			this.setState({ viewingDefender: false });
-			this.setState({ cleanSheet: false });
+			this.setState({ cleanSheet: 'No' });
 		}
 	}
 
@@ -93,7 +93,7 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.setState({ assists });
 	}
 
-	_handleManOfTheMatch (manOfTheMatch: boolean) {
+	_handleManOfTheMatch (manOfTheMatch: string) {
 		this.setState({ manOfTheMatch });
 	}
 
@@ -101,11 +101,11 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		this.setState({ yellowCards });
 	}
 
-	_handleCleanSheet (cleanSheet: boolean) {
+	_handleCleanSheet (cleanSheet: string) {
 		this.setState({ cleanSheet });
 	}
 
-	_handleRedCard (redCard: boolean) {
+	_handleRedCard (redCard: string) {
 		this.setState({ redCard });
 	}
 
@@ -149,10 +149,10 @@ class AddPointsForm extends React.Component<AddPointsFormProps, AddPointsFormSta
 		let data: AddPoints = {
 			goals: goals,
 			assists: assists,
-			manOfTheMatch: manOfTheMatch,
+			manOfTheMatch: manOfTheMatch === 'Yes',
 			yellowCards: yellowCards,
-			cleanSheet: cleanSheet,
-			redCard: redCard,
+			cleanSheet: cleanSheet === 'Yes',
+			redCard: redCard === 'Yes',
 			playerID: playerID,
 			week: week
 		};

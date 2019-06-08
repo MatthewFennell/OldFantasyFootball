@@ -60,10 +60,12 @@ public class WeeklyTeamManager {
     }
 
     public void setTransferMarket(ApplicationUser user, boolean transferMarket){
+        log.info("---------------SETTING TRANSFER MARKET---------------");
         TransferMarketOpen transferMarketOpen = transferMarketRepo.findFirstByOrderByIsOpenAsc();
         transferMarketOpen.setOpen(transferMarket);
         transferMarketRepo.save(transferMarketOpen);
         log.info("Username " + user.getUsername() + " set the transfer market to " + transferMarket);
+        log.info("---------------TRANSFER MARKET SET---------------");
     }
 
     public void updateAllWeeklyTeams(ApplicationUser requestMaker, int week){
@@ -71,6 +73,7 @@ public class WeeklyTeamManager {
         if (week != maxWeek + 1){
             throw new IllegalArgumentException("The next week should be " + (maxWeek+1) + ", not " + week);
         }
+        log.info("---------------IMPORTANT - UPDATING ALL TEAMS---------------");
         Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
         List<ApplicationUser> users = new ArrayList<>();
         allUsers.forEach(users::add);
@@ -88,6 +91,7 @@ public class WeeklyTeamManager {
             }
         }
         log.info("Username " + requestMaker.getUsername() + " triggered week " + week);
+        log.info("---------------WEEKLY TEAMS UPDATED---------------");
     }
 
     public Integer getTotalNumberOfWeeks() {

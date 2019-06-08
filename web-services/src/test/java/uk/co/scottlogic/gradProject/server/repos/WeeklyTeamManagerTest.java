@@ -428,6 +428,7 @@ public class WeeklyTeamManagerTest {
 
     @Test
     public void findPlayersInWeeklyTeamCorrectly() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         String id = UUID.randomUUID().toString();
         CollegeTeam collegeTeam = new CollegeTeam("name");
         List<Player> players = new ArrayList<>();
@@ -439,8 +440,8 @@ public class WeeklyTeamManagerTest {
         PlayerPoints playerPoints_one = new PlayerPoints(2, 1, false, 0, false, false, player_one, 0);
         PlayerPoints playerPoints_two = new PlayerPoints(4, 1, false, 0, false, false, player_two, 0);
 
-        playerManager.addPointsToPlayer(player_one, 2, 1, false, 0, false, false, 0);
-        playerManager.addPointsToPlayer(player_two, 4, 1, false, 0, false, false, 0);
+        playerManager.addPointsToPlayer(user, playerPoints_one);
+        playerManager.addPointsToPlayer(user, playerPoints_two);
 
         ApplicationUser u1 = new ApplicationUser("a", "123456", "a", "a");
 

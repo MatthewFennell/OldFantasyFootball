@@ -30,16 +30,19 @@ public class CollegeTeamManager {
 
 
     public CollegeTeamDTO makeTeam(String name) {
+        log.info("---------------MAKING COLLEGE TEAM---------------");
         Optional<CollegeTeam> collegeTeam = teamRepo.findByName(name);
         if (collegeTeam.isPresent()){
             throw new IllegalArgumentException("A college team already exists with name : " + name);
         }
         CollegeTeam team = new CollegeTeam(name);
         teamRepo.save(team);
+        log.info("---------------COLLEGE TEAM MADE---------------");
         return new CollegeTeamDTO(team);
     }
 
     public void deleteTeam(ApplicationUser user, String name) {
+        log.info("---------------DELETING COLLEGE TEAM---------------");
         Optional<CollegeTeam> collegeTeam = teamRepo.findByName(name);
 
         if (collegeTeam.isPresent()) {
@@ -53,6 +56,7 @@ public class CollegeTeamManager {
         } else {
             throw new IllegalArgumentException("No college team with that name exists");
         }
+        log.info("---------------COLLEGE TEAM DELETED---------------");
     }
 
     public void addStatsToCollegeTeam(CollegeTeamStatsDTO dto) {
