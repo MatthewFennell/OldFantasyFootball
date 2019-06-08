@@ -50,9 +50,8 @@ class CustomDropdown extends React.Component<CustomDropdownProps, CustomDropdown
 	}
 
 	_handleValueChange (position: string) {
-		const { setData } = this.props;
 		this.setState({ value: position });
-		setData(position);
+		this.props.setData(position);
 	}
 
 	render () {

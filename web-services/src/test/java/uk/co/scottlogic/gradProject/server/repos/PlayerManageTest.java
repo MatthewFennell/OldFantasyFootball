@@ -47,12 +47,13 @@ public class PlayerManageTest {
 
     @Test
     public void addingPointsToPlayerChangesTheirWeeklyScore() {
+        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
         Integer goals = 5;
         Integer assists = 4;
         CollegeTeam collegeTeam = new CollegeTeam("name");
         Player player = new Player(collegeTeam, Enums.Position.ATTACKER, 10, "firstname", "surname");
         Integer score = goals * Constants.POINTS_PER_ATTACKER_GOAL + assists * Constants.POINTS_PER_ASSIST;
-        playerManager.addPointsToPlayer(player, goals, assists, false, 0, false, false, 0);
+        playerManager.addPointsToPlayer(user, player, goals, assists, false, 0, false, false, 0);
         assertEquals(score, player.getTotalScore());
     }
 

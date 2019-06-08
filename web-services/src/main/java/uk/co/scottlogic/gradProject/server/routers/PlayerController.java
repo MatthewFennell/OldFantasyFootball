@@ -298,10 +298,9 @@ public class PlayerController {
     public void addPointsToPlayers(@AuthenticationPrincipal ApplicationUser user,
                                    @RequestBody AddMultiplePointsDTO dto,
                                    HttpServletResponse response) {
-
         try {
             response.setStatus(201);
-            playerManager.addPointsToSeveralPlayers(dto);
+            playerManager.addPointsToSeveralPlayers(user, dto);
         } catch (IllegalArgumentException e) {
             try {
                 response.sendError(400, e.getMessage());
@@ -327,7 +326,7 @@ public class PlayerController {
 
         try {
             response.setStatus(201);
-            playerManager.addPointsToSinglePlayer(dto);
+            playerManager.addPointsToSinglePlayer(user, dto);
             return true;
         } catch (IllegalArgumentException e) {
             try {
@@ -356,7 +355,7 @@ public class PlayerController {
         try {
             response.setStatus(201);
             playerManager.checkPlayerBelongsToCaptain(user, dto.getPlayerID());
-            playerManager.editPoints(dto);
+            playerManager.editPoints(user, dto);
             return true;
         } catch (IllegalArgumentException e) {
             try {

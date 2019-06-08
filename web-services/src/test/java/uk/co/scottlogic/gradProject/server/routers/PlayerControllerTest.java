@@ -279,7 +279,7 @@ public class PlayerControllerTest {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
         PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
+        playerManager.addPointsToPlayer(user, playerPoints);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.of(player));
         when(playerPointsRepo.findByPlayerByWeek(player, 0)).thenReturn(Optional.of(playerPoints));
         MockHttpServletResponse response = new MockHttpServletResponse();
@@ -294,7 +294,7 @@ public class PlayerControllerTest {
         Player player = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
         PlayerPointsDTO playerPointsDTO = new PlayerPointsDTO(newGoals, 10, false, 0, false, false, player.getId().toString(), 0);
         PlayerPoints playerPoints = new PlayerPoints(3, 2, false, 0, false, false, player, 0);
-        playerManager.addPointsToPlayer(playerPoints);
+        playerManager.addPointsToPlayer(user, playerPoints);
         when(playerRepo.findById(player.getId())).thenReturn(Optional.empty());
         MockHttpServletResponse response = new MockHttpServletResponse();
         playerController.editPointsForPlayer(user, playerPointsDTO, response);

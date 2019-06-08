@@ -22,10 +22,10 @@ interface EditPointsFormProps {
 interface EditPointsFormState {
   goals: string;
   assists: string;
-  manOfTheMatch: boolean;
+  manOfTheMatch: string;
   yellowCards: string;
-  cleanSheet: boolean;
-  redCard: boolean;
+  cleanSheet: string;
+  redCard: string;
   playerID: string;
   week: string;
   viewingDefender: boolean;
@@ -54,10 +54,10 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this.state = {
 			goals: '',
 			assists: '',
-			manOfTheMatch: false,
+			manOfTheMatch: 'No',
 			yellowCards: '0',
-			cleanSheet: false,
-			redCard: false,
+			cleanSheet: 'No',
+			redCard: 'No',
 			playerID: '',
 			week: this.props.totalNumberOfWeeks.toString(),
 			viewingDefender: true,
@@ -96,8 +96,8 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 							cleanSheet: false,
 							playerID: 'nobody',
 							week: 0,
-							responseMessage: error
-						}
+						},
+						responseMessage: error
 					});
 				});
 		}
@@ -133,7 +133,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		}
 		if (!haveSet) {
 			this.setState({ viewingDefender: false });
-			this.setState({ cleanSheet: false });
+			this.setState({ cleanSheet: 'No' });
 		}
 	}
 
@@ -145,7 +145,7 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 	_handleAssists (assists: string) {
 		this.setState({ assists });
 	}
-	_handleManOfTheMatch (manOfTheMatch: boolean) {
+	_handleManOfTheMatch (manOfTheMatch: string) {
 		this.setState({ manOfTheMatch });
 	}
 
@@ -153,11 +153,11 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		this.setState({ yellowCards });
 	}
 
-	_handleCleanSheet (cleanSheet: boolean) {
+	_handleCleanSheet (cleanSheet: string) {
 		this.setState({ cleanSheet });
 	}
 
-	_handleRedCard (redCard: boolean) {
+	_handleRedCard (redCard: string) {
 		this.setState({ redCard });
 	}
 
@@ -199,10 +199,10 @@ class EditPointsForm extends React.Component<EditPointsFormProps, EditPointsForm
 		let data: AddPoints = {
 			goals: goals,
 			assists: assists,
-			manOfTheMatch: manOfTheMatch,
+			manOfTheMatch: manOfTheMatch === 'Yes',
 			yellowCards: yellowCards,
-			cleanSheet: cleanSheet,
-			redCard: redCard,
+			cleanSheet: cleanSheet === 'Yes',
+			redCard: redCard === 'Yes',
 			playerID: playerID,
 			week: week
 		};
