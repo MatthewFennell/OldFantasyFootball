@@ -419,7 +419,7 @@ public class PlayerController {
         try {
             response.setStatus(201);
             playerManager.checkCaptainDoingCorrectly(user, dto.getTeamName());
-            playerManager.submitResults(dto);
+            playerManager.submitResults(user, dto);
             return true;
 
         } catch (IllegalArgumentException e) {

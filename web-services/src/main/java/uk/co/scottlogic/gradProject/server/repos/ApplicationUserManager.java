@@ -184,12 +184,13 @@ public class ApplicationUserManager {
         }
     }
 
-    public void resetUserPassword(String username){
+    public void resetUserPassword(ApplicationUser requestMaker, String username){
         Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
         if (!user.isPresent()){
             throw new IllegalArgumentException("There is no account with that username");
         }
         user.get().savePassword("123456");
         applicationUserRepo.save(user.get());
+        log.info("Username " + requestMaker.getUsername() + " reset password of account " + username);
     }
 }

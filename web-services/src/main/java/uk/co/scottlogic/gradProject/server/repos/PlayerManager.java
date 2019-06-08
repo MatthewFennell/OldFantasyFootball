@@ -131,7 +131,7 @@ public class PlayerManager {
 
     // Should only add results once per team per match
     // TO:DO - Change max week per team
-    public void submitResults(SubmitPointsDTO pointsDTO){
+    public void submitResults(ApplicationUser user, SubmitPointsDTO pointsDTO){
         setPercentagesOfPlayersInTeams();
 
         Integer maxWeek = weeklyTeamRepo.findNumberOfWeeks();
@@ -148,7 +148,7 @@ public class PlayerManager {
         }
 
         Optional<Player> manOfTheMatchPlayer = playerRepo.findById(UUID.fromString(pointsDTO.getManOfTheMatch()));
-        manOfTheMatchPlayer.ifPresent(player1 -> addManOfTheMatch(player1, pointsDTO.getWeek()));
+        manOfTheMatchPlayer.ifPresent(player1 -> addManOfTheMatch(user, player1, pointsDTO.getWeek()));
 
         Optional<CollegeTeam> collegeTeam = teamRepo.findByName(pointsDTO.getTeamName());
         if (collegeTeam.isPresent()){
@@ -168,7 +168,7 @@ public class PlayerManager {
             for (String goalScorerID : pointsDTO.getGoalScorers()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(goalScorerID));
                 if (player.isPresent()){
-                    addGoalToPlayer(player.get(), pointsDTO.getWeek());
+                    addGoalToPlayer(user, player.get(), pointsDTO.getWeek());
                 }
                 else {
                     throw new IllegalArgumentException("No player exists for player id " + goalScorerID);
@@ -178,7 +178,7 @@ public class PlayerManager {
             for (String assistsID : pointsDTO.getAssists()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(assistsID));
                 if (player.isPresent()){
-                    addAssistToPlayer(player.get(), pointsDTO.getWeek());
+                    addAssistToPlayer(user, player.get(), pointsDTO.getWeek());
                 }
                 else {
                     throw new IllegalArgumentException("No player exists for player id " + assistsID);
@@ -188,7 +188,7 @@ public class PlayerManager {
             for (String cleanSheetID : pointsDTO.getCleanSheets()){
                 Optional<Player> player = playerRepo.findById(UUID.fromString(cleanSheetID));
                 if (player.isPresent()){
-                    addCleanSheet(player.get(), pointsDTO.getWeek());
+                    addCleanSheet(user, player.get(), pointsDTO.getWeek());
                 }
                 else {
                     throw new IllegalArgumentException("No player exists for player id " + cleanSheetID);
@@ -197,36 +197,6 @@ public class PlayerManager {
         }
         else {
             throw new IllegalArgumentException("College team ( " + pointsDTO.getTeamName() + " )  does not exist");
-        }
-    }
-
-    // When adding points to a player
-    // Add points to all the weekly teams they belong to for the correct week
-    // Update the users total score as well
-    void addPointsToPlayer(Player player, Integer goals, Integer assists, Boolean cleanSheet, Integer yellowCards, Boolean redCard, Boolean manOfTheMatch, Integer week) {
-        PlayerPoints newPlayerPoints = new PlayerPoints(goals, assists, manOfTheMatch, yellowCards, redCard, cleanSheet, player, week);
-        newPlayerPoints.setPoints(calculateScore(newPlayerPoints));
-        playerPointsRepo.save(newPlayerPoints);
-        Integer score = calculateScore(newPlayerPoints);
-
-        player.changeScore(score);
-        player.changeGoals(goals);
-        player.changeAssists(assists);
-        playerRepo.save(player);
-        // Shouldn't this also filter by week? -> Only update the week that the points are being added to
-        List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(player, week);
-        for (UsersWeeklyTeam uwt : weeklyTeams) {
-
-            if (uwt.getWeek().equals(week)) {
-                // Increase the weekly team score
-                uwt.changePoints(score);
-                weeklyTeamRepo.save(uwt);
-
-                // Increase the users total score
-                ApplicationUser user = uwt.getUser();
-                user.changeTotalPoints(score);
-                applicationUserRepo.save(user);
-            }
         }
     }
 
@@ -299,13 +269,14 @@ public class PlayerManager {
         }
     }
 
-    private void addGoalToPlayer(Player player, Integer week){
+    private void addGoalToPlayer(ApplicationUser requestMaker, Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
         if (playerPoints.isPresent()){
             player.changeGoals(1);
             playerPoints.get().addGoal();
             playerPoints.get().setPoints(calculateScore(playerPoints.get()));
             playerPointsRepo.save(playerPoints.get());
+            log.info("Username " + requestMaker.getUsername() + " added a goal in week " + week + " to " + player.toString());
             List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), week);
             for (UsersWeeklyTeam uwt : weeklyTeams) {
                 ApplicationUser user = uwt.getUser();
@@ -332,11 +303,11 @@ public class PlayerManager {
         else {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
-            addGoalToPlayer(player, week);
+            addGoalToPlayer(requestMaker ,player, week);
         }
     }
 
-    private void addManOfTheMatch(Player player, Integer week){
+    private void addManOfTheMatch(ApplicationUser requestMaker, Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
         if (playerPoints.isPresent()){
             playerPoints.get().setManOfTheMatch(true);
@@ -345,6 +316,7 @@ public class PlayerManager {
             List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), week);
             player.changeScore(Constants.MAN_OF_THE_MATCH_BONUS);
             playerRepo.save(player);
+            log.info("Username " + requestMaker.getUsername() + " set Man of the Match in week " + week + " to " + player.toString());
             for (UsersWeeklyTeam uwt : weeklyTeams) {
                 ApplicationUser user = uwt.getUser();
                 uwt.changePoints(Constants.MAN_OF_THE_MATCH_BONUS);
@@ -356,11 +328,11 @@ public class PlayerManager {
         else {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
-            addManOfTheMatch(player, week);
+            addManOfTheMatch(requestMaker, player, week);
         }
     }
 
-    private void addAssistToPlayer(Player player, Integer week){
+    private void addAssistToPlayer(ApplicationUser requestMaker, Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
         if (playerPoints.isPresent()){
             player.changeAssists(1);
@@ -370,6 +342,7 @@ public class PlayerManager {
             player.changeScore(Constants.POINTS_PER_ASSIST);
             playerRepo.save(player);
             List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), week);
+            log.info("Username " + requestMaker.getUsername() + " added an assist in week " + week + " to " + player.toString());
             for (UsersWeeklyTeam uwt : weeklyTeams) {
                 ApplicationUser user = uwt.getUser();
                 uwt.changePoints(Constants.POINTS_PER_ASSIST);
@@ -381,7 +354,7 @@ public class PlayerManager {
         else {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
-            addAssistToPlayer(player, week);
+            addAssistToPlayer(requestMaker, player, week);
         }
     }
 
@@ -436,7 +409,7 @@ public class PlayerManager {
         return maxID;
     }
 
-    private void addCleanSheet(Player player, Integer week){
+    private void addCleanSheet(ApplicationUser requestMaker, Player player, Integer week){
         Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player, week);
         if (playerPoints.isPresent()){
             playerPoints.get().setCleanSheet(true);
@@ -445,6 +418,7 @@ public class PlayerManager {
             player.changeScore(Constants.POINTS_PER_CLEAN_SHEET);
             playerRepo.save(player);
             List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), week);
+            log.info("Username " + requestMaker.getUsername() + " added a Clean Sheet in week " + week + " to " + player.toString());
             for (UsersWeeklyTeam uwt : weeklyTeams) {
                 ApplicationUser user = uwt.getUser();
                 uwt.changePoints(Constants.POINTS_PER_CLEAN_SHEET);
@@ -456,13 +430,11 @@ public class PlayerManager {
         else {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
             playerPointsRepo.save(playerPoints1);
-            player.changeScore(Constants.POINTS_PER_CLEAN_SHEET);
-            playerRepo.save(player);
-            addCleanSheet(player, week);
+            addCleanSheet(requestMaker, player, week);
         }
     }
 
-    public void editPoints(PlayerPointsDTO dto) {
+    public void editPoints(ApplicationUser requestMaker, PlayerPointsDTO dto) {
         Optional<Player> player = playerRepo.findById(UUID.fromString(dto.getPlayerID()));
         if (player.isPresent()) {
             Optional<PlayerPoints> playerPoints = playerPointsRepo.findByPlayerByWeek(player.get(), dto.getWeek());
@@ -484,7 +456,6 @@ public class PlayerManager {
                 player.get().changeScore(differenceInScores);
                 playerPointsRepo.save(playerPoints.get());
                 playerRepo.save(player.get());
-
                 List<UsersWeeklyTeam> weeklyTeams = weeklyTeamRepo.findByPlayersAndWeek(playerPoints.get().getPlayer(), dto.getWeek());
                 for (UsersWeeklyTeam uwt : weeklyTeams) {
                     uwt.changePoints(differenceInScores);
