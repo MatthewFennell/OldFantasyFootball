@@ -188,7 +188,7 @@ public class ApplicationUser implements UserDetails, Serializable {
 
     public void savePassword(String password) {
         if (!password.matches(PASSWORD_PATTERN)) {
-            throw new IllegalArgumentException("Password must be between 6 and 31 characters, including at least 1 number");
+            throw new IllegalArgumentException("Password must be between 6 and 31 alphanumeric characters, including at least 1 number");
         }
         this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
     }
