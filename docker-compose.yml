@@ -19,10 +19,10 @@ services:
     volumes:
       - /var/lib/mariadb/data
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: fantasy
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: fantasy
+      MYSQL_ROOT_PASSWORD: "${SQL_ROOT_PASSWORD}"
+      MYSQL_USER: "${SQL_USER}"
+      MYSQL_PASSWORD: "${SQL_PASSWORD}"
+      MYSQL_DATABASE: "${SQL_DATABASE}"
     ports:
       - 3307:3306
   server:
@@ -33,9 +33,9 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/fantasy
-      SPRING_DATASOURCE_PASSWORD: password
-      SPRING_DATASOURCE_USERNAME: fantasy
+      SPRING_DATASOURCE_URL: "jdbc:mariadb://database:3306/${DATASOURCE}"
+      SPRING_DATASOURCE_PASSWORD: "${DATASOURCE_PASSWORD}"
+      SPRING_DATASOURCE_USERNAME: "${DATASOURCE_USERNAME}"
       SERVER_TOMCAT_MAXTHREADS: 5
   watchtower:
    image: containrrr/watchtower
@@ -56,9 +56,9 @@ services:
 # wget https://download.docker.com/linux/debian/dists/stretch/pool/stable/amd64/containerd.io_1.2.2-1_amd64.deb
 # sudo dpkg -i containerd.io_1.2.2-1_amd64.deb
 
-# sudo usermod -aG docker mfennell
-# sudo apt-get install docker
-# sudo apt-get install docker-compose
+# sudo usermod -aG docker mfennell (replace with username on ssh screen (need to restart ssh because of this))
+# sudo apt-get install docker -y
+# sudo apt-get install docker-compose -y
 
 # vim docker-compose.yml -> : set paste -> ctrl-v the .yml file in (check version at top - should be 2)
 
