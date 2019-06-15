@@ -53,8 +53,7 @@ class CollegeTeamDropdown extends React.Component<CollegeTeamProps, CollegeTeamS
 			.then(response => {
 				this.props.setPlayersInFilteredTeam(response);
 			})
-			.catch(error => {
-				console.log(error);
+			.catch(() => {
 				this.props.setPlayersInFilteredTeam([]);
 			});
 	}

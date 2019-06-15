@@ -149,8 +149,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 				if (Object.entries(this.props.team).length === 0) {
 					this.props.setTeam(this.props.accountId, -1, response);
 				}
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -166,8 +165,7 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 		if (this.props.accountId !== '' && this.props.remainingBudget[this.props.accountId] === undefined) {
 			getUserBudget(this.props.accountId).then(response => {
 				this.props.setBudget(this.props.accountId, response);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -283,10 +281,6 @@ class Transfers extends React.Component<TransfersProps, TransfersState> {
 	};
 
 	sortByColumnHeader (header: string) {
-		console.log('Header = ' + header);
-		// if (header === 'firstName') {
-		// 	this.props.sortFilteredPlayers('firstName');
-		// }
 		this.props.sortFilteredPlayers(header);
 	}
 

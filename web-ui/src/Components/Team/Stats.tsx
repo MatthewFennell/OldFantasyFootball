@@ -57,8 +57,7 @@ class Stats extends React.Component<StatsProps> {
 		if (this.props.userBeingViewed !== '' && this.props.remainingBudgetOfUser === undefined) {
 			getUserBudget(this.props.userBeingViewed).then(response => {
 				this.props.setBudget(this.props.userBeingViewed, response);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -68,8 +67,7 @@ class Stats extends React.Component<StatsProps> {
 			this.props.userBeingViewed !== '') {
 			getMostValuableAssets(this.props.userBeingViewed).then(response => {
 				this.props.setMostValuable(this.props.userBeingViewed, response);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -77,14 +75,13 @@ class Stats extends React.Component<StatsProps> {
 	handleViewTeamOfTheWeek () {
 		const week: number = this.props.weekBeingViewed === -1 ? this.props.totalNumberOfWeeks : this.props.weekBeingViewed;
 		const teamOfTheWeekId : TopWeeklyUser = this.props.topWeeklyUsers[week];
-		if (this.props.team[teamOfTheWeekId.id] === undefined ||
-			this.props.team[teamOfTheWeekId.id]['week-' + week] === undefined) {
+		if (week !== 0 && (this.props.team[teamOfTheWeekId.id] === undefined ||
+			this.props.team[teamOfTheWeekId.id]['week-' + week] === undefined)) {
 			getTeamForUserInWeek(teamOfTheWeekId.id, week).then(response => {
 				this.props.setTeam(teamOfTheWeekId.id, week, response);
 				this.props.setWeekBeingViewed(week);
 				this.props.setUserBeingViewed(teamOfTheWeekId.id);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		} else {
 			this.props.setWeekBeingViewed(week);

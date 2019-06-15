@@ -58,15 +58,13 @@ class Info extends React.Component<StatsProps, InfoState> {
 				if (this.props.weeklyPoints[this.props.userBeingViewed][week] === undefined) {
 					getPointsForUserInWeek(this.props.userBeingViewed, week).then(response => {
 						this.props.setWeeklyPoints(this.props.userBeingViewed, response, week);
-					}).catch(error => {
-						console.log('error = ' + error);
+					}).catch(() => {
 					});
 				}
 			  } catch (error) {
 				getPointsForUserInWeek(this.props.userBeingViewed, week).then(response => {
 					this.props.setWeeklyPoints(this.props.userBeingViewed, response, week);
-				}).catch(error => {
-					console.log('error = ' + error);
+				}).catch(() => {
 				});
 			  }
 		}
@@ -76,15 +74,15 @@ class Info extends React.Component<StatsProps, InfoState> {
 		if (this.props.userBeingViewed !== '' && this.props.totalPointsForUser === undefined) {
 			getTotalPointsById(this.props.userBeingViewed).then(response => {
 				this.props.setTotalPoints(this.props.userBeingViewed, response);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
 
 	_handleWeekChange (week: number) {
 		this.props.setWeekBeingViewed(week);
-		if (this.props.team[this.props.userBeingViewed][week] === undefined) {
+		if (week !== 0 && ((this.props.team[this.props.userBeingViewed] === undefined ||
+			this.props.team[this.props.userBeingViewed]['week-' + week] === undefined))) {
 			getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
 				this.props.setTeam(this.props.userBeingViewed, week, response);
 			});
