@@ -71,7 +71,7 @@ class TeamData extends React.Component<TeamDataProps> {
 		}
 
 		// Top weekly player
-		if (this.props.topWeeklyPlayer[currentWeek] === undefined) {
+		if (this.props.topWeeklyPlayer[currentWeek] === undefined && currentWeek !== 0) {
 			getPlayersWithMostPointsInWeek(currentWeek).then(playerMostPoints => {
 				this.props.addToTopWeeklyPlayers(currentWeek, playerMostPoints);
 			});

@@ -140,15 +140,15 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 	}
 
 	handleViewUser (id: string) {
-		if (this.props.team[id] === undefined ||
-			this.props.team[id]['week-' + this.props.weekBeingViewed] === undefined) {
+		if (this.props.weekBeingViewed !== 0 && (this.props.team[id] === undefined ||
+			this.props.team[id]['week-' + this.props.weekBeingViewed] === undefined)) {
 			getTeamForUserInWeek(id, this.props.weekBeingViewed).then(response => {
 				this.props.setTeam(id, this.props.weekBeingViewed, response);
 				this.props.setUserBeingViewed(id);
 				this.props.setPageBeingViewed('Team');
 				this.props.history.push('/team');
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
+
 			});
 		} else {
 			this.props.setUserBeingViewed(id);
@@ -178,8 +178,7 @@ class Leagues extends React.Component<RoutedFormProps<RouteComponentProps> & Lea
 		} else {
 			getUserInfo(this.props.userBeingViewed).then(response => {
 				this.setState({ leaguesMessage: 'You are viewing leagues of ' + response.firstName + '  ' + response.surname });
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}

@@ -49,8 +49,7 @@ class Captain extends React.Component<RoutedFormProps<RouteComponentProps> & Cap
 				this.props.setPlayersInFilteredTeam(response);
 			});
 		})
-			.catch(error => {
-				console.log('error = ' + error);
+			.catch(() => {
 			});
 
 		const createHandler = (message: string) => () => this.props.setCaptainPageBeingViewed(message);

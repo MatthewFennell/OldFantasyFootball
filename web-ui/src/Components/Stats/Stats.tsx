@@ -45,8 +45,7 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
 			getStats(week).then(response => {
 				this.props.setStatsHistory(week, response);
 			})
-				.catch(error => {
-					console.log('error = ' + error);
+				.catch(() => {
 				});
 		}
 	}

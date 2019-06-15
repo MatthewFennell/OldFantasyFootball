@@ -84,6 +84,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		};
 		this.updateUserInfo();
 		this.findLeagues();
+		console.log('trigger 2');
 		this.findAllTeams();
 		this.findTransferTeam();
 	}
@@ -93,13 +94,13 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		if (header != null) {
 			header.hidden = false;
 		}
-		this.findAllTeams();
 	}
 
 	componentDidUpdate (prevProps:any) {
 		if (prevProps.userBeingViewed !== this.props.userBeingViewed) {
 			this.updateUserInfo();
 			this.findLeagues();
+			console.log('trigger 4');
 			this.findAllTeams();
 		}
 
@@ -108,18 +109,20 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 		}
 
 		if (prevProps.totalNumberOfWeeks !== this.props.totalNumberOfWeeks) {
+			console.log('trigger 3');
 			this.findAllTeams();
 		}
 	}
 
 	findAllTeams () {
 		for (let week = -1; week <= this.props.totalNumberOfWeeks; week++) {
-			if (this.props.team[this.props.userBeingViewed] === undefined ||
-					this.props.team[this.props.userBeingViewed]['week-' + week] === undefined) {
+			if (this.props.userBeingViewed !== '' && week !== 0 && (this.props.team[this.props.userBeingViewed] === undefined ||
+					this.props.team[this.props.userBeingViewed]['week-' + week] === undefined)) {
+				console.log('firing');
 				getTeamForUserInWeek(this.props.userBeingViewed, week).then(response => {
 					this.props.setTeam(this.props.userBeingViewed, week, response);
-				}).catch(error => {
-					console.log('error = ' + error);
+					console.log('setting');
+				}).catch(() => {
 				});
 			}
 		}
@@ -130,8 +133,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			getTeamForUserInWeek(this.props.accountId, -1).then(response => {
 				this.props.setOriginalTransferTeam(response);
 				this.props.setCurrentTransferTeam(response);
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -154,8 +156,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			getUserInfo(this.props.userBeingViewed).then(response => {
 				this.setState({ usernameBeingViewed: response.firstName + ' ' + response.surname });
 				this.setState({ teamNameBeingViewed: response.teamName });
-			}).catch(error => {
-				console.log('error = ' + error);
+			}).catch(() => {
 			});
 		}
 	}
@@ -173,8 +174,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			};
 			this.setState({ playerPointsBeingViewed: playerPoints, playerPointsViewed: true });
 		})
-			.catch(error => {
-				console.log('failure - ' + error);
+			.catch(() => {
 				this.setState({ playerPointsBeingViewed: {} as any, playerPointsViewed: false });
 			});
 	}
@@ -208,8 +208,7 @@ class Team extends React.Component<RoutedFormProps<RouteComponentProps> & TeamPr
 			};
 			this.setState({ playerPointsBeingViewed: playerPoints, playerPointsViewed: true });
 		})
-			.catch(error => {
-				console.log('failure - ' + error);
+			.catch(() => {
 				this.setState({ playerPointsBeingViewed: {} as any, playerPointsViewed: false });
 			});
 	}

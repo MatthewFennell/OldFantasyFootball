@@ -107,7 +107,6 @@ export const createPlayer = (data: CreatePlayer): Promise<any> => {
 };
 
 export const deletePlayer = (id: string): Promise<boolean> => {
-	console.log('id = ' + id);
 	return fetch('/api/player/delete', {
 		method: 'POST',
 		body: id,
@@ -115,7 +114,6 @@ export const deletePlayer = (id: string): Promise<boolean> => {
 	}).then(response => {
 		if (!response.ok) {
 			if (response.status === 400) {
-				console.log('response = ' + response);
 				return response.json().then(json => {
 					if (response.ok) {
 						return json;
@@ -187,7 +185,6 @@ export const editPlayerPoints = (data: AddPoints): Promise<boolean> => {
 };
 
 export const findPlayersInCollegeTeam = (data: string): Promise<PlayerDTO[]> => {
-	console.log('sending data ' + JSON.stringify(data));
 	return fetch('/api/player/team/' + data, {
 		method: 'GET',
 		headers: { Authorization: getBearerHeader() }
@@ -207,7 +204,6 @@ export const findPlayersInCollegeTeam = (data: string): Promise<PlayerDTO[]> => 
 };
 
 export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
-	console.log('sending data ' + JSON.stringify(data));
 	return fetch(
 		'/api/player/max/' +
       data.maximum +
@@ -226,7 +222,6 @@ export const filterPlayers = (data: FilterPlayers): Promise<PlayerDTO[]> => {
 			headers: { Authorization: getBearerHeader() }
 		}
 	).then(response => {
-		console.log('Response = ' + JSON.stringify(response));
 		if (response.status === 200) {
 			return response.json();
 		}

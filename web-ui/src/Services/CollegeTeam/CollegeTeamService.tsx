@@ -33,7 +33,6 @@ export const deleteCollegeTeam = (name: string): Promise<any> => {
 		body: name,
 		headers: { 'Content-Type': 'application/json', Authorization: getBearerHeader() }
 	}).then(response => {
-		console.log('response status = ' + response.status);
 		if (!response.ok) {
 			if (response.status === 400) {
 				return response.json().then(json => {
