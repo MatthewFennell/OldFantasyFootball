@@ -13,9 +13,13 @@
      margin-left: auto;
      margin-right: auto;
     .team-and-username-pitch{
-        min-height: 50px;
+        min-height: 25px;
         text-align: center;
+        display: flex;
+        margin-bottom: 5px;
         .pitchUsername, .pitchTeamName{
+          margin-left: 15px;
+          margin-right: 15px;
           font-size: 16px;
           color: $yellow-text;
         }

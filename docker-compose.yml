@@ -37,6 +37,23 @@ services:
       - COMPRESSION=bzip2
     volumes:
       - /dumps:/db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7
+    ports:
+      - 8081:80
+
+  mysql-backup:
+    image: databack/mysql-backup
+    environment:
+      - DB_PORT=3307
+      - DB_SERVER=db
+      - DB_USER="${SQL_USERNAME}"
+      - DB_PASS="${SQL_PASSWORD}"
+      - DB_DUMP_TARGET=/db
+      - DB_DUMP_FREQ=1
+      - COMPRESSION=bzip2
+    volumes:
+      - /dumps:/db
   server:
     container_name: fantasy-server
     image: pampoomio/fantasy-server:latest
