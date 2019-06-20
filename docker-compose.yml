@@ -1,6 +1,17 @@
 version: "2"
 
 services:
+  traefik:
+    image: traefik:1.5.4
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.toml:/traefik.toml
+      - ./traefik/acme.json:/acme.json
+    container_name: traefik
   ui:
     container_name: fantasy-ui
     image: pampoomio/fantasy-ui:latest
@@ -11,12 +22,15 @@ services:
     depends_on:
       - db
       - server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:ccafcfantasy.com"
+      - "traefik.basic.port=5000"
+      - "traefik.basic.protocol=http"
   db:
     container_name: database
     image: mariadb
     restart: always
-    volumes:
-      - /myData:/var/lib/mariadb/data
     environment:
       MYSQL_ROOT_PASSWORD: "${SQL_PASSWORD}"
       MYSQL_USER: "${SQL_USERNAME}"
@@ -26,34 +40,10 @@ services:
       - 3307:3306
     volumes:
       - db-data:/var/lib/mysql
-  mysql-backup:
-    image: mysql-backup:1.0
-    environment:
-      - DB_SERVER=db
-      - DB_USER="${SQL_USERNAME}"
-      - DB_PASS="${SQL_PASSWORD}"
-      - DB_DUMP_TARGET=/db
-      - DB_DUMP_FREQ=2
-      - COMPRESSION=bzip2
-    volumes:
-      - /dumps:/db
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:4.7
     ports:
       - 8081:80
-
-  mysql-backup:
-    image: databack/mysql-backup
-    environment:
-      - DB_PORT=3307
-      - DB_SERVER=db
-      - DB_USER="${SQL_USERNAME}"
-      - DB_PASS="${SQL_PASSWORD}"
-      - DB_DUMP_TARGET=/db
-      - DB_DUMP_FREQ=1
-      - COMPRESSION=bzip2
-    volumes:
-      - /dumps:/db
   server:
     container_name: fantasy-server
     image: pampoomio/fantasy-server:latest
@@ -72,10 +62,13 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
      - ~/.docker/config.json:/config.json
    command: --interval 30
-volumes:
-  db-data:
       #https://download.docker.com/linux/debian/dists/ - for GCP
       #http://35.246.91.112:8080/swagger-ui.html#/
+volumes:
+  db-data:
+
+#https://download.docker.com/linux/debian/dists/ - for GCP
+#http://35.246.91.112:8080/swagger-ui.html#/
 # mysql -u fantasy -ppassword
 # USE fantasy
 # SELECT * from application_user;
