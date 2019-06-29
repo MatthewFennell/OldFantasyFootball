@@ -1,8 +1,6 @@
 package uk.co.scottlogic.gradProject.server.routers;
 
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +21,6 @@ import java.io.IOException;
         + " token)")
 public class User {
 
-    private static final Logger log = LoggerFactory.getLogger(User.class);
-
     private ApplicationUserRepo applicationUserRepo;
 
     private ApplicationUserManager applicationUserManager;
@@ -35,7 +31,6 @@ public class User {
         this.applicationUserRepo = applicationUserRepo;
         this.applicationUserManager = applicationUserManager;
     }
-
 
     @ApiOperation(value = Icons.key
             + " Gets all user details", notes = "Requires User role", response = UserReturnDTO.class,
@@ -60,8 +55,7 @@ public class User {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets current user details", notes = "Requires User role", response =
+    @ApiOperation(value = "Gets current user details", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -78,8 +72,7 @@ public class User {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Returns true if user is an admin", notes = "Requires User role", response =
+    @ApiOperation(value = "Returns true if user is an admin", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -96,8 +89,7 @@ public class User {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Returns true if user is a captain", notes = "Requires User role", response =
+    @ApiOperation(value = "Returns true if user is a captain", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -114,8 +106,7 @@ public class User {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets users remaining budget", notes = "Requires User role", response =
+    @ApiOperation(value = "Gets users remaining budget", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -132,8 +123,7 @@ public class User {
         return 0;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Get the team a user is captain of", notes = "Requires User role", response =
+    @ApiOperation(value = "Get the team a user is captain of", notes = "Requires User role", response =
             UserReturnDTO.class, authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User successfully returned"),
@@ -150,8 +140,7 @@ public class User {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Set the users team name", notes = "Requires User role", response = void.class,
+    @ApiOperation(value = "Set the users team name", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Team Name Successfully Set"),
@@ -206,8 +195,7 @@ public class User {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Patches current user detail", notes = "Requires User role", response = void.class,
+    @ApiOperation(value = "Patches current user details", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User Successfully Patched"),
@@ -232,8 +220,7 @@ public class User {
         }
     }
 
-    @ApiOperation(value = Icons.key
-            + " Patches current user password", notes = "Requires User role", response = void.class,
+    @ApiOperation(value = "Patches current user password", notes = "Requires User role", response = void.class,
             authorizations = {
                     @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 200, message = "User Successfully Patched"),
@@ -259,8 +246,7 @@ public class User {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Deletes Current user", notes = "Requires User role", authorizations = {
+    @ApiOperation(value = "Deletes Current user", notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {@ApiResponse(code = 204, message = "User Successfully deleted"),
             @ApiResponse(code = 403, message = "Not permitted to do that")})
@@ -272,8 +258,7 @@ public class User {
         response.setStatus(204);
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets the info for a user id",
+    @ApiOperation(value = "Gets the info for a user id",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/user/info/{id}")
@@ -296,8 +281,7 @@ public class User {
         return null;
     }
     
-    @ApiOperation(value = Icons.key
-            + " Gets the remaining budget for a user",
+    @ApiOperation(value = "Gets the remaining budget for a user",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/user/{id}/remainingBudget")
@@ -321,7 +305,7 @@ public class User {
     }
 
 
-    @ApiOperation(value = Icons.key + " Submit results for a team", authorizations = {
+    @ApiOperation(value = Icons.key + " Make a user captain of a team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Transfer request updated"),
@@ -349,5 +333,29 @@ public class User {
         return false;
     }
 
+    @ApiOperation(value = Icons.key + " Make another user an admin", authorizations = {
+            @Authorization(value = "jwtAuth")})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Admin successfully made"),
+            @ApiResponse(code = 400, message = "Invalid request"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
+            @ApiResponse(code = 500, message = "Server Error")})
+    @PostMapping(value = "/user/makeAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean makeUserAdmin(@AuthenticationPrincipal ApplicationUser user, String username, HttpServletResponse response) {
+        try {
+            response.setStatus(200);
+            applicationUserManager.makeUserAdmin(user, username);
+            return true;
 
+        } catch (IllegalArgumentException e) {
+            try {
+                response.sendError(400, e.getMessage());
+            } catch (Exception f) {
+            }
+        } catch (Exception e) {
+            response.setStatus(409);
+        }
+        return false;
+    }
 }

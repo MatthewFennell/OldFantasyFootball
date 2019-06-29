@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to week based info")
+@Api(value = "Authentication", description = "Operations pertaining to college teams")
 public class CollegeTeamController {
 
     private static final Logger log = LoggerFactory.getLogger(WeeksController.class);
@@ -35,10 +35,9 @@ public class CollegeTeamController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 204, message = "Player successfully deleted"),
-            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 204, message = "College team successfully made"),
+            @ApiResponse(code = 400, message = "College team with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/college/make")
     @PreAuthorize("hasRole('ADMIN')")
@@ -63,11 +62,9 @@ public class CollegeTeamController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 201, message = "League successfully created"),
-            @ApiResponse(code = 204, message = "Team deleted successfully"),
-            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 201, message = "College team successfully deleted"),
+            @ApiResponse(code = 400, message = "No team with that name exists or it has players associated with it"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/college/delete")
     @PreAuthorize("hasRole('ADMIN')")
@@ -93,10 +90,9 @@ public class CollegeTeamController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 204, message = "Player successfully deleted"),
-            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 204, message = "Stats successfully added"),
+            @ApiResponse(code = 400, message = "No team with that name exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/college/stats/add")
     @PreAuthorize("hasRole('ADMIN')")
@@ -120,10 +116,9 @@ public class CollegeTeamController {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
-            @ApiResponse(code = 204, message = "Player successfully deleted"),
-            @ApiResponse(code = 400, message = "League with that name already exists"),
+            @ApiResponse(code = 204, message = "Stats successfully edited for college team"),
+            @ApiResponse(code = 400, message = "No team with that name exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/college/stats/edit")
     @PreAuthorize("hasRole('ADMIN')")
@@ -143,8 +138,7 @@ public class CollegeTeamController {
         }
     }
 
-    @ApiOperation(value = Icons.key
-            + " Get all the college teams",
+    @ApiOperation(value = "Get all the college teams",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/college/all/sort/{sort-id}")
@@ -156,8 +150,6 @@ public class CollegeTeamController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
             @PathVariable("sort-id") String sortBy) {
         try {
-            // Currently just returns the randomly first selected
-            // Should go back later and make it choose the top on some criteria
             response.setStatus(200);
             return collegeTeamManager.getAllCollegeTeams(sortBy);
         } catch (Exception e) {
