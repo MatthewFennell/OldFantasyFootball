@@ -1,13 +1,10 @@
 package uk.co.scottlogic.gradProject.server.routers;
 
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import uk.co.scottlogic.gradProject.server.misc.Constants;
 import uk.co.scottlogic.gradProject.server.misc.Icons;
 import uk.co.scottlogic.gradProject.server.repos.WeeklyTeamManager;
 import uk.co.scottlogic.gradProject.server.repos.documents.ApplicationUser;
@@ -17,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to week based info")
+@Api(value = "Authentication", description = "Operations pertaining to Week Info")
 public class WeeksController {
-
-    private static final Logger log = LoggerFactory.getLogger(WeeksController.class);
 
     private WeeklyTeamManager weeklyTeamManager;
 
@@ -29,7 +24,7 @@ public class WeeksController {
         this.weeklyTeamManager = weeklyTeamManager;
     }
 
-    @ApiOperation(value = Icons.key + " Attempt to update a team", authorizations = {
+    @ApiOperation(value = "Attempt to update a team", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Transfer request updated"),
@@ -41,7 +36,6 @@ public class WeeksController {
     public boolean updateTeam(@AuthenticationPrincipal ApplicationUser user,
                               @RequestBody TransferDTO dto,
                               HttpServletResponse response) {
-
         try {
             response.setStatus(200);
             return weeklyTeamManager.update(user, dto.getPlayersBeingAdded(), dto.getPlayersBeingRemoved());
@@ -69,7 +63,7 @@ public class WeeksController {
     @PostMapping(value = "/weeks/trigger")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean updateWeek(@AuthenticationPrincipal ApplicationUser user,
-                                     @RequestBody int week, HttpServletResponse response) {
+                              @RequestBody int week, HttpServletResponse response) {
         try {
             response.setStatus(201);
             weeklyTeamManager.updateAllWeeklyTeams(user, week);
@@ -99,7 +93,7 @@ public class WeeksController {
     @PostMapping(value = "/weeks/transfer")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean setTransferMarket(@AuthenticationPrincipal ApplicationUser user,
-                              @RequestBody boolean transferMarketOpen, HttpServletResponse response) {
+                                     @RequestBody boolean transferMarketOpen, HttpServletResponse response) {
         try {
             response.setStatus(201);
             weeklyTeamManager.setTransferMarket(user, transferMarketOpen);
@@ -116,8 +110,7 @@ public class WeeksController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets whether the transfer market is open",
+    @ApiOperation(value = "Gets whether the transfer market is open",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/weeks/transfer/open")
@@ -137,8 +130,7 @@ public class WeeksController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets the total number of weeks that have been played",
+    @ApiOperation(value = "Gets the total number of weeks that have been played",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/weeks/total")
@@ -157,6 +149,4 @@ public class WeeksController {
         }
         return 0;
     }
-
-
 }

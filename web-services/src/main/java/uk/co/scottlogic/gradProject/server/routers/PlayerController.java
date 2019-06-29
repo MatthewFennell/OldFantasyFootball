@@ -1,8 +1,6 @@
 package uk.co.scottlogic.gradProject.server.routers;
 
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,8 +24,6 @@ import java.util.List;
 @Api(value = "Authentication", description = "Operations pertaining to Players")
 public class PlayerController {
 
-    private static final Logger log = LoggerFactory.getLogger(PlayerController.class);
-
     private PlayerManager playerManager;
     private WeeklyTeamManager weeklyTeamManager;
 
@@ -37,13 +33,13 @@ public class PlayerController {
         this.weeklyTeamManager = weeklyTeamManager;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find the player with the most points in a week",
+    @ApiOperation(value = "Find the player with the most points in a week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/points/week/{week-id}/most")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public PlayerDTO getMostPlayerPointsInWeek(
@@ -60,13 +56,13 @@ public class PlayerController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find all players for the user in a given week",
+    @ApiOperation(value = "Find all players for the user in a given week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/{id}/week/{week-id}/team")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "No weekly team for that user and date"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<PlayerDTO> getAllPlayersForUserInWeek(
@@ -84,13 +80,13 @@ public class PlayerController {
         return Collections.emptyList();
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find players based on some criteria",
+    @ApiOperation(value = "Find players based on some criteria",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/max/{max}/min/{min}/name/{name}/position/{position}/team/{team}/sort/{sort}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<PlayerDTO> filterPlayersAll(
@@ -113,13 +109,13 @@ public class PlayerController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find all players in a team",
+    @ApiOperation(value = "Find all players in a team",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/team/{team}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<PlayerDTO> findPlayersByCollegeTeam(
@@ -142,13 +138,13 @@ public class PlayerController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find your most valuable assets",
+    @ApiOperation(value = "Find your most valuable assets",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/value/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public MostValuableDTO findMostValuableAssets(
@@ -168,13 +164,13 @@ public class PlayerController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Get the history for a week",
+    @ApiOperation(value = "Get the history for a week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/history/week/{id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "College team does not exist"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<TeamHistoryDTO> getHistory(
@@ -199,7 +195,6 @@ public class PlayerController {
             @ApiResponse(code = 201, message = "League successfully created"),
             @ApiResponse(code = 400, message = "League with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/make")
     @PreAuthorize("hasRole('ADMIN') or hasRole('CAPTAIN')")
@@ -237,7 +232,6 @@ public class PlayerController {
             @ApiResponse(code = 204, message = "Player successfully deleted"),
             @ApiResponse(code = 400, message = "League with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/team/edit")
     @PreAuthorize("hasRole('ADMIN')")
@@ -264,7 +258,6 @@ public class PlayerController {
             @ApiResponse(code = 204, message = "Player successfully deleted"),
             @ApiResponse(code = 400, message = "League with that name already exists"),
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
-            @ApiResponse(code = 403, message = "League with that name already exists"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/player/delete")
     @PreAuthorize("hasRole('ADMIN')")
@@ -375,13 +368,13 @@ public class PlayerController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find stats for a player in a given week",
+    @ApiOperation(value = "Find stats for a player in a given week",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/player/{player-id}/week/{week-id}")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "No weekly team for that user and date"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public PlayerPointsDTO findStatsForPlayerInWeek(

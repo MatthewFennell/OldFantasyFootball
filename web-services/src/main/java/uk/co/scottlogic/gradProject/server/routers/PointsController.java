@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to gathering points")
+@Api(value = "Authentication", description = "Operations pertaining to Points")
 public class PointsController {
 
     private static final Logger log = LoggerFactory.getLogger(PointsController.class);
@@ -49,6 +49,7 @@ public class PointsController {
     @GetMapping("/points/user/week/{week-id}/most")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "Unknown error"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public TopWeeklyUserReturnDTO getUserWithMostPointsInWeek(
@@ -103,6 +104,7 @@ public class PointsController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @GetMapping("/points/user/total/{id}")
+    @PreAuthorize("hasRole('USER')")
     public Integer totalPoints(@AuthenticationPrincipal ApplicationUser user, HttpServletResponse response,
                                @PathVariable("id") String id) {
         try {

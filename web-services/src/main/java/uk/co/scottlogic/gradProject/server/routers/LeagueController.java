@@ -1,8 +1,6 @@
 package uk.co.scottlogic.gradProject.server.routers;
 
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,10 +20,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to Players")
+@Api(value = "Authentication", description = "Operations pertaining to Leagues")
 public class LeagueController {
-
-    private static final Logger log = LoggerFactory.getLogger(LeagueController.class);
 
     private LeagueManager leagueManager;
 
@@ -34,14 +30,16 @@ public class LeagueController {
         this.leagueManager = leagueManager;
     }
 
-    @ApiOperation(value = Icons.key + " Make a league ", authorizations = {
+    @ApiOperation(value = "Make a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
             @ApiResponse(code = 201, message = "League successfully created"),
             @ApiResponse(code = 400, message = "A league with that name already exists"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/make")
+    @PreAuthorize("hasRole('USER')")
     public LeagueReturnDTO makeLeague(@AuthenticationPrincipal ApplicationUser user,
                              @RequestBody MakeLeagueDTO dto, HttpServletResponse response) {
         try {
@@ -61,9 +59,7 @@ public class LeagueController {
         return null;
     }
 
-
-
-    @ApiOperation(value = Icons.key + " Join a league ", authorizations = {
+    @ApiOperation(value = "Join a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -71,6 +67,7 @@ public class LeagueController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/join")
+    @PreAuthorize("hasRole('USER')")
     public LeagueReturnDTO addPlayerToLeague(@AuthenticationPrincipal ApplicationUser user,
                                              @RequestBody String code, HttpServletResponse response) {
         try {
@@ -88,7 +85,7 @@ public class LeagueController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key + " Leave a league ", authorizations = {
+    @ApiOperation(value = "Leave a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -96,6 +93,7 @@ public class LeagueController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/leave")
+    @PreAuthorize("hasRole('USER')")
     public boolean leaveLeague(@AuthenticationPrincipal ApplicationUser user,
                             @RequestBody String name, HttpServletResponse response) {
         try {
@@ -114,7 +112,7 @@ public class LeagueController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key + " Delete a league ", authorizations = {
+    @ApiOperation(value = "Delete a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
@@ -122,6 +120,7 @@ public class LeagueController {
             @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PostMapping(value = "/league/delete")
+    @PreAuthorize("hasRole('USER')")
     public boolean deleteLeague(@AuthenticationPrincipal ApplicationUser user,
                                @RequestBody String name, HttpServletResponse response) {
         try {
@@ -140,8 +139,7 @@ public class LeagueController {
         return false;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find all leagues that the user is in",
+    @ApiOperation(value = "Find all leagues that the user is in",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/user/{id}/all")
@@ -161,13 +159,13 @@ public class LeagueController {
         return Collections.emptyList();
     }
 
-    @ApiOperation(value = Icons.key
-            + " Gets the users and their positions in a specific league",
+    @ApiOperation(value = "Gets the users and their positions in a specific league",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/name/{league-name}/ranking")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "League does not exist with that league name"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public List<UserInLeagueReturnDTO> getPositionsOfUsersInLeague(
@@ -184,13 +182,13 @@ public class LeagueController {
         return null;
     }
 
-    @ApiOperation(value = Icons.key
-            + " Find who the admin of a league is, or what the code is to join if you are the admin",
+    @ApiOperation(value = "Find who the admin of a league is, or what the code is to join if you are the admin",
             notes = "Requires User role", authorizations = {
             @Authorization(value = "jwtAuth")})
     @GetMapping("/league/{league-name}/admin")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Returned successfully"),
             @ApiResponse(code = 400, message = "League does not exist with that league name"),
+            @ApiResponse(code = 403, message = "You are not permitted to perform that action"),
             @ApiResponse(code = 500, message = "Server Error")})
     @PreAuthorize("hasRole('USER')")
     public LeagueAdminDTO isAdmin(

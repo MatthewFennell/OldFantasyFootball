@@ -168,6 +168,16 @@ public class ApplicationUserManager {
         return false;
     }
 
+    public void makeUserAdmin(ApplicationUser requestMaker, String username){
+        Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
+        if (!user.isPresent()){
+            throw new IllegalArgumentException("User does not exist");
+        }
+        user.get().addAuthority(new UserAuthority(Constants.ADMIN_STRING));
+        applicationUserRepo.save(user.get());
+        log.info("Username " + requestMaker.getUsername() + " made " + username + " an admin");
+    }
+
     public void makeUserCaptainOfTeam(ApplicationUser requestMaker, String username, String collegeTeam){
         Optional<ApplicationUser> user = applicationUserRepo.findByUsername(username);
         if (!user.isPresent()){
