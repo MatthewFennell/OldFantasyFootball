@@ -1,10 +1,14 @@
 import { Tokens } from '../Models/Interfaces/Tokens';
+import * as jwtDecode from 'jwt-decode';
 
 export const isLoggedIn = (): boolean => {
 	if (sessionStorage.length === 0) {
 		return false;
 	}
-
+	const { exp } = jwtDecode(sessionStorage.access);
+	if (Date.now() >= exp * 1000) {
+		clearSessionStorage();
+	}
 	return sessionStorage.access !== undefined;
 };
 export const setTokens = (tokens: Tokens): void => {

@@ -130,7 +130,7 @@ public class WeeksController {
             @AuthenticationPrincipal ApplicationUser user, HttpServletResponse response) {
         try {
             response.setStatus(200);
-            return Constants.TRANSFER_MARKET_OPEN;
+            return weeklyTeamManager.transferMarketIsOpen();
         } catch (Exception e) {
             response.setStatus(400);
         }

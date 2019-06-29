@@ -73,7 +73,7 @@ public class JwtTokenProvider {
                     .withIssuer(iss)
                     .withAudience(iss)
                     .withSubject(id.toString())
-                    .withExpiresAt(new DateTime(new Date()).plusDays(1).toDate())
+                    .withExpiresAt(new DateTime(new Date()).plusHours(12).toDate())
                     .withClaim("type", "access")
                     .sign(algorithm);
             String refresh = JWT.create()
