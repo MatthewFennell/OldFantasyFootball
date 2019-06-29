@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to college teams")
+@Api(value = "Authentication", description = "Operations pertaining to Teams")
 public class CollegeTeamController {
 
     private static final Logger log = LoggerFactory.getLogger(WeeksController.class);

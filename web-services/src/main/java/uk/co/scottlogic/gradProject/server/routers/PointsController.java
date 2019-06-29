@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to gathering points")
+@Api(value = "Authentication", description = "Operations pertaining to Points")
 public class PointsController {
 
     private static final Logger log = LoggerFactory.getLogger(PointsController.class);

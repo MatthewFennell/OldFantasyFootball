@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api")
-@Api(value = "Authentication", description = "Operations pertaining to week based info")
+@Api(value = "Authentication", description = "Operations pertaining to Week Info")
 public class WeeksController {
 
     private WeeklyTeamManager weeklyTeamManager;
@@ -63,7 +63,7 @@ public class WeeksController {
     @PostMapping(value = "/weeks/trigger")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean updateWeek(@AuthenticationPrincipal ApplicationUser user,
-                                     @RequestBody int week, HttpServletResponse response) {
+                              @RequestBody int week, HttpServletResponse response) {
         try {
             response.setStatus(201);
             weeklyTeamManager.updateAllWeeklyTeams(user, week);
@@ -93,7 +93,7 @@ public class WeeksController {
     @PostMapping(value = "/weeks/transfer")
     @PreAuthorize("hasRole('ADMIN')")
     public boolean setTransferMarket(@AuthenticationPrincipal ApplicationUser user,
-                              @RequestBody boolean transferMarketOpen, HttpServletResponse response) {
+                                     @RequestBody boolean transferMarketOpen, HttpServletResponse response) {
         try {
             response.setStatus(201);
             weeklyTeamManager.setTransferMarket(user, transferMarketOpen);

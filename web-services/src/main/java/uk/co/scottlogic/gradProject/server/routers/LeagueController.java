@@ -30,7 +30,7 @@ public class LeagueController {
         this.leagueManager = leagueManager;
     }
 
-    @ApiOperation(value = Icons.key + " Make a league ", authorizations = {
+    @ApiOperation(value = "Make a league ", authorizations = {
             @Authorization(value = "jwtAuth")})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Never returned but swagger won't let me get rid of it"),
