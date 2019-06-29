@@ -68,6 +68,11 @@ public class WeeklyTeamManager {
         log.info("---------------TRANSFER MARKET SET---------------");
     }
 
+    public boolean transferMarketIsOpen(){
+        TransferMarketOpen transferMarketOpens = transferMarketRepo.findFirstByOrderByIsOpenAsc();
+        return transferMarketOpens.getOpen();
+    }
+
     public void updateAllWeeklyTeams(ApplicationUser requestMaker, int week){
         int maxWeek = weeklyTeamRepo.findNumberOfWeeks();
         if (week != maxWeek + 1){

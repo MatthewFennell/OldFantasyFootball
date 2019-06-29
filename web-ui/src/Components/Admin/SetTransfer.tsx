@@ -70,7 +70,7 @@ class SetTransfer extends React.Component<SetTransferProps, SetTransferState> {
 							id="btnCreateCollegeTeam"
 							onClick={this.handleValidate}
 						>
-              			Trigger new week
+              			Set transfer market open
 						</Button>
 						<ResponseMessage
 							isError={this.state.isError}
