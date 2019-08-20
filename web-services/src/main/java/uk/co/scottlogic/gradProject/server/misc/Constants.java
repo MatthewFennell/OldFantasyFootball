@@ -15,7 +15,7 @@ public class Constants {
     public static final Integer INITIAL_BUDGET = 100;
     public static final String INITIAL_LEAGUE_NAME = "Collingwood";
     public static final boolean TRANSFER_MARKET_OPEN = true;
-    public static final String REGISTER_KEY_CODE = "TEST";
+    public static final String REGISTER_KEY_CODE = "lmgkN5kdnaj%ksnak%";
 
     public static final String ADMIN_STRING = "ROLE_ADMIN";
     public static final String USER_STRING = "ROLE_USER";
