@@ -105,3 +105,6 @@ volumes:
 # running 'docker-compose up' should bring the site up with new images, whilst maintaining the database
 
 # delete all images - docker rmi $(docker images -q)
+
+# need to mkdir traefik, copy the traefik config in, and make an empty acme.json file in it (touch acme.json)
+# also need to have a file in /.docker called config.json, which is a file containing just {}
