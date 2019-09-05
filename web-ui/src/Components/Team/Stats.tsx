@@ -96,7 +96,7 @@ class Stats extends React.Component<StatsProps> {
 					{this.props.weekBeingViewed === -1 ? (
 						<div>Remaining Budget: £{this.props.remainingBudgetOfUser}  mil </div>
 					) : (
-						<div> Average Points: {this.props.averageWeeklyPointsOfWeek.toFixed(0)}</div>
+						<div> Average Points: {this.props.averageWeeklyPointsOfWeek ? this.props.averageWeeklyPointsOfWeek.toFixed(0) : 0}</div>
 					)}
 				</div>
 
