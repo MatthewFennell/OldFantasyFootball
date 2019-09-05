@@ -303,7 +303,7 @@ public class WeeklyTeamManagerTest {
     //     players.add(player_ten);
     //     players.add(player_eleven);
     //     assertTrue(weeklyTeamManager.checkTeamIsValid(players));
-    }
+    //}
 
     // @Test
     // public void formationOf352Valid() {
