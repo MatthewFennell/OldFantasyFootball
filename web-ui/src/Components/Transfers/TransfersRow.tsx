@@ -49,7 +49,7 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 			<td className="name">{firstName + ' ' + surname}</td>
 			<td className="position">{position}</td>
 			<td className="team">{collegeTeam}</td>
-			<td className="price">{price.toFixed(1)}</td>
+			<td className="price">{price ? price.toFixed(1) : 0}</td>
 			<td className="goals">{totalGoals}</td>
 
 			<Media query="(max-width: 599px)">
@@ -62,7 +62,7 @@ const TransferRow: React.FC<TransferRowProps> = (props) => {
 				}
 			</Media>
 
-			{props.searchingByPercentage ? <td className="percentage">{percentages.toFixed(1)}</td>
+			{props.searchingByPercentage ? <td className="percentage">{percentages ? percentages.toFixed(1) : 0}</td>
 				: <td className="score">{points}</td>}
 		</tr>
 	);
