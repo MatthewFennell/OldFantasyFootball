@@ -75,8 +75,6 @@ public class WeeklyTeamManager {
 
     public void updateAllWeeklyTeams(ApplicationUser requestMaker, int week){
         int maxWeek = weeklyTeamRepo.findNumberOfWeeks();
-        System.out.println("week triggered = " + week);
-        System.out.println("max weeks = "  + maxWeek);
         if (week != maxWeek + 1){
             throw new IllegalArgumentException("The next week should be " + (maxWeek+1) + ", not " + week);
         }
@@ -84,7 +82,6 @@ public class WeeklyTeamManager {
         Iterable<ApplicationUser> allUsers = applicationUserRepo.findAll();
         List<ApplicationUser> users = new ArrayList<>();
         allUsers.forEach(users::add);
-        System.out.println("Number of users = " + users.size());
         for (ApplicationUser user : users){
             if (weeklyTeamRepo.findByUserByWeek(user, week).isPresent()){
                 throw new IllegalArgumentException("There is already a weekly team for this week");
@@ -92,7 +89,6 @@ public class WeeklyTeamManager {
             Optional<UsersWeeklyTeam> uwt = weeklyTeamRepo.findByUserByWeek(user, -1);
             if (uwt.isPresent()){
                 UsersWeeklyTeam newTeam = new UsersWeeklyTeam(user, new Date(), uwt.get().getPlayers(), week);
-                System.out.println("Number of players = " + uwt.get().getPlayers().size());
                 weeklyTeamRepo.save(newTeam);
             }
             else {
@@ -161,14 +157,14 @@ public class WeeklyTeamManager {
             UUID playerId = p.getId();
             UUID teamId = p.getActiveTeam().getId();
             if (playersAdded.containsKey(playerId)) {
-                return false;
+                throw new IllegalArgumentException("Can't have the same player twice");
             } else {
                 playersAdded.put(playerId, 1);
             }
 
             if (numberInEachTeam.containsKey(teamId)) {
-                if (numberInEachTeam.get(teamId).equals(Constants.MAX_PLAYERS_PER_COLLEGE_TEAM)) {
-                    return false;
+                if (numberInEachTeam.get(teamId) >= Constants.MAX_PLAYERS_PER_COLLEGE_TEAM) {
+                    throw new IllegalArgumentException("Too many players from the same team");
                 } else {
                     numberInEachTeam.put(teamId, numberInEachTeam.get(teamId) + 1);
                 }
@@ -245,7 +241,7 @@ public class WeeklyTeamManager {
             weeklyTeamRepo.save(activeTeam);
             return true;
         } else {
-            return false;
+            throw new IllegalArgumentException("Invalid team");
         }
     }
 
