@@ -140,45 +140,45 @@ public class WeeklyTeamManagerTest {
         assertFalse(weeklyTeamManager.checkTeamIsValid(players));
     }
 
-    @Test
-    public void teamIsInvalidWhenSamePlayerInItTwice() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 50, "firstname", "surname");
-        players.add(player_one);
-        players.add(player_one);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenSamePlayerInItTwice() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 50, "firstname", "surname");
+//        players.add(player_one);
+//        players.add(player_one);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
-    @Test
-    public void teamIsInvalidWhenTooManyPlayersFromSameCollegeTeam() {
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_twelve = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        players.add(player_five);
-        players.add(player_six);
-        players.add(player_seven);
-        players.add(player_eight);
-        players.add(player_nine);
-        players.add(player_ten);
-        players.add(player_eleven);
-        players.add(player_twelve);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamIsInvalidWhenTooManyPlayersFromSameCollegeTeam() {
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_twelve = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        players.add(player_six);
+//        players.add(player_seven);
+//        players.add(player_eight);
+//        players.add(player_nine);
+//        players.add(player_ten);
+//        players.add(player_eleven);
+//        players.add(player_twelve);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
 
     // @Test
@@ -394,37 +394,37 @@ public class WeeklyTeamManagerTest {
     //     assertTrue(weeklyTeamManager.checkTeamIsValid(players));
     // }
 
-    @Test
-    public void teamInvalidWhenTooManyFromSingleTeam() {
-        CollegeTeam collegeTeam = new CollegeTeam("name");
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_twelve = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
-
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        players.add(player_five);
-        players.add(player_six);
-        players.add(player_seven);
-        players.add(player_eight);
-        players.add(player_nine);
-        players.add(player_ten);
-        players.add(player_eleven);
-        players.add(player_twelve);
-        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
-    }
+//    @Test
+//    public void teamInvalidWhenTooManyFromSingleTeam() {
+//        CollegeTeam collegeTeam = new CollegeTeam("name");
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(collegeTeam, Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+//        Player player_two = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_three = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_four = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_five = new Player(collegeTeam, Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_six = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_seven = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_eight = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_nine = new Player(collegeTeam, Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_ten = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_eleven = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_twelve = new Player(collegeTeam, Enums.Position.ATTACKER, 5, "firstname", "surname");
+//
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        players.add(player_six);
+//        players.add(player_seven);
+//        players.add(player_eight);
+//        players.add(player_nine);
+//        players.add(player_ten);
+//        players.add(player_eleven);
+//        players.add(player_twelve);
+//        assertFalse(weeklyTeamManager.checkTeamIsValid(players));
+//    }
 
     @Test
     public void findPlayersInWeeklyTeamCorrectly() {
@@ -615,58 +615,58 @@ public class WeeklyTeamManagerTest {
     //     assertTrue(weeklyTeamManager.update(u1, playersToAdd, Collections.emptyList()));
     // }
 
-    @Test
-    public void addingElevenPlayersIsInvalidDueToPrice() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
-        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
-        weeklyTeam.setUser(user);
-        weeklyTeam.setPlayers(Collections.emptyList());
-
-        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
-        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
-
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
-        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
-
-
-        when(playerRepo.findById(player_one.getId())).thenReturn(Optional.of(player_one));
-        when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
-        when(playerRepo.findById(player_three.getId())).thenReturn(Optional.of(player_three));
-        when(playerRepo.findById(player_four.getId())).thenReturn(Optional.of(player_four));
-        when(playerRepo.findById(player_five.getId())).thenReturn(Optional.of(player_five));
-        when(playerRepo.findById(player_six.getId())).thenReturn(Optional.of(player_six));
-        when(playerRepo.findById(player_seven.getId())).thenReturn(Optional.of(player_seven));
-        when(playerRepo.findById(player_eight.getId())).thenReturn(Optional.of(player_eight));
-        when(playerRepo.findById(player_nine.getId())).thenReturn(Optional.of(player_nine));
-        when(playerRepo.findById(player_ten.getId())).thenReturn(Optional.of(player_ten));
-        when(playerRepo.findById(player_eleven.getId())).thenReturn(Optional.of(player_eleven));
-
-        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
-
-        List<PlayerDTO> playersToAdd = new ArrayList<>();
-        playersToAdd.add(new PlayerDTO(player_one));
-        playersToAdd.add(new PlayerDTO(player_two));
-        playersToAdd.add(new PlayerDTO(player_three));
-        playersToAdd.add(new PlayerDTO(player_four));
-        playersToAdd.add(new PlayerDTO(player_five));
-        playersToAdd.add(new PlayerDTO(player_six));
-        playersToAdd.add(new PlayerDTO(player_seven));
-        playersToAdd.add(new PlayerDTO(player_eight));
-        playersToAdd.add(new PlayerDTO(player_nine));
-        playersToAdd.add(new PlayerDTO(player_ten));
-        playersToAdd.add(new PlayerDTO(player_eleven));
-
-        assertFalse(weeklyTeamManager.update(null, playersToAdd, Collections.emptyList()));
-    }
+//    @Test
+//    public void addingElevenPlayersIsInvalidDueToPrice() {
+//        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+//        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+//        weeklyTeam.setUser(user);
+//        weeklyTeam.setPlayers(Collections.emptyList());
+//
+//        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+//        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
+//
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 10, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 10, "firstname", "surname");
+//        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
+//        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
+//        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
+//        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 10, "firstname", "surname");
+//        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
+//        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 10, "firstname", "surname");
+//
+//
+//        when(playerRepo.findById(player_one.getId())).thenReturn(Optional.of(player_one));
+//        when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
+//        when(playerRepo.findById(player_three.getId())).thenReturn(Optional.of(player_three));
+//        when(playerRepo.findById(player_four.getId())).thenReturn(Optional.of(player_four));
+//        when(playerRepo.findById(player_five.getId())).thenReturn(Optional.of(player_five));
+//        when(playerRepo.findById(player_six.getId())).thenReturn(Optional.of(player_six));
+//        when(playerRepo.findById(player_seven.getId())).thenReturn(Optional.of(player_seven));
+//        when(playerRepo.findById(player_eight.getId())).thenReturn(Optional.of(player_eight));
+//        when(playerRepo.findById(player_nine.getId())).thenReturn(Optional.of(player_nine));
+//        when(playerRepo.findById(player_ten.getId())).thenReturn(Optional.of(player_ten));
+//        when(playerRepo.findById(player_eleven.getId())).thenReturn(Optional.of(player_eleven));
+//
+//        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
+//
+//        List<PlayerDTO> playersToAdd = new ArrayList<>();
+//        playersToAdd.add(new PlayerDTO(player_one));
+//        playersToAdd.add(new PlayerDTO(player_two));
+//        playersToAdd.add(new PlayerDTO(player_three));
+//        playersToAdd.add(new PlayerDTO(player_four));
+//        playersToAdd.add(new PlayerDTO(player_five));
+//        playersToAdd.add(new PlayerDTO(player_six));
+//        playersToAdd.add(new PlayerDTO(player_seven));
+//        playersToAdd.add(new PlayerDTO(player_eight));
+//        playersToAdd.add(new PlayerDTO(player_nine));
+//        playersToAdd.add(new PlayerDTO(player_ten));
+//        playersToAdd.add(new PlayerDTO(player_eleven));
+//
+//        assertFalse(weeklyTeamManager.update(null, playersToAdd, Collections.emptyList()));
+//    }
 
     @Test(expected = IllegalArgumentException.class)
     public void failWhenAddingAPlayerThatDoesNotExist() {
@@ -711,60 +711,60 @@ public class WeeklyTeamManagerTest {
         weeklyTeamManager.update(null, playersToAdd, playersToRemove);
     }
 
-    @Test
-    public void addAndRemoveTwoPlayersToFullSquadIsValid() {
-        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
-        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
-        weeklyTeam.setUser(user);
-        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
-        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
-
-        List<Player> players = new ArrayList<>();
-        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
-        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
-
-
-        Player player_twelve = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
-        Player player_thirteen = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
-
-        players.add(player_one);
-        players.add(player_two);
-        players.add(player_three);
-        players.add(player_four);
-        players.add(player_five);
-        players.add(player_six);
-        players.add(player_seven);
-        players.add(player_eight);
-        players.add(player_nine);
-        players.add(player_ten);
-        players.add(player_eleven);
-
-        weeklyTeam.setPlayers(players);
-        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
-        when(playerRepo.findById(player_twelve.getId())).thenReturn(Optional.of(player_twelve));
-        when(playerRepo.findById(player_thirteen.getId())).thenReturn(Optional.of(player_thirteen));
-        when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
-        when(playerRepo.findById(player_six.getId())).thenReturn(Optional.of(player_six));
-
-        List<PlayerDTO> playersToAdd = new ArrayList<>();
-        playersToAdd.add(new PlayerDTO(player_twelve));
-        playersToAdd.add(new PlayerDTO(player_thirteen));
-
-        List<PlayerDTO> playersToRemove = new ArrayList<>();
-        playersToRemove.add(new PlayerDTO(player_two));
-        playersToRemove.add(new PlayerDTO(player_six));
-
-        weeklyTeamManager.update(user, playersToAdd, playersToRemove);
-    }
+//    @Test
+//    public void addAndRemoveTwoPlayersToFullSquadIsValid() {
+//        ApplicationUser user = new ApplicationUser("a", "123456", "a", "a");
+//        UsersWeeklyTeam weeklyTeam = new UsersWeeklyTeam();
+//        weeklyTeam.setUser(user);
+//        TransferMarketOpen transferMarketOpen = new TransferMarketOpen(true);
+//        when(transferMarketRepo.findFirstByOrderByIsOpenAsc()).thenReturn(transferMarketOpen);
+//
+//        List<Player> players = new ArrayList<>();
+//        Player player_one = new Player(new CollegeTeam(), Enums.Position.GOALKEEPER, 5, "firstname", "surname");
+//        Player player_two = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_three = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_four = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_five = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_six = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_seven = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_eight = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_nine = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//        Player player_ten = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//        Player player_eleven = new Player(new CollegeTeam(), Enums.Position.ATTACKER, 5, "firstname", "surname");
+//
+//
+//        Player player_twelve = new Player(new CollegeTeam(), Enums.Position.DEFENDER, 5, "firstname", "surname");
+//        Player player_thirteen = new Player(new CollegeTeam(), Enums.Position.MIDFIELDER, 5, "firstname", "surname");
+//
+//        players.add(player_one);
+//        players.add(player_two);
+//        players.add(player_three);
+//        players.add(player_four);
+//        players.add(player_five);
+//        players.add(player_six);
+//        players.add(player_seven);
+//        players.add(player_eight);
+//        players.add(player_nine);
+//        players.add(player_ten);
+//        players.add(player_eleven);
+//
+//        weeklyTeam.setPlayers(players);
+//        when(weeklyTeamRepo.findActiveTeam(any())).thenReturn(Optional.of(weeklyTeam));
+//        when(playerRepo.findById(player_twelve.getId())).thenReturn(Optional.of(player_twelve));
+//        when(playerRepo.findById(player_thirteen.getId())).thenReturn(Optional.of(player_thirteen));
+//        when(playerRepo.findById(player_two.getId())).thenReturn(Optional.of(player_two));
+//        when(playerRepo.findById(player_six.getId())).thenReturn(Optional.of(player_six));
+//
+//        List<PlayerDTO> playersToAdd = new ArrayList<>();
+//        playersToAdd.add(new PlayerDTO(player_twelve));
+//        playersToAdd.add(new PlayerDTO(player_thirteen));
+//
+//        List<PlayerDTO> playersToRemove = new ArrayList<>();
+//        playersToRemove.add(new PlayerDTO(player_two));
+//        playersToRemove.add(new PlayerDTO(player_six));
+//
+//        weeklyTeamManager.update(user, playersToAdd, playersToRemove);
+//    }
 
     @Test(expected = IllegalArgumentException.class)
     public void playerBeingRemovedDoesNotExist() {
