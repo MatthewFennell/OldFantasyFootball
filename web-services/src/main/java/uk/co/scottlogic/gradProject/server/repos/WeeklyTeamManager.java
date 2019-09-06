@@ -75,6 +75,7 @@ public class WeeklyTeamManager {
 
     public void updateAllWeeklyTeams(ApplicationUser requestMaker, int week){
         int maxWeek = weeklyTeamRepo.findNumberOfWeeks();
+        System.out.println("Max week = " + maxWeek);
         if (week != maxWeek + 1){
             throw new IllegalArgumentException("The next week should be " + (maxWeek+1) + ", not " + week);
         }
@@ -88,10 +89,18 @@ public class WeeklyTeamManager {
             }
             Optional<UsersWeeklyTeam> uwt = weeklyTeamRepo.findByUserByWeek(user, -1);
             if (uwt.isPresent()){
+                System.out.println("weekly team present for user" + user.getUsername());
+                System.out.println("weekly team id = " + uwt.get().getId());
                 UsersWeeklyTeam newTeam = new UsersWeeklyTeam(user, new Date(), uwt.get().getPlayers(), week);
+                System.out.println("Making a new weekly team for week " + week);
+                System.out.println("This weekly team has " + uwt.get().getPlayers().size() + " players");
                 weeklyTeamRepo.save(newTeam);
+                System.out.println("saved the team");
+                Player p = new Player(null, null, 0, "test", "test");
+
             }
             else {
+                System.out.println("no weekly ream");
                 throw new IllegalArgumentException("User has no active team");
             }
         }
