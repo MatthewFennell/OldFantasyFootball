@@ -291,7 +291,7 @@ public class PlayerManager {
                 if (player.getPosition().equals(Enums.Position.ATTACKER)) {
                     uwt.changePoints(Constants.POINTS_PER_ATTACKER_GOAL);
                     user.changeTotalPoints(Constants.POINTS_PER_ATTACKER_GOAL);
-                    player.changeScore(Constants.POINTS_PER_ATTACKER_GOAL);
+
                 }
                 else if (player.getPosition().equals(Enums.Position.MIDFIELDER)){
                     uwt.changePoints(Constants.POINTS_PER_MIDFIELDER_GOAL);
@@ -303,10 +303,19 @@ public class PlayerManager {
                     user.changeTotalPoints(Constants.POINTS_PER_DEFENDER_GOAL);
                     player.changeScore(Constants.POINTS_PER_DEFENDER_GOAL);
                 }
-                playerRepo.save(player);
                 weeklyTeamRepo.save(uwt);
                 applicationUserRepo.save(user);
             }
+            if (player.getPosition().equals(Enums.Position.ATTACKER)) {
+                player.changeScore(Constants.POINTS_PER_ATTACKER_GOAL);
+            }
+            else if (player.getPosition().equals(Enums.Position.MIDFIELDER)){
+                player.changeScore(Constants.POINTS_PER_MIDFIELDER_GOAL);
+            }
+            else {
+                player.changeScore(Constants.POINTS_PER_DEFENDER_GOAL);
+            }
+            playerRepo.save(player);
         }
         else {
             PlayerPoints playerPoints1 = new PlayerPoints(0, 0, false, 0, false, false, player, week);
