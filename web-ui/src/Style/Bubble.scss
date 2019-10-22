@@ -74,6 +74,7 @@ $position-left-bubble-smallest-sm-mobile: 95vw;
 
 div#bubbles {
     background-color: $color-white;
+    position: fixed;
 }
 
 .bubble {
