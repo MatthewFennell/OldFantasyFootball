@@ -24,8 +24,8 @@ jobs:
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
           at: ~/web-ui
-      #- setup_remote_docker:
-      #    docker_layer_caching: true
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Build Docker image
           working_directory: ~/web-ui
@@ -112,8 +112,8 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install awscli
-      #- setup_remote_docker:
-      #    docker_layer_caching: true
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Build Docker image
           working_directory: ~/web-services
