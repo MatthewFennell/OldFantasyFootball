@@ -291,17 +291,14 @@ public class PlayerManager {
                 if (player.getPosition().equals(Enums.Position.ATTACKER)) {
                     uwt.changePoints(Constants.POINTS_PER_ATTACKER_GOAL);
                     user.changeTotalPoints(Constants.POINTS_PER_ATTACKER_GOAL);
-
                 }
                 else if (player.getPosition().equals(Enums.Position.MIDFIELDER)){
                     uwt.changePoints(Constants.POINTS_PER_MIDFIELDER_GOAL);
                     user.changeTotalPoints(Constants.POINTS_PER_MIDFIELDER_GOAL);
-                    player.changeScore(Constants.POINTS_PER_MIDFIELDER_GOAL);
                 }
                 else {
                     uwt.changePoints(Constants.POINTS_PER_DEFENDER_GOAL);
                     user.changeTotalPoints(Constants.POINTS_PER_DEFENDER_GOAL);
-                    player.changeScore(Constants.POINTS_PER_DEFENDER_GOAL);
                 }
                 weeklyTeamRepo.save(uwt);
                 applicationUserRepo.save(user);
